@@ -23,6 +23,8 @@ describe('GanttView', () => {
     let ganttViewMonth: GanttViewMonth;
     let ganttViewQuarter: GanttViewQuarter;
 
+    console.log(new Date());
+
     beforeEach(() => {
         ganttViewDay = new GanttViewDay(date.start, date.end, {
             cellWidth: 20,
