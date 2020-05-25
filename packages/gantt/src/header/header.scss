@@ -1,0 +1,22 @@
+.gantt-header {
+  display: flex;
+  position: relative;
+  height: $gantt-header-height;
+
+  .gantt-side-header {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid $gantt-border-color;
+    border-bottom: 1px solid$gantt-border-color;
+  }
+
+  .gantt-items-header {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+    border-bottom: 1px solid$gantt-border-color;
+  }
+}

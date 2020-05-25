@@ -1,0 +1,175 @@
+import { GanttDate, TinyDate, differenceInDays, TinyDateUtil } from '../date';
+import { GanttDatePoint } from '../class/date-point';
+import { BehaviorSubject } from 'rxjs';
+import { GanttOptions } from '../gantt.options';
+
+export interface GanttViewOptions {
+    start?: GanttDate;
+    end?: GanttDate;
+    min?: GanttDate;
+    max?: GanttDate;
+    cellWidth?: number;
+    addAmount?: number;
+    addUnit?: TinyDateUtil;
+}
+
+const viewOptions: GanttViewOptions = {
+    min: new TinyDate().addYears(-1).startOfYear(),
+    max: new TinyDate().addYears(1).endOfYear(),
+};
+
+export abstract class GanttView {
+    start$: BehaviorSubject<GanttDate>;
+
+    end$: BehaviorSubject<GanttDate>;
+
+    get start() {
+        return this.start$.getValue();
+    }
+
+    get end() {
+        return this.end$.getValue();
+    }
+
+    primaryDatePoints: GanttDatePoint[];
+
+    secondaryDatePoints: GanttDatePoint[];
+
+    width: number;
+
+    cellWidth: number;
+
+    primaryWidth: number;
+
+    showTimeline = true;
+
+    showWeekBackdrop: boolean;
+
+    options: GanttOptions & GanttViewOptions;
+
+    constructor(start: GanttDate, end: GanttDate, options: GanttOptions & GanttViewOptions) {
+        start = this.startOf(start);
+        end = this.endOf(end);
+        this.options = Object.assign({}, viewOptions, options);
+        // 如果开始使用默认时间，则会根据自定义是start和end与view设置的默认时间作比较，取最大的范围
+        if (options.useDefaultDate) {
+            start = start.value < this.options.start.value ? start : this.options.start;
+            end = end.value > this.options.end.value ? end : this.options.end;
+        }
+        this.start$ = new BehaviorSubject<GanttDate>(start);
+        this.end$ = new BehaviorSubject<GanttDate>(end);
+        this.initialize();
+    }
+
+    abstract startOf(date: GanttDate): GanttDate;
+
+    abstract endOf(date: GanttDate): GanttDate;
+
+    // 获取一级时间网格合并后的宽度
+    abstract getPrimaryWidth(): number;
+
+    // 获取当前视图下每一天占用的宽度
+    abstract getDayOccupancyWidth(date: GanttDate): number;
+
+    // 获取一级时间点（坐标，显示名称）
+    abstract getPrimaryDatePoints(): GanttDatePoint[];
+
+    // 获取二级时间点（坐标，显示名称）
+    abstract getSecondaryDatePoints(): GanttDatePoint[];
+
+    protected getDateIntervalWidth(start: GanttDate, end: GanttDate) {
+        let result = 0;
+        const days = differenceInDays(end.value, start.value);
+        for (let i = 0; i < days; i++) {
+            result += this.getDayOccupancyWidth(start.addDays(i));
+        }
+        return Number(result.toFixed(3));
+    }
+
+    protected initialize() {
+        this.primaryDatePoints = this.getPrimaryDatePoints();
+        this.secondaryDatePoints = this.getSecondaryDatePoints();
+        this.width = this.getWidth();
+        this.cellWidth = this.getCellWidth();
+        this.primaryWidth = this.getPrimaryWidth();
+    }
+
+    addStartDate() {
+        const start = this.startOf(this.start.add(this.options.addAmount * -1, this.options.addUnit));
+        if (start.value >= this.options.min.value) {
+            const origin = this.start;
+            this.start$.next(start);
+            this.initialize();
+            return { start: this.start, end: origin };
+        }
+        return null;
+    }
+
+    addEndDate() {
+        const end = this.endOf(this.end.add(this.options.addAmount, this.options.addUnit));
+        if (end.value <= this.options.max.value) {
+            const origin = this.end;
+            this.end$.next(end);
+            this.initialize();
+            return { start: origin, end: this.end };
+        }
+        return null;
+    }
+
+    updateDate(start: GanttDate, end: GanttDate) {
+        start = this.startOf(start);
+        end = this.endOf(end);
+        if (start.value < this.start.value) {
+            this.start$.next(start);
+        }
+        if (end.value > this.end.value) {
+            this.end$.next(end);
+        }
+        this.initialize();
+    }
+
+    // 获取View的宽度
+    getWidth() {
+        return this.getCellWidth() * this.secondaryDatePoints.length;
+    }
+
+    // 获取单个网格的宽度
+    getCellWidth() {
+        return this.options.cellWidth;
+    }
+
+    // 获取当前时间的X坐标
+    getTodayXPoint(): number {
+        const toady = new TinyDate().startOfDay();
+        if (toady.value > this.start.value && toady.value < this.end.value) {
+            const x = this.getXPointByDate(toady) + this.getDayOccupancyWidth(toady) / 2;
+            return x;
+        } else {
+            return null;
+        }
+    }
+
+    // 获取指定时间的X坐标
+    getXPointByDate(date: GanttDate) {
+        return this.getDateIntervalWidth(this.start, date);
+    }
+
+    // 根据X坐标获取对应时间
+    getDateByXPoint(x: number) {
+        const indexOfSecondaryDate = Math.floor(x / this.getCellWidth());
+        const matchDate = this.secondaryDatePoints[indexOfSecondaryDate];
+        const dayWidth = this.getDayOccupancyWidth(matchDate.start);
+        if (dayWidth === this.getCellWidth()) {
+            return matchDate.start;
+        } else {
+            const day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
+            return matchDate.start.setDate(day);
+        }
+    }
+
+    // 获取指定时间范围的宽度
+    getDateRangeWidth(start: GanttDate, end: GanttDate) {
+        // addSeconds(1) 是因为计算相差天会以一个整天来计算 end时间一般是59分59秒不是一个整天，所以需要加1
+        return this.getDateIntervalWidth(start, end.addSeconds(1));
+    }
+}
