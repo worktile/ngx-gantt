@@ -1,4 +1,4 @@
-import { GanttDate } from '../date';
+import { GanttDate } from '../utils/date';
 
 export class GanttDatePoint {
     constructor(

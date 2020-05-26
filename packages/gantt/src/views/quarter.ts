@@ -1,14 +1,14 @@
 import { GanttView, GanttViewOptions } from './view';
-import { GanttDate, TinyDate } from '../date';
+import { GanttDate } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarQuarters } from 'date-fns';
 import { primaryDatePointTop, secondaryDatePointTop, GanttOptions } from '../gantt.options';
 
 const viewOptions: GanttViewOptions = {
-    start: new TinyDate().addYears(-1).startOfYear(),
-    end: new TinyDate().addYears(1).endOfYear(),
-    min: new TinyDate().addYears(-2).startOfYear(),
-    max: new TinyDate().addYears(2).endOfYear(),
+    start: new GanttDate().addYears(-1).startOfYear(),
+    end: new GanttDate().addYears(1).endOfYear(),
+    min: new GanttDate().addYears(-2).startOfYear(),
+    max: new GanttDate().addYears(2).endOfYear(),
     cellWidth: 500,
     addAmount: 1,
     addUnit: 'year',
@@ -39,7 +39,7 @@ export class GanttViewQuarter extends GanttView {
         const years = eachYearOfInterval({ start: this.start.value, end: this.end.value });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i <= years.length; i++) {
-            const start = new TinyDate(years[i]);
+            const start = new GanttDate(years[i]);
             const point = new GanttDatePoint(
                 start,
                 `${start.format('yyyy')}年`,

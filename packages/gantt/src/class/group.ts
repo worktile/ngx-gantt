@@ -1,4 +1,4 @@
-import { helpers } from '@worktile/ngx-styx';
+// import { helpers } from '@worktile/ngx-styx';
 import { GanttItemInternal } from './item';
 import { GanttOptions, getGroupHeight } from '../gantt.options';
 
@@ -49,15 +49,15 @@ export class GanttGroupInternal {
     }
 
     buildItems(merge?: boolean) {
-        const flatItems = helpers.flatten(this.items).sort((a, b) => a.start.getUnixTime() - b.start.getUnixTime());
-        this.items = [];
-        if (!merge) {
-            flatItems.forEach((item) => {
-                this.items.push([item]);
-            });
-        } else {
-            this.buildMergeItems(flatItems);
-        }
+        // const flatItems = helpers.flatten(this.items).sort((a, b) => a.start.getUnixTime() - b.start.getUnixTime());
+        // this.items = [];
+        // if (!merge) {
+        //     flatItems.forEach((item) => {
+        //         this.items.push([item]);
+        //     });
+        // } else {
+        //     this.buildMergeItems(flatItems);
+        // }
     }
 
     computeItemsRef() {

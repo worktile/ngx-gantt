@@ -5,8 +5,6 @@ import { GanttOptions } from './gantt.options';
 export interface GanttRef {
     element: HTMLElement;
     view: GanttView;
-    draggable: boolean;
-    dependable: boolean;
     options: GanttOptions;
 }
 
