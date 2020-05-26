@@ -1,11 +1,11 @@
 import { GanttView, GanttViewOptions } from './view';
-import { GanttDate, TinyDate, differenceInCalendarQuarters, eachMonthOfInterval } from '../date';
+import { GanttDate, differenceInCalendarQuarters, eachMonthOfInterval } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { secondaryDatePointTop, primaryDatePointTop, GanttOptions } from '../gantt.options';
 
 const viewOptions: GanttViewOptions = {
-    start: new TinyDate().startOfQuarter().addQuarters(-1),
-    end: new TinyDate().endOfQuarter().addQuarters(2),
+    start: new GanttDate().startOfQuarter().addQuarters(-1),
+    end: new GanttDate().endOfQuarter().addQuarters(2),
     cellWidth: 280,
     addAmount: 1,
     addUnit: 'quarter',
@@ -53,7 +53,7 @@ export class GanttViewMonth extends GanttView {
         const months = eachMonthOfInterval({ start: this.start.value, end: this.end.value });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < months.length; i++) {
-            const start = new TinyDate(months[i]);
+            const start = new GanttDate(months[i]);
             const point = new GanttDatePoint(
                 start,
                 `${start.getMonth() + 1}月`,

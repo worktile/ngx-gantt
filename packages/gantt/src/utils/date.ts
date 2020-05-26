@@ -28,11 +28,9 @@ import {
 
 export * from 'date-fns';
 
-export type GanttDate = TinyDate;
+export type GanttDateUtil = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
 
-export type TinyDateUtil = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
-
-export class TinyDate {
+export class GanttDate {
     value: Date;
 
     constructor(date?: Date | string | number) {
@@ -100,107 +98,107 @@ export class TinyDate {
         return differenceInCalendarDays(this.endOfQuarter().addSeconds(1).value, this.startOfQuarter().value);
     }
 
-    setDate(dayOfMonth: number): TinyDate {
-        return new TinyDate(setDate(this.value, dayOfMonth));
+    setDate(dayOfMonth: number): GanttDate {
+        return new GanttDate(setDate(this.value, dayOfMonth));
     }
 
-    clone(): TinyDate {
-        return new TinyDate(new Date(this.value));
+    clone(): GanttDate {
+        return new GanttDate(new Date(this.value));
     }
 
-    add(amount: number, unit?: TinyDateUtil) {
+    add(amount: number, unit?: GanttDateUtil) {
         switch (unit) {
             case 'second':
-                return new TinyDate(this.value).addSeconds(amount);
+                return new GanttDate(this.value).addSeconds(amount);
             case 'minute':
-                return new TinyDate(this.value).addMinutes(amount);
+                return new GanttDate(this.value).addMinutes(amount);
             case 'hour':
-                return new TinyDate(this.value).addHours(amount);
+                return new GanttDate(this.value).addHours(amount);
             case 'day':
-                return new TinyDate(this.value).addDays(amount);
+                return new GanttDate(this.value).addDays(amount);
             case 'week':
-                return new TinyDate(this.value).addWeeks(amount);
+                return new GanttDate(this.value).addWeeks(amount);
             case 'month':
-                return new TinyDate(this.value).addMonths(amount);
+                return new GanttDate(this.value).addMonths(amount);
             case 'quarter':
-                return new TinyDate(this.value).addQuarters(amount);
+                return new GanttDate(this.value).addQuarters(amount);
             case 'year':
-                return new TinyDate(this.value).addYears(amount);
+                return new GanttDate(this.value).addYears(amount);
             default:
-                return new TinyDate(this.value).addSeconds(amount);
+                return new GanttDate(this.value).addSeconds(amount);
         }
     }
 
-    addSeconds(amount: number): TinyDate {
-        return new TinyDate(addSeconds(this.value, amount));
+    addSeconds(amount: number): GanttDate {
+        return new GanttDate(addSeconds(this.value, amount));
     }
 
-    addMinutes(amount: number): TinyDate {
-        return new TinyDate(addMinutes(this.value, amount));
+    addMinutes(amount: number): GanttDate {
+        return new GanttDate(addMinutes(this.value, amount));
     }
 
-    addHours(amount: number): TinyDate {
-        return new TinyDate(addHours(this.value, amount));
+    addHours(amount: number): GanttDate {
+        return new GanttDate(addHours(this.value, amount));
     }
 
-    addDays(amount: number): TinyDate {
-        return new TinyDate(addDays(this.value, amount));
+    addDays(amount: number): GanttDate {
+        return new GanttDate(addDays(this.value, amount));
     }
 
     addWeeks(amount: number) {
-        return new TinyDate(addWeeks(this.value, amount));
+        return new GanttDate(addWeeks(this.value, amount));
     }
 
-    addMonths(amount: number): TinyDate {
-        return new TinyDate(addMonths(this.value, amount));
+    addMonths(amount: number): GanttDate {
+        return new GanttDate(addMonths(this.value, amount));
     }
 
-    addQuarters(amount: number): TinyDate {
-        return new TinyDate(addQuarters(this.value, amount));
+    addQuarters(amount: number): GanttDate {
+        return new GanttDate(addQuarters(this.value, amount));
     }
 
-    addYears(amount: number): TinyDate {
-        return new TinyDate(addYears(this.value, amount));
+    addYears(amount: number): GanttDate {
+        return new GanttDate(addYears(this.value, amount));
     }
 
-    startOfDay(): TinyDate {
-        return new TinyDate(startOfDay(this.value));
+    startOfDay(): GanttDate {
+        return new GanttDate(startOfDay(this.value));
     }
 
-    startOfWeek(options?: { locale?: Locale; weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 }): TinyDate {
-        return new TinyDate(startOfWeek(this.value, options));
+    startOfWeek(options?: { locale?: Locale; weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 }): GanttDate {
+        return new GanttDate(startOfWeek(this.value, options));
     }
 
-    startOfMonth(): TinyDate {
-        return new TinyDate(startOfMonth(this.value));
+    startOfMonth(): GanttDate {
+        return new GanttDate(startOfMonth(this.value));
     }
 
-    startOfQuarter(): TinyDate {
-        return new TinyDate(startOfQuarter(this.value));
+    startOfQuarter(): GanttDate {
+        return new GanttDate(startOfQuarter(this.value));
     }
 
-    startOfYear(): TinyDate {
-        return new TinyDate(startOfYear(this.value));
+    startOfYear(): GanttDate {
+        return new GanttDate(startOfYear(this.value));
     }
 
-    endOfDay(): TinyDate {
-        return new TinyDate(endOfDay(this.value));
+    endOfDay(): GanttDate {
+        return new GanttDate(endOfDay(this.value));
     }
 
-    endOfWeek(options?: { locale?: Locale; weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 }): TinyDate {
-        return new TinyDate(endOfWeek(this.value, options));
+    endOfWeek(options?: { locale?: Locale; weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 }): GanttDate {
+        return new GanttDate(endOfWeek(this.value, options));
     }
 
-    endOfMonth(): TinyDate {
-        return new TinyDate(endOfMonth(this.value));
+    endOfMonth(): GanttDate {
+        return new GanttDate(endOfMonth(this.value));
     }
 
-    endOfQuarter(): TinyDate {
-        return new TinyDate(endOfQuarter(this.value));
+    endOfQuarter(): GanttDate {
+        return new GanttDate(endOfQuarter(this.value));
     }
 
-    endOfYear(): TinyDate {
-        return new TinyDate(endOfYear(this.value));
+    endOfYear(): GanttDate {
+        return new GanttDate(endOfYear(this.value));
     }
 
     getUnixTime(): number {

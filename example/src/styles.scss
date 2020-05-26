@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '../../packages/gantt/src/gantt.scss';
+
+html,body {
+  width: 100%;
+  height: 100%;
+}
+
+example-root{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}

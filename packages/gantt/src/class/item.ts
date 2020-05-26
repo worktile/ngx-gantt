@@ -1,6 +1,6 @@
 import { GanttView } from '../views/view';
 import { GanttOptions, getCellHeight } from '../gantt.options';
-import { GanttDate, TinyDate } from '../date';
+import { GanttDate } from '../utils/date';
 import { BehaviorSubject } from 'rxjs';
 
 interface GroupPositions {
@@ -33,8 +33,8 @@ export class GanttItemInternal {
         this.origin = item;
         this._id = this.origin._id;
         this.dependencies = this.origin.dependencies || [];
-        this.start = new TinyDate(item.start);
-        this.end = new TinyDate(item.end);
+        this.start = new GanttDate(item.start);
+        this.end = new GanttDate(item.end);
     }
 
     private computeX(groupX: number) {

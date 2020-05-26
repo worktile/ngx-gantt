@@ -1,4 +1,4 @@
-import { GanttDate, TinyDate, differenceInDays, TinyDateUtil } from '../date';
+import { GanttDate,  differenceInDays, GanttDateUtil } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { BehaviorSubject } from 'rxjs';
 import { GanttOptions } from '../gantt.options';
@@ -10,12 +10,12 @@ export interface GanttViewOptions {
     max?: GanttDate;
     cellWidth?: number;
     addAmount?: number;
-    addUnit?: TinyDateUtil;
+    addUnit?: GanttDateUtil;
 }
 
 const viewOptions: GanttViewOptions = {
-    min: new TinyDate().addYears(-1).startOfYear(),
-    max: new TinyDate().addYears(1).endOfYear(),
+    min: new GanttDate().addYears(-1).startOfYear(),
+    max: new GanttDate().addYears(1).endOfYear(),
 };
 
 export abstract class GanttView {
@@ -140,7 +140,7 @@ export abstract class GanttView {
 
     // 获取当前时间的X坐标
     getTodayXPoint(): number {
-        const toady = new TinyDate().startOfDay();
+        const toady = new GanttDate().startOfDay();
         if (toady.value > this.start.value && toady.value < this.end.value) {
             const x = this.getXPointByDate(toady) + this.getDayOccupancyWidth(toady) / 2;
             return x;

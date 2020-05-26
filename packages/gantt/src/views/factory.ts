@@ -1,7 +1,7 @@
 import { GanttViewOptions } from './view';
 import { GanttViewMonth } from './month';
-import { GanttDate } from '../date';
-import { GanttViewType } from '../class/view-types.enum';
+import { GanttDate } from '../utils/date';
+import { GanttViewType } from '../class/view-type';
 import { GanttViewQuarter } from './quarter';
 import { GanttViewDay } from './day';
 import { GanttOptions } from '../gantt.options';

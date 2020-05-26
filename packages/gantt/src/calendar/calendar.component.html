@@ -1,31 +1,30 @@
 <svg [attr.width]="view.width" [attr.height]="height">
-  <g class="mesh">
-    <g>
-      <rect
-        *ngFor="let group of groups; groupTrackBy"
-        [attr.width]="view.width"
-        [attr.height]="group.refs.height"
-        [attr.x]="group.refs.x"
-        [attr.y]="group.refs.y"
-        class="mesh-item"
-      ></rect>
-      <rect
-        *ngIf="groups?.length > 0"
-        [attr.width]="view.width"
-        [attr.height]="'100%'"
-        [attr.x]="0"
-        [attr.y]="groups[groups.length - 1].refs.y + groups[groups.length - 1].refs.height"
-        class="mesh-item"
-      ></rect>
-    </g>
+  <g class="date">
+    <text
+      class="primary-text"
+      *ngFor="let point of view.primaryDatePoints; trackBy: trackBy"
+      [attr.x]="point.x"
+      [attr.y]="point.y"
+    >
+      {{ point.text }}
+    </text>
+    <text
+      *ngFor="let point of view.secondaryDatePoints; trackBy: trackBy"
+      class="secondary-text"
+      [class.secondary-text-weekend]="point.additions?.isWeekend"
+      [attr.x]="point.x"
+      [attr.y]="point.y"
+    >
+      {{ point.text }}
+    </text>
     <g>
       <line
-        *ngFor="let group of groups"
-        [attr.x1]="0"
-        [attr.x2]="view.width"
-        [attr.y1]="group.refs.line.y1"
-        [attr.y2]="group.refs.line.y2"
-        class="mesh-line"
+        *ngFor="let point of view.primaryDatePoints; let i = index; trackBy: trackBy"
+        [attr.x1]="(i + 1) * view.primaryWidth"
+        [attr.x2]="(i + 1) * view.primaryWidth"
+        [attr.y1]="0"
+        [attr.y2]="60"
+        class="primary-line"
       ></line>
     </g>
   </g>
@@ -62,7 +61,14 @@
     </g>
     <g>
       <polygon *ngIf="todayPoint" class="today-line-angle" [attr.points]="todayPoint.angle" />
-      <line *ngIf="todayPoint" [attr.x1]="todayPoint.x" [attr.x2]="todayPoint.x" [attr.y1]="0" [attr.y2]="'100%'" class="today-line"></line>
+      <line
+        *ngIf="todayPoint"
+        [attr.x1]="todayPoint.x"
+        [attr.x2]="todayPoint.x"
+        [attr.y1]="0"
+        [attr.y2]="'100%'"
+        class="today-line"
+      ></line>
     </g>
   </g>
 </svg>
