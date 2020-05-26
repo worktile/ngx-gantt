@@ -5,7 +5,7 @@ import { GanttOptions } from './gantt.options';
 export interface GanttRef {
     element: HTMLElement;
     view: GanttView;
-    options: GanttOptions;
+    styles: GanttOptions;
 }
 
 export const GANTT_REF_TOKEN = new InjectionToken<GanttRef>('GANTT_REF_TOKEN');

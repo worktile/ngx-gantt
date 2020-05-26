@@ -1,12 +1,12 @@
-import { GanttItemInfo } from './item';
+import { GanttItem } from './item';
 
 export class GanttDragEvent {
-    item: GanttItemInfo;
+    item: GanttItem;
 }
 
 export class GanttDependencyDragEvent {
-    source: GanttItemInfo;
-    dependent?: GanttItemInfo;
+    source: GanttItem;
+    dependent?: GanttItem;
 }
 
 export class GanttLoadOnScrollEvent {
@@ -16,6 +16,6 @@ export class GanttLoadOnScrollEvent {
 
 export class GanttDependencyEvent {
   event: MouseEvent;
-  source: GanttItemInfo;
-  dependent: GanttItemInfo;
+  source: GanttItem;
+  dependent: GanttItem;
 }

@@ -2,14 +2,14 @@
 import { GanttItemInternal } from './item';
 import { GanttOptions, getGroupHeight } from '../gantt.options';
 
-export interface GanttGroupInfo {
-    _id: string;
-    [key: string]: any;
+export interface GanttGroup<T = unknown> {
+    id: string;
+    origin?: T;
 }
 
 export class GanttGroupInternal {
-    _id: string;
-    origin: GanttGroupInfo;
+    id: string;
+    origin: GanttGroup;
     items: GanttItemInternal[][];
     refs?: {
         x: number;
@@ -21,8 +21,8 @@ export class GanttGroupInternal {
         };
     };
 
-    constructor(group: GanttGroupInfo, private previous: GanttGroupInternal, private options: GanttOptions) {
-        this._id = group._id;
+    constructor(group: GanttGroup, private previous: GanttGroupInternal, private options: GanttOptions) {
+        this.id = group.id;
         this.origin = group;
         this.items = [[]];
     }

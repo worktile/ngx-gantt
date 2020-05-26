@@ -1,12 +1,11 @@
-<ngx-gantt items="" groups="" mode="table | flat">
-  <ng-template ngxGanttColumnsContainer>
-    <gantt-column title=""></gantt-column>
-    <gantt-column title=""></gantt-column>
-    <gantt-column title=""></gantt-column>
+<ngx-gantt>
+  <ng-template #columns>
+    <ngx-gantt-column title="">
+      <ng-template #cell></ng-template>
+    </ngx-gantt-column>
   </ng-template>
-  <ng-template ngxGanttGroupTemplate></ng-template>
-  <ng-template ngxGanttItemTemplate></ng-template>
+  <ng-template #group let-group="group"></ng-template>
+  <ng-template #bar let-item="item"></ng-template>
 </ngx-gantt>
 
-<ngx-gantt></ngx-gantt>
 <ngx-gantt-flat></ngx-gantt-flat>

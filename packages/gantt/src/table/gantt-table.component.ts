@@ -13,7 +13,7 @@ import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
 import { GanttDependencyDragEvent, GanttDependencyEvent } from '../class';
 
 @Component({
-    selector: 'gantt-table',
+    selector: 'ngx-gantt',
     templateUrl: './gantt-table.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
@@ -24,15 +24,17 @@ import { GanttDependencyDragEvent, GanttDependencyEvent } from '../class';
     ],
 })
 export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit {
-    @Input() dependable: boolean;
+    @Input() linkable: boolean;
 
-    @Output() dependencyDragStarted = new EventEmitter<GanttDependencyDragEvent>();
+    @Output() linkDragStarted = new EventEmitter<GanttDependencyDragEvent>();
 
-    @Output() dependencyDragEnded = new EventEmitter<GanttDependencyDragEvent>();
+    @Output() linkDragEnded = new EventEmitter<GanttDependencyDragEvent>();
 
     @Output() dependencyClick = new EventEmitter<GanttDependencyEvent>();
 
-    @HostBinding('class.gantt-table') className = true;
+    @HostBinding('class.gantt') ganttClass = true;
+
+    @HostBinding('class.gantt-table') ganttTableClass = true;
 
     constructor(elementRef: ElementRef) {
         super(elementRef);

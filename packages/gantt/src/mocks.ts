@@ -1,8 +1,8 @@
 import * as moment from 'moment';
-import { GanttGroupInfo } from './class/group';
-import { GanttItemInfo } from './class/item';
+import { GanttGroup } from './class/group';
+import { GanttItem } from './class/item';
 
-export const mockGroups: GanttGroupInfo[] = [
+export const mockGroups: GanttGroup[] = [
     {
         _id: '00001',
         title: 'Project 1'
@@ -25,7 +25,7 @@ export const mockGroups: GanttGroupInfo[] = [
     }
 ];
 
-export const mockItems: GanttItemInfo[] = [
+export const mockItems: GanttItem[] = [
     {
         _id: 'item-0101',
         title: 'VERSION 0101',

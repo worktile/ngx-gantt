@@ -8,31 +8,34 @@ interface GroupPositions {
     y: number;
 }
 
-export interface GanttItemInfo {
-    _id: string;
-    start: number;
-    end: number;
-    group_id: string;
-    dependencies?: string[];
-    children?: GanttItemInfo[];
-    [key: string]: any;
+export interface GanttItem<T = unknown> {
+    id: string;
+    start?: number;
+    end?: number;
+    group_id?: string;
+    links: string[];
+    color?: string;
+    draggable?: boolean;
+    linkable?: boolean;
+    children?: GanttItem[];
+    origin?: T;
 }
 
 export class GanttItemInternal {
-    _id: string;
+    id: string;
     start: GanttDate;
     end: GanttDate;
-    dependencies: string[];
-    origin: GanttItemInfo;
+    links: string[];
+    origin: GanttItem;
     refs$ = new BehaviorSubject<{ width: number; x?: number; y?: number }>(null);
     get refs() {
         return this.refs$.getValue();
     }
 
-    constructor(item: GanttItemInfo, private view: GanttView, private options: GanttOptions) {
+    constructor(item: GanttItem, private view: GanttView, private options: GanttOptions) {
         this.origin = item;
-        this._id = this.origin._id;
-        this.dependencies = this.origin.dependencies || [];
+        this.id = this.origin.id;
+        this.links = this.origin.links || [];
         this.start = new GanttDate(item.start);
         this.end = new GanttDate(item.end);
     }
@@ -67,15 +70,5 @@ export class GanttItemInternal {
         this.end = end.endOfDay();
         this.origin.start = this.start.getUnixTime();
         this.origin.end = this.end.getUnixTime();
-    }
-
-    public addDependency(dependencyId: string) {
-        this.dependencies = [...this.dependencies, dependencyId];
-        this.origin.dependencies = this.dependencies;
-    }
-
-    public deleteDependency(dependencyId: string) {
-        this.dependencies = this.dependencies.filter((id) => id !== dependencyId);
-        this.origin.dependencies = this.dependencies;
     }
 }

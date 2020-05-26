@@ -1,21 +1,17 @@
 import { Input, TemplateRef, Output, EventEmitter, ContentChild, HostBinding, ElementRef } from '@angular/core';
-import { GanttItemInfo, GanttGroupInfo, GanttViewType, GanttLoadOnScrollEvent, GanttDragEvent } from './class';
+import { GanttItem, GanttGroup, GanttViewType, GanttLoadOnScrollEvent, GanttDragEvent } from './class';
 import { GanttOptions } from './gantt.options';
-import { GanttView } from './views/view';
+import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
 import { Subject } from 'rxjs';
 
 export abstract class GanttUpper {
-    @Input() items: GanttItemInfo[] = [];
+    @Input() items: GanttItem[] = [];
 
-    @Input() groups: GanttGroupInfo[] = [];
+    @Input() groups: GanttGroup[] = [];
 
     @Input() viewType: GanttViewType = GanttViewType.month;
-
-    @Input() showSide = true;
-
-    @Input() sideTitle: string | TemplateRef<any>;
 
     @Input() start: number;
 
@@ -23,7 +19,9 @@ export abstract class GanttUpper {
 
     @Input() draggable: boolean;
 
-    @Input() options: GanttOptions;
+    @Input() styles: GanttOptions;
+
+    @Input() viewOptions: GanttViewOptions;
 
     @Input() disabledLoadOnScroll: boolean;
 
@@ -61,7 +59,7 @@ export abstract class GanttUpper {
 
     private createView() {
         const viewDate = this.getViewDate();
-        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.options);
+        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.styles);
     }
 
     private getViewDate() {
