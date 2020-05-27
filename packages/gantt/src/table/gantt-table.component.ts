@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ElementRef, ChangeDetectionStrategy, Input, EventEmitter, Output, HostBinding } from '@angular/core';
 import { GanttUpper } from '../gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
 import { GanttDependencyDragEvent, GanttDependencyEvent, GanttItemInternal } from '../class';
@@ -22,6 +22,8 @@ export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit 
     @Output() linkDragEnded = new EventEmitter<GanttDependencyDragEvent>();
 
     @Output() dependencyClick = new EventEmitter<GanttDependencyEvent>();
+
+    @HostBinding('class.gantt-table') ganttTableClass = true;
 
     constructor(elementRef: ElementRef) {
         super(elementRef);

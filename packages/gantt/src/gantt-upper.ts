@@ -25,7 +25,7 @@ import { Subject, fromEvent } from 'rxjs';
 import { GanttTableColumnComponent } from './table/column/column.component';
 
 const defaultStyles = {
-    lineHeight: 55,
+    lineHeight: 50,
     barHeight: 25,
 };
 

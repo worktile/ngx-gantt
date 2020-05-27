@@ -17,7 +17,7 @@
           [ngTemplateOutlet]="tdTemplate"
           [ngTemplateOutletContext]="{
             column: column,
-            row: row,
+            row: row.origin,
             index: i
           }"
         ></ng-template>
@@ -29,6 +29,6 @@
 <ng-template #tdTemplate let-column="column" let-row="row" let-index="index">
   <ng-template
     [ngTemplateOutlet]="column.templateRef"
-    [ngTemplateOutletContext]="{ $implicit: row, row: row, index: index }"
+    [ngTemplateOutletContext]="{ $implicit: row, row: row.origin, index: index }"
   ></ng-template>
 </ng-template>
