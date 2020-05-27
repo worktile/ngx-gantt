@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
     selector: 'example-root',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
     styles: [],
 })
 export class AppComponent {
+    @HostBinding(`class.dg-main`) isRoot = true;
     title = 'example';
 }
