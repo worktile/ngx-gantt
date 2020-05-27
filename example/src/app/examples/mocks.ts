@@ -1,0 +1,145 @@
+export const mockGroups = [
+    {
+        id: '00001',
+        title: 'Project 1',
+    },
+    {
+        id: '00002',
+        title: 'Project 2',
+    },
+    {
+        id: '00003',
+        title: 'Project 3',
+    },
+    {
+        id: '00004',
+        title: 'Project 4',
+    },
+    {
+        id: '00005',
+        title: 'Project 5',
+    },
+];
+
+export const mockItems = [
+    {
+        id: 'item-0101',
+        title: 'VERSION 0101',
+        start: 1515736001,
+        end: 1518736000,
+        group_id: '00001',
+    },
+    {
+        id: 'item-0102',
+        title: 'VERSION 0102',
+        start: 1518736000,
+        end: 1519736000,
+        group_id: '00001',
+    },
+    {
+        id: 'item-0103',
+        title: 'VERSION 0103',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00001',
+    },
+    {
+        id: 'item-0201',
+        title: 'VERSION 0201',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00002',
+    },
+    {
+        id: 'item-0202',
+        title: 'VERSION 0202',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00002',
+    },
+    {
+        id: 'item-0203',
+        title: 'VERSION 0203',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00002',
+    },
+    {
+        id: 'item-0204',
+        title: 'VERSION 0204',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00002',
+    },
+
+    {
+        id: 'item-0301',
+        title: 'VERSION 0301',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00003',
+    },
+    {
+        id: 'item-0302',
+        title: 'VERSION 0302',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00003',
+    },
+    {
+        id: 'item-0303',
+        title: 'VERSION 0303',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00003',
+    },
+    {
+        id: 'item-0401',
+        title: 'VERSION 0401',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00004',
+    },
+    {
+        id: 'item-0402',
+        title: 'VERSION 0402',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00004',
+    },
+    {
+        id: 'item-0403',
+        title: 'VERSION 0403',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00004',
+    },
+    {
+        id: 'item-0404',
+        title: 'VERSION 0404',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00004',
+    },
+    {
+        id: 'item-0501',
+        title: 'VERSION 0501',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00005',
+    },
+    {
+        id: 'item-0502',
+        title: 'VERSION 0502',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00005',
+    },
+    {
+        id: 'item-0503',
+        title: 'VERSION 0503',
+        start: 1518736000,
+        end: 1523736000,
+        group_id: '00005',
+    },
+];

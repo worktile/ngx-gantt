@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { mockItems, mockGroups } from './mocks';
 
 @Component({
     selector: 'app-examples-gantt',
@@ -7,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppExamplesComponent implements OnInit {
     constructor() {}
+
+    items = mockItems;
+
+    groups = mockGroups;
 
     ngOnInit(): void {}
 }
