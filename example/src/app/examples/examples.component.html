@@ -1,1 +1,10 @@
-<ngx-gantt [start]="1514736000" end="1609430400" [items]="items" [groups]="groups"></ngx-gantt>
+<ngx-gantt start="1514736000" end="1609430400" [items]="items" [groups]="groups">
+  <ngx-gantt-column name="标题">
+    <ng-template #cell let-row>
+      {{ row.origin.title }}
+    </ng-template>
+  </ngx-gantt-column>
+  <ng-template #group let-group>
+    {{ group.title }}
+  </ng-template>
+</ngx-gantt>

@@ -1,4 +1,14 @@
-import { Input, TemplateRef, Output, EventEmitter, ContentChild, ElementRef, HostBinding } from '@angular/core';
+import {
+    Input,
+    TemplateRef,
+    Output,
+    EventEmitter,
+    ContentChild,
+    ElementRef,
+    HostBinding,
+    ContentChildren,
+    QueryList,
+} from '@angular/core';
 import {
     GanttItem,
     GanttGroup,
@@ -12,6 +22,7 @@ import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
 import { Subject, fromEvent } from 'rxjs';
+import { GanttTableColumnComponent } from './table/column/column.component';
 
 const defaultStyles = {
     lineHeight: 55,
@@ -45,9 +56,11 @@ export abstract class GanttUpper {
 
     @Output() dragEnded = new EventEmitter<GanttDragEvent>();
 
-    @ContentChild('barTemplate', { static: true }) barTemplate: TemplateRef<any>;
+    @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
-    @ContentChild('groupTemplate', { static: true }) groupTemplate: TemplateRef<any>;
+    @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
+
+    @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
 
     public view: GanttView;
 
