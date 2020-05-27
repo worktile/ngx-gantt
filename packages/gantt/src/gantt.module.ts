@@ -6,10 +6,13 @@ import { GanttContainerComponent } from './layout/gantt-container.component';
 import { GanttSideComponent } from './layout/gantt-side.component';
 import { GanttFlatComponent } from './flat/gantt-flat.component';
 import { GanttBarComponent } from './bar/bar.component';
+import { GanttTableColumnComponent } from './table/column/column.component';
+import { GanttTableGroupComponent } from './table/group/group.component';
+import { GanttTableItemsComponent } from './table/items/items.component';
 
 @NgModule({
     imports: [CommonModule],
-    exports: [GanttTableComponent, GanttFlatComponent],
+    exports: [GanttTableComponent, GanttFlatComponent, GanttTableColumnComponent],
     declarations: [
         GanttTableComponent,
         GanttFlatComponent,
@@ -17,6 +20,9 @@ import { GanttBarComponent } from './bar/bar.component';
         GanttContainerComponent,
         GanttCalendarComponent,
         GanttBarComponent,
+        GanttTableColumnComponent,
+        GanttTableGroupComponent,
+        GanttTableItemsComponent,
     ],
     providers: [],
 })

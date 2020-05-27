@@ -1,16 +1,8 @@
-import {
-    Component,
-    OnInit,
-    ElementRef,
-    ChangeDetectionStrategy,
-    Input,
-    EventEmitter,
-    Output,
-    HostBinding,
-} from '@angular/core';
+import { Component, OnInit, ElementRef, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 import { GanttUpper } from '../gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
 import { GanttDependencyDragEvent, GanttDependencyEvent, GanttItemInternal } from '../class';
+
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt-table.component.html',
