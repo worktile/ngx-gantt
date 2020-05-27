@@ -48,10 +48,10 @@ $gantt-date-today-color: #FF9F73 !default;
 
   .gantt-viewer-container {
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 50px);
     flex: 1;
     position: absolute;
-    top: 60px;
+    top: 50px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -62,13 +62,13 @@ $gantt-date-today-color: #FF9F73 !default;
     }
 
     .gantt-group {
-      height: 45px;
+      height: 50px;
       box-sizing: border-box;
       background: #fafafa;
     }
 
     .gantt-item {
-      height: 55px;
+      height: 50px;
       border-bottom: 1px solid $gantt-border-color;
       box-sizing: border-box;
       position: relative;

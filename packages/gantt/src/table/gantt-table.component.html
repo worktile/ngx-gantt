@@ -1,5 +1,5 @@
 <gantt-side>
-  <div class="gantt-items-header" *ngIf="columns?.length">
+  <div class="gantt-table-header" *ngIf="columns?.length">
     <table>
       <thead>
         <th *ngFor="let column of columns" [title]="column.name">
@@ -8,15 +8,15 @@
       </thead>
     </table>
   </div>
-  <div class="gantt-items-container">
+  <div class="gantt-table-container">
     <ng-container *ngIf="groups.length; else itemsTemplate">
       <gantt-table-group *ngFor="let group of groups" [group]="group" [groupHeader]="groupTemplate">
         <gantt-table-items [items]="group.items" [columns]="columns"></gantt-table-items>
       </gantt-table-group>
     </ng-container>
-    <ng-template #itemsTemplate
-      ><gantt-table-items [items]="items" [columns]="columns"></gantt-table-items
-    ></ng-template>
+    <ng-template #itemsTemplate>
+      <gantt-table-items [items]="items" [columns]="columns"></gantt-table-items>
+    </ng-template>
   </div>
 </gantt-side>
 <gantt-container>
