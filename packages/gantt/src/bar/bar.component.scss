@@ -1,0 +1,160 @@
+$gantt-bar-layer-append-width: 32px;
+$gantt-bar-layer-append-height: 42px;
+$gantt-bar-dependency-height: 16px;
+$gantt-bar-dependency-drop-border: 5px;
+
+@mixin dependency-handles {
+  .dependency-handles {
+    .handle {
+      position: absolute;
+      display: inline-block;
+      cursor: pointer;
+      width: $gantt-bar-dependency-height;
+      height: $gantt-bar-dependency-height;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+
+      &:first-child {
+        left: 0;
+        top: 0;
+      }
+
+      &:last-child {
+        right: 0;
+        bottom: 0;
+      }
+
+      .point {
+        color: #348fe4;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #348fe4;
+        transition: 0.3 ease;
+
+        &:hover {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+  }
+}
+
+@mixin drag-handles {
+  .drag-handles {
+    background: $gantt-bar-layer-bg;
+    width: 100%;
+    height: calc(100% - #{$gantt-bar-dependency-height} * 2);
+    position: absolute;
+    border-radius: 4px;
+    top: $gantt-bar-dependency-height;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+
+    .handle {
+      width: 15px;
+      height: 100%;
+      position: absolute;
+      cursor: col-resize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:before,
+      &:after {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: $gantt-bar-handle-height;
+        background: $gantt-bar-handle-color;
+      }
+
+      &::before {
+        margin-right: 2px;
+      }
+
+      &:first-child {
+        left: 0;
+      }
+
+      &:last-child {
+        right: 0;
+      }
+    }
+  }
+}
+
+@mixin active-bar {
+  z-index: 1000;
+
+  .gantt-bar-layer {
+    display: block;
+    z-index: 1;
+  }
+
+  .gantt-bar-content {
+    z-index: 1;
+    box-shadow: none;
+  }
+
+  .cdk-drag {
+    transition: none;
+  }
+}
+
+.gantt-bar {
+  position: absolute;
+  background-color: $gantt-item-bg-color;
+  border-radius: 4px;
+  z-index: 1;
+  background: #348fe4;
+
+  .gantt-bar-layer {
+    width: calc(100% + #{$gantt-bar-layer-append-width});
+    height: calc(100% + #{$gantt-bar-layer-append-height});
+    position: absolute;
+    border-radius: 4px;
+    left: $gantt-bar-layer-append-width / 2 * -1;
+    top: $gantt-bar-layer-append-height / 2 * -1;
+    display: none;
+    @include drag-handles();
+    @include dependency-handles();
+  }
+
+  .gantt-bar-border {
+    width: calc(100% + #{$gantt-bar-dependency-drop-border} * 2);
+    height: calc(100% + #{$gantt-bar-dependency-drop-border} * 2);
+    position: absolute;
+    border-radius: 4px;
+    left: $gantt-bar-dependency-drop-border * -1;
+    top: $gantt-bar-dependency-drop-border * -1;
+    display: none;
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .gantt-bar-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+
+  &-active {
+    @include active-bar();
+  }
+
+  &-dependency-drop {
+    .gantt-bar-border {
+      display: block;
+    }
+
+    .gantt-bar-content {
+      box-shadow: none;
+    }
+  }
+}

@@ -21,6 +21,8 @@ import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
 export class GanttCalendarComponent implements OnInit, OnChanges, OnDestroy {
     public height = 500;
 
+    public headerHeight = 60;
+
     public todayPoint: {
         x: number;
         angle: string;

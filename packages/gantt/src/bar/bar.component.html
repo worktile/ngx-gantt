@@ -1,1 +1,19 @@
-<p>bar works!</p>
+<div class="gantt-bar-layer">
+  <div class="drag-handles">
+    <ng-container>
+      <span class="handle"></span>
+      <span class="handle"></span>
+    </ng-container>
+  </div>
+  <div class="dependency-handles">
+    <span class="handle"><span class="point"></span></span>
+    <span class="handle"> <span class="point"></span></span>
+  </div>
+</div>
+<div class="gantt-bar-border"></div>
+<div class="gantt-bar-content">
+  <ng-template
+    [ngTemplateOutlet]="template"
+    [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"
+  ></ng-template>
+</div>

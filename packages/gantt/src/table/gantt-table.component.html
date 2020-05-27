@@ -1,9 +1,32 @@
-<gantt-side></gantt-side>
+<gantt-side> </gantt-side>
 <gantt-container>
   <gantt-calendar-overlay *ngIf="view"></gantt-calendar-overlay>
-  <div class="gantt-items-container">
-    <div class="gantt-item">
-      <gantt-bar></gantt-bar>
+  <div class="gantt-viewer-container">
+    <!-- groups -->
+    <div class="gantt-viewer-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="view.width">
+      <ng-container *ngFor="let group of groups; trackBy: trackBy">
+        <div class="gantt-group"></div>
+        <div class="gantt-items">
+          <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items }"></ng-template>
+        </div>
+      </ng-container>
     </div>
+    <!-- items -->
+    <ng-template #itemsTemplate>
+      <div class="gantt-viewer-items" [style.width.px]="view.width">
+        <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items }"></ng-template>
+      </div>
+    </ng-template>
   </div>
 </gantt-container>
+
+<ng-template #ganttItems let-items="items">
+  <ng-container *ngFor="let item of items; trackBy: trackBy">
+    <div class="gantt-item">
+      <gantt-bar [item]="item"></gantt-bar>
+    </div>
+    <ng-container *ngFor="let item of item.children; trackBy: trackBy">
+      <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: item.children }"></ng-template>
+    </ng-container>
+  </ng-container>
+</ng-template>

@@ -51,11 +51,11 @@ export abstract class GanttView {
         start = this.startOf(start);
         end = this.endOf(end);
         this.options = Object.assign({}, viewOptions, options);
-        // 如果开始使用默认时间，则会根据自定义是start和end与view设置的默认时间作比较，取最大的范围
-        if (options.useDefaultDate) {
-            start = start.value < this.options.start.value ? start : this.options.start;
-            end = end.value > this.options.end.value ? end : this.options.end;
-        }
+        // // 如果开始使用默认时间，则会根据自定义是start和end与view设置的默认时间作比较，取最大的范围
+        // if (options.useDefaultDate) {
+        //     start = start.value < this.options.start.value ? start : this.options.start;
+        //     end = end.value > this.options.end.value ? end : this.options.end;
+        // }
         this.start$ = new BehaviorSubject<GanttDate>(start);
         this.end$ = new BehaviorSubject<GanttDate>(end);
         this.initialize();

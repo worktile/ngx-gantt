@@ -1,15 +1,29 @@
-import { Input, TemplateRef, Output, EventEmitter, ContentChild, HostBinding, ElementRef } from '@angular/core';
-import { GanttItem, GanttGroup, GanttViewType, GanttLoadOnScrollEvent, GanttDragEvent } from './class';
-import { GanttOptions } from './gantt.options';
+import { Input, TemplateRef, Output, EventEmitter, ContentChild, ElementRef, HostBinding } from '@angular/core';
+import {
+    GanttItem,
+    GanttGroup,
+    GanttViewType,
+    GanttLoadOnScrollEvent,
+    GanttDragEvent,
+    GanttGroupInternal,
+    GanttItemInternal,
+} from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
-import { Subject } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
+
+const defaultStyles = {
+    lineHeight: 55,
+    barHeight: 25,
+};
+
+type GanttStyles = typeof defaultStyles;
 
 export abstract class GanttUpper {
-    @Input() items: GanttItem[] = [];
+    @Input('items') originItems: GanttItem[] = [];
 
-    @Input() groups: GanttGroup[] = [];
+    @Input('groups') originGroups: GanttGroup[] = [];
 
     @Input() viewType: GanttViewType = GanttViewType.month;
 
@@ -19,7 +33,7 @@ export abstract class GanttUpper {
 
     @Input() draggable: boolean;
 
-    @Input() styles: GanttOptions;
+    @Input() styles: GanttStyles;
 
     @Input() viewOptions: GanttViewOptions;
 
@@ -37,6 +51,12 @@ export abstract class GanttUpper {
 
     public view: GanttView;
 
+    public items: GanttItemInternal[] = [];
+
+    public groups: GanttGroupInternal[] = [];
+
+    private groupsMap: { [key: string]: GanttGroupInternal };
+
     public get element() {
         return this.elementRef.nativeElement;
     }
@@ -45,11 +65,22 @@ export abstract class GanttUpper {
 
     private unsubscribe$ = new Subject();
 
+    @HostBinding('class.gantt') ganttClass = true;
+
     constructor(protected elementRef: ElementRef<HTMLElement>) {}
 
     onInit() {
+        this.styles = Object.assign({}, defaultStyles, this.styles);
         this.createView();
+        this.setupGroups();
+        this.setupItems();
         this.firstChange = false;
+        // sync scroll
+
+        const viewer = this.element.querySelector('.gantt-viewer-container');
+        fromEvent(viewer, 'scroll').subscribe(() => {
+            this.element.querySelector('.gantt-calendar-overlay').scrollLeft = viewer.scrollLeft;
+        });
     }
 
     onDestroy() {
@@ -57,15 +88,43 @@ export abstract class GanttUpper {
         this.unsubscribe$.complete();
     }
 
+    trackBy(item: GanttGroupInternal | GanttItemInternal, index: number) {
+        return item.id || index;
+    }
+
     private createView() {
         const viewDate = this.getViewDate();
         this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.styles);
     }
 
+    private setupGroups() {
+        this.groupsMap = {};
+        this.groups = [];
+        this.originGroups.forEach((origin) => {
+            const group = new GanttGroupInternal(origin);
+            this.groupsMap[group.id] = group;
+            this.groups.push(group);
+        });
+    }
+
+    private setupItems() {
+        this.items = [];
+        if (this.groups.length > 0) {
+            this.originItems.forEach((origin) => {
+                const group = this.groupsMap[origin.group_id];
+                group.items.push(new GanttItemInternal(origin));
+            });
+        } else {
+            this.originItems.forEach((origin) => {
+                this.items.push(new GanttItemInternal(origin));
+            });
+        }
+    }
+
     private getViewDate() {
         let start = this.start;
         let end = this.end;
-        this.items.forEach((item) => {
+        this.originItems.forEach((item) => {
             start = start ? Math.min(start, item.start) : item.start;
             end = end ? Math.max(end, item.end) : item.end;
         });

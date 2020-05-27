@@ -1,5 +1,5 @@
 <svg [attr.width]="view.width" [attr.height]="height">
-  <g class="date">
+  <g>
     <text
       class="primary-text"
       *ngFor="let point of view.primaryDatePoints; trackBy: trackBy"
@@ -27,8 +27,18 @@
         class="primary-line"
       ></line>
     </g>
+
+    <g>
+      <line
+        [attr.x1]="0"
+        [attr.x2]="view.width"
+        [attr.y1]="headerHeight"
+        [attr.y2]="headerHeight"
+        class="header-line"
+      ></line>
+    </g>
   </g>
-  <g class="date">
+  <g>
     <g *ngIf="view.showTimeline">
       <line
         *ngFor="let point of view.secondaryDatePoints; let i = index; trackBy: trackBy"
