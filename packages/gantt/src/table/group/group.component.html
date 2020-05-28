@@ -21,6 +21,6 @@
     </div>
   </ng-template>
 </div>
-<div [hidden]="isCollapse">
+<div [hidden]="!group.expand">
   <ng-content></ng-content>
 </div>

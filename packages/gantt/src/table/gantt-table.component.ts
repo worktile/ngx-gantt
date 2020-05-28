@@ -1,22 +1,4 @@
-import {
-    Component,
-    OnInit,
-    ElementRef,
-    ChangeDetectionStrategy,
-    Input,
-    EventEmitter,
-    Output,
-    ChangeDetectorRef,
-    NgZone,
-    OnChanges,
-    OnDestroy,
-    SimpleChanges,
-    HostBinding,
-    ContentChild,
-    TemplateRef,
-    ContentChildren,
-    QueryList
-} from '@angular/core';
+import { Component, HostBinding, TemplateRef, QueryList, Input } from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../class';
 import { GanttTableColumnComponent } from './column/column.component';
 

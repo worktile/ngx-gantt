@@ -8,6 +8,7 @@ export interface GanttRef {
     styles: GanttStyles;
     draggable?: boolean;
     linkable?: boolean;
+    detectChanges(): void;
 }
 
 export const GANTT_REF_TOKEN = new InjectionToken<GanttRef>('GANTT_REF_TOKEN');
