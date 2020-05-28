@@ -8,7 +8,7 @@ export class GanttPrintService {
 
     private root = this.ganttDomService.root as HTMLElement;
 
-    private viewer = this.ganttDomService.viewer as HTMLElement;
+    private mainContainer = this.ganttDomService.mainContainer as HTMLElement;
 
     private calendarOverlay = this.ganttDomService.calendarOverlay as HTMLElement;
 
@@ -45,10 +45,10 @@ export class GanttPrintService {
 
     print(name: string = 'download') {
         // set print width
-        const printWidth = this.viewer.scrollWidth - this.viewer.offsetWidth + this.root.offsetWidth;
+        const printWidth = this.mainContainer.scrollWidth - this.mainContainer.offsetWidth + this.root.offsetWidth;
 
         // set print height
-        const printHeight = this.viewer.scrollHeight + this.calendarOverlay.offsetHeight;
+        const printHeight = this.mainContainer.scrollHeight + this.calendarOverlay.offsetHeight;
 
         html2canvas(this.root, {
             // scale: 2,
