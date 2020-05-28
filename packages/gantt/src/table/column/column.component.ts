@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ContentChild, TemplateRef, Input } from '@angular/core';
 
 @Component({
-    selector: 'gantt-table-column',
-    template: '',
+    selector: 'ngx-gantt-column',
+    templateUrl: './column.component.html',
 })
 export class GanttTableColumnComponent implements OnInit {
+    @Input() name: string;
+
+    @ContentChild('cell', { static: true }) templateRef: TemplateRef<any>;
+
     constructor() {}
 
     ngOnInit() {}

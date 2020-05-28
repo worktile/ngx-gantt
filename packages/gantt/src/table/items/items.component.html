@@ -1,0 +1,34 @@
+<table>
+  <tbody>
+    <ng-container *ngFor="let row of items; let i = index">
+      <ng-template
+        [ngTemplateOutlet]="trTemplate"
+        [ngTemplateOutletContext]="{ row: row, index: i, level: 0 }"
+      ></ng-template>
+    </ng-container>
+  </tbody>
+</table>
+
+<ng-template #trTemplate let-row="row" let-i="index" let-level="level">
+  <tr>
+    <td *ngFor="let column of columns">
+      <div [class.text-truncate]="true">
+        <ng-template
+          [ngTemplateOutlet]="tdTemplate"
+          [ngTemplateOutletContext]="{
+            column: column,
+            row: row.origin,
+            index: i
+          }"
+        ></ng-template>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template #tdTemplate let-column="column" let-row="row" let-index="index">
+  <ng-template
+    [ngTemplateOutlet]="column.templateRef"
+    [ngTemplateOutletContext]="{ $implicit: row, row: row.origin, index: index }"
+  ></ng-template>
+</ng-template>

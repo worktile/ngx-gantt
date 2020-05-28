@@ -11,12 +11,14 @@ import {
     OnChanges,
     OnDestroy,
     SimpleChanges,
+    HostBinding
 } from '@angular/core';
 import { GanttUpper } from '../gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
 import { GanttLinkDragEvent, GanttDependencyEvent, GanttItemInternal } from '../class';
 import { GanttDomService } from '../gantt-dom.service';
 import { GanttDragContainer } from '../gantt-drag-container';
+
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt-table.component.html',
@@ -24,11 +26,11 @@ import { GanttDragContainer } from '../gantt-drag-container';
     providers: [
         {
             provide: GANTT_REF_TOKEN,
-            useExisting: GanttTableComponent,
+            useExisting: GanttTableComponent
         },
         GanttDomService,
-        GanttDragContainer,
-    ],
+        GanttDragContainer
+    ]
 })
 export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit, OnChanges, OnDestroy {
     @Input() linkable: boolean;
@@ -38,6 +40,8 @@ export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit,
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() linkClick = new EventEmitter<GanttDependencyEvent>();
+
+    @HostBinding('class.gantt-table') ganttTableClass = true;
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
@@ -79,7 +83,7 @@ export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit,
         item.updateRefs({
             width: this.view.getDateRangeWidth(item.start, item.end),
             x: this.view.getXPointByDate(item.start),
-            y: (this.styles.lineHeight - this.styles.barHeight) / 2,
+            y: (this.styles.lineHeight - this.styles.barHeight) / 2
         });
     }
 

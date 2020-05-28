@@ -1,0 +1,7 @@
+<div class="gantt-table-group-header">
+  <ng-template
+    [ngTemplateOutlet]="groupHeader"
+    [ngTemplateOutletContext]="{ $implicit: group, group: group }"
+  ></ng-template>
+</div>
+<ng-content group.expand></ng-content>

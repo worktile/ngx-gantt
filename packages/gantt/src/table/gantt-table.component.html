@@ -1,9 +1,33 @@
-<gantt-side> </gantt-side>
+<gantt-side>
+  <div class="gantt-table-header" *ngIf="columns?.length">
+    <table>
+      <thead>
+        <th *ngFor="let column of columns" [title]="column.name">
+          {{ column.name }}
+        </th>
+      </thead>
+    </table>
+  </div>
+  <div class="gantt-table-container">
+    <ng-container *ngIf="groups.length; else itemsTemplate">
+      <gantt-table-group *ngFor="let group of groups" [group]="group" [groupHeader]="groupTemplate">
+        <gantt-table-items [items]="group.items" [columns]="columns"></gantt-table-items>
+      </gantt-table-group>
+    </ng-container>
+    <ng-template #itemsTemplate>
+      <gantt-table-items [items]="items" [columns]="columns"></gantt-table-items>
+    </ng-template>
+  </div>
+</gantt-side>
 <gantt-container>
   <gantt-calendar-overlay *ngIf="view"></gantt-calendar-overlay>
   <div class="gantt-viewer-container">
     <!-- groups -->
-    <div class="gantt-viewer-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="view.width">
+    <div
+      class="gantt-viewer-groups"
+      *ngIf="groups && groups.length > 0; else itemsTemplate"
+      [style.width.px]="view.width"
+    >
       <ng-container *ngFor="let group of groups; trackBy: trackBy">
         <div class="gantt-group"></div>
         <div class="gantt-items">

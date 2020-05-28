@@ -9,6 +9,8 @@ import {
     ChangeDetectorRef,
     NgZone,
     SimpleChanges,
+    ContentChildren,
+    QueryList
 } from '@angular/core';
 import {
     GanttItem,
@@ -17,16 +19,17 @@ import {
     GanttLoadOnScrollEvent,
     GanttDragEvent,
     GanttGroupInternal,
-    GanttItemInternal,
+    GanttItemInternal
 } from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
-import { Subject } from 'rxjs';
 import { GanttStyles, defaultStyles } from './gantt.styles';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
+import { Subject } from 'rxjs';
+import { GanttTableColumnComponent } from './table/column/column.component';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -53,9 +56,11 @@ export abstract class GanttUpper {
 
     @Output() dragEnded = new EventEmitter<GanttDragEvent>();
 
-    @ContentChild('barTemplate', { static: true }) barTemplate: TemplateRef<any>;
+    @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
-    @ContentChild('groupTemplate', { static: true }) groupTemplate: TemplateRef<any>;
+    @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
+
+    @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
 
     public view: GanttView;
 
@@ -175,7 +180,7 @@ export abstract class GanttUpper {
         });
         return {
             start: new GanttDate(start),
-            end: new GanttDate(end),
+            end: new GanttDate(end)
         };
     }
 

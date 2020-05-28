@@ -1,1 +1,48 @@
-.gantt-table {}
+$gantt-table-color: #333 !default;
+$gantt-table-td-height: 50px !default;
+$gantt-table-thead-height: 50px !default;
+$gantt-table-td-padding: 0 15px !default;
+$gantt-table-bg: #fff !default;
+$gantt-table-border-color: #eee !default;
+
+@import './group/group.component.scss';
+
+.gantt-table {
+    table {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        table-layout: fixed;
+        border-collapse: separate;
+        border-spacing: 0;
+        color: $gantt-table-color;
+        background-color: transparent;
+        thead,
+        tbody {
+            tr {
+                height: $gantt-table-td-height;
+            }
+
+            th,
+            td {
+                padding: $gantt-table-td-padding;
+                background-color: $gantt-table-bg;
+                border-right: 1px solid $gantt-table-border-color;
+                border-bottom: 1px solid $gantt-table-border-color;
+                position: relative;
+            }
+
+            td {
+                transition: width 0.5s;
+            }
+        }
+        thead {
+            th {
+                font-weight: 400;
+                height: $gantt-table-thead-height;
+            }
+        }
+    }
+    .gantt-table-header {
+    }
+}

@@ -1,5 +1,5 @@
 export const defaultStyles = {
-    lineHeight: 55,
+    lineHeight: 50,
     barHeight: 25,
 };
 
