@@ -10,5 +10,6 @@
         .gantt-table-group-header-title {
             cursor: pointer;
         }
+        border-right: 1px solid $gantt-border-color;
     }
 }

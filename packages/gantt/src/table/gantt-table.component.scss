@@ -3,7 +3,6 @@ $gantt-table-td-height: 44px !default;
 $gantt-table-thead-height: 44px !default;
 $gantt-table-td-padding: 0 15px !default;
 $gantt-table-bg: #fff !default;
-$gantt-table-border-color: #eee !default;
 
 @import './group/group.component.scss';
 
@@ -27,8 +26,8 @@ $gantt-table-border-color: #eee !default;
             td {
                 padding: $gantt-table-td-padding;
                 background-color: $gantt-table-bg;
-                border-right: 1px solid $gantt-table-border-color;
-                border-bottom: 1px solid $gantt-table-border-color;
+                border-right: 1px solid $gantt-border-color;
+                border-bottom: 1px solid $gantt-border-color;
                 position: relative;
             }
 
@@ -45,7 +44,4 @@ $gantt-table-border-color: #eee !default;
         }
     }
 
-    .gantt-table-header {
-        box-sizing: border-box;
-    }
 }

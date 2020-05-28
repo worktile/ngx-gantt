@@ -1,5 +1,5 @@
 import { Injectable, ElementRef, OnDestroy } from '@angular/core';
-import { fromEvent, Subject } from 'rxjs';
+import { fromEvent, Subject, merge } from 'rxjs';
 import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 
@@ -8,7 +8,7 @@ const scrollThreshold = 50;
 export enum ScrollDirection {
     NONE,
     LEFT,
-    RIGHT,
+    RIGHT
 }
 
 export interface ScrollEvent {
@@ -20,52 +20,58 @@ export interface ScrollEvent {
 export class GanttDomService implements OnDestroy {
     public root: Element;
 
-    public viewer: Element;
+    public sideContainer: Element;
+
+    public viewerContainer: Element;
 
     public calendarOverlay: Element;
-
-    public side: Element;
 
     private unsubscribe$ = new Subject<void>();
 
     constructor() {}
 
     private monitorScrollChange() {
-        fromEvent(this.viewer, 'scroll')
+        merge(fromEvent(this.viewerContainer, 'scroll'), fromEvent(this.sideContainer, 'scroll'))
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(() => {
-                this.syncScroll();
+            .subscribe((event) => {
+                this.syncScroll(event);
             });
     }
 
-    private syncScroll() {
-        this.calendarOverlay.scrollLeft = this.viewer.scrollLeft;
+    private syncScroll(event: Event) {
+        const target = event.target as HTMLElement;
+        this.calendarOverlay.scrollLeft = this.viewerContainer.scrollLeft;
+        this.sideContainer.scrollTop = target.scrollTop;
+        this.viewerContainer.scrollTop = target.scrollTop;
     }
 
     initialize(root: ElementRef<HTMLElement>) {
         this.root = root.nativeElement;
-        this.viewer = this.root.getElementsByClassName('gantt-viewer-container')[0];
+        this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
+        this.viewerContainer = this.root.getElementsByClassName('gantt-viewer-container')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-overlay')[0];
-        this.side = this.root.getElementsByClassName('gantt-side')[0];
         this.monitorScrollChange();
     }
 
     getViewerScroll() {
-        return fromEvent<Event>(this.viewer, 'scroll').pipe(
-            map(() => this.viewer.scrollLeft),
+        return fromEvent<Event>(this.viewerContainer, 'scroll').pipe(
+            map(() => this.viewerContainer.scrollLeft),
             pairwise(),
             map(([previous, current]) => {
                 const event: ScrollEvent = {
-                    target: this.viewer,
-                    direction: ScrollDirection.NONE,
+                    target: this.viewerContainer,
+                    direction: ScrollDirection.NONE
                 };
                 if (current - previous < 0) {
-                    if (this.viewer.scrollLeft < scrollThreshold && this.viewer.scrollLeft > 0) {
+                    if (this.viewerContainer.scrollLeft < scrollThreshold && this.viewerContainer.scrollLeft > 0) {
                         event.direction = ScrollDirection.LEFT;
                     }
                 }
                 if (current - previous > 0) {
-                    if (this.viewer.scrollWidth - this.viewer.clientWidth - this.viewer.scrollLeft < scrollThreshold) {
+                    if (
+                        this.viewerContainer.scrollWidth - this.viewerContainer.clientWidth - this.viewerContainer.scrollLeft <
+                        scrollThreshold
+                    ) {
                         event.direction = ScrollDirection.RIGHT;
                     }
                 }
@@ -80,13 +86,9 @@ export class GanttDomService implements OnDestroy {
 
     scrollViewer(left: number) {
         if (isNumber(left)) {
-            const scrollLeft = left - this.viewer.clientWidth / 2;
-            if (scrollLeft > scrollThreshold) {
-                this.viewer.scrollLeft = scrollLeft;
-            } else {
-                this.viewer.scrollLeft = 0;
-            }
-            this.syncScroll();
+            const scrollLeft = left - this.viewerContainer.clientWidth / 2;
+            this.viewerContainer.scrollLeft = scrollLeft > scrollThreshold ? scrollLeft : 0;
+            this.calendarOverlay.scrollLeft = this.viewerContainer.scrollLeft;
         }
     }
 

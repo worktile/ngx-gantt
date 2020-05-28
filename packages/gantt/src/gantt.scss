@@ -1,10 +1,11 @@
 $gantt-header-height: 44px !default;
-$gantt-side-width: 200px !default;
-$gantt-full-screen-width: 60px !default;
 $gantt-border-color: #eee !default;
 $gantt-bg-color: #fff !default;
-$gantt-item-bg-color: #fff !default;
+
+// mask
 $gantt-item-drag-mask-color: #348fe4 !default;
+
+//bar
 $gantt-bar-layer-bg: #fff !default;
 $gantt-bar-handle-color: #cacaca !default;
 $gantt-bar-handle-height: 12px !default;
@@ -16,14 +17,8 @@ $gantt-date-secondary-color: #333 !default;
 $gantt-date-secondary-font-size: 14px !default;
 $gantt-date-secondary-weekend-color: #aaa !default;
 $gantt-date-secondary-border-color: #ddd !default;
-$gantt-date-week-backdrop-bg: rgba(
-    $color: #f3f3f3,
-    $alpha: 0.5,
-) !default;
+$gantt-date-week-backdrop-bg: rgba($color: #f3f3f3, $alpha: 0.5) !default;
 $gantt-date-today-color: #ff9f73 !default;
-
-// @import './bar/bar.scss';
-// @import './dependencies/dependencies.scss';
 
 @import './calendar/calendar.component.scss';
 @import './table/gantt-table.component.scss';
@@ -39,7 +34,22 @@ $gantt-date-today-color: #ff9f73 !default;
 
     .gantt-side {
         width: 400px;
-        border-right: 1px solid #ddd;
+
+        .gantt-side-header {
+            box-sizing: border-box;
+            height: $gantt-header-height;
+            overflow: hidden;
+            border-bottom: 1px solid #eee;
+        }
+
+        .gantt-side-container {
+            height: calc(100% - #{$gantt-header-height});
+            overflow: auto;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
     }
 
     .gantt-container {
