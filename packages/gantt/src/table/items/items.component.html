@@ -1,4 +1,5 @@
 <table>
+  <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
   <tbody>
     <ng-container *ngFor="let row of items">
       <ng-template [ngTemplateOutlet]="trTemplate" [ngTemplateOutletContext]="{ row: row }"></ng-template>
@@ -9,22 +10,23 @@
 <ng-template #trTemplate let-row="row">
   <tr>
     <td *ngFor="let column of columns">
-      <div [class.text-truncate]="true">
-        <ng-template
-          [ngTemplateOutlet]="tdTemplate"
-          [ngTemplateOutletContext]="{
-            column: column,
-            row: row.origin
-          }"
-        ></ng-template>
-      </div>
+      <ng-template
+        [ngTemplateOutlet]="tdTemplate"
+        [ngTemplateOutletContext]="{
+          column: column,
+          row: row.origin
+        }"
+      ></ng-template>
     </td>
   </tr>
 </ng-template>
 
 <ng-template #tdTemplate let-column="column" let-row="row">
-  <ng-template
-    [ngTemplateOutlet]="column.templateRef"
-    [ngTemplateOutletContext]="{ $implicit: row, row: row.origin }"
-  ></ng-template>
+  <ng-template [ngTemplateOutlet]="column.templateRef" [ngTemplateOutletContext]="{ $implicit: row, row: row.origin }"></ng-template>
+</ng-template>
+
+<ng-template #colGroupTemplate>
+  <colgroup>
+    <col [style.width]="column.columnWidth" [style.minWidth]="column.columnWidth" *ngFor="let column of columns" />
+  </colgroup>
 </ng-template>

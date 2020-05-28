@@ -1,12 +1,9 @@
 <div class="gantt-table-group-header">
   <ng-container *ngIf="groupHeader; else default">
-    <ng-template
-      [ngTemplateOutlet]="groupHeader"
-      [ngTemplateOutletContext]="{ $implicit: group, group: group.origin }"
-    ></ng-template>
+    <ng-template [ngTemplateOutlet]="groupHeader" [ngTemplateOutletContext]="{ $implicit: group, group: group.origin }"></ng-template>
   </ng-container>
   <ng-template #default>
-    <div class="gantt-table-group-header-title" (click)="collapseGroup()">
+    <div class="gantt-table-group-header-title" (click)="expandGroup()">
       <!-- todo -->
       <span>-></span>
       <ng-container *ngIf="groupHeaderTitle; else defaultTitle">
@@ -21,6 +18,4 @@
     </div>
   </ng-template>
 </div>
-<div [hidden]="!group.expand">
-  <ng-content></ng-content>
-</div>
+<gantt-table-items [hidden]="!group.expand" [items]="group.items" [columns]="columns"></gantt-table-items>
