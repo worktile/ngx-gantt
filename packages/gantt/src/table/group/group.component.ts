@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef, Input, ViewChild, ElementRef, HostBinding, Inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input, ViewChild, ElementRef, HostBinding, Inject, QueryList } from '@angular/core';
 import { GanttGroupInternal } from '../../class/group';
 import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
+import { GanttTableColumnComponent } from '../column/column.component';
 
 @Component({
     selector: 'gantt-table-group',
@@ -8,6 +9,8 @@ import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 })
 export class GanttTableGroupComponent implements OnInit {
     @Input() group: GanttGroupInternal;
+
+    @Input() columns: QueryList<GanttTableColumnComponent>;
 
     @Input() groupHeader: TemplateRef<any>;
 
@@ -19,7 +22,7 @@ export class GanttTableGroupComponent implements OnInit {
 
     ngOnInit() {}
 
-    collapseGroup() {
+    expandGroup() {
         this.group.expand = !this.group.expand;
         this.ganttRef.detectChanges();
     }

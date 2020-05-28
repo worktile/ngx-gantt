@@ -10,6 +10,7 @@ export class GanttTableColumnComponent implements OnInit {
 
     @Input('width')
     set width(width: number | string) {
+        console.log(width);
         this.columnWidth = coerceCssPixelValue(width);
     }
 

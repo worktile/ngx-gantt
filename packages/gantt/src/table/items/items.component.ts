@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostBinding, QueryList } from '@angular/core';
-import { GanttItem } from '../../class/item';
+import { GanttItemInternal } from '../../class/item';
 import { GanttTableColumnComponent } from '../column/column.component';
 
 @Component({
@@ -7,7 +7,7 @@ import { GanttTableColumnComponent } from '../column/column.component';
     templateUrl: './items.component.html',
 })
 export class GanttTableItemsComponent implements OnInit {
-    @Input() items: GanttItem[] = [];
+    @Input() items: GanttItemInternal[] = [];
 
     @Input() columns: QueryList<GanttTableColumnComponent>;
 
