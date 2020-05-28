@@ -226,7 +226,7 @@ export class GanttBarDrag implements OnDestroy {
 
     private calcDependencyLinePositions(target: HTMLElement, isBefore: boolean) {
         const dragHandleWidth = 16;
-        const container = this.dom.viewerContainer;
+        const container = this.dom.mainContainer;
         const targetRect = target.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
         const refs = this.item.refs;

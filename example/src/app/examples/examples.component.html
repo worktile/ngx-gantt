@@ -6,7 +6,7 @@
   </ngx-gantt-column>
   <ngx-gantt-column name="开始时间">
     <ng-template #cell let-row>
-      {{ row.start }}
+      {{ row.start * 1000 | date }}
     </ng-template>
   </ngx-gantt-column>
   <!-- <ng-template #group let-group>

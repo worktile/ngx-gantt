@@ -1,56 +1,19 @@
-<gantt-side>
-  <div class="gantt-side-header" *ngIf="columns?.length">
-    <table>
-      <thead>
-        <th *ngFor="let column of columns" [title]="column.name">
-          {{ column.name }}
-        </th>
-      </thead>
-    </table>
-  </div>
-  <div class="gantt-side-container">
-    <ng-container *ngIf="groups.length; else itemsTemplate">
-      <gantt-table-group *ngFor="let group of groups" [group]="group" [groupHeader]="groupTemplate">
-        <gantt-table-items [items]="group.items" [columns]="columns"></gantt-table-items>
-      </gantt-table-group>
-    </ng-container>
-    <ng-template #itemsTemplate>
-      <gantt-table-items [items]="items" [columns]="columns"></gantt-table-items>
-    </ng-template>
-  </div>
-</gantt-side>
-<gantt-container>
-  <gantt-calendar-overlay *ngIf="view"></gantt-calendar-overlay>
-  <div class="gantt-viewer-container">
-    <!-- groups -->
-    <div
-      class="gantt-viewer-groups"
-      *ngIf="groups && groups.length > 0; else itemsTemplate"
-      [style.width.px]="view.width"
-    >
-      <ng-container *ngFor="let group of groups; trackBy: trackBy">
-        <div class="gantt-group"></div>
-        <div class="gantt-items">
-          <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items }"></ng-template>
-        </div>
-      </ng-container>
-    </div>
-    <!-- items -->
-    <ng-template #itemsTemplate>
-      <div class="gantt-viewer-items" [style.width.px]="view.width">
-        <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items }"></ng-template>
-      </div>
-    </ng-template>
-  </div>
-</gantt-container>
-
-<ng-template #ganttItems let-items="items">
-  <ng-container *ngFor="let item of items; trackBy: trackBy">
-    <div class="gantt-item">
-      <gantt-bar [item]="item"></gantt-bar>
-    </div>
-    <ng-container *ngFor="let item of item.children; trackBy: trackBy">
-      <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: item.children }"></ng-template>
-    </ng-container>
+<div class="gantt-side-header" *ngIf="columns?.length">
+  <table>
+    <thead>
+      <th *ngFor="let column of columns" [title]="column.name">
+        {{ column.name }}
+      </th>
+    </thead>
+  </table>
+</div>
+<div class="gantt-side-container">
+  <ng-container *ngIf="groups.length; else itemsTemplate">
+    <gantt-table-group *ngFor="let group of groups" [group]="group" [groupHeader]="groupTemplate">
+      <gantt-table-items [items]="group.items" [columns]="columns"></gantt-table-items>
+    </gantt-table-group>
   </ng-container>
-</ng-template>
+  <ng-template #itemsTemplate>
+    <gantt-table-items [items]="items" [columns]="columns"></gantt-table-items>
+  </ng-template>
+</div>

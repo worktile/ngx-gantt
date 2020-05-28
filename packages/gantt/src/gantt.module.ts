@@ -2,28 +2,28 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GanttCalendarComponent } from './calendar/calendar.component';
 import { GanttTableComponent } from './table/gantt-table.component';
-import { GanttContainerComponent } from './layout/gantt-container.component';
-import { GanttSideComponent } from './layout/gantt-side.component';
 import { GanttFlatComponent } from './flat/gantt-flat.component';
 import { GanttBarComponent } from './bar/bar.component';
 import { GanttTableColumnComponent } from './table/column/column.component';
 import { GanttTableGroupComponent } from './table/group/group.component';
 import { GanttTableItemsComponent } from './table/items/items.component';
+import { GanttComponent } from './gantt.component';
+import { GanttMainComponent } from './main/gantt-main.component';
 
 @NgModule({
     imports: [CommonModule],
-    exports: [GanttTableComponent, GanttFlatComponent, GanttTableColumnComponent],
+    exports: [GanttComponent, GanttFlatComponent, GanttTableColumnComponent],
     declarations: [
-        GanttTableComponent,
+        GanttComponent,
         GanttFlatComponent,
-        GanttSideComponent,
-        GanttContainerComponent,
-        GanttCalendarComponent,
-        GanttBarComponent,
         GanttTableColumnComponent,
+        GanttMainComponent,
+        GanttTableComponent,
         GanttTableGroupComponent,
         GanttTableItemsComponent,
+        GanttCalendarComponent,
+        GanttBarComponent
     ],
-    providers: [],
+    providers: []
 })
 export class NgxGanttModule {}

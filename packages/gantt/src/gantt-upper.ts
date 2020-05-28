@@ -55,6 +55,8 @@ export abstract class GanttUpper {
 
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
+    @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
+
     public view: GanttView;
 
     public items: GanttItemInternal[] = [];
