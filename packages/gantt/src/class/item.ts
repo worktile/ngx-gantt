@@ -50,4 +50,11 @@ export class GanttItemInternal {
     updateRefs(refs: GanttItemRefs) {
         this.refs$.next(refs);
     }
+
+    public updateDate(start: GanttDate, end: GanttDate) {
+        this.start = start.startOfDay();
+        this.end = end.endOfDay();
+        this.origin.start = this.start.getUnixTime();
+        this.origin.end = this.end.getUnixTime();
+    }
 }

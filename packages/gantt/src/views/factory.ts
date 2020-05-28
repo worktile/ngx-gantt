@@ -4,9 +4,9 @@ import { GanttDate } from '../utils/date';
 import { GanttViewType } from '../class/view-type';
 import { GanttViewQuarter } from './quarter';
 import { GanttViewDay } from './day';
-import { GanttOptions } from '../gantt.options';
 
-export function createViewFactory(type: GanttViewType, start: GanttDate, end: GanttDate, options?: GanttOptions) {
+
+export function createViewFactory(type: GanttViewType, start: GanttDate, end: GanttDate, options?: GanttViewOptions) {
     switch (type) {
         case GanttViewType.month:
             return new GanttViewMonth(start, end, options);

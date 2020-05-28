@@ -1,7 +1,7 @@
-import { GanttView, GanttViewOptions } from './view';
+import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
 import { GanttDate, differenceInCalendarQuarters, eachMonthOfInterval } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
-import { secondaryDatePointTop, primaryDatePointTop, GanttOptions } from '../gantt.options';
+
 
 const viewOptions: GanttViewOptions = {
     start: new GanttDate().startOfQuarter().addQuarters(-1),
@@ -12,7 +12,7 @@ const viewOptions: GanttViewOptions = {
 };
 
 export class GanttViewMonth extends GanttView {
-    constructor(start: GanttDate, end: GanttDate, options?: GanttOptions) {
+    constructor(start: GanttDate, end: GanttDate, options?: GanttViewOptions) {
         super(start, end, Object.assign(viewOptions, options));
     }
 

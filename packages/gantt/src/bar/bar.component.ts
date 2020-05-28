@@ -9,15 +9,18 @@ import {
     SimpleChanges,
     OnDestroy,
     Inject,
+    NgZone
 } from '@angular/core';
 import { GanttItemInternal } from '../class/item';
 import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { GanttBarDrag } from './bar-drag';
 
 @Component({
     selector: 'gantt-bar',
     templateUrl: './bar.component.html',
+    providers: [GanttBarDrag]
 })
 export class GanttBarComponent implements OnInit, OnChanges, OnDestroy {
     @Input() item: GanttItemInternal;
@@ -30,13 +33,22 @@ export class GanttBarComponent implements OnInit, OnChanges, OnDestroy {
 
     private unsubscribe$ = new Subject();
 
-    constructor(private elementRef: ElementRef<HTMLDivElement>, @Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef) {}
+    constructor(
+        private elementRef: ElementRef<HTMLDivElement>,
+        private ngZone: NgZone,
+        private drag: GanttBarDrag,
+        @Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef
+    ) {}
 
     ngOnInit() {
         this.firstChange = false;
 
         this.item.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.updatePositions();
+        });
+
+        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+            this.drag.createDrags(this.elementRef, this.item, this.ganttRef);
         });
     }
 

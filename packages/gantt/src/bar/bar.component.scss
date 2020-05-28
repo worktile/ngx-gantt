@@ -109,7 +109,7 @@ $gantt-bar-dependency-drop-border: 5px;
   background-color: $gantt-item-bg-color;
   border-radius: 4px;
   z-index: 1;
-  background: #348fe4;
+
 
   .gantt-bar-layer {
     width: calc(100% + #{$gantt-bar-layer-append-width});
@@ -142,6 +142,7 @@ $gantt-bar-dependency-drop-border: 5px;
     cursor: pointer;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+    background: #348fe4;
   }
 
   &-active {

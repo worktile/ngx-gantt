@@ -6,11 +6,17 @@ import {
     Input,
     EventEmitter,
     Output,
-    HostBinding,
+    ChangeDetectorRef,
+    NgZone,
+    OnChanges,
+    OnDestroy,
+    SimpleChanges,
 } from '@angular/core';
 import { GanttUpper } from '../gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
-import { GanttDependencyDragEvent, GanttDependencyEvent, GanttItemInternal } from '../class';
+import { GanttLinkDragEvent, GanttDependencyEvent, GanttItemInternal } from '../class';
+import { GanttDomService } from '../gantt-dom.service';
+import { GanttDragContainer } from '../gantt-drag-container';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt-table.component.html',
@@ -20,27 +26,45 @@ import { GanttDependencyDragEvent, GanttDependencyEvent, GanttItemInternal } fro
             provide: GANTT_REF_TOKEN,
             useExisting: GanttTableComponent,
         },
+        GanttDomService,
+        GanttDragContainer,
     ],
 })
-export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit {
+export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit, OnChanges, OnDestroy {
     @Input() linkable: boolean;
 
-    @Output() linkDragStarted = new EventEmitter<GanttDependencyDragEvent>();
+    @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
-    @Output() linkDragEnded = new EventEmitter<GanttDependencyDragEvent>();
+    @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
-    @Output() dependencyClick = new EventEmitter<GanttDependencyEvent>();
+    @Output() linkClick = new EventEmitter<GanttDependencyEvent>();
 
-    constructor(elementRef: ElementRef) {
-        super(elementRef);
+    constructor(
+        elementRef: ElementRef<HTMLElement>,
+        cdr: ChangeDetectorRef,
+        ngZone: NgZone,
+        dom: GanttDomService,
+        dragContainer: GanttDragContainer
+    ) {
+        super(elementRef, cdr, ngZone, dom, dragContainer);
     }
 
     ngOnInit() {
         super.onInit();
-        this.computeRefs();
+
+        this.dragContainer.linkDragStarted.subscribe((event) => {
+            this.linkDragStarted.emit(event);
+        });
+        this.dragContainer.linkDragEnded.subscribe((event) => {
+            this.linkDragEnded.emit(event);
+        });
     }
 
-    private computeRefs() {
+    ngOnChanges(changes: SimpleChanges) {
+        super.onChanges(changes);
+    }
+
+    computeRefs() {
         this.groups.forEach((group) => {
             group.items.forEach((item) => {
                 this.computeItemRef(item);
@@ -52,9 +76,14 @@ export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit 
     }
 
     private computeItemRef(item: GanttItemInternal) {
-        const width = this.view.getDateRangeWidth(item.start, item.end);
-        const x = this.view.getXPointByDate(item.start);
-        const y = (this.styles.lineHeight - this.styles.barHeight) / 2;
-        item.updateRefs({ width, x, y });
+        item.updateRefs({
+            width: this.view.getDateRangeWidth(item.start, item.end),
+            x: this.view.getXPointByDate(item.start),
+            y: (this.styles.lineHeight - this.styles.barHeight) / 2,
+        });
+    }
+
+    ngOnDestroy() {
+        super.onDestroy();
     }
 }

@@ -1,7 +1,10 @@
-import { GanttDate,  differenceInDays, GanttDateUtil } from '../utils/date';
+import { GanttDate, differenceInDays, GanttDateUtil } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { BehaviorSubject } from 'rxjs';
-import { GanttOptions } from '../gantt.options';
+
+export const primaryDatePointTop = 18;
+
+export const secondaryDatePointTop = 38;
 
 export interface GanttViewOptions {
     start?: GanttDate;
@@ -45,17 +48,12 @@ export abstract class GanttView {
 
     showWeekBackdrop: boolean;
 
-    options: GanttOptions & GanttViewOptions;
+    options: GanttViewOptions;
 
-    constructor(start: GanttDate, end: GanttDate, options: GanttOptions & GanttViewOptions) {
+    constructor(start: GanttDate, end: GanttDate, options: GanttViewOptions) {
         start = this.startOf(start);
         end = this.endOf(end);
         this.options = Object.assign({}, viewOptions, options);
-        // // 如果开始使用默认时间，则会根据自定义是start和end与view设置的默认时间作比较，取最大的范围
-        // if (options.useDefaultDate) {
-        //     start = start.value < this.options.start.value ? start : this.options.start;
-        //     end = end.value > this.options.end.value ? end : this.options.end;
-        // }
         this.start$ = new BehaviorSubject<GanttDate>(start);
         this.end$ = new BehaviorSubject<GanttDate>(end);
         this.initialize();

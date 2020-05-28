@@ -1,28 +1,24 @@
 {
-    "eslintIntegration": true,
-    "stylelintIntegration": true,
-    "tabWidth": 4,
-    "singleQuote": true,
-    "semi": true,
-    "printWidth": 120,
-    "overrides": [
-        {
-            "files": "*.json",
-            "options": {
-                "tabWidth": 2
-            }
-        },
-        {
-            "files": "*.html",
-            "options": {
-                "tabWidth": 2
-            }
-        },
-        {
-            "files": ".prettierrc",
-            "options": {
-                "parser": "json"
-            }
-        }
-    ]
+  "eslintIntegration": true,
+  "stylelintIntegration": true,
+  "tabWidth": 2,
+  "semi": true,
+  "printWidth": 140,
+  "proseWrap": "preserve",
+  "trailingComma": "none",
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "*.js",
+      "options": {
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.ts",
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
 }

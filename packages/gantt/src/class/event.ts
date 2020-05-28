@@ -4,7 +4,7 @@ export class GanttDragEvent {
     item: GanttItem;
 }
 
-export class GanttDependencyDragEvent {
+export class GanttLinkDragEvent {
     source: GanttItem;
     dependent?: GanttItem;
 }

@@ -1,4 +1,15 @@
-import { Input, TemplateRef, Output, EventEmitter, ContentChild, ElementRef, HostBinding } from '@angular/core';
+import {
+    Input,
+    TemplateRef,
+    Output,
+    EventEmitter,
+    ContentChild,
+    ElementRef,
+    HostBinding,
+    ChangeDetectorRef,
+    NgZone,
+    SimpleChanges,
+} from '@angular/core';
 import {
     GanttItem,
     GanttGroup,
@@ -11,14 +22,11 @@ import {
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
-import { Subject, fromEvent } from 'rxjs';
-
-const defaultStyles = {
-    lineHeight: 55,
-    barHeight: 25,
-};
-
-type GanttStyles = typeof defaultStyles;
+import { Subject } from 'rxjs';
+import { GanttStyles, defaultStyles } from './gantt.styles';
+import { GanttDomService, ScrollDirection } from './gantt-dom.service';
+import { takeUntil, take } from 'rxjs/operators';
+import { GanttDragContainer } from './gantt-drag-container';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -67,20 +75,57 @@ export abstract class GanttUpper {
 
     @HostBinding('class.gantt') ganttClass = true;
 
-    constructor(protected elementRef: ElementRef<HTMLElement>) {}
+    abstract computeRefs(): void;
+
+    constructor(
+        protected elementRef: ElementRef<HTMLElement>,
+        protected cdr: ChangeDetectorRef,
+        protected ngZone: NgZone,
+        protected dom: GanttDomService,
+        protected dragContainer: GanttDragContainer
+    ) {}
 
     onInit() {
         this.styles = Object.assign({}, defaultStyles, this.styles);
         this.createView();
         this.setupGroups();
         this.setupItems();
+        this.computeRefs();
         this.firstChange = false;
-        // sync scroll
 
-        const viewer = this.element.querySelector('.gantt-viewer-container');
-        fromEvent(viewer, 'scroll').subscribe(() => {
-            this.element.querySelector('.gantt-calendar-overlay').scrollLeft = viewer.scrollLeft;
+        this.onStable().subscribe(() => {
+            this.dom.initialize(this.elementRef);
+            this.setupViewScroll();
         });
+
+        this.view.start$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.computeRefs();
+        });
+
+        this.dragContainer.dragStarted.subscribe((event) => {
+            this.dragStarted.emit(event);
+        });
+        this.dragContainer.dragEnded.subscribe((event) => {
+            this.dragEnded.emit(event);
+            this.computeRefs();
+        });
+    }
+
+    onChanges(changes: SimpleChanges) {
+        if (!this.firstChange) {
+            if (changes.viewType && changes.viewType.currentValue) {
+                this.createView();
+                this.computeRefs();
+                this.onStable().subscribe(() => {
+                    this.scrollToToday();
+                });
+            }
+            if (changes.items && changes.groups) {
+                this.setupGroups();
+                this.setupItems();
+                this.computeRefs();
+            }
+        }
     }
 
     onDestroy() {
@@ -94,7 +139,7 @@ export abstract class GanttUpper {
 
     private createView() {
         const viewDate = this.getViewDate();
-        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.styles);
+        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions);
     }
 
     private setupGroups() {
@@ -133,4 +178,36 @@ export abstract class GanttUpper {
             end: new GanttDate(end),
         };
     }
+
+    private setupViewScroll() {
+        if (this.disabledLoadOnScroll) {
+            return;
+        }
+        this.dom
+            .getViewerScroll()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((event) => {
+                if (event.direction === ScrollDirection.LEFT) {
+                    const dates = this.view.addStartDate();
+                    if (dates) {
+                        event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
+                        this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        this.cdr.detectChanges();
+                    }
+                }
+                if (event.direction === ScrollDirection.RIGHT) {
+                    const dates = this.view.addEndDate();
+                    if (dates) {
+                        this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        this.cdr.detectChanges();
+                    }
+                }
+            });
+    }
+
+    private onStable() {
+        return this.ngZone.onStable.pipe(take(1));
+    }
+
+    private scrollToToday() {}
 }
