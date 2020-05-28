@@ -23,14 +23,10 @@
   <gantt-calendar-overlay *ngIf="view"></gantt-calendar-overlay>
   <div class="gantt-viewer-container">
     <!-- groups -->
-    <div
-      class="gantt-viewer-groups"
-      *ngIf="groups && groups.length > 0; else itemsTemplate"
-      [style.width.px]="view.width"
-    >
+    <div class="gantt-viewer-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="view.width">
       <ng-container *ngFor="let group of groups; trackBy: trackBy">
         <div class="gantt-group"></div>
-        <div class="gantt-items">
+        <div *ngIf="group.expand" class="gantt-items">
           <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items }"></ng-template>
         </div>
       </ng-container>

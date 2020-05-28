@@ -62,6 +62,14 @@ export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit,
         super(elementRef, cdr, ngZone, dom, dragContainer);
     }
 
+    private computeItemRef(item: GanttItemInternal) {
+        item.updateRefs({
+            width: this.view.getDateRangeWidth(item.start, item.end),
+            x: this.view.getXPointByDate(item.start),
+            y: (this.styles.lineHeight - this.styles.barHeight) / 2
+        });
+    }
+
     ngOnInit() {
         super.onInit();
 
@@ -88,12 +96,8 @@ export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit,
         });
     }
 
-    private computeItemRef(item: GanttItemInternal) {
-        item.updateRefs({
-            width: this.view.getDateRangeWidth(item.start, item.end),
-            x: this.view.getXPointByDate(item.start),
-            y: (this.styles.lineHeight - this.styles.barHeight) / 2
-        });
+    detectChanges() {
+        this.cdr.detectChanges();
     }
 
     ngOnDestroy() {

@@ -1,12 +1,13 @@
-import { Component, OnInit, TemplateRef, Input, ViewChild, ElementRef, HostBinding } from '@angular/core';
-import { GanttGroup } from '../../class/group';
+import { Component, OnInit, TemplateRef, Input, ViewChild, ElementRef, HostBinding, Inject } from '@angular/core';
+import { GanttGroupInternal } from '../../class/group';
+import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 
 @Component({
     selector: 'gantt-table-group',
-    templateUrl: './group.component.html',
+    templateUrl: './group.component.html'
 })
 export class GanttTableGroupComponent implements OnInit {
-    @Input() group: GanttGroup;
+    @Input() group: GanttGroupInternal;
 
     @Input() groupHeader: TemplateRef<any>;
 
@@ -14,13 +15,12 @@ export class GanttTableGroupComponent implements OnInit {
 
     @HostBinding('class.gantt-table-group') ganttTableGroupClass = true;
 
-    public isCollapse = false;
-
-    constructor(public elementRef: ElementRef<HTMLDivElement>) {}
+    constructor(public elementRef: ElementRef<HTMLDivElement>, @Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef) {}
 
     ngOnInit() {}
 
     collapseGroup() {
-        this.isCollapse = !this.isCollapse;
+        this.group.expand = !this.group.expand;
+        this.ganttRef.detectChanges();
     }
 }
