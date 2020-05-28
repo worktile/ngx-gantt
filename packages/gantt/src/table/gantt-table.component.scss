@@ -16,6 +16,7 @@ $gantt-table-border-color: #eee !default;
         border-collapse: collapse;
         color: $gantt-table-color;
         background-color: transparent;
+
         thead,
         tbody {
             tr {
@@ -35,6 +36,7 @@ $gantt-table-border-color: #eee !default;
                 transition: width 0.5s;
             }
         }
+
         thead {
             th {
                 font-weight: 400;
@@ -42,6 +44,8 @@ $gantt-table-border-color: #eee !default;
             }
         }
     }
+
     .gantt-table-header {
+        box-sizing: border-box;
     }
 }
