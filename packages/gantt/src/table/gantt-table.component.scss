@@ -1,6 +1,6 @@
 $gantt-table-color: #333 !default;
-$gantt-table-td-height: 50px !default;
-$gantt-table-thead-height: 50px !default;
+$gantt-table-td-height: 44px !default;
+$gantt-table-thead-height: 44px !default;
 $gantt-table-td-padding: 0 15px !default;
 $gantt-table-bg: #fff !default;
 $gantt-table-border-color: #eee !default;
@@ -13,8 +13,7 @@ $gantt-table-border-color: #eee !default;
         margin: 0;
         padding: 0;
         table-layout: fixed;
-        border-collapse: separate;
-        border-spacing: 0;
+        border-collapse: collapse;
         color: $gantt-table-color;
         background-color: transparent;
         thead,
