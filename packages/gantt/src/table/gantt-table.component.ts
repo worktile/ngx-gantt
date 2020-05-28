@@ -11,13 +11,18 @@ import {
     OnChanges,
     OnDestroy,
     SimpleChanges,
-    HostBinding
+    HostBinding,
+    ContentChild,
+    TemplateRef,
+    ContentChildren,
+    QueryList
 } from '@angular/core';
 import { GanttUpper } from '../gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
 import { GanttLinkDragEvent, GanttDependencyEvent, GanttItemInternal } from '../class';
 import { GanttDomService } from '../gantt-dom.service';
 import { GanttDragContainer } from '../gantt-drag-container';
+import { GanttTableColumnComponent } from './column/column.component';
 
 @Component({
     selector: 'ngx-gantt',
@@ -40,6 +45,10 @@ export class GanttTableComponent extends GanttUpper implements GanttRef, OnInit,
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() linkClick = new EventEmitter<GanttDependencyEvent>();
+
+    @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
+
+    @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
 

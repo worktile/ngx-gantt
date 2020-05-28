@@ -1,7 +1,26 @@
 <div class="gantt-table-group-header">
-  <ng-template
-    [ngTemplateOutlet]="groupHeader"
-    [ngTemplateOutletContext]="{ $implicit: group, group: group }"
-  ></ng-template>
+  <ng-container *ngIf="groupHeader; else default">
+    <ng-template
+      [ngTemplateOutlet]="groupHeader"
+      [ngTemplateOutletContext]="{ $implicit: group, group: group.origin }"
+    ></ng-template>
+  </ng-container>
+  <ng-template #default>
+    <div class="gantt-table-group-header-title" (click)="collapseGroup()">
+      <!-- todo -->
+      <span>-></span>
+      <ng-container *ngIf="groupHeaderTitle; else defaultTitle">
+        <ng-template
+          [ngTemplateOutlet]="groupHeaderTitle"
+          [ngTemplateOutletContext]="{ $implicit: group, group: group.origin }"
+        ></ng-template>
+      </ng-container>
+      <ng-template #defaultTitle>
+        <span class="group-title"> {{ group.title }}</span>
+      </ng-template>
+    </div>
+  </ng-template>
 </div>
-<ng-content></ng-content>
+<div [hidden]="isCollapse">
+  <ng-content></ng-content>
+</div>

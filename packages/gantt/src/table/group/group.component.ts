@@ -10,9 +10,17 @@ export class GanttTableGroupComponent implements OnInit {
 
     @Input() groupHeader: TemplateRef<any>;
 
+    @Input() groupHeaderTitle: TemplateRef<any>;
+
     @HostBinding('class.gantt-table-group') ganttTableGroupClass = true;
+
+    public isCollapse = false;
 
     constructor(public elementRef: ElementRef<HTMLDivElement>) {}
 
     ngOnInit() {}
+
+    collapseGroup() {
+        this.isCollapse = !this.isCollapse;
+    }
 }

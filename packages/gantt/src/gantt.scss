@@ -1,4 +1,4 @@
-$gantt-header-height: 50px !default;
+$gantt-header-height: 44px !default;
 $gantt-side-width: 200px !default;
 $gantt-full-screen-width: 60px !default;
 $gantt-border-color: #eee !default;
@@ -16,8 +16,11 @@ $gantt-date-secondary-color: #333 !default;
 $gantt-date-secondary-font-size: 14px !default;
 $gantt-date-secondary-weekend-color: #aaa !default;
 $gantt-date-secondary-border-color: #ddd !default;
-$gantt-date-week-backdrop-bg: rgba($color: #f3f3f3, $alpha: 0.5) !default;
-$gantt-date-today-color: #FF9F73 !default;
+$gantt-date-week-backdrop-bg: rgba(
+    $color: #f3f3f3,
+    $alpha: 0.5,
+) !default;
+$gantt-date-today-color: #ff9f73 !default;
 
 // @import './bar/bar.scss';
 // @import './dependencies/dependencies.scss';
@@ -27,53 +30,53 @@ $gantt-date-today-color: #FF9F73 !default;
 @import './bar/bar.component.scss';
 
 .gantt {
-  width: 100%;
-  height: 100%;
-  background-color: $gantt-bg-color;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-
-  .gantt-side {
-    width: 400px;
-    border-right: 1px solid #ddd;
-  }
-
-  .gantt-container {
-    flex: 1;
-    position: relative;
-    display: flex;
-    overflow: hidden;
-  }
-
-  .gantt-viewer-container {
     width: 100%;
-    height: calc(100% - 50px);
-    flex: 1;
-    position: absolute;
-    top: 50px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: auto;
+    height: 100%;
+    background-color: $gantt-bg-color;
+    position: relative;
+    overflow: hidden;
+    display: flex;
 
-    .gantt-viewer-groups .gantt-viewer-items {
-      height: 100%;
+    .gantt-side {
+        width: 400px;
+        border-right: 1px solid #ddd;
     }
 
-    .gantt-group {
-      height: 50px;
-      box-sizing: border-box;
-      background: #fafafa;
+    .gantt-container {
+        flex: 1;
+        position: relative;
+        display: flex;
+        overflow: hidden;
     }
 
-    .gantt-item {
-      height: 50px;
-      border-bottom: 1px solid $gantt-border-color;
-      box-sizing: border-box;
-      position: relative;
+    .gantt-viewer-container {
+        width: 100%;
+        height: calc(100% - 44px);
+        flex: 1;
+        position: absolute;
+        top: 44px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+
+        .gantt-viewer-groups .gantt-viewer-items {
+            height: 100%;
+        }
+
+        .gantt-group {
+            height: 44px;
+            box-sizing: border-box;
+            background: #fafafa;
+        }
+
+        .gantt-item {
+            height: 44px;
+            border-bottom: 1px solid $gantt-border-color;
+            box-sizing: border-box;
+            position: relative;
+        }
     }
-  }
 }
 
 // .gantt-container {
@@ -115,7 +118,6 @@ $gantt-date-today-color: #FF9F73 !default;
 //       overflow: auto;
 //     }
 //   }
-
 
 //   .gantt-drag-backdrop {
 //     position: absolute;

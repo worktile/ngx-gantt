@@ -4,7 +4,12 @@
       {{ row.title }}
     </ng-template>
   </ngx-gantt-column>
-  <ng-template #group let-group>
+  <ngx-gantt-column name="开始时间">
+    <ng-template #cell let-row>
+      {{ row.start }}
+    </ng-template>
+  </ngx-gantt-column>
+  <!-- <ng-template #group let-group>
     {{ group.title }}
-  </ng-template>
+  </ng-template> -->
 </ngx-gantt>

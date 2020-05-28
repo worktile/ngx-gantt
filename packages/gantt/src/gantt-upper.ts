@@ -8,9 +8,7 @@ import {
     HostBinding,
     ChangeDetectorRef,
     NgZone,
-    SimpleChanges,
-    ContentChildren,
-    QueryList
+    SimpleChanges
 } from '@angular/core';
 import {
     GanttItem,
@@ -29,7 +27,6 @@ import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
 import { Subject } from 'rxjs';
-import { GanttTableColumnComponent } from './table/column/column.component';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -57,10 +54,6 @@ export abstract class GanttUpper {
     @Output() dragEnded = new EventEmitter<GanttDragEvent>();
 
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
-
-    @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
-
-    @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
 
     public view: GanttView;
 

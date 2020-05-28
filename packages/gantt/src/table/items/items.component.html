@@ -1,15 +1,12 @@
 <table>
   <tbody>
-    <ng-container *ngFor="let row of items; let i = index">
-      <ng-template
-        [ngTemplateOutlet]="trTemplate"
-        [ngTemplateOutletContext]="{ row: row, index: i, level: 0 }"
-      ></ng-template>
+    <ng-container *ngFor="let row of items">
+      <ng-template [ngTemplateOutlet]="trTemplate" [ngTemplateOutletContext]="{ row: row }"></ng-template>
     </ng-container>
   </tbody>
 </table>
 
-<ng-template #trTemplate let-row="row" let-i="index" let-level="level">
+<ng-template #trTemplate let-row="row">
   <tr>
     <td *ngFor="let column of columns">
       <div [class.text-truncate]="true">
@@ -17,8 +14,7 @@
           [ngTemplateOutlet]="tdTemplate"
           [ngTemplateOutletContext]="{
             column: column,
-            row: row.origin,
-            index: i
+            row: row.origin
           }"
         ></ng-template>
       </div>
@@ -26,9 +22,9 @@
   </tr>
 </ng-template>
 
-<ng-template #tdTemplate let-column="column" let-row="row" let-index="index">
+<ng-template #tdTemplate let-column="column" let-row="row">
   <ng-template
     [ngTemplateOutlet]="column.templateRef"
-    [ngTemplateOutletContext]="{ $implicit: row, row: row.origin, index: index }"
+    [ngTemplateOutletContext]="{ $implicit: row, row: row.origin }"
   ></ng-template>
 </ng-template>
