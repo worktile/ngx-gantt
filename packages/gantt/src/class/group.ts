@@ -12,7 +12,7 @@ export class GanttGroupInternal {
     origin: GanttGroup;
     items: GanttItemInternal[];
     mergedItems: GanttItemInternal[][];
-    expand: boolean;
+    expand = true;
 
     constructor(group: GanttGroup) {
         this.id = group.id;
