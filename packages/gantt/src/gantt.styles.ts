@@ -4,3 +4,5 @@ export const defaultStyles = {
 };
 
 export type GanttStyles = typeof defaultStyles;
+
+export const headerHeight = 50;
