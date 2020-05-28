@@ -59,7 +59,7 @@ $gantt-date-today-color: #ff9f73 !default;
         overflow: hidden;
     }
 
-    .gantt-viewer-container {
+    .gantt-main-container {
         width: 100%;
         height: calc(100% - 44px);
         flex: 1;
@@ -70,7 +70,7 @@ $gantt-date-today-color: #ff9f73 !default;
         right: 0;
         overflow: auto;
 
-        .gantt-viewer-groups .gantt-viewer-items {
+        .gantt-main-groups .gantt-main-items {
             height: 100%;
         }
 
