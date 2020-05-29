@@ -1,11 +1,12 @@
 <div class="content">
   <ngx-gantt start="1514736000" end="1609430400" [items]="items" [groups]="groups" [draggable]="true">
-    <ngx-gantt-column width="100px" name="标题">
+    <ngx-gantt-column [width]="100" name="标题">
       <ng-template #cell let-row>
         {{ row.title }}
       </ng-template>
     </ngx-gantt-column>
-    <ngx-gantt-column width="400px" name="开始时间">
+    <ngx-gantt-column width="400px">
+      <ng-template #header let-column> 开始时间 -> </ng-template>
       <ng-template #cell let-row>
         {{ row.start * 1000 | date }}
       </ng-template>
