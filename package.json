@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "pub-only": "cd dist/gantt && npm publish --access=public",
-    "pub": "npm run build && npm run pub-only"
+    "pub": "npm run build && npm run pub-only",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --pkg ./packages/gantt/package.json"
   },
   "private": true,
   "dependencies": {
@@ -58,7 +59,8 @@
     "ts-node": "~7.0.0",
     "tsickle": "^0.37.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "conventional-changelog-cli": "^2.0.12"
   },
   "husky": {
     "hooks": {
