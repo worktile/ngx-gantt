@@ -1,11 +1,17 @@
 <div class="gantt-side-header" *ngIf="columns?.length">
-  <table>
+  <table #ganttSideHeaderTable>
     <colgroup>
       <col [style.width]="column.columnWidth" [style.minWidth]="column.columnWidth" *ngFor="let column of columns" />
     </colgroup>
     <thead>
       <th *ngFor="let column of columns" [title]="column.name">
-        {{ column.name }}
+        <ng-container
+          *ngIf="column.headerTemplateRef; else default"
+          [ngTemplateOutlet]="column.headerTemplateRef"
+        ></ng-container>
+        <ng-template #default>
+          {{ column.name }}
+        </ng-template>
       </th>
     </thead>
   </table>
