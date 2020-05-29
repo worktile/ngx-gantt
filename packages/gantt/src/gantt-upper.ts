@@ -22,7 +22,7 @@ import {
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
-import { GanttStyles, defaultStyles } from './gantt.styles';
+import { GanttStyles, defaultStyles, sideWidth } from './gantt.styles';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
@@ -67,6 +67,10 @@ export abstract class GanttUpper {
 
     public get element() {
         return this.elementRef.nativeElement;
+    }
+
+    public get sideWidth() {
+        return sideWidth;
     }
 
     public firstChange = true;

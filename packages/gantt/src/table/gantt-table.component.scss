@@ -1,68 +1,65 @@
-$gantt-table-color: #333 !default;
-$gantt-table-td-height: 44px !default;
-$gantt-table-thead-height: 44px !default;
-$gantt-table-td-padding: 0 15px !default;
-$gantt-table-bg: #fff !default;
-
 @import './group/group.component.scss';
 
 .gantt-table {
-  table {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    table-layout: fixed;
-    border-collapse: collapse;
-    color: $gantt-table-color;
-    background-color: transparent;
-    thead,
-    tbody {
-      tr {
-        height: $gantt-table-td-height;
-      }
+    table {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        table-layout: fixed;
+        border-collapse: collapse;
+        background-color: transparent;
 
-      th,
-      td {
-        padding: $gantt-table-td-padding;
-        background-color: $gantt-table-bg;
-        position: relative;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        &::before {
-          position: absolute;
-          top: 0;
-          right: 0;
-          content: '';
-          height: 100%;
-          width: 1px;
-          background: $gantt-border-color;
-        }
-        &::after {
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          content: '';
-          width: 100%;
-          height: 1px;
-          background: $gantt-border-color;
-        }
-        &:last-child {
-            &::before {
-                display: none;
+        thead,
+        tbody {
+            tr {
+                height: $gantt-item-height;
+            }
+
+            th,
+            td {
+                padding: $gantt-table-td-padding;
+                position: relative;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    content: '';
+                    height: 100%;
+                    width: 1px;
+                    background: $gantt-border-color;
+                }
+
+                &::after {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    content: '';
+                    width: 100%;
+                    height: 1px;
+                    background: $gantt-border-color;
+                }
+
+                &:last-child {
+                    &::before {
+                        display: none;
+                    }
+                }
+            }
+
+            td {
+                transition: width 0.5s;
             }
         }
-      }
 
-      td {
-        transition: width 0.5s;
-      }
+        thead {
+            th {
+                font-weight: 400;
+                height: $gantt-header-height;
+            }
+        }
     }
-    thead {
-      th {
-        font-weight: 400;
-        height: $gantt-table-thead-height;
-      }
-    }
-  }
 }

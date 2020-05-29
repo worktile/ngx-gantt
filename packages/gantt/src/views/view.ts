@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export const primaryDatePointTop = 18;
 
-export const secondaryDatePointTop = 38;
+export const secondaryDatePointTop = 36;
 
 export interface GanttViewOptions {
     start?: GanttDate;

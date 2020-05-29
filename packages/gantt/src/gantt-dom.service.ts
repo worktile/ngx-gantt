@@ -1,6 +1,6 @@
 import { Injectable, ElementRef, OnDestroy } from '@angular/core';
 import { fromEvent, Subject, merge } from 'rxjs';
-import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
+import { pairwise, map, auditTime, takeUntil, take, startWith } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 
 const scrollThreshold = 50;
@@ -20,6 +20,8 @@ export interface ScrollEvent {
 export class GanttDomService implements OnDestroy {
     public root: Element;
 
+    public side: Element;
+
     public sideContainer: Element;
 
     public mainContainer: Element;
@@ -36,6 +38,16 @@ export class GanttDomService implements OnDestroy {
             .subscribe((event) => {
                 this.syncScroll(event);
             });
+
+        fromEvent(this.mainContainer, 'scroll')
+            .pipe(startWith(), takeUntil(this.unsubscribe$))
+            .subscribe((event) => {
+                if (this.mainContainer.scrollLeft > 0) {
+                    this.side.classList.add('gantt-side-has-shadow');
+                } else {
+                    this.side.classList.remove('gantt-side-has-shadow');
+                }
+            });
     }
 
     private syncScroll(event: Event) {
@@ -47,6 +59,7 @@ export class GanttDomService implements OnDestroy {
 
     initialize(root: ElementRef<HTMLElement>) {
         this.root = root.nativeElement;
+        this.side = this.root.getElementsByClassName('gantt-side')[0];
         this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-overlay')[0];
@@ -68,10 +81,7 @@ export class GanttDomService implements OnDestroy {
                     }
                 }
                 if (current - previous > 0) {
-                    if (
-                        this.mainContainer.scrollWidth - this.mainContainer.clientWidth - this.mainContainer.scrollLeft <
-                        scrollThreshold
-                    ) {
+                    if (this.mainContainer.scrollWidth - this.mainContainer.clientWidth - this.mainContainer.scrollLeft < scrollThreshold) {
                         event.direction = ScrollDirection.RIGHT;
                     }
                 }

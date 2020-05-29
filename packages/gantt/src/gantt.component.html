@@ -1,5 +1,5 @@
-<div class="gantt-side">
-  <gantt-table [groups]="groups" [items]="items"  [columns]="columns" [groupTemplate]="groupTemplate"></gantt-table>
+<div class="gantt-side" [style.width.px]="sideWidth">
+  <gantt-table [groups]="groups" [items]="items" [columns]="columns" [groupTemplate]="groupTemplate"></gantt-table>
 </div>
 <div class="gantt-container">
   <gantt-calendar-overlay *ngIf="view"></gantt-calendar-overlay>

@@ -17,5 +17,7 @@ export class GanttTableComponent {
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
+    @HostBinding('class.gantt-side-wrap') ganttWrapClass = true;
+
     constructor() {}
 }

@@ -6,3 +6,5 @@ export const defaultStyles = {
 export type GanttStyles = typeof defaultStyles;
 
 export const headerHeight = 44;
+
+export const sideWidth = 400;

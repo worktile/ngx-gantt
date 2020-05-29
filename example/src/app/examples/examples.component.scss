@@ -1,5 +1,12 @@
 :host {
     height: 100%;
-    margin: 20px;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    background: #eee;
+
+    .content{
+        margin: 20px;
+        flex: 1;
+        height: 1px;
+    }
 }
