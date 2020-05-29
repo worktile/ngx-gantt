@@ -208,10 +208,10 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private closeDragBackdrop() {
-        const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
-        const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
-        dragMaskElement.style.display = 'none';
-        dragBackdropElement.style.display = 'none';
+        // const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
+        // const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
+        // dragMaskElement.style.display = 'none';
+        // dragBackdropElement.style.display = 'none';
     }
 
     private setDraggingStyles() {

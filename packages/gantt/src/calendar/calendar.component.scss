@@ -1,54 +1,67 @@
 .gantt-calendar-overlay {
-  display: block;
-  height: 100%;
-  overflow: hidden;
+    display: block;
+    height: 100%;
+    overflow: hidden;
 
-  line {
-    shape-rendering: crispEdges;
-  }
-
-  .primary-text {
-    fill: $gantt-date-primary-color;
-    font-size: $gantt-date-primary-font-size;
-  }
-
-  .secondary-text {
-    fill: $gantt-date-secondary-color;
-    font-size: $gantt-date-secondary-font-size;
-
-    &-weekend {
-      fill: $gantt-date-secondary-weekend-color;
+    .gantt-calendar-today-overlay {
+        height: 0;
+        position: relative;
+        z-index: 1;
+        svg{
+            display: block;
+        }
     }
-  }
 
-  .primary-text,
-  .secondary-text {
-    text-anchor: middle;
-  }
+    svg {
+        overflow: visible;
+    }
 
-  .primary-line {
-    stroke: $gantt-border-color;
-  }
+    line {
+        shape-rendering: crispEdges;
+    }
 
-  .secondary-line {
-    stroke-dasharray: 2px 3px;
-    stroke:$gantt-border-color;
-  }
+    .primary-text {
+        fill: $gantt-date-primary-color;
+        font-size: $gantt-date-primary-font-size;
+    }
 
-  .header-line {
-    stroke: $gantt-border-color;
-  }
+    .secondary-text {
+        fill: $gantt-date-secondary-color;
+        font-size: $gantt-date-secondary-font-size;
 
-  .secondary-backdrop {
-    fill: $gantt-date-week-backdrop-bg;
-  }
+        &-weekend {
+            fill: $gantt-date-secondary-weekend-color;
+        }
+    }
 
-  .today-line-angle {
-    fill: $gantt-date-today-color;
-  }
+    .primary-text,
+    .secondary-text {
+        text-anchor: middle;
+    }
 
-  .today-line {
-    stroke: $gantt-date-today-color;
-    stroke-width: 2px;
-  }
+    .primary-line {
+        stroke: $gantt-border-color;
+    }
+
+    .secondary-line {
+        stroke-dasharray: 2px 3px;
+        stroke: $gantt-border-color;
+    }
+
+    .header-line {
+        stroke: $gantt-border-color;
+    }
+
+    .secondary-backdrop {
+        fill: $gantt-date-week-backdrop-bg;
+    }
+
+    .today-line-angle {
+        fill: $gantt-date-today-color;
+    }
+
+    .today-line {
+        stroke: $gantt-date-today-color;
+        stroke-width: 2px;
+    }
 }

@@ -44,12 +44,14 @@ $gantt-date-today-color: #ff9f73 !default;
   overflow: hidden;
   display: flex;
   color: $gantt-color;
+  opacity: 0;
 
   .gantt-side {
     border-right: 1px solid $gantt-border-color;
     position: relative;
     z-index: 1;
     overflow: auto;
+
 
     &-has-shadow {
       box-shadow: $gantt-side-shadow;

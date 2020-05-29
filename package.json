@@ -5,10 +5,12 @@
     "ng": "ng",
     "start:docs": "docgeni serve",
     "start": "concurrently \"npm run start:docs\" \"ng serve\"",
-    "build": "ng build",
+    "build": "ng build gantt",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "pub-only": "cd dist/gantt && npm publish --access=public",
+    "pub": "npm run build && npm run pub-only"
   },
   "private": true,
   "dependencies": {
