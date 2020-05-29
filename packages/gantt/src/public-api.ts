@@ -3,5 +3,5 @@
  */
 
 export * from './gantt.module';
-export * from './table/gantt-table.component';
-export * from './flat/gantt-flat.component';
+export * from './gantt.component';
+export * from './table/column/column.component';

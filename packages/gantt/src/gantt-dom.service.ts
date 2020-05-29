@@ -94,7 +94,7 @@ export class GanttDomService implements OnDestroy {
         return fromEvent(window, 'resize').pipe(auditTime(30));
     }
 
-    scrollViewer(left: number) {
+    scrollMainContainer(left: number) {
         if (isNumber(left)) {
             const scrollLeft = left - this.mainContainer.clientWidth / 2;
             this.mainContainer.scrollLeft = scrollLeft > scrollThreshold ? scrollLeft : 0;

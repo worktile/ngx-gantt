@@ -100,6 +100,9 @@ export abstract class GanttUpper {
         this.onStable().subscribe(() => {
             this.dom.initialize(this.elementRef);
             this.setupViewScroll();
+            this.scrollToToday();
+            // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
+            this.element.style.opacity = '1';
         });
 
         this.view.start$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
@@ -161,7 +164,9 @@ export abstract class GanttUpper {
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
-                group.items.push(new GanttItemInternal(origin));
+                if (group) {
+                    group.items.push(new GanttItemInternal(origin));
+                }
             });
         } else {
             this.originItems.forEach((origin) => {
@@ -213,5 +218,8 @@ export abstract class GanttUpper {
         return this.ngZone.onStable.pipe(take(1));
     }
 
-    private scrollToToday() {}
+    private scrollToToday() {
+        const x = this.view.getTodayXPoint();
+        this.dom.scrollMainContainer(x);
+    }
 }

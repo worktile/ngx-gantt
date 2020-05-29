@@ -1,11 +1,14 @@
-<svg [attr.width]="view.width" [attr.height]="height">
+<div *ngIf="todayPoint" class="gantt-calendar-today-overlay">
+  <svg [attr.width]="view.width" height="1">
+    <g>
+      <polygon class="today-line-angle" [attr.points]="todayPoint.angle" />
+      <line [attr.x1]="todayPoint.x" [attr.x2]="todayPoint.x" [attr.y1]="0" [attr.y2]="todayPoint.y" class="today-line"></line>
+    </g>
+  </svg>
+</div>
+<svg [attr.width]="view.width" [attr.height]="'100%'">
   <g>
-    <text
-      class="primary-text"
-      *ngFor="let point of view.primaryDatePoints; trackBy: trackBy"
-      [attr.x]="point.x"
-      [attr.y]="point.y"
-    >
+    <text class="primary-text" *ngFor="let point of view.primaryDatePoints; trackBy: trackBy" [attr.x]="point.x" [attr.y]="point.y">
       {{ point.text }}
     </text>
     <text
@@ -29,13 +32,7 @@
     </g>
 
     <g>
-      <line
-        [attr.x1]="0"
-        [attr.x2]="view.width"
-        [attr.y1]="headerHeight"
-        [attr.y2]="headerHeight"
-        class="header-line"
-      ></line>
+      <line [attr.x1]="0" [attr.x2]="view.width" [attr.y1]="headerHeight" [attr.y2]="headerHeight" class="header-line"></line>
     </g>
   </g>
   <g>
@@ -68,17 +65,6 @@
           class="secondary-backdrop"
         ></rect>
       </g>
-    </g>
-    <g>
-      <polygon *ngIf="todayPoint" class="today-line-angle" [attr.points]="todayPoint.angle" />
-      <line
-        *ngIf="todayPoint"
-        [attr.x1]="todayPoint.x"
-        [attr.x2]="todayPoint.x"
-        [attr.y1]="0"
-        [attr.y2]="'100%'"
-        class="today-line"
-      ></line>
     </g>
   </g>
 </svg>
