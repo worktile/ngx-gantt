@@ -13,7 +13,6 @@
     "pub": "npm run build && npm run pub-only",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --pkg ./packages/gantt/package.json"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.14",
     "@angular/cdk": "^8.2.0",
