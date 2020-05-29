@@ -1,6 +1,12 @@
 {
-  "name": "ngx-gantt",
-  "version": "0.0.0",
+  "name": "@worktile/gantt",
+  "version": "0.0.1",
+  "description": "A modern and powerful gantt chart component for Angular",
+  "keywords": [
+    "gantt",
+    "angular gantt",
+    "ngx gantt"
+  ],
   "scripts": {
     "ng": "ng",
     "start:docs": "docgeni serve",
@@ -79,5 +85,20 @@
       "tag": true,
       "commit": true
     }
-  }
+  },
+  "main": ".docgenirc.js",
+  "directories": {
+    "doc": "docs",
+    "example": "example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worktile/ngx-gantt.git"
+  },
+  "author": "walkerkay001",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/worktile/ngx-gantt/issues"
+  },
+  "homepage": "https://github.com/worktile/ngx-gantt#readme"
 }
