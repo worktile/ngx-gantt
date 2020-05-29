@@ -1,6 +1,13 @@
+$gantt-color: #333 !default;
 $gantt-header-height: 44px !default;
 $gantt-border-color: #eee !default;
 $gantt-bg-color: #fff !default;
+$gantt-side-shadow: 12px 0 16px -10px rgba(0, 0, 0, 0.15);
+$gantt-container-background-color: #fafafa;
+$gantt-item-height:44px;
+$gantt-group-background-color:rgba($color: #f3f3f3, $alpha: 0.5);
+$gantt-group-height: 44px;
+$gantt-table-td-padding: 0 15px !default;
 
 // mask
 $gantt-item-drag-mask-color: #348fe4 !default;
@@ -16,87 +23,93 @@ $gantt-date-primary-font-size: 14px !default;
 $gantt-date-secondary-color: #333 !default;
 $gantt-date-secondary-font-size: 14px !default;
 $gantt-date-secondary-weekend-color: #aaa !default;
-$gantt-date-secondary-border-color: #ddd !default;
-$gantt-date-week-backdrop-bg: rgba(
-  $color: #f3f3f3,
-  $alpha: 0.5
-) !default;
+$gantt-date-week-backdrop-bg: rgba($color: #f3f3f3,
+    $alpha: 0.5) !default;
 $gantt-date-today-color: #ff9f73 !default;
+
 
 @import './calendar/calendar.component.scss';
 @import './table/gantt-table.component.scss';
 @import './bar/bar.component.scss';
 
 .gantt {
-  width: 100%;
-  height: 100%;
-  background-color: $gantt-bg-color;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  border: 1px solid #eee;
-  border-bottom: none;
-
-  .gantt-side {
-    width: 400px;
-    border-right: 1px solid $gantt-border-color;
-    overflow: auto;
-    .gantt-side-scrolling {
-        box-shadow: 10px 0 0 0 #ccc;
-    }
-
-    .gantt-side-header {
-      box-sizing: border-box;
-      height: $gantt-header-height;
-      width: min-content;
-    }
-
-    .gantt-side-container {
-      height: calc(100% - #{$gantt-header-height});
-      overflow: auto;
-      width: min-content;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-  }
-
-  .gantt-container {
-    flex: 1;
-    position: relative;
-    display: flex;
-    overflow: hidden;
-  }
-
-  .gantt-main-container {
     width: 100%;
-    height: calc(100% - 44px);
-    flex: 1;
-    position: absolute;
-    top: 44px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: auto;
+    height: 100%;
+    background-color: $gantt-bg-color;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    color: $gantt-color;
 
-    .gantt-main-groups .gantt-main-items {
-      height: 100%;
+    .gantt-side {
+        border-right: 1px solid $gantt-border-color;
+        position: relative;
+        z-index: 1;
+
+        &-has-shadow {
+            box-shadow: $gantt-side-shadow;
+        }
+
+        .gantt-side-wrap {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            display: block;
+        }
+
+        .gantt-side-header {
+            box-sizing: border-box;
+            height: $gantt-header-height;
+            width: min-content;
+        }
+
+        .gantt-side-container {
+            height: calc(100% - #{$gantt-header-height});
+            overflow: auto;
+            width: min-content;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
     }
 
-    .gantt-group {
-      height: 44px;
-      box-sizing: border-box;
-      background: #fafafa;
+    .gantt-container {
+        flex: 1;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        background-color: $gantt-container-background-color;
     }
 
-    .gantt-item {
-      height: 44px;
-      border-bottom: 1px solid $gantt-border-color;
-      box-sizing: border-box;
-      position: relative;
+    .gantt-main-container {
+        width: 100%;
+        height: calc(100% - #{$gantt-header-height});
+        flex: 1;
+        position: absolute;
+        top: $gantt-header-height;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+
+        .gantt-main-groups .gantt-main-items {
+            height: 100%;
+        }
+
+        .gantt-group {
+            height: $gantt-group-height;
+            background: $gantt-group-background-color;
+            border-bottom: 1px solid $gantt-border-color;
+        }
+
+        .gantt-item {
+            height: $gantt-item-height;
+            border-bottom: 1px solid $gantt-border-color;
+            box-sizing: border-box;
+            position: relative;
+        }
     }
-  }
 }
 
 // .gantt-container {
