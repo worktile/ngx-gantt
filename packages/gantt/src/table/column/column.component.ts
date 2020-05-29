@@ -17,7 +17,7 @@ export class GanttTableColumnComponent implements OnInit {
 
     @ContentChild('cell', { static: true }) templateRef: TemplateRef<any>;
 
-    @ContentChild('columnHeader', { static: true }) columnHeaderTemplateRef: TemplateRef<any>;
+    @ContentChild('header', { static: true }) headerTemplateRef: TemplateRef<any>;
 
     constructor() {}
 

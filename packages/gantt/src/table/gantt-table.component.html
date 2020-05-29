@@ -6,9 +6,8 @@
     <thead>
       <th *ngFor="let column of columns" [title]="column.name">
         <ng-container
-          *ngIf="column.columnHeaderTemplateRef; else default"
-          [ngTemplateOutlet]="column.columnHeaderTemplateRef"
-          [ngTemplateOutletContext]="{ $implicit: column, column: column }"
+          *ngIf="column.headerTemplateRef; else default"
+          [ngTemplateOutlet]="column.headerTemplateRef"
         ></ng-container>
         <ng-template #default>
           {{ column.name }}
