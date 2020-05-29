@@ -1,12 +1,27 @@
-import { Component, HostBinding, TemplateRef, QueryList, Input } from '@angular/core';
+import {
+    Component,
+    HostBinding,
+    TemplateRef,
+    QueryList,
+    Input,
+    OnInit,
+    AfterViewInit,
+    OnDestroy,
+    ContentChild,
+    ViewChild,
+    ElementRef
+} from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../class';
 import { GanttTableColumnComponent } from './column/column.component';
+import { Subject, merge } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
 
 @Component({
     selector: 'gantt-table',
     templateUrl: './gantt-table.component.html'
 })
-export class GanttTableComponent {
+export class GanttTableComponent implements OnInit, AfterViewInit {
     @Input() groups: GanttGroupInternal[];
 
     @Input() items: GanttItemInternal[];
@@ -15,9 +30,16 @@ export class GanttTableComponent {
 
     @Input() groupTemplate: TemplateRef<any>;
 
+    @ViewChild('ganttSideHeaderTable', { static: false }) headerTableRef: ElementRef;
+
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
-    @HostBinding('class.gantt-side-wrap') ganttWrapClass = true;
+    constructor(private elementRef: ElementRef) {}
 
-    constructor() {}
+    ngOnInit() {}
+
+    ngAfterViewInit() {
+        const columnsWidth = coerceCssPixelValue(this.headerTableRef.nativeElement.offsetWidth);
+        this.elementRef.nativeElement.style.width = columnsWidth;
+    }
 }
