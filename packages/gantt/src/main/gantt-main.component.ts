@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, Inject, Input, TemplateRef } from '@angular/core';
-import { GanttGroupInternal, GanttItemInternal } from 'ngx-gantt/class';
+import { GanttGroupInternal, GanttItemInternal } from '../class';
 import { GANTT_REF_TOKEN, GanttRef } from '../gantt-ref';
 
 @Component({

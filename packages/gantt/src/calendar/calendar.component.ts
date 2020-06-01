@@ -6,7 +6,7 @@ import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
 import { headerHeight } from '../gantt.styles';
 import { isNumber } from '../utils/helpers';
 import { GanttDate } from '../utils/date';
-import { GanttDomService } from 'ngx-gantt/gantt-dom.service';
+import { GanttDomService } from '../gantt-dom.service';
 
 @Component({
     selector: 'gantt-calendar-overlay',
