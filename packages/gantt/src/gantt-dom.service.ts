@@ -42,11 +42,11 @@ export class GanttDomService implements OnDestroy {
         fromEvent(this.mainContainer, 'scroll')
             .pipe(startWith(), takeUntil(this.unsubscribe$))
             .subscribe((event) => {
-                if (this.mainContainer.scrollLeft > 0) {
-                    this.side.classList.add('gantt-side-has-shadow');
-                } else {
-                    this.side.classList.remove('gantt-side-has-shadow');
-                }
+                // if (this.mainContainer.scrollLeft > 0) {
+                //     this.side.classList.add('gantt-side-has-shadow');
+                // } else {
+                //     this.side.classList.remove('gantt-side-has-shadow');
+                // }
             });
     }
 
