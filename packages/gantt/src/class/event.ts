@@ -14,7 +14,7 @@ export class GanttLoadOnScrollEvent {
     end: number;
 }
 
-export class GanttDependencyEvent {
+export class GanttLinkEvent {
   event: MouseEvent;
   source: GanttItem;
   dependent: GanttItem;

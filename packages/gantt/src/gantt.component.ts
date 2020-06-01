@@ -19,7 +19,7 @@ import {
 } from '@angular/core';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
-import { GanttLinkDragEvent, GanttDependencyEvent, GanttItemInternal } from './class';
+import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal } from './class';
 import { GanttDomService } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GanttTableColumnComponent } from './table/column/column.component';
@@ -44,7 +44,7 @@ export class GanttComponent extends GanttUpper implements GanttRef, OnInit, OnCh
 
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
-    @Output() linkClick = new EventEmitter<GanttDependencyEvent>();
+    @Output() linkClick = new EventEmitter<GanttLinkEvent>();
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 

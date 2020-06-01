@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 
 const dragMinWidth = 10;
 const activeClass = 'gantt-bar-active';
-const linkDropClass = 'gantt-bar-dependency-drop';
+const linkDropClass = 'gantt-bar-link-drop';
 
 function createSvgElement(qualifiedName: string, className: string) {
     const element = document.createElementNS('http://www.w3.org/2000/svg', qualifiedName);
@@ -30,11 +30,11 @@ export class GanttBarDrag implements OnDestroy {
         return !this.ganttRef.draggable;
     }
 
-    private get dependencyDragDisabled() {
+    private get linkDragDisabled() {
         return !this.ganttRef.linkable;
     }
 
-    private dependencyDraggingLine: SVGElement;
+    private linkDraggingLine: SVGElement;
 
     private barDragRef: DragRef;
 
@@ -152,9 +152,9 @@ export class GanttBarDrag implements OnDestroy {
         return dragRefs;
     }
 
-    private createDependencyHandleDrags() {
+    private createLinkHandleDrags() {
         const dragRefs = [];
-        const handles = this.barElement.querySelectorAll<HTMLElement>('.dependency-handles .handle');
+        const handles = this.barElement.querySelectorAll<HTMLElement>('.link-handles .handle');
         handles.forEach((handle, index) => {
             const isBefore = index === 0;
             const dragRef = this.dragDrop.createDrag(handle);
@@ -164,16 +164,16 @@ export class GanttBarDrag implements OnDestroy {
                 if (this.barDragRef) {
                     this.barDragRef.disabled = true;
                 }
-                this.createDependencyDraggingLine();
+                this.createLinkDraggingLine();
                 this.dragContainer.emitLinkDragStarted(isBefore ? 'dependent' : 'source', this.item);
             });
 
             dragRef.moved.subscribe(() => {
-                const positions = this.calcDependencyLinePositions(handle, isBefore);
-                this.dependencyDraggingLine.setAttribute('x1', positions.x1.toString());
-                this.dependencyDraggingLine.setAttribute('y1', positions.y1.toString());
-                this.dependencyDraggingLine.setAttribute('x2', positions.x2.toString());
-                this.dependencyDraggingLine.setAttribute('y2', positions.y2.toString());
+                const positions = this.calcLinkLinePositions(handle, isBefore);
+                this.linkDraggingLine.setAttribute('x1', positions.x1.toString());
+                this.linkDraggingLine.setAttribute('y1', positions.y1.toString());
+                this.linkDraggingLine.setAttribute('x2', positions.x2.toString());
+                this.linkDraggingLine.setAttribute('y2', positions.y2.toString());
             });
 
             dragRef.ended.subscribe((event) => {
@@ -183,7 +183,7 @@ export class GanttBarDrag implements OnDestroy {
                     this.barDragRef.disabled = false;
                 }
                 this.barElement.classList.remove(activeClass);
-                this.destroyDependencyDraggingLine();
+                this.destroyLinkDraggingLine();
                 this.dragContainer.emitLinkDragEnded();
             });
 
@@ -224,7 +224,7 @@ export class GanttBarDrag implements OnDestroy {
         this.barElement.classList.remove('gantt-bar-draggable-drag');
     }
 
-    private calcDependencyLinePositions(target: HTMLElement, isBefore: boolean) {
+    private calcLinkLinePositions(target: HTMLElement, isBefore: boolean) {
         const dragHandleWidth = 16;
         const container = this.dom.mainContainer;
         const targetRect = target.getBoundingClientRect();
@@ -240,20 +240,20 @@ export class GanttBarDrag implements OnDestroy {
         };
     }
 
-    private createDependencyDraggingLine() {
-        if (!this.dependencyDraggingLine) {
-            const svgElement = createSvgElement('svg', 'dependency-dragging-container');
-            const linElement = createSvgElement('line', 'dependency-dragging-line');
+    private createLinkDraggingLine() {
+        if (!this.linkDraggingLine) {
+            const svgElement = createSvgElement('svg', 'link-dragging-container');
+            const linElement = createSvgElement('line', 'link-dragging-line');
             svgElement.appendChild(linElement);
             this.dom.root.appendChild(svgElement);
-            this.dependencyDraggingLine = linElement;
+            this.linkDraggingLine = linElement;
         }
     }
 
-    private destroyDependencyDraggingLine() {
-        if (this.dependencyDraggingLine) {
-            this.dependencyDraggingLine.parentElement.remove();
-            this.dependencyDraggingLine = null;
+    private destroyLinkDraggingLine() {
+        if (this.linkDraggingLine) {
+            this.linkDraggingLine.parentElement.remove();
+            this.linkDraggingLine = null;
         }
     }
 
@@ -262,7 +262,7 @@ export class GanttBarDrag implements OnDestroy {
         this.barElement = elementRef.nativeElement;
         this.ganttRef = ganttRef;
 
-        if (this.dragDisabled && this.dependencyDragDisabled) {
+        if (this.dragDisabled && this.linkDragDisabled) {
             return;
         } else {
             this.createMouseEvents();
@@ -271,9 +271,9 @@ export class GanttBarDrag implements OnDestroy {
                 const dragHandlesRefs = this.createBarHandleDrags();
                 this.dragRefs.push(dragRef, ...dragHandlesRefs);
             }
-            if (!this.dependencyDragDisabled) {
-                const dependencyDragRefs = this.createDependencyHandleDrags();
-                this.dragRefs.push(...dependencyDragRefs);
+            if (!this.linkDragDisabled) {
+                const linkDragRefs = this.createLinkHandleDrags();
+                this.dragRefs.push(...linkDragRefs);
             }
         }
     }

@@ -1,16 +1,16 @@
 $gantt-bar-layer-append-width: 32px;
 $gantt-bar-layer-append-height: 42px;
-$gantt-bar-dependency-height: 16px;
-$gantt-bar-dependency-drop-border: 5px;
+$gantt-bar-link-height: 16px;
+$gantt-bar-link-drop-border: 5px;
 
-@mixin dependency-handles {
-  .dependency-handles {
+@mixin link-handles {
+  .link-handles {
     .handle {
       position: absolute;
       display: inline-block;
       cursor: pointer;
-      width: $gantt-bar-dependency-height;
-      height: $gantt-bar-dependency-height;
+      width: $gantt-bar-link-height;
+      height: $gantt-bar-link-height;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -47,10 +47,10 @@ $gantt-bar-dependency-drop-border: 5px;
   .drag-handles {
     background: $gantt-bar-layer-bg;
     width: 100%;
-    height: calc(100% - #{$gantt-bar-dependency-height} * 2);
+    height: calc(100% - #{$gantt-bar-link-height} * 2);
     position: absolute;
     border-radius: 4px;
-    top: $gantt-bar-dependency-height;
+    top: $gantt-bar-link-height;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
 
     .handle {
@@ -119,16 +119,16 @@ $gantt-bar-dependency-drop-border: 5px;
     top: $gantt-bar-layer-append-height / 2 * -1;
     display: none;
     @include drag-handles();
-    @include dependency-handles();
+    @include link-handles();
   }
 
   .gantt-bar-border {
-    width: calc(100% + #{$gantt-bar-dependency-drop-border} * 2);
-    height: calc(100% + #{$gantt-bar-dependency-drop-border} * 2);
+    width: calc(100% + #{$gantt-bar-link-drop-border} * 2);
+    height: calc(100% + #{$gantt-bar-link-drop-border} * 2);
     position: absolute;
     border-radius: 4px;
-    left: $gantt-bar-dependency-drop-border * -1;
-    top: $gantt-bar-dependency-drop-border * -1;
+    left: $gantt-bar-link-drop-border * -1;
+    top: $gantt-bar-link-drop-border * -1;
     display: none;
     background: #fff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
@@ -148,7 +148,7 @@ $gantt-bar-dependency-drop-border: 5px;
     @include active-bar();
   }
 
-  &-dependency-drop {
+  &-link-drop {
     .gantt-bar-border {
       display: block;
     }
