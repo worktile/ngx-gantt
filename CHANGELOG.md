@@ -1,6 +1,18 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.4](https://github.com/worktile/ngx-gantt/compare/0.0.2...0.0.4) (2020-06-01)
+
+
+### Features
+
+* add icon component and use with group expand ([cd162b9](https://github.com/worktile/ngx-gantt/commit/cd162b9d1cf35aab39ab66ae31666f92689a9f89))
+
+
+### Bug Fixes
+
+* fix group template context and group expand ([92958dc](https://github.com/worktile/ngx-gantt/commit/92958dc826d4c83a346bbac342c64671837738d2))
+
 ### [0.0.3](https://github.com/worktile/ngx-gantt/compare/0.0.2...0.0.3) (2020-06-01)
 
 ### 0.0.2 (2020-06-01)
