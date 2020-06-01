@@ -1,3 +1,13 @@
+Changelog
+All notable changes to ngx-gantt will be documented in this file.
+
+### 0.0.2 (2020-06-01)
+
+
+### Bug Fixes
+
+* output scss files
+
 <a name="0.0.1"></a>
 ## 0.0.1 (2020-05-29)
 
@@ -21,6 +31,3 @@
 * support expand group ([e371cb0](https://github.com/worktile/ngx-gantt/commit/e371cb0))
 * **gantt-table:** add width in gantt column ([bdcaa88](https://github.com/worktile/ngx-gantt/commit/bdcaa88))
 * **table:** add gantt side table ([89a7db9](https://github.com/worktile/ngx-gantt/commit/89a7db9))
-
-
-
