@@ -9,6 +9,7 @@ import { GanttTableGroupComponent } from './table/group/group.component';
 import { GanttTableItemsComponent } from './table/items/items.component';
 import { GanttComponent } from './gantt.component';
 import { GanttMainComponent } from './main/gantt-main.component';
+import { GanttIconComponent } from './icon/icon.component';
 
 @NgModule({
     imports: [CommonModule],
@@ -22,7 +23,8 @@ import { GanttMainComponent } from './main/gantt-main.component';
         GanttTableGroupComponent,
         GanttTableItemsComponent,
         GanttCalendarComponent,
-        GanttBarComponent
+        GanttBarComponent,
+        GanttIconComponent
     ],
     providers: []
 })

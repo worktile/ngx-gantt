@@ -1,21 +1,15 @@
 <div class="gantt-table-group-header">
-  <ng-container *ngIf="groupHeader; else default">
-    <ng-template [ngTemplateOutlet]="groupHeader" [ngTemplateOutletContext]="{ $implicit: group.origin, group: group.origin }"></ng-template>
-  </ng-container>
-  <ng-template #default>
-    <div class="gantt-table-group-header-title" (click)="expandGroup()">
-      <!-- todo -->
-      <span>-></span>
-      <ng-container *ngIf="groupHeaderTitle; else defaultTitle">
-        <ng-template
-          [ngTemplateOutlet]="groupHeaderTitle"
-          [ngTemplateOutletContext]="{ $implicit: group.origin, group: group.origin }"
-        ></ng-template>
-      </ng-container>
-      <ng-template #defaultTitle>
-        <span class="group-title"> {{ group.title }}</span>
-      </ng-template>
-    </div>
-  </ng-template>
+  <div class="gantt-table-group-header-title" [class.expand]="group.expand" (click)="expandGroup()">
+    <gantt-icon class="expand-icon" [iconName]="group.expand ? 'angle-down' : 'angle-right'"></gantt-icon>
+    <ng-container *ngIf="groupHeader; else default">
+      <ng-template
+        [ngTemplateOutlet]="groupHeader"
+        [ngTemplateOutletContext]="{ $implicit: group.origin, group: group.origin }"
+      ></ng-template>
+    </ng-container>
+    <ng-template #default>
+      <span class="group-title"> {{ group.title }}</span>
+    </ng-template>
+  </div>
 </div>
 <gantt-table-items [hidden]="!group.expand" [items]="group.items" [columns]="columns"></gantt-table-items>
