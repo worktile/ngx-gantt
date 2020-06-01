@@ -50,8 +50,6 @@ export class GanttComponent extends GanttUpper implements GanttRef, OnInit, OnCh
 
     @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
 
-    @HostBinding('class.gantt-table') ganttTableClass = true;
-
     constructor(
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
@@ -64,7 +62,7 @@ export class GanttComponent extends GanttUpper implements GanttRef, OnInit, OnCh
 
     private computeItemRef(item: GanttItemInternal) {
         item.updateRefs({
-            width: this.view.getDateRangeWidth(item.start, item.end),
+            width: this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()),
             x: this.view.getXPointByDate(item.start),
             y: (this.styles.lineHeight - this.styles.barHeight) / 2
         });

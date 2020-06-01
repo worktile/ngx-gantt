@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { GanttDragEvent, GanttLinkDragEvent } from './class/event';
 import { GanttItemInternal } from './class/item';
+import { GanttDomService } from './gantt-dom.service';
 
 export type LinkDragFrom = 'source' | 'dependent';
 
@@ -33,7 +34,7 @@ export class GanttDragContainer {
         this.linkDragDependent = this.linkDragFrom === 'dependent' ? item : null;
         this.linkDragStarted.emit({
             source: this.linkDragSource && this.linkDragSource.origin,
-            dependent: this.linkDragDependent && this.linkDragDependent.origin,
+            dependent: this.linkDragDependent && this.linkDragDependent.origin
         });
     }
 
@@ -45,7 +46,7 @@ export class GanttDragContainer {
         }
         this.linkDragEntered.emit({
             source: this.linkDragSource.origin,
-            dependent: this.linkDragDependent.origin,
+            dependent: this.linkDragDependent.origin
         });
     }
 
@@ -63,7 +64,7 @@ export class GanttDragContainer {
             // this.linkDragSource.addLink(this.linkDragDependent._id);
             this.linkDragEnded.emit({
                 source: this.linkDragSource.origin,
-                dependent: this.linkDragDependent.origin,
+                dependent: this.linkDragDependent.origin
             });
         }
         this.linkDragSource = null;

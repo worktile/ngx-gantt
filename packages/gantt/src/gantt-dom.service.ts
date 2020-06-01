@@ -22,6 +22,8 @@ export class GanttDomService implements OnDestroy {
 
     public side: Element;
 
+    public container: Element;
+
     public sideContainer: Element;
 
     public mainContainer: Element;
@@ -60,6 +62,7 @@ export class GanttDomService implements OnDestroy {
     initialize(root: ElementRef<HTMLElement>) {
         this.root = root.nativeElement;
         this.side = this.root.getElementsByClassName('gantt-side')[0];
+        this.container = this.root.getElementsByClassName('gantt-container')[0];
         this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-overlay')[0];

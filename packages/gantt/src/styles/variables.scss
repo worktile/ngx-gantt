@@ -1,0 +1,27 @@
+$gantt-color: #333 !default;
+$gantt-header-height: 44px !default;
+$gantt-border-color: #eee !default;
+$gantt-bg-color: #fff !default;
+$gantt-side-shadow: 12px 0 16px -10px rgba(0, 0, 0, 0.15);
+$gantt-container-background-color: #fafafa;
+$gantt-item-height: 44px;
+$gantt-group-background-color: rgba($color: #f3f3f3, $alpha: 0.5);
+$gantt-group-height: 44px;
+$gantt-table-td-padding: 0 15px !default;
+
+// mask
+$gantt-item-drag-mask-color: #348fe4 !default;
+
+//bar
+$gantt-bar-layer-bg: #fff !default;
+$gantt-bar-handle-color: #cacaca !default;
+$gantt-bar-handle-height: 12px !default;
+
+// calendar
+$gantt-date-primary-color: #888 !default;
+$gantt-date-primary-font-size: 14px !default;
+$gantt-date-secondary-color: #333 !default;
+$gantt-date-secondary-font-size: 14px !default;
+$gantt-date-secondary-weekend-color: #aaa !default;
+$gantt-date-week-backdrop-bg: rgba($color: #f3f3f3, $alpha: 0.5) !default;
+$gantt-date-today-color: #ff9f73 !default;

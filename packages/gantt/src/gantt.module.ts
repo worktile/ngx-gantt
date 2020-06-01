@@ -10,6 +10,7 @@ import { GanttTableItemsComponent } from './table/items/items.component';
 import { GanttComponent } from './gantt.component';
 import { GanttMainComponent } from './main/gantt-main.component';
 import { GanttIconComponent } from './icon/icon.component';
+import { GanttDragBackdropComponent } from './drag-backdrop/drag-backdrop.component';
 
 @NgModule({
     imports: [CommonModule],
@@ -24,7 +25,8 @@ import { GanttIconComponent } from './icon/icon.component';
         GanttTableItemsComponent,
         GanttCalendarComponent,
         GanttBarComponent,
-        GanttIconComponent
+        GanttIconComponent,
+        GanttDragBackdropComponent
     ],
     providers: []
 })

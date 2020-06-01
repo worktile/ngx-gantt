@@ -113,35 +113,48 @@ export class GanttBarDrag implements OnDestroy {
             dragRef.moved.subscribe((event) => {
                 if (isBefore) {
                     const x = this.item.refs.x + event.distance.x;
-                    const width = Math.max(this.item.refs.width + event.distance.x * -1, dragMinWidth);
-                    this.barElement.style.width = width + 'px';
-                    this.barElement.style.left = x + 'px';
-                    this.openDragBackdrop(
-                        this.barElement,
-                        this.ganttRef.view.getDateByXPoint(x),
-                        this.ganttRef.view.getDateByXPoint(x + width)
-                    );
+                    const width = this.item.refs.width + event.distance.x * -1;
+                    if (width > dragMinWidth) {
+                        this.barElement.style.width = width + 'px';
+                        this.barElement.style.left = x + 'px';
+                        this.openDragBackdrop(
+                            this.barElement,
+                            this.ganttRef.view.getDateByXPoint(x),
+                            this.ganttRef.view.getDateByXPoint(x + width)
+                        );
+                    }
                 } else {
                     const width = this.item.refs.width + event.distance.x;
-                    this.barElement.style.width = width + 'px';
-                    this.openDragBackdrop(
-                        this.barElement,
-                        this.ganttRef.view.getDateByXPoint(this.item.refs.x),
-                        this.ganttRef.view.getDateByXPoint(this.item.refs.x + width)
-                    );
+                    if (width > dragMinWidth) {
+                        this.barElement.style.width = width + 'px';
+                        this.openDragBackdrop(
+                            this.barElement,
+                            this.ganttRef.view.getDateByXPoint(this.item.refs.x),
+                            this.ganttRef.view.getDateByXPoint(this.item.refs.x + width)
+                        );
+                    }
                 }
                 event.source.reset();
             });
 
             dragRef.ended.subscribe((event) => {
                 if (isBefore) {
-                    const start = this.ganttRef.view.getDateByXPoint(this.item.refs.x + event.distance.x);
-                    this.item.updateDate(start, this.item.end);
+                    const width = this.item.refs.width + event.distance.x * -1;
+                    if (width > dragMinWidth) {
+                        this.item.updateDate(this.ganttRef.view.getDateByXPoint(this.item.refs.x + event.distance.x), this.item.end);
+                    } else {
+                        this.item.updateDate(this.item.end.startOfDay(), this.item.end);
+                    }
                 } else {
-                    const end = this.ganttRef.view.getDateByXPoint(
-                        this.item.refs.x + this.item.refs.width + event.distance.x
-                    );
-                    this.item.updateDate(this.item.start, end);
+                    const width = this.item.refs.width + event.distance.x;
+                    if (width > dragMinWidth) {
+                        this.item.updateDate(
+                            this.item.start,
+                            this.ganttRef.view.getDateByXPoint(this.item.refs.x + this.item.refs.width + event.distance.x)
+                        );
+                    } else {
+                        this.item.updateDate(this.item.start, this.item.start.endOfDay());
+                    }
                 }
                 this.clearDraggingStyles();
                 this.closeDragBackdrop();
@@ -193,25 +206,25 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private openDragBackdrop(dragElement: HTMLElement, start: GanttDate, end: GanttDate) {
-        // const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
-        // const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
-        // const rootRect = this.dom.root.getBoundingClientRect();
-        // const dragRect = dragElement.getBoundingClientRect();
-        // const left = Math.max(400, dragRect.left - rootRect.left);
-        // const width = dragRect.right - rootRect.left - left;
-        // dragMaskElement.style.left = left + 'px';
-        // dragMaskElement.style.width = width + 'px';
-        // dragMaskElement.querySelector('.start').innerHTML = start.format('MM-dd');
-        // dragMaskElement.querySelector('.end').innerHTML = end.format('MM-dd');
-        // dragMaskElement.style.display = 'block';
-        // dragBackdropElement.style.display = 'block';
+        const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
+        const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
+        const rootRect = this.dom.root.getBoundingClientRect();
+        const dragRect = dragElement.getBoundingClientRect();
+        const left = dragRect.left - rootRect.left - 400;
+        const width = dragRect.right - dragRect.left;
+        dragMaskElement.style.left = left + 'px';
+        dragMaskElement.style.width = width + 'px';
+        dragMaskElement.querySelector('.start').innerHTML = start.format('MM-dd');
+        dragMaskElement.querySelector('.end').innerHTML = end.format('MM-dd');
+        dragMaskElement.style.display = 'block';
+        dragBackdropElement.style.display = 'block';
     }
 
     private closeDragBackdrop() {
-        // const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
-        // const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
-        // dragMaskElement.style.display = 'none';
-        // dragBackdropElement.style.display = 'none';
+        const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
+        const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
+        dragMaskElement.style.display = 'none';
+        dragBackdropElement.style.display = 'none';
     }
 
     private setDraggingStyles() {
@@ -236,7 +249,7 @@ export class GanttBarDrag implements OnDestroy {
             x1: refs.x + appendX - container.scrollLeft,
             y1: refs.y + appendY - container.scrollTop,
             x2: targetRect.left + targetRect.width / 2 - containerRect.left,
-            y2: targetRect.top + targetRect.height / 2 - containerRect.top,
+            y2: targetRect.top + targetRect.height / 2 - containerRect.top
         };
     }
 
