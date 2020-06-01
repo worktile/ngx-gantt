@@ -11,7 +11,9 @@
     "ng": "ng",
     "start:docs": "docgeni serve",
     "start": "concurrently \"npm run start:docs\" \"ng serve\"",
-    "build": "ng build gantt",
+    "build": "npm run build:lib && npm run build:lib:scss",
+    "build:lib": "ng build gantt",
+    "build:lib:scss": "scss-bundle -c scss-bundle.config.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -29,11 +31,12 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@types/es6-promise": "^3.3.0",
     "date-fns": "^2.14.0",
+    "html2canvas": "^1.0.0-rc.5",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "html2canvas": "^1.0.0-rc.5"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.25",
@@ -50,6 +53,8 @@
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "concurrently": "^5.2.0",
+    "conventional-changelog-cli": "^2.0.12",
+    "fs-extra": "^9.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -58,14 +63,15 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "ng-packagr": "^5.4.0",
+    "path": "^0.12.7",
     "pretty-quick": "^1.10.0",
     "protractor": "~5.4.0",
+    "scss-bundle": "^3.1.2",
     "standard-version": "^7.1.0",
     "ts-node": "~7.0.0",
     "tsickle": "^0.37.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3",
-    "conventional-changelog-cli": "^2.0.12"
+    "typescript": "~3.5.3"
   },
   "husky": {
     "hooks": {

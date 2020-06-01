@@ -1,0 +1,7 @@
+{
+  "bundlerOptions": {
+    "entryFile": "./packages/gantt/src/gantt.scss",
+    "rootDir": "./",
+    "outFile": "dist/gantt/gantt.scss"
+  }
+}
