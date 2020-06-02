@@ -1,19 +1,16 @@
 <div class="gantt-bar-layer">
-  <div class="drag-handles">
+  <div *ngIf="ganttRef.draggable" class="drag-handles">
     <ng-container>
       <span class="handle"></span>
       <span class="handle"></span>
     </ng-container>
   </div>
-  <div class="link-handles">
+  <div *ngIf="ganttRef.linkable" class="link-handles">
     <span class="handle"><span class="point"></span></span>
     <span class="handle"> <span class="point"></span></span>
   </div>
 </div>
 <div class="gantt-bar-border"></div>
-<div class="gantt-bar-content">
-  <ng-template
-    [ngTemplateOutlet]="template"
-    [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"
-  ></ng-template>
+<div #content class="gantt-bar-content">
+  <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>
 </div>

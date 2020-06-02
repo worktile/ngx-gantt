@@ -4,157 +4,158 @@ $gantt-bar-link-height: 16px;
 $gantt-bar-link-drop-border: 5px;
 
 @mixin link-handles {
-  .link-handles {
-    .handle {
-      position: absolute;
-      display: inline-block;
-      cursor: pointer;
-      width: $gantt-bar-link-height;
-      height: $gantt-bar-link-height;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1001;
+    .link-handles {
+        .handle {
+            position: absolute;
+            display: inline-block;
+            cursor: pointer;
+            width: $gantt-bar-link-height;
+            height: $gantt-bar-link-height;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
 
-      &:first-child {
-        left: 0;
-        top: 0;
-      }
+            &:first-child {
+                left: 0;
+                top: 0;
+            }
 
-      &:last-child {
-        right: 0;
-        bottom: 0;
-      }
+            &:last-child {
+                right: 0;
+                bottom: 0;
+            }
 
-      .point {
-        color: #348fe4;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #348fe4;
-        transition: 0.3 ease;
+            .point {
+                color: #348fe4;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #348fe4;
+                transition: 0.3 ease;
 
-        &:hover {
-          width: 12px;
-          height: 12px;
+                &:hover {
+                    width: 12px;
+                    height: 12px;
+                }
+            }
         }
-      }
     }
-  }
 }
 
 @mixin drag-handles {
-  .drag-handles {
-    background: $gantt-bar-layer-bg;
-    width: 100%;
-    height: calc(100% - #{$gantt-bar-link-height} * 2);
-    position: absolute;
-    border-radius: 4px;
-    top: $gantt-bar-link-height;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+    .drag-handles {
+        background: $gantt-bar-layer-bg;
+        width: 100%;
+        height: calc(100% - #{$gantt-bar-link-height} * 2);
+        position: absolute;
+        border-radius: 4px;
+        top: $gantt-bar-link-height;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
 
-    .handle {
-      width: 15px;
-      height: 100%;
-      position: absolute;
-      cursor: col-resize;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        .handle {
+            width: 15px;
+            height: 100%;
+            position: absolute;
+            cursor: col-resize;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-      &:before,
-      &:after {
-        content: '';
-        display: inline-block;
-        width: 1px;
-        height: $gantt-bar-handle-height;
-        background: $gantt-bar-handle-color;
-      }
+            &:before,
+            &:after {
+                content: '';
+                display: inline-block;
+                width: 1px;
+                height: $gantt-bar-handle-height;
+                background: $gantt-bar-handle-color;
+            }
 
-      &::before {
-        margin-right: 2px;
-      }
+            &::before {
+                margin-right: 2px;
+            }
 
-      &:first-child {
-        left: 0;
-      }
+            &:first-child {
+                left: 0;
+            }
 
-      &:last-child {
-        right: 0;
-      }
+            &:last-child {
+                right: 0;
+            }
+        }
     }
-  }
 }
 
 @mixin active-bar {
-  z-index: 1000;
+    z-index: 1000;
 
-  .gantt-bar-layer {
-    display: block;
-    z-index: 1;
-  }
-
-  .gantt-bar-content {
-    z-index: 1;
-    box-shadow: none;
-  }
-
-  .cdk-drag {
-    transition: none;
-  }
-}
-
-.gantt-bar {
-  position: absolute;
-  border-radius: 4px;
-  z-index: 1;
-
-
-  .gantt-bar-layer {
-    width: calc(100% + #{$gantt-bar-layer-append-width});
-    height: calc(100% + #{$gantt-bar-layer-append-height});
-    position: absolute;
-    border-radius: 4px;
-    left: $gantt-bar-layer-append-width / 2 * -1;
-    top: $gantt-bar-layer-append-height / 2 * -1;
-    display: none;
-    @include drag-handles();
-    @include link-handles();
-  }
-
-  .gantt-bar-border {
-    width: calc(100% + #{$gantt-bar-link-drop-border} * 2);
-    height: calc(100% + #{$gantt-bar-link-drop-border} * 2);
-    position: absolute;
-    border-radius: 4px;
-    left: $gantt-bar-link-drop-border * -1;
-    top: $gantt-bar-link-drop-border * -1;
-    display: none;
-    background: #fff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .gantt-bar-content {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    cursor: pointer;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    background: #348fe4;
-  }
-
-  &-active {
-    @include active-bar();
-  }
-
-  &-link-drop {
-    .gantt-bar-border {
-      display: block;
+    .gantt-bar-layer {
+        display: block;
+        z-index: 1;
     }
 
     .gantt-bar-content {
-      box-shadow: none;
+        z-index: 1;
+        box-shadow: none;
     }
-  }
+
+    .cdk-drag {
+        transition: none;
+    }
+}
+
+.gantt-bar {
+    position: absolute;
+    border-radius: 4px;
+    z-index: 1;
+
+    .gantt-bar-layer {
+        width: calc(100% + #{$gantt-bar-layer-append-width});
+        height: calc(100% + #{$gantt-bar-layer-append-height});
+        position: absolute;
+        border-radius: 4px;
+        left: $gantt-bar-layer-append-width / 2 * -1;
+        top: $gantt-bar-layer-append-height / 2 * -1;
+        display: none;
+        @include drag-handles();
+        @include link-handles();
+    }
+
+    .gantt-bar-border {
+        width: calc(100% + #{$gantt-bar-link-drop-border} * 2);
+        height: calc(100% + #{$gantt-bar-link-drop-border} * 2);
+        position: absolute;
+        border-radius: 4px;
+        left: $gantt-bar-link-drop-border * -1;
+        top: $gantt-bar-link-drop-border * -1;
+        display: none;
+        background: #fff;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .gantt-bar-content {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        cursor: pointer;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        background: $gantt-bar-background-color;
+
+
+    }
+
+    &-active {
+        @include active-bar();
+    }
+
+    &-link-drop {
+        .gantt-bar-border {
+            display: block;
+        }
+
+        .gantt-bar-content {
+            box-shadow: none;
+        }
+    }
 }

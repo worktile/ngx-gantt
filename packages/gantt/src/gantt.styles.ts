@@ -12,3 +12,6 @@ export const sideWidth = 400;
 export const maxSideWidth = 600;
 
 export const minSideWidth = 400;
+
+export const barBackground = '#348fe4';
+
