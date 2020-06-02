@@ -15,7 +15,8 @@ import {
     ContentChild,
     TemplateRef,
     ContentChildren,
-    QueryList
+    QueryList,
+    AfterViewInit
 } from '@angular/core';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
@@ -23,6 +24,8 @@ import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal } from './class';
 import { GanttDomService } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GanttTableColumnComponent } from './table/column/column.component';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'ngx-gantt',
@@ -37,7 +40,11 @@ import { GanttTableColumnComponent } from './table/column/column.component';
         GanttDragContainer
     ]
 })
-export class GanttComponent extends GanttUpper implements GanttRef, OnInit, OnChanges, OnDestroy {
+export class GanttComponent extends GanttUpper implements GanttRef, OnInit, AfterViewInit, OnChanges, OnDestroy {
+    // public listOfColumns: QueryList<GanttTableColumnComponent>;
+
+    private ngUnsubscribe$ = new Subject();
+
     @Input() linkable: boolean;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
@@ -49,6 +56,13 @@ export class GanttComponent extends GanttUpper implements GanttRef, OnInit, OnCh
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
     @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
+
+    // @ContentChildren(GanttTableColumnComponent)
+    // set columns(columns: QueryList<GanttTableColumnComponent>) {
+    //     if (columns) {
+    //         this.listOfColumns = columns;
+    //     }
+    // }
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
@@ -76,6 +90,12 @@ export class GanttComponent extends GanttUpper implements GanttRef, OnInit, OnCh
         });
         this.dragContainer.linkDragEnded.subscribe((event) => {
             this.linkDragEnded.emit(event);
+        });
+    }
+
+    ngAfterViewInit() {
+        this.columns.changes.pipe(startWith(true), takeUntil(this.ngUnsubscribe$)).subscribe(() => {
+            this.cdr.markForCheck();
         });
     }
 

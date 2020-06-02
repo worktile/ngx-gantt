@@ -1,45 +1,43 @@
-import {
-    Component,
-    HostBinding,
-    TemplateRef,
-    QueryList,
-    Input,
-    OnInit,
-    AfterViewInit,
-    OnDestroy,
-    ContentChild,
-    ViewChild,
-    ElementRef
-} from '@angular/core';
+import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../class';
 import { GanttTableColumnComponent } from './column/column.component';
-import { Subject, merge } from 'rxjs';
-import { startWith, takeUntil } from 'rxjs/operators';
-import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { maxSideWidth, minSideWidth } from '../gantt.styles';
+import { GANTT_REF_TOKEN, GanttRef } from '../gantt-ref';
 
 @Component({
     selector: 'gantt-table',
     templateUrl: './gantt-table.component.html'
 })
-export class GanttTableComponent implements OnInit, AfterViewInit {
+export class GanttTableComponent implements OnInit {
+    public columnList: QueryList<GanttTableColumnComponent>;
+
+    public get maxSideWidth() {
+        return maxSideWidth;
+    }
+
+    public get minSideWidth() {
+        return minSideWidth;
+    }
+
     @Input() groups: GanttGroupInternal[];
 
     @Input() items: GanttItemInternal[];
 
-    @Input() columns: QueryList<GanttTableColumnComponent>;
+    @Input()
+    set columns(columns: QueryList<GanttTableColumnComponent>) {
+        this.columnList = columns;
+    }
 
     @Input() groupTemplate: TemplateRef<any>;
 
-    @ViewChild('ganttSideHeaderTable', { static: false }) headerTableRef: ElementRef;
-
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
-    constructor(private elementRef: ElementRef) {}
+    constructor(@Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef) {}
 
     ngOnInit() {}
 
-    ngAfterViewInit() {
-        const columnsWidth = coerceCssPixelValue(this.headerTableRef.nativeElement.offsetWidth);
-        this.elementRef.nativeElement.style.width = columnsWidth;
+    expandGroup(group: GanttGroupInternal) {
+        group.expand = !group.expand;
+        this.ganttRef.detectChanges();
     }
 }

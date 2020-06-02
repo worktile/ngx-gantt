@@ -1,74 +1,73 @@
 .gantt {
-    width: 100%;
-    height: 100%;
-    background-color: $gantt-bg-color;
+  width: 100%;
+  height: 100%;
+  background-color: $gantt-bg-color;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  color: $gantt-color;
+  opacity: 0;
+
+  .gantt-side {
+    border-right: 1px solid $gantt-border-color;
     position: relative;
-    overflow: hidden;
+    z-index: 1;
+
+    &-has-shadow {
+      box-shadow: $gantt-side-shadow;
+    }
+
+    .gantt-side-header {
+      box-sizing: border-box;
+      height: $gantt-header-height;
+    }
+
+    .gantt-side-container {
+      // height: calc(100% - #{$gantt-header-height});
+      height: 100%;
+      overflow: auto;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  .gantt-container {
+    flex: 1;
+    position: relative;
     display: flex;
-    color: $gantt-color;
-    opacity: 0;
+    overflow: hidden;
+    background-color: $gantt-container-background-color;
+  }
 
-    .gantt-side {
-        border-right: 1px solid $gantt-border-color;
-        position: relative;
-        z-index: 1;
-        overflow: auto;
+  .gantt-main-container {
+    width: 100%;
+    height: calc(100% - #{$gantt-header-height});
+    flex: 1;
+    position: absolute;
+    top: $gantt-header-height;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
 
-
-        &-has-shadow {
-            box-shadow: $gantt-side-shadow;
-        }
-
-        .gantt-side-header {
-            box-sizing: border-box;
-            height: $gantt-header-height;
-        }
-
-        .gantt-side-container {
-            height: calc(100% - #{$gantt-header-height});
-            overflow: auto;
-
-            &::-webkit-scrollbar {
-                display: none;
-            }
-        }
+    .gantt-main-groups .gantt-main-items {
+      height: 100%;
     }
 
-    .gantt-container {
-        flex: 1;
-        position: relative;
-        display: flex;
-        overflow: hidden;
-        background-color: $gantt-container-background-color;
+    .gantt-group {
+      height: $gantt-group-height;
+      background: $gantt-group-background-color;
+      border-bottom: 1px solid $gantt-border-color;
+      box-sizing: border-box;
     }
 
-    .gantt-main-container {
-        width: 100%;
-        height: calc(100% - #{$gantt-header-height});
-        flex: 1;
-        position: absolute;
-        top: $gantt-header-height;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        overflow: auto;
-
-        .gantt-main-groups .gantt-main-items {
-            height: 100%;
-        }
-
-        .gantt-group {
-            height: $gantt-group-height;
-            background: $gantt-group-background-color;
-            border-bottom: 1px solid $gantt-border-color;
-        }
-
-        .gantt-item {
-            height: $gantt-item-height;
-            border-bottom: 1px solid $gantt-border-color;
-            box-sizing: border-box;
-            position: relative;
-        }
+    .gantt-item {
+      height: $gantt-item-height;
+      border-bottom: 1px solid $gantt-border-color;
+      box-sizing: border-box;
+      position: relative;
     }
-
+  }
 }
