@@ -62,8 +62,8 @@ export class GanttComponent extends GanttUpper implements GanttRef, OnInit, OnCh
 
     private computeItemRef(item: GanttItemInternal) {
         item.updateRefs({
-            width: this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()),
-            x: this.view.getXPointByDate(item.start),
+            width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
+            x: item.start ? this.view.getXPointByDate(item.start) : 0,
             y: (this.styles.lineHeight - this.styles.barHeight) / 2
         });
     }

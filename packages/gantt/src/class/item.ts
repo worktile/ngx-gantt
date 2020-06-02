@@ -27,6 +27,7 @@ export class GanttItemInternal {
     start: GanttDate;
     end: GanttDate;
     links: string[];
+    color?: string;
     origin: GanttItem;
     children: GanttItemInternal[];
     expand: boolean;
@@ -40,18 +41,26 @@ export class GanttItemInternal {
         this.origin = item;
         this.id = this.origin.id;
         this.links = this.origin.links || [];
-        this.start = new GanttDate(item.start);
-        this.end = new GanttDate(item.end);
+        this.color = this.origin.color;
+        this.start = item.start ? new GanttDate(item.start) : null;
+        this.end = item.end ? new GanttDate(item.end) : null;
         this.children = (item.children || []).map((subItem) => {
             return new GanttItemInternal(subItem);
         });
+        // fill one month when start or end is null
+        if (item.start && !item.end) {
+            this.end = new GanttDate(item.start).addMonths(1).endOfDay();
+        }
+        if (!item.start && item.end) {
+            this.start = new GanttDate(item.end).addMonths(-1).startOfDay();
+        }
     }
 
     updateRefs(refs: GanttItemRefs) {
         this.refs$.next(refs);
     }
 
-    public updateDate(start: GanttDate, end: GanttDate) {
+    updateDate(start: GanttDate, end: GanttDate) {
         this.start = start.startOfDay();
         this.end = end.endOfDay();
         this.origin.start = this.start.getUnixTime();

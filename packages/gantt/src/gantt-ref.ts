@@ -6,7 +6,7 @@ export interface GanttRef {
     element: HTMLElement;
     view: GanttView;
     styles: GanttStyles;
-    draggable?: boolean;
+    draggable: boolean;
     linkable?: boolean;
     detectChanges(): void;
 }

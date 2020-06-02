@@ -18,7 +18,7 @@ export interface GanttViewOptions {
 
 const viewOptions: GanttViewOptions = {
     min: new GanttDate().addYears(-1).startOfYear(),
-    max: new GanttDate().addYears(1).endOfYear(),
+    max: new GanttDate().addYears(1).endOfYear()
 };
 
 export abstract class GanttView {
@@ -51,9 +51,9 @@ export abstract class GanttView {
     options: GanttViewOptions;
 
     constructor(start: GanttDate, end: GanttDate, options: GanttViewOptions) {
-        start = this.startOf(start);
-        end = this.endOf(end);
         this.options = Object.assign({}, viewOptions, options);
+        start = this.startOf(start.value < this.options.start.value ? start : this.options.start);
+        end = this.endOf(end.value > this.options.end.value ? end : this.options.end);
         this.start$ = new BehaviorSubject<GanttDate>(start);
         this.end$ = new BehaviorSubject<GanttDate>(end);
         this.initialize();
