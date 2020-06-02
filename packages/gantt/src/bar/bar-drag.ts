@@ -238,24 +238,20 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private calcLinkLinePositions(target: HTMLElement, isBefore: boolean) {
-        const dragHandleWidth = 16;
-        const container = this.dom.mainContainer;
+        const rootRect = this.dom.root.getBoundingClientRect();
         const targetRect = target.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        const refs = this.item.refs;
-        const appendX = isBefore ? -dragHandleWidth : refs.width + dragHandleWidth;
-        const appendY = this.ganttRef.styles.barHeight / 2;
+        const layerRect = target.parentElement.parentElement.getBoundingClientRect();
         return {
-            x1: refs.x + appendX - container.scrollLeft,
-            y1: refs.y + appendY - container.scrollTop,
-            x2: targetRect.left + targetRect.width / 2 - containerRect.left,
-            y2: targetRect.top + targetRect.height / 2 - containerRect.top
+            x1: layerRect.left + (isBefore ? 0 : layerRect.width) - rootRect.left,
+            y1: layerRect.top + layerRect.height / 2 - rootRect.top,
+            x2: targetRect.left - rootRect.left + targetRect.width / 2,
+            y2: targetRect.top - rootRect.top + targetRect.height / 2
         };
     }
 
     private createLinkDraggingLine() {
         if (!this.linkDraggingLine) {
-            const svgElement = createSvgElement('svg', 'link-dragging-container');
+            const svgElement = createSvgElement('svg', 'gantt-link-drag-container');
             const linElement = createSvgElement('line', 'link-dragging-line');
             svgElement.appendChild(linElement);
             this.dom.root.appendChild(svgElement);
