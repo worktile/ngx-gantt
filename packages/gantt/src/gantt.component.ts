@@ -11,7 +11,6 @@ import {
     OnChanges,
     OnDestroy,
     SimpleChanges,
-    HostBinding,
     ContentChild,
     TemplateRef,
     ContentChildren,
@@ -53,7 +52,7 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
-    @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
+    @ContentChildren(GanttTableColumnComponent, { descendants: true }) columns: QueryList<GanttTableColumnComponent>;
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
