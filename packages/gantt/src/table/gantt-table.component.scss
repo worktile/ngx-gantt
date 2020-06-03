@@ -1,13 +1,25 @@
-@import './group/group.component.scss';
-
 .gantt-table {
   display: block;
   height: 100%;
+
+  .gantt-table-group {
+    background: $gantt-group-background-color;
+    td {
+      &::after {
+        background: transparent;
+      }
+    }
+    .gantt-table-group-title {
+      cursor: pointer;
+      .expand-icon {
+        color: #aaa;
+      }
+    }
+  }
+
   table {
-    width: 100%;
     margin: 0;
     padding: 0;
-    table-layout: fixed;
     border-collapse: collapse;
     background-color: transparent;
 
@@ -61,6 +73,10 @@
       th {
         font-weight: 400;
         height: $gantt-header-height;
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1;
       }
     }
   }

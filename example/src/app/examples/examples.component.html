@@ -1,19 +1,19 @@
 <div class="content">
   <ngx-gantt start="1514736000" end="1609430400" [items]="items" [groups]="groups" [draggable]="true" [linkable]="true">
     <ngx-gantt-column [width]="200" name="标题">
-      <ng-template #cell let-row>
-        {{ row.title }}
+      <ng-template #cell let-item>
+        {{ item.title }}
       </ng-template>
     </ngx-gantt-column>
-    <ngx-gantt-column width="200px">
+    <ngx-gantt-column>
       <ng-template #header let-column> 开始时间 -> </ng-template>
-      <ng-template #cell let-row>
-        {{ row.start * 1000 | date: 'yyyy-MM-dd' }}
+      <ng-template #cell let-item>
+        {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
       </ng-template>
     </ngx-gantt-column>
-    <ngx-gantt-column name="截止时间" width="200px">
-      <ng-template #cell let-row>
-        {{ row.end * 1000 | date: 'yyyy-MM-dd' }}
+    <ngx-gantt-column name="截止时间">
+      <ng-template #cell let-item>
+        {{ item.end * 1000 | date: 'yyyy-MM-dd' }}
       </ng-template>
     </ngx-gantt-column>
     <!-- <ng-template #group let-group>

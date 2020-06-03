@@ -6,7 +6,7 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
     templateUrl: './column.component.html'
 })
 export class GanttTableColumnComponent implements OnInit {
-    public columnWidth: string;
+    public columnWidth = 'auto';
 
     @Input() name: string;
 
