@@ -5,14 +5,13 @@
   .gantt-table-group {
     background: $gantt-group-background-color;
     td {
-      &::after {
-        background: transparent;
-      }
+      padding: 0 10px !important;
     }
     .gantt-table-group-title {
       cursor: pointer;
       .expand-icon {
         color: #aaa;
+        margin-right: 6px;
       }
     }
   }
@@ -36,7 +35,12 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        max-width: 150px;
+        min-width: 100px;
 
+        &:first-child {
+          padding: 0 50px;
+        }
         &::before {
           position: absolute;
           top: 0;

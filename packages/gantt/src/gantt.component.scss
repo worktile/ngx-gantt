@@ -23,9 +23,9 @@
     }
 
     .gantt-side-container {
-      // height: calc(100% - #{$gantt-header-height});
       height: 100%;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: scroll;
 
       &::-webkit-scrollbar {
         display: none;
