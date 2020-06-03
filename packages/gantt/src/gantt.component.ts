@@ -18,14 +18,14 @@ import {
     QueryList,
     AfterViewInit
 } from '@angular/core';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
 import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal } from './class';
 import { GanttDomService } from './gantt-dom.service';
+import { GanttTableColumnComponent } from './components/table/column/column.component';
 import { GanttDragContainer } from './gantt-drag-container';
-import { GanttTableColumnComponent } from './table/column/column.component';
-import { startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 @Component({
     selector: 'ngx-gantt',
@@ -34,15 +34,13 @@ import { Subject } from 'rxjs';
     providers: [
         {
             provide: GANTT_REF_TOKEN,
-            useExisting: GanttComponent
+            useExisting: NgxGanttComponent
         },
         GanttDomService,
         GanttDragContainer
     ]
 })
-export class GanttComponent extends GanttUpper implements GanttRef, OnInit, AfterViewInit, OnChanges, OnDestroy {
-    // public listOfColumns: QueryList<GanttTableColumnComponent>;
-
+export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, AfterViewInit, OnChanges, OnDestroy {
     private ngUnsubscribe$ = new Subject();
 
     @Input() linkable: boolean;
@@ -56,13 +54,6 @@ export class GanttComponent extends GanttUpper implements GanttRef, OnInit, Afte
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
     @ContentChildren(GanttTableColumnComponent) columns: QueryList<GanttTableColumnComponent>;
-
-    // @ContentChildren(GanttTableColumnComponent)
-    // set columns(columns: QueryList<GanttTableColumnComponent>) {
-    //     if (columns) {
-    //         this.listOfColumns = columns;
-    //     }
-    // }
 
     constructor(
         elementRef: ElementRef<HTMLElement>,

@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GanttCalendarComponent } from './calendar/calendar.component';
-import { GanttTableComponent } from './table/gantt-table.component';
-import { GanttFlatComponent } from './flat/gantt-flat.component';
-import { GanttBarComponent } from './bar/bar.component';
-import { GanttTableColumnComponent } from './table/column/column.component';
-import { GanttComponent } from './gantt.component';
-import { GanttMainComponent } from './main/gantt-main.component';
-import { GanttIconComponent } from './icon/icon.component';
-import { GanttDragBackdropComponent } from './drag-backdrop/drag-backdrop.component';
+import { GanttCalendarComponent } from './components/calendar/calendar.component';
+import { GanttTableComponent } from './components/table/gantt-table.component';
+import { NgxGanttFlatComponent } from './flat/gantt-flat.component';
+import { GanttBarComponent } from './components/bar/bar.component';
+import { GanttTableColumnComponent } from './components/table/column/column.component';
+import { NgxGanttComponent } from './gantt.component';
+import { GanttMainComponent } from './components/main/gantt-main.component';
+import { GanttIconComponent } from './components/icon/icon.component';
+import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
 
 @NgModule({
     imports: [CommonModule],
-    exports: [GanttComponent, GanttFlatComponent, GanttTableColumnComponent],
+    exports: [NgxGanttComponent, NgxGanttFlatComponent, GanttTableColumnComponent],
     declarations: [
-        GanttComponent,
-        GanttFlatComponent,
+        NgxGanttComponent,
+        NgxGanttFlatComponent,
         GanttTableColumnComponent,
         GanttMainComponent,
         GanttTableComponent,

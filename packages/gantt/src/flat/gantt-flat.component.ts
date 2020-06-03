@@ -8,11 +8,11 @@ import { GANTT_REF_TOKEN } from '../gantt-ref';
     providers: [
         {
             provide: GANTT_REF_TOKEN,
-            useExisting: GanttFlatComponent,
+            useExisting: NgxGanttFlatComponent,
         },
     ],
 })
-export class GanttFlatComponent implements OnInit {
+export class NgxGanttFlatComponent implements OnInit {
     @Input() sideTitle: string;
 
     @Input() showSide = true;

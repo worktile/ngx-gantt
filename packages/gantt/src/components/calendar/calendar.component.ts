@@ -1,12 +1,12 @@
 import { Component, OnInit, HostBinding, OnChanges, SimpleChanges, ChangeDetectorRef, OnDestroy, NgZone, Inject } from '@angular/core';
-import { GanttDatePoint } from '../class/date-point';
+import { GanttDatePoint } from '../../class/date-point';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
-import { headerHeight } from '../gantt.styles';
-import { isNumber } from '../utils/helpers';
-import { GanttDate } from '../utils/date';
-import { GanttDomService } from '../gantt-dom.service';
+import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
+import { headerHeight } from '../../gantt.styles';
+import { isNumber } from '../../utils/helpers';
+import { GanttDate } from '../../utils/date';
+import { GanttDomService } from '../../gantt-dom.service';
 
 @Component({
     selector: 'gantt-calendar-overlay',

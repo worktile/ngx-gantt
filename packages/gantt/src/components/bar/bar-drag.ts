@@ -1,10 +1,10 @@
 import { Injectable, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { DragRef, DragDrop } from '@angular/cdk/drag-drop';
-import { GanttDomService } from '../gantt-dom.service';
-import { GanttDragContainer } from '../gantt-drag-container';
-import { GanttItemInternal } from '../class/item';
-import { GanttDate, differenceInCalendarDays } from '../utils/date';
-import { GanttRef } from '../gantt-ref';
+import { GanttDomService } from '../../gantt-dom.service';
+import { GanttDragContainer } from '../../gantt-drag-container';
+import { GanttItemInternal } from '../../class/item';
+import { GanttDate, differenceInCalendarDays } from '../../utils/date';
+import { GanttRef } from '../../gantt-ref';
 import { fromEvent, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

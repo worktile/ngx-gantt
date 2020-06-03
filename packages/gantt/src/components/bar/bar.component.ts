@@ -12,14 +12,14 @@ import {
     NgZone,
     ViewChild
 } from '@angular/core';
-import { GanttItemInternal } from '../class/item';
-import { GanttRef, GANTT_REF_TOKEN } from '../gantt-ref';
+import { GanttItemInternal } from '../../class/item';
+import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
 import { takeUntil, take, startWith } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GanttBarDrag } from './bar-drag';
-import { hexToRgb } from '../utils/helpers';
-import { GanttDragContainer } from '../gantt-drag-container';
-import { barBackground } from '../gantt.styles';
+import { hexToRgb } from '../../utils/helpers';
+import { GanttDragContainer } from '../../gantt-drag-container';
+import { barBackground } from '../../gantt.styles';
 
 function linearGradient(sideOrCorner: string, color: string, stop: string) {
     return `linear-gradient(${sideOrCorner},${color} 0%,${stop} 40%)`;
