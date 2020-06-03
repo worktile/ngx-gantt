@@ -23,8 +23,8 @@ import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
 import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal } from './class';
 import { GanttDomService } from './gantt-dom.service';
-import { GanttTableColumnComponent } from './components/table/column/column.component';
 import { GanttDragContainer } from './gantt-drag-container';
+import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 
 @Component({
     selector: 'ngx-gantt',
@@ -52,7 +52,7 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
-    @ContentChildren(GanttTableColumnComponent, { descendants: true }) columns: QueryList<GanttTableColumnComponent>;
+    @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
