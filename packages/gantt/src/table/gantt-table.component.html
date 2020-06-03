@@ -1,7 +1,7 @@
 <div class="gantt-side-container">
   <table [style.min-width.px]="minSideWidth" [style.max-width.px]="maxSideWidth">
     <colgroup>
-      <col [style.width]="column.columnWidth" [style.minWidth]="column.columnWidth" *ngFor="let column of columnList" />
+      <col [style.width]="column.width" [style.minWidth]="column.width" *ngFor="let column of columnList" />
     </colgroup>
     <thead>
       <th *ngFor="let column of columnList" [title]="column.name">
