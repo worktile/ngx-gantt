@@ -12,6 +12,7 @@
     border-right: 1px solid $gantt-border-color;
     position: relative;
     z-index: 1;
+    overflow-x: scroll;
 
     &-has-shadow {
       box-shadow: $gantt-side-shadow;
@@ -25,7 +26,6 @@
     .gantt-side-container {
       height: 100%;
       overflow-y: auto;
-      overflow-x: scroll;
 
       &::-webkit-scrollbar {
         display: none;
