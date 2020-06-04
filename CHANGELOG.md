@@ -1,6 +1,24 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.6](https://github.com/worktile/ngx-gantt/compare/0.0.3...0.0.6) (2020-06-04)
+
+
+### Features
+
+* add icon component and use with group expand ([cd162b9](https://github.com/worktile/ngx-gantt/commit/cd162b9d1cf35aab39ab66ae31666f92689a9f89))
+* add side shadow ([e5c7fd0](https://github.com/worktile/ngx-gantt/commit/e5c7fd0aa0a020d83c048575b1aa17eedcefe87e))
+* refactor styles and add dragging mask backdrop ([f34f3e6](https://github.com/worktile/ngx-gantt/commit/f34f3e62d788bb294c1b21528ec933ce2a46db9e))
+* **icon:** add icons ([c1e0648](https://github.com/worktile/ngx-gantt/commit/c1e06484a47f000ab9192bd8e7769fed7c5e1fc8))
+
+
+### Bug Fixes
+
+* fix group template context and group expand ([92958dc](https://github.com/worktile/ngx-gantt/commit/92958dc826d4c83a346bbac342c64671837738d2))
+* **gantt-table:** add ngx-gantt-table component ([#16](https://github.com/worktile/ngx-gantt/issues/16)) ([8b09018](https://github.com/worktile/ngx-gantt/commit/8b090187d5665cc5c1cf938f0a400979ec5a934c))
+* **table:** change table td padding ([#17](https://github.com/worktile/ngx-gantt/issues/17)) ([41d89d9](https://github.com/worktile/ngx-gantt/commit/41d89d9b7fdc2ea45de8e56ca4087369b93998a0))
+* **table:** use one table in gantt table ([#15](https://github.com/worktile/ngx-gantt/issues/15)) ([ce344e3](https://github.com/worktile/ngx-gantt/commit/ce344e399fb18dddb5a26536d2231236043e0d54))
+
 ### [0.0.5](https://github.com/worktile/ngx-gantt/compare/0.0.3...0.0.5) (2020-06-03)
 
 
