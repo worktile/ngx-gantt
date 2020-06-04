@@ -11,6 +11,6 @@
   </div>
 </div>
 <div class="gantt-bar-border"></div>
-<div #content class="gantt-bar-content">
+<div #content class="gantt-bar-content" (click)="onBarClick($event)">
   <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>
 </div>

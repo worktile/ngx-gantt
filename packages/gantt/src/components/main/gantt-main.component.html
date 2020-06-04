@@ -17,7 +17,7 @@
 <ng-template #ganttItems let-items="items">
   <ng-container *ngFor="let item of items; trackBy: trackBy">
     <div class="gantt-item">
-      <gantt-bar [item]="item" [template]="barTemplate"></gantt-bar>
+      <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
     </div>
     <ng-container *ngFor="let item of item.children; trackBy: trackBy">
       <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: item.children }"></ng-template>

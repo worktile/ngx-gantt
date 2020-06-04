@@ -15,7 +15,12 @@ export class GanttLoadOnScrollEvent {
 }
 
 export class GanttLinkEvent {
-  event: MouseEvent;
-  source: GanttItem;
-  dependent: GanttItem;
+    event: MouseEvent;
+    source: GanttItem;
+    dependent: GanttItem;
+}
+
+export class GanttBarClickEvent {
+    event: Event;
+    item: GanttItem;
 }
