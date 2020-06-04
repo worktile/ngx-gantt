@@ -21,7 +21,7 @@ import { startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
-import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal } from './class';
+import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal, GanttBarClickEvent } from './class';
 import { GanttDomService } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
@@ -49,6 +49,8 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() linkClick = new EventEmitter<GanttLinkEvent>();
+
+    @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
