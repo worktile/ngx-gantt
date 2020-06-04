@@ -127,7 +127,7 @@ export abstract class GanttUpper {
                     this.scrollToToday();
                 });
             }
-            if (changes.items && changes.groups) {
+            if (changes.originItems || changes.originGroups) {
                 this.setupGroups();
                 this.setupItems();
                 this.computeRefs();
