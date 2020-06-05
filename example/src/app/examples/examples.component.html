@@ -26,11 +26,6 @@
     (dragEnded)="dragEnded($event)"
   >
     <ngx-gantt-table>
-      <ngx-gantt-column name="标题">
-        <ng-template #cell let-item>
-          {{ item.title }}
-        </ng-template>
-      </ngx-gantt-column>
       <ngx-gantt-column>
         <ng-template #header let-column> 开始时间 -> </ng-template>
         <ng-template #cell let-item>

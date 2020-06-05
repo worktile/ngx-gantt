@@ -1,6 +1,6 @@
-<div class="gantt-side-container" [style.width.px]="sideWidth">
+<div class="gantt-side-container">
   <div class="gantt-table-header gantt-table-row">
-    <div class="header-column gantt-table-column" *ngFor="let column of columnList" [style.width]="column.width">
+    <div class="header-column gantt-table-column" *ngFor="let column of columnList" [style.width.px]="column.width">
       <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
       <ng-template #default>
         {{ column.name }}
@@ -41,7 +41,7 @@
 <ng-template #ganttItems let-items="items">
   <ng-container *ngFor="let item of items">
     <div class="gantt-table-item gantt-table-row">
-      <div class="item-column gantt-table-column" *ngFor="let column of columnList" [style.width]="column.width">
+      <div class="item-column gantt-table-column" *ngFor="let column of columnList" [style.width.px]="column.width">
         <ng-template
           [ngTemplateOutlet]="column.templateRef"
           [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"

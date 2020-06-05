@@ -9,9 +9,10 @@ export const headerHeight = 44;
 
 export const sideWidth = 400;
 
-export const maxSideWidth = 600;
+export const sideMiddleWidth = 500;
 
-export const minSideWidth = 400;
+export const sideMaxWidth = 600;
+
+export const sideMinWidth = 400;
 
 export const barBackground = '#348fe4';
-
