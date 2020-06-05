@@ -1,88 +1,61 @@
 .gantt-table {
   display: block;
   height: 100%;
-
-  .gantt-table-group {
-    background: $gantt-group-background-color;
-    td {
-      padding: 0 10px !important;
-    }
-    .gantt-table-group-title {
-      cursor: pointer;
-      .expand-icon {
-        color: #aaa;
-        margin-right: 6px;
+  .gantt-table-row {
+    display: flex;
+    .gantt-table-column {
+      height: $gantt-item-height;
+      line-height: $gantt-item-height;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-bottom: 1px solid $gantt-border-color;
+      border-right: 1px solid $gantt-border-color;
+      box-sizing: border-box;
+      &:last-child {
+        border-right: none;
       }
     }
   }
 
-  table {
-    margin: 0;
-    padding: 0;
-    border-collapse: collapse;
-    background-color: transparent;
+  .gantt-table-header {
+    text-align: center;
+    position: sticky;
+    top: 0;
+    .header-column {
+      font-weight: 400;
+      background: #fff;
+      z-index: 1;
+      padding: 0 20px;
+    }
+  }
 
-    thead,
-    tbody {
-      tr {
-        height: $gantt-item-height;
-      }
-
-      th,
-      td {
-        padding: $gantt-table-td-padding;
-        position: relative;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 150px;
-        min-width: 100px;
-
-        &::before {
-          position: absolute;
-          top: 0;
-          right: 0;
-          content: '';
-          height: 100%;
-          width: 1px;
-          background: $gantt-border-color;
-        }
-
-        &::after {
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          content: '';
-          width: 100%;
-          height: 1px;
-          background: $gantt-border-color;
-        }
-
-        &:last-child {
-          &::before {
-            display: none;
-          }
-        }
-      }
-
-      td {
-        transition: width 0.5s;
-        &:first-child {
-          padding: 0 20px 0 50px;
+  .gantt-table-body {
+    .gantt-table-group {
+      display: flex;
+      height: $gantt-item-height;
+      background: $gantt-group-background-color;
+      padding: 0 10px;
+      align-items: center;
+      border-bottom: 1px solid $gantt-border-color;
+      box-sizing: border-box;
+      .gantt-table-group-title {
+        cursor: pointer;
+        .expand-icon {
+          color: #aaa;
+          margin-right: 6px;
         }
       }
     }
-
-    thead {
-      th {
-        font-weight: 400;
-        height: $gantt-header-height;
-        position: sticky;
-        top: 0;
-        background: #fff;
-        z-index: 1;
-        padding: 0;
-        text-align: center;
+    .gantt-table-item {
+      .item-column {
+        padding: $gantt-table-td-padding;
+        &:first-child {
+          padding: 0 20px 0 54px;
+        }
+        &:last-child {
+          border-right: none;
+        }
       }
     }
   }
