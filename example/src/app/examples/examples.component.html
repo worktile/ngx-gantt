@@ -1,5 +1,5 @@
 <div class="content">
-  <ngx-gantt start="1514736000" end="1609430400" [items]="items" [groups]="groups" [draggable]="true">
+  <ngx-gantt start="1514736000" end="1609430400" [items]="items" [groups]="groups" [draggable]="true" (barClick)="barClick($event)">
     <ngx-gantt-table>
       <ngx-gantt-column name="标题" [width]="400">
         <ng-template #cell let-item>

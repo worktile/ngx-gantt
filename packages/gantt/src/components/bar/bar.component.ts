@@ -10,7 +10,9 @@ import {
     OnDestroy,
     Inject,
     NgZone,
-    ViewChild
+    ViewChild,
+    Output,
+    EventEmitter
 } from '@angular/core';
 import { GanttItemInternal } from '../../class/item';
 import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
@@ -20,6 +22,7 @@ import { GanttBarDrag } from './bar-drag';
 import { hexToRgb } from '../../utils/helpers';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { barBackground } from '../../gantt.styles';
+import { GanttBarClickEvent } from '../../class';
 
 function linearGradient(sideOrCorner: string, color: string, stop: string) {
     return `linear-gradient(${sideOrCorner},${color} 0%,${stop} 40%)`;
@@ -34,6 +37,8 @@ export class GanttBarComponent implements OnInit, OnChanges, OnDestroy {
     @Input() item: GanttItemInternal;
 
     @Input() template: TemplateRef<any>;
+
+    @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @ViewChild('content', { static: false }) contentElementRef: ElementRef<HTMLDivElement>;
 
@@ -74,6 +79,10 @@ export class GanttBarComponent implements OnInit, OnChanges, OnDestroy {
         if (!this.firstChange) {
             this.setPositions();
         }
+    }
+
+    onBarClick(event: Event) {
+        this.barClick.emit({ event, item: this.item.origin });
     }
 
     private setPositions() {

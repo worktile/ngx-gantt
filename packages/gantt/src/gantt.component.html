@@ -4,5 +4,5 @@
 <div class="gantt-container">
   <gantt-calendar-overlay></gantt-calendar-overlay>
   <gantt-drag-backdrop></gantt-drag-backdrop>
-  <gantt-main [groups]="groups" [items]="items" [barTemplate]="barTemplate"></gantt-main>
+  <gantt-main [groups]="groups" [items]="items" [barTemplate]="barTemplate" (barClick)="barClick.emit($event)"></gantt-main>
 </div>
