@@ -1,11 +1,6 @@
 <div class="content">
   <ngx-gantt start="1514736000" end="1609430400" [items]="items" [groups]="groups" [draggable]="true" (barClick)="barClick($event)">
     <ngx-gantt-table>
-      <ngx-gantt-column name="标题">
-        <ng-template #cell let-item>
-          {{ item.title }}
-        </ng-template>
-      </ngx-gantt-column>
       <ngx-gantt-column>
         <ng-template #header let-column> 开始时间 -> </ng-template>
         <ng-template #cell let-item>

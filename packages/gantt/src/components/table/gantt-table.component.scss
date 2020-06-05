@@ -22,11 +22,10 @@
     text-align: center;
     position: sticky;
     top: 0;
+    background: #fff;
+    z-index: 1;
     .header-column {
       font-weight: 400;
-      background: #fff;
-      z-index: 1;
-      padding: 0 20px;
     }
   }
 
@@ -48,6 +47,7 @@
       }
     }
     .gantt-table-item {
+      cursor: pointer;
       .item-column {
         padding: $gantt-table-td-padding;
         &:first-child {
@@ -56,6 +56,9 @@
         &:last-child {
           border-right: none;
         }
+      }
+      &:hover {
+        background-color: $gantt-container-background-color;
       }
     }
   }

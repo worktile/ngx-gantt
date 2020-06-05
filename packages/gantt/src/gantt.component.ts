@@ -25,6 +25,8 @@ import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal, GanttBarClickEve
 import { GanttDomService } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
+import { sideWidth } from './gantt.styles';
+import { compute } from './utils/column.compute';
 
 @Component({
     selector: 'ngx-gantt',
@@ -41,6 +43,8 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 })
 export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, AfterViewInit, OnChanges, OnDestroy {
     private ngUnsubscribe$ = new Subject();
+
+    public sideTableWidth = sideWidth;
 
     @Input() linkable: boolean;
 
@@ -74,6 +78,19 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
         });
     }
 
+    private computeColumnWidth() {
+        const columnsLength = this.columns.length;
+        const widthConfig = compute(columnsLength);
+        this.sideTableWidth = widthConfig.width;
+        this.columns.forEach((column, index) => {
+            if (index === 0) {
+                column.width = widthConfig.primaryWidth;
+            } else {
+                column.width = widthConfig.secondaryWidth;
+            }
+        });
+    }
+
     ngOnInit() {
         super.onInit();
 
@@ -87,7 +104,8 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     ngAfterViewInit() {
         this.columns.changes.pipe(startWith(true), takeUntil(this.ngUnsubscribe$)).subscribe(() => {
-            this.cdr.markForCheck();
+            this.computeColumnWidth();
+            this.detectChanges();
         });
     }
 
