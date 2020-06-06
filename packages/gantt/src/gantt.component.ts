@@ -74,7 +74,7 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
         item.updateRefs({
             width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
             x: item.start ? this.view.getXPointByDate(item.start) : 0,
-            y: (this.styles.lineHeight - this.styles.barHeight) / 2
+            y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
         });
     }
 
