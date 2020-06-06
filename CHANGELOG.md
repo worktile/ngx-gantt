@@ -1,6 +1,14 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.8](https://github.com/worktile/ngx-gantt/compare/0.0.7...0.0.8) (2020-06-06)
+
+
+### Bug Fixes
+
+* fix today line compute and group state sync bug ([#23](https://github.com/worktile/ngx-gantt/issues/23)) ([641ac49](https://github.com/worktile/ngx-gantt/commit/641ac49bfa40be86f25d8ddfc26bc682496388b2))
+* **column:** compute column width in util ([1b4078a](https://github.com/worktile/ngx-gantt/commit/1b4078a8a7ba1e65bdfebda7417558d90ba19ced))
+
 ### [0.0.7](https://github.com/worktile/ngx-gantt/compare/0.0.3...0.0.7) (2020-06-04)
 
 
