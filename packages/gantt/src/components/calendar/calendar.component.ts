@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding, OnChanges, SimpleChanges, ChangeDetectorRef, OnDestroy, NgZone, Inject } from '@angular/core';
 import { GanttDatePoint } from '../../class/date-point';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, delay } from 'rxjs/operators';
 import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
 import { headerHeight } from '../../gantt.styles';
 import { isNumber } from '../../utils/helpers';
@@ -41,13 +41,13 @@ export class GanttCalendarComponent implements OnInit, OnChanges, OnDestroy {
         private dom: GanttDomService
     ) {}
 
-    private computeTodayPoint() {
+    computeTodayPoint() {
         const x = this.view.getTodayXPoint();
         if (isNumber(x)) {
             this.todayPoint = {
                 x,
                 y: this.dom.root.clientHeight,
-                angle: [`${x - 6},0`, `${x + 5},0`, `${x},5`].join(' '),
+                angle: [`${x - 6},${headerHeight}`, `${x + 5},${headerHeight}`, `${x},${headerHeight + 5}`].join(' '),
                 text: new GanttDate().format('MM月d日')
             };
         }
@@ -65,7 +65,7 @@ export class GanttCalendarComponent implements OnInit, OnChanges, OnDestroy {
 
         this.dom
             .getResize()
-            .pipe(takeUntil(this.unsubscribe$))
+            .pipe(delay(10), takeUntil(this.unsubscribe$))
             .subscribe(() => {
                 this.todayPoint.y = this.dom.root.clientHeight;
                 this.cdr.detectChanges();

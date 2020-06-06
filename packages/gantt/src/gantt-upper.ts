@@ -8,7 +8,8 @@ import {
     HostBinding,
     ChangeDetectorRef,
     NgZone,
-    SimpleChanges
+    SimpleChanges,
+    ViewChild
 } from '@angular/core';
 import {
     GanttItem,
@@ -27,6 +28,7 @@ import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
 import { Subject } from 'rxjs';
+import { GanttCalendarComponent } from './components/calendar/calendar.component';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -56,6 +58,8 @@ export abstract class GanttUpper {
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
+
+    @ViewChild(GanttCalendarComponent, { static: false }) calendar: GanttCalendarComponent;
 
     public view: GanttView;
 
@@ -123,6 +127,7 @@ export abstract class GanttUpper {
             if (changes.viewType && changes.viewType.currentValue) {
                 this.createView();
                 this.computeRefs();
+                this.calendar.computeTodayPoint();
                 this.onStable().subscribe(() => {
                     this.scrollToToday();
                 });
@@ -150,10 +155,12 @@ export abstract class GanttUpper {
     }
 
     private setupGroups() {
+        const collapsedIds = this.groups.filter((group) => !group.expand).map((group) => group.id);
         this.groupsMap = {};
         this.groups = [];
         this.originGroups.forEach((origin) => {
             const group = new GanttGroupInternal(origin);
+            group.expand = !collapsedIds.includes(group.id);
             this.groupsMap[group.id] = group;
             this.groups.push(group);
         });
