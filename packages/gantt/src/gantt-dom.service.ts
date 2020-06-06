@@ -53,7 +53,7 @@ export class GanttDomService implements OnDestroy {
     }
 
     private syncScroll(event: Event) {
-        const target = event.target as HTMLElement;
+        const target = event.currentTarget as HTMLElement;
         this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
         this.sideContainer.scrollTop = target.scrollTop;
         this.mainContainer.scrollTop = target.scrollTop;

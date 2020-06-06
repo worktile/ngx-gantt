@@ -26,7 +26,7 @@ import { GanttDomService } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
-import { compute } from './utils/column.compute';
+import { getColumnWidthConfig } from './utils/column-compute';
 
 @Component({
     selector: 'ngx-gantt',
@@ -79,8 +79,8 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     }
 
     private computeColumnWidth() {
-        const columnsLength = this.columns.length;
-        const widthConfig = compute(columnsLength);
+        const count = this.columns.length;
+        const widthConfig = getColumnWidthConfig(count);
         this.sideTableWidth = widthConfig.width;
         this.columns.forEach((column, index) => {
             if (index === 0) {

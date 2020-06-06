@@ -1,11 +1,12 @@
 import { sideWidth, sideMiddleWidth, sideMaxWidth } from '../gantt.styles';
 
-class Config {
+class ColumnWidthConfig {
     width: number;
     primaryWidth: number;
     secondaryWidth?: number;
 }
-const computeStrategyMap = new Map<(c: number) => boolean, Config>([
+
+const computeStrategiesMap = new Map<(c: number) => boolean, ColumnWidthConfig>([
     [
         (count: number) => count === 1,
         {
@@ -36,15 +37,14 @@ const computeStrategyMap = new Map<(c: number) => boolean, Config>([
     ]
 ]);
 
-export function compute(count: number, width?: number): Config {
+export function getColumnWidthConfig(count: number, width?: number): ColumnWidthConfig {
     let config = null;
-    computeStrategyMap.forEach((value, condition) => {
+    computeStrategiesMap.forEach((value, condition) => {
         if (condition(count)) {
             config = value;
             return false;
         }
     });
-
     const configWidth = width || config.width;
     const primaryWidth = configWidth * config.primaryWidth;
     const secondaryWidth = (configWidth - primaryWidth) / (count - 1);
