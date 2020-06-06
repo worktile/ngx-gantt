@@ -210,7 +210,7 @@ export class GanttBarDrag implements OnDestroy {
         const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
         const rootRect = this.dom.root.getBoundingClientRect();
         const dragRect = dragElement.getBoundingClientRect();
-        const left = dragRect.left - rootRect.left - 400;
+        const left = dragRect.left - rootRect.left - this.dom.side.clientWidth;
         const width = dragRect.right - dragRect.left;
         dragMaskElement.style.left = left + 'px';
         dragMaskElement.style.width = width + 'px';

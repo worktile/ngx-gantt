@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { mockItems, mockGroups } from './mocks';
-import { GanttBarClickEvent } from '../../../../packages/gantt/src/class';
+import { GanttBarClickEvent, GanttViewType } from '../../../../packages/gantt/src/class';
+import { GanttDragEvent } from 'dist/gantt/class';
 
 @Component({
     selector: 'app-examples-gantt',
@@ -14,9 +15,19 @@ export class AppExamplesComponent implements OnInit {
 
     groups = mockGroups;
 
+    options = {
+        viewType: GanttViewType.month,
+        draggable: true
+    };
+
     ngOnInit(): void {}
 
     barClick(event: GanttBarClickEvent) {
         console.log(event);
+    }
+
+    dragEnded(event: GanttDragEvent) {
+        this.groups = [...this.groups];
+        this.items = [...this.items];
     }
 }
