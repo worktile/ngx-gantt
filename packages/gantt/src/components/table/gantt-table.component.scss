@@ -1,65 +1,77 @@
 .gantt-table {
-  display: block;
-  height: 100%;
-  .gantt-table-row {
-    display: flex;
-    .gantt-table-column {
-      height: $gantt-item-height;
-      line-height: $gantt-item-height;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      border-bottom: 1px solid $gantt-border-color;
-      border-right: 1px solid $gantt-border-color;
-      box-sizing: border-box;
-      &:last-child {
-        border-right: none;
-      }
-    }
-  }
+    display: block;
+    height: 100%;
 
-  .gantt-table-header {
-    text-align: center;
-    position: sticky;
-    top: 0;
-    background: #fff;
-    z-index: 1;
-    .header-column {
-      font-weight: 400;
-    }
-  }
+    .gantt-table-row {
+        display: flex;
 
-  .gantt-table-body {
-    .gantt-table-group {
-      display: flex;
-      height: $gantt-item-height;
-      background: $gantt-group-background-color;
-      padding: 0 10px;
-      align-items: center;
-      border-bottom: 1px solid $gantt-border-color;
-      box-sizing: border-box;
-      .gantt-table-group-title {
-        cursor: pointer;
-        .expand-icon {
-          color: #aaa;
-          margin-right: 6px;
+        .gantt-table-column {
+            height: $gantt-item-height;
+            line-height: $gantt-item-height;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border-bottom: 1px solid $gantt-border-color;
+            border-right: 1px solid $gantt-border-color;
+            box-sizing: border-box;
+
+            &:last-child {
+                border-right: none;
+            }
         }
-      }
     }
-    .gantt-table-item {
-      cursor: pointer;
-      .item-column {
-        padding: $gantt-table-td-padding;
-        &:first-child {
-          padding: 0 20px 0 54px;
+
+    .gantt-table-header {
+        text-align: center;
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1;
+
+        .header-column {
+            font-weight: 400;
         }
-        &:last-child {
-          border-right: none;
-        }
-      }
-      &:hover {
-        background-color: $gantt-container-background-color;
-      }
     }
-  }
+
+    .gantt-table-body {
+        .gantt-table-group {
+            display: flex;
+            height: $gantt-item-height;
+            background: $gantt-group-background-color;
+            padding: 0 10px;
+            align-items: center;
+            border-bottom: 1px solid $gantt-border-color;
+            box-sizing: border-box;
+            position: relative;
+
+            .gantt-table-group-title {
+                cursor: pointer;
+
+                .expand-icon {
+                    color: #aaa;
+                    margin-right: 6px;
+                }
+            }
+        }
+
+        .gantt-table-item {
+            cursor: pointer;
+
+            .item-column {
+                padding: $gantt-table-td-padding;
+
+                &:first-child {
+                    padding: 0 20px 0 54px;
+                }
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+
+            &:hover {
+                background-color: $gantt-container-background-color;
+            }
+        }
+    }
 }
