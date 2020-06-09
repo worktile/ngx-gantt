@@ -4,16 +4,14 @@ module.exports = {
     heads: [],
     mode: 'site',
     title: 'NgxGantt',
-    heading: 'Ngx Gantt',
-    description: 'A modern documentation generator for doc and Angular Lib',
-    docsPath: 'docs',
     sitePath: 'example',
-    output: 'example-site',
+    output: 'dist/site',
     repoUrl: 'https://github.com/worktile/ngx-gantt',
     navs: [
         null,
-        { title: 'Examples', path: 'examples' },
+        { title: '示例', path: 'examples' },
         { title: 'Flat', path: 'flat' },
+        { title: '组件', path: 'components', lib: 'ngx-gantt' },
         {
             title: 'GitHub',
             path: 'https://github.com/worktile/ngx-gantt',
@@ -30,4 +28,22 @@ module.exports = {
             },
         },
     ],
+    libs: [
+        {
+            name: 'ngx-gantt',
+            rootDir: './packages/gantt/src',
+            exclude: '',
+            categories: [
+                {
+                    id: 'general',
+                    title: '通用',
+                    locales: {
+                        'en-us': {
+                            title: 'General'
+                        }
+                    }
+                }
+            ]
+        }
+    ]
 };
