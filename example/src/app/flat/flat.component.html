@@ -1,0 +1,39 @@
+<div class="header">
+  <div class="header-section">
+    <span class="header-section-title">视图：</span>
+    <span class="header-section-content">
+      <input id="day" type="radio" value="day" name="view-type" [(ngModel)]="options.viewType" /> <label for="day">日</label>
+      <input id="month" type="radio" value="month" name="view-type" [(ngModel)]="options.viewType" /> <label for="month">月</label>
+      <input id="quarter" type="radio" value="quarter" name="view-type" [(ngModel)]="options.viewType" /> <label for="quarter">季度</label>
+    </span>
+  </div>
+  <div class="header-section">
+    <span class="header-section-title">是否可拖拽：</span>
+    <span class="header-section-content">
+      <input type="checkbox" [(ngModel)]="options.draggable" />
+    </span>
+  </div>
+
+  <div class="header-section">
+    <span class="header-section-title">合并间隔天数：</span>
+    <span class="header-section-content">
+      <input type="number" [style.width.px]="50" [(ngModel)]="options.mergeIntervalDays" />
+    </span>
+  </div>
+</div>
+<div class="content">
+  <ngx-gantt-flat
+    [sideTitle]="'项目'"
+    [start]="1514736000"
+    [end]="1609430400"
+    [items]="items"
+    [groups]="groups"
+    [viewType]="options.viewType"
+    [draggable]="options.draggable"
+    [mergeIntervalDays]="options.mergeIntervalDays"
+  >
+    <ng-template #group let-group="group">
+      {{ group.title }}
+    </ng-template>
+  </ngx-gantt-flat>
+</div>

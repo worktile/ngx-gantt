@@ -18,14 +18,15 @@ import {
     GanttLoadOnScrollEvent,
     GanttDragEvent,
     GanttGroupInternal,
-    GanttItemInternal
+    GanttItemInternal,
+    GanttBarClickEvent
 } from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
 import { GanttStyles, defaultStyles, sideWidth } from './gantt.styles';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil, take, skip } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
 import { Subject } from 'rxjs';
 import { GanttCalendarComponent } from './components/calendar/calendar.component';
@@ -54,6 +55,8 @@ export abstract class GanttUpper {
     @Output() dragStarted = new EventEmitter<GanttDragEvent>();
 
     @Output() dragEnded = new EventEmitter<GanttDragEvent>();
+
+    @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
@@ -109,7 +112,7 @@ export abstract class GanttUpper {
             this.element.style.opacity = '1';
         });
 
-        this.view.start$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+        this.view.start$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(() => {
             this.computeRefs();
         });
 
@@ -119,6 +122,7 @@ export abstract class GanttUpper {
         this.dragContainer.dragEnded.subscribe((event) => {
             this.dragEnded.emit(event);
             this.computeRefs();
+            this.cdr.detectChanges();
         });
     }
 

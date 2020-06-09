@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { mockItems, mockGroups } from './mocks';
 import { GanttBarClickEvent, GanttViewType } from '../../../../packages/gantt/src/class';
 import { GanttDragEvent } from 'dist/gantt/class';
@@ -19,6 +19,8 @@ export class AppExamplesComponent implements OnInit {
         viewType: GanttViewType.month,
         draggable: true
     };
+
+    @HostBinding('class.gantt-demo') class = true;
 
     ngOnInit(): void {}
 

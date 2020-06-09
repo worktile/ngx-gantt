@@ -13,6 +13,7 @@ module.exports = {
     navs: [
         null,
         { title: 'Examples', path: 'examples' },
+        { title: 'Flat', path: 'flat' },
         {
             title: 'GitHub',
             path: 'https://github.com/worktile/ngx-gantt',
