@@ -13,7 +13,9 @@ export class GanttGroupInternal {
     items: GanttItemInternal[];
     mergedItems: GanttItemInternal[][];
     expand = true;
-
+    refs?: {
+        height?: number;
+    } = {};
     constructor(group: GanttGroup) {
         this.id = group.id;
         this.origin = group;

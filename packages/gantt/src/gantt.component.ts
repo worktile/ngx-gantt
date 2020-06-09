@@ -54,8 +54,6 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     @Output() linkClick = new EventEmitter<GanttLinkEvent>();
 
-    @Output() barClick = new EventEmitter<GanttBarClickEvent>();
-
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
