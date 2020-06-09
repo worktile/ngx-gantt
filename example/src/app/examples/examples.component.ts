@@ -1,7 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { mockItems, mockGroups } from './mocks';
-import { GanttBarClickEvent, GanttViewType } from '../../../../packages/gantt/src/class';
-import { GanttDragEvent } from 'dist/gantt/class';
+import { GanttBarClickEvent, GanttViewType, GanttDragEvent } from 'ngx-gantt';
 
 @Component({
     selector: 'app-examples-gantt',
