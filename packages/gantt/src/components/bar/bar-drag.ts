@@ -178,7 +178,7 @@ export class GanttBarDrag implements OnDestroy {
                     this.barDragRef.disabled = true;
                 }
                 this.createLinkDraggingLine();
-                this.dragContainer.emitLinkDragStarted(isBefore ? 'dependent' : 'source', this.item);
+                this.dragContainer.emitLinkDragStarted(isBefore ? 'target' : 'source', this.item);
             });
 
             dragRef.moved.subscribe(() => {

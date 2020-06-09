@@ -1,1 +1,19 @@
-<p>dependencies works!</p>
+<svg [attr.width]="gantt.view.width" [attr.height]="'100%'">
+  <ng-container *ngFor="let link of links; let i = index; trackBy: trackBy">
+    <path [attr.d]="link.path" fill="transparent" stroke-width="2" [attr.stroke]="link.color" pointer-events="none"></path>
+    <g>
+      <path
+        class="link-line"
+        (click)="onLinkClick($event, link)"
+        (mouseenter)="mouseEnterPath(link)"
+        (mouseleave)="mouseLeavePath(link)"
+        [attr.d]="link.path"
+        stroke="transparent"
+        stroke-width="9"
+        fill="none"
+        cursor="pointer"
+      ></path>
+    </g>
+  </ng-container>
+  <line class="link-dragging-line"></line>
+</svg>

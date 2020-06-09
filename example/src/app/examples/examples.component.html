@@ -13,6 +13,12 @@
       <input type="checkbox" [(ngModel)]="options.draggable" />
     </span>
   </div>
+  <div class="header-section">
+    <span class="header-section-title">是否可关联：</span>
+    <span class="header-section-content">
+      <input type="checkbox" [(ngModel)]="options.linkable" />
+    </span>
+  </div>
 </div>
 <div class="content">
   <ngx-gantt
@@ -22,6 +28,7 @@
     [groups]="groups"
     [viewType]="options.viewType"
     [draggable]="options.draggable"
+    [linkable]="options.linkable"
     (barClick)="barClick($event)"
     (dragEnded)="dragEnded($event)"
   >

@@ -6,7 +6,7 @@ export class GanttDragEvent {
 
 export class GanttLinkDragEvent {
     source: GanttItem;
-    dependent?: GanttItem;
+    target?: GanttItem;
 }
 
 export class GanttLoadOnScrollEvent {
@@ -17,7 +17,7 @@ export class GanttLoadOnScrollEvent {
 export class GanttLinkEvent {
     event: MouseEvent;
     source: GanttItem;
-    dependent: GanttItem;
+    target: GanttItem;
 }
 
 export class GanttBarClickEvent {

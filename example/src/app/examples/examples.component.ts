@@ -17,7 +17,8 @@ export class AppExamplesComponent implements OnInit {
 
     options = {
         viewType: GanttViewType.month,
-        draggable: true
+        draggable: true,
+        linkable: true
     };
 
     ngOnInit(): void {}
