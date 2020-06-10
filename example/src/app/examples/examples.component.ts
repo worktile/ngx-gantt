@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { mockItems, mockGroups } from './mocks';
-import { GanttBarClickEvent, GanttViewType, GanttLoadOnScrollEvent, GanttDragEvent } from 'ngx-gantt';
+import { GanttBarClickEvent, GanttViewType, GanttDragEvent, GanttLoadOnScrollEvent } from 'ngx-gantt';
 
 @Component({
     selector: 'app-examples-gantt',
@@ -32,7 +32,5 @@ export class AppExamplesComponent implements OnInit {
         this.items = [...this.items];
     }
 
-    loadOnScroll(event: GanttLoadOnScrollEvent) {
-        this.items = [this.items[0]];
-    }
+    loadOnScroll(event: GanttLoadOnScrollEvent) {}
 }
