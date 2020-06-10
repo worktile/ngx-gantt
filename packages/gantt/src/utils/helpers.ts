@@ -1,3 +1,7 @@
+export interface Dictionary<T = unknown> {
+    [key: string]: T;
+}
+
 export function isNumber(value: any) {
     return typeof value === 'number';
 }
@@ -8,4 +12,17 @@ export function hexToRgb(color: string, opacity = 1) {
     } else {
         return null;
     }
+}
+
+export function uniqBy<T = unknown>(array: T[], key: keyof T) {
+    const valuesMap: Dictionary<T> = {};
+    const result = [];
+    (array || []).forEach((value) => {
+        const _key = value[key as string];
+        if (!valuesMap[_key]) {
+            valuesMap[_key] = value;
+            result.push(value);
+        }
+    });
+    return result;
 }

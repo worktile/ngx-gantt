@@ -30,6 +30,7 @@ import { takeUntil, take, skip } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
 import { Subject } from 'rxjs';
 import { GanttCalendarComponent } from './components/calendar/calendar.component';
+import { uniqBy } from './utils/helpers';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -172,6 +173,7 @@ export abstract class GanttUpper {
 
     private setupItems() {
         this.items = [];
+        this.originItems = uniqBy(this.originItems, 'id');
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
@@ -211,15 +213,17 @@ export abstract class GanttUpper {
                     const dates = this.view.addStartDate();
                     if (dates) {
                         event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
-                        this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        this.cdr.detectChanges();
+                        this.ngZone.run(() => {
+                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        });
                     }
                 }
                 if (event.direction === ScrollDirection.RIGHT) {
                     const dates = this.view.addEndDate();
                     if (dates) {
-                        this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        this.cdr.detectChanges();
+                        this.ngZone.run(() => {
+                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        });
                     }
                 }
             });

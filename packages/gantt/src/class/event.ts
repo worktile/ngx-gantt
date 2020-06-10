@@ -1,12 +1,12 @@
 import { GanttItem } from './item';
 
-export class GanttDragEvent {
-    item: GanttItem;
+export class GanttDragEvent<T = unknown> {
+    item: GanttItem<T>;
 }
 
-export class GanttLinkDragEvent {
-    source: GanttItem;
-    dependent?: GanttItem;
+export class GanttLinkDragEvent<T = unknown> {
+    source: GanttItem<T>;
+    dependent?: GanttItem<T>;
 }
 
 export class GanttLoadOnScrollEvent {
@@ -14,13 +14,13 @@ export class GanttLoadOnScrollEvent {
     end: number;
 }
 
-export class GanttLinkEvent {
+export class GanttLinkEvent<T = unknown> {
     event: MouseEvent;
-    source: GanttItem;
-    dependent: GanttItem;
+    source: GanttItem<T>;
+    dependent: GanttItem<T>;
 }
 
-export class GanttBarClickEvent {
+export class GanttBarClickEvent<T = unknown> {
     event: Event;
-    item: GanttItem;
+    item: GanttItem<T>;
 }

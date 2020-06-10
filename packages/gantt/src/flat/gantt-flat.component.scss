@@ -14,6 +14,7 @@
     .gantt-flat-side-group {
         padding: $gantt-flat-group-padding;
         border-bottom: 1px solid $gantt-border-color;
+        box-sizing: content-box;
     }
 
     .gantt-flat-group {

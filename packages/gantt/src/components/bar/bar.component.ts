@@ -12,7 +12,8 @@ import {
     NgZone,
     ViewChild,
     Output,
-    EventEmitter
+    EventEmitter,
+    AfterViewInit
 } from '@angular/core';
 import { GanttItemInternal } from '../../class/item';
 import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
@@ -33,7 +34,7 @@ function linearGradient(sideOrCorner: string, color: string, stop: string) {
     templateUrl: './bar.component.html',
     providers: [GanttBarDrag]
 })
-export class GanttBarComponent implements OnInit, OnChanges, OnDestroy {
+export class GanttBarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     @Input() item: GanttItemInternal;
 
     @Input() template: TemplateRef<any>;
@@ -64,15 +65,14 @@ export class GanttBarComponent implements OnInit, OnChanges, OnDestroy {
         this.item.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.setPositions();
         });
-
-        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            this.drag.createDrags(this.elementRef, this.item, this.ganttRef);
-
-            // update content style after drag end
-            this.dragContainer.dragEnded.pipe(startWith(null), takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.setContentBackground();
-            });
+        this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.setContentBackground();
         });
+    }
+
+    ngAfterViewInit() {
+        this.drag.createDrags(this.elementRef, this.item, this.ganttRef);
+        this.setContentBackground();
     }
 
     ngOnChanges(changes: SimpleChanges): void {

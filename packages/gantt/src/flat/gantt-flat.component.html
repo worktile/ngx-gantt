@@ -7,7 +7,7 @@
       <div
         class="gantt-flat-side-group"
         *ngFor="let group of groups; trackBy: trackBy"
-        [style.height.px]="group.mergedItems.length * styles.lineHeight"
+        [style.height.px]="(group.mergedItems.length) * styles.lineHeight"
       >
         <ng-template [ngTemplateOutlet]="groupTemplate" [ngTemplateOutletContext]="{ group: group.origin }"></ng-template>
       </div>

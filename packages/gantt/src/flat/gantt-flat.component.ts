@@ -89,6 +89,8 @@ export class NgxGanttFlatComponent extends GanttUpper implements OnInit, OnChang
                 this.computeItemRef(item);
             });
             group.mergedItems = this.buildGroupMergedItems(group);
+            // 如果没有数据，默认填充一行空行
+            group.mergedItems = group.mergedItems.length === 0 ? [[]] : group.mergedItems;
         });
     }
 
