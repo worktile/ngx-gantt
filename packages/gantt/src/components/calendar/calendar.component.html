@@ -1,8 +1,8 @@
-<div *ngIf="todayPoint" class="gantt-calendar-today-overlay">
+<div class="gantt-calendar-today-overlay">
   <svg [attr.width]="view.width" height="1">
     <g>
-      <polygon class="today-line-angle" [attr.points]="todayPoint.angle" />
-      <line [attr.x1]="todayPoint.x" [attr.x2]="todayPoint.x" [attr.y1]="headerHeight" [attr.y2]="todayPoint.y" class="today-line"></line>
+      <polygon class="today-line-angle" />
+      <line class="today-line"></line>
     </g>
   </svg>
 </div>

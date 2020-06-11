@@ -1,7 +1,19 @@
-import { Component, OnInit, HostBinding, OnChanges, SimpleChanges, ChangeDetectorRef, OnDestroy, NgZone, Inject } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    HostBinding,
+    OnChanges,
+    SimpleChanges,
+    ChangeDetectorRef,
+    OnDestroy,
+    NgZone,
+    Inject,
+    ElementRef,
+    AfterViewInit
+} from '@angular/core';
 import { GanttDatePoint } from '../../class/date-point';
 import { Subject } from 'rxjs';
-import { take, takeUntil, delay } from 'rxjs/operators';
+import { take, takeUntil, delay, auditTime } from 'rxjs/operators';
 import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
 import { headerHeight } from '../../gantt.styles';
 import { isNumber } from '../../utils/helpers';
@@ -12,23 +24,10 @@ import { GanttDomService } from '../../gantt-dom.service';
     selector: 'gantt-calendar-overlay',
     templateUrl: './calendar.component.html'
 })
-export class GanttCalendarComponent implements OnInit, OnChanges, OnDestroy {
-    public height = 500;
-
-    public headerHeight = headerHeight;
-
-    public todayPoint: {
-        x: number;
-        y: number;
-        angle: string;
-        text: string;
-    };
-
+export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     get view() {
         return this.ganttRef.view;
     }
-
-    private firstChange = true;
 
     private unsubscribe$ = new Subject();
 
@@ -38,39 +37,39 @@ export class GanttCalendarComponent implements OnInit, OnChanges, OnDestroy {
         @Inject(GANTT_REF_TOKEN) private ganttRef: GanttRef,
         private cdr: ChangeDetectorRef,
         private ngZone: NgZone,
-        private dom: GanttDomService
+        private dom: GanttDomService,
+        private elementRef: ElementRef<HTMLElement>
     ) {}
 
-    computeTodayPoint() {
+    setTodayPoint() {
         const x = this.view.getTodayXPoint();
-        if (isNumber(x)) {
-            this.todayPoint = {
-                x,
-                y: this.dom.root.clientHeight,
-                angle: [`${x - 6},${headerHeight}`, `${x + 5},${headerHeight}`, `${x},${headerHeight + 5}`].join(' '),
-                text: new GanttDate().format('MM月d日')
-            };
+        const angle = this.elementRef.nativeElement.getElementsByClassName('today-line-angle')[0];
+        const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0];
+        if (angle && line && isNumber(x)) {
+            angle.setAttribute('points', [`${x - 6},${headerHeight}`, `${x + 5},${headerHeight}`, `${x},${headerHeight + 5}`].join(' '));
+            line.setAttribute('x1', x.toString());
+            line.setAttribute('x2', x.toString());
+            line.setAttribute('y1', headerHeight.toString());
+            line.setAttribute('y2', this.dom.root.clientHeight.toString());
         }
     }
 
     ngOnInit() {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
             this.ganttRef.view.start$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.computeTodayPoint();
-                this.cdr.detectChanges();
+                this.setTodayPoint();
             });
         });
 
-        this.firstChange = false;
-
         this.dom
             .getResize()
-            .pipe(delay(10), takeUntil(this.unsubscribe$))
+            .pipe(takeUntil(this.unsubscribe$))
             .subscribe(() => {
-                this.todayPoint.y = this.dom.root.clientHeight;
-                this.cdr.detectChanges();
+                this.setTodayPoint();
             });
     }
+
+    ngAfterViewInit() {}
 
     ngOnChanges(changes: SimpleChanges): void {}
 
