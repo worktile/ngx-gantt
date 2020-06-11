@@ -8,6 +8,7 @@ export interface GanttRef {
     styles: GanttStyles;
     draggable: boolean;
     linkable?: boolean;
+    expandChange(): void;
     detectChanges(): void;
 }
 

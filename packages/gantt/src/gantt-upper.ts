@@ -176,11 +176,9 @@ export abstract class GanttUpper {
         this.originItems = uniqBy(this.originItems, 'id');
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
-                const itemInternal = new GanttItemInternal(origin);
                 const group = this.groupsMap[origin.group_id];
-                this.items.push(itemInternal);
                 if (group) {
-                    group.items.push(itemInternal);
+                    group.items.push(new GanttItemInternal(origin));
                 }
             });
         } else {

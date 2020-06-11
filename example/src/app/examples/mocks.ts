@@ -69,7 +69,8 @@ export const mockItems = [
         title: 'VERSION 0204',
         start: 1591035675,
         end: 1592418400,
-        group_id: '00002'
+        group_id: '00002',
+        links: ['item-0301', 'item-0402']
     },
 
     {

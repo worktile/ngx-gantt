@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { mockItems, mockGroups } from './mocks';
-import { GanttBarClickEvent, GanttViewType, GanttDragEvent, GanttLoadOnScrollEvent } from 'ngx-gantt';
+import { GanttBarClickEvent, GanttViewType, GanttDragEvent, GanttLoadOnScrollEvent, GanttLineClickEvent } from 'ngx-gantt';
 
 @Component({
     selector: 'app-examples-gantt',
@@ -25,6 +25,10 @@ export class AppExamplesComponent implements OnInit {
     ngOnInit(): void {}
 
     barClick(event: GanttBarClickEvent) {
+        console.log(event);
+    }
+
+    lineClick(event: GanttLineClickEvent) {
         console.log(event);
     }
 

@@ -1,9 +1,21 @@
 <div class="gantt-side gantt-side-has-shadow" [style.width.px]="sideTableWidth">
-  <gantt-table [groups]="groups" [items]="items" [columns]="columns" [groupTemplate]="groupTemplate"></gantt-table>
+  <gantt-table
+    [groups]="groups"
+    [items]="items"
+    [columns]="columns"
+    [groupTemplate]="groupTemplate"
+    (expandChange)="expandChange()"
+  ></gantt-table>
 </div>
 <div class="gantt-container">
   <gantt-calendar-overlay></gantt-calendar-overlay>
-  <gantt-links-overlay [groups]="groups" [items]="items" *ngIf="linkable"></gantt-links-overlay>
   <gantt-drag-backdrop></gantt-drag-backdrop>
-  <gantt-main [groups]="groups" [items]="items" [barTemplate]="barTemplate" (barClick)="barClick.emit($event)"></gantt-main>
+  <gantt-main
+    [groups]="groups"
+    [items]="items"
+    [barTemplate]="barTemplate"
+    (barClick)="barClick.emit($event)"
+    (lineClick)="lineClick.emit($event)"
+  >
+  </gantt-main>
 </div>
