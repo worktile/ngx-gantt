@@ -13,7 +13,6 @@
       <input type="checkbox" [(ngModel)]="options.draggable" />
     </span>
   </div>
-
   <div class="header-section">
     <span class="header-section-title">合并间隔天数：</span>
     <span class="header-section-content">
@@ -31,6 +30,7 @@
     [viewType]="options.viewType"
     [draggable]="options.draggable"
     [mergeIntervalDays]="options.mergeIntervalDays"
+    [styles]="options.styles"
   >
     <ng-template #group let-group="group">
       {{ group.title }}

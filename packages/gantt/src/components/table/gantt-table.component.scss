@@ -4,16 +4,14 @@
 
     .gantt-table-row {
         display: flex;
+        box-sizing: border-box;
+        border-bottom: 1px solid $gantt-border-color;
 
         .gantt-table-column {
-            height: $gantt-item-height;
-            line-height: $gantt-item-height;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            border-bottom: 1px solid $gantt-border-color;
             border-right: 1px solid $gantt-border-color;
-            box-sizing: border-box;
 
             &:last-child {
                 border-right: none;
@@ -27,6 +25,8 @@
         top: 0;
         background: #fff;
         z-index: 1;
+        height: $gantt-header-height;
+        line-height: $gantt-header-height;
 
         .header-column {
             font-weight: 400;
@@ -36,7 +36,7 @@
     .gantt-table-body {
         .gantt-table-group {
             display: flex;
-            height: $gantt-item-height;
+            height: $gantt-group-height;
             background: $gantt-group-background-color;
             padding: 0 10px;
             align-items: center;

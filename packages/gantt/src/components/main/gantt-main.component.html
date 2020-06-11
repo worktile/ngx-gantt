@@ -16,7 +16,7 @@
 
 <ng-template #ganttItems let-items="items">
   <ng-container *ngFor="let item of items; trackBy: trackBy">
-    <div class="gantt-item">
+    <div class="gantt-item" [style.height.px]="ganttRef.styles.lineHeight">
       <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
     </div>
     <ng-container *ngFor="let item of item.children; trackBy: trackBy">

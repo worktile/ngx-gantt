@@ -24,7 +24,7 @@
         <ng-container *ngFor="let group of groups; trackBy: trackBy">
           <div class="gantt-flat-group">
             <ng-container *ngFor="let items of group.mergedItems">
-              <div class="gantt-flat-items">
+              <div class="gantt-flat-items" [style.height.px]="styles.lineHeight">
                 <ng-container *ngFor="let item of items; trackBy: trackBy">
                   <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
                 </ng-container>
