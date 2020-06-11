@@ -31,6 +31,8 @@ export class GanttItemInternal {
     origin: GanttItem;
     children: GanttItemInternal[];
     expand: boolean;
+    before?: { x: number; y: number };
+    after?: { x: number; y: number };
     get refs() {
         return this.refs$.getValue();
     }

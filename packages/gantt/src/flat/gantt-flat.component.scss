@@ -1,0 +1,29 @@
+.gantt-flat {
+    .gantt-flat-side-header {
+        text-align: center;
+        position: sticky;
+        top: 0;
+        background: $gantt-bg-color;
+        height: $gantt-header-height;
+        line-height: $gantt-header-height;
+        z-index: 1;
+        border-bottom: 1px solid $gantt-border-color;
+        box-sizing: border-box;
+    }
+
+    .gantt-flat-side-group {
+        padding: $gantt-flat-group-padding;
+        border-bottom: 1px solid $gantt-border-color;
+        box-sizing: content-box;
+    }
+
+    .gantt-flat-group {
+        border-bottom: 1px solid $gantt-border-color;
+        padding: $gantt-flat-group-padding 0;
+    }
+
+    .gantt-flat-items {
+        position: relative;
+        height: $gantt-item-height;
+    }
+}

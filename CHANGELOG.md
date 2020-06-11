@@ -1,6 +1,20 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.11](https://github.com/worktile/ngx-gantt/compare/0.0.10...0.0.11) (2020-06-10)
+
+
+### Bug Fixes
+
+* **flat:** fix group items empty style and fix load on scroll ([29c0d52](https://github.com/worktile/ngx-gantt/commit/29c0d52344052639a6e31799ef56746cea050053))
+
+### [0.0.10](https://github.com/worktile/ngx-gantt/compare/0.0.9...0.0.10) (2020-06-09)
+
+
+### Features
+
+* add merge mode component 'ngx-gantt-flat' ([164d1a5](https://github.com/worktile/ngx-gantt/commit/164d1a510554efc1e456074078bdae509900efe6))
+
 ### [0.0.9](https://github.com/worktile/ngx-gantt/compare/0.0.7...0.0.9) (2020-06-06)
 
 

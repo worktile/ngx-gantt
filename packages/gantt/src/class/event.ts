@@ -1,7 +1,7 @@
 import { GanttItem } from './item';
 
-export class GanttDragEvent {
-    item: GanttItem;
+export class GanttDragEvent<T = unknown> {
+    item: GanttItem<T>;
 }
 
 export class GanttLinkDragEvent {
@@ -14,13 +14,13 @@ export class GanttLoadOnScrollEvent {
     end: number;
 }
 
-export class GanttLinkEvent {
+export class GanttLinkEvent<T = unknown> {
     event: MouseEvent;
     source: GanttItem;
     target: GanttItem;
 }
 
-export class GanttBarClickEvent {
+export class GanttBarClickEvent<T = unknown> {
     event: Event;
-    item: GanttItem;
+    item: GanttItem<T>;
 }

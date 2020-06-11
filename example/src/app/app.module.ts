@@ -9,9 +9,10 @@ import { AppComponent } from './app.component';
 import { AppExamplesComponent } from './examples/examples.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
+import { AppFlatExampleComponent } from './flat/flat.component';
 
 @NgModule({
-    declarations: [AppComponent, AppExamplesComponent],
+    declarations: [AppComponent, AppExamplesComponent, AppFlatExampleComponent],
     imports: [CommonModule, DocgeniTemplateModule, NgxGanttModule, AppRoutingModule, RouterModule.forRoot([...routes])],
     providers: [
         { provide: APP_INITIALIZER, useFactory: initializeDocgeniSite, deps: [GlobalContext], multi: true },

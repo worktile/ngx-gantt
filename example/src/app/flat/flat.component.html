@@ -13,43 +13,27 @@
       <input type="checkbox" [(ngModel)]="options.draggable" />
     </span>
   </div>
+
   <div class="header-section">
-    <span class="header-section-title">是否可关联：</span>
+    <span class="header-section-title">合并间隔天数：</span>
     <span class="header-section-content">
-      <input type="checkbox" [(ngModel)]="options.linkable" />
+      <input type="number" [style.width.px]="50" [(ngModel)]="options.mergeIntervalDays" />
     </span>
   </div>
 </div>
 <div class="content">
-  <ngx-gantt
-    start="1514736000"
-    end="1609430400"
+  <ngx-gantt-flat
+    [sideTitle]="'项目'"
+    [start]="1514736000"
+    [end]="1609430400"
     [items]="items"
     [groups]="groups"
     [viewType]="options.viewType"
     [draggable]="options.draggable"
-    [linkable]="options.linkable"
-    (barClick)="barClick($event)"
-    (dragEnded)="dragEnded($event)"
-    (loadOnScroll)="loadOnScroll($event)"
+    [mergeIntervalDays]="options.mergeIntervalDays"
   >
-    <ngx-gantt-table>
-      <ngx-gantt-column name="标题">
-        <ng-template #cell let-item="item">
-          {{ item.title }}
-        </ng-template>
-      </ngx-gantt-column>
-      <ngx-gantt-column>
-        <ng-template #header> 开始时间 -> </ng-template>
-        <ng-template #cell let-item="item">
-          {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
-        </ng-template>
-      </ngx-gantt-column>
-      <ngx-gantt-column name="截止时间">
-        <ng-template #cell let-item="item">
-          {{ item.end * 1000 | date: 'yyyy-MM-dd' }}
-        </ng-template>
-      </ngx-gantt-column>
-    </ngx-gantt-table>
-  </ngx-gantt>
+    <ng-template #group let-group="group">
+      {{ group.title }}
+    </ng-template>
+  </ngx-gantt-flat>
 </div>

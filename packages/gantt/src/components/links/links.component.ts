@@ -5,6 +5,7 @@ import { GanttLinkEvent } from '../../class/event';
 import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { merge } from 'rxjs';
+import { headerHeight, defaultStyles } from '../../gantt.styles';
 
 enum LinkColors {
     default = '#cacaca',
@@ -13,8 +14,6 @@ enum LinkColors {
 }
 
 interface LinkInternal {
-    startPoint: { x: number; y: number };
-    endPoint: { x: number; y: number };
     path: string;
     source: GanttItem;
     target: GanttItem;
@@ -54,7 +53,7 @@ export class GanttLinksComponent implements OnInit {
             this.elementRef.nativeElement.style.visibility = 'hidden';
         });
 
-        merge(this.ganttDragContainer.dragEnded, this.ganttDragContainer.linkDragEnded).subscribe((event) => {
+        merge(this.ganttDragContainer.dragEnded, this.ganttDragContainer.linkDragEnded, this.gantt.view.start$).subscribe((event) => {
             this.elementRef.nativeElement.style.visibility = 'visible';
             this.buildLinks();
             this.cdr.detectChanges();
@@ -67,67 +66,81 @@ export class GanttLinksComponent implements OnInit {
         }
     }
 
-    private getItems() {
-        let items: GanttItemInternal[] = [];
-        if (this.groups && this.groups.length) {
+    private computeItemPosition() {
+        const lineHeight = this.gantt.styles.lineHeight;
+        const barHeight = this.gantt.styles.barHeight;
+        this.links = [];
+        if (this.groups.length > 0) {
+            let itemNum = 0;
+            let groupNum = 0;
             this.groups.forEach((group) => {
-                items = [...items, ...group.items];
+                groupNum++;
+                if (group.expand) {
+                    group.items.forEach((item, itemIndex) => {
+                        const y = headerHeight + (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
+                        item.before = {
+                            x: item.refs.x,
+                            y
+                        };
+                        item.after = {
+                            x: item.refs.x + item.refs.width,
+                            y
+                        };
+                    });
+                    itemNum += group.items.length;
+                }
+            });
+        } else {
+            this.items.forEach((item, itemIndex) => {
+                const y = headerHeight + itemIndex * lineHeight + item.refs.y + barHeight / 2;
+                item.before = {
+                    x: item.refs.x,
+                    y
+                };
+                item.after = {
+                    x: item.refs.x + item.refs.width,
+                    y
+                };
             });
         }
-        return items || this.items;
     }
 
     private generatePath(source: GanttItemInternal, target: GanttItemInternal) {
-        const x1 = source.refs.x + source.refs.width;
-        const y1 = source.refs.y + this.gantt.styles.barHeight / 2;
+        if (source.before && source.after && target.before && target.after) {
+            const x1 = source.after.x;
+            const y1 = source.after.y;
 
-        const x4 = target.refs.x;
-        const y4 = target.refs.y + this.gantt.styles.barHeight / 2;
+            const x4 = target.before.x;
+            const y4 = target.before.y;
 
-        const dx = Math.abs(x4 - x1) * this.bezierWeight;
-        const x2 = x1 - dx;
-        const x3 = x4 + dx;
+            const dx = Math.abs(x4 - x1) * this.bezierWeight;
+            const x2 = x1 - dx;
+            const x3 = x4 + dx;
 
-        if (y1 === y4) {
-            if (source.origin.end < target.origin.start) {
-                return `M ${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`;
+            if (y1 === y4) {
+                if (source.origin.end < target.origin.start) {
+                    return `M ${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`;
+                } else {
+                    const dx2 = Math.abs(x4 - x1) * 0.1;
+                    return `M ${x1} ${y1} C ${x1} ${y1 + dx2} ${x4} ${y1 + dx2} ${x4} ${y4}`;
+                }
             } else {
-                const dx2 = Math.abs(x4 - x1) * 0.1;
-                return `M ${x1} ${y1} C ${x1} ${y1 + dx2} ${x4} ${y1 + dx2} ${x4} ${y4}`;
+                return `M ${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`;
             }
-        } else {
-            return `M ${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`;
         }
     }
 
-    private generateLinkLine(source: GanttItemInternal, target: GanttItemInternal) {
-        const path = this.generatePath(source, target);
-        console.log(source, target);
-        return {
-            startPoint: {
-                x: source.refs.x + source.refs.width,
-                y: source.refs.y + this.gantt.styles.barHeight / 2
-            },
-            endPoint: {
-                x: target.refs.x,
-                y: target.refs.y + this.gantt.styles.barHeight / 2
-            },
-            path,
-            source: source.origin,
-            target: target.origin,
-            color: source.origin.end > target.origin.start ? LinkColors.blocked : LinkColors.default
-        };
-    }
-
     buildLinks() {
+        this.computeItemPosition();
         this.links = [];
-        const items = this.getItems();
-        this.groups.forEach((group) => {
-            group.items.forEach((item) => {
-                item.links.forEach((linkId) => {
-                    const target = items.find((_item) => _item.id === linkId);
-                    const link = this.generateLinkLine(item, target);
-                    this.links.push(link);
+        this.items.forEach((source) => {
+            source.links.forEach((linkId) => {
+                const target = this.items.find((item) => item.id === linkId);
+                this.links.push({
+                    path: this.generatePath(source, target),
+                    source: source.origin,
+                    target: target.origin,
+                    color: source.origin.end > target.origin.start ? LinkColors.blocked : LinkColors.default
                 });
             });
         });

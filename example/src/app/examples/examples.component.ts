@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { mockItems, mockGroups } from './mocks';
-import { GanttBarClickEvent, GanttViewType } from '../../../../packages/gantt/src/class';
-import { GanttDragEvent } from 'dist/gantt/class';
+import { GanttBarClickEvent, GanttViewType, GanttDragEvent, GanttLoadOnScrollEvent } from 'ngx-gantt';
 
 @Component({
     selector: 'app-examples-gantt',
@@ -21,6 +20,8 @@ export class AppExamplesComponent implements OnInit {
         linkable: true
     };
 
+    @HostBinding('class.gantt-demo') class = true;
+
     ngOnInit(): void {}
 
     barClick(event: GanttBarClickEvent) {
@@ -31,4 +32,6 @@ export class AppExamplesComponent implements OnInit {
         this.groups = [...this.groups];
         this.items = [...this.items];
     }
+
+    loadOnScroll(event: GanttLoadOnScrollEvent) {}
 }

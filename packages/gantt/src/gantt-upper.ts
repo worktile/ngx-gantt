@@ -18,17 +18,19 @@ import {
     GanttLoadOnScrollEvent,
     GanttDragEvent,
     GanttGroupInternal,
-    GanttItemInternal
+    GanttItemInternal,
+    GanttBarClickEvent
 } from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
 import { GanttStyles, defaultStyles, sideWidth } from './gantt.styles';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil, take, skip } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
 import { Subject } from 'rxjs';
 import { GanttCalendarComponent } from './components/calendar/calendar.component';
+import { uniqBy } from './utils/helpers';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -54,6 +56,8 @@ export abstract class GanttUpper {
     @Output() dragStarted = new EventEmitter<GanttDragEvent>();
 
     @Output() dragEnded = new EventEmitter<GanttDragEvent>();
+
+    @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
@@ -109,7 +113,7 @@ export abstract class GanttUpper {
             this.element.style.opacity = '1';
         });
 
-        this.view.start$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+        this.view.start$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(() => {
             this.computeRefs();
         });
 
@@ -119,6 +123,7 @@ export abstract class GanttUpper {
         this.dragContainer.dragEnded.subscribe((event) => {
             this.dragEnded.emit(event);
             this.computeRefs();
+            this.cdr.detectChanges();
         });
     }
 
@@ -168,11 +173,14 @@ export abstract class GanttUpper {
 
     private setupItems() {
         this.items = [];
+        this.originItems = uniqBy(this.originItems, 'id');
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
+                const itemInternal = new GanttItemInternal(origin);
                 const group = this.groupsMap[origin.group_id];
+                this.items.push(itemInternal);
                 if (group) {
-                    group.items.push(new GanttItemInternal(origin));
+                    group.items.push(itemInternal);
                 }
             });
         } else {
@@ -207,15 +215,17 @@ export abstract class GanttUpper {
                     const dates = this.view.addStartDate();
                     if (dates) {
                         event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
-                        this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        this.cdr.detectChanges();
+                        this.ngZone.run(() => {
+                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        });
                     }
                 }
                 if (event.direction === ScrollDirection.RIGHT) {
                     const dates = this.view.addEndDate();
                     if (dates) {
-                        this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        this.cdr.detectChanges();
+                        this.ngZone.run(() => {
+                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        });
                     }
                 }
             });
