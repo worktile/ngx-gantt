@@ -132,7 +132,7 @@ export abstract class GanttUpper {
             if (changes.viewType && changes.viewType.currentValue) {
                 this.createView();
                 this.computeRefs();
-                this.calendar.computeTodayPoint();
+                this.calendar.setTodayPoint();
                 this.onStable().subscribe(() => {
                     this.scrollToToday();
                 });

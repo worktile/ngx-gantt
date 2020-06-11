@@ -89,8 +89,8 @@ export class GanttBarDrag implements OnDestroy {
             this.item.updateDate(start, end);
             this.clearDraggingStyles();
             this.closeDragBackdrop();
-            this.dragContainer.dragEnded.emit({ item: this.item.origin });
             event.source.reset();
+            this.dragContainer.dragEnded.emit({ item: this.item.origin });
         });
         this.barDragRef = dragRef;
         return dragRef;

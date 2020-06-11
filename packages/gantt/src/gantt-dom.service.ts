@@ -113,7 +113,7 @@ export class GanttDomService implements OnDestroy {
     }
 
     getResize() {
-        return fromEvent(window, 'resize').pipe(auditTime(30));
+        return fromEvent(window, 'resize').pipe(auditTime(150));
     }
 
     scrollMainContainer(left: number) {
