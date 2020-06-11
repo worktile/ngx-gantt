@@ -59,6 +59,24 @@ export class GanttDomService implements OnDestroy {
         this.mainContainer.scrollTop = target.scrollTop;
     }
 
+    private disableBrowserWheelEvent() {
+        const container = this.mainContainer as HTMLElement;
+        fromEvent(container, 'wheel')
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((event: WheelEvent) => {
+                const delta = event.deltaX;
+                if (!delta) {
+                    return;
+                }
+                if (
+                    (container.scrollLeft + container.offsetWidth === container.scrollWidth && delta > 0) ||
+                    (container.scrollLeft === 0 && delta < 0)
+                ) {
+                    event.preventDefault();
+                }
+            });
+    }
+
     initialize(root: ElementRef<HTMLElement>) {
         this.root = root.nativeElement;
         this.side = this.root.getElementsByClassName('gantt-side')[0];
@@ -67,6 +85,7 @@ export class GanttDomService implements OnDestroy {
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-overlay')[0];
         this.monitorScrollChange();
+        this.disableBrowserWheelEvent();
     }
 
     getViewerScroll() {
