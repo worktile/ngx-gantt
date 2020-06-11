@@ -40,7 +40,7 @@
 
 <ng-template #ganttItems let-items="items">
   <ng-container *ngFor="let item of items">
-    <div class="gantt-table-item gantt-table-row">
+    <div class="gantt-table-item gantt-table-row" [style.height.px]="ganttRef.styles.lineHeight" [style.lineHeight.px]="ganttRef.styles.lineHeight">
       <div class="item-column gantt-table-column" *ngFor="let column of columnList" [style.width.px]="column.width">
         <ng-template
           [ngTemplateOutlet]="column.templateRef"

@@ -17,7 +17,10 @@ export class AppFlatExampleComponent implements OnInit {
     options = {
         viewType: GanttViewType.month,
         draggable: true,
-        mergeIntervalDays: 3
+        mergeIntervalDays: 3,
+        styles: {
+            lineHeight: 50
+        }
     };
 
     @HostBinding('class.gantt-demo') class = true;
