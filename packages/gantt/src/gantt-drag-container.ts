@@ -61,7 +61,8 @@ export class GanttDragContainer {
     emitLinkDragEnded() {
         this.linkDraggingId = null;
         if (this.linkDragSource && this.linkDragTarget) {
-            // this.linkDragSource.addLink(this.linkDragDependent._id);
+            this.linkDragSource.addLink(this.linkDragTarget.id);
+
             this.linkDragEnded.emit({
                 source: this.linkDragSource.origin,
                 target: this.linkDragTarget.origin

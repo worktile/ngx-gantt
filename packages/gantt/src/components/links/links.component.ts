@@ -77,7 +77,7 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
         });
 
         merge(this.ganttDragContainer.dragEnded, this.ganttDragContainer.linkDragEnded, this.gantt.view.start$, this.gantt.groupExpand$)
-            .pipe(takeUntil(this.unsubscribe$), skip(2))
+            .pipe(takeUntil(this.unsubscribe$), skip(1))
             .subscribe(() => {
                 this.elementRef.nativeElement.style.visibility = 'visible';
                 this.buildLinks();
@@ -153,6 +153,7 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
     }
 
     buildLinks() {
+        console.log(1);
         this.computeItemPosition();
         this.links = [];
         this.linkItems.forEach((source) => {

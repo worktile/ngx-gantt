@@ -31,6 +31,8 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     private unsubscribe$ = new Subject();
 
+    public headerHeight = headerHeight;
+
     @HostBinding('class.gantt-calendar-overlay') className = true;
 
     constructor(

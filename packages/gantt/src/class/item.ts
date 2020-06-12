@@ -66,4 +66,9 @@ export class GanttItemInternal {
         this.origin.start = this.start.getUnixTime();
         this.origin.end = this.end.getUnixTime();
     }
+
+    addLink(linkId: string) {
+        this.links = [...this.links, linkId];
+        this.origin.links = this.links;
+    }
 }
