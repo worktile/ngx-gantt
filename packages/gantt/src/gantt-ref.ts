@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { GanttView } from './views/view';
 import { GanttStyles } from './gantt.styles';
+import { BehaviorSubject } from 'rxjs';
 
 export interface GanttRef {
     element: HTMLElement;
@@ -8,7 +9,7 @@ export interface GanttRef {
     styles: GanttStyles;
     draggable: boolean;
     linkable?: boolean;
-    expandChange(): void;
+    groupExpand$: BehaviorSubject<boolean>;
     detectChanges(): void;
 }
 

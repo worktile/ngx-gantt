@@ -1,10 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding, Inject, ChangeDetectorRef, ElementRef } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    Output,
+    EventEmitter,
+    HostBinding,
+    Inject,
+    ChangeDetectorRef,
+    ElementRef,
+    OnDestroy
+} from '@angular/core';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal, GanttItem } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
 import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 import { GanttDragContainer } from '../../gantt-drag-container';
-import { merge } from 'rxjs';
+import { merge, Subject } from 'rxjs';
+import { takeUntil, skip } from 'rxjs/operators';
 
 enum LinkColors {
     default = '#cacaca',
@@ -31,7 +43,7 @@ interface LinkInternal {
     selector: 'gantt-links-overlay',
     templateUrl: './links.component.html'
 })
-export class GanttLinksComponent implements OnInit {
+export class GanttLinksComponent implements OnInit, OnDestroy {
     @Input() groups: GanttGroupInternal[] = [];
 
     @Input() items: GanttItemInternal[] = [];
@@ -46,6 +58,8 @@ export class GanttLinksComponent implements OnInit {
 
     private firstChange = true;
 
+    private unsubscribe$ = new Subject();
+
     @HostBinding('class.gantt-links-overlay') ganttLinksOverlay = true;
 
     constructor(
@@ -58,15 +72,17 @@ export class GanttLinksComponent implements OnInit {
     ngOnInit() {
         this.buildLinks();
         this.firstChange = false;
-        this.ganttDragContainer.dragStarted.subscribe(() => {
+        this.ganttDragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.visibility = 'hidden';
         });
 
-        merge(this.ganttDragContainer.dragEnded, this.ganttDragContainer.linkDragEnded, this.gantt.view.start$).subscribe((event) => {
-            this.elementRef.nativeElement.style.visibility = 'visible';
-            this.buildLinks();
-            this.cdr.detectChanges();
-        });
+        merge(this.ganttDragContainer.dragEnded, this.ganttDragContainer.linkDragEnded, this.gantt.view.start$, this.gantt.groupExpand$)
+            .pipe(takeUntil(this.unsubscribe$), skip(2))
+            .subscribe(() => {
+                this.elementRef.nativeElement.style.visibility = 'visible';
+                this.buildLinks();
+                this.cdr.detectChanges();
+            });
     }
 
     ngOnChanges() {
@@ -137,6 +153,7 @@ export class GanttLinksComponent implements OnInit {
     }
 
     buildLinks() {
+        console.log(1);
         this.computeItemPosition();
         this.links = [];
         this.linkItems.forEach((source) => {
@@ -176,5 +193,10 @@ export class GanttLinksComponent implements OnInit {
         if (link.color === LinkColors.active) {
             link.color = LinkColors.default;
         }
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

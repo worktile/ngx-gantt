@@ -19,7 +19,7 @@ import {
     ViewChild
 } from '@angular/core';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttBarClickEvent } from './class';
@@ -28,7 +28,6 @@ import { GanttDragContainer } from './gantt-drag-container';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { getColumnWidthConfig } from './utils/column-compute';
-import { GanttMainComponent } from './components/main/gantt-main.component';
 
 @Component({
     selector: 'ngx-gantt',
@@ -48,6 +47,8 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     public sideTableWidth = sideWidth;
 
+    public groupExpand$ = new BehaviorSubject<boolean>(null);
+
     @Input() linkable: boolean;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
@@ -55,8 +56,6 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
-
-    @ViewChild(GanttMainComponent, { static: false }) ganttMain: GanttMainComponent;
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
@@ -124,12 +123,6 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
         this.items.forEach((item) => {
             this.computeItemRef(item);
         });
-    }
-
-    expandChange() {
-        if (this.linkable) {
-            this.ganttMain.links.buildLinks();
-        }
     }
 
     detectChanges() {

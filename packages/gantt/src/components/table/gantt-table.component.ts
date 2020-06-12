@@ -21,8 +21,6 @@ export class GanttTableComponent implements OnInit {
 
     @Input() groupTemplate: TemplateRef<any>;
 
-    @Output() expandChange = new EventEmitter<null>();
-
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
     constructor(@Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef, private elementRef: ElementRef) {}
@@ -31,7 +29,7 @@ export class GanttTableComponent implements OnInit {
 
     expandGroup(group: GanttGroupInternal) {
         group.expand = !group.expand;
-        this.expandChange.emit();
+        this.ganttRef.groupExpand$.next(group.expand);
         this.ganttRef.detectChanges();
     }
 }

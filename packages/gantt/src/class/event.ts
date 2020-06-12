@@ -4,9 +4,9 @@ export class GanttDragEvent<T = unknown> {
     item: GanttItem<T>;
 }
 
-export class GanttLinkDragEvent {
-    source: GanttItem;
-    target?: GanttItem;
+export class GanttLinkDragEvent<T = unknown> {
+    source: GanttItem<T>;
+    target?: GanttItem<T>;
 }
 
 export class GanttLoadOnScrollEvent {
@@ -16,8 +16,8 @@ export class GanttLoadOnScrollEvent {
 
 export class GanttLineClickEvent<T = unknown> {
     event: MouseEvent;
-    source: GanttItem;
-    target: GanttItem;
+    source: GanttItem<T>;
+    target: GanttItem<T>;
 }
 
 export class GanttBarClickEvent<T = unknown> {
