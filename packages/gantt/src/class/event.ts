@@ -6,7 +6,7 @@ export class GanttDragEvent<T = unknown> {
 
 export class GanttLinkDragEvent<T = unknown> {
     source: GanttItem<T>;
-    dependent?: GanttItem<T>;
+    target?: GanttItem<T>;
 }
 
 export class GanttLoadOnScrollEvent {
@@ -14,10 +14,10 @@ export class GanttLoadOnScrollEvent {
     end: number;
 }
 
-export class GanttLinkEvent<T = unknown> {
+export class GanttLineClickEvent<T = unknown> {
     event: MouseEvent;
     source: GanttItem<T>;
-    dependent: GanttItem<T>;
+    target: GanttItem<T>;
 }
 
 export class GanttBarClickEvent<T = unknown> {

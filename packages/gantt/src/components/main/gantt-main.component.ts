@@ -1,6 +1,7 @@
-import { Component, OnInit, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
-import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent } from '../../class';
+import { Component, OnInit, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ViewChild } from '@angular/core';
+import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
 import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
+import { GanttLinksComponent } from '../links/links.component';
 
 @Component({
     selector: 'gantt-main',
@@ -14,6 +15,8 @@ export class GanttMainComponent implements OnInit {
     @Input() barTemplate: TemplateRef<any>;
 
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
+
+    @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
     @HostBinding('class.gantt-main-container') ganttMainClass = true;
 

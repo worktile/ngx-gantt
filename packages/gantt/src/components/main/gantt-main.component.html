@@ -1,3 +1,4 @@
+<gantt-links-overlay [groups]="groups" [items]="items" *ngIf="ganttRef.linkable" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
 <!-- groups -->
 <div class="gantt-main-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="ganttRef.view.width">
   <ng-container *ngFor="let group of groups; trackBy: trackBy">

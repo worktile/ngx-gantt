@@ -3,7 +3,7 @@ import { GanttDragEvent, GanttLinkDragEvent } from './class/event';
 import { GanttItemInternal } from './class/item';
 import { GanttDomService } from './gantt-dom.service';
 
-export type LinkDragFrom = 'source' | 'dependent';
+export type LinkDragFrom = 'source' | 'target';
 
 @Injectable()
 export class GanttDragContainer {
@@ -21,7 +21,7 @@ export class GanttDragContainer {
 
     private linkDragSource: GanttItemInternal;
 
-    private linkDragDependent: GanttItemInternal;
+    private linkDragTarget: GanttItemInternal;
 
     private linkDragFrom: LinkDragFrom;
 
@@ -31,28 +31,28 @@ export class GanttDragContainer {
         this.linkDraggingId = item.id;
         this.linkDragFrom = from;
         this.linkDragSource = this.linkDragFrom === 'source' ? item : null;
-        this.linkDragDependent = this.linkDragFrom === 'dependent' ? item : null;
+        this.linkDragTarget = this.linkDragFrom === 'target' ? item : null;
         this.linkDragStarted.emit({
             source: this.linkDragSource && this.linkDragSource.origin,
-            dependent: this.linkDragDependent && this.linkDragDependent.origin
+            target: this.linkDragTarget && this.linkDragTarget.origin
         });
     }
 
     emitLinkDragEntered(item: GanttItemInternal) {
         if (this.linkDragFrom === 'source') {
-            this.linkDragDependent = item;
+            this.linkDragTarget = item;
         } else {
             this.linkDragSource = item;
         }
         this.linkDragEntered.emit({
             source: this.linkDragSource.origin,
-            dependent: this.linkDragDependent.origin
+            target: this.linkDragTarget.origin
         });
     }
 
     emitLinkDragLeaved() {
         if (this.linkDragFrom === 'source') {
-            this.linkDragDependent = null;
+            this.linkDragTarget = null;
         } else {
             this.linkDragSource = null;
         }
@@ -60,14 +60,14 @@ export class GanttDragContainer {
 
     emitLinkDragEnded() {
         this.linkDraggingId = null;
-        if (this.linkDragSource && this.linkDragDependent) {
+        if (this.linkDragSource && this.linkDragTarget) {
             // this.linkDragSource.addLink(this.linkDragDependent._id);
             this.linkDragEnded.emit({
                 source: this.linkDragSource.origin,
-                dependent: this.linkDragDependent.origin
+                target: this.linkDragTarget.origin
             });
         }
         this.linkDragSource = null;
-        this.linkDragDependent = null;
+        this.linkDragTarget = null;
     }
 }

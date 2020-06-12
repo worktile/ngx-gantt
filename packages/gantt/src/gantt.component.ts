@@ -15,13 +15,14 @@ import {
     TemplateRef,
     ContentChildren,
     QueryList,
-    AfterViewInit
+    AfterViewInit,
+    ViewChild
 } from '@angular/core';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
-import { GanttLinkDragEvent, GanttLinkEvent, GanttItemInternal, GanttBarClickEvent } from './class';
+import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttBarClickEvent } from './class';
 import { GanttDomService } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
@@ -46,13 +47,15 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     public sideTableWidth = sideWidth;
 
+    public groupExpand$ = new BehaviorSubject<boolean>(null);
+
     @Input() linkable: boolean;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
-    @Output() linkClick = new EventEmitter<GanttLinkEvent>();
+    @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
