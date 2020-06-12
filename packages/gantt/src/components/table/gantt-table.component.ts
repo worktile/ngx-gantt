@@ -29,7 +29,7 @@ export class GanttTableComponent implements OnInit {
 
     expandGroup(group: GanttGroupInternal) {
         group.expand = !group.expand;
-        this.ganttRef.groupExpand$.next(group.expand);
+        this.ganttRef.groupExpand$.next();
         this.ganttRef.detectChanges();
     }
 }

@@ -15,11 +15,10 @@ import {
     TemplateRef,
     ContentChildren,
     QueryList,
-    AfterViewInit,
-    ViewChild
+    AfterViewInit
 } from '@angular/core';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttBarClickEvent } from './class';
@@ -47,7 +46,7 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     public sideTableWidth = sideWidth;
 
-    public groupExpand$ = new BehaviorSubject<boolean>(null);
+    public groupExpand$ = new Subject<void>();
 
     @Input() linkable: boolean;
 
@@ -95,10 +94,10 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     ngOnInit() {
         super.onInit();
 
-        this.dragContainer.linkDragStarted.subscribe((event) => {
+        this.dragContainer.linkDragStarted.subscribe((event: GanttLinkDragEvent) => {
             this.linkDragStarted.emit(event);
         });
-        this.dragContainer.linkDragEnded.subscribe((event) => {
+        this.dragContainer.linkDragEnded.subscribe((event: GanttLinkDragEvent) => {
             this.linkDragEnded.emit(event);
         });
     }
