@@ -1,6 +1,25 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.13](https://github.com/worktile/ngx-gantt/compare/0.0.11...0.0.13) (2020-06-20)
+
+
+### Features
+
+* add links overlay ([7947f6a](https://github.com/worktile/ngx-gantt/commit/7947f6a34758e3ad3512111368a753ef9e55a67f))
+* support set item line height ([571d7df](https://github.com/worktile/ngx-gantt/commit/571d7df04bd1652d5b759f57465529312b2f3d62))
+
+
+### Bug Fixes
+
+* **dom:** disable browser default  wheel event ([8dcf412](https://github.com/worktile/ngx-gantt/commit/8dcf412aaab8333dcdd7f4dae905f68fb7d3f07f))
+* **links:** add line click ([3fb5a15](https://github.com/worktile/ngx-gantt/commit/3fb5a153f925f6fa4835462df0372953271afb4e))
+* **links:** add linkDragEnded in example ([#31](https://github.com/worktile/ngx-gantt/issues/31)) ([5ef8441](https://github.com/worktile/ngx-gantt/commit/5ef8441d514b09e73d82c215a37e499d8bcd6b32))
+* **links:** build links when change view type ([3f5655f](https://github.com/worktile/ngx-gantt/commit/3f5655fc5b53a6fec145b27e352277db1d627597))
+* **links:** delete console ([7e10383](https://github.com/worktile/ngx-gantt/commit/7e1038397ba804f9cd62175854e1a917efdb806d))
+* **links:** merge master and show link line ([359d688](https://github.com/worktile/ngx-gantt/commit/359d6881d367953a80f8805098d08e8f32b15bc2))
+* **links:** review fix ([d149d3c](https://github.com/worktile/ngx-gantt/commit/d149d3cd964e120dbc1576f0f241cdeb6ff3265d))
+
 ### [0.0.12](https://github.com/worktile/ngx-gantt/compare/0.0.11...0.0.12) (2020-06-12)
 
 
