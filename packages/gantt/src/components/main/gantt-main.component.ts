@@ -18,6 +18,8 @@ export class GanttMainComponent implements OnInit {
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
+    @ViewChild(GanttLinksComponent, { static: false, }) links: GanttLinksComponent;
+
     @HostBinding('class.gantt-main-container') ganttMainClass = true;
 
     constructor(@Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef) {}

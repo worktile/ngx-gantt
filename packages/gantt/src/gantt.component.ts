@@ -15,7 +15,8 @@ import {
     TemplateRef,
     ContentChildren,
     QueryList,
-    AfterViewInit
+    AfterViewInit,
+    ViewChild
 } from '@angular/core';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -27,6 +28,7 @@ import { GanttDragContainer } from './gantt-drag-container';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { getColumnWidthConfig } from './utils/column-compute';
+import { GanttMainComponent } from './components/main/gantt-main.component';
 
 @Component({
     selector: 'ngx-gantt',
@@ -59,6 +61,8 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
+
+    @ViewChild(GanttMainComponent, { static: false }) mainContent: GanttMainComponent;
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
@@ -111,6 +115,11 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     ngOnChanges(changes: SimpleChanges) {
         super.onChanges(changes);
+        if (!this.firstChange) {
+            if (changes.viewType && changes.viewType.currentValue) {
+                this.mainContent.links.buildLinks();
+            }
+        }
     }
 
     computeRefs() {

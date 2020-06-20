@@ -153,7 +153,6 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
     }
 
     buildLinks() {
-        console.log(1);
         this.computeItemPosition();
         this.links = [];
         this.linkItems.forEach((source) => {
