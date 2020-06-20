@@ -32,6 +32,7 @@ import { Subject } from 'rxjs';
 import { GanttCalendarComponent } from './components/calendar/calendar.component';
 import { uniqBy } from './utils/helpers';
 
+
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
 
