@@ -1,6 +1,6 @@
 export const defaultStyles = {
     lineHeight: 44,
-    barHeight: 22
+    barHeight: 22,
 };
 
 export const headerHeight = 44;

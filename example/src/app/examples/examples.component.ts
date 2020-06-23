@@ -8,6 +8,9 @@ import {
     GanttLineClickEvent,
     GanttLinkDragEvent
 } from 'ngx-gantt';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { GanttItem } from 'dist/gantt/class';
 
 @Component({
     selector: 'app-examples-gantt',
@@ -24,7 +27,9 @@ export class AppExamplesComponent implements OnInit {
     options = {
         viewType: GanttViewType.month,
         draggable: true,
-        linkable: true
+        linkable: true,
+        async: true,
+        childrenResolve: this.getChildren.bind(this)
     };
 
     @HostBinding('class.gantt-demo') class = true;
@@ -39,10 +44,7 @@ export class AppExamplesComponent implements OnInit {
         console.log(event);
     }
 
-    dragEnded(event: GanttDragEvent) {
-        this.groups = [...this.groups];
-        this.items = [...this.items];
-    }
+    dragEnded(event: GanttDragEvent) {}
 
     linkDragEnded(event: GanttLinkDragEvent) {
         if (event.source.links && event.source.links.includes(event.target.id)) {
@@ -58,4 +60,16 @@ export class AppExamplesComponent implements OnInit {
     }
 
     loadOnScroll(event: GanttLoadOnScrollEvent) {}
+
+    getChildren(item: GanttItem) {
+        return of([
+            {
+                id: new Date().getTime(),
+                title: new Date().getTime(),
+                start: Math.floor(new Date().getTime() / 1000),
+                draggable: true,
+                linkable: false
+            }
+        ]).pipe(delay(1000));
+    }
 }

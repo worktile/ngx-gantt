@@ -29,6 +29,8 @@
     [viewType]="options.viewType"
     [draggable]="options.draggable"
     [linkable]="options.linkable"
+    [async]="options.async"
+    [asyncChildrenResolve]="options.childrenResolve"
     (barClick)="barClick($event)"
     (lineClick)="lineClick($event)"
     (dragEnded)="dragEnded($event)"

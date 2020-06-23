@@ -8,15 +8,17 @@ import {
     Inject,
     ChangeDetectorRef,
     ElementRef,
-    OnDestroy
+    OnDestroy,
+    OnChanges
 } from '@angular/core';
+import { merge, Subject } from 'rxjs';
+import { takeUntil, skip } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal, GanttItem } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
 import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 import { GanttDragContainer } from '../../gantt-drag-container';
-import { merge, Subject } from 'rxjs';
-import { takeUntil, skip } from 'rxjs/operators';
+import { recursiveItems } from '../../utils/helpers';
 
 enum LinkColors {
     default = '#cacaca',
@@ -43,7 +45,7 @@ interface LinkInternal {
     selector: 'gantt-links-overlay',
     templateUrl: './links.component.html'
 })
-export class GanttLinksComponent implements OnInit, OnDestroy {
+export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     @Input() groups: GanttGroupInternal[] = [];
 
     @Input() items: GanttItemInternal[] = [];
@@ -72,11 +74,18 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.buildLinks();
         this.firstChange = false;
+
         this.ganttDragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.visibility = 'hidden';
         });
 
-        merge(this.ganttDragContainer.dragEnded, this.ganttDragContainer.linkDragEnded, this.gantt.view.start$, this.gantt.groupExpand$)
+        merge(
+            this.gantt.viewChange,
+            this.gantt.expandChange,
+            this.gantt.view.start$,
+            this.ganttDragContainer.dragEnded,
+            this.ganttDragContainer.linkDragEnded
+        )
             .pipe(takeUntil(this.unsubscribe$), skip(1))
             .subscribe(() => {
                 this.elementRef.nativeElement.style.visibility = 'visible';
@@ -101,7 +110,8 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
             this.groups.forEach((group) => {
                 groupNum++;
                 if (group.expand) {
-                    group.items.forEach((item, itemIndex) => {
+                    const items = recursiveItems(group.items);
+                    items.forEach((item, itemIndex) => {
                         const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
                         this.linkItems.push({
                             ...item,
@@ -115,11 +125,12 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
                             }
                         });
                     });
-                    itemNum += group.items.length;
+                    itemNum += items.length;
                 }
             });
         } else {
-            this.items.forEach((item, itemIndex) => {
+            const items = recursiveItems(this.items);
+            items.forEach((item, itemIndex) => {
                 const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
                 this.linkItems.push({
                     ...item,

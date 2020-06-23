@@ -28,9 +28,13 @@ export class GanttItemInternal {
     end: GanttDate;
     links: string[];
     color?: string;
+    draggable?: boolean;
+    linkable?: boolean;
     origin: GanttItem;
-    children: GanttItemInternal[];
     expand: boolean;
+    loading: boolean;
+    children: GanttItemInternal[];
+
     get refs() {
         return this.refs$.getValue();
     }
@@ -42,6 +46,8 @@ export class GanttItemInternal {
         this.id = this.origin.id;
         this.links = this.origin.links || [];
         this.color = this.origin.color;
+        this.linkable = this.origin.linkable === undefined ? true : this.origin.linkable;
+        this.draggable = this.origin.draggable === undefined ? true : this.origin.draggable;
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
         this.children = (item.children || []).map((subItem) => {
@@ -65,6 +71,12 @@ export class GanttItemInternal {
         this.end = end.endOfDay();
         this.origin.start = this.start.getUnixTime();
         this.origin.end = this.end.getUnixTime();
+    }
+
+    addChildren(items: GanttItem[]) {
+        this.children = (items || []).map((subItem) => {
+            return new GanttItemInternal(subItem);
+        });
     }
 
     addLink(linkId: string) {

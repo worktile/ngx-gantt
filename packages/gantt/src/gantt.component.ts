@@ -18,17 +18,17 @@ import {
     AfterViewInit,
     ViewChild
 } from '@angular/core';
-import { startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';
-import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttBarClickEvent } from './class';
+import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttBarClickEvent, GanttItem, GanttGroupInternal } from './class';
 import { GanttDomService } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { getColumnWidthConfig } from './utils/column-compute';
-import { GanttMainComponent } from './components/main/gantt-main.component';
+import { recursiveItems } from './utils/helpers';
 
 @Component({
     selector: 'ngx-gantt',
@@ -48,7 +48,13 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     public sideTableWidth = sideWidth;
 
-    public groupExpand$ = new Subject<void>();
+    public expandChange = new Subject<void>();
+
+    @Input() maxLevel = 2;
+
+    @Input() async: boolean;
+
+    @Input() asyncChildrenResolve: (GanttItem) => Observable<GanttItem[]>;
 
     @Input() linkable: boolean;
 
@@ -62,8 +68,6 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 
-    @ViewChild(GanttMainComponent, { static: false }) mainContent: GanttMainComponent;
-
     constructor(
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
@@ -72,14 +76,6 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
         dragContainer: GanttDragContainer
     ) {
         super(elementRef, cdr, ngZone, dom, dragContainer);
-    }
-
-    private computeItemRef(item: GanttItemInternal) {
-        item.updateRefs({
-            width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
-            x: item.start ? this.view.getXPointByDate(item.start) : 0,
-            y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
-        });
     }
 
     private computeColumnWidth() {
@@ -95,13 +91,23 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
         });
     }
 
+    private computeItemsRefs(...items: GanttItemInternal[]) {
+        items.forEach((item) => {
+            item.updateRefs({
+                width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
+                x: item.start ? this.view.getXPointByDate(item.start) : 0,
+                y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
+            });
+        });
+    }
+
     ngOnInit() {
         super.onInit();
 
-        this.dragContainer.linkDragStarted.subscribe((event: GanttLinkDragEvent) => {
+        this.dragContainer.linkDragStarted.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
             this.linkDragStarted.emit(event);
         });
-        this.dragContainer.linkDragEnded.subscribe((event: GanttLinkDragEvent) => {
+        this.dragContainer.linkDragEnded.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
             this.linkDragEnded.emit(event);
         });
     }
@@ -109,32 +115,57 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     ngAfterViewInit() {
         this.columns.changes.pipe(startWith(true), takeUntil(this.ngUnsubscribe$)).subscribe(() => {
             this.computeColumnWidth();
-            this.detectChanges();
+            this.cdr.detectChanges();
         });
     }
 
     ngOnChanges(changes: SimpleChanges) {
         super.onChanges(changes);
-        if (!this.firstChange) {
-            if (changes.viewType && changes.viewType.currentValue) {
-                this.mainContent.links.buildLinks();
-            }
-        }
     }
 
     computeRefs() {
         this.groups.forEach((group) => {
-            group.items.forEach((item) => {
-                this.computeItemRef(item);
-            });
+            const groupItems = recursiveItems(group.items);
+            this.computeItemsRefs(...groupItems);
         });
-        this.items.forEach((item) => {
-            this.computeItemRef(item);
-        });
+        const items = recursiveItems(this.items);
+        this.computeItemsRefs(...items);
     }
 
-    detectChanges() {
+    expandGroup(group: GanttGroupInternal) {
+        group.expand = !group.expand;
+        this.expandChange.next();
         this.cdr.detectChanges();
+    }
+
+    expandChildren(item: GanttItemInternal) {
+        if (!item.expand) {
+            item.expand = true;
+            this.expandItemIds.push(item.id);
+            if (this.async && this.asyncChildrenResolve && item.children.length === 0) {
+                item.loading = true;
+                this.asyncChildrenResolve(item.origin)
+                    .pipe(
+                        take(1),
+                        finalize(() => {
+                            item.loading = false;
+                            this.expandChange.next();
+                            this.cdr.detectChanges();
+                        })
+                    )
+                    .subscribe((items) => {
+                        item.addChildren(items);
+                        this.computeItemsRefs(...item.children);
+                    });
+            } else {
+                this.computeItemsRefs(...item.children);
+                this.expandChange.next();
+            }
+        } else {
+            item.expand = false;
+            this.expandItemIds = this.expandItemIds.filter((id) => id !== item.id);
+            this.expandChange.next();
+        }
     }
 
     ngOnDestroy() {

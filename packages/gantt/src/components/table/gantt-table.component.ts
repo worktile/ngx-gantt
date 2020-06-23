@@ -1,5 +1,5 @@
 import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, Inject, ElementRef, Output, EventEmitter } from '@angular/core';
-import { GanttItemInternal, GanttGroupInternal } from '../../class';
+import { GanttItemInternal, GanttGroupInternal, GanttItem } from '../../class';
 import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
 
@@ -23,13 +23,15 @@ export class GanttTableComponent implements OnInit {
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
-    constructor(@Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef, private elementRef: ElementRef) {}
+    constructor(@Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef) {}
 
     ngOnInit() {}
 
     expandGroup(group: GanttGroupInternal) {
-        group.expand = !group.expand;
-        this.ganttRef.groupExpand$.next();
-        this.ganttRef.detectChanges();
+        this.ganttRef.expandGroup(group);
+    }
+
+    expandChildren(item: GanttItemInternal) {
+        this.ganttRef.expandChildren(item);
     }
 }

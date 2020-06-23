@@ -1,3 +1,5 @@
+import { GanttItemInternal } from '../class/item';
+
 export interface Dictionary<T = unknown> {
     [key: string]: T;
 }
@@ -22,6 +24,17 @@ export function uniqBy<T = unknown>(array: T[], key: keyof T) {
         if (!valuesMap[_key]) {
             valuesMap[_key] = value;
             result.push(value);
+        }
+    });
+    return result;
+}
+
+export function recursiveItems(items: GanttItemInternal[]) {
+    const result = [];
+    (items || []).forEach((item) => {
+        result.push(item);
+        if (item.expand && item.children) {
+            result.push(...recursiveItems(item.children));
         }
     });
     return result;

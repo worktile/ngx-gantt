@@ -2,6 +2,8 @@ import { InjectionToken } from '@angular/core';
 import { GanttView } from './views/view';
 import { GanttStyles } from './gantt.styles';
 import { Subject } from 'rxjs';
+import { GanttGroupInternal } from './class/group';
+import { GanttItemInternal } from './class/item';
 
 export interface GanttRef {
     element: HTMLElement;
@@ -9,8 +11,11 @@ export interface GanttRef {
     styles: GanttStyles;
     draggable: boolean;
     linkable?: boolean;
-    groupExpand$: Subject<void>;
-    detectChanges(): void;
+    maxLevel?: number;
+    viewChange: Subject<GanttView>;
+    expandChange?: Subject<void>;
+    expandGroup?(group: GanttGroupInternal);
+    expandChildren?(item: GanttItemInternal);
 }
 
 export const GANTT_REF_TOKEN = new InjectionToken<GanttRef>('GANTT_REF_TOKEN');

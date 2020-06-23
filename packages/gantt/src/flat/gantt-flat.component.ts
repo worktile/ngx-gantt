@@ -16,6 +16,7 @@ import { GanttUpper } from '../gantt-upper';
 import { GanttDomService } from '../gantt-dom.service';
 import { GanttDragContainer } from '../gantt-drag-container';
 import { GanttGroupInternal, GanttItemInternal } from '../class';
+import { GanttRef } from '../gantt-ref';
 
 @Component({
     selector: 'ngx-gantt-flat',
@@ -30,7 +31,7 @@ import { GanttGroupInternal, GanttItemInternal } from '../class';
         GanttDragContainer
     ]
 })
-export class NgxGanttFlatComponent extends GanttUpper implements OnInit, OnChanges, OnDestroy {
+export class NgxGanttFlatComponent extends GanttUpper implements GanttRef, OnInit, OnChanges, OnDestroy {
     @Input() mergeIntervalDays = 0;
 
     @Input() sideTitle: string;

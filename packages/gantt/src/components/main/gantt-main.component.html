@@ -20,8 +20,10 @@
     <div class="gantt-item" [style.height.px]="ganttRef.styles.lineHeight">
       <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
     </div>
-    <ng-container *ngFor="let item of item.children; trackBy: trackBy">
-      <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: item.children }"></ng-template>
-    </ng-container>
+    <ng-template
+      *ngIf="item.children && item.expand"
+      [ngTemplateOutlet]="ganttItems"
+      [ngTemplateOutletContext]="{ items: item.children }"
+    ></ng-template>
   </ng-container>
 </ng-template>
