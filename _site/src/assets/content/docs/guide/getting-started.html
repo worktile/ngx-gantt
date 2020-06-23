@@ -1,0 +1,25 @@
+<h2>安装</h2><pre class="language-bash"><code class="language-bash">$ <span class="token function">npm</span> i @worktile/ngx-gantt --save
+<span class="token comment" spellcheck="true"># or</span>
+$ yarn add @worktile/ngx-gantt</code></pre>
+<h2>使用</h2>
+        <h3 id="-" class="docs-header-link">
+          <span header-link="-"></span>
+          导入模块
+        </h3>
+      <pre class="language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/ngx-gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span> NgxGanttModule<span class="token punctuation">,</span> <span class="token operator">...</span> <span class="token punctuation">]</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></code></pre>
+
+        <h3 id="-" class="docs-header-link">
+          <span header-link="-"></span>
+          组件使用
+        </h3>
+      <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[start]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1514736000<span class="token punctuation">"</span></span> <span class="token attr-name">end</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1609430400<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></code></pre>
