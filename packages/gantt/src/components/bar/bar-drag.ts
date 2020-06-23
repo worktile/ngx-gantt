@@ -27,11 +27,11 @@ export class GanttBarDrag implements OnDestroy {
     private item: GanttItemInternal;
 
     private get dragDisabled() {
-        return !this.ganttRef.draggable;
+        return !this.item.draggable || !this.ganttRef.draggable;
     }
 
     private get linkDragDisabled() {
-        return !this.ganttRef.linkable;
+        return !this.item.linkable || !this.ganttRef.linkable;
     }
 
     private linkDraggingLine: SVGElement;
@@ -49,8 +49,10 @@ export class GanttBarDrag implements OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
                 if (this.dragContainer.linkDraggingId && this.dragContainer.linkDraggingId !== this.item.id) {
-                    this.barElement.classList.add(linkDropClass);
-                    this.dragContainer.emitLinkDragEntered(this.item);
+                    if (this.item.linkable) {
+                        this.barElement.classList.add(linkDropClass);
+                        this.dragContainer.emitLinkDragEntered(this.item);
+                    }
                 } else {
                     this.barElement.classList.add(activeClass);
                 }
@@ -271,7 +273,7 @@ export class GanttBarDrag implements OnDestroy {
         this.barElement = elementRef.nativeElement;
         this.ganttRef = ganttRef;
 
-        if (this.dragDisabled && this.linkDragDisabled) {
+        if (!item.draggable || (this.dragDisabled && this.linkDragDisabled)) {
             return;
         } else {
             this.createMouseEvents();

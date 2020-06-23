@@ -73,5 +73,10 @@
                 background-color: $gantt-container-background-color;
             }
         }
+
+        .gantt-expand-icon {
+            display: inline-block;
+            width: 16px;
+        }
     }
 }

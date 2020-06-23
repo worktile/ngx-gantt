@@ -32,7 +32,6 @@ import { Subject } from 'rxjs';
 import { GanttCalendarComponent } from './components/calendar/calendar.component';
 import { uniqBy } from './utils/helpers';
 
-
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
 
@@ -72,7 +71,7 @@ export abstract class GanttUpper {
 
     public groups: GanttGroupInternal[] = [];
 
-    private groupsMap: { [key: string]: GanttGroupInternal };
+    public viewChange = new Subject<GanttView>();
 
     public get element() {
         return this.elementRef.nativeElement;
@@ -83,6 +82,10 @@ export abstract class GanttUpper {
     }
 
     public firstChange = true;
+
+    protected expandItemIds: string[] = [];
+
+    private groupsMap: { [key: string]: GanttGroupInternal };
 
     private unsubscribe$ = new Subject();
 
@@ -137,6 +140,7 @@ export abstract class GanttUpper {
                 this.onStable().subscribe(() => {
                     this.scrollToToday();
                 });
+                this.viewChange.next(this.view);
             }
             if (changes.originItems || changes.originGroups) {
                 this.setupGroups();
@@ -179,12 +183,16 @@ export abstract class GanttUpper {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
                 if (group) {
-                    group.items.push(new GanttItemInternal(origin));
+                    const item = new GanttItemInternal(origin);
+                    item.expand = this.expandItemIds.includes(item.id);
+                    group.items.push(item);
                 }
             });
         } else {
             this.originItems.forEach((origin) => {
-                this.items.push(new GanttItemInternal(origin));
+                const item = new GanttItemInternal(origin);
+                item.expand = this.expandItemIds.includes(item.id);
+                this.items.push(item);
             });
         }
     }

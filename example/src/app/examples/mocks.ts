@@ -28,6 +28,16 @@ export const mockItems = [
         start: 1590035675,
         group_id: '00001',
         color: '#FF0000',
+        children: [
+            {
+                id: 'item-child-0101',
+                title: 'VERSION Children 0101',
+                start: 1590035675,
+                group_id: '00001',
+                color: '#FF0000',
+                linkable: false
+            }
+        ]
     },
     {
         id: 'item-0102',
@@ -35,7 +45,7 @@ export const mockItems = [
         start: 1590935675,
         end: 1591318400,
         color: '#9ACD32',
-        group_id: '00001',
+        group_id: '00001'
     },
     {
         id: 'item-0103',
@@ -46,7 +56,7 @@ export const mockItems = [
     {
         id: 'item-0201',
         title: 'VERSION 0201',
-        group_id: '00002',
+        group_id: '00002'
     },
     {
         id: 'item-0202',
