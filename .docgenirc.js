@@ -4,18 +4,43 @@ module.exports = {
     heads: [],
     mode: 'site',
     title: 'NgxGantt',
-    sitePath: 'example',
+    siteProjectName: 'example',
     output: 'dist/site',
     repoUrl: 'https://github.com/worktile/ngx-gantt',
     navs: [
         null,
-        { title: '示例', path: 'examples' },
-        { title: 'Flat', path: 'flat' },
-        { title: '组件', path: 'components', lib: 'ngx-gantt' },
+        {
+            title: '组件',
+            path: 'component',
+            locales: {
+                'en-us': {
+                    title: 'Component'
+                }
+            }
+        },
+        {
+            title: '平铺模式',
+            path: 'flat',
+            locales: {
+                'en-us': {
+                    title: 'Flat'
+                }
+            }
+        },
+        {
+            title: '配置',
+            path: 'configuration',
+            lib: 'ngx-gantt',
+            locales: {
+                'en-us': {
+                    title: 'Configuration'
+                }
+            }
+        },
         {
             title: 'GitHub',
             path: 'https://github.com/worktile/ngx-gantt',
-            isExternal: true,
+            isExternal: true
         },
         {
             title: '更新日志',
@@ -23,23 +48,22 @@ module.exports = {
             isExternal: true,
             locales: {
                 'en-us': {
-                    title: 'Changelog',
-                },
-            },
-        },
+                    title: 'Changelog'
+                }
+            }
+        }
     ],
     libs: [
         {
             name: 'ngx-gantt',
-            rootDir: './packages/gantt/src',
-            exclude: '',
+            rootDir: './example/src/app/configuration',
             categories: [
                 {
-                    id: 'general',
-                    title: '通用',
+                    id: 'config',
+                    title: '配置',
                     locales: {
                         'en-us': {
-                            title: 'General'
+                            title: 'Configuration'
                         }
                     }
                 }
