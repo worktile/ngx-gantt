@@ -13,11 +13,11 @@ import { delay } from 'rxjs/operators';
 import { GanttItem } from 'dist/gantt/class';
 
 @Component({
-    selector: 'app-examples-gantt',
-    templateUrl: './examples.component.html',
-    styleUrls: ['./examples.component.scss']
+    selector: 'app-gantt-example',
+    templateUrl: './gantt.component.html',
+    styleUrls: ['./gantt.component.scss']
 })
-export class AppExamplesComponent implements OnInit {
+export class AppGanttExampleComponent implements OnInit {
     constructor() {}
 
     items = mockItems;
@@ -53,7 +53,6 @@ export class AppExamplesComponent implements OnInit {
         if (event.source.links && event.source.links.includes(event.target.id)) {
             return;
         }
-
         this.items.forEach((item) => {
             if (item.id === event.source.id) {
                 item.links = [...(item.links || []), event.target.id];

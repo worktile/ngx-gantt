@@ -1,13 +1,13 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { mockItems, mockGroups } from '../examples/mocks';
+import { mockItems, mockGroups } from '../gantt/mocks';
 import { GanttViewType } from 'ngx-gantt';
 
 @Component({
-    selector: 'example-flat',
+    selector: 'app-gantt-flat-example',
     templateUrl: './flat.component.html',
     styleUrls: ['./flat.component.scss']
 })
-export class AppFlatExampleComponent implements OnInit {
+export class AppGanttFlatExampleComponent implements OnInit {
     constructor() {}
 
     items = mockItems;
