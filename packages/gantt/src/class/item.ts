@@ -17,6 +17,7 @@ export interface GanttItem<T = unknown> {
     color?: string;
     draggable?: boolean;
     linkable?: boolean;
+    expand: boolean;
     children?: GanttItem[];
     origin?: T;
 }
@@ -48,6 +49,7 @@ export class GanttItemInternal {
         this.color = this.origin.color;
         this.linkable = this.origin.linkable === undefined ? true : this.origin.linkable;
         this.draggable = this.origin.draggable === undefined ? true : this.origin.draggable;
+        this.expand = this.origin.expand === undefined ? false : this.origin.expand;
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
         this.children = (item.children || []).map((subItem) => {
@@ -77,6 +79,11 @@ export class GanttItemInternal {
         this.children = (items || []).map((subItem) => {
             return new GanttItemInternal(subItem);
         });
+    }
+
+    setExpand(expand: boolean) {
+        this.expand = expand;
+        this.origin.expand = expand;
     }
 
     addLink(linkId: string) {

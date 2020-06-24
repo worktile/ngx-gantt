@@ -71,19 +71,15 @@ export abstract class GanttUpper {
 
     public groups: GanttGroupInternal[] = [];
 
-    public viewChange = new Subject<GanttView>();
+    public viewChange = new EventEmitter<GanttView>();
+
+    public expandChange = new EventEmitter<void>();
 
     public get element() {
         return this.elementRef.nativeElement;
     }
 
-    public get sideWidth() {
-        return sideWidth;
-    }
-
     public firstChange = true;
-
-    protected expandItemIds: string[] = [];
 
     private groupsMap: { [key: string]: GanttGroupInternal };
 
@@ -140,7 +136,7 @@ export abstract class GanttUpper {
                 this.onStable().subscribe(() => {
                     this.scrollToToday();
                 });
-                this.viewChange.next(this.view);
+                this.viewChange.emit(this.view);
             }
             if (changes.originItems || changes.originGroups) {
                 this.setupGroups();
@@ -165,12 +161,10 @@ export abstract class GanttUpper {
     }
 
     private setupGroups() {
-        const collapsedIds = this.groups.filter((group) => !group.expand).map((group) => group.id);
         this.groupsMap = {};
         this.groups = [];
         this.originGroups.forEach((origin) => {
             const group = new GanttGroupInternal(origin);
-            group.expand = !collapsedIds.includes(group.id);
             this.groupsMap[group.id] = group;
             this.groups.push(group);
         });
@@ -184,14 +178,12 @@ export abstract class GanttUpper {
                 const group = this.groupsMap[origin.group_id];
                 if (group) {
                     const item = new GanttItemInternal(origin);
-                    item.expand = this.expandItemIds.includes(item.id);
                     group.items.push(item);
                 }
             });
         } else {
             this.originItems.forEach((origin) => {
                 const item = new GanttItemInternal(origin);
-                item.expand = this.expandItemIds.includes(item.id);
                 this.items.push(item);
             });
         }

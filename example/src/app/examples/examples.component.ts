@@ -44,7 +44,10 @@ export class AppExamplesComponent implements OnInit {
         console.log(event);
     }
 
-    dragEnded(event: GanttDragEvent) {}
+    dragEnded(event: GanttDragEvent) {
+        this.items = [...this.items];
+        this.groups = [...this.groups];
+    }
 
     linkDragEnded(event: GanttLinkDragEvent) {
         if (event.source.links && event.source.links.includes(event.target.id)) {

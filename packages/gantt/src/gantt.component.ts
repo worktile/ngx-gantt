@@ -48,13 +48,11 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
 
     public sideTableWidth = sideWidth;
 
-    public expandChange = new Subject<void>();
-
     @Input() maxLevel = 2;
 
     @Input() async: boolean;
 
-    @Input() asyncChildrenResolve: (GanttItem) => Observable<GanttItem[]>;
+    @Input() childrenResolve: (GanttItem) => Observable<GanttItem[]>;
 
     @Input() linkable: boolean;
 
@@ -133,23 +131,22 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     }
 
     expandGroup(group: GanttGroupInternal) {
-        group.expand = !group.expand;
-        this.expandChange.next();
+        group.setExpand(!group.expand);
+        this.expandChange.emit();
         this.cdr.detectChanges();
     }
 
     expandChildren(item: GanttItemInternal) {
         if (!item.expand) {
-            item.expand = true;
-            this.expandItemIds.push(item.id);
-            if (this.async && this.asyncChildrenResolve && item.children.length === 0) {
+            item.setExpand(true);
+            if (this.async && this.childrenResolve && item.children.length === 0) {
                 item.loading = true;
-                this.asyncChildrenResolve(item.origin)
+                this.childrenResolve(item.origin)
                     .pipe(
                         take(1),
                         finalize(() => {
                             item.loading = false;
-                            this.expandChange.next();
+                            this.expandChange.emit();
                             this.cdr.detectChanges();
                         })
                     )
@@ -159,12 +156,11 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
                     });
             } else {
                 this.computeItemsRefs(...item.children);
-                this.expandChange.next();
+                this.expandChange.emit();
             }
         } else {
-            item.expand = false;
-            this.expandItemIds = this.expandItemIds.filter((id) => id !== item.id);
-            this.expandChange.next();
+            item.setExpand(false);
+            this.expandChange.emit();
         }
     }
 
