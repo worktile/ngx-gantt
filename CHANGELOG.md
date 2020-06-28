@@ -1,6 +1,19 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.15](https://github.com/worktile/ngx-gantt/compare/0.0.14...0.0.15) (2020-06-28)
+
+
+### Features
+
+* suport group and item set expand ([31838b2](https://github.com/worktile/ngx-gantt/commit/31838b27097fe6c1ae50cd8e3d40cfe9540d2dc4))
+* support children display and async ([ca9faa0](https://github.com/worktile/ngx-gantt/commit/ca9faa00a4f7a322db3f69805d907b2a4164d799))
+
+
+### Bug Fixes
+
+* fix children not expand when items change ([c34831f](https://github.com/worktile/ngx-gantt/commit/c34831f65efb0bf30a6ce54e5f1728f8d8468fc0))
+
 ### [0.0.14](https://github.com/worktile/ngx-gantt/compare/0.0.11...0.0.14) (2020-06-20)
 
 
