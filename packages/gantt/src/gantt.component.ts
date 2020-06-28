@@ -15,10 +15,9 @@ import {
     TemplateRef,
     ContentChildren,
     QueryList,
-    AfterViewInit,
-    ViewChild
+    AfterViewInit
 } from '@angular/core';
-import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
+import { startWith, takeUntil, take, finalize, expand } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { GanttUpper } from './gantt-upper';
 import { GanttRef, GANTT_REF_TOKEN } from './gantt-ref';

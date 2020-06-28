@@ -8,6 +8,10 @@ export function isNumber(value: any) {
     return typeof value === 'number';
 }
 
+export function isUndefined(value: any) {
+    return value === undefined;
+}
+
 export function hexToRgb(color: string, opacity = 1) {
     if (/^#/g.test(color)) {
         return `rgba(${parseInt(color.slice(1, 3), 16)},${parseInt(color.slice(3, 5), 16)},${parseInt(color.slice(5, 7), 16)},${opacity})`;
@@ -27,6 +31,12 @@ export function uniqBy<T = unknown>(array: T[], key: keyof T) {
         }
     });
     return result;
+}
+
+export function flatten<T = unknown>(array: T[]) {
+    return array.reduce((pre, cur) => {
+        return pre.concat(Array.isArray(cur) ? flatten(cur) : cur);
+    }, []);
 }
 
 export function recursiveItems(items: GanttItemInternal[]) {

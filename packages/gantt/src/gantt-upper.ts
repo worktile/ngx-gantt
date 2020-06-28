@@ -30,7 +30,7 @@ import { takeUntil, take, skip } from 'rxjs/operators';
 import { GanttDragContainer } from './gantt-drag-container';
 import { Subject } from 'rxjs';
 import { GanttCalendarComponent } from './components/calendar/calendar.component';
-import { uniqBy } from './utils/helpers';
+import { uniqBy, Dictionary, flatten, recursiveItems } from './utils/helpers';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -82,6 +82,10 @@ export abstract class GanttUpper {
     public firstChange = true;
 
     private groupsMap: { [key: string]: GanttGroupInternal };
+
+    private expandedItemIds: string[] = [];
+
+    private expandedChildren: Dictionary<GanttItem[]> = {};
 
     private unsubscribe$ = new Subject();
 
@@ -139,6 +143,7 @@ export abstract class GanttUpper {
                 this.viewChange.emit(this.view);
             }
             if (changes.originItems || changes.originGroups) {
+                this.setupExpandedState();
                 this.setupGroups();
                 this.setupItems();
                 this.computeRefs();
@@ -161,10 +166,12 @@ export abstract class GanttUpper {
     }
 
     private setupGroups() {
+        const collapsedIds = this.groups.filter((group) => group.expanded === false).map((group) => group.id);
         this.groupsMap = {};
         this.groups = [];
         this.originGroups.forEach((origin) => {
             const group = new GanttGroupInternal(origin);
+            group.expanded = !collapsedIds.includes(group.id);
             this.groupsMap[group.id] = group;
             this.groups.push(group);
         });
@@ -173,6 +180,11 @@ export abstract class GanttUpper {
     private setupItems() {
         this.items = [];
         this.originItems = uniqBy(this.originItems, 'id');
+        // 根据上一次数据展开状态同步新的数据展开状态
+        this.originItems.forEach((item) => {
+            item.expanded = this.expandedItemIds.includes(item.id);
+            item.children = this.expandedChildren[item.id];
+        });
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
@@ -187,6 +199,23 @@ export abstract class GanttUpper {
                 this.items.push(item);
             });
         }
+    }
+
+    private setupExpandedState() {
+        let items: GanttItemInternal[] = [];
+        if (this.items.length > 0) {
+            items = recursiveItems(this.items);
+        } else {
+            items = flatten(this.groups.map((group) => recursiveItems(group.items)));
+        }
+        this.expandedItemIds = [];
+        this.expandedChildren = {};
+        items.forEach((item) => {
+            if (item.origin.expanded) {
+                this.expandedItemIds.push(item.id);
+                this.expandedChildren[item.id] = item.origin.children;
+            }
+        });
     }
 
     private getViewDate() {
