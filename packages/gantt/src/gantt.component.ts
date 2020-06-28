@@ -166,4 +166,22 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     ngOnDestroy() {
         super.onDestroy();
     }
+
+    private expandGroups(expanded: boolean) {
+        this.groups.forEach((group) => {
+            group.setExpand(expanded);
+        });
+        this.expandChange.next();
+        this.cdr.detectChanges();
+    }
+
+    // public functions
+
+    expandAll() {
+        this.expandGroups(true);
+    }
+
+    collapseAll() {
+        this.expandGroups(false);
+    }
 }

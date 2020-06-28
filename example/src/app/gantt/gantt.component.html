@@ -19,6 +19,17 @@
       <input type="checkbox" [(ngModel)]="options.linkable" />
     </span>
   </div>
+
+  <div class="header-section">
+    <span class="header-section-content">
+      <button (click)="gantt.expandAll()">全部展开</button>
+    </span>
+  </div>
+  <div class="header-section">
+    <span class="header-section-content">
+      <button (click)="gantt.collapseAll()">全部收起</button>
+    </span>
+  </div>
 </div>
 <div class="gantt-demo-content">
   <ngx-gantt
