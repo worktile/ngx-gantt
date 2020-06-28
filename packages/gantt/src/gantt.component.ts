@@ -131,13 +131,13 @@ export class NgxGanttComponent extends GanttUpper implements GanttRef, OnInit, A
     }
 
     expandGroup(group: GanttGroupInternal) {
-        group.setExpand(!group.expand);
+        group.setExpand(!group.expanded);
         this.expandChange.emit();
         this.cdr.detectChanges();
     }
 
     expandChildren(item: GanttItemInternal) {
-        if (!item.expand) {
+        if (!item.expanded) {
             item.setExpand(true);
             if (this.async && this.childrenResolve && item.children.length === 0) {
                 item.loading = true;

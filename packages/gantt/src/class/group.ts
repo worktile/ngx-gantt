@@ -3,7 +3,7 @@ import { GanttItemInternal } from './item';
 export interface GanttGroup<T = unknown> {
     id: string;
     title: string;
-    expand?: boolean;
+    expanded?: boolean;
     origin?: T;
 }
 
@@ -13,7 +13,7 @@ export class GanttGroupInternal {
     origin: GanttGroup;
     items: GanttItemInternal[];
     mergedItems: GanttItemInternal[][];
-    expand: boolean;
+    expanded?: boolean;
     refs?: {
         height?: number;
     } = {};
@@ -21,13 +21,13 @@ export class GanttGroupInternal {
         this.id = group.id;
         this.origin = group;
         this.title = group.title;
-        this.expand = group.expand === undefined ? true : group.expand;
+        this.expanded = group.expanded === undefined ? true : group.expanded;
         this.items = [];
         this.mergedItems = [[]];
     }
 
-    setExpand(expand: boolean) {
-        this.expand = expand;
-        this.origin.expand = expand;
+    setExpand(expanded: boolean) {
+        this.expanded = expanded;
+        this.origin.expanded = expanded;
     }
 }

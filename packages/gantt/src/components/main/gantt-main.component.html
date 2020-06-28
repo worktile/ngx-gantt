@@ -3,7 +3,7 @@
 <div class="gantt-main-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="ganttRef.view.width">
   <ng-container *ngFor="let group of groups; trackBy: trackBy">
     <div class="gantt-group"></div>
-    <div *ngIf="group.expand" class="gantt-items">
+    <div *ngIf="group.expanded" class="gantt-items">
       <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items }"></ng-template>
     </div>
   </ng-container>
@@ -21,7 +21,7 @@
       <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
     </div>
     <ng-template
-      *ngIf="item.children && item.expand"
+      *ngIf="item.children && item.expanded"
       [ngTemplateOutlet]="ganttItems"
       [ngTemplateOutletContext]="{ items: item.children }"
     ></ng-template>

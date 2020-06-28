@@ -109,7 +109,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             let groupNum = 0;
             this.groups.forEach((group) => {
                 groupNum++;
-                if (group.expand) {
+                if (group.expanded) {
                     const items = recursiveItems(group.items);
                     items.forEach((item, itemIndex) => {
                         const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;

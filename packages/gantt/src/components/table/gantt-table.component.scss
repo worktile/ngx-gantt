@@ -9,8 +9,6 @@
 
         .gantt-table-column {
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
             border-right: 1px solid $gantt-border-color;
 
             &:last-child {
@@ -28,7 +26,7 @@
         height: $gantt-header-height;
         line-height: $gantt-header-height;
 
-        .header-column {
+        .gantt-table-column {
             font-weight: 400;
         }
     }
@@ -57,16 +55,25 @@
         .gantt-table-item {
             cursor: pointer;
 
-            .item-column {
+            .gantt-table-column {
+                display: flex;
                 padding: $gantt-table-td-padding;
 
                 &:first-child {
-                    padding: 0 20px 0 54px;
+                    padding: 0 20px 0 32px;
                 }
 
                 &:last-child {
                     border-right: none;
                 }
+
+            }
+
+            .gantt-table-column-content {
+                flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             &:hover {
@@ -76,7 +83,7 @@
 
         .gantt-expand-icon {
             display: inline-block;
-            width: 16px;
+            width: 20px;
         }
     }
 }

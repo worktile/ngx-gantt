@@ -33,7 +33,7 @@ export function recursiveItems(items: GanttItemInternal[]) {
     const result = [];
     (items || []).forEach((item) => {
         result.push(item);
-        if (item.expand && item.children) {
+        if (item.expanded && item.children) {
             result.push(...recursiveItems(item.children));
         }
     });

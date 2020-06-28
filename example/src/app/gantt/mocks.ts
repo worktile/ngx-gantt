@@ -45,7 +45,8 @@ export const mockItems = [
         start: 1590935675,
         end: 1591318400,
         color: '#9ACD32',
-        group_id: '00001'
+        group_id: '00001',
+        expandable: true
     },
     {
         id: 'item-0103',

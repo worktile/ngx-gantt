@@ -1,6 +1,6 @@
 <div class="gantt-side-container">
   <div class="gantt-table-header gantt-table-row">
-    <div class="header-column gantt-table-column" *ngFor="let column of columnList" [style.width.px]="column.width">
+    <div class="gantt-table-column" *ngFor="let column of columnList" [style.width.px]="column.width">
       <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
       <ng-template #default>
         {{ column.name }}
@@ -12,8 +12,8 @@
     <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
       <ng-container *ngFor="let group of groups">
         <div class="gantt-table-group">
-          <div class="gantt-table-group-title" [class.expand]="group.expand" (click)="expandGroup(group)">
-            <gantt-icon class="expand-icon" [iconName]="group.expand ? 'angle-down' : 'angle-right'"></gantt-icon>
+          <div class="gantt-table-group-title" [class.expanded]="group.expanded" (click)="expandGroup(group)">
+            <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
             <ng-container *ngIf="groupTemplate; else default">
               <ng-template
                 [ngTemplateOutlet]="groupTemplate"
@@ -26,7 +26,7 @@
           </div>
         </div>
 
-        <ng-container *ngIf="group.expand">
+        <ng-container *ngIf="group.expanded">
           <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items, level: 0 }"></ng-template>
         </ng-container>
       </ng-container>
@@ -45,26 +45,28 @@
       [style.height.px]="ganttRef.styles.lineHeight"
       [style.lineHeight.px]="ganttRef.styles.lineHeight"
     >
-      <div class="item-column gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width.px]="column.width">
+      <div class="gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width.px]="column.width">
         <div *ngIf="first" class="gantt-expand-icon" [style.marginLeft.px]="level * 20">
-          <ng-container *ngIf="level < ganttRef.maxLevel - 1">
+          <ng-container *ngIf="level < ganttRef.maxLevel - 1 && item.expandable">
             <gantt-icon
               *ngIf="!item.loading"
               class="expand-icon"
-              [iconName]="item.expand ? 'angle-down' : 'angle-right'"
+              [iconName]="item.expanded ? 'angle-down' : 'angle-right'"
               (click)="expandChildren(item)"
             ></gantt-icon>
             <gantt-icon *ngIf="item.loading" [iconName]="'loading'"></gantt-icon>
           </ng-container>
         </div>
-        <ng-template
-          [ngTemplateOutlet]="column.templateRef"
-          [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
-        ></ng-template>
+        <div class="gantt-table-column-content">
+          <ng-template
+            [ngTemplateOutlet]="column.templateRef"
+            [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+          ></ng-template>
+        </div>
       </div>
     </div>
     <ng-template
-      *ngIf="item.children && item.expand"
+      *ngIf="item.children && item.expanded"
       [ngTemplateOutlet]="ganttItems"
       [ngTemplateOutletContext]="{ items: item.children, level: level + 1 }"
     ></ng-template>
