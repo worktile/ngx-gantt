@@ -76,6 +76,7 @@ export class GanttItemInternal {
     }
 
     addChildren(items: GanttItem[]) {
+        this.origin.children = items;
         this.children = (items || []).map((subItem) => {
             return new GanttItemInternal(subItem);
         });
