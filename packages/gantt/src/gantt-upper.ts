@@ -85,8 +85,6 @@ export abstract class GanttUpper {
 
     private expandedItemIds: string[] = [];
 
-    private expandedChildren: Dictionary<GanttItem[]> = {};
-
     private unsubscribe$ = new Subject();
 
     @HostBinding('class.gantt') ganttClass = true;
@@ -183,7 +181,6 @@ export abstract class GanttUpper {
         // 根据上一次数据展开状态同步新的数据展开状态
         this.originItems.forEach((item) => {
             item.expanded = this.expandedItemIds.includes(item.id);
-            item.children = this.expandedChildren[item.id];
         });
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
@@ -209,11 +206,9 @@ export abstract class GanttUpper {
             items = flatten(this.groups.map((group) => recursiveItems(group.items)));
         }
         this.expandedItemIds = [];
-        this.expandedChildren = {};
         items.forEach((item) => {
             if (item.origin.expanded) {
                 this.expandedItemIds.push(item.id);
-                this.expandedChildren[item.id] = item.origin.children;
             }
         });
     }
