@@ -1,6 +1,6 @@
 {
   "name": "@worktile/gantt",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14"

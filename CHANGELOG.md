@@ -1,6 +1,18 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.17](https://github.com/worktile/ngx-gantt/compare/0.0.15...0.0.17) (2020-06-29)
+
+
+### Features
+
+* support expand and collapse groups ([2072aac](https://github.com/worktile/ngx-gantt/commit/2072aac20f28ca949dabee4a607dca0e3728d931))
+
+
+### Bug Fixes
+
+* fix expanded not work when items or groups changed ([c57bb59](https://github.com/worktile/ngx-gantt/commit/c57bb5912c2cd030c0f12d7596dd69db43b2f497))
+
 ### [0.0.16](https://github.com/worktile/ngx-gantt/compare/0.0.14...0.0.16) (2020-06-28)
 
 
