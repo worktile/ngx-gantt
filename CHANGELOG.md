@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.18](https://github.com/worktile/ngx-gantt/compare/0.0.17...0.0.18) (2020-06-30)
+
+
+### Bug Fixes
+
+* remove children sync when data changed ([4bb9150](https://github.com/worktile/ngx-gantt/commit/4bb91505cb830327d267ffc05f001a18e465a6ff))
+
 ### [0.0.17](https://github.com/worktile/ngx-gantt/compare/0.0.15...0.0.17) (2020-06-29)
 
 
