@@ -7,9 +7,15 @@
         height: 0;
         position: relative;
         z-index: 1;
-        svg{
+
+        svg {
             display: block;
         }
+    }
+
+    .gantt-calendar-overlay-main {
+        position: relative;
+        z-index: 1;
     }
 
     svg {
@@ -40,7 +46,7 @@
     }
 
     .primary-line {
-        stroke: $gantt-border-color;
+        stroke: $gantt-date-primary-border;
     }
 
     .secondary-line {

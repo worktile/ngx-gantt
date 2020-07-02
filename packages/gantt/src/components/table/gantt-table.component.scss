@@ -60,7 +60,7 @@
                 padding: $gantt-table-td-padding;
 
                 &:first-child {
-                    padding: 0 20px 0 32px;
+                    padding: 0 15px 0 32px;
                 }
 
                 &:last-child {
@@ -71,6 +71,7 @@
 
             .gantt-table-column-content {
                 flex: 1;
+                position: relative;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;

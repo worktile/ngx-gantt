@@ -20,6 +20,8 @@ import { isNumber } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
 import { GanttDomService } from '../../gantt-dom.service';
 
+const mainHeight = 5000;
+
 @Component({
     selector: 'gantt-calendar-overlay',
     templateUrl: './calendar.component.html'
@@ -32,6 +34,8 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     private unsubscribe$ = new Subject();
 
     headerHeight = headerHeight;
+
+    mainHeight = mainHeight;
 
     @HostBinding('class.gantt-calendar-overlay') className = true;
 
@@ -48,11 +52,11 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
         const angle = this.elementRef.nativeElement.getElementsByClassName('today-line-angle')[0];
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0];
         if (angle && line && isNumber(x)) {
-            angle.setAttribute('points', [`${x - 6},${headerHeight}`, `${x + 5},${headerHeight}`, `${x},${headerHeight + 5}`].join(' '));
+            angle.setAttribute('points', [`${x - 6},${headerHeight}`, `${x + 6},${headerHeight}`, `${x},${headerHeight + 5}`].join(' '));
             line.setAttribute('x1', x.toString());
             line.setAttribute('x2', x.toString());
             line.setAttribute('y1', headerHeight.toString());
-            line.setAttribute('y2', this.dom.root.clientHeight.toString());
+            line.setAttribute('y2', mainHeight.toString());
         }
     }
 
@@ -63,12 +67,12 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
             });
         });
 
-        this.dom
-            .getResize()
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(() => {
-                this.setTodayPoint();
-            });
+        // this.dom
+        //     .getResize()
+        //     .pipe(takeUntil(this.unsubscribe$))
+        //     .subscribe(() => {
+        //         this.setTodayPoint();
+        //     });
     }
 
     ngAfterViewInit() {}
