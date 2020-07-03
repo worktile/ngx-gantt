@@ -10,6 +10,7 @@
         .gantt-table-column {
             overflow: hidden;
             border-right: 1px solid $gantt-border-color;
+            box-sizing: border-box;
 
             &:last-child {
                 border-right: none;
