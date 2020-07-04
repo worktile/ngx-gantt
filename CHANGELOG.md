@@ -1,6 +1,19 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.22](https://github.com/worktile/ngx-gantt/compare/0.0.21...0.0.22) (2020-07-04)
+
+
+### Features
+
+* support set bar style ([865a898](https://github.com/worktile/ngx-gantt/commit/865a898a961f6effd25239df71fc508fccf9cbcc))
+* **schematics:** schematics fisrt commit ([fe36263](https://github.com/worktile/ngx-gantt/commit/fe3626375e499f0a878a56fbb81ffc8934c942af))
+
+
+### Bug Fixes
+
+* **links:** fix build links error ([ccd638a](https://github.com/worktile/ngx-gantt/commit/ccd638afa989913d8bc49548568918a9fbb7a815))
+
 ### [0.0.21](https://github.com/worktile/ngx-gantt/compare/0.0.18...0.0.21) (2020-07-04)
 
 
