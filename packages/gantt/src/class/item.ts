@@ -20,7 +20,7 @@ export interface GanttItem<T = unknown> {
     expanded?: boolean;
     children?: GanttItem[];
     color?: string;
-    barStyle?: CSSStyleDeclaration;
+    barStyle?: Partial<CSSStyleDeclaration>;
     origin?: T;
 }
 
@@ -31,7 +31,7 @@ export class GanttItemInternal {
     end: GanttDate;
     links: string[];
     color?: string;
-    barStyle?: CSSStyleDeclaration;
+    barStyle?: Partial<CSSStyleDeclaration>;
     draggable?: boolean;
     linkable?: boolean;
     origin: GanttItem;
