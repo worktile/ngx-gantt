@@ -217,8 +217,12 @@ export abstract class GanttUpper {
         let start = this.start;
         let end = this.end;
         this.originItems.forEach((item) => {
-            start = start ? Math.min(start, item.start) : item.start;
-            end = end ? Math.max(end, item.end) : item.end;
+            if (item.start) {
+                start = start ? Math.min(start, item.start) : item.start;
+            }
+            if (item.end) {
+                end = end ? Math.max(end, item.end) : item.end;
+            }
         });
         return {
             start: new GanttDate(start),
