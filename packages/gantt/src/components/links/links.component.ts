@@ -173,7 +173,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             if (source.origin.start || source.origin.end) {
                 source.links.forEach((linkId) => {
                     const target = this.linkItems.find((item) => item.id === linkId);
-                    if (target) {
+                    if (target && (target.origin.start || target.origin.end)) {
                         this.links.push({
                             path: this.generatePath(source, target),
                             source: source.origin,
