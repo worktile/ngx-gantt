@@ -19,6 +19,7 @@ import { GanttLineClickEvent } from '../../class/event';
 import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { recursiveItems } from '../../utils/helpers';
+import { GanttDate } from '../../utils/date';
 
 enum LinkColors {
     default = '#cacaca',
@@ -30,6 +31,8 @@ interface GanttLinkItem {
     id: string;
     before: { x: number; y: number };
     after: { x: number; y: number };
+    start: GanttDate;
+    end: GanttDate;
     origin: GanttItem;
     links: string[];
 }
@@ -167,17 +170,19 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         this.computeItemPosition();
         this.links = [];
         this.linkItems.forEach((source) => {
-            source.links.forEach((linkId) => {
-                const target = this.linkItems.find((item) => item.id === linkId);
-                if (target) {
-                    this.links.push({
-                        path: this.generatePath(source, target),
-                        source: source.origin,
-                        target: target.origin,
-                        color: source.origin.end > target.origin.start ? LinkColors.blocked : LinkColors.default
-                    });
-                }
-            });
+            if (source.origin.start || source.origin.end) {
+                source.links.forEach((linkId) => {
+                    const target = this.linkItems.find((item) => item.id === linkId);
+                    if (target) {
+                        this.links.push({
+                            path: this.generatePath(source, target),
+                            source: source.origin,
+                            target: target.origin,
+                            color: source.end.getTime() > target.start.getTime() ? LinkColors.blocked : LinkColors.default
+                        });
+                    }
+                });
+            }
         });
     }
 
