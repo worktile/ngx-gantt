@@ -14,12 +14,13 @@ export interface GanttItem<T = unknown> {
     end?: number;
     group_id?: string;
     links?: string[];
-    color?: string;
     draggable?: boolean;
     linkable?: boolean;
     expandable?: boolean;
     expanded?: boolean;
     children?: GanttItem[];
+    color?: string;
+    barStyle?: CSSStyleDeclaration;
     origin?: T;
 }
 
@@ -30,6 +31,7 @@ export class GanttItemInternal {
     end: GanttDate;
     links: string[];
     color?: string;
+    barStyle?: CSSStyleDeclaration;
     draggable?: boolean;
     linkable?: boolean;
     origin: GanttItem;
@@ -49,6 +51,7 @@ export class GanttItemInternal {
         this.id = this.origin.id;
         this.links = this.origin.links || [];
         this.color = this.origin.color;
+        this.barStyle = this.origin.barStyle;
         this.linkable = this.origin.linkable === undefined ? true : this.origin.linkable;
         this.draggable = this.origin.draggable === undefined ? true : this.origin.draggable;
         this.expandable = (this.origin.children || []).length > 0 ? true : this.origin.expandable;

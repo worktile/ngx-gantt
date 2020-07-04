@@ -65,7 +65,11 @@ export const mockItems = [
         start: 1591035675,
         end: 1593018400,
         group_id: '00002',
-        links: ['item-0203']
+        links: ['item-0203'],
+        color: 'rgb(52, 143, 228, 0.5)',
+        barStyle: {
+            border: '1px solid rgb(52, 143, 228)'
+        }
     },
     {
         id: 'item-0203',
