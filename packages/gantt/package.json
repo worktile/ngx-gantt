@@ -1,6 +1,14 @@
 {
   "name": "@worktile/gantt",
   "version": "0.0.21",
+  "schematics": "./schematics/collection.json",
+  "scripts": {
+    "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
+    "copy:schemas": "cp --parents schematics/*/schema.json ../../dist/gantt/",
+    "copy:files": "cp --parents -p schematics/*/files/** ../../dist/gantt/",
+    "copy:collection": "cp schematics/collection.json ../../dist/gantt/schematics/collection.json",
+    "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
+  },
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14"
