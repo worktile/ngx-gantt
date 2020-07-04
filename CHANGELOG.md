@@ -1,6 +1,14 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.21](https://github.com/worktile/ngx-gantt/compare/0.0.18...0.0.21) (2020-07-04)
+
+
+### Bug Fixes
+
+* fix view date calc bug ([#38](https://github.com/worktile/ngx-gantt/issues/38)) ([bd994b3](https://github.com/worktile/ngx-gantt/commit/bd994b3415847af80585d7da583cdf6674faeb85))
+* **links:** except items that has not start and end ([59ce8e1](https://github.com/worktile/ngx-gantt/commit/59ce8e1eebd7af0919db746e773dfb4a978eb450))
+
 ### [0.0.20](https://github.com/worktile/ngx-gantt/compare/0.0.18...0.0.20) (2020-07-03)
 
 ### [0.0.19](https://github.com/worktile/ngx-gantt/compare/0.0.18...0.0.19) (2020-07-02)
