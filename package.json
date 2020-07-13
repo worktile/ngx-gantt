@@ -68,7 +68,7 @@
     "pretty-quick": "^1.10.0",
     "protractor": "~5.4.0",
     "scss-bundle": "^3.1.2",
-    "standard-version": "^7.1.0",
+    "standard-version": "^8.0.1",
     "ts-node": "~7.0.0",
     "tsickle": "^0.37.0",
     "tslint": "~5.15.0",
