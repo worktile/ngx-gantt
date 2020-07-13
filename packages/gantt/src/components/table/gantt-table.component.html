@@ -42,12 +42,12 @@
   <ng-container *ngFor="let item of items">
     <div
       class="gantt-table-item gantt-table-row"
-      [style.height.px]="ganttRef.styles.lineHeight"
-      [style.lineHeight.px]="ganttRef.styles.lineHeight"
+      [style.height.px]="gantt.styles.lineHeight"
+      [style.lineHeight.px]="gantt.styles.lineHeight"
     >
       <div class="gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width.px]="column.width">
         <div *ngIf="first" class="gantt-expand-icon" [style.marginLeft.px]="level * 20">
-          <ng-container *ngIf="level < ganttRef.maxLevel - 1 && item.expandable">
+          <ng-container *ngIf="level < gantt.maxLevel - 1 && item.expandable">
             <gantt-icon
               *ngIf="!item.loading"
               class="expand-icon"

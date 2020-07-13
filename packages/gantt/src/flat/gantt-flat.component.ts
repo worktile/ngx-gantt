@@ -11,12 +11,14 @@ import {
     OnDestroy,
     SimpleChanges
 } from '@angular/core';
-import { GANTT_REF_TOKEN } from '../gantt-ref';
-import { GanttUpper } from '../gantt-upper';
-import { GanttDomService } from '../gantt-dom.service';
-import { GanttDragContainer } from '../gantt-drag-container';
+import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 import { GanttGroupInternal, GanttItemInternal } from '../class';
-import { GanttRef } from '../gantt-ref';
+import { startWith, takeUntil } from 'rxjs/operators';
+
+export class GanttFlatGroupInternal extends GanttGroupInternal {
+    sprints: GanttItemInternal[][];
+    versions: GanttItemInternal[][];
+}
 
 @Component({
     selector: 'ngx-gantt-flat',
@@ -24,36 +26,26 @@ import { GanttRef } from '../gantt-ref';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
-            provide: GANTT_REF_TOKEN,
+            provide: GANTT_UPPER_TOKEN,
             useExisting: NgxGanttFlatComponent
-        },
-        GanttDomService,
-        GanttDragContainer
+        }
     ]
 })
-export class NgxGanttFlatComponent extends GanttUpper implements GanttRef, OnInit, OnChanges, OnDestroy {
-    @Input() mergeIntervalDays = 0;
+export class NgxGanttFlatComponent extends GanttUpper implements OnInit, OnChanges, OnDestroy {
+    mergeIntervalDays = 3;
 
-    @Input() sideTitle: string;
+    groups: GanttFlatGroupInternal[] = [];
 
     @HostBinding('class.gantt-flat') ganttFlatClass = true;
 
-    constructor(
-        elementRef: ElementRef<HTMLElement>,
-        cdr: ChangeDetectorRef,
-        ngZone: NgZone,
-        dom: GanttDomService,
-        dragContainer: GanttDragContainer
-    ) {
-        super(elementRef, cdr, ngZone, dom, dragContainer);
+    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone) {
+        super(elementRef, cdr, ngZone);
     }
 
-    private buildGroupMergedItems(group: GanttGroupInternal) {
+    private buildGroupMergedItems(items: GanttItemInternal[]) {
         const mergedItems: GanttItemInternal[][] = [];
-        const groupItems = group.items
-            .filter((item) => item.start && item.end)
-            .sort((a, b) => a.start.getUnixTime() - b.start.getUnixTime());
-        groupItems.forEach((item) => {
+        items = items.filter((item) => item.start && item.end).sort((a, b) => a.start.getUnixTime() - b.start.getUnixTime());
+        items.forEach((item) => {
             let indexOfMergedItems = -1;
             for (let i = 0; i < mergedItems.length; i++) {
                 const subItems = mergedItems[i];
@@ -72,35 +64,25 @@ export class NgxGanttFlatComponent extends GanttUpper implements GanttRef, OnIni
         return mergedItems;
     }
 
-    private computeItemRef(item: GanttItemInternal) {
-        item.updateRefs({
-            width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
-            x: item.start ? this.view.getXPointByDate(item.start) : 0,
-            y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
+    ngOnInit() {
+        super.onInit();
+        this.dragEnded.pipe(startWith(null), takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.buildGroupItems();
         });
     }
 
-    ngOnInit() {
-        super.onInit();
-    }
-
-    computeRefs(): void {
+    private buildGroupItems() {
         this.groups.forEach((group) => {
-            group.items.forEach((item) => {
-                this.computeItemRef(item);
-            });
-            group.mergedItems = this.buildGroupMergedItems(group);
+            group.versions = this.buildGroupMergedItems(group.items.filter((item, index) => index % 2 === 1));
+            group.sprints = this.buildGroupMergedItems(group.items.filter((item, index) => index % 2 === 0));
             // 如果没有数据，默认填充一行空行
-            group.mergedItems = group.mergedItems.length === 0 ? [[]] : group.mergedItems;
+            group.versions = group.versions.length === 0 ? [[]] : group.versions;
+            group.sprints = group.sprints.length === 0 ? [[]] : group.sprints;
         });
     }
 
     ngOnChanges(changes: SimpleChanges) {
         super.onChanges(changes);
-        if (!this.firstChange && changes.mergeIntervalDays) {
-            this.computeRefs();
-            this.cdr.detectChanges();
-        }
     }
 
     ngOnDestroy() {

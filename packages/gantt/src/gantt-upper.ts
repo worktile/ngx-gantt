@@ -9,8 +9,10 @@ import {
     ChangeDetectorRef,
     NgZone,
     SimpleChanges,
-    ViewChild
+    InjectionToken
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil, take, skip } from 'rxjs/operators';
 import {
     GanttItem,
     GanttGroup,
@@ -19,18 +21,15 @@ import {
     GanttDragEvent,
     GanttGroupInternal,
     GanttItemInternal,
-    GanttBarClickEvent
+    GanttBarClickEvent,
+    GanttLinkDragEvent
 } from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
-import { GanttStyles, defaultStyles, sideWidth } from './gantt.styles';
-import { GanttDomService, ScrollDirection } from './gantt-dom.service';
-import { takeUntil, take, skip } from 'rxjs/operators';
+import { GanttStyles, defaultStyles } from './gantt.styles';
+import { uniqBy, flatten, recursiveItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
-import { Subject } from 'rxjs';
-import { GanttCalendarComponent } from './components/calendar/calendar.component';
-import { uniqBy, Dictionary, flatten, recursiveItems } from './utils/helpers';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -63,7 +62,9 @@ export abstract class GanttUpper {
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
-    @ViewChild(GanttCalendarComponent, { static: false }) calendar: GanttCalendarComponent;
+    public linkable: boolean;
+
+    public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     public view: GanttView;
 
@@ -81,82 +82,18 @@ export abstract class GanttUpper {
 
     public firstChange = true;
 
+    public dragContainer: GanttDragContainer;
+
+    public unsubscribe$ = new Subject();
+
     private groupsMap: { [key: string]: GanttGroupInternal };
 
     private expandedItemIds: string[] = [];
 
-    private unsubscribe$ = new Subject();
 
     @HostBinding('class.gantt') ganttClass = true;
 
-    abstract computeRefs(): void;
-
-    constructor(
-        protected elementRef: ElementRef<HTMLElement>,
-        protected cdr: ChangeDetectorRef,
-        protected ngZone: NgZone,
-        protected dom: GanttDomService,
-        protected dragContainer: GanttDragContainer
-    ) {}
-
-    onInit() {
-        this.styles = Object.assign({}, defaultStyles, this.styles);
-        this.createView();
-        this.setupGroups();
-        this.setupItems();
-        this.computeRefs();
-        this.firstChange = false;
-
-        this.onStable().subscribe(() => {
-            this.dom.initialize(this.elementRef);
-            this.setupViewScroll();
-            this.scrollToToday();
-            // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
-            this.element.style.opacity = '1';
-        });
-
-        this.view.start$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(() => {
-            this.computeRefs();
-        });
-
-        this.dragContainer.dragStarted.subscribe((event) => {
-            this.dragStarted.emit(event);
-        });
-        this.dragContainer.dragEnded.subscribe((event) => {
-            this.dragEnded.emit(event);
-            this.computeRefs();
-            this.cdr.detectChanges();
-        });
-    }
-
-    onChanges(changes: SimpleChanges) {
-        if (!this.firstChange) {
-            if (changes.viewType && changes.viewType.currentValue) {
-                this.createView();
-                this.computeRefs();
-                this.calendar.setTodayPoint();
-                this.onStable().subscribe(() => {
-                    this.scrollToToday();
-                });
-                this.viewChange.emit(this.view);
-            }
-            if (changes.originItems || changes.originGroups) {
-                this.setupExpandedState();
-                this.setupGroups();
-                this.setupItems();
-                this.computeRefs();
-            }
-        }
-    }
-
-    onDestroy() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-    }
-
-    trackBy(item: GanttGroupInternal | GanttItemInternal, index: number) {
-        return item.id || index;
-    }
+    constructor(protected elementRef: ElementRef<HTMLElement>, protected cdr: ChangeDetectorRef, protected ngZone: NgZone) {}
 
     private createView() {
         const viewDate = this.getViewDate();
@@ -230,40 +167,103 @@ export abstract class GanttUpper {
         };
     }
 
-    private setupViewScroll() {
-        if (this.disabledLoadOnScroll) {
-            return;
-        }
-        this.dom
-            .getViewerScroll()
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((event) => {
-                if (event.direction === ScrollDirection.LEFT) {
-                    const dates = this.view.addStartDate();
-                    if (dates) {
-                        event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
-                        this.ngZone.run(() => {
-                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        });
-                    }
-                }
-                if (event.direction === ScrollDirection.RIGHT) {
-                    const dates = this.view.addEndDate();
-                    if (dates) {
-                        this.ngZone.run(() => {
-                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        });
-                    }
-                }
+    computeRefs() {
+        this.groups.forEach((group) => {
+            const groupItems = recursiveItems(group.items);
+            this.computeItemsRefs(...groupItems);
+        });
+        const items = recursiveItems(this.items);
+        this.computeItemsRefs(...items);
+    }
+
+    private expandGroups(expanded: boolean) {
+        this.groups.forEach((group) => {
+            group.setExpand(expanded);
+        });
+        this.expandChange.next();
+        this.cdr.detectChanges();
+    }
+
+    onInit() {
+        this.styles = Object.assign({}, defaultStyles, this.styles);
+        this.createView();
+        this.setupGroups();
+        this.setupItems();
+        this.computeRefs();
+        this.firstChange = false;
+
+        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+            this.element.style.opacity = '1';
+
+            this.dragContainer.dragStarted.subscribe((event) => {
+                this.dragStarted.emit(event);
             });
+            this.dragContainer.dragEnded.subscribe((event) => {
+                this.dragEnded.emit(event);
+                this.computeRefs();
+                this.detectChanges();
+            });
+        });
+
+        this.view.start$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.computeRefs();
+        });
     }
 
-    private onStable() {
-        return this.ngZone.onStable.pipe(take(1));
+    onChanges(changes: SimpleChanges) {
+        if (!this.firstChange) {
+            if (changes.viewType && changes.viewType.currentValue) {
+                this.createView();
+                this.computeRefs();
+                this.viewChange.emit(this.view);
+            }
+            if (changes.originItems || changes.originGroups) {
+                this.setupExpandedState();
+                this.setupGroups();
+                this.setupItems();
+                this.computeRefs();
+            }
+        }
     }
 
-    private scrollToToday() {
-        const x = this.view.getTodayXPoint();
-        this.dom.scrollMainContainer(x);
+    onDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+    }
+
+    computeItemsRefs(...items: GanttItemInternal[]) {
+        items.forEach((item) => {
+            item.updateRefs({
+                width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
+                x: item.start ? this.view.getXPointByDate(item.start) : 0,
+                y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
+            });
+        });
+    }
+
+    trackBy(item: GanttGroupInternal | GanttItemInternal, index: number) {
+        return item.id || index;
+    }
+
+    detectChanges() {
+        this.cdr.detectChanges();
+    }
+
+    expandGroup(group: GanttGroupInternal) {
+        group.setExpand(!group.expanded);
+        this.expandChange.emit();
+        this.cdr.detectChanges();
+    }
+
+    // public functions
+
+    expandAll() {
+        this.expandGroups(true);
+    }
+
+    collapseAll() {
+        this.expandGroups(false);
     }
 }
+
+export const GANTT_UPPER_TOKEN = new InjectionToken<GanttUpper>('GANTT_UPPER_TOKEN');

@@ -1,32 +1,45 @@
-<div class="gantt-side gantt-side-has-shadow" [style.width.px]="300">
-  <div class="gantt-side-container">
+<ngx-gantt-root [sideWidth]="300">
+  <ng-template #sideTemplate>
     <div class="gantt-flat-side-header">
-      {{ sideTitle }}
+      项目
     </div>
     <div class="gantt-flat-side-body">
-      <div
-        class="gantt-flat-side-group"
-        *ngFor="let group of groups; trackBy: trackBy"
-        [style.height.px]="(group.mergedItems.length) * styles.lineHeight"
-      >
-        <ng-template [ngTemplateOutlet]="groupTemplate" [ngTemplateOutletContext]="{ group: group.origin }"></ng-template>
+      <div class="gantt-group" *ngFor="let group of groups; trackBy: trackBy">
+        <div class="gantt-group-title" [class.expanded]="group.expanded" (click)="group.expanded = !group.expanded">
+          <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
+          <span class="group-title">{{ group.title }}</span>
+        </div>
+        <div class="gantt-group-content" *ngIf="group.expanded">
+          <div class="gantt-group-content-section" [style.height.px]="group.versions.length * styles.lineHeight">版本</div>
+          <div class="gantt-group-content-section" [style.height.px]="group.sprints.length * styles.lineHeight">迭代</div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="gantt-container">
-  <gantt-calendar-overlay></gantt-calendar-overlay>
-  <gantt-drag-backdrop></gantt-drag-backdrop>
-  <div class="gantt-main">
+  </ng-template>
+  <ng-template #mainTemplate>
     <div class="gantt-main-container">
       <!-- groups -->
       <div class="gantt-main-groups" *ngIf="groups && groups.length > 0" [style.width.px]="view.width">
         <ng-container *ngFor="let group of groups; trackBy: trackBy">
-          <div class="gantt-flat-group">
-            <ng-container *ngFor="let items of group.mergedItems">
-              <div class="gantt-flat-items" [style.height.px]="styles.lineHeight">
-                <ng-container *ngFor="let item of items; trackBy: trackBy">
-                  <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
+          <div class="gantt-main-group">
+            <div class="gantt-main-group-fill"></div>
+            <ng-container *ngIf="group.expanded">
+              <div class="gantt-main-group-section" [style.height.px]="group.versions.length * styles.lineHeight">
+                <ng-container *ngFor="let items of group.versions">
+                  <div class="gantt-flat-items" [style.height.px]="styles.lineHeight">
+                    <ng-container *ngFor="let item of items; trackBy: trackBy">
+                      <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+              <div class="gantt-main-group-section" [style.height.px]="group.sprints.length * styles.lineHeight">
+                <ng-container *ngFor="let items of group.sprints">
+                  <div class="gantt-flat-items" [style.height.px]="styles.lineHeight">
+                    <ng-container *ngFor="let item of items; trackBy: trackBy">
+                      <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
+                    </ng-container>
+                  </div>
                 </ng-container>
               </div>
             </ng-container>
@@ -34,5 +47,5 @@
         </ng-container>
       </div>
     </div>
-  </div>
-</div>
+  </ng-template>
+</ngx-gantt-root>

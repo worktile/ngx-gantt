@@ -1,4 +1,4 @@
-<svg [attr.width]="gantt.view.width" height="1">
+<svg [attr.width]="ganttUpper.view.width" height="1">
   <ng-container *ngFor="let link of links; let i = index; trackBy: trackBy">
     <path [attr.d]="link.path" fill="transparent" stroke-width="2" [attr.stroke]="link.color" pointer-events="none"></path>
     <g>

@@ -1,11 +1,11 @@
 <div class="gantt-bar-layer">
-  <div *ngIf="item.draggable && ganttRef.draggable" class="drag-handles">
+  <div *ngIf="item.draggable && ganttUpper.draggable" class="drag-handles">
     <ng-container>
       <span class="handle"></span>
       <span class="handle"></span>
     </ng-container>
   </div>
-  <div *ngIf="item.linkable && ganttRef.linkable" class="link-handles">
+  <div *ngIf="item.linkable && ganttUpper.linkable" class="link-handles">
     <span class="handle"><span class="point"></span></span>
     <span class="handle"> <span class="point"></span></span>
   </div>

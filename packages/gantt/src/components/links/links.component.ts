@@ -16,10 +16,10 @@ import { takeUntil, skip } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal, GanttItem } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
-import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { recursiveItems } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 
 enum LinkColors {
     default = '#cacaca',
@@ -68,7 +68,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     @HostBinding('class.gantt-links-overlay') ganttLinksOverlay = true;
 
     constructor(
-        @Inject(GANTT_REF_TOKEN) public gantt: GanttRef,
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
         private elementRef: ElementRef,
         private ganttDragContainer: GanttDragContainer
@@ -83,11 +83,11 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         merge(
-            this.gantt.viewChange,
-            this.gantt.expandChange,
-            this.gantt.view.start$,
-            this.ganttDragContainer.dragEnded,
-            this.ganttDragContainer.linkDragEnded
+            this.ganttUpper.viewChange,
+            this.ganttUpper.expandChange,
+            this.ganttUpper.view.start$,
+            this.ganttUpper.dragEnded,
+            this.ganttUpper.linkDragEnded
         )
             .pipe(takeUntil(this.unsubscribe$), skip(1))
             .subscribe(() => {
@@ -104,8 +104,8 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     private computeItemPosition() {
-        const lineHeight = this.gantt.styles.lineHeight;
-        const barHeight = this.gantt.styles.barHeight;
+        const lineHeight = this.ganttUpper.styles.lineHeight;
+        const barHeight = this.ganttUpper.styles.barHeight;
         this.linkItems = [];
         if (this.groups.length > 0) {
             let itemNum = 0;

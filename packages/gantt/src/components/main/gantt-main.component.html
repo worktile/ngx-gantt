@@ -1,6 +1,6 @@
-<gantt-links-overlay [groups]="groups" [items]="items" *ngIf="ganttRef.linkable" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
+<gantt-links-overlay [groups]="groups" [items]="items" *ngIf="ganttUpper.linkable" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
 <!-- groups -->
-<div class="gantt-main-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="ganttRef.view.width">
+<div class="gantt-main-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="ganttUpper.view.width">
   <ng-container *ngFor="let group of groups; trackBy: trackBy">
     <div class="gantt-group"></div>
     <div *ngIf="group.expanded" class="gantt-items">
@@ -10,14 +10,14 @@
 </div>
 <!-- items -->
 <ng-template #itemsTemplate>
-  <div class="gantt-main-items" [style.width.px]="ganttRef.view.width">
+  <div class="gantt-main-items" [style.width.px]="ganttUpper.view.width">
     <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items }"></ng-template>
   </div>
 </ng-template>
 
 <ng-template #ganttItems let-items="items">
   <ng-container *ngFor="let item of items; trackBy: trackBy">
-    <div class="gantt-item" [style.height.px]="ganttRef.styles.lineHeight">
+    <div class="gantt-item" [style.height.px]="ganttUpper.styles.lineHeight">
       <gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
     </div>
     <ng-template

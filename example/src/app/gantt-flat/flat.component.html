@@ -22,14 +22,12 @@
 </div>
 <div class="gantt-demo-content">
   <ngx-gantt-flat
-    [sideTitle]="'项目'"
     [start]="1514736000"
     [end]="1609430400"
     [items]="items"
     [groups]="groups"
     [viewType]="options.viewType"
     [draggable]="options.draggable"
-    [mergeIntervalDays]="options.mergeIntervalDays"
     [styles]="options.styles"
   >
     <ng-template #group let-group="group">

@@ -16,7 +16,6 @@ import {
     AfterViewInit
 } from '@angular/core';
 import { GanttItemInternal } from '../../class/item';
-import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
 import { takeUntil, take, startWith } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GanttBarDrag } from './bar-drag';
@@ -24,6 +23,7 @@ import { hexToRgb } from '../../utils/helpers';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { barBackground } from '../../gantt.styles';
 import { GanttBarClickEvent } from '../../class';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 
 function linearGradient(sideOrCorner: string, color: string, stop: string) {
     return `linear-gradient(${sideOrCorner},${color} 0%,${stop} 40%)`;
@@ -56,7 +56,7 @@ export class GanttBarComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         private ngZone: NgZone,
         private dragContainer: GanttDragContainer,
         private drag: GanttBarDrag,
-        @Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper
     ) {}
 
     ngOnInit() {
@@ -71,7 +71,7 @@ export class GanttBarComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     }
 
     ngAfterViewInit() {
-        this.drag.createDrags(this.elementRef, this.item, this.ganttRef);
+        this.drag.createDrags(this.elementRef, this.item, this.ganttUpper);
         this.setContentBackground();
     }
 
@@ -90,7 +90,7 @@ export class GanttBarComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         barElement.style.left = this.item.refs.x + 'px';
         barElement.style.top = this.item.refs.y + 'px';
         barElement.style.width = this.item.refs.width + 'px';
-        barElement.style.height = this.ganttRef.styles.barHeight + 'px';
+        barElement.style.height = this.ganttUpper.styles.barHeight + 'px';
     }
 
     private setContentBackground() {

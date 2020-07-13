@@ -13,10 +13,9 @@
     position: relative;
     z-index: 1;
     overflow-x: scroll;
+    box-shadow: $gantt-side-shadow;
 
-    &-has-shadow {
-      box-shadow: $gantt-side-shadow;
-    }
+
 
     .gantt-side-header {
       box-sizing: border-box;

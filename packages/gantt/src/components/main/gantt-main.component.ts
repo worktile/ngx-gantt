@@ -1,7 +1,6 @@
 import { Component, OnInit, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ViewChild } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
-import { GANTT_REF_TOKEN, GanttRef } from '../../gantt-ref';
-import { GanttLinksComponent } from '../links/links.component';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 
 @Component({
     selector: 'gantt-main',
@@ -20,7 +19,7 @@ export class GanttMainComponent implements OnInit {
 
     @HostBinding('class.gantt-main-container') ganttMainClass = true;
 
-    constructor(@Inject(GANTT_REF_TOKEN) public ganttRef: GanttRef) {}
+    constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper) {}
 
     ngOnInit() {}
 

@@ -12,13 +12,13 @@ import {
     AfterViewInit
 } from '@angular/core';
 import { GanttDatePoint } from '../../class/date-point';
-import { Subject } from 'rxjs';
-import { take, takeUntil, delay, auditTime } from 'rxjs/operators';
-import { GanttRef, GANTT_REF_TOKEN } from '../../gantt-ref';
+import { Subject, merge } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { headerHeight } from '../../gantt.styles';
 import { isNumber } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
 import { GanttDomService } from '../../gantt-dom.service';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 
 const mainHeight = 5000;
 
@@ -28,7 +28,7 @@ const mainHeight = 5000;
 })
 export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     get view() {
-        return this.ganttRef.view;
+        return this.ganttUpper.view;
     }
 
     private unsubscribe$ = new Subject();
@@ -40,7 +40,7 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     @HostBinding('class.gantt-calendar-overlay') className = true;
 
     constructor(
-        @Inject(GANTT_REF_TOKEN) private ganttRef: GanttRef,
+        @Inject(GANTT_UPPER_TOKEN) private ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
         private ngZone: NgZone,
         private dom: GanttDomService,
@@ -62,17 +62,12 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     ngOnInit() {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            this.ganttRef.view.start$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.setTodayPoint();
-            });
+            merge(this.ganttUpper.viewChange, this.ganttUpper.view.start$)
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe(() => {
+                    this.setTodayPoint();
+                });
         });
-
-        // this.dom
-        //     .getResize()
-        //     .pipe(takeUntil(this.unsubscribe$))
-        //     .subscribe(() => {
-        //         this.setTodayPoint();
-        //     });
     }
 
     ngAfterViewInit() {}
