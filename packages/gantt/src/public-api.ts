@@ -3,6 +3,7 @@
  */
 
 export * from './gantt.module';
+export * from './gantt-upper';
 export * from './root.component';
 export * from './gantt.component';
 export * from './table/gantt-table.component';

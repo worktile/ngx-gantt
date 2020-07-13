@@ -30,11 +30,11 @@ function linearGradient(sideOrCorner: string, color: string, stop: string) {
 }
 
 @Component({
-    selector: 'gantt-bar',
+    selector: 'ngx-gantt-bar,gantt-bar',
     templateUrl: './bar.component.html',
     providers: [GanttBarDrag]
 })
-export class GanttBarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class NgxGanttBarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     @Input() item: GanttItemInternal;
 
     @Input() template: TemplateRef<any>;
