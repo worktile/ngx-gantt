@@ -1,6 +1,18 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.23](https://github.com/worktile/ngx-gantt/compare/0.0.22...0.0.23) (2020-07-13)
+
+
+### Features
+
+* add root component ([c4792ec](https://github.com/worktile/ngx-gantt/commit/c4792eca973356b567d2dc7b0d896df0bae6288f))
+
+
+### Bug Fixes
+
+* **item:** fix item  barStyle type ([374050f](https://github.com/worktile/ngx-gantt/commit/374050ffd149e132471f1472fea371ab65030614))
+
 ### [0.0.22](https://github.com/worktile/ngx-gantt/compare/0.0.21...0.0.22) (2020-07-04)
 
 
