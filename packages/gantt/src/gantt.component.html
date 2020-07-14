@@ -6,6 +6,7 @@
     <gantt-main
       [groups]="groups"
       [items]="items"
+      [itemTemplate]="itemTemplate"
       [barTemplate]="barTemplate"
       (barClick)="barClick.emit($event)"
       (lineClick)="lineClick.emit($event)"

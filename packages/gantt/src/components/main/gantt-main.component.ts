@@ -11,6 +11,8 @@ export class GanttMainComponent implements OnInit {
 
     @Input() items: GanttItemInternal[];
 
+    @Input() itemTemplate: TemplateRef<any>;
+
     @Input() barTemplate: TemplateRef<any>;
 
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
