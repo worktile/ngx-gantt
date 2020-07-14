@@ -60,6 +60,8 @@ export abstract class GanttUpper {
 
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
+    @ContentChild('item', { static: true }) itemTemplate: TemplateRef<any>;
+
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
     public linkable: boolean;
