@@ -24,6 +24,7 @@ import {
     addHours,
     differenceInCalendarDays,
     isWeekend,
+    getWeek
 } from 'date-fns';
 
 export * from 'date-fns';
@@ -88,6 +89,10 @@ export class GanttDate {
 
     getMilliseconds(): number {
         return this.value.getMilliseconds();
+    }
+
+    getWeek(options: { locale?: Locale; weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 } = { weekStartsOn: 1 }): number {
+        return getWeek(this.value, options);
     }
 
     getDaysInMonth() {
