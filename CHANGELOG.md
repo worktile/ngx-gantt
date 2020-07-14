@@ -1,6 +1,15 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.24](https://github.com/worktile/ngx-gantt/compare/0.0.22...0.0.24) (2020-07-14)
+
+
+### Features
+
+* **util:** date add get week and export uitl date ([5a9918d](https://github.com/worktile/ngx-gantt/commit/5a9918d50967b7149bf77dec6ad286e04c1f01d9))
+* support item template ([#43](https://github.com/worktile/ngx-gantt/issues/43)) ([1eb283c](https://github.com/worktile/ngx-gantt/commit/1eb283c2bca24e9c2f9736c77e89eb8a970a4f8d))
+
+
 ### [0.0.23](https://github.com/worktile/ngx-gantt/compare/0.0.22...0.0.23) (2020-07-13)
 
 
