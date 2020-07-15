@@ -1,73 +1,74 @@
 .gantt-calendar-overlay {
-    display: block;
-    height: 100%;
-    overflow: hidden;
+  display: block;
+  height: 100%;
+  overflow: hidden;
 
-    .gantt-calendar-today-overlay {
-        height: 0;
-        position: relative;
-        z-index: 1;
-
-        svg {
-            display: block;
-        }
-    }
-
-    .gantt-calendar-overlay-main {
-        position: relative;
-        z-index: 1;
-    }
+  .gantt-calendar-today-overlay {
+    height: 0;
+    position: relative;
+    z-index: 1;
 
     svg {
-        overflow: visible;
+      display: block;
     }
+  }
 
-    line {
-        shape-rendering: crispEdges;
+  .gantt-calendar-overlay-main {
+    position: relative;
+    z-index: 1;
+    background-color: $gantt-bg-color;
+  }
+
+  svg {
+    overflow: visible;
+  }
+
+  line {
+    shape-rendering: crispEdges;
+  }
+
+  .primary-text {
+    fill: $gantt-date-primary-color;
+    font-size: $gantt-date-primary-font-size;
+  }
+
+  .secondary-text {
+    fill: $gantt-date-secondary-color;
+    font-size: $gantt-date-secondary-font-size;
+
+    &-weekend {
+      fill: $gantt-date-secondary-weekend-color;
     }
+  }
 
-    .primary-text {
-        fill: $gantt-date-primary-color;
-        font-size: $gantt-date-primary-font-size;
-    }
+  .primary-text,
+  .secondary-text {
+    text-anchor: middle;
+  }
 
-    .secondary-text {
-        fill: $gantt-date-secondary-color;
-        font-size: $gantt-date-secondary-font-size;
+  .primary-line {
+    stroke: $gantt-date-primary-border;
+  }
 
-        &-weekend {
-            fill: $gantt-date-secondary-weekend-color;
-        }
-    }
+  .secondary-line {
+    stroke-dasharray: 2px 5px;
+    stroke: #cacaca;
+  }
 
-    .primary-text,
-    .secondary-text {
-        text-anchor: middle;
-    }
+  .header-line {
+    stroke: $gantt-border-color;
+  }
 
-    .primary-line {
-        stroke: $gantt-date-primary-border;
-    }
+  .secondary-backdrop {
+    fill: $gantt-date-week-backdrop-bg;
+  }
 
-    .secondary-line {
-        stroke-dasharray: 2px 5px;
-        stroke: #cacaca;
-    }
+  .today-line-angle {
+    fill: $gantt-date-today-color;
+  }
 
-    .header-line {
-        stroke: $gantt-border-color;
-    }
-
-    .secondary-backdrop {
-        fill: $gantt-date-week-backdrop-bg;
-    }
-
-    .today-line-angle {
-        fill: $gantt-date-today-color;
-    }
-
-    .today-line {
-        stroke: $gantt-date-today-color;
-        stroke-width: 2px;
-    }
+  .today-line {
+    stroke: $gantt-date-today-color;
+    stroke-width: 2px;
+  }
 }

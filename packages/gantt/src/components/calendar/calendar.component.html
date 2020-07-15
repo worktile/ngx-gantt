@@ -6,7 +6,7 @@
     </g>
   </svg>
 </div>
-<svg  class="gantt-calendar-overlay-main" [attr.width]="view.width" [attr.height]="headerHeight">
+<svg class="gantt-calendar-overlay-main" [attr.width]="view.width" [attr.height]="headerHeight">
   <g>
     <text class="primary-text" *ngFor="let point of view.primaryDatePoints; trackBy: trackBy" [attr.x]="point.x" [attr.y]="point.y">
       {{ point.text }}
@@ -53,18 +53,6 @@
         [attr.y2]="mainHeight"
         class="primary-line"
       ></line>
-    </g>
-    <g *ngIf="view.showWeekBackdrop">
-      <g *ngFor="let point of view.secondaryDatePoints; let i = index; trackBy: trackBy">
-        <rect
-          *ngIf="point.additions?.isWeekend"
-          [attr.x]="i * view.cellWidth"
-          [attr.y]="headerHeight"
-          [attr.width]="view.cellWidth"
-          [attr.height]="mainHeight"
-          class="secondary-backdrop"
-        ></rect>
-      </g>
     </g>
   </g>
 </svg>
