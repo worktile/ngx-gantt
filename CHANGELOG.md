@@ -1,6 +1,14 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.26](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.26) (2020-07-16)
+
+
+### Bug Fixes
+
+* fix calendar line overflow ([ec8ca06](https://github.com/worktile/ngx-gantt/commit/ec8ca0692a2b9b4ddfd16272a6ea25bca67c2204))
+* fix scroll sync ([f2f8406](https://github.com/worktile/ngx-gantt/commit/f2f84064cfc88df803dba66d4299e8434a128130))
+
 ### [0.0.25](https://github.com/worktile/ngx-gantt/compare/0.0.22...0.0.25) (2020-07-16)
  
 ### Bug Fixes
