@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.25](https://github.com/worktile/ngx-gantt/compare/0.0.22...0.0.25) (2020-07-16)
+ 
+### Bug Fixes
+
+* **calendar:** delete week backdrop and change calendar header color ([e96f1e0](https://github.com/worktile/ngx-gantt/commit/e96f1e0f67d96d22572cdff1fe2bb2cd7349f6e7))
+
 ### [0.0.24](https://github.com/worktile/ngx-gantt/compare/0.0.22...0.0.24) (2020-07-14)
 
 
