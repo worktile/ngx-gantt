@@ -1,6 +1,6 @@
 .gantt-calendar-overlay {
   display: block;
-  height: 100%;
+  height: calc(100% - 8px);
   overflow: hidden;
 
   .gantt-calendar-today-overlay {
