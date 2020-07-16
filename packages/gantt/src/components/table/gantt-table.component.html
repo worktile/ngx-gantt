@@ -1,37 +1,34 @@
-<div class="gantt-side-container">
-  <div class="gantt-table-header gantt-table-row">
-    <div class="gantt-table-column" *ngFor="let column of columnList" [style.width.px]="column.width">
-      <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
-      <ng-template #default>
-        {{ column.name }}
-      </ng-template>
-    </div>
+<div class="gantt-table-header gantt-table-row">
+  <div class="gantt-table-column" *ngFor="let column of columnList" [style.width.px]="column.width">
+    <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
+    <ng-template #default>
+      {{ column.name }}
+    </ng-template>
   </div>
-
-  <div class="gantt-table-body">
-    <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
-      <ng-container *ngFor="let group of groups">
-        <div class="gantt-table-group">
-          <div class="gantt-table-group-title" [class.expanded]="group.expanded" (click)="expandGroup(group)">
-            <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
-            <ng-container *ngIf="groupTemplate; else default">
-              <ng-template
-                [ngTemplateOutlet]="groupTemplate"
-                [ngTemplateOutletContext]="{ $implicit: group.origin, group: group.origin }"
-              ></ng-template>
-            </ng-container>
-            <ng-template #default>
-              <span class="group-title">{{ group.title }}</span>
-            </ng-template>
-          </div>
+</div>
+<div class="gantt-table-body">
+  <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
+    <ng-container *ngFor="let group of groups">
+      <div class="gantt-table-group">
+        <div class="gantt-table-group-title" [class.expanded]="group.expanded" (click)="expandGroup(group)">
+          <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
+          <ng-container *ngIf="groupTemplate; else default">
+            <ng-template
+              [ngTemplateOutlet]="groupTemplate"
+              [ngTemplateOutletContext]="{ $implicit: group.origin, group: group.origin }"
+            ></ng-template>
+          </ng-container>
+          <ng-template #default>
+            <span class="group-title">{{ group.title }}</span>
+          </ng-template>
         </div>
+      </div>
 
-        <ng-container *ngIf="group.expanded">
-          <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items, level: 0 }"></ng-template>
-        </ng-container>
+      <ng-container *ngIf="group.expanded">
+        <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items, level: 0 }"></ng-template>
       </ng-container>
     </ng-container>
-  </div>
+  </ng-container>
 </div>
 
 <ng-template #itemsTemplate>

@@ -6,12 +6,13 @@ import {
     GanttDragEvent,
     GanttLoadOnScrollEvent,
     GanttLineClickEvent,
-    GanttLinkDragEvent
+    GanttLinkDragEvent,
+    GanttItem,
+    GanttViewOptions,
+    GanttDate
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { GanttItem } from 'dist/gantt/class';
-
 @Component({
     selector: 'app-gantt-example',
     templateUrl: './gantt.component.html',
@@ -30,6 +31,11 @@ export class AppGanttExampleComponent implements OnInit {
         linkable: true,
         async: true,
         childrenResolve: this.getChildren.bind(this)
+    };
+
+    viewOptions: GanttViewOptions = {
+        start: new GanttDate(new Date('2020-3-1')),
+        end: new GanttDate(new Date('2020-6-30'))
     };
 
     @HostBinding('class.gantt-demo') class = true;
