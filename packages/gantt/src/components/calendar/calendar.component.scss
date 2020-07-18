@@ -39,6 +39,9 @@
     &-weekend {
       fill: $gantt-date-secondary-weekend-color;
     }
+    &-today {
+      fill: $gantt-date-today-color;
+    }
   }
 
   .primary-text,

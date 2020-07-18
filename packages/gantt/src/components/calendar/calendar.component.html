@@ -1,4 +1,4 @@
-<div class="gantt-calendar-today-overlay">
+<div class="gantt-calendar-today-overlay" *ngIf="view.options.showTodayLine">
   <svg [attr.width]="view.width" height="1">
     <g>
       <polygon class="today-line-angle" />
@@ -15,6 +15,7 @@
       *ngFor="let point of view.secondaryDatePoints; trackBy: trackBy"
       class="secondary-text"
       [class.secondary-text-weekend]="point.additions?.isWeekend"
+      [class.secondary-text-today]="point.additions?.isToday"
       [attr.x]="point.x"
       [attr.y]="point.y"
     >

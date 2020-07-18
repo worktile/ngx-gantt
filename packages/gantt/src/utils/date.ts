@@ -24,7 +24,8 @@ import {
     addHours,
     differenceInCalendarDays,
     isWeekend,
-    getWeek
+    getWeek,
+    isToday
 } from 'date-fns';
 
 export * from 'date-fns';
@@ -225,5 +226,9 @@ export class GanttDate {
 
     isWeekend() {
         return isWeekend(this.value);
+    }
+
+    isToday() {
+        return isToday(this.value);
     }
 }
