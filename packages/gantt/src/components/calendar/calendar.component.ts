@@ -40,7 +40,7 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     @HostBinding('class.gantt-calendar-overlay') className = true;
 
     constructor(
-        @Inject(GANTT_UPPER_TOKEN) private ganttUpper: GanttUpper,
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
         private ngZone: NgZone,
         private dom: GanttDomService,

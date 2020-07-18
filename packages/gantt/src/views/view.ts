@@ -14,13 +14,11 @@ export interface GanttViewOptions {
     cellWidth?: number;
     addAmount?: number;
     addUnit?: GanttDateUtil;
-    showTodayLine?: boolean;
 }
 
 const viewOptions: GanttViewOptions = {
     min: new GanttDate().addYears(-1).startOfYear(),
-    max: new GanttDate().addYears(1).endOfYear(),
-    showTodayLine: true
+    max: new GanttDate().addYears(1).endOfYear()
 };
 
 export abstract class GanttView {

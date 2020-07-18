@@ -42,6 +42,8 @@ export abstract class GanttUpper {
 
     @Input() end: number;
 
+    @Input() showTodayLine = true;
+
     @Input() draggable: boolean;
 
     @Input() styles: GanttStyles;
@@ -91,7 +93,6 @@ export abstract class GanttUpper {
     private groupsMap: { [key: string]: GanttGroupInternal };
 
     private expandedItemIds: string[] = [];
-
 
     @HostBinding('class.gantt') ganttClass = true;
 
