@@ -3,7 +3,6 @@ import { GanttDate } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarQuarters } from 'date-fns';
 
-
 const viewOptions: GanttViewOptions = {
     start: new GanttDate().addYears(-1).startOfYear(),
     end: new GanttDate().addYears(1).endOfYear(),
@@ -11,12 +10,12 @@ const viewOptions: GanttViewOptions = {
     max: new GanttDate().addYears(2).endOfYear(),
     cellWidth: 500,
     addAmount: 1,
-    addUnit: 'year',
+    addUnit: 'year'
 };
 
 export class GanttViewQuarter extends GanttView {
     constructor(start: GanttDate, end: GanttDate, options?: GanttViewOptions) {
-        super(start, end, Object.assign(viewOptions, options));
+        super(start, end, Object.assign({}, viewOptions, options));
     }
 
     startOf(date: GanttDate) {

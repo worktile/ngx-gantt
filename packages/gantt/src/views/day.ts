@@ -2,13 +2,12 @@ import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop
 import { GanttDate, eachWeekOfInterval, eachDayOfInterval } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 
-
 const viewOptions: GanttViewOptions = {
     cellWidth: 35,
     start: new GanttDate().startOfYear().startOfWeek({ weekStartsOn: 1 }),
     end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }),
     addAmount: 1,
-    addUnit: 'month',
+    addUnit: 'month'
 };
 
 export class GanttViewDay extends GanttView {
@@ -17,7 +16,7 @@ export class GanttViewDay extends GanttView {
     showTimeline = false;
 
     constructor(start: GanttDate, end: GanttDate, options?: GanttViewOptions) {
-        super(start, end, Object.assign(viewOptions, options));
+        super(start, end, Object.assign({}, viewOptions, options));
     }
 
     startOf(date: GanttDate) {
@@ -65,6 +64,7 @@ export class GanttViewDay extends GanttView {
                 secondaryDatePointTop,
                 {
                     isWeekend: start.isWeekend(),
+                    isToday: start.isToday()
                 }
             );
             points.push(point);
