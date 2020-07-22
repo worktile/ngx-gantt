@@ -28,7 +28,8 @@ export const mockItems = [
         start: 1590035675,
         group_id: '00001',
         color: '#FF0000',
-        links: ['item-0301'],
+        type: 'range',
+        progress: 0.5,
         children: [
             {
                 id: 'item-child-0101',
@@ -36,7 +37,9 @@ export const mockItems = [
                 start: 1590035675,
                 group_id: '00001',
                 color: '#FF0000',
-                linkable: false
+                linkable: false,
+                progress: 0.5,
+                barStyle: { border: `1px solid #FF0000` }
             }
         ]
     },

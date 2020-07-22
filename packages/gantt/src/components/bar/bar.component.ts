@@ -109,6 +109,13 @@ export class NgxGanttBarComponent implements OnInit, AfterViewInit, OnChanges, O
             style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
             style.borderRadius = '12.5px 4px 4px 12.5px';
         }
+        if (this.item.progress >= 0) {
+            const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
+            style.background = hexToRgb(color, 0.3);
+            style.borderRadius = '';
+            contentProgressElement.style.background = color;
+        }
+
         for (const key in style) {
             if (style.hasOwnProperty(key)) {
                 contentElement.style[key] = style[key];
