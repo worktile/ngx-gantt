@@ -28,6 +28,15 @@ module.exports = {
             }
         },
         {
+            title: '区间展示',
+            path: 'range',
+            locales: {
+                'en-us': {
+                    title: 'Range'
+                }
+            }
+        },
+        {
             title: '配置',
             path: 'configuration',
             lib: 'ngx-gantt',

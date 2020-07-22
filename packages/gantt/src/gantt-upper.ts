@@ -22,8 +22,7 @@ import {
     GanttGroupInternal,
     GanttItemInternal,
     GanttBarClickEvent,
-    GanttLinkDragEvent,
-    GanttItemType
+    GanttLinkDragEvent
 } from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';

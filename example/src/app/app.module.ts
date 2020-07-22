@@ -11,9 +11,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { AppGanttFlatExampleComponent } from './gantt-flat/flat.component';
 import { EXAMPLE_MODULES } from './content/example-modules';
+import { AppGanttRangeExampleComponent } from './gantt-range/gantt-range.component';
 
 @NgModule({
-    declarations: [AppComponent, AppGanttExampleComponent, AppGanttFlatExampleComponent],
+    declarations: [AppComponent, AppGanttExampleComponent, AppGanttFlatExampleComponent, AppGanttRangeExampleComponent],
     imports: [CommonModule, DocgeniTemplateModule, NgxGanttModule, AppRoutingModule, RouterModule.forRoot([...routes]), ...EXAMPLE_MODULES],
     providers: [
         { provide: APP_INITIALIZER, useFactory: initializeDocgeniSite, deps: [GlobalContext], multi: true },
@@ -23,6 +24,6 @@ import { EXAMPLE_MODULES } from './content/example-modules';
             useValue: config
         }
     ],
-    bootstrap: [AppComponent],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

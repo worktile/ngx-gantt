@@ -12,3 +12,4 @@ export * from './flat/gantt-flat.component';
 export * from './utils/date';
 export * from './class';
 export * from './views/view';
+export * from './gantt-item-upper';
