@@ -1,26 +1,3 @@
-export const mockGroups = [
-    {
-        id: '00001',
-        title: 'Project 1'
-    },
-    {
-        id: '00002',
-        title: 'Project 2'
-    },
-    {
-        id: '00003',
-        title: 'Project 3'
-    },
-    {
-        id: '00004',
-        title: 'Project 4'
-    },
-    {
-        id: '00005',
-        title: 'Project 5'
-    }
-];
-
 export const mockItems = [
     {
         id: 'item-0101',
@@ -28,6 +5,8 @@ export const mockItems = [
         start: 1590035675,
         group_id: '00001',
         color: '#FF0000',
+        type: 'range',
+        progress: 0.5,
         children: [
             {
                 id: 'item-child-0101',
@@ -35,7 +14,9 @@ export const mockItems = [
                 start: 1590035675,
                 group_id: '00001',
                 color: '#FF0000',
-                linkable: false
+                linkable: false,
+                progress: 0.5,
+                barStyle: { border: `1px solid #FF0000` }
             }
         ]
     },
@@ -83,7 +64,9 @@ export const mockItems = [
         start: 1590235675,
         end: 1591718400,
         group_id: '00002',
-        links: ['item-0204']
+        links: ['item-0204'],
+        progress: 0.6,
+        barStyle: { border: `1px solid rgb(52, 143, 228)` }
     },
     {
         id: 'item-0204',

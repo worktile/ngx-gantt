@@ -7,6 +7,11 @@ interface GanttItemRefs {
     y: number;
 }
 
+export enum GanttItemType {
+    bar = 'bar',
+    range = 'range'
+}
+
 export interface GanttItem<T = unknown> {
     id: string;
     title: string;
@@ -22,6 +27,8 @@ export interface GanttItem<T = unknown> {
     color?: string;
     barStyle?: Partial<CSSStyleDeclaration>;
     origin?: T;
+    type?: GanttItemType;
+    progress?: number;
 }
 
 export class GanttItemInternal {
@@ -39,6 +46,8 @@ export class GanttItemInternal {
     expanded?: boolean;
     loading: boolean;
     children: GanttItemInternal[];
+    type?: GanttItemType;
+    progress?: number;
 
     get refs() {
         return this.refs$.getValue();
@@ -61,6 +70,8 @@ export class GanttItemInternal {
         this.children = (item.children || []).map((subItem) => {
             return new GanttItemInternal(subItem);
         });
+        this.type = this.origin.type || GanttItemType.bar;
+        this.progress = this.origin.progress;
         // fill one month when start or end is null
         if (item.start && !item.end) {
             this.end = new GanttDate(item.start).addMonths(1).endOfDay();

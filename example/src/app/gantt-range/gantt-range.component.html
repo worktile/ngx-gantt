@@ -13,12 +13,6 @@
       <input type="checkbox" [(ngModel)]="options.draggable" />
     </span>
   </div>
-  <div class="header-section">
-    <span class="header-section-title">是否可关联：</span>
-    <span class="header-section-content">
-      <input type="checkbox" [(ngModel)]="options.linkable" />
-    </span>
-  </div>
 
   <div class="header-section">
     <span class="header-section-content">
@@ -36,17 +30,13 @@
     #gantt
     start="1514736000"
     end="1609430400"
-    [groups]="groups"
     [items]="items"
     [viewType]="options.viewType"
     [draggable]="options.draggable"
-    [linkable]="options.linkable"
     [async]="options.async"
     [childrenResolve]="options.childrenResolve"
     (barClick)="barClick($event)"
-    (lineClick)="lineClick($event)"
     (dragEnded)="dragEnded($event)"
-    (linkDragEnded)="linkDragEnded($event)"
     (loadOnScroll)="loadOnScroll($event)"
   >
     <ngx-gantt-table>

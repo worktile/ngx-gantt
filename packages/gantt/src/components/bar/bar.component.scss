@@ -141,7 +141,13 @@ $gantt-bar-link-drop-border: 5px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         background: $gantt-bar-background-color;
-
+        overflow: hidden;
+        .gantt-bar-content-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+        }
 
     }
 

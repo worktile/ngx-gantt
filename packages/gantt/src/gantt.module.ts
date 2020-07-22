@@ -14,6 +14,7 @@ import { GanttIconComponent } from './components/icon/icon.component';
 import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
 import { GanttLinksComponent } from './components/links/links.component';
 import { NgxGanttRootComponent } from './root.component';
+import { NgxGanttRangeComponent } from './components/range/range.component';
 
 @NgModule({
     imports: [CommonModule],
@@ -37,7 +38,7 @@ import { NgxGanttRootComponent } from './root.component';
         NgxGanttBarComponent,
         GanttIconComponent,
         GanttDragBackdropComponent,
-
+        NgxGanttRangeComponent,
         NgxGanttRootComponent
     ],
     providers: []

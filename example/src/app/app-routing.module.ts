@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppGanttExampleComponent } from './gantt/gantt.component';
 import { AppGanttFlatExampleComponent } from './gantt-flat/flat.component';
+import { AppGanttRangeExampleComponent } from './gantt-range/gantt-range.component';
 
 const routes: Routes = [
     {
@@ -12,6 +13,10 @@ const routes: Routes = [
         path: 'flat',
         component: AppGanttFlatExampleComponent,
     },
+    {
+        path: 'range',
+        component: AppGanttRangeExampleComponent
+    }
 ];
 
 @NgModule({

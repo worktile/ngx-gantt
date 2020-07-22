@@ -193,6 +193,18 @@ module.exports = [
                 description: `设置原始数据`,
                 type: 'T',
                 default: ''
+            },
+            {
+                name: 'type',
+                description: `数据展示方式（区间展示和普通展示）`,
+                type: 'GanttItemType',
+                default: ''
+            },
+            {
+                name: 'progress',
+                description: `进度`,
+                type: 'number',
+                default: ''
             }
         ]
     },

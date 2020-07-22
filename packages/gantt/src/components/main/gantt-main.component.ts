@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ViewChild } from '@angular/core';
-import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
+import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent, GanttItemType } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 
 @Component({
@@ -18,6 +18,8 @@ export class GanttMainComponent implements OnInit {
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
+
+    ganttItemType = GanttItemType;
 
     @HostBinding('class.gantt-main-container') ganttMainClass = true;
 
