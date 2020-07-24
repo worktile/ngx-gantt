@@ -1,6 +1,8 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.29](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.29) (2020-07-24)
+
 ### [0.0.28](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.28) (2020-07-24)
 
 
