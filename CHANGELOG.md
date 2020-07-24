@@ -1,6 +1,21 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.28](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.28) (2020-07-24)
+
+
+### Features
+
+* add showTodayLine in view option ([#45](https://github.com/worktile/ngx-gantt/issues/45)) ([4ed8c3b](https://github.com/worktile/ngx-gantt/commit/4ed8c3bed7ff84d6e9b1ebc8510cfdbdbdb3a79c))
+* support gantt range and bar progress ([#47](https://github.com/worktile/ngx-gantt/issues/47)) ([82f2ac1](https://github.com/worktile/ngx-gantt/commit/82f2ac106895318107b62530d800e589b1e9fbc9))
+
+
+### Bug Fixes
+
+* fix calendar line overflow ([ec8ca06](https://github.com/worktile/ngx-gantt/commit/ec8ca0692a2b9b4ddfd16272a6ea25bca67c2204))
+* fix scroll sync ([f2f8406](https://github.com/worktile/ngx-gantt/commit/f2f84064cfc88df803dba66d4299e8434a128130))
+* show range when item has start and end ([c170705](https://github.com/worktile/ngx-gantt/commit/c17070506dcfc637d0c99071d94705e97b467af6))
+
 ### [0.0.27](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.27) (2020-07-18)
 
 
