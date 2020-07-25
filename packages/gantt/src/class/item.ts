@@ -9,7 +9,9 @@ interface GanttItemRefs {
 
 export enum GanttItemType {
     bar = 'bar',
-    range = 'range'
+    range = 'range',
+    custom = 'custom'
+
 }
 
 export interface GanttItem<T = unknown> {
