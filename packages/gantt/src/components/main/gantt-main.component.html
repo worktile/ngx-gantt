@@ -23,16 +23,16 @@
 <ng-template #ganttItems let-items="items">
   <ng-container *ngFor="let item of items; trackBy: trackBy">
     <div class="gantt-item" [style.height.px]="ganttUpper.styles.lineHeight">
-      <ng-template [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>
-      <ng-container *ngIf="!itemTemplate">
-        <gantt-range *ngIf="item.type === ganttItemType.range" [item]="item"></gantt-range>
-        <gantt-bar
-          *ngIf="item.type === ganttItemType.bar"
-          [item]="item"
-          [template]="barTemplate"
-          (barClick)="barClick.emit($event)"
-        ></gantt-bar>
+      <ng-container *ngIf="item.type === ganttItemType.custom">
+        <ng-template [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>
       </ng-container>
+      <gantt-range *ngIf="item.type === ganttItemType.range" [item]="item"></gantt-range>
+      <gantt-bar
+        *ngIf="item.type === ganttItemType.bar"
+        [item]="item"
+        [template]="barTemplate"
+        (barClick)="barClick.emit($event)"
+      ></gantt-bar>
     </div>
     <ng-template
       *ngIf="item.children && item.expanded"
