@@ -1,6 +1,14 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.30](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.30) (2020-07-25)
+
+
+### Bug Fixes
+
+* add custom type in GanttItemType ([8457ab0](https://github.com/worktile/ngx-gantt/commit/8457ab069836c5c2ee99f8cba8d5e0d455fd6d31))
+* init gantt item expaned ([37c2086](https://github.com/worktile/ngx-gantt/commit/37c20860d7ddff922704d68893e5c9d1136e4194))
+
 ### [0.0.29](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.29) (2020-07-24)
 
 ### [0.0.28](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.28) (2020-07-24)
