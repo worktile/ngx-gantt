@@ -40,7 +40,7 @@
       fill: $gantt-date-secondary-weekend-color;
     }
     &-today {
-      fill: $gantt-date-today-color;
+      fill: $gantt-date-today-text-color;
     }
   }
 
@@ -66,12 +66,12 @@
     fill: $gantt-date-week-backdrop-bg;
   }
 
-  .today-line-angle {
-    fill: $gantt-date-today-color;
-  }
-
   .today-line {
     stroke: $gantt-date-today-color;
     stroke-width: 2px;
+  }
+
+  .today-rect {
+    fill: $gantt-date-today-color;
   }
 }

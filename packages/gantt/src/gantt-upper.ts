@@ -62,6 +62,8 @@ export abstract class GanttUpper {
 
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
+    @ContentChild('range', { static: true }) rangeTemplate: TemplateRef<any>;
+
     @ContentChild('item', { static: true }) itemTemplate: TemplateRef<any>;
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
@@ -120,7 +122,9 @@ export abstract class GanttUpper {
         this.originItems = uniqBy(this.originItems, 'id');
         // 根据上一次数据展开状态同步新的数据展开状态
         this.originItems.forEach((item) => {
-            item.expanded = item.expanded || this.expandedItemIds.includes(item.id);
+            if (!this.firstChange) {
+                item.expanded = this.expandedItemIds.includes(item.id);
+            }
         });
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {

@@ -26,7 +26,7 @@
       <ng-container *ngIf="item.type === ganttItemType.custom">
         <ng-template [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>
       </ng-container>
-      <gantt-range *ngIf="item.type === ganttItemType.range" [item]="item"></gantt-range>
+      <gantt-range *ngIf="item.type === ganttItemType.range" [template]="rangeTemplate" [item]="item"></gantt-range>
       <gantt-bar
         *ngIf="item.type === ganttItemType.bar"
         [item]="item"
