@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.31](https://github.com/worktile/ngx-gantt/compare/0.0.30...0.0.31) (2020-07-28)
+
+
+### Bug Fixes
+
+* add template in range and change today style ([a4391a5](https://github.com/worktile/ngx-gantt/commit/a4391a54aa2086cddaa10d0d9cc3e52e4e707027))
+
 ### [0.0.30](https://github.com/worktile/ngx-gantt/compare/0.0.25...0.0.30) (2020-07-25)
 
 
