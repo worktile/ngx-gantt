@@ -14,7 +14,7 @@ import {
 import { GanttDatePoint } from '../../class/date-point';
 import { Subject, merge } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { headerHeight } from '../../gantt.styles';
+import { headerHeight, todayHeight, todayWidth, todayBorderRadius } from '../../gantt.styles';
 import { isNumber } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
 import { GanttDomService } from '../../gantt-dom.service';
@@ -37,6 +37,12 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     mainHeight = mainHeight;
 
+    todayHeight = todayHeight;
+
+    todayWidth = todayWidth;
+
+    todayBorderRadius = todayBorderRadius;
+
     @HostBinding('class.gantt-calendar-overlay') className = true;
 
     constructor(
@@ -49,10 +55,8 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     setTodayPoint() {
         const x = this.view.getTodayXPoint();
-        const angle = this.elementRef.nativeElement.getElementsByClassName('today-line-angle')[0];
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0];
-        if (angle && line && isNumber(x)) {
-            angle.setAttribute('points', [`${x - 6},${headerHeight}`, `${x + 6},${headerHeight}`, `${x},${headerHeight + 5}`].join(' '));
+        if (line && isNumber(x)) {
             line.setAttribute('x1', x.toString());
             line.setAttribute('x2', x.toString());
             line.setAttribute('y1', headerHeight.toString());

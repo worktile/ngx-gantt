@@ -19,4 +19,10 @@ export const barBackground = '#348fe4';
 
 export const rangeHeight = 17;
 
+export const todayHeight = 25;
+
+export const todayWidth = 35;
+
+export const todayBorderRadius = 4;
+
 

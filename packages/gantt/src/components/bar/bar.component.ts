@@ -32,7 +32,6 @@ function linearGradient(sideOrCorner: string, color: string, stop: string) {
     providers: [GanttBarDrag]
 })
 export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-    @Input() template: TemplateRef<any>;
 
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
