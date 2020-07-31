@@ -39,6 +39,7 @@
   <ng-container *ngFor="let item of items">
     <div
       class="gantt-table-item gantt-table-row"
+      [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
       [style.height.px]="gantt.styles.lineHeight"
       [style.lineHeight.px]="gantt.styles.lineHeight"
     >

@@ -1,6 +1,14 @@
 <div class="gantt-calendar-today-overlay" *ngIf="ganttUpper.showTodayLine">
   <svg [attr.width]="view.width" height="1">
     <g>
+      <rect
+        class="today-rect"
+        [attr.rx]="todayBorderRadius"
+        [attr.ry]="todayBorderRadius"
+        [attr.width]="todayWidth"
+        [attr.height]="todayHeight"
+      ></rect>
+      <text class="today-text secondary-text"></text>
       <line class="today-line"></line>
     </g>
   </svg>
@@ -11,20 +19,10 @@
       {{ point.text }}
     </text>
     <ng-container *ngFor="let point of view.secondaryDatePoints; trackBy: trackBy">
-      <rect
-        *ngIf="point.additions?.isToday"
-        class="today-rect"
-        [attr.x]="point.x - todayWidth / 2"
-        [attr.y]="point.y - todayWidth / 2"
-        [attr.rx]="todayBorderRadius"
-        [attr.ry]="todayBorderRadius"
-        [attr.width]="todayWidth"
-        [attr.height]="todayHeight"
-      ></rect>
       <text
         class="secondary-text"
+        *ngIf="!point.additions?.isToday"
         [class.secondary-text-weekend]="point.additions?.isWeekend"
-        [class.secondary-text-today]="point.additions?.isToday"
         [attr.x]="point.x"
         [attr.y]="point.y"
       >

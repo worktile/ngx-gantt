@@ -6,7 +6,7 @@
   .gantt-calendar-today-overlay {
     height: 0;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 
     svg {
       display: block;
@@ -39,9 +39,10 @@
     &-weekend {
       fill: $gantt-date-secondary-weekend-color;
     }
-    &-today {
-      fill: $gantt-date-today-text-color;
-    }
+  }
+
+  .today-text {
+    fill: $gantt-date-today-text-color;
   }
 
   .primary-text,

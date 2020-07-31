@@ -1,91 +1,93 @@
 .gantt-table {
-    display: block;
+  display: block;
 
-    .gantt-table-row {
+  .gantt-table-row {
+    display: flex;
+    box-sizing: border-box;
+    border-bottom: 1px solid $gantt-border-color;
+
+    .gantt-table-column {
+      overflow: hidden;
+      border-right: 1px solid $gantt-border-color;
+      box-sizing: border-box;
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  .gantt-table-header {
+    text-align: center;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+    height: $gantt-header-height;
+    line-height: $gantt-header-height;
+
+    .gantt-table-column {
+      font-weight: 400;
+    }
+  }
+
+  .gantt-table-body {
+    .gantt-table-group {
+      display: flex;
+      height: $gantt-group-height;
+      background: $gantt-group-background-color;
+      padding: 0 10px;
+      align-items: center;
+      border-bottom: 1px solid $gantt-border-color;
+      box-sizing: border-box;
+      position: relative;
+
+      .gantt-table-group-title {
+        cursor: pointer;
+
+        .expand-icon {
+          color: #aaa;
+          margin-right: 6px;
+        }
+      }
+    }
+
+    .gantt-table-item {
+      cursor: pointer;
+      &-first-level-group {
+        background: $gantt-group-background-color;
+      }
+
+      .gantt-table-column {
         display: flex;
-        box-sizing: border-box;
-        border-bottom: 1px solid $gantt-border-color;
+        padding: $gantt-table-td-padding;
 
-        .gantt-table-column {
-            overflow: hidden;
-            border-right: 1px solid $gantt-border-color;
-            box-sizing: border-box;
-
-            &:last-child {
-                border-right: none;
-            }
+        &:first-child {
+          padding: 0 15px 0 32px;
         }
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+
+      .gantt-table-column-content {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &:hover {
+        background-color: $gantt-container-background-color;
+      }
     }
 
-    .gantt-table-header {
-        text-align: center;
-        position: sticky;
-        top: 0;
-        background: #fff;
-        z-index: 1;
-        height: $gantt-header-height;
-        line-height: $gantt-header-height;
-
-        .gantt-table-column {
-            font-weight: 400;
-        }
+    .gantt-expand-icon {
+      display: inline-block;
+      width: 20px;
+      color: #aaa;
     }
-
-    .gantt-table-body {
-        .gantt-table-group {
-            display: flex;
-            height: $gantt-group-height;
-            background: $gantt-group-background-color;
-            padding: 0 10px;
-            align-items: center;
-            border-bottom: 1px solid $gantt-border-color;
-            box-sizing: border-box;
-            position: relative;
-
-            .gantt-table-group-title {
-                cursor: pointer;
-
-                .expand-icon {
-                    color: #aaa;
-                    margin-right: 6px;
-                }
-            }
-        }
-
-        .gantt-table-item {
-            cursor: pointer;
-
-            .gantt-table-column {
-                display: flex;
-                padding: $gantt-table-td-padding;
-
-                &:first-child {
-                    padding: 0 15px 0 32px;
-                }
-
-                &:last-child {
-                    border-right: none;
-                }
-
-            }
-
-            .gantt-table-column-content {
-                flex: 1;
-                position: relative;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            &:hover {
-                background-color: $gantt-container-background-color;
-            }
-        }
-
-        .gantt-expand-icon {
-            display: inline-block;
-            width: 20px;
-            color: #aaa;
-        }
-    }
+  }
 }

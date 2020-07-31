@@ -13,3 +13,4 @@ export * from './utils/date';
 export * from './class';
 export * from './views/view';
 export * from './gantt-item-upper';
+export * from './gantt.pipe';

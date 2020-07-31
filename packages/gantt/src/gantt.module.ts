@@ -15,6 +15,7 @@ import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-back
 import { GanttLinksComponent } from './components/links/links.component';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttRangeComponent } from './components/range/range.component';
+import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from './gantt.pipe';
 
 @NgModule({
     imports: [CommonModule],
@@ -39,7 +40,10 @@ import { NgxGanttRangeComponent } from './components/range/range.component';
         GanttIconComponent,
         GanttDragBackdropComponent,
         NgxGanttRangeComponent,
-        NgxGanttRootComponent
+        NgxGanttRootComponent,
+        IsGanttRangeItemPipe,
+        IsGanttBarItemPipe,
+        IsGanttCustomItemPipe
     ],
     providers: []
 })

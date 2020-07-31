@@ -19,6 +19,7 @@ import { isNumber } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
 import { GanttDomService } from '../../gantt-dom.service';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
+import { secondaryDatePointTop } from '../../views/view';
 
 const mainHeight = 5000;
 
@@ -55,12 +56,21 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     setTodayPoint() {
         const x = this.view.getTodayXPoint();
+        const today = new GanttDate().getDate();
+        const rect = this.elementRef.nativeElement.getElementsByClassName('today-rect')[0];
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0];
-        if (line && isNumber(x)) {
+        const text = this.elementRef.nativeElement.getElementsByClassName('today-text')[0];
+
+        if (text && rect && line && isNumber(x)) {
+            rect.setAttribute('x', (x - todayWidth / 2).toString());
+            rect.setAttribute('y', (headerHeight - todayHeight).toString());
             line.setAttribute('x1', x.toString());
             line.setAttribute('x2', x.toString());
             line.setAttribute('y1', headerHeight.toString());
             line.setAttribute('y2', mainHeight.toString());
+            text.setAttribute('x', x.toString());
+            text.setAttribute('y', secondaryDatePointTop.toString());
+            text.innerHTML = today.toString();
         }
     }
 
