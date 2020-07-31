@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.32](https://github.com/worktile/ngx-gantt/compare/0.0.31...0.0.32) (2020-07-31)
+
+
+### Bug Fixes
+
+* new today style and fix item style ([8d1ad7b](https://github.com/worktile/ngx-gantt/commit/8d1ad7b2bc991ddf8ed54f3fabb746d0ebda043f))
+
 ### [0.0.31](https://github.com/worktile/ngx-gantt/compare/0.0.30...0.0.31) (2020-07-28)
 
 
