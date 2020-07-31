@@ -1,9 +1,9 @@
 .gantt-range {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   .gantt-range-main {
     height: 10px;
-    background: rgba(136, 136, 136, 0.2);
+    background: #dfdfdf;
     border: 1px solid #888;
     border-radius: 4px 4px 0 0;
     box-sizing: border-box;
@@ -24,11 +24,11 @@
     top: 10px;
 
     &.left {
-      border-right: 5px solid transparent;
+      border-right: 6px solid transparent;
       left: 0;
     }
     &.right {
-      border-left: 5px solid transparent;
+      border-left: 6px solid transparent;
       right: 0;
     }
   }

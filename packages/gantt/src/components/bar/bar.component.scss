@@ -107,7 +107,8 @@ $gantt-bar-link-drop-border: 5px;
 .gantt-bar {
     position: absolute;
     border-radius: 4px;
-    z-index: 1;
+    z-index: 2;
+    background: $gantt-bar-bg;
 
     .gantt-bar-layer {
         width: calc(100% + #{$gantt-bar-layer-append-width});
@@ -142,6 +143,7 @@ $gantt-bar-link-drop-border: 5px;
         border-radius: 4px;
         background: $gantt-bar-background-color;
         overflow: hidden;
+        box-sizing: border-box;
         .gantt-bar-content-progress {
             position: absolute;
             left: 0;
