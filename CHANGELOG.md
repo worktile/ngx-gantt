@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.33](https://github.com/worktile/ngx-gantt/compare/0.0.32...0.0.33) (2020-08-01)
+
+
+### Bug Fixes
+
+* use setted expandable ([0bf3387](https://github.com/worktile/ngx-gantt/commit/0bf3387fa206ac4aa010555588997d7b8dda63d3))
+
 ### [0.0.32](https://github.com/worktile/ngx-gantt/compare/0.0.31...0.0.32) (2020-07-31)
 
 
