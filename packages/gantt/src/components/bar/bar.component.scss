@@ -107,7 +107,7 @@ $gantt-bar-link-drop-border: 5px;
 .gantt-bar {
     position: absolute;
     border-radius: 4px;
-    z-index: 2;
+    z-index: 1;
     background: $gantt-bar-bg;
 
     .gantt-bar-layer {

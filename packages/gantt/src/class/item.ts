@@ -11,7 +11,6 @@ export enum GanttItemType {
     bar = 'bar',
     range = 'range',
     custom = 'custom'
-
 }
 
 export interface GanttItem<T = unknown> {
@@ -65,7 +64,7 @@ export class GanttItemInternal {
         this.barStyle = this.origin.barStyle;
         this.linkable = this.origin.linkable === undefined ? true : this.origin.linkable;
         this.draggable = this.origin.draggable === undefined ? true : this.origin.draggable;
-        this.expandable = (this.origin.children || []).length > 0 ? true : this.origin.expandable;
+        this.expandable = this.origin.expandable || (this.origin.children || []).length > 0;
         this.expanded = this.origin.expanded === undefined ? false : this.origin.expanded;
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
