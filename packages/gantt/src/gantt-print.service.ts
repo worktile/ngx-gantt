@@ -6,12 +6,6 @@ import html2canvas from 'html2canvas';
 export class GanttPrintService {
     constructor(private ganttDomService: GanttDomService) {}
 
-    private root = this.ganttDomService.root as HTMLElement;
-
-    private mainContainer = this.ganttDomService.mainContainer as HTMLElement;
-
-    private calendarOverlay = this.ganttDomService.calendarOverlay as HTMLElement;
-
     private setInlineStyles(targetElem: Element) {
         const svgElements = Array.from(targetElem.getElementsByTagName('svg'));
         for (const svgElement of svgElements) {
@@ -44,27 +38,32 @@ export class GanttPrintService {
     }
 
     print(name: string = 'download') {
+        const root = this.ganttDomService.root as HTMLElement;
+
+        const mainContainer = this.ganttDomService.mainContainer as HTMLElement;
         // set print width
-        const printWidth = this.mainContainer.scrollWidth - this.mainContainer.offsetWidth + this.root.offsetWidth;
+        const printWidth = root.offsetWidth;
 
         // set print height
-        const printHeight = this.mainContainer.scrollHeight + this.calendarOverlay.offsetHeight;
+        const printHeight = root.offsetHeight - mainContainer.offsetHeight + mainContainer.scrollHeight;
 
-        html2canvas(this.root, {
-            // scale: 2,
+        html2canvas(root, {
             logging: false,
             allowTaint: true,
+            useCORS: true,
             width: printWidth,
             height: printHeight,
             onclone: (cloneDocument: Document) => {
-                const ganttClass = this.root.className;
+                const ganttClass = root.className;
                 const cloneGanttDom = cloneDocument.querySelector(`.${ganttClass.replace(/\s+/g, '.')}`) as HTMLElement;
+                const cloneCalendarOverlay = cloneDocument.querySelector('.gantt-calendar-overlay-main') as HTMLElement;
 
                 // change targetDom width
                 cloneGanttDom.style.width = `${printWidth}px`;
                 cloneGanttDom.style.height = `${printHeight}px`;
-                cloneGanttDom.style.overflow = 'unset';
-                cloneGanttDom.style.flex = 'none';
+                cloneGanttDom.style.overflow = `unset`;
+                cloneCalendarOverlay.setAttribute('height', `${printHeight}`);
+                cloneCalendarOverlay.style.background = 'transparent';
 
                 // setInlineStyles for svg
                 this.setInlineStyles(cloneGanttDom);

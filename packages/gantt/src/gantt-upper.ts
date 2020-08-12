@@ -30,6 +30,7 @@ import { GanttDate } from './utils/date';
 import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
+import { GanttPrintService } from './gantt-print.service';
 
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
@@ -98,7 +99,12 @@ export abstract class GanttUpper {
 
     @HostBinding('class.gantt') ganttClass = true;
 
-    constructor(protected elementRef: ElementRef<HTMLElement>, protected cdr: ChangeDetectorRef, protected ngZone: NgZone) {}
+    constructor(
+        protected elementRef: ElementRef<HTMLElement>,
+        protected cdr: ChangeDetectorRef,
+        protected ngZone: NgZone,
+        protected printService: GanttPrintService
+    ) {}
 
     private createView() {
         const viewDate = this.getViewDate();
@@ -270,6 +276,10 @@ export abstract class GanttUpper {
 
     collapseAll() {
         this.expandGroups(false);
+    }
+
+    print(name: string) {
+        this.printService.print(name);
     }
 }
 

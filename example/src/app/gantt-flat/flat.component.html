@@ -19,9 +19,15 @@
       <input type="number" [style.width.px]="50" [(ngModel)]="options.mergeIntervalDays" />
     </span>
   </div>
+  <div class="header-section">
+    <span class="header-section-content">
+      <button (click)="gantt.print('gantt-flat')">导出为图片</button>
+    </span>
+  </div>
 </div>
 <div class="gantt-demo-content">
   <ngx-gantt-flat
+    #gantt
     [start]="1514736000"
     [end]="1609430400"
     [items]="items"

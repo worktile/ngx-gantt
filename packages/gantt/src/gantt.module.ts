@@ -16,6 +16,8 @@ import { GanttLinksComponent } from './components/links/links.component';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttRangeComponent } from './components/range/range.component';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from './gantt.pipe';
+import { GanttPrintService } from './gantt-print.service';
+import { GanttDomService } from './gantt-dom.service';
 
 @NgModule({
     imports: [CommonModule],
@@ -45,6 +47,6 @@ import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from 
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe
     ],
-    providers: []
+    providers: [GanttDomService, GanttPrintService]
 })
 export class NgxGanttModule {}

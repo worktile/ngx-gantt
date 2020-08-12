@@ -8,7 +8,7 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 @Component({
     selector: 'ngx-gantt-root',
     templateUrl: './root.component.html',
-    providers: [GanttDomService, GanttDragContainer]
+    providers: [GanttDragContainer]
 })
 export class NgxGanttRootComponent implements OnInit {
     @Input() sideWidth: number;
