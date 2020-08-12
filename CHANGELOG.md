@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.34](https://github.com/worktile/ngx-gantt/compare/0.0.33...0.0.34) (2020-08-12)
+
+
+### Features
+
+* add print service ([#60](https://github.com/worktile/ngx-gantt/issues/60)) ([3fc091f](https://github.com/worktile/ngx-gantt/commit/3fc091f2023ff41968a1e38c6b68026a69d7861a))
+
 ### [0.0.33](https://github.com/worktile/ngx-gantt/compare/0.0.32...0.0.33) (2020-08-01)
 
 
