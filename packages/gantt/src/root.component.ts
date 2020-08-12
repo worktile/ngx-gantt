@@ -1,14 +1,15 @@
-import { Component, OnInit, HostBinding, NgZone, ElementRef, Inject, ContentChild, TemplateRef, Input } from '@angular/core';
+import { Component, OnInit, HostBinding, NgZone, ElementRef, Inject, ContentChild, TemplateRef, Input, Optional } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { take, takeUntil, startWith } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
+import { GanttPrintService } from './gantt-print.service';
 
 @Component({
     selector: 'ngx-gantt-root',
     templateUrl: './root.component.html',
-    providers: [GanttDragContainer]
+    providers: [GanttDomService, GanttDragContainer]
 })
 export class NgxGanttRootComponent implements OnInit {
     @Input() sideWidth: number;
@@ -30,7 +31,8 @@ export class NgxGanttRootComponent implements OnInit {
         private ngZone: NgZone,
         private dom: GanttDomService,
         public dragContainer: GanttDragContainer,
-        @Inject(GANTT_UPPER_TOKEN) private ganttUpper: GanttUpper
+        @Inject(GANTT_UPPER_TOKEN) private ganttUpper: GanttUpper,
+        @Optional() private printService: GanttPrintService
     ) {
         this.ganttUpper.dragContainer = dragContainer;
     }
@@ -38,6 +40,9 @@ export class NgxGanttRootComponent implements OnInit {
     ngOnInit() {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
             this.dom.initialize(this.elementRef);
+            if (this.printService) {
+                this.printService.register(this.elementRef);
+            }
             this.setupViewScroll();
             // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
             this.elementRef.nativeElement.style.opacity = '1';

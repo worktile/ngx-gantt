@@ -9,13 +9,15 @@ import {
     GanttLinkDragEvent,
     GanttItem,
     GanttViewOptions,
-    GanttDate
+    GanttDate,
+    GanttPrintService
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 @Component({
     selector: 'app-gantt-range-example',
-    templateUrl: './gantt-range.component.html'
+    templateUrl: './gantt-range.component.html',
+    providers: [GanttPrintService]
 })
 export class AppGanttRangeExampleComponent implements OnInit {
     items = mockItems;
@@ -34,7 +36,7 @@ export class AppGanttRangeExampleComponent implements OnInit {
 
     @HostBinding('class.gantt-demo') class = true;
 
-    constructor() {}
+    constructor(private printService: GanttPrintService) {}
 
     ngOnInit(): void {}
 
@@ -58,5 +60,8 @@ export class AppGanttRangeExampleComponent implements OnInit {
                 linkable: false
             }
         ]).pipe(delay(1000));
+    }
+    print(name: string) {
+        this.printService.print(name);
     }
 }

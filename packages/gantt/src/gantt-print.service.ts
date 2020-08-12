@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { GanttDomService } from './gantt-dom.service';
 import html2canvas from 'html2canvas';
 
 @Injectable()
 export class GanttPrintService {
-    constructor(private ganttDomService: GanttDomService) {}
+    private root: HTMLElement;
+
+    private mainContainer: HTMLElement;
+
+    constructor() {}
 
     private setInlineStyles(targetElem: Element) {
         const svgElements = Array.from(targetElem.getElementsByTagName('svg'));
@@ -37,10 +41,15 @@ export class GanttPrintService {
         }
     }
 
-    print(name: string = 'download') {
-        const root = this.ganttDomService.root as HTMLElement;
+    register(root: ElementRef<HTMLElement>) {
+        this.root = root.nativeElement;
+        this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0] as HTMLElement;
+    }
 
-        const mainContainer = this.ganttDomService.mainContainer as HTMLElement;
+    print(name: string = 'download') {
+        const root = this.root as HTMLElement;
+
+        const mainContainer = this.mainContainer as HTMLElement;
         // set print width
         const printWidth = root.offsetWidth;
 

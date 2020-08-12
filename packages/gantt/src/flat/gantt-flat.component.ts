@@ -1,4 +1,3 @@
-import { GanttPrintService } from './../gantt-print.service';
 import {
     Component,
     OnInit,
@@ -39,8 +38,8 @@ export class NgxGanttFlatComponent extends GanttUpper implements OnInit, OnChang
 
     @HostBinding('class.gantt-flat') ganttFlatClass = true;
 
-    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone, printService: GanttPrintService) {
-        super(elementRef, cdr, ngZone, printService);
+    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone) {
+        super(elementRef, cdr, ngZone);
     }
 
     private buildGroupMergedItems(items: GanttItemInternal[]) {
