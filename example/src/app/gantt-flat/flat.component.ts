@@ -1,14 +1,17 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { mockItems, mockGroups } from '../gantt/mocks';
-import { GanttViewType } from 'ngx-gantt';
+import { GanttViewType, GanttPrintService } from 'ngx-gantt';
 
 @Component({
     selector: 'app-gantt-flat-example',
     templateUrl: './flat.component.html',
-    styleUrls: ['./flat.component.scss']
+    styleUrls: ['./flat.component.scss'],
+    providers: [GanttPrintService]
 })
 export class AppGanttFlatExampleComponent implements OnInit {
-    constructor() {}
+    constructor(
+        private printService: GanttPrintService
+    ) {}
 
     items = mockItems;
 
@@ -26,4 +29,8 @@ export class AppGanttFlatExampleComponent implements OnInit {
     @HostBinding('class.gantt-demo') class = true;
 
     ngOnInit(): void {}
+
+    print(name: string) {
+        this.printService.print(name);
+    }
 }

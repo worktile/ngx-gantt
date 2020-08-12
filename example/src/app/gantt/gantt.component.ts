@@ -1,3 +1,4 @@
+import { GanttPrintService } from './../../../../packages/gantt/src/gantt-print.service';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { mockItems, mockGroups } from './mocks';
 import {
@@ -16,10 +17,11 @@ import { delay } from 'rxjs/operators';
 @Component({
     selector: 'app-gantt-example',
     templateUrl: './gantt.component.html',
-    styleUrls: ['./gantt.component.scss']
+    styleUrls: ['./gantt.component.scss'],
+    providers: [GanttPrintService]
 })
 export class AppGanttExampleComponent implements OnInit {
-    constructor() {}
+    constructor(private printService: GanttPrintService) {}
 
     items = mockItems;
 
@@ -79,5 +81,9 @@ export class AppGanttExampleComponent implements OnInit {
                 linkable: false
             }
         ]).pipe(delay(1000));
+    }
+
+    print(name: string) {
+        this.printService.print(name);
     }
 }

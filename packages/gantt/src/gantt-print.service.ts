@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { GanttDomService } from './gantt-dom.service';
 import html2canvas from 'html2canvas';
 
 @Injectable()
 export class GanttPrintService {
-    constructor(private ganttDomService: GanttDomService) {}
+    private root: HTMLElement;
 
-    private root = this.ganttDomService.root as HTMLElement;
+    private mainContainer: HTMLElement;
 
-    private mainContainer = this.ganttDomService.mainContainer as HTMLElement;
-
-    private calendarOverlay = this.ganttDomService.calendarOverlay as HTMLElement;
+    constructor() {}
 
     private setInlineStyles(targetElem: Element) {
         const svgElements = Array.from(targetElem.getElementsByTagName('svg'));
@@ -43,28 +41,38 @@ export class GanttPrintService {
         }
     }
 
+    register(root: ElementRef<HTMLElement>) {
+        this.root = root.nativeElement;
+        this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0] as HTMLElement;
+    }
+
     print(name: string = 'download') {
+        const root = this.root as HTMLElement;
+
+        const mainContainer = this.mainContainer as HTMLElement;
         // set print width
-        const printWidth = this.mainContainer.scrollWidth - this.mainContainer.offsetWidth + this.root.offsetWidth;
+        const printWidth = root.offsetWidth;
 
         // set print height
-        const printHeight = this.mainContainer.scrollHeight + this.calendarOverlay.offsetHeight;
+        const printHeight = root.offsetHeight - mainContainer.offsetHeight + mainContainer.scrollHeight;
 
-        html2canvas(this.root, {
-            // scale: 2,
+        html2canvas(root, {
             logging: false,
             allowTaint: true,
+            useCORS: true,
             width: printWidth,
             height: printHeight,
             onclone: (cloneDocument: Document) => {
-                const ganttClass = this.root.className;
+                const ganttClass = root.className;
                 const cloneGanttDom = cloneDocument.querySelector(`.${ganttClass.replace(/\s+/g, '.')}`) as HTMLElement;
+                const cloneCalendarOverlay = cloneDocument.querySelector('.gantt-calendar-overlay-main') as HTMLElement;
 
                 // change targetDom width
                 cloneGanttDom.style.width = `${printWidth}px`;
                 cloneGanttDom.style.height = `${printHeight}px`;
-                cloneGanttDom.style.overflow = 'unset';
-                cloneGanttDom.style.flex = 'none';
+                cloneGanttDom.style.overflow = `unset`;
+                cloneCalendarOverlay.setAttribute('height', `${printHeight}`);
+                cloneCalendarOverlay.style.background = 'transparent';
 
                 // setInlineStyles for svg
                 this.setInlineStyles(cloneGanttDom);

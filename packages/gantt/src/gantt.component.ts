@@ -22,7 +22,6 @@ import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem }
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { getColumnWidthConfig } from './utils/column-compute';
-import { recursiveItems } from './utils/helpers';
 
 @Component({
     selector: 'ngx-gantt',
@@ -96,7 +95,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     ngOnChanges(changes: SimpleChanges) {
         super.onChanges(changes);
     }
-
 
     expandChildren(item: GanttItemInternal) {
         if (!item.expanded) {

@@ -4,7 +4,6 @@ import {
     HostBinding,
     OnChanges,
     SimpleChanges,
-    ChangeDetectorRef,
     OnDestroy,
     NgZone,
     Inject,
@@ -17,7 +16,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { headerHeight, todayHeight, todayWidth, todayBorderRadius } from '../../gantt.styles';
 import { isNumber } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
-import { GanttDomService } from '../../gantt-dom.service';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { secondaryDatePointTop } from '../../views/view';
 
@@ -48,9 +46,7 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     constructor(
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        private cdr: ChangeDetectorRef,
         private ngZone: NgZone,
-        private dom: GanttDomService,
         private elementRef: ElementRef<HTMLElement>
     ) {}
 

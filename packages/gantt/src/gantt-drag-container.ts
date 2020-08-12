@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { GanttDragEvent, GanttLinkDragEvent } from './class/event';
 import { GanttItemInternal } from './class/item';
-import { GanttDomService } from './gantt-dom.service';
 
 export type LinkDragFrom = 'source' | 'target';
 
