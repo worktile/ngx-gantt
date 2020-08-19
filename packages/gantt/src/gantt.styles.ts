@@ -19,7 +19,7 @@ export const barBackground = '#348fe4';
 
 export const rangeHeight = 17;
 
-export const todayHeight = 25;
+export const todayHeight = 24;
 
 export const todayWidth = 35;
 

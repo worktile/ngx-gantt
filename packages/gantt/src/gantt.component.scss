@@ -54,8 +54,9 @@
     right: 0;
     overflow: auto;
 
-    .gantt-main-groups .gantt-main-items {
-      height: 100%;
+    .gantt-main-items {
+      overflow: hidden;
+      min-height: 100%;
     }
 
     .gantt-group {

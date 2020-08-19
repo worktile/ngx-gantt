@@ -1,18 +1,8 @@
-<div class="gantt-calendar-today-overlay" *ngIf="ganttUpper.showTodayLine">
-  <svg [attr.width]="view.width" height="1">
-    <g>
-      <rect
-        class="today-rect"
-        [attr.rx]="todayBorderRadius"
-        [attr.ry]="todayBorderRadius"
-        [attr.width]="todayWidth"
-        [attr.height]="todayHeight"
-      ></rect>
-      <text class="today-text secondary-text"></text>
-      <line class="today-line"></line>
-    </g>
-  </svg>
+<div class="gantt-calendar-today-overlay" [style.width.px]="view.width" *ngIf="ganttUpper.showTodayLine">
+  <span class="today-rect"> </span>
+  <span class="today-line"> </span>
 </div>
+
 <svg class="gantt-calendar-overlay-main" [attr.width]="view.width" [attr.height]="headerHeight">
   <g>
     <text class="primary-text" *ngFor="let point of view.primaryDatePoints; trackBy: trackBy" [attr.x]="point.x" [attr.y]="point.y">
