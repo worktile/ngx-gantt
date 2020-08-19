@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.35](https://github.com/worktile/ngx-gantt/compare/0.0.34...0.0.35) (2020-08-19)
+
+
+### Bug Fixes
+
+* change today line to normal element ([f5b6571](https://github.com/worktile/ngx-gantt/commit/f5b657127cc4fe001324b56638453b8d5716f23a))
+
 ### [0.0.34](https://github.com/worktile/ngx-gantt/compare/0.0.33...0.0.34) (2020-08-12)
 
 
