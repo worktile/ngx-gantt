@@ -1,5 +1,4 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { GanttDomService } from './gantt-dom.service';
 import html2canvas from 'html2canvas';
 
 @Injectable()
@@ -46,7 +45,7 @@ export class GanttPrintService {
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0] as HTMLElement;
     }
 
-    print(name: string = 'download') {
+    print(name: string = 'download', ignoreElementClass?: string) {
         const root = this.root as HTMLElement;
 
         const mainContainer = this.mainContainer as HTMLElement;
@@ -62,6 +61,15 @@ export class GanttPrintService {
             useCORS: true,
             width: printWidth,
             height: printHeight,
+            ignoreElements: (element) => {
+                if (ignoreElementClass && element.classList.contains(ignoreElementClass)) {
+                    return true;
+                }
+                if (element.classList.contains('gantt-calendar-today-overlay')) {
+                    return true;
+                }
+            },
+
             onclone: (cloneDocument: Document) => {
                 const ganttClass = root.className;
                 const cloneGanttDom = cloneDocument.querySelector(`.${ganttClass.replace(/\s+/g, '.')}`) as HTMLElement;

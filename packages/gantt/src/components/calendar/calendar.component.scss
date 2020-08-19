@@ -4,12 +4,24 @@
   overflow: hidden;
 
   .gantt-calendar-today-overlay {
-    height: 0;
     position: relative;
     z-index: 2;
-
-    svg {
-      display: block;
+    .today-rect {
+      width: 35px;
+      height: 24px;
+      position: absolute;
+      background: $gantt-date-today-color;
+      color: $gantt-date-today-text-color;
+      text-align: center;
+      border-radius: 4px;
+    }
+    .today-line {
+      position: absolute;
+      width: 3px;
+      background: $gantt-date-today-color;
+      transform: scaleX(0.5);
+      transform-origin: 100% 0;
+      margin-left: -2px;
     }
   }
 
@@ -41,10 +53,6 @@
     }
   }
 
-  .today-text {
-    fill: $gantt-date-today-text-color;
-  }
-
   .primary-text,
   .secondary-text {
     text-anchor: middle;
@@ -65,14 +73,5 @@
 
   .secondary-backdrop {
     fill: $gantt-date-week-backdrop-bg;
-  }
-
-  .today-line {
-    stroke: $gantt-date-today-color;
-    stroke-width: 2px;
-  }
-
-  .today-rect {
-    fill: $gantt-date-today-color;
   }
 }

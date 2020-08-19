@@ -17,7 +17,6 @@ import { headerHeight, todayHeight, todayWidth, todayBorderRadius } from '../../
 import { isNumber } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-import { secondaryDatePointTop } from '../../views/view';
 
 const mainHeight = 5000;
 
@@ -53,20 +52,16 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     setTodayPoint() {
         const x = this.view.getTodayXPoint();
         const today = new GanttDate().getDate();
-        const rect = this.elementRef.nativeElement.getElementsByClassName('today-rect')[0];
-        const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0];
-        const text = this.elementRef.nativeElement.getElementsByClassName('today-text')[0];
+        const rect = this.elementRef.nativeElement.getElementsByClassName('today-rect')[0] as HTMLElement;
+        const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0] as HTMLElement;
 
-        if (text && rect && line && isNumber(x)) {
-            rect.setAttribute('x', (x - todayWidth / 2).toString());
-            rect.setAttribute('y', (headerHeight - todayHeight).toString());
-            line.setAttribute('x1', x.toString());
-            line.setAttribute('x2', x.toString());
-            line.setAttribute('y1', headerHeight.toString());
-            line.setAttribute('y2', mainHeight.toString());
-            text.setAttribute('x', x.toString());
-            text.setAttribute('y', secondaryDatePointTop.toString());
-            text.innerHTML = today.toString();
+        if (rect && line && isNumber(x)) {
+            rect.style.left = `${x - todayWidth / 2}px`;
+            rect.style.top = `${headerHeight - todayHeight}px`;
+            line.style.left = `${x}px`;
+            line.style.top = `${headerHeight}px`;
+            line.style.bottom = `${-mainHeight}px`;
+            rect.innerHTML = today.toString();
         }
     }
 
