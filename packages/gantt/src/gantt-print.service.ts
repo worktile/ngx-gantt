@@ -74,13 +74,19 @@ export class GanttPrintService {
                 const ganttClass = root.className;
                 const cloneGanttDom = cloneDocument.querySelector(`.${ganttClass.replace(/\s+/g, '.')}`) as HTMLElement;
                 const cloneCalendarOverlay = cloneDocument.querySelector('.gantt-calendar-overlay-main') as HTMLElement;
+                const cloneLinksOverlay = cloneDocument.querySelector('.gantt-links-overlay-main') as HTMLElement;
 
                 // change targetDom width
                 cloneGanttDom.style.width = `${printWidth}px`;
                 cloneGanttDom.style.height = `${printHeight}px`;
                 cloneGanttDom.style.overflow = `unset`;
                 cloneCalendarOverlay.setAttribute('height', `${printHeight}`);
+                cloneCalendarOverlay.style.height = `${printHeight}px`;
                 cloneCalendarOverlay.style.background = 'transparent';
+
+                if (cloneLinksOverlay) {
+                    cloneLinksOverlay.style.height = `${printHeight}px`;
+                }
 
                 // setInlineStyles for svg
                 this.setInlineStyles(cloneGanttDom);
