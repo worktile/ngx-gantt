@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.38](https://github.com/worktile/ngx-gantt/compare/0.0.37...0.0.38) (2020-08-20)
+
+
+### Bug Fixes
+
+* bump html2canvas 1.0.0-rc.7 ([52327b4](https://github.com/worktile/ngx-gantt/commit/52327b4e4a8927a64794fbe5435ba51ebe6d48b8))
+
 ### [0.0.37](https://github.com/worktile/ngx-gantt/compare/0.0.35...0.0.37) (2020-08-20)
 
 
