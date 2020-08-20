@@ -34,7 +34,7 @@
     "@angular/router": "~8.2.14",
     "@types/es6-promise": "^3.3.0",
     "date-fns": "^2.14.0",
-    "html2canvas": "^1.0.0-rc.5",
+    "html2canvas": "1.0.0-rc.5",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
