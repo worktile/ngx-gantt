@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.36](https://github.com/worktile/ngx-gantt/compare/0.0.35...0.0.36) (2020-08-20)
+
+
+### Bug Fixes
+
+* fix print error ([f773f28](https://github.com/worktile/ngx-gantt/commit/f773f285fe42f3a0e12509b742cb8e4287a25981))
+
 ### [0.0.35](https://github.com/worktile/ngx-gantt/compare/0.0.34...0.0.35) (2020-08-19)
 
 
