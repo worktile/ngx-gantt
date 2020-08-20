@@ -1,6 +1,15 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.37](https://github.com/worktile/ngx-gantt/compare/0.0.35...0.0.37) (2020-08-20)
+
+
+### Bug Fixes
+
+* fix print error ([f773f28](https://github.com/worktile/ngx-gantt/commit/f773f285fe42f3a0e12509b742cb8e4287a25981))
+* fix print style ([03967c8](https://github.com/worktile/ngx-gantt/commit/03967c8ac0bc35080fb201cb9c88bdb0cf6ef830))
+* use fixed html2canvas version ([3850382](https://github.com/worktile/ngx-gantt/commit/385038214ad3eea157675f97beac4bb939479de6))
+
 ### [0.0.36](https://github.com/worktile/ngx-gantt/compare/0.0.35...0.0.36) (2020-08-20)
 
 
