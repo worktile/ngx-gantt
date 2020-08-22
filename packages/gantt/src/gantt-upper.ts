@@ -160,17 +160,25 @@ export abstract class GanttUpper {
     private getViewDate() {
         let start = this.start;
         let end = this.end;
-        this.originItems.forEach((item) => {
-            if (item.start) {
-                start = start ? Math.min(start, item.start) : item.start;
-            }
-            if (item.end) {
-                end = end ? Math.max(end, item.end) : item.end;
-            }
-        });
+        if (!this.start || !this.end) {
+            this.originItems.forEach((item) => {
+                if (item.start && !this.start) {
+                    start = start ? Math.min(start, item.start) : item.start;
+                }
+                if (item.end && !this.end) {
+                    end = end ? Math.max(end, item.end) : item.end;
+                }
+            });
+        }
         return {
-            start: new GanttDate(start),
-            end: new GanttDate(end)
+            start: {
+                date: new GanttDate(start),
+                isCustom: this.start ? true : false
+            },
+            end: {
+                date: new GanttDate(end),
+                isCustom: this.end ? true : false
+            }
         };
     }
 

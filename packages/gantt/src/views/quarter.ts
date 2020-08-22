@@ -1,4 +1,4 @@
-import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
+import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop, GanttViewDate } from './view';
 import { GanttDate } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarQuarters } from 'date-fns';
@@ -14,7 +14,7 @@ const viewOptions: GanttViewOptions = {
 };
 
 export class GanttViewQuarter extends GanttView {
-    constructor(start: GanttDate, end: GanttDate, options?: GanttViewOptions) {
+    constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
         super(start, end, Object.assign({}, viewOptions, options));
     }
 
