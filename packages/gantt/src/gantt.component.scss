@@ -53,6 +53,7 @@
     left: 0;
     right: 0;
     overflow: auto;
+    background-color: $gantt-container-background-color;
 
     .gantt-main-items {
       overflow: hidden;

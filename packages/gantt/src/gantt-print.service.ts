@@ -73,6 +73,7 @@ export class GanttPrintService {
             onclone: (cloneDocument: Document) => {
                 const ganttClass = root.className;
                 const cloneGanttDom = cloneDocument.querySelector(`.${ganttClass.replace(/\s+/g, '.')}`) as HTMLElement;
+                const cloneGanttContainerDom = cloneDocument.querySelector('.gantt-container') as HTMLElement;
                 const cloneCalendarOverlay = cloneDocument.querySelector('.gantt-calendar-overlay-main') as HTMLElement;
                 const cloneLinksOverlay = cloneDocument.querySelector('.gantt-links-overlay-main') as HTMLElement;
 
@@ -80,6 +81,7 @@ export class GanttPrintService {
                 cloneGanttDom.style.width = `${printWidth}px`;
                 cloneGanttDom.style.height = `${printHeight}px`;
                 cloneGanttDom.style.overflow = `unset`;
+                cloneGanttContainerDom.style.backgroundColor = '#fff';
                 cloneCalendarOverlay.setAttribute('height', `${printHeight}`);
                 cloneCalendarOverlay.setAttribute('style', `background: transparent`);
 
