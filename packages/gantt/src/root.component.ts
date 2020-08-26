@@ -40,6 +40,12 @@ export class NgxGanttRootComponent implements OnInit {
     ngOnInit() {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
             this.dom.initialize(this.elementRef);
+            const mainContainer = this.dom.mainContainer as HTMLElement;
+            const height = mainContainer.offsetHeight;
+            const scrollHeight = mainContainer.scrollHeight;
+            if (scrollHeight > height) {
+                this.elementRef.nativeElement.className = 'gantt gantt-scroll';
+            }
             if (this.printService) {
                 this.printService.register(this.elementRef);
             }
