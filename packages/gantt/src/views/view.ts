@@ -6,6 +6,11 @@ export const primaryDatePointTop = 18;
 
 export const secondaryDatePointTop = 36;
 
+export interface GanttViewDate {
+    date: GanttDate;
+    isCustom?: boolean;
+}
+
 export interface GanttViewOptions {
     start?: GanttDate;
     end?: GanttDate;
@@ -50,12 +55,16 @@ export abstract class GanttView {
 
     options: GanttViewOptions;
 
-    constructor(start: GanttDate, end: GanttDate, options: GanttViewOptions) {
+    constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions) {
         this.options = Object.assign({}, viewOptions, options);
-        start = this.startOf(start.value < this.options.start.value ? start : this.options.start);
-        end = this.endOf(end.value > this.options.end.value ? end : this.options.end);
-        this.start$ = new BehaviorSubject<GanttDate>(start);
-        this.end$ = new BehaviorSubject<GanttDate>(end);
+        const startDate = start.isCustom
+            ? this.startOf(start.date)
+            : this.startOf(start.date.value < this.options.start.value ? start.date : this.options.start);
+        const endDate = end.isCustom
+            ? this.endOf(end.date)
+            : this.endOf(end.date.value > this.options.end.value ? end.date : this.options.end);
+        this.start$ = new BehaviorSubject<GanttDate>(startDate);
+        this.end$ = new BehaviorSubject<GanttDate>(endDate);
         this.initialize();
     }
 
