@@ -40,10 +40,14 @@ export class NgxGanttRootComponent implements OnInit {
     ngOnInit() {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
             this.dom.initialize(this.elementRef);
+
             if (this.printService) {
                 this.printService.register(this.elementRef);
             }
+            this.setupScrollClass();
+            this.setupResize();
             this.setupViewScroll();
+
             // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
             this.elementRef.nativeElement.style.opacity = '1';
             this.ganttUpper.viewChange.pipe(startWith(null)).subscribe(() => {
@@ -78,6 +82,26 @@ export class NgxGanttRootComponent implements OnInit {
                     }
                 }
             });
+    }
+
+    private setupResize() {
+        this.dom
+            .getResize()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+                this.setupScrollClass();
+            });
+    }
+
+    private setupScrollClass() {
+        const mainContainer = this.dom.mainContainer as HTMLElement;
+        const height = mainContainer.offsetHeight;
+        const scrollHeight = mainContainer.scrollHeight;
+        if (scrollHeight > height) {
+            this.elementRef.nativeElement.className = 'gantt gantt-scroll';
+        } else {
+            this.elementRef.nativeElement.className = 'gantt';
+        }
     }
 
     private scrollToToday() {
