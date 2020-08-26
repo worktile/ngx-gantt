@@ -1,6 +1,17 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.39](https://github.com/worktile/ngx-gantt/compare/0.0.37...0.0.39) (2020-08-26)
+
+
+### Bug Fixes
+
+* add scroll class when scroll ([#71](https://github.com/worktile/ngx-gantt/issues/71)) ([a6c8776](https://github.com/worktile/ngx-gantt/commit/a6c87761aee50228a2420b6b6316fffe863e886e))
+* bump html2canvas 1.0.0-rc.7 ([52327b4](https://github.com/worktile/ngx-gantt/commit/52327b4e4a8927a64794fbe5435ba51ebe6d48b8))
+* delete useless code ([f0661d5](https://github.com/worktile/ngx-gantt/commit/f0661d55d9e878631575a67aa3aa6acbc8d5a0ec))
+* fix print style ([c00d2ef](https://github.com/worktile/ngx-gantt/commit/c00d2ef560fa8e4b8e17aeecc58bb237d05bfbf6))
+* use custom start and end #INFR-909 ([162262c](https://github.com/worktile/ngx-gantt/commit/162262c4505f688b93445b9d30aa70ffdb9ecdaf)), closes [#INFR-909](https://github.com/worktile/ngx-gantt/issues/INFR-909)
+
 ### [0.0.38](https://github.com/worktile/ngx-gantt/compare/0.0.37...0.0.38) (2020-08-20)
 
 
