@@ -162,34 +162,51 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             const x2 = x1 - dx;
             const x3 = x4 + dx;
 
-            // const centerX = (x1 + x4) / 2;
-            // const centerY = (y1 + y4) / 2;
+            const centerX = (x1 + x4) / 2;
+            const centerY = (y1 + y4) / 2;
 
-            // const controlX = this.ganttUpper.styles.lineHeight / 2;
-            // const controlY =
-            //     Math.sqrt(Math.pow(x4 - x1, 2) + Math.pow(y4 - y1, 2)) / Math.abs(x4 - x1) + this.ganttUpper.styles.lineHeight / 2;
+            let controlX = this.ganttUpper.styles.lineHeight / 2;
+            const controlY = this.ganttUpper.styles.lineHeight / 2;
 
-            // if (x1 >= x4) {
-            //     if (y4 > y1) {
-            //         return `M ${x1} ${y1}
-            //                 C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 + controlX} ${x1} ${y1 + controlY}
-            //                 L ${x1} ${y1 + controlY} ${centerX} ${centerY}
+            if (x1 >= x4) {
+                if (y4 > y1) {
+                    if (Math.abs(y4 - y1) <= this.ganttUpper.styles.lineHeight) {
+                        return `M ${x1} ${y1}
+                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 + controlX} ${x1} ${y1 + controlY}
+                        L ${x1} ${y1 + controlY} ${centerX} ${centerY}
 
-            //                 M ${x4} ${y4}
-            //                 C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 - controlX} ${x4} ${y4 - controlY}
-            //                 L ${x4} ${y4 - controlY} ${centerX} ${centerY}
-            //                 `;
-            //     } else {
-            //         return `M ${x1} ${y1}
-            //                 C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 - controlX} ${x1} ${y1 - controlY}
-            //                 L ${x1} ${y1 - controlY} ${centerX} ${centerY}
+                        M ${x4} ${y4}
+                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 - controlX} ${x4} ${y4 - controlY}
+                        L ${x4} ${y4 - controlY} ${centerX} ${centerY}`;
+                    } else {
+                        controlX = this.ganttUpper.styles.lineHeight;
+                        return `M ${x1} ${y1}
+                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 + controlX} ${centerX} ${centerY}
 
-            //                 M ${x4} ${y4}
-            //                 C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 + controlX} ${x4} ${y4 + controlY}
-            //                 L ${x4} ${y4 + controlY} ${centerX} ${centerY}
-            //                 `;
-            //     }
-            // }
+
+                        M ${x4} ${y4}
+                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 - controlX} ${centerX} ${centerY}`;
+                    }
+                } else {
+                    if (Math.abs(y4 - y1) <= this.ganttUpper.styles.lineHeight) {
+                        return `M ${x1} ${y1}
+                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 - controlX} ${x1} ${y1 - controlY}
+                        L ${x1} ${y1 - controlY} ${centerX} ${centerY}
+
+                        M ${x4} ${y4}
+                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 + controlX} ${x4} ${y4 + controlY}
+                        L ${x4} ${y4 + controlY} ${centerX} ${centerY}
+                        `;
+                    } else {
+                        controlX = this.ganttUpper.styles.lineHeight;
+                        return `M ${x1} ${y1}
+                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 - controlX} ${centerX} ${centerY}
+
+                        M ${x4} ${y4}
+                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 + controlX} ${centerX} ${centerY}`;
+                    }
+                }
+            }
 
             return `M ${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`;
         }
