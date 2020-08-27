@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.40](https://github.com/worktile/ngx-gantt/compare/0.0.39...0.0.40) (2020-08-27)
+
+
+### Bug Fixes
+
+* perfect link links ([d211bcf](https://github.com/worktile/ngx-gantt/commit/d211bcfe9e1887bf93fc187de63dea05e8cba8b0))
+
 ### [0.0.39](https://github.com/worktile/ngx-gantt/compare/0.0.37...0.0.39) (2020-08-26)
 
 
