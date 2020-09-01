@@ -55,13 +55,17 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
         const rect = this.elementRef.nativeElement.getElementsByClassName('today-rect')[0] as HTMLElement;
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0] as HTMLElement;
 
-        if (rect && line && isNumber(x)) {
-            rect.style.left = `${x - todayWidth / 2}px`;
-            rect.style.top = `${headerHeight - todayHeight}px`;
-            line.style.left = `${x}px`;
-            line.style.top = `${headerHeight}px`;
-            line.style.bottom = `${-mainHeight}px`;
-            rect.innerHTML = today.toString();
+        if (isNumber(x)) {
+            if (rect) {
+                rect.style.left = `${x - todayWidth / 2}px`;
+                rect.style.top = `${headerHeight - todayHeight}px`;
+                rect.innerHTML = today.toString();
+            }
+            if (line) {
+                line.style.left = `${x}px`;
+                line.style.top = `${headerHeight}px`;
+                line.style.bottom = `${-mainHeight}px`;
+            }
         }
     }
 
