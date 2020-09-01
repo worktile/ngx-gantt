@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.41](https://github.com/worktile/ngx-gantt/compare/0.0.40...0.0.41) (2020-09-01)
+
+
+### Bug Fixes
+
+* just hide today line and support safari browser ([02b2157](https://github.com/worktile/ngx-gantt/commit/02b21579be6f5ba274add28c491afe04fb421a7c))
+
 ### [0.0.40](https://github.com/worktile/ngx-gantt/compare/0.0.39...0.0.40) (2020-08-27)
 
 
