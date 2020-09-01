@@ -86,6 +86,7 @@ export class GanttPrintService {
                 cloneCalendarOverlay.setAttribute('style', `background: transparent`);
 
                 if (cloneLinksOverlay) {
+                    cloneLinksOverlay.setAttribute('height', `${printHeight}`);
                     cloneLinksOverlay.setAttribute('style', `height: ${printHeight}px`);
                 }
 

@@ -1,6 +1,6 @@
-<div class="gantt-calendar-today-overlay" [style.width.px]="view.width" *ngIf="ganttUpper.showTodayLine">
+<div class="gantt-calendar-today-overlay" [style.width.px]="view.width">
   <span class="today-rect"> </span>
-  <span class="today-line"> </span>
+  <span class="today-line" *ngIf="ganttUpper.showTodayLine"> </span>
 </div>
 
 <svg class="gantt-calendar-overlay-main" [attr.width]="view.width" [attr.height]="headerHeight">
@@ -11,7 +11,6 @@
     <ng-container *ngFor="let point of view.secondaryDatePoints; trackBy: trackBy">
       <text
         class="secondary-text"
-        *ngIf="!point.additions?.isToday"
         [class.secondary-text-weekend]="point.additions?.isWeekend"
         [attr.x]="point.x"
         [attr.y]="point.y"
