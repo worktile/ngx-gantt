@@ -52,6 +52,7 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     setTodayPoint() {
         const x = this.view.getTodayXPoint();
         const today = new GanttDate().getDate();
+        const todayEle = this.elementRef.nativeElement.getElementsByClassName('gantt-calendar-today-overlay')[0] as HTMLElement;
         const rect = this.elementRef.nativeElement.getElementsByClassName('today-rect')[0] as HTMLElement;
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0] as HTMLElement;
 
@@ -66,6 +67,8 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
                 line.style.top = `${headerHeight}px`;
                 line.style.bottom = `${-mainHeight}px`;
             }
+        } else {
+            todayEle.style.display = 'none';
         }
     }
 
