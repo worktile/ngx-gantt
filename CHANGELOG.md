@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.42](https://github.com/worktile/ngx-gantt/compare/0.0.41...0.0.42) (2020-10-23)
+
+
+### Bug Fixes
+
+* hide today line when today is not in date range ([f8c088d](https://github.com/worktile/ngx-gantt/commit/f8c088d748113329096c9a3e72413b0dcef7b94d))
+
 ### [0.0.41](https://github.com/worktile/ngx-gantt/compare/0.0.40...0.0.41) (2020-09-01)
 
 
