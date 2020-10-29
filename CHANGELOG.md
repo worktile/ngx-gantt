@@ -1,6 +1,14 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.43](https://github.com/worktile/ngx-gantt/compare/0.0.42...0.0.43) (2020-10-29)
+
+
+### Bug Fixes
+
+* fix item position error when item start less than gantt start ([a29f273](https://github.com/worktile/ngx-gantt/commit/a29f273e7f5c1d470867771a8b458643e83cb736))
+* fix item position error when item start less than gantt start ([5295f20](https://github.com/worktile/ngx-gantt/commit/5295f20458ec96ade26e2373faca8490588bac9d))
+
 ### [0.0.42](https://github.com/worktile/ngx-gantt/compare/0.0.41...0.0.42) (2020-10-23)
 
 
