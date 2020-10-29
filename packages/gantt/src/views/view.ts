@@ -87,9 +87,10 @@ export abstract class GanttView {
     protected getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const days = differenceInDays(end.value, start.value);
-        for (let i = 0; i < days; i++) {
+        for (let i = 0; i < Math.abs(days); i++) {
             result += this.getDayOccupancyWidth(start.addDays(i));
         }
+        result = days >= 0 ? result : -result;
         return Number(result.toFixed(3));
     }
 
