@@ -58,13 +58,21 @@
         background: $gantt-group-background-color;
       }
 
+      &-with-group {
+        .gantt-table-column {
+          &:first-child {
+            padding: 0 15px 0 32px;
+          }
+        }
+      }
+
       .gantt-table-column {
         display: flex;
         padding: $gantt-table-td-padding;
 
-        &:first-child {
-          padding: 0 15px 0 32px;
-        }
+        // &:first-child {
+        //   padding: 0 15px 0 32px;
+        // }
 
         &:last-child {
           border-right: none;

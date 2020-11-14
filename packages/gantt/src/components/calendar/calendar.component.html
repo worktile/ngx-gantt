@@ -1,5 +1,5 @@
 <div class="gantt-calendar-today-overlay" [style.width.px]="view.width">
-  <span class="today-rect"> </span>
+  <span class="today-rect" [hidden]="ganttUpper.viewType !== viewTypes.day"> </span>
   <span class="today-line" *ngIf="ganttUpper.showTodayLine"> </span>
 </div>
 
@@ -9,12 +9,7 @@
       {{ point.text }}
     </text>
     <ng-container *ngFor="let point of view.secondaryDatePoints; trackBy: trackBy">
-      <text
-        class="secondary-text"
-        [class.secondary-text-weekend]="point.additions?.isWeekend"
-        [attr.x]="point.x"
-        [attr.y]="point.y"
-      >
+      <text class="secondary-text" [class.secondary-text-weekend]="point.additions?.isWeekend" [attr.x]="point.x" [attr.y]="point.y">
         {{ point.text }}
       </text>
     </ng-container>

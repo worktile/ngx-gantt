@@ -17,6 +17,7 @@ import { headerHeight, todayHeight, todayWidth, todayBorderRadius } from '../../
 import { isNumber } from '../../utils/helpers';
 import { GanttDate } from '../../utils/date';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
+import { GanttViewType } from './../../class/view-type';
 
 const mainHeight = 5000;
 
@@ -40,6 +41,8 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     todayWidth = todayWidth;
 
     todayBorderRadius = todayBorderRadius;
+
+    viewTypes = GanttViewType;
 
     @HostBinding('class.gantt-calendar-overlay') className = true;
 
