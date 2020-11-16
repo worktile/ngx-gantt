@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.44](https://github.com/worktile/ngx-gantt/compare/0.0.43...0.0.44) (2020-11-16)
+
+
+### Bug Fixes
+
+* **calendar:** hide today date when view type is not day #INFR-1241 ([#82](https://github.com/worktile/ngx-gantt/issues/82)) ([2610f22](https://github.com/worktile/ngx-gantt/commit/2610f2203fbf752efd3e6307e3450fdaa2a1841a)), closes [#INFR-1241](https://github.com/worktile/ngx-gantt/issues/INFR-1241)
+
 ### [0.0.43](https://github.com/worktile/ngx-gantt/compare/0.0.42...0.0.43) (2020-10-29)
 
 
