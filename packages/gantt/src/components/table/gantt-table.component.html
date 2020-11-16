@@ -25,7 +25,10 @@
       </div>
 
       <ng-container *ngIf="group.expanded">
-        <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items, level: 0 }"></ng-template>
+        <ng-template
+          [ngTemplateOutlet]="ganttItems"
+          [ngTemplateOutletContext]="{ group: group, items: group.items, level: 0 }"
+        ></ng-template>
       </ng-container>
     </ng-container>
   </ng-container>
@@ -35,11 +38,12 @@
   <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items, level: 0 }"></ng-template>
 </ng-template>
 
-<ng-template #ganttItems let-items="items" let-level="level">
+<ng-template #ganttItems let-group="group" let-items="items" let-level="level">
   <ng-container *ngFor="let item of items">
     <div
       class="gantt-table-item gantt-table-row"
       [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
+      [class.gantt-table-item-with-group]="group"
       [style.height.px]="gantt.styles.lineHeight"
       [style.lineHeight.px]="gantt.styles.lineHeight"
     >
@@ -66,7 +70,7 @@
     <ng-template
       *ngIf="item.children && item.expanded"
       [ngTemplateOutlet]="ganttItems"
-      [ngTemplateOutletContext]="{ items: item.children, level: level + 1 }"
+      [ngTemplateOutletContext]="{ items: item.children, level: level + 1, group: group }"
     ></ng-template>
   </ng-container>
 </ng-template>
