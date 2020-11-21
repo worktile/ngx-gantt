@@ -6,7 +6,9 @@
 <!-- groups -->
 <div class="gantt-main-groups" *ngIf="groups && groups.length > 0; else itemsTemplate" [style.width.px]="ganttUpper.view.width">
   <ng-container *ngFor="let group of groups; trackBy: trackBy">
-    <div class="gantt-group"></div>
+    <div class="gantt-group">
+      <ng-template [ngTemplateOutlet]="groupHeaderTemplate" [ngTemplateOutletContext]="{ group: group }"></ng-template>
+    </div>
     <div *ngIf="group.expanded" class="gantt-items">
       <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: group.items }"></ng-template>
     </div>

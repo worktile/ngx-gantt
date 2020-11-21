@@ -68,6 +68,8 @@ export abstract class GanttUpper {
 
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
+    @ContentChild('groupHeader', { static: true }) groupHeaderTemplate: TemplateRef<any>;
+
     public linkable: boolean;
 
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
