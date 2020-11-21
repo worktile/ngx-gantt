@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.45](https://github.com/worktile/ngx-gantt/compare/0.0.44...0.0.45) (2020-11-21)
+
+
+### Features
+
+* support custom group header ([32184bf](https://github.com/worktile/ngx-gantt/commit/32184bf8a303398c98fa8a4d32be03a98a8f3fca))
+
 ### [0.0.44](https://github.com/worktile/ngx-gantt/compare/0.0.43...0.0.44) (2020-11-16)
 
 
