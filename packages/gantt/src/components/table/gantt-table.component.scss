@@ -10,6 +10,7 @@
       overflow: hidden;
       border-right: 1px solid $gantt-border-color;
       box-sizing: border-box;
+      position: relative;
 
       &:last-child {
         border-right: none;
@@ -25,6 +26,30 @@
     z-index: 1;
     height: $gantt-header-height;
     line-height: $gantt-header-height;
+
+    &-drag-auxiliary-line {
+      width: $gantt-table-header-drag-line-width;
+      background: $gantt-table-header-drag-line-color;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+      display: none;
+    }
+
+    &-drag-trigger {
+      width: $gantt-table-header-drag-line-width;
+      position: absolute;
+      top: 0;
+      right: -1px;
+      bottom: 0;
+      cursor: ew-resize;
+      z-index: 100;
+
+      &:hover {
+        background: $gantt-table-header-drag-line-color;
+      }
+    }
 
     .gantt-table-column {
       font-weight: 400;

@@ -21,7 +21,6 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
-import { getColumnWidthConfig } from './utils/column-compute';
 
 @Component({
     selector: 'ngx-gantt',
@@ -59,18 +58,18 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         super(elementRef, cdr, ngZone);
     }
 
-    private computeColumnWidth() {
-        const count = this.columns.length;
-        const widthConfig = getColumnWidthConfig(count);
-        this.sideTableWidth = widthConfig.width;
-        this.columns.forEach((column, index) => {
-            if (index === 0) {
-                column.width = widthConfig.primaryWidth;
-            } else {
-                column.width = widthConfig.secondaryWidth;
-            }
-        });
-    }
+    // private computeColumnWidth() {
+    //     const count = this.columns.length;
+    //     const widthConfig = getColumnWidthConfig(count);
+    //     this.sideTableWidth = widthConfig.width;
+    //     this.columns.forEach((column, index) => {
+    //         if (index === 0) {
+    //             column.width = widthConfig.primaryWidth;
+    //         } else {
+    //             column.width = widthConfig.secondaryWidth;
+    //         }
+    //     });
+    // }
 
     ngOnInit() {
         super.onInit();
@@ -87,7 +86,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     ngAfterViewInit() {
         this.columns.changes.pipe(startWith(true), takeUntil(this.ngUnsubscribe$)).subscribe(() => {
-            this.computeColumnWidth();
+            // this.computeColumnWidth();
             this.cdr.detectChanges();
         });
     }

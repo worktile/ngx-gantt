@@ -8,6 +8,10 @@ export function isNumber(value: any) {
     return typeof value === 'number';
 }
 
+export function isString(value: any) {
+    return typeof value === 'string';
+}
+
 export function isUndefined(value: any) {
     return value === undefined;
 }
