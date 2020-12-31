@@ -42,6 +42,7 @@
     #gantt
     start="1514736000"
     end="1609430400"
+    cachePrefix="basic"
     [groups]="groups"
     [items]="items"
     [viewType]="options.viewType"
@@ -56,13 +57,13 @@
     (loadOnScroll)="loadOnScroll($event)"
   >
     <ngx-gantt-table>
-      <ngx-gantt-column name="标题">
+      <ngx-gantt-column name="标题" width="120px">
         <ng-template #cell let-item="item">
           {{ item.title }}
         </ng-template>
       </ngx-gantt-column>
-      <ngx-gantt-column>
-        <ng-template #header> <span style="font-weight: bold;">开始时间</span> </ng-template>
+      <ngx-gantt-column width="180px">
+        <ng-template #header> <span style="font-weight: bold">开始时间</span> </ng-template>
         <ng-template #cell let-item="item">
           {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
         </ng-template>

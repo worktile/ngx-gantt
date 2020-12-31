@@ -16,7 +16,7 @@
     border-right: 1px solid $gantt-border-color;
     position: relative;
     z-index: 3;
-    overflow-x: scroll;
+    // overflow-x: scroll;
     box-shadow: $gantt-side-shadow;
 
     .gantt-side-header {

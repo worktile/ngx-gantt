@@ -52,6 +52,8 @@ export abstract class GanttUpper {
 
     @Input() disabledLoadOnScroll: boolean;
 
+    @Input() cachePrefix: string;
+
     @Output() loadOnScroll = new EventEmitter<GanttLoadOnScrollEvent>();
 
     @Output() dragStarted = new EventEmitter<GanttDragEvent>();

@@ -16,9 +16,10 @@ import { GanttLinksComponent } from './components/links/links.component';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttRangeComponent } from './components/range/range.component';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from './gantt.pipe';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, DragDropModule],
     exports: [
         NgxGanttComponent,
         NgxGanttFlatComponent,
