@@ -19,7 +19,7 @@
 <div class="gantt-table-body">
   <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
     <ng-container *ngFor="let group of groups">
-      <div class="gantt-table-group">
+      <div class="gantt-table-group" [ngClass]="group.class">
         <div class="gantt-table-group-title" [class.expanded]="group.expanded" (click)="expandGroup(group)">
           <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
           <ng-container *ngIf="groupTemplate; else default">

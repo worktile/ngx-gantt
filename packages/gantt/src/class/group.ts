@@ -5,6 +5,7 @@ export interface GanttGroup<T = unknown> {
     title: string;
     expanded?: boolean;
     origin?: T;
+    class?: string;
 }
 
 export class GanttGroupInternal {
@@ -17,6 +18,7 @@ export class GanttGroupInternal {
     refs?: {
         height?: number;
     } = {};
+    class?: string;
     constructor(group: GanttGroup) {
         this.id = group.id;
         this.origin = group;
@@ -24,6 +26,7 @@ export class GanttGroupInternal {
         this.expanded = group.expanded === undefined ? true : group.expanded;
         this.items = [];
         this.mergedItems = [[]];
+        this.class = group.class || '';
     }
 
     setExpand(expanded: boolean) {
