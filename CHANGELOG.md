@@ -1,6 +1,20 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.46](https://github.com/worktile/ngx-gantt/compare/0.0.44...0.0.46) (2021-01-04)
+
+
+### Features
+
+* support custom group header ([32184bf](https://github.com/worktile/ngx-gantt/commit/32184bf8a303398c98fa8a4d32be03a98a8f3fca))
+* **table:** change column width by brag ([b6dac72](https://github.com/worktile/ngx-gantt/commit/b6dac728b96685c21f803c30df79edfde52d0588))
+
+
+### Bug Fixes
+
+* add class in GanttGroup ([a32dd04](https://github.com/worktile/ngx-gantt/commit/a32dd040bdf16ccf66f900eaf075678e9183b60d))
+* delete storage-cache and column-compute ([cf0d647](https://github.com/worktile/ngx-gantt/commit/cf0d6477593f390a4e0aeade88501333954e5b42))
+
 ### [0.0.45](https://github.com/worktile/ngx-gantt/compare/0.0.44...0.0.45) (2020-11-21)
 
 
