@@ -1,6 +1,5 @@
 import { Component, OnInit, ContentChild, TemplateRef, Input, EventEmitter, Inject } from '@angular/core';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-import { cache } from '../utils/storage-cache';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 @Component({
     selector: 'ngx-gantt-column',
@@ -25,12 +24,12 @@ export class NgxGanttTableColumnComponent implements OnInit {
     constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper) {}
 
     ngOnInit() {
-        const cacheWidth = cache.get(this.generateCacheKey());
+        const cacheWidth = localStorage.getItem(this.generateCacheKey());
         this.columnWidth = coerceCssPixelValue(cacheWidth || this.columnWidth);
     }
 
     public setWidth(width: number | string) {
-        cache.set(this.generateCacheKey(), coerceCssPixelValue(width));
+        localStorage.setItem(this.generateCacheKey(), coerceCssPixelValue(width));
     }
 
     private generateCacheKey() {
