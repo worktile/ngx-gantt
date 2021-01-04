@@ -5,7 +5,8 @@ import { NgxGanttComponent } from '../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 
-const DEFAULT_MIN_WIDTH = 100;
+const defaultColumnWidth = 100;
+const minColumnWidth = 80;
 @Component({
     selector: 'gantt-table',
     templateUrl: './gantt-table.component.html'
@@ -23,7 +24,7 @@ export class GanttTableComponent implements OnInit {
     set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
         columns.forEach((column) => {
             if (!column.columnWidth) {
-                column.columnWidth = coerceCssPixelValue(DEFAULT_MIN_WIDTH);
+                column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
             }
         });
         this.columnList = columns;
@@ -56,7 +57,7 @@ export class GanttTableComponent implements OnInit {
         const target = event.source.element.nativeElement;
         const left = target.getBoundingClientRect().left;
         const width = parseInt(column.columnWidth, 10) + (left - this.dragStartLeft);
-        const columnWidth = Math.max(width || 0, DEFAULT_MIN_WIDTH);
+        const columnWidth = Math.max(width || 0, minColumnWidth);
         column.columnWidth = coerceCssPixelValue(columnWidth);
         column.setWidth(columnWidth);
         this.hideAuxiliaryLine();
