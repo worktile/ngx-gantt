@@ -1,7 +1,8 @@
 export const mockGroups = [
     {
         id: '00001',
-        title: 'Project 1'
+        title: 'Project 1',
+        class: 'test'
     },
     {
         id: '00002',
