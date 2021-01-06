@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.47](https://github.com/worktile/ngx-gantt/compare/0.0.46...0.0.47) (2021-01-06)
+
+
+### Bug Fixes
+
+* fix error when columns change ([16207e9](https://github.com/worktile/ngx-gantt/commit/16207e9f9e1b04e3f077cd4e6ed818ac2bc92441))
+
 ### [0.0.46](https://github.com/worktile/ngx-gantt/compare/0.0.44...0.0.46) (2021-01-04)
 
 
