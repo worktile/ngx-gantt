@@ -1,12 +1,9 @@
 import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../../class';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
-import { NgxGanttComponent } from '../../gantt.component';
+import { defaultColumnWidth, minColumnWidth, NgxGanttComponent } from '../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-
-const defaultColumnWidth = 100;
-const minColumnWidth = 80;
 @Component({
     selector: 'gantt-table',
     templateUrl: './gantt-table.component.html'

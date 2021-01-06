@@ -21,6 +21,10 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
+
+export const defaultColumnWidth = 100;
+export const minColumnWidth = 80;
 
 @Component({
     selector: 'ngx-gantt',
@@ -73,6 +77,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     ngAfterViewInit() {
         this.columns.changes.pipe(startWith(true), takeUntil(this.ngUnsubscribe$)).subscribe(() => {
+            this.columns.forEach((column) => {
+                if (!column.columnWidth) {
+                    column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
+                }
+            });
             this.cdr.detectChanges();
         });
     }
