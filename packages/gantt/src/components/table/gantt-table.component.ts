@@ -50,19 +50,36 @@ export class GanttTableComponent implements OnInit {
         this.dragStartLeft = target.getBoundingClientRect().left;
     }
 
-    dragEnded(event: CdkDragEnd, column: NgxGanttTableColumnComponent) {
+    dragMoved(event: CdkDragMove) {
+        this.showAuxiliaryLine(event);
+    }
+
+    columnDragEnded(event: CdkDragEnd, column: NgxGanttTableColumnComponent) {
         const target = event.source.element.nativeElement;
         const left = target.getBoundingClientRect().left;
         const width = parseInt(column.columnWidth, 10) + (left - this.dragStartLeft);
         const columnWidth = Math.max(width || 0, minColumnWidth);
         column.columnWidth = coerceCssPixelValue(columnWidth);
-        column.setWidth(columnWidth);
+        column.columnChang.emit({ width: columnWidth });
         this.hideAuxiliaryLine();
         event.source.reset();
     }
 
-    dragMoved(event: CdkDragMove) {
-        this.showAuxiliaryLine(event);
+    tableDragEnded(event: CdkDragEnd) {
+        const target = event.source.element.nativeElement;
+        const left = target.getBoundingClientRect().left;
+        const tableWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
+        const dragWidth = left - this.dragStartLeft;
+        this.columnList.forEach((column) => {
+            const lastColumnWidth = parseInt(column.columnWidth, 10);
+            const distributeWidth = parseInt(String(dragWidth * (lastColumnWidth / tableWidth)), 10);
+            const columnWidth = Math.max(lastColumnWidth + distributeWidth || 0, minColumnWidth);
+            column.columnWidth = coerceCssPixelValue(columnWidth);
+            column.columnChang.emit({ width: columnWidth });
+        });
+
+        this.hideAuxiliaryLine();
+        event.source.reset();
     }
 
     private showAuxiliaryLine(event: CdkDragMove) {

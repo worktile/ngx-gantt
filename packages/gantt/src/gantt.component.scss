@@ -55,6 +55,7 @@
     overflow: auto;
     background-color: $gantt-container-background-color;
 
+    .gantt-main-groups,
     .gantt-main-items {
       overflow: hidden;
       min-height: 100%;

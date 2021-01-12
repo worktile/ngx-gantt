@@ -1,6 +1,31 @@
 .gantt-table {
   display: block;
 
+  &-drag-trigger {
+    width: $gantt-table-header-drag-line-width;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    cursor: ew-resize;
+    z-index: 1;
+
+    &:hover {
+      background: $gantt-table-header-drag-line-color;
+      z-index: 2;
+    }
+  }
+
+  &-drag-auxiliary-line {
+    width: $gantt-table-header-drag-line-width;
+    background: $gantt-table-header-drag-line-color;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    display: none;
+  }
+
   .gantt-table-row {
     display: flex;
     box-sizing: border-box;
@@ -23,33 +48,9 @@
     position: sticky;
     top: 0;
     background: #fff;
-    z-index: 1;
+    z-index: 2;
     height: $gantt-header-height;
     line-height: $gantt-header-height;
-
-    &-drag-auxiliary-line {
-      width: $gantt-table-header-drag-line-width;
-      background: $gantt-table-header-drag-line-color;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      z-index: 100;
-      display: none;
-    }
-
-    &-drag-trigger {
-      width: $gantt-table-header-drag-line-width;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      cursor: ew-resize;
-      z-index: 100;
-
-      &:hover {
-        background: $gantt-table-header-drag-line-color;
-      }
-    }
 
     .gantt-table-column {
       font-weight: 400;
@@ -94,10 +95,6 @@
       .gantt-table-column {
         display: flex;
         padding: $gantt-table-td-padding;
-
-        // &:first-child {
-        //   padding: 0 15px 0 32px;
-        // }
 
         &:last-child {
           border-right: none;

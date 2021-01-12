@@ -4,6 +4,10 @@ export class GanttDragEvent<T = unknown> {
     item: GanttItem<T>;
 }
 
+export class GanttColumnEvent {
+    width: number;
+}
+
 export class GanttLinkDragEvent<T = unknown> {
     source: GanttItem<T>;
     target?: GanttItem<T>;

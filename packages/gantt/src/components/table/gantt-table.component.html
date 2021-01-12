@@ -5,14 +5,13 @@
       {{ column.name }}
     </ng-template>
     <div
-      #dragRef
-      class="gantt-table-header-drag-trigger"
+      class="gantt-table-drag-trigger"
       cdkDrag
       cdkDragLockAxis="x"
       cdkDragBoundary=".gantt"
       (cdkDragMoved)="dragMoved($event)"
       (cdkDragStarted)="dragStarted($event)"
-      (cdkDragEnded)="dragEnded($event, column)"
+      (cdkDragEnded)="columnDragEnded($event, column)"
     ></div>
   </div>
 </div>
@@ -44,7 +43,17 @@
   </ng-container>
 </div>
 
-<div #dragLine class="gantt-table-header-drag-auxiliary-line"></div>
+<div
+  class="gantt-table-drag-trigger"
+  cdkDrag
+  cdkDragLockAxis="x"
+  cdkDragBoundary=".gantt"
+  (cdkDragMoved)="dragMoved($event)"
+  (cdkDragStarted)="dragStarted($event)"
+  (cdkDragEnded)="tableDragEnded($event)"
+></div>
+
+<div #dragLine class="gantt-table-drag-auxiliary-line"></div>
 
 <ng-template #itemsTemplate>
   <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items, level: 0 }"></ng-template>
