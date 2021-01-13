@@ -1,7 +1,6 @@
 import { Component, OnInit, ContentChild, TemplateRef, Input, EventEmitter, Inject, Output } from '@angular/core';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
-import { GanttColumnEvent } from '../class';
 @Component({
     selector: 'ngx-gantt-column',
     template: ''
@@ -15,8 +14,6 @@ export class NgxGanttTableColumnComponent implements OnInit {
     }
 
     @Input() name: string;
-
-    @Output() columnChang = new EventEmitter<GanttColumnEvent>();
 
     @ContentChild('cell', { static: true }) templateRef: TemplateRef<any>;
 

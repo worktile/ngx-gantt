@@ -1,9 +1,16 @@
-import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../../class';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
 import { defaultColumnWidth, minColumnWidth, NgxGanttComponent } from '../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
+
+interface DragFixedConfig {
+    target: HTMLElement;
+    originWidth: number;
+    movedWidth: number;
+    minWidth: number;
+}
 @Component({
     selector: 'gantt-table',
     templateUrl: './gantt-table.component.html'
@@ -33,9 +40,15 @@ export class GanttTableComponent implements OnInit {
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
-    constructor(public gantt: NgxGanttComponent, private elementRef: ElementRef, private cdr: ChangeDetectorRef) {}
+    constructor(public gantt: NgxGanttComponent, private elementRef: ElementRef) {}
 
     ngOnInit() {}
+
+    private dragFixed(config: DragFixedConfig) {
+        if (config.movedWidth <= config.minWidth) {
+            config.target.style.transform = `translate3d(${config.minWidth - config.originWidth}px, 0, 0)`;
+        }
+    }
 
     expandGroup(group: GanttGroupInternal) {
         this.gantt.expandGroup(group);
@@ -50,7 +63,30 @@ export class GanttTableComponent implements OnInit {
         this.dragStartLeft = target.getBoundingClientRect().left;
     }
 
-    dragMoved(event: CdkDragMove) {
+    dragMoved(event: CdkDragMove, column?: NgxGanttTableColumnComponent) {
+        const target = event.source.element.nativeElement;
+        const left = target.getBoundingClientRect().left;
+
+        let originWidth: number;
+        let movedWidth: number;
+        let minWidth: number;
+        if (column) {
+            originWidth = parseInt(column.columnWidth, 10);
+            movedWidth = originWidth + (left - this.dragStartLeft);
+            minWidth = minColumnWidth;
+        } else {
+            originWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
+            movedWidth = originWidth + (left - this.dragStartLeft);
+            minWidth = minColumnWidth * this.columnList.length;
+        }
+
+        this.dragFixed({
+            target,
+            originWidth,
+            movedWidth,
+            minWidth
+        });
+
         this.showAuxiliaryLine(event);
     }
 
@@ -60,7 +96,10 @@ export class GanttTableComponent implements OnInit {
         const width = parseInt(column.columnWidth, 10) + (left - this.dragStartLeft);
         const columnWidth = Math.max(width || 0, minColumnWidth);
         column.columnWidth = coerceCssPixelValue(columnWidth);
-        column.columnChang.emit({ width: columnWidth });
+        if (this.gantt.table) {
+            this.gantt.table.columnChange.emit({ columns: this.columnList });
+        }
+
         this.hideAuxiliaryLine();
         event.source.reset();
     }
@@ -75,8 +114,11 @@ export class GanttTableComponent implements OnInit {
             const distributeWidth = parseInt(String(dragWidth * (lastColumnWidth / tableWidth)), 10);
             const columnWidth = Math.max(lastColumnWidth + distributeWidth || 0, minColumnWidth);
             column.columnWidth = coerceCssPixelValue(columnWidth);
-            column.columnChang.emit({ width: columnWidth });
         });
+
+        if (this.gantt.table) {
+            this.gantt.table.columnChange.emit({ columns: this.columnList });
+        }
 
         this.hideAuxiliaryLine();
         event.source.reset();

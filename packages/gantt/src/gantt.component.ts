@@ -13,7 +13,9 @@ import {
     SimpleChanges,
     ContentChildren,
     QueryList,
-    AfterViewInit
+    AfterViewInit,
+    ViewChild,
+    ContentChild
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -22,6 +24,7 @@ import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem }
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
@@ -51,6 +54,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
+
+    @ContentChild(NgxGanttTableComponent, { static: false }) table: NgxGanttTableComponent;
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 

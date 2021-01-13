@@ -1,5 +1,5 @@
 <div class="gantt-table-header gantt-table-row">
-  <div class="gantt-table-column" *ngFor="let column of columnList" [style.width]="column.columnWidth">
+  <div class="gantt-table-column" *ngFor="let column of columnList; let i = index" [style.width]="column.columnWidth">
     <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
     <ng-template #default>
       {{ column.name }}
@@ -9,7 +9,7 @@
       cdkDrag
       cdkDragLockAxis="x"
       cdkDragBoundary=".gantt"
-      (cdkDragMoved)="dragMoved($event)"
+      (cdkDragMoved)="dragMoved($event, column)"
       (cdkDragStarted)="dragStarted($event)"
       (cdkDragEnded)="columnDragEnded($event, column)"
     ></div>

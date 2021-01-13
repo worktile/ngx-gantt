@@ -1,11 +1,13 @@
+import { QueryList } from '@angular/core';
+import { NgxGanttTableColumnComponent } from '../table/gantt-column.component';
 import { GanttItem } from './item';
 
 export class GanttDragEvent<T = unknown> {
     item: GanttItem<T>;
 }
 
-export class GanttColumnEvent {
-    width: number;
+export class GanttTableEvent {
+    columns: QueryList<NgxGanttTableColumnComponent>;
 }
 
 export class GanttLinkDragEvent<T = unknown> {

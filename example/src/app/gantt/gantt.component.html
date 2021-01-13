@@ -55,7 +55,7 @@
     (linkDragEnded)="linkDragEnded($event)"
     (loadOnScroll)="loadOnScroll($event)"
   >
-    <ngx-gantt-table>
+    <ngx-gantt-table (columnChange)="columnChange($event)">
       <ngx-gantt-column name="标题" width="120px">
         <ng-template #cell let-item="item">
           {{ item.title }}
