@@ -25,10 +25,48 @@ import {
     differenceInCalendarDays,
     isWeekend,
     getWeek,
-    isToday
+    isToday,
+    differenceInDays,
+    differenceInCalendarQuarters,
+    eachMonthOfInterval,
+    eachWeekOfInterval,
+    eachDayOfInterval
 } from 'date-fns';
 
-export * from 'date-fns';
+export {
+    addYears,
+    addMonths,
+    addDays,
+    addWeeks,
+    addQuarters,
+    getUnixTime,
+    startOfDay,
+    startOfWeek,
+    startOfMonth,
+    startOfQuarter,
+    startOfYear,
+    endOfDay,
+    endOfWeek,
+    endOfMonth,
+    endOfQuarter,
+    endOfYear,
+    format,
+    fromUnixTime,
+    getDaysInMonth,
+    addSeconds,
+    setDate,
+    addMinutes,
+    addHours,
+    differenceInCalendarDays,
+    isWeekend,
+    getWeek,
+    isToday,
+    differenceInDays,
+    differenceInCalendarQuarters,
+    eachMonthOfInterval,
+    eachWeekOfInterval,
+    eachDayOfInterval
+} from 'date-fns';
 
 export type GanttDateUtil = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
 
