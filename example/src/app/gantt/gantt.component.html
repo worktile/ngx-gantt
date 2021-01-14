@@ -42,7 +42,6 @@
     #gantt
     start="1514736000"
     end="1609430400"
-    cachePrefix="basic"
     [groups]="groups"
     [items]="items"
     [viewType]="options.viewType"
@@ -56,7 +55,7 @@
     (linkDragEnded)="linkDragEnded($event)"
     (loadOnScroll)="loadOnScroll($event)"
   >
-    <ngx-gantt-table>
+    <ngx-gantt-table (columnChanges)="columnChanges($event)">
       <ngx-gantt-column name="标题" width="120px">
         <ng-template #cell let-item="item">
           {{ item.title }}

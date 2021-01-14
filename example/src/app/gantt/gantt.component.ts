@@ -10,7 +10,8 @@ import {
     GanttLinkDragEvent,
     GanttItem,
     GanttViewOptions,
-    GanttDate
+    GanttDate,
+    GanttTableEvent
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -85,5 +86,9 @@ export class AppGanttExampleComponent implements OnInit {
 
     print(name: string) {
         this.printService.print(name);
+    }
+
+    columnChanges(event: GanttTableEvent) {
+        console.log(event);
     }
 }
