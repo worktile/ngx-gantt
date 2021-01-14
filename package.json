@@ -12,7 +12,7 @@
     "start": "docgeni serve",
     "build:docs": "docgeni build",
     "build": "npm run build:lib && npm run build:lib:scss",
-    "build:lib": "ng build gantt",
+    "build:lib": "ng build gantt --prod",
     "build:lib:scss": "scss-bundle -c scss-bundle.config.json",
     "test": "ng test",
     "lint": "ng lint",
