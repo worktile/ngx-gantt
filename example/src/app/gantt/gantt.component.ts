@@ -88,7 +88,7 @@ export class AppGanttExampleComponent implements OnInit {
         this.printService.print(name);
     }
 
-    columnChange(event: GanttTableEvent) {
+    columnChanges(event: GanttTableEvent) {
         console.log(event);
     }
 }

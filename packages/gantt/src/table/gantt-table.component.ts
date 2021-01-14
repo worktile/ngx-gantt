@@ -6,7 +6,7 @@ import { GanttTableEvent } from '../class';
     template: ''
 })
 export class NgxGanttTableComponent implements OnInit {
-    @Output() columnChange = new EventEmitter<GanttTableEvent>();
+    @Output() columnChanges = new EventEmitter<GanttTableEvent>();
 
     constructor() {}
 

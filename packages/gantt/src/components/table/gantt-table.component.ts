@@ -97,7 +97,7 @@ export class GanttTableComponent implements OnInit {
         const columnWidth = Math.max(width || 0, minColumnWidth);
         column.columnWidth = coerceCssPixelValue(columnWidth);
         if (this.gantt.table) {
-            this.gantt.table.columnChange.emit({ columns: this.columnList });
+            this.gantt.table.columnChanges.emit({ columns: this.columnList });
         }
 
         this.hideAuxiliaryLine();
@@ -117,7 +117,7 @@ export class GanttTableComponent implements OnInit {
         });
 
         if (this.gantt.table) {
-            this.gantt.table.columnChange.emit({ columns: this.columnList });
+            this.gantt.table.columnChanges.emit({ columns: this.columnList });
         }
 
         this.hideAuxiliaryLine();
