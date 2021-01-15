@@ -45,7 +45,7 @@ export class GanttTableComponent implements OnInit {
     ngOnInit() {}
 
     private dragFixed(config: DragFixedConfig) {
-        if (config.movedWidth <= config.minWidth) {
+        if (config.movedWidth < config.minWidth) {
             config.target.style.transform = `translate3d(${config.minWidth - config.originWidth}px, 0, 0)`;
         }
     }
