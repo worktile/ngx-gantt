@@ -1,6 +1,16 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.48](https://github.com/worktile/ngx-gantt/compare/0.0.47...0.0.48) (2021-01-15)
+
+
+### Bug Fixes
+
+* **table:** drag table and delete cache ([826f2d2](https://github.com/worktile/ngx-gantt/commit/826f2d27b97705eba58cb830b46ed8ec74784f98))
+* **table:** fixed drag when column width less than min column width ([a11735b](https://github.com/worktile/ngx-gantt/commit/a11735b54c8835601dc9d3a1fd0ec5e0a34e63a9))
+* change columnChange to columnChanges ([f271d82](https://github.com/worktile/ngx-gantt/commit/f271d827a94f429e8df883758e826ba258d2148f))
+* merge angular 9.0.0 and update docs ([a8ebdd3](https://github.com/worktile/ngx-gantt/commit/a8ebdd302921429dbbc287f0f443382da630df26))
+
 ### [0.0.47](https://github.com/worktile/ngx-gantt/compare/0.0.46...0.0.47) (2021-01-06)
 
 
