@@ -1,16 +1,4 @@
-import {
-    Input,
-    TemplateRef,
-    Output,
-    EventEmitter,
-    ContentChild,
-    ElementRef,
-    HostBinding,
-    ChangeDetectorRef,
-    NgZone,
-    SimpleChanges,
-    InjectionToken
-} from '@angular/core';
+import { Input, TemplateRef, Output, EventEmitter, ContentChild, ElementRef, HostBinding, ChangeDetectorRef, NgZone, SimpleChanges, InjectionToken, Directive } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
 import {
@@ -31,6 +19,7 @@ import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
 
+@Directive()
 export abstract class GanttUpper {
     @Input('items') originItems: GanttItem[] = [];
 
