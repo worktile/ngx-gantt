@@ -123,6 +123,50 @@ module.exports = [
                 name: '#bar',
                 description: `设置时间条显示模板`,
                 type: 'TemplateRef<any>'
+            },
+            {
+                name: '#groupHeader',
+                description: `设置分组头部显示模板`,
+                type: 'TemplateRef<any>'
+            }
+        ]
+    },
+    {
+        type: 'component',
+        name: 'ngx-gantt-table',
+        description: '甘特图左侧表格',
+        properties: [
+            {
+                name: 'columnChanges',
+                description: `列宽变化事件集`,
+                type: 'EventEmitter<GanttTableEvent>'
+            }
+        ]
+    },
+    {
+        type: 'component',
+        name: 'ngx-gantt-column',
+        description: '甘特图左侧列',
+        properties: [
+            {
+                name: 'name',
+                description: `设置列名称`,
+                type: 'string'
+            },
+            {
+                name: 'width',
+                description: `设置列宽`,
+                type: 'string ｜ number'
+            },
+            {
+                name: '#header',
+                description: `设置每列头部模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: '#cell',
+                description: `设置每列内容模板`,
+                type: 'TemplateRef<any>'
             }
         ]
     },

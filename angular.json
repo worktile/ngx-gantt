@@ -14,6 +14,11 @@
           "options": {
             "tsConfig": "packages/gantt/tsconfig.lib.json",
             "project": "packages/gantt/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/gantt/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -57,7 +62,7 @@
             "main": "example/src/main.ts",
             "polyfills": "example/src/polyfills.ts",
             "tsConfig": "example/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "example/src/favicon.ico",
               "example/src/assets"
@@ -80,7 +85,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -117,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "example"
+    }
+  },
+  "defaultProject": "example",
+  "cli": {
+    "analytics": "7595d21d-c10d-4b06-8050-b8e56319939c"
+  }
 }

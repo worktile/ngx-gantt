@@ -55,7 +55,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
-    @ContentChild(NgxGanttTableComponent, { static: false }) table: NgxGanttTableComponent;
+    @ContentChild(NgxGanttTableComponent) table: NgxGanttTableComponent;
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 

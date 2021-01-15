@@ -1,10 +1,11 @@
-import { Input, ElementRef, Inject, TemplateRef } from '@angular/core';
+import { Input, ElementRef, Inject, TemplateRef, Directive } from '@angular/core';
 import { GanttItemInternal, GanttItemType } from './class';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { rangeHeight } from './gantt.styles';
 import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
 
+@Directive()
 export abstract class GanttItemUpper {
     @Input() template: TemplateRef<any>;
 

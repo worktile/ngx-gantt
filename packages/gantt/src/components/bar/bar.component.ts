@@ -35,7 +35,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
-    @ViewChild('content', { static: false }) contentElementRef: ElementRef<HTMLDivElement>;
+    @ViewChild('content') contentElementRef: ElementRef<HTMLDivElement>;
 
     @HostBinding('class.gantt-bar') ganttItemClass = true;
 
