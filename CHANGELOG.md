@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.49](https://github.com/worktile/ngx-gantt/compare/0.0.48...0.0.49) (2021-01-18)
+
+
+### Bug Fixes
+
+* fix drag-auxiliary-line position error when drag ([a815a98](https://github.com/worktile/ngx-gantt/commit/a815a98e2a2f21dd8325259b2ba6f9789dd0dca3))
+
 ### [0.0.48](https://github.com/worktile/ngx-gantt/compare/0.0.47...0.0.48) (2021-01-15)
 
 
