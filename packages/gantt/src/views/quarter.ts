@@ -37,7 +37,7 @@ export class GanttViewQuarter extends GanttView {
     getPrimaryDatePoints(): GanttDatePoint[] {
         const years = eachYearOfInterval({ start: this.start.value, end: this.end.value });
         const points: GanttDatePoint[] = [];
-        for (let i = 0; i <= years.length; i++) {
+        for (let i = 0; i < years.length; i++) {
             const start = new GanttDate(years[i]);
             const point = new GanttDatePoint(
                 start,
@@ -47,7 +47,6 @@ export class GanttViewQuarter extends GanttView {
             );
             points.push(point);
         }
-
         return points;
     }
 
