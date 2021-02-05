@@ -1,4 +1,17 @@
-import { Input, TemplateRef, Output, EventEmitter, ContentChild, ElementRef, HostBinding, ChangeDetectorRef, NgZone, SimpleChanges, InjectionToken, Directive } from '@angular/core';
+import {
+    Input,
+    TemplateRef,
+    Output,
+    EventEmitter,
+    ContentChild,
+    ElementRef,
+    HostBinding,
+    ChangeDetectorRef,
+    NgZone,
+    SimpleChanges,
+    InjectionToken,
+    Directive
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
 import {
