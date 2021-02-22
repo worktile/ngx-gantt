@@ -26,6 +26,7 @@
           "options": {
             "main": "packages/gantt/src/test.ts",
             "tsConfig": "packages/gantt/tsconfig.spec.json",
+            "codeCoverage": true,
             "karmaConfig": "packages/gantt/karma.conf.js"
           }
         },
