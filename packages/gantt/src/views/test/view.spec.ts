@@ -24,9 +24,21 @@ describe('GanttView', () => {
     let ganttViewQuarter: GanttViewQuarter;
 
     beforeEach(() => {
-        ganttViewDay = new GanttViewDay(date.start, date.end, options);
-        ganttViewMonth = new GanttViewMonth(date.start, date.end, { cellWidth: 310 });
-        ganttViewQuarter = new GanttViewQuarter(date.start, date.end, { cellWidth: 910 });
+        ganttViewDay = new GanttViewDay(date.start, date.end, {
+            cellWidth: 20,
+            start: new GanttDate('2020-1-1').startOfYear().startOfWeek({ weekStartsOn: 1 }),
+            end: new GanttDate('2020-1-1').endOfYear().endOfWeek({ weekStartsOn: 1 })
+        });
+        ganttViewMonth = new GanttViewMonth(date.start, date.end, {
+            cellWidth: 310,
+            start: new GanttDate('2020-1-1').startOfQuarter().addQuarters(-1),
+            end: new GanttDate('2020-1-1').endOfQuarter().addQuarters(2)
+        });
+        ganttViewQuarter = new GanttViewQuarter(date.start, date.end, {
+            cellWidth: 910,
+            start: new GanttDate('2020-1-1').addYears(-1).startOfYear(),
+            end: new GanttDate('2020-1-1').addYears(1).endOfYear()
+        });
     });
 
     it(`should has correct view start`, () => {
