@@ -79,6 +79,7 @@ describe('GanttView', () => {
         const dayPoints = ganttViewDay.getSecondaryDatePoints();
         const monthPoints = ganttViewMonth.getSecondaryDatePoints();
         const quarterPoints = ganttViewQuarter.getSecondaryDatePoints();
+        console.log(ganttViewMonth.start, ganttViewMonth.end);
         expect(dayPoints.length).toBe(371);
         expect(monthPoints.length).toBe(12);
         expect(quarterPoints.length).toBe(4);
