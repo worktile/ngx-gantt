@@ -3,13 +3,15 @@ import { GanttViewDay } from '../day';
 import { GanttDate } from '../../utils/date';
 import { GanttViewQuarter } from '../quarter';
 
+const today = new GanttDate('2020-02-01 00:00:00');
+
 const date = {
     start: {
-        date: new GanttDate(1577808000),
+        date: new GanttDate('2020-01-01 00:00:00'),
         isCustom: true
     },
     end: {
-        date: new GanttDate(1609344000),
+        date: new GanttDate('2020-12-31 00:00:00'),
         isCustom: true
     }
 };
@@ -23,23 +25,21 @@ describe('GanttView', () => {
     let ganttViewMonth: GanttViewMonth;
     let ganttViewQuarter: GanttViewQuarter;
 
-    console.log(new Date());
-
     beforeEach(() => {
         ganttViewDay = new GanttViewDay(date.start, date.end, {
             cellWidth: 20,
-            start: new GanttDate('2020-1-1').startOfYear().startOfWeek({ weekStartsOn: 1 }),
-            end: new GanttDate('2020-1-1').endOfYear().endOfWeek({ weekStartsOn: 1 })
+            start: today.startOfYear().startOfWeek({ weekStartsOn: 1 }),
+            end: today.endOfYear().endOfWeek({ weekStartsOn: 1 })
         });
         ganttViewMonth = new GanttViewMonth(date.start, date.end, {
             cellWidth: 310,
-            start: new GanttDate('2020-1-1').startOfQuarter().addQuarters(-1),
-            end: new GanttDate('2020-1-1').endOfQuarter().addQuarters(2)
+            start: today.startOfQuarter().addQuarters(-1),
+            end: today.endOfQuarter().addQuarters(2)
         });
         ganttViewQuarter = new GanttViewQuarter(date.start, date.end, {
             cellWidth: 910,
-            start: new GanttDate('2020-1-1').addYears(-1).startOfYear(),
-            end: new GanttDate('2020-1-1').addYears(1).endOfYear()
+            start: today.addYears(-1).startOfYear(),
+            end: today.addYears(1).endOfYear()
         });
     });
 
@@ -47,19 +47,18 @@ describe('GanttView', () => {
         const startOfDay = ganttViewDay.startOf(date.start.date).getUnixTime();
         const startOfMonth = ganttViewMonth.startOf(date.start.date).getUnixTime();
         const startOfQuarter = ganttViewQuarter.startOf(date.start.date).getUnixTime();
-
-        expect(startOfDay).toEqual(1577635200);
-        expect(startOfMonth).toEqual(1577808000);
-        expect(startOfQuarter).toEqual(1577808000);
+        expect(startOfDay).toEqual(new GanttDate('2019-12-30 00:00:00').getUnixTime());
+        expect(startOfMonth).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
+        expect(startOfQuarter).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
     });
 
     it(`should has correct view end`, () => {
         const endOfDay = ganttViewDay.endOf(date.end.date).getUnixTime();
         const endOfMonth = ganttViewMonth.endOf(date.end.date).getUnixTime();
         const endOfQuarter = ganttViewQuarter.endOf(date.end.date).getUnixTime();
-        expect(endOfDay).toEqual(1609689599);
-        expect(endOfMonth).toEqual(1609430399);
-        expect(endOfQuarter).toEqual(1609430399);
+        expect(endOfDay).toEqual(new GanttDate('2021-01-03 23:59:59').getUnixTime());
+        expect(endOfMonth).toEqual(new GanttDate('2020-12-31 23:59:59').getUnixTime());
+        expect(endOfQuarter).toEqual(new GanttDate('2020-12-31 23:59:59').getUnixTime());
     });
 
     it(`should has correct cell width`, () => {
@@ -93,7 +92,6 @@ describe('GanttView', () => {
         const dayPoints = ganttViewDay.getSecondaryDatePoints();
         const monthPoints = ganttViewMonth.getSecondaryDatePoints();
         const quarterPoints = ganttViewQuarter.getSecondaryDatePoints();
-        console.log(ganttViewMonth.start, ganttViewMonth.end);
         expect(dayPoints.length).toBe(371);
         expect(monthPoints.length).toBe(12);
         expect(quarterPoints.length).toBe(4);
