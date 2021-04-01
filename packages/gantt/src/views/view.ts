@@ -166,12 +166,12 @@ export abstract class GanttView {
     getDateByXPoint(x: number) {
         const indexOfSecondaryDate = Math.floor(x / this.getCellWidth());
         const matchDate = this.secondaryDatePoints[indexOfSecondaryDate];
-        const dayWidth = this.getDayOccupancyWidth(matchDate.start);
+        const dayWidth = this.getDayOccupancyWidth(matchDate?.start);
         if (dayWidth === this.getCellWidth()) {
-            return matchDate.start;
+            return matchDate?.start;
         } else {
             const day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
-            return matchDate.start.setDate(day);
+            return matchDate?.start.setDate(day);
         }
     }
 
