@@ -21,7 +21,7 @@ describe('CreateViewFactory', () => {
         expect(quarterView).toEqual(jasmine.any(GanttViewQuarter));
     });
 
-    it(`should `, () => {
+    it(`should throw error`, () => {
         expect(() => {
             createViewFactory(GanttViewType.year, date.start, date.end);
         }).toThrow(new Error('gantt view type invalid'));
