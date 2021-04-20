@@ -1,25 +1,43 @@
 import { GanttDate } from '../../utils/date';
 import { GanttItem, GanttItemInternal } from '../item';
 
-const item: GanttItem = {
-    id: 'item-0101',
-    title: 'VERSION 0101',
-    start: new GanttDate('2020-05-21 12:34:35').getUnixTime(),
-    group_id: '00001',
-    color: '#FF0000',
-};
-
 describe('GanttItemInternal', () => {
     let ganttItemInternal: GanttItemInternal;
+    let ganttItem: GanttItem;
 
     beforeEach(() => {
-        ganttItemInternal = new GanttItemInternal(item);
+        ganttItem = {
+            id: 'item-0101',
+            title: 'VERSION 0101',
+            start: new GanttDate('2020-05-21 12:34:35').getUnixTime(),
+            group_id: '00001',
+            color: '#FF0000',
+            children: [
+                {
+                    id: 'item-child-0101',
+                    title: 'VERSION Children 0101',
+                    start: new GanttDate('2020-05-21 12:34:35').getUnixTime(),
+                    group_id: '00001',
+                    color: '#FF0000',
+                    linkable: false
+                }
+            ]
+        };
+        ganttItemInternal = new GanttItemInternal(ganttItem);
+    });
+
+    it(`should has correct children`, () => {
+        expect(ganttItemInternal.children.length).toBe(1);
+    });
+
+    it(`should has correct end`, () => {
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-21 23:59:59').getUnixTime());
     });
 
     it(`should has correct start`, () => {
-        item.start = null;
-        item.end = new GanttDate('2020-05-21 12:34:35').getUnixTime();
-        ganttItemInternal = new GanttItemInternal(item);
+        ganttItem.start = null;
+        ganttItem.end = new GanttDate('2020-05-21 12:34:35').getUnixTime();
+        ganttItemInternal = new GanttItemInternal(ganttItem);
         expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-21 00:00:00').getUnixTime());
     });
 
