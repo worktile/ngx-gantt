@@ -65,7 +65,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
-    "ng-packagr": "^9.0.0",
+    "ng-packagr": "^10.1.1",
     "path": "^0.12.7",
     "pretty-quick": "^1.10.0",
     "protractor": "~5.4.0",
