@@ -1,4 +1,16 @@
-import { Component, OnInit, HostBinding, NgZone, ElementRef, Inject, ContentChild, TemplateRef, Input, Optional } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    HostBinding,
+    NgZone,
+    ElementRef,
+    Inject,
+    ContentChild,
+    TemplateRef,
+    Input,
+    Optional,
+    AfterViewInit
+} from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { take, takeUntil, startWith } from 'rxjs/operators';
@@ -40,14 +52,12 @@ export class NgxGanttRootComponent implements OnInit {
     ngOnInit() {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
             this.dom.initialize(this.elementRef);
-
             if (this.printService) {
                 this.printService.register(this.elementRef);
             }
             this.setupScrollClass();
             this.setupResize();
             this.setupViewScroll();
-
             // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
             this.elementRef.nativeElement.style.opacity = '1';
             this.ganttUpper.viewChange.pipe(startWith(null)).subscribe(() => {
