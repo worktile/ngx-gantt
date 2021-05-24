@@ -1,0 +1,30 @@
+<ngx-gantt-root [sideWidth]="300">
+  <ng-template #sideTemplate>
+    <div class="gantt-flat-side-header">项目</div>
+    <div class="gantt-flat-side-body">
+      <div class="gantt-group" *ngFor="let group of groups; trackBy: trackBy">
+        <div class="gantt-group-content" [style.height.px]="group.mergedItems?.length * (styles.lineHeight + 10) - 10">
+          {{ group.title }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #mainTemplate>
+    <div class="gantt-main-container">
+      <!-- groups -->
+      <div class="gantt-main-groups" *ngIf="groups && groups.length > 0" [style.width.px]="view.width">
+        <ng-container *ngFor="let group of groups; trackBy: trackBy">
+          <div class="gantt-main-group" [style.height.px]="group.mergedItems?.length * (styles.lineHeight + 10) - 10">
+            <ng-container *ngFor="let items of group.mergedItems">
+              <div class="gantt-flat-items" [style.height.px]="styles.lineHeight">
+                <ng-container *ngFor="let item of items; trackBy: trackBy">
+                  <ngx-gantt-bar [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></ngx-gantt-bar>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+</ngx-gantt-root>

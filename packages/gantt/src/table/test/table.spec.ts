@@ -2,7 +2,7 @@ import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { NgxGanttModule } from 'ngx-gantt';
 import { GanttTableComponent } from '../../components/table/gantt-table.component';
-import { mockItems, mockGroups } from './mocks';
+import { getMockGroupItems, getMockGroups } from '../../test/mocks/data';
 import { By } from '@angular/platform-browser';
 
 @Component({
@@ -15,12 +15,6 @@ import { By } from '@angular/platform-browser';
                         {{ item.title }}
                     </ng-template>
                 </ngx-gantt-column>
-                <ngx-gantt-column>
-                    <ng-template #header> <span style="font-weight: bold;">开始时间</span> </ng-template>
-                    <ng-template #cell let-item="item">
-                        {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
-                    </ng-template>
-                </ngx-gantt-column>
             </ngx-gantt-table>
         </ngx-gantt>
     `,
@@ -29,9 +23,9 @@ import { By } from '@angular/platform-browser';
 export class TestGanttTableComponent {
     @ViewChild(GanttTableComponent, { static: true }) ganttTableComponent: GanttTableComponent;
 
-    items = mockItems;
+    items = getMockGroupItems();
 
-    groups = mockGroups;
+    groups = getMockGroups();
 
     constructor() {}
 }

@@ -8,7 +8,6 @@ export * from './root.component';
 export * from './gantt.component';
 export * from './table/gantt-table.component';
 export * from './table/gantt-column.component';
-export * from './flat/gantt-flat.component';
 export * from './utils/date';
 export * from './class';
 export * from './views/view';

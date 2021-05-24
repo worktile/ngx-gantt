@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { NgxGanttFlatComponent } from './flat/gantt-flat.component';
 import { NgxGanttComponent } from './gantt.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
-
 import { GanttCalendarComponent } from './components/calendar/calendar.component';
 import { GanttTableComponent } from './components/table/gantt-table.component';
 import { NgxGanttBarComponent } from './components/bar/bar.component';
@@ -20,17 +17,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
     imports: [CommonModule, DragDropModule],
-    exports: [
-        NgxGanttComponent,
-        NgxGanttFlatComponent,
-        NgxGanttTableComponent,
-        NgxGanttTableColumnComponent,
-        NgxGanttRootComponent,
-        NgxGanttBarComponent
-    ],
+    exports: [NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent, NgxGanttRootComponent, NgxGanttBarComponent],
     declarations: [
         NgxGanttComponent,
-        NgxGanttFlatComponent,
         NgxGanttTableComponent,
         NgxGanttTableColumnComponent,
         GanttTableComponent,

@@ -18,7 +18,6 @@ import { delay } from 'rxjs/operators';
 @Component({
     selector: 'app-gantt-example',
     templateUrl: './gantt.component.html',
-    styleUrls: ['./gantt.component.scss'],
     providers: [GanttPrintService]
 })
 export class AppGanttExampleComponent implements OnInit {
