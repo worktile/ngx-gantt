@@ -9,15 +9,18 @@ import { GanttPrintService } from '../gantt-print.service';
 import { NgxGanttComponent } from '../gantt.component';
 import { NgxGanttModule } from '../gantt.module';
 import { GanttDate } from '../utils/date';
-import { mockGroupItems, mockGroups } from './mocks/data';
+import { getMockGroupItems, getMockGroups, getMockItems } from './mocks/data';
 import { CommonModule } from '@angular/common';
 import { GanttCalendarComponent } from '../components/calendar/calendar.component';
-import { mockItems } from '../test/mocks/data';
 import { NgxGanttBarComponent } from '../components/bar/bar.component';
 import { GanttIconComponent } from '../components/icon/icon.component';
 import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+
+const mockItems = getMockItems();
+const mockGroupItems = getMockGroupItems();
+const mockGroups = getMockGroups();
 
 // Basic Component
 @Component({

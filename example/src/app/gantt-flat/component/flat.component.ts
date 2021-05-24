@@ -1,40 +1,21 @@
-import {
-    Component,
-    OnInit,
-    Input,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    ElementRef,
-    NgZone,
-    HostBinding,
-    OnChanges,
-    OnDestroy,
-    SimpleChanges
-} from '@angular/core';
-import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
-import { GanttGroupInternal, GanttItemInternal } from '../class';
+import { Component, OnInit, HostBinding, OnChanges, OnDestroy, SimpleChanges, NgZone, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal } from 'ngx-gantt';
 import { startWith, takeUntil } from 'rxjs/operators';
 
-export class GanttFlatGroupInternal extends GanttGroupInternal {
-    sprints: GanttItemInternal[][];
-    versions: GanttItemInternal[][];
-}
-
 @Component({
-    selector: 'ngx-gantt-flat',
-    templateUrl: './gantt-flat.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-gantt-flat',
+    templateUrl: './flat.component.html',
     providers: [
         {
             provide: GANTT_UPPER_TOKEN,
-            useExisting: NgxGanttFlatComponent
+            useExisting: AppGanttFlatComponent
         }
     ]
 })
-export class NgxGanttFlatComponent extends GanttUpper implements OnInit, OnChanges, OnDestroy {
+export class AppGanttFlatComponent extends GanttUpper implements OnInit, OnChanges, OnDestroy {
     mergeIntervalDays = 3;
 
-    groups: GanttFlatGroupInternal[] = [];
+    groups: GanttGroupInternal[] = [];
 
     @HostBinding('class.gantt-flat') ganttFlatClass = true;
 
@@ -73,11 +54,9 @@ export class NgxGanttFlatComponent extends GanttUpper implements OnInit, OnChang
 
     private buildGroupItems() {
         this.groups.forEach((group) => {
-            group.versions = this.buildGroupMergedItems(group.items.filter((item, index) => index % 2 === 1));
-            group.sprints = this.buildGroupMergedItems(group.items.filter((item, index) => index % 2 === 0));
-            // 如果没有数据，默认填充一行空行
-            group.versions = group.versions.length === 0 ? [[]] : group.versions;
-            group.sprints = group.sprints.length === 0 ? [[]] : group.sprints;
+            group.mergedItems = this.buildGroupMergedItems(group.items);
+            // 如果没有数据，默认填充两行空行
+            group.mergedItems = group.mergedItems.length === 0 ? [[]] : group.mergedItems;
         });
     }
 
