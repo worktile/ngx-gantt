@@ -4,41 +4,42 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttComponent } from '../../../gantt.component';
 import { NgxGanttModule } from '../../../gantt.module';
+import { GanttDate } from '../../../utils/date';
 import { NgxGanttRangeComponent } from '../range.component';
 
 const mockRangeItems = [
     {
         id: 'item-0101',
         title: 'VERSION 0101',
-        start: 1590035675,
-        color: '#FF0000',
+        start: new GanttDate('2020-05-21 12:34:35').getUnixTime(),
         type: 'range',
         progress: 0.5,
+        color: '#FF0000',
         children: [
             {
                 id: 'item-child-0101',
                 title: 'VERSION Children 0101',
-                start: 1590035675,
+                start: new GanttDate('2020-05-21 12:34:35').getUnixTime(),
                 color: '#FF0000',
                 linkable: false,
-                barStyle: { border: `1px solid #FF0000` }
+                type: 'range'
             }
         ]
     },
     {
         id: 'item-0102',
         title: 'VERSION 0102',
-        start: 1590935675,
-        end: 1591318400,
+        start: new GanttDate('2020-05-31 22:34:35').getUnixTime(),
+        end: new GanttDate('2020-06-05 08:53:20').getUnixTime(),
         color: '#9ACD32',
-        type: 'range',
-        expandable: true
+        expandable: true,
+        type: 'range'
     }
 ];
 
 @Component({
     selector: 'test-gantt-range',
-    template: ` <ngx-gantt #gantt [items]="items" [viewType]="viewType" (barClick)="barClick($event)">
+    template: ` <ngx-gantt #gantt [items]="items" [viewType]="viewType">
         <ngx-gantt-table>
             <ngx-gantt-column name="标题" width="200px">
                 <ng-template #cell let-item="item">
@@ -56,19 +57,14 @@ export class TestGanttRangeComponent {
     items = mockRangeItems;
 }
 
-describe('#basic', () => {
+describe('ngx-gantt-range', () => {
     let fixture: ComponentFixture<TestGanttRangeComponent>;
-    let ganttComponentInstance: TestGanttRangeComponent;
-    let ganttDebugElement: DebugElement;
     beforeEach(async () => {
         TestBed.configureTestingModule({
             imports: [CommonModule, NgxGanttModule],
             declarations: [TestGanttRangeComponent]
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttRangeComponent);
-        fixture.detectChanges();
-        ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
-        ganttComponentInstance = fixture.componentInstance;
         fixture.detectChanges();
     });
 

@@ -3,7 +3,7 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttItemUpper } from '../../gantt-item-upper';
 
 @Component({
-    selector: 'gantt-range',
+    selector: 'ngx-gantt-range,gantt-range',
     templateUrl: './range.component.html'
 })
 export class NgxGanttRangeComponent extends GanttItemUpper implements OnInit, OnChanges, OnDestroy {
