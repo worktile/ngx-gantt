@@ -170,115 +170,115 @@ module.exports = [
             }
         ]
     },
-    {
-        type: 'class',
-        name: 'GanttItem',
-        description: '数据项格式定义',
-        properties: [
-            {
-                name: 'id',
-                description: `唯一标识`,
-                type: 'string'
-            },
-            {
-                name: 'title',
-                description: `名称`,
-                type: 'string'
-            },
-            {
-                name: 'start',
-                description: `开始时间`,
-                type: 'number'
-            },
-            {
-                name: 'end',
-                description: `截止时间`,
-                type: 'number'
-            },
-            {
-                name: 'group_id',
-                description: `对应分组的Id`,
-                type: 'string'
-            },
-            {
-                name: 'links',
-                description: `关联数据项Ids`,
-                type: 'string[]'
-            },
-            {
-                name: 'color',
-                description: `设置颜色`,
-                type: 'string'
-            },
-            {
-                name: 'draggable',
-                description: `设置是否可拖拽`,
-                type: 'boolean'
-            },
-            {
-                name: 'linkable',
-                description: `设置是否可关联/被关联`,
-                type: 'boolean'
-            },
-            {
-                name: 'expand',
-                description: `设置是否展开`,
-                type: 'boolean',
-                default: 'false'
-            },
-            {
-                name: 'children',
-                description: `设置子数据`,
-                type: 'GanttItem[]',
-                default: ''
-            },
-            {
-                name: 'origin',
-                description: `设置原始数据`,
-                type: 'T',
-                default: ''
-            },
-            {
-                name: 'type',
-                description: `数据展示方式（区间展示和普通展示）`,
-                type: 'GanttItemType',
-                default: ''
-            },
-            {
-                name: 'progress',
-                description: `进度`,
-                type: 'number',
-                default: ''
-            }
-        ]
-    },
-    {
-        type: 'class',
-        name: 'GanttGroup',
-        description: '分组数据格式定义',
-        properties: [
-            {
-                name: 'id',
-                description: `唯一标识`,
-                type: 'string'
-            },
-            {
-                name: 'title',
-                description: `名称`,
-                type: 'string'
-            },
-            {
-                name: 'expand',
-                description: `设置是否展开`,
-                type: 'boolean',
-                default: 'true'
-            },
-            {
-                name: 'origin',
-                description: `设置原始数据`,
-                type: 'T',
-                default: ''
-            }
-        ]
-    }
+    // {
+    //     type: 'class',
+    //     name: 'GanttItem',
+    //     description: '数据项格式定义',
+    //     properties: [
+    //         {
+    //             name: 'id',
+    //             description: `唯一标识`,
+    //             type: 'string'
+    //         },
+    //         {
+    //             name: 'title',
+    //             description: `名称`,
+    //             type: 'string'
+    //         },
+    //         {
+    //             name: 'start',
+    //             description: `开始时间`,
+    //             type: 'number'
+    //         },
+    //         {
+    //             name: 'end',
+    //             description: `截止时间`,
+    //             type: 'number'
+    //         },
+    //         {
+    //             name: 'group_id',
+    //             description: `对应分组的Id`,
+    //             type: 'string'
+    //         },
+    //         {
+    //             name: 'links',
+    //             description: `关联数据项Ids`,
+    //             type: 'string[]'
+    //         },
+    //         {
+    //             name: 'color',
+    //             description: `设置颜色`,
+    //             type: 'string'
+    //         },
+    //         {
+    //             name: 'draggable',
+    //             description: `设置是否可拖拽`,
+    //             type: 'boolean'
+    //         },
+    //         {
+    //             name: 'linkable',
+    //             description: `设置是否可关联/被关联`,
+    //             type: 'boolean'
+    //         },
+    //         {
+    //             name: 'expand',
+    //             description: `设置是否展开`,
+    //             type: 'boolean',
+    //             default: 'false'
+    //         },
+    //         {
+    //             name: 'children',
+    //             description: `设置子数据`,
+    //             type: 'GanttItem[]',
+    //             default: ''
+    //         },
+    //         {
+    //             name: 'origin',
+    //             description: `设置原始数据`,
+    //             type: 'T',
+    //             default: ''
+    //         },
+    //         {
+    //             name: 'type',
+    //             description: `数据展示方式（区间展示和普通展示）`,
+    //             type: 'GanttItemType',
+    //             default: ''
+    //         },
+    //         {
+    //             name: 'progress',
+    //             description: `进度`,
+    //             type: 'number',
+    //             default: ''
+    //         }
+    //     ]
+    // },
+    // {
+    //     type: 'class',
+    //     name: 'GanttGroup',
+    //     description: '分组数据格式定义',
+    //     properties: [
+    //         {
+    //             name: 'id',
+    //             description: `唯一标识`,
+    //             type: 'string'
+    //         },
+    //         {
+    //             name: 'title',
+    //             description: `名称`,
+    //             type: 'string'
+    //         },
+    //         {
+    //             name: 'expand',
+    //             description: `设置是否展开`,
+    //             type: 'boolean',
+    //             default: 'true'
+    //         },
+    //         {
+    //             name: 'origin',
+    //             description: `设置原始数据`,
+    //             type: 'T',
+    //             default: ''
+    //         }
+    //     ]
+    // }
 ];
