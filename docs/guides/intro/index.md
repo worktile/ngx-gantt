@@ -1,6 +1,6 @@
 ---
 title: 介绍
-path: ''
+path: 'intro'
 order: 1
 ---
 
