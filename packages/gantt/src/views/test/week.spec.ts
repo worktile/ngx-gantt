@@ -15,12 +15,12 @@ describe('GanttViewWeek', () => {
 
     it(`should has correct view start`, () => {
         const startOfWeek = ganttViewWeek.startOf(date.start.date).getUnixTime();
-        expect(startOfWeek).toEqual(new GanttDate('2019-12-29 00:00:00').getUnixTime());
+        expect(startOfWeek).toEqual(new GanttDate('2019-12-30 00:00:00').getUnixTime());
     });
 
     it(`should has correct view end`, () => {
         const endOfWeek = ganttViewWeek.endOf(date.end.date).getUnixTime();
-        expect(endOfWeek).toEqual(new GanttDate('2021-01-02 23:59:59').getUnixTime());
+        expect(endOfWeek).toEqual(new GanttDate('2021-01-03 23:59:59').getUnixTime());
     });
 
     it(`should has correct cell width`, () => {

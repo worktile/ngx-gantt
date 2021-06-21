@@ -3,8 +3,8 @@ import { eachDayOfInterval, eachWeekOfInterval, GanttDate } from '../utils/date'
 import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
 
 const viewOptions: GanttViewOptions = {
-    start: new GanttDate().startOfQuarter().addQuarters(-1),
-    end: new GanttDate().endOfQuarter().addQuarters(2),
+    start: new GanttDate().startOfYear().startOfWeek({ weekStartsOn: 1 }),
+    end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }),
     cellWidth: 280,
     addAmount: 1,
     addUnit: 'week'
@@ -16,11 +16,11 @@ export class GanttViewWeek extends GanttView {
     }
 
     startOf(date: GanttDate) {
-        return date.startOfWeek();
+        return date.startOfWeek({ weekStartsOn: 1 });
     }
 
     endOf(date: GanttDate) {
-        return date.endOfWeek();
+        return date.endOfWeek({ weekStartsOn: 1 });
     }
 
     getPrimaryWidth() {
@@ -32,7 +32,7 @@ export class GanttViewWeek extends GanttView {
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
-        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value }, { weekStartsOn: 1 });
+        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < weeks.length; i++) {
             const weekStart = new GanttDate(weeks[i]);
@@ -49,14 +49,13 @@ export class GanttViewWeek extends GanttView {
     }
 
     getSecondaryDatePoints(): GanttDatePoint[] {
-        const days = eachDayOfInterval({ start: this.start.value, end: this.end.value });
-        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.value });
+        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.value }, { weekStartsOn: 1 });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < weeks.length; i++) {
             const start = new GanttDate(weeks[i]);
             const point = new GanttDatePoint(
                 start,
-                `第${start.getWeek()}周`,
+                `第${start.format('w')}周`,
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 secondaryDatePointTop
             );
