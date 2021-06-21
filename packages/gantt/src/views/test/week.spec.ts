@@ -40,6 +40,6 @@ describe('GanttViewWeek', () => {
 
     it(`should has correct secondary date points`, () => {
         const weekPoints = ganttViewWeek.getSecondaryDatePoints();
-        expect(weekPoints.length).toBe(53);
+        expect(weekPoints.length).toBe(54);
     });
 });
