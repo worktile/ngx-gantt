@@ -134,13 +134,13 @@ export abstract class GanttUpper {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
                 if (group) {
-                    const item = new GanttItemInternal(origin);
+                    const item = new GanttItemInternal(origin, { viewType: this.viewType });
                     group.items.push(item);
                 }
             });
         } else {
             this.originItems.forEach((origin) => {
-                const item = new GanttItemInternal(origin);
+                const item = new GanttItemInternal(origin, { viewType: this.viewType });
                 this.items.push(item);
             });
         }
