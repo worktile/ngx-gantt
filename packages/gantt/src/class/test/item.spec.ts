@@ -40,7 +40,7 @@ describe('GanttItemInternal', () => {
         expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-21 23:59:59').getUnixTime());
 
         ganttItemInternal = new GanttItemInternal(ganttItem, { viewType: GanttViewType.day });
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-28 23:59:59').getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
     });
 
     it(`should has correct start`, () => {
@@ -50,7 +50,7 @@ describe('GanttItemInternal', () => {
         expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-21 00:00:00').getUnixTime());
 
         ganttItemInternal = new GanttItemInternal(ganttItem, { viewType: GanttViewType.day });
-        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-14 00:00:00').getUnixTime());
+        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-21 00:00:00').getUnixTime());
     });
 
     it(`should update refs`, () => {

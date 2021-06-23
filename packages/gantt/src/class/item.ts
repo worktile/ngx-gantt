@@ -89,7 +89,7 @@ export class GanttItemInternal {
         let _date: GanttDate;
         switch (this.viewType) {
             case GanttViewType.day:
-                _date = hasStart ? new GanttDate(date).addDays(7).endOfDay() : new GanttDate(date).addMonths(-7).startOfDay();
+                _date = hasStart ? new GanttDate(date).endOfDay() : new GanttDate(date).startOfDay();
                 break;
             default:
                 _date = hasStart ? new GanttDate(date).addMonths(1).endOfDay() : new GanttDate(date).addMonths(-1).startOfDay();
