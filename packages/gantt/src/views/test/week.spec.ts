@@ -25,7 +25,7 @@ describe('GanttViewWeek', () => {
 
     it(`should has correct cell width`, () => {
         const weekCellWidth = ganttViewWeek.getDayOccupancyWidth();
-        expect(weekCellWidth).toEqual(140);
+        expect(weekCellWidth).toEqual(20);
     });
 
     it(`should has correct primary width`, () => {
