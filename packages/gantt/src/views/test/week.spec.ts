@@ -15,19 +15,17 @@ describe('GanttViewWeek', () => {
 
     it(`should has correct view start`, () => {
         const startOfWeek = ganttViewWeek.startOf(date.start.date).getUnixTime();
-        console.log('----start----', startOfWeek);
-        expect(startOfWeek).toEqual(new GanttDate('2019-12-29 00:00:00').getUnixTime());
+        expect(startOfWeek).toEqual(new GanttDate('2019-12-30 00:00:00').getUnixTime());
     });
 
     it(`should has correct view end`, () => {
         const endOfWeek = ganttViewWeek.endOf(date.end.date).getUnixTime();
-        console.log('----end----', endOfWeek);
-        expect(endOfWeek).toEqual(new GanttDate('2021-01-02 23:59:59').getUnixTime());
+        expect(endOfWeek).toEqual(new GanttDate('2021-01-03 23:59:59').getUnixTime());
     });
 
     it(`should has correct cell width`, () => {
         const weekCellWidth = ganttViewWeek.getDayOccupancyWidth();
-        expect(weekCellWidth).toEqual(140);
+        expect(weekCellWidth).toEqual(20);
     });
 
     it(`should has correct primary width`, () => {
@@ -42,6 +40,6 @@ describe('GanttViewWeek', () => {
 
     it(`should has correct secondary date points`, () => {
         const weekPoints = ganttViewWeek.getSecondaryDatePoints();
-        expect(weekPoints.length).toBe(53);
+        expect(weekPoints.length).toBe(54);
     });
 });

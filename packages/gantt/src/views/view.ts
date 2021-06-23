@@ -171,6 +171,9 @@ export abstract class GanttView {
             return matchDate?.start;
         } else {
             const day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
+            if (this.getCellWidth() / dayWidth === 7) {
+                return matchDate?.start.addDays(day);
+            }
             return matchDate?.start.setDate(day);
         }
     }

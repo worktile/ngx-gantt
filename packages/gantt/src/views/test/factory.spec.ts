@@ -13,6 +13,11 @@ describe('CreateViewFactory', () => {
         expect(dayView).toEqual(jasmine.any(GanttViewDay));
     });
 
+    it(`should be week view`, () => {
+        const weekView = createViewFactory(GanttViewType.week, date.start, date.end);
+        expect(weekView).toEqual(jasmine.any(GanttViewWeek));
+    });
+
     it(`should be month view`, () => {
         const monthView = createViewFactory(GanttViewType.month, date.start, date.end);
         expect(monthView).toEqual(jasmine.any(GanttViewMonth));
