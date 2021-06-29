@@ -4,7 +4,7 @@ import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
 
 const viewOptions: GanttViewOptions = {
-    cellWidth: 910,
+    cellWidth: 500,
     start: new GanttDate().addYears(-1).startOfYear(),
     end: new GanttDate().addYears(1).endOfYear(),
     addAmount: 1,
@@ -32,8 +32,8 @@ export class GanttViewYear extends GanttView {
         return this.getCellWidth();
     }
 
-    getDayOccupancyWidth(): number {
-        return this.cellWidth;
+    getDayOccupancyWidth(date: GanttDate): number {
+        return this.cellWidth / date.getDaysInYear();
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
