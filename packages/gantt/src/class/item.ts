@@ -77,25 +77,29 @@ export class GanttItemInternal {
         this.type = this.origin.type || GanttItemType.bar;
         this.progress = this.origin.progress;
         // fill one month when start or end is null
-        if (item.start && !item.end) {
-            this.end = this.fillItemByViewType(item);
-        }
-        if (!item.start && item.end) {
-            this.start = this.fillItemByViewType(item);
-        }
+        this.fillItemByViewType(item);
     }
 
     fillItemByViewType(item: GanttItem) {
-        let date: GanttDate;
         switch (this.viewType) {
-            case GanttViewType.day || GanttViewType.week:
-                date = item.start ? new GanttDate(item.start).endOfDay() : new GanttDate(item.end).startOfDay();
+            case GanttViewType.day:
+            case GanttViewType.week:
+                if (item.start && !item.end) {
+                    this.end = new GanttDate(item.start).endOfDay();
+                }
+                if (!item.start && item.end) {
+                    this.start = new GanttDate(item.end).startOfDay();
+                }
                 break;
             default:
-                date = item.start ? new GanttDate(item.start).addMonths(1).endOfDay() : new GanttDate(item.end).addMonths(-1).startOfDay();
+                if (item.start && !item.end) {
+                    this.end = new GanttDate(item.start).addMonths(1).endOfDay();
+                }
+                if (!item.start && item.end) {
+                    this.start = new GanttDate(item.end).addMonths(-1).startOfDay();
+                }
                 break;
         }
-        return date;
     }
 
     updateRefs(refs: GanttItemRefs) {
