@@ -7,7 +7,7 @@ describe('GanttViewYear', () => {
 
     beforeEach(() => {
         ganttViewYear = new GanttViewYear(date.start, date.end, {
-            cellWidth: 480,
+            cellWidth: 732,
             start: today.addYears(-1).startOfYear(),
             end: today.addYears(1).endOfYear()
         });
@@ -24,13 +24,13 @@ describe('GanttViewYear', () => {
     });
 
     it(`should has correct cell width`, () => {
-        const yearCellWidth = ganttViewYear.getCellWidth();
-        expect(yearCellWidth).toEqual(480);
+        const yearCellWidth = ganttViewYear.getDayOccupancyWidth(date.start.date);
+        expect(yearCellWidth).toEqual(2);
     });
 
     it(`should has correct primary width`, () => {
         const yearPrimaryWidth = ganttViewYear.getPrimaryWidth();
-        expect(yearPrimaryWidth).toEqual(480);
+        expect(yearPrimaryWidth).toEqual(732);
     });
 
     it(`should has correct primary date points`, () => {
