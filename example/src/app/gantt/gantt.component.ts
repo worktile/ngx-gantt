@@ -28,7 +28,7 @@ export class AppGanttExampleComponent implements OnInit {
     groups = mockGroups;
 
     options = {
-        viewType: GanttViewType.year,
+        viewType: GanttViewType.month,
         draggable: true,
         linkable: true,
         async: true,
