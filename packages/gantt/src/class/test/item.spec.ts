@@ -32,12 +32,12 @@ describe('GanttItemInternal', () => {
     });
 
     it(`should has correct end`, () => {
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-21 23:59:59').getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-20 23:59:59').getUnixTime());
 
         ganttItem.end = null;
         ganttItem.start = new GanttDate('2020-05-21 12:34:35').getUnixTime();
         ganttItemInternal = new GanttItemInternal(ganttItem);
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-21 23:59:59').getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-20 23:59:59').getUnixTime());
 
         ganttItemInternal = new GanttItemInternal(ganttItem, { viewType: GanttViewType.day });
         expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
