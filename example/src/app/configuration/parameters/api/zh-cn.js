@@ -170,6 +170,67 @@ module.exports = [
             }
         ]
     },
+    {
+        type: 'component',
+        name: 'ngx-gantt-bar',
+        description: '数据项条形图展示组件',
+        properties: [
+            {
+                name: 'template',
+                description: `设置时间条显示模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: 'item',
+                description: `设置时间条显示数据`,
+                type: 'GanttItemInternal'
+            },
+            {
+                name: 'barClick',
+                description: `数据项条形图点击事件`,
+                type: 'EventEmitter<GanttBarClickEvent>'
+            }
+        ]
+    },
+    {
+        type: 'component',
+        name: 'ngx-gantt-range',
+        description: '数据项区间展示组件',
+        properties: [
+            {
+                name: 'template',
+                description: `设置区间展示模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: 'item',
+                description: `设置区间展示数据`,
+                type: 'GanttItemInternal'
+            }
+        ]
+    },
+    {
+        type: 'component',
+        name: 'ngx-gantt-root',
+        description: '甘特图根组件',
+        properties: [
+            {
+                name: 'sideWidth',
+                description: `设置甘特图左侧内容宽度`,
+                type: 'number'
+            },
+            {
+                name: 'sideTemplate',
+                description: `设置甘特图左侧内容模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: 'mainTemplate',
+                description: `设置甘特图右侧主要内容模板`,
+                type: 'TemplateRef<any>'
+            }
+        ]
+    }
     // {
     //     type: 'class',
     //     name: 'GanttItem',

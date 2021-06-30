@@ -1,6 +1,42 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [0.0.50](https://github.com/worktile/ngx-gantt/compare/0.0.48...0.0.50) (2021-06-30)
+
+
+### Features
+
+* add bar drag test ([a0d0e3a](https://github.com/worktile/ngx-gantt/commit/a0d0e3a17ac882a76778d7265d2de6c24d4d594d))
+* add gantt component test #INFR-1694 ([#105](https://github.com/worktile/ngx-gantt/issues/105)) ([28e05a1](https://github.com/worktile/ngx-gantt/commit/28e05a1052d1539109e6fa1ffc46e80f4a72e2f5)), closes [#INFR-1694](https://github.com/worktile/ngx-gantt/issues/INFR-1694)
+* add gantt table  test #INFR-1716 ([a57d546](https://github.com/worktile/ngx-gantt/commit/a57d54666a7092dfb66b9ce358f7c38a9fae1cb4)), closes [#INFR-1716](https://github.com/worktile/ngx-gantt/issues/INFR-1716)
+* add test(#INFR-2013) ([a31da21](https://github.com/worktile/ngx-gantt/commit/a31da21ecb5ea25b15dd952cbe6ec0105a419bfd)), closes [#INFR-2013](https://github.com/worktile/ngx-gantt/issues/INFR-2013)
+* support week view and add test(#INFR-1996) ([75a6930](https://github.com/worktile/ngx-gantt/commit/75a6930b7f57235571ef0f4cfa713caa99bca13b)), closes [#INFR-1996](https://github.com/worktile/ngx-gantt/issues/INFR-1996)
+* support week view and add test(#INFR-1996) ([#113](https://github.com/worktile/ngx-gantt/issues/113)) ([ac1c252](https://github.com/worktile/ngx-gantt/commit/ac1c25259db73ff814ddd8f4662c29a3d3bea7b4)), closes [#INFR-1996](https://github.com/worktile/ngx-gantt/issues/INFR-1996) [#INFR-1996](https://github.com/worktile/ngx-gantt/issues/INFR-1996)
+* support year view and add test(#INFR-2007) ([#117](https://github.com/worktile/ngx-gantt/issues/117)) ([0f12338](https://github.com/worktile/ngx-gantt/commit/0f1233857da0acc377332a3f602909525ed1d93a)), closes [#INFR-2007](https://github.com/worktile/ngx-gantt/issues/INFR-2007) [#INFR-2007](https://github.com/worktile/ngx-gantt/issues/INFR-2007) [#INFR-2007](https://github.com/worktile/ngx-gantt/issues/INFR-2007)
+* 修改日视图的bar长度(#INFR-2013) ([9ac28e7](https://github.com/worktile/ngx-gantt/commit/9ac28e754936c1ba7bad76a247cc8e8d3a0b163a)), closes [#INFR-2013](https://github.com/worktile/ngx-gantt/issues/INFR-2013)
+
+
+### Bug Fixes
+
+* add gantt date test ([f4f8a16](https://github.com/worktile/ngx-gantt/commit/f4f8a1636ebe1d004007215a71147bda00cad911))
+* add gantt view test ([e25a5b0](https://github.com/worktile/ngx-gantt/commit/e25a5b04ce0c964d65b90a1e81f37c5227895cae))
+* add gantt with groups and load children test ([e14ebb9](https://github.com/worktile/ngx-gantt/commit/e14ebb95ac2bb978f8a488ed87821dbe878e2277))
+* add missed component configuration ([67eb9f7](https://github.com/worktile/ngx-gantt/commit/67eb9f7907b46d64f923186a2e139fa1d979c39f))
+* add range component test and move flat component to example ([19a167d](https://github.com/worktile/ngx-gantt/commit/19a167d3d4120621595658a59856c3ff9812e998))
+* delete mock data ([9970c3f](https://github.com/worktile/ngx-gantt/commit/9970c3f01a777ea187cd4ff85d9ba82ba47cc8bb))
+* fix drag-auxiliary-line position error when drag ([a815a98](https://github.com/worktile/ngx-gantt/commit/a815a98e2a2f21dd8325259b2ba6f9789dd0dca3))
+* **class:** add gantt item class and gantt group class test #INFR-1692 ([#100](https://github.com/worktile/ngx-gantt/issues/100)) ([97aa4d1](https://github.com/worktile/ngx-gantt/commit/97aa4d11ab9616c0e53d4c7475d272c07f6fe534)), closes [#INFR-1692](https://github.com/worktile/ngx-gantt/issues/INFR-1692)
+* fix error ([42b5785](https://github.com/worktile/ngx-gantt/commit/42b5785c804a012a601e435b2501849e7ec87723))
+* **doc:** fix docs start and end ([febfaaa](https://github.com/worktile/ngx-gantt/commit/febfaaa1b085bad47d23503439bc9bf31f5a6445))
+* **docs:** add more docs ([0fe700b](https://github.com/worktile/ngx-gantt/commit/0fe700bc0e9923b23cbfb96332060326029292bc))
+* **docs:** fix docs guide ([fa11e43](https://github.com/worktile/ngx-gantt/commit/fa11e433e302b3923d86bb835c28b3d6ed6ff183))
+* **util:** add util test #INFR-1693 ([4a642ac](https://github.com/worktile/ngx-gantt/commit/4a642acc9d9a137c61735803dbf23b5ea396c2a3)), closes [#INFR-1693](https://github.com/worktile/ngx-gantt/issues/INFR-1693)
+* **view:** fix view test #INFR-1690 ([#98](https://github.com/worktile/ngx-gantt/issues/98)) ([6ca26af](https://github.com/worktile/ngx-gantt/commit/6ca26af2d69fd03de129c9a3141d29f150ee5de3)), closes [#INFR-1690](https://github.com/worktile/ngx-gantt/issues/INFR-1690)
+* fix function ([88d66d3](https://github.com/worktile/ngx-gantt/commit/88d66d33af800e708acb321e77c3964894a715a3))
+* fix review code ([e570b43](https://github.com/worktile/ngx-gantt/commit/e570b431ced5ab2d1ea41cb9ae3719c39b58e29e))
+* review code ([51d583f](https://github.com/worktile/ngx-gantt/commit/51d583fae89e9dcc021d662d7c0479ca1d4c8cdd))
+* 当开始时间或者截止时间未设时，甘特图中显示的默认bar的长度应该因视图不同而不同(#INFR-2013) ([1c31fc6](https://github.com/worktile/ngx-gantt/commit/1c31fc6f641f48e94b7999c3cf73d5499107f499)), closes [#INFR-2013](https://github.com/worktile/ngx-gantt/issues/INFR-2013)
+
 ### [0.0.49](https://github.com/worktile/ngx-gantt/compare/0.0.48...0.0.49) (2021-01-18)
 
 

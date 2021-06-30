@@ -4,11 +4,18 @@ import { GanttViewQuarter } from '../quarter';
 import { createViewFactory } from '../factory';
 import { GanttViewType } from '../../class';
 import { date } from './mock';
+import { GanttViewYear } from '../year';
+import { GanttViewWeek } from '../week';
 
 describe('CreateViewFactory', () => {
     it(`should be day view`, () => {
         const dayView = createViewFactory(GanttViewType.day, date.start, date.end);
         expect(dayView).toEqual(jasmine.any(GanttViewDay));
+    });
+
+    it(`should be week view`, () => {
+        const weekView = createViewFactory(GanttViewType.week, date.start, date.end);
+        expect(weekView).toEqual(jasmine.any(GanttViewWeek));
     });
 
     it(`should be month view`, () => {
@@ -21,9 +28,14 @@ describe('CreateViewFactory', () => {
         expect(quarterView).toEqual(jasmine.any(GanttViewQuarter));
     });
 
-    it(`should throw error`, () => {
-        expect(() => {
-            createViewFactory(GanttViewType.year, date.start, date.end);
-        }).toThrow(new Error('gantt view type invalid'));
+    it('should be year view', () => {
+        const yearView = createViewFactory(GanttViewType.year, date.start, date.end);
+        expect(yearView).toEqual(jasmine.any(GanttViewYear));
     });
+
+    // it(`should throw error`, () => {
+    //     expect(() => {
+    //         createViewFactory(GanttViewType.year, date.start, date.end);
+    //     }).toThrow(new Error('gantt view type invalid'));
+    // });
 });
