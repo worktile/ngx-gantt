@@ -142,6 +142,10 @@ export class GanttDate {
         return differenceInCalendarDays(this.endOfQuarter().addSeconds(1).value, this.startOfQuarter().value);
     }
 
+    getDaysInYear() {
+        return differenceInCalendarDays(this.endOfYear().addSeconds(1).value, this.startOfYear().value);
+    }
+
     setDate(dayOfMonth: number): GanttDate {
         return new GanttDate(setDate(this.value, dayOfMonth));
     }
