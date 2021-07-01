@@ -2,9 +2,9 @@ import { fakeAsync, TestBed, ComponentFixture, async, inject, flush } from '@ang
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { NgxGanttModule } from 'ngx-gantt';
 import { By } from '@angular/platform-browser';
-import { dispatchMouseEvent } from '@angular/cdk/testing/';
 import { GanttTableComponent } from '../gantt-table.component';
 import { getMockGroupItems, getMockGroups} from '../../../test/mocks/data';
+import { dispatchMouseEvent } from '../../../utils/testing';
 @Component({
     selector: 'test-gantt-table',
     template: `
