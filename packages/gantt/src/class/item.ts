@@ -78,6 +78,7 @@ export class GanttItemInternal {
         this.progress = this.origin.progress;
         // fill one month when start or end is null
         this.fillItemStartOrEnd(item);
+        console.log(item);
     }
 
     fillItemStartOrEnd(item: GanttItem) {
@@ -85,10 +86,10 @@ export class GanttItemInternal {
         switch (this.viewType) {
             case GanttViewType.day:
             case GanttViewType.week:
-                addInterval = 0
+                addInterval = 0;
                 break;
             default:
-                addInterval = 30
+                addInterval = 30;
                 break;
         }
         if (item.start && !item.end) {
