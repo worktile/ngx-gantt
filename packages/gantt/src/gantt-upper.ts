@@ -233,6 +233,8 @@ export abstract class GanttUpper {
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue) {
                 this.createView();
+                this.setupGroups();
+                this.setupItems();
                 this.computeRefs();
                 this.viewChange.emit(this.view);
             }
