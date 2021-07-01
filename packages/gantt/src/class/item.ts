@@ -78,7 +78,6 @@ export class GanttItemInternal {
         this.progress = this.origin.progress;
         // fill one month when start or end is null
         this.fillItemStartOrEnd(item);
-        console.log(item);
     }
 
     fillItemStartOrEnd(item: GanttItem) {
