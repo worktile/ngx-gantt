@@ -1,6 +1,21 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [11.0.0-next](https://github.com/worktile/ngx-gantt/compare/0.0.50...11.0.0-next) (2021-07-01)
+
+
+### Features
+
+* bump angular 11 ([be1ea0f](https://github.com/worktile/ngx-gantt/commit/be1ea0fa1986a29d424870370c645e3f73a5b091))
+
+
+### Bug Fixes
+
+* change bar width after change view type ([6c6de0a](https://github.com/worktile/ngx-gantt/commit/6c6de0a1f6fbf7f58a27ee0acbe5f988dc6e3be4))
+* change cdk version ([c7114ab](https://github.com/worktile/ngx-gantt/commit/c7114abf808933660b676ea7e11db18a2d19ebba))
+* delete console ([ebe8ef8](https://github.com/worktile/ngx-gantt/commit/ebe8ef89a21caf9ae4d9addba6ebd4aad3b0b2b8))
+* npm i ([d88d97f](https://github.com/worktile/ngx-gantt/commit/d88d97f36d4c2dc261faea9463ae31d62355e0d4))
+
 ### [0.0.50](https://github.com/worktile/ngx-gantt/compare/0.0.48...0.0.50) (2021-06-30)
 
 
