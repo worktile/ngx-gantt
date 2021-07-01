@@ -99,6 +99,10 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         }
     }
 
+    stopPropagation(event: Event) {
+        event.stopPropagation();
+    }
+
     ngOnDestroy() {
         super.onDestroy();
     }
