@@ -1,8 +1,8 @@
 <div class="gantt-bar-layer">
   <div *ngIf="item.draggable && ganttUpper.draggable" class="drag-handles">
     <ng-container>
-      <span class="handle"></span>
-      <span class="handle"></span>
+      <span class="handle" (mousedown)="stopPropagation($event)"></span>
+      <span class="handle" (mousedown)="stopPropagation($event)"></span>
     </ng-container>
   </div>
   <div *ngIf="item.linkable && ganttUpper.linkable" class="link-handles">
