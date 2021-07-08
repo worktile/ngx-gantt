@@ -22,11 +22,9 @@ module.exports = function (config) {
             },
             clearContext: false // leave Jasmine Spec Runner output visible in browser
         },
-        jasmineHtmlReporter: {
-            suppressAll: true // removes the duplicated traces
-        },
         coverageReporter: {
-            dir: require('path').join(__dirname, '../../coverage/gantt'),
+            dir: require('path').join(__dirname, '../../coverage'),
+            subdir: '.',
             fixWebpackSourcePaths: true,
             reporters: [{ type: 'html' }, { type: 'lcovonly' }, { type: 'text-summary' }]
         },
