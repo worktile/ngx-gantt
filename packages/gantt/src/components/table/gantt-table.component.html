@@ -16,6 +16,14 @@
   </div>
 </div>
 <div class="gantt-table-body">
+  <ng-container *ngIf="!groups.length && !items.length">
+    <ng-container *ngIf="!emptyTemplate">
+      <gantt-icon class="empty-icon" iconName="empty"></gantt-icon>
+      <div class="empty-text">没有数据</div>
+    </ng-container>
+    <ng-template [ngTemplateOutlet]="emptyTemplate"></ng-template>
+  </ng-container>
+
   <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
     <ng-container *ngFor="let group of groups">
       <div class="gantt-table-group" [ngClass]="group.class">

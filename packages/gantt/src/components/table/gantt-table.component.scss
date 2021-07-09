@@ -1,5 +1,26 @@
 .gantt-table {
   display: block;
+  &-empty {
+    height: 100%;
+    position: relative;
+    .gantt-table-body {
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin-top: 22px;
+      .empty-icon {
+        svg {
+          height: 78px;
+          width: 78px;
+        }
+      }
+      .empty-text {
+        color: #cacaca;
+      }
+    }
+  }
 
   &-drag-trigger {
     width: $gantt-table-header-drag-line-width;

@@ -1,4 +1,15 @@
-import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+    Component,
+    HostBinding,
+    TemplateRef,
+    QueryList,
+    Input,
+    OnInit,
+    ViewChild,
+    ElementRef,
+    OnChanges,
+    SimpleChanges
+} from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../../class';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
 import { defaultColumnWidth, minColumnWidth, NgxGanttComponent } from '../../gantt.component';
@@ -15,7 +26,7 @@ interface DragFixedConfig {
     selector: 'gantt-table',
     templateUrl: './gantt-table.component.html'
 })
-export class GanttTableComponent implements OnInit {
+export class GanttTableComponent implements OnInit, OnChanges {
     public columnList: QueryList<NgxGanttTableColumnComponent>;
 
     public dragStartLeft: number;
@@ -36,13 +47,23 @@ export class GanttTableComponent implements OnInit {
 
     @Input() groupTemplate: TemplateRef<any>;
 
+    @Input() emptyTemplate: TemplateRef<any>;
+
     @ViewChild('dragLine', { static: true }) draglineElementRef: ElementRef<HTMLElement>;
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
+    @HostBinding('class.gantt-table-empty') ganttTableEmptyClass = false;
+
     constructor(public gantt: NgxGanttComponent, private elementRef: ElementRef) {}
 
     ngOnInit() {}
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (!changes.groups.currentValue?.length && !changes.items.currentValue?.length) {
+            this.ganttTableEmptyClass = true;
+        }
+    }
 
     private dragFixed(config: DragFixedConfig) {
         if (config.movedWidth < config.minWidth) {
