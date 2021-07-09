@@ -60,7 +60,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 
-    @ContentChild('emptyTable', { static: true }) emptyTableTemplate: TemplateRef<any>;
+    @ContentChild('tableEmpty', { static: true }) tableEmptyTemplate: TemplateRef<any>;
 
     private ngUnsubscribe$ = new Subject();
 

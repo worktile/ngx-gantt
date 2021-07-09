@@ -130,7 +130,7 @@ module.exports = [
                 type: 'TemplateRef<any>'
             },
             {
-                name: '#emptyTable',
+                name: '#tableEmpty',
                 description: `设置空表格模板`,
                 type: 'TemplateRef<any>'
             }
