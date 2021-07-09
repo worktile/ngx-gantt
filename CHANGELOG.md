@@ -1,6 +1,25 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [11.0.0](https://github.com/worktile/ngx-gantt/compare/0.0.50...11.0.0) (2021-07-09)
+
+
+### Features
+
+* add empty table #INFR-2051 ([#129](https://github.com/worktile/ngx-gantt/issues/129)) ([5f24470](https://github.com/worktile/ngx-gantt/commit/5f24470f11d73dfec1f07e7621de915b6abcfff3)), closes [#INFR-2051](https://github.com/worktile/ngx-gantt/issues/INFR-2051) [#INFR-2051](https://github.com/worktile/ngx-gantt/issues/INFR-2051)
+* bump angular 11 ([1c0f562](https://github.com/worktile/ngx-gantt/commit/1c0f56222dd580eaf6a260e8bf0bb97ccdd3368c))
+
+
+### Bug Fixes
+
+* bump cdk 11 and fix drag error ([be009d4](https://github.com/worktile/ngx-gantt/commit/be009d43439b6debc0e0995d3a2ea0f1cd2f4e26))
+* change bar width after change view type ([031e080](https://github.com/worktile/ngx-gantt/commit/031e08098e70de11db53b18ba2374224be2bf449))
+* change cdk version ([59865f0](https://github.com/worktile/ngx-gantt/commit/59865f0b95add9bf5e30fb4f2e099d46f48ce05f))
+* delete console ([efec479](https://github.com/worktile/ngx-gantt/commit/efec479008535bdaadd3e74459d83e1371321744))
+* fix karma conf ([2677d36](https://github.com/worktile/ngx-gantt/commit/2677d36120d52a8ddb47553bfc4e2abee12c5cd6))
+* fix test error ([d807b82](https://github.com/worktile/ngx-gantt/commit/d807b82ba6a4240fe4d660c1a630a28e01f5d214))
+* npm i ([d834c79](https://github.com/worktile/ngx-gantt/commit/d834c79dd7ee61b733ccb8c65046b40943536623))
+
 ## [11.0.0-next.1](https://github.com/worktile/ngx-gantt/compare/11.0.0-next...11.0.0.next.1) (2021-07-02)
 
 
