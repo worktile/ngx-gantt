@@ -128,6 +128,11 @@ module.exports = [
                 name: '#groupHeader',
                 description: `设置分组头部显示模板`,
                 type: 'TemplateRef<any>'
+            },
+            {
+                name: '#emptyTable',
+                description: `设置空表格模板`,
+                type: 'TemplateRef<any>'
             }
         ]
     },

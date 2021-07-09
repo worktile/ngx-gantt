@@ -15,7 +15,8 @@ import {
     QueryList,
     AfterViewInit,
     ViewChild,
-    ContentChild
+    ContentChild,
+    TemplateRef
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -58,6 +59,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     @ContentChild(NgxGanttTableComponent) table: NgxGanttTableComponent;
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
+
+    @ContentChild('emptyTable', { static: true }) emptyTableTemplate: TemplateRef<any>;
 
     private ngUnsubscribe$ = new Subject();
 

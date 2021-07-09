@@ -253,6 +253,13 @@ describe('ngx-gantt', () => {
             assertItems(fixture, newItems);
         });
 
+        it('should has empty class when has no items', () => {
+            ganttComponentInstance.items = [];
+            fixture.detectChanges();
+            const ganttTableElement = ganttDebugElement.query(By.css('.gantt-table'));
+            expect(ganttTableElement.nativeElement.classList).toContain('gantt-table-empty');
+        });
+
         it('should re render when scroll load', () => {});
     });
 
