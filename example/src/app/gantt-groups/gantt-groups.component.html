@@ -6,27 +6,18 @@
           {{ view.name }}
         </button>
       </thy-button-group>
+
       &nbsp; &nbsp; &nbsp;
-      <thy-button thyType="primary" thySize="sm" (click)="print('gantt-example')"> ↓ 导出为图片 </thy-button>
+      <thy-button thyType="primary" thySize="sm" (click)="expandAllGroups()">
+        {{ expanded ? '折叠全部分组' : '展开全部分组' }}
+      </thy-button>
     </ng-template>
     <ng-template #headerOperation>
-      <a href="https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt" target="_blank">查看源码</a>
+      <a href="https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt-groups" target="_blank">查看源码</a>
     </ng-template>
   </thy-header>
   <thy-content>
-    <ngx-gantt
-      #gantt
-      [items]="items"
-      [viewType]="viewType"
-      [async]="true"
-      [childrenResolve]="childrenResolve"
-      [draggable]="true"
-      [linkable]="true"
-      (barClick)="barClick($event)"
-      (lineClick)="lineClick($event)"
-      (dragEnded)="dragEnded($event)"
-      (linkDragEnded)="linkDragEnded($event)"
-    >
+    <ngx-gantt #gantt [groups]="groups" [items]="items" [viewType]="viewType" [draggable]="true">
       <ngx-gantt-table>
         <ngx-gantt-column name="标题" width="180px">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
@@ -42,9 +33,9 @@
           </ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>
-
-      <ng-template #bar let-item="item">
-        <span style="color: #fff">&nbsp;&nbsp;{{ item.title }} </span>
+      <!-- group template -->
+      <ng-template #group let-group="group" let-items="items">
+        <span class="text-primary">{{ group.title }} 🚀 </span>
       </ng-template>
     </ngx-gantt>
   </thy-content>

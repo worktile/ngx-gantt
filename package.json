@@ -21,7 +21,10 @@
     "pub-only": "cd dist/gantt && npm publish --access=public",
     "pub": "npm run build && npm run pub-only",
     "report-coverage": "cat ./coverage/gantt/lcov.info | coveralls",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --pkg ./packages/gantt/package.json"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --pkg ./packages/gantt/package.json",
+    "contributors:init": "all-contributors init",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
   },
   "dependencies": {
     "@angular/animations": "~11.2.14",
@@ -64,6 +67,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "all-contributors-cli": "^6.6.0",
     "ng-packagr": "^11.2.4",
     "path": "^0.12.7",
     "pretty-quick": "^1.10.0",

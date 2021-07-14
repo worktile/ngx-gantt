@@ -5,8 +5,8 @@ import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 480,
-    start: new GanttDate().addYears(-1).startOfYear(),
-    end: new GanttDate().addYears(1).endOfYear(),
+    start: new GanttDate().addYears(-2).startOfYear(),
+    end: new GanttDate().addYears(2).endOfYear(),
     addAmount: 1,
     addUnit: 'year'
 };

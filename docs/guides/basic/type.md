@@ -1,12 +1,12 @@
 ---
-title: 接口
-path: 'class'
+title: 数据类型
+path: 'data-type'
 order: 30
 ---
 
-`Gantt`中有两个主要提供给外部使用的接口，分别是`GanttItem`和`GanttGroup`。`GanttItem`指甘特图数据项格式，`GanttGroup`指分组数据格式，下面是这两个接口的具体定义。
+`ngx-gantt` 组件接收两种数据输入类型 `GanttItem`和`GanttGroup`。`GanttItem` 指甘特图数据项格式，`GanttGroup`指分组数据格式，具体类型定义如下：
 
-# `GanttItem`
+# GanttItem
 
 ```ts
 export interface GanttItem<T = unknown> {
@@ -29,7 +29,6 @@ export interface GanttItem<T = unknown> {
 }
 ```
 
-具体含义如下
 
 | Name       | Type                           | Default | Description                            |
 | ---------- | ------------------------------ | ------- | -------------------------------------- |
@@ -50,7 +49,7 @@ export interface GanttItem<T = unknown> {
 | type       | `GanttItemType`                | `-`     | 设置数据展示方式（区间展示和普通展示） |
 | progress   | `number`                       | `-`     | 设置进度                               |
 
-# `GanttGroup`
+# GanttGroup
 
 ```ts
 export interface GanttGroup<T = unknown> {
@@ -61,8 +60,6 @@ export interface GanttGroup<T = unknown> {
   class?: string;
 }
 ```
-
-具体含义如下
 
 | Name     | Type      | Default | Description       |
 | -------- | --------- | ------- | ----------------- |

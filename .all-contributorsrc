@@ -1,0 +1,53 @@
+{
+  "projectName": "ngx-gantt",
+  "projectOwner": "walkerkay",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "walkerkay",
+      "name": "Walker",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15701592?v=4",
+      "profile": "https://github.com/walkerkay",
+      "contributions": [
+        "question",
+        "code",
+        "design",
+        "doc",
+        "infra",
+        "maintenance",
+        "projectManagement",
+        "review"
+      ]
+    },
+    {
+      "login": "HandsomeButterball",
+      "name": "zhangwen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17664721?v=4",
+      "profile": "https://github.com/HandsomeButterball",
+      "contributions": [
+        "question",
+        "code",
+        "doc",
+        "review"
+      ]
+    },
+    {
+      "login": "mengshuicmq",
+      "name": "cmq",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13193164?v=4",
+      "profile": "https://github.com/mengshuicmq",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true
+}
