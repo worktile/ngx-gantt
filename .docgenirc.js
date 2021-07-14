@@ -10,7 +10,7 @@ module.exports = {
         null,
         {
             title: '组件',
-            path: 'component',
+            path: 'components',
             locales: {
                 'en-us': {
                     title: 'Component'
@@ -18,25 +18,7 @@ module.exports = {
             }
         },
         {
-            title: '平铺模式',
-            path: 'flat',
-            locales: {
-                'en-us': {
-                    title: 'Flat'
-                }
-            }
-        },
-        {
-            title: '区间展示',
-            path: 'range',
-            locales: {
-                'en-us': {
-                    title: 'Range'
-                }
-            }
-        },
-        {
-            title: '配置',
+            title: '参数',
             path: 'configuration',
             lib: 'ngx-gantt',
             locales: {

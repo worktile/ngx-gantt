@@ -1,0 +1,68 @@
+---
+title: 样式重写
+path: 'style'
+order: 50
+---
+
+`ngx-gantt` 使用了 `css` 预处理器 `scss`，支持重写组件的大部分的色值和部分layout样式。
+
+
+```scss
+// basic
+$gantt-color: #333 !default;
+$gantt-header-height: 44px !default;
+$gantt-border-color: #eee !default;
+$gantt-bg-color: #fff !default;
+$gantt-side-shadow: 12px 0 16px -10px rgba(0, 0, 0, 0.15) !default;
+$gantt-container-background-color: #fafafa !default;
+$gantt-item-height: 44px !default;
+$gantt-group-background-color: rgba(
+  $color: #f3f3f3,
+  $alpha: 0.5
+) !default;
+$gantt-group-height: 44px !default;
+$gantt-table-td-padding: 0 15px !default;
+
+// calendar
+$gantt-date-primary-color: #888 !default;
+$gantt-date-primary-font-size: 14px !default;
+$gantt-date-primary-border: #ddd !default;
+$gantt-date-secondary-color: #333 !default;
+$gantt-date-secondary-font-size: 14px !default;
+$gantt-date-secondary-weekend-color: #aaa !default;
+$gantt-date-week-backdrop-bg: rgba(
+  $color: #f3f3f3,
+  $alpha: 0.5
+) !default;
+$gantt-date-today-color: #ff9f73 !default;
+$gantt-date-today-text-color: #fff !default;
+
+// bar
+$gantt-bar-bg: #fff !default;
+$gantt-bar-layer-bg: #fff !default;
+$gantt-bar-handle-color: #cacaca !default;
+$gantt-bar-handle-height: 12px !default;
+$gantt-bar-background-color: #348fe4 !default;
+
+// drag
+$gantt-item-drag-mask-color: #348fe4 !default;
+$gantt-link-dragging-line-color: #348fe4 !default;
+
+// link
+$gantt-link-line-color: #348fe4 !default;
+
+// table
+$gantt-table-header-drag-line-width: 3px !default;
+$gantt-table-header-drag-line-color: #348fe4 !default;
+
+```
+
+示例：
+
+```
+$gantt-color: #000;
+$gantt-bg-color: #fafafa;
+
+@import '~@worktile/gantt/main.bundle.scss';
+
+```

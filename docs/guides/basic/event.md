@@ -1,10 +1,8 @@
 ---
-title: 事件
+title: 事件类型
 path: 'event'
 order: 40
 ---
-
-`Gantt`中有许多点击拖拽事件，因此我们定义了一些事件相关的基础类来传递数据，主要有以下几个。
 
 # GanttDragEvent
 

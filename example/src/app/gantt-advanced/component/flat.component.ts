@@ -5,6 +5,7 @@ import { startWith, takeUntil } from 'rxjs/operators';
 @Component({
     selector: 'app-gantt-flat',
     templateUrl: './flat.component.html',
+    styleUrls: ['./flat.scss'],
     providers: [
         {
             provide: GANTT_UPPER_TOKEN,
@@ -53,6 +54,7 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit, OnChang
     }
 
     private buildGroupItems() {
+        console.log(this.groups);
         this.groups.forEach((group) => {
             group.mergedItems = this.buildGroupMergedItems(group.items);
             // 如果没有数据，默认填充两行空行

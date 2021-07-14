@@ -1,0 +1,31 @@
+:host {
+    .gantt-flat-side-header {
+        text-align: center;
+        position: sticky;
+        top: 0;
+        background: #fff;
+        height: 44px;
+        line-height: 44px;
+        z-index: 1;
+        border-bottom: 1px solid #eee;
+        box-sizing: border-box;
+    }
+
+    .gantt-group {
+        .gantt-group-content {
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+    }
+
+    .gantt-main-group {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+
+        .gantt-flat-items {
+            position: relative;
+        }
+    }
+}

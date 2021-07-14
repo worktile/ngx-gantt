@@ -1,68 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
 
 // docgeni
-$dg-primary: #2e3f52;
+
+$primary:#348fe4;
 
 @import '../../packages/gantt/src/styles/index.scss';
 @import '~@docgeni/template/styles/index.scss';
+@import "~ngx-tethys/styles/main.bundle.scss";
 
 .gantt-demo {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #eee;
-  padding: 20px;
-
-  .gantt-demo-header {
-    height: 50px;
-    background: #fff;
-    padding: 0px 20px;
-    margin-bottom: 15px;
+    height: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    background: #eee;
+    padding: 20px;
 
-    .header-section {
-      margin-right: 20px;
-      &-title {
-        font-weight: bold;
-      }
+    .gantt-demo-header {
+        height: 50px;
+        background: #fff;
+        padding: 0px 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+
+        .header-section {
+            margin-right: 20px;
+
+            &-title {
+                font-weight: bold;
+            }
+        }
     }
-  }
 
-  .gantt-demo-content {
-    flex: 1;
-    height: 1px;
-  }
+    .gantt-demo-content {
+        flex: 1;
+        height: 1px;
+    }
 }
 
-.gantt-flat {
-  .gantt-flat-side-header {
-    text-align: center;
-    position: sticky;
-    top: 0;
-    background: $gantt-bg-color;
-    height: $gantt-header-height;
-    line-height: $gantt-header-height;
-    z-index: 1;
-    border-bottom: 1px solid $gantt-border-color;
-    box-sizing: border-box;
-  }
+.gantt-example-content {
+    margin-left: 300px;
+}
 
-  .gantt-group {
-    .gantt-group-content {
-      border-bottom: 1px solid #eee;
-      box-sizing: content-box;
-      display: flex;
-      align-items: center;
-      padding: 15px;
-    }
-  }
+.gantt-example-component {
+    display: block;
+    margin: 20px;
+    border: 1px solid #eee;
+    height: calc(100vh - 95px);
 
-  .gantt-main-group {
-    border-bottom: 1px solid #eee;
-    padding: 15px 0;
-    .gantt-flat-items {
-      position: relative;
+    .thy-layout-header {
+        .layout-header-title {
+            display: none;
+        }
     }
-  }
 }

@@ -4,15 +4,15 @@ path: 'getting-started'
 order: 2
 ---
 
-## 安装
+# 安装
 
 ```bash
-$ npm i @worktile/ngx-gantt --save
+$ npm i @worktile/gantt --save
 # or
-$ yarn add @worktile/ngx-gantt
+$ yarn add @worktile/gantt
 ```
 
-## 使用
+# 使用
 
 ### 导入模块
 
@@ -30,7 +30,50 @@ export class AppModule {
 }
 ```
 
-### 组件使用
+<br/>
+
+### 引入样式
+在 angular.json 中引入
+```json
+{
+    "styles": [
+        "node_modules/@worktile/gantt/main.bundle.scss"
+    ]
+}
+```
+在style.scss中引入预构建样式文件
+```
+@import "~@worktile/gantt/main.bundle.scss";
+```
+
+### 组件中使用
+
+
 ```html
-<ngx-gantt [start]="1514736000" [end]="1609430400"></ngx-gantt>
+<!-- component.html -->
+<ngx-gantt #gantt [items]="items">
+  <ngx-gantt-table>
+    <ngx-gantt-column name="标题" width="300px">
+      <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+    </ngx-gantt-column>
+  </ngx-gantt-table>
+</ngx-gantt>
+```
+
+```javascript
+// component.ts
+@Component({
+  selector: 'app-gantt-example',
+  templateUrl: './gantt.component.html'
+})
+export class AppGanttExampleComponent {
+  items: GanttItem[] = [
+    { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
+    { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'], expandable: true },
+    { id: '000002', title: 'Task 2', start: 1610536397, end: 1610622797 },
+    { id: '000003', title: 'Task 3', start: 1628507597, end: 1633345997, expandable: true }
+  ];
+
+  constructor() {}
+}
 ```
