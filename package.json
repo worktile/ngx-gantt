@@ -39,6 +39,7 @@
     "@types/es6-promise": "^3.3.0",
     "date-fns": "^2.14.0",
     "html2canvas": "1.0.0-rc.7",
+    "ngx-tethys": "^11.0.4",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
