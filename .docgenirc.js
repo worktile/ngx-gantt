@@ -34,7 +34,7 @@ module.exports = {
         },
         {
             title: '更新日志',
-            path: 'https://github.com/worktile/ngx-gantt/changelog.md',
+            path: 'https://github.com/worktile/ngx-gantt/blob/master/CHANGELOG.md',
             isExternal: true,
             locales: {
                 'en-us': {
