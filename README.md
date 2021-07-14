@@ -109,7 +109,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/walkerkay"><img src="https://avatars.githubusercontent.com/u/15701592?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Walker</b></sub></a><br /><a href="#question-walkerkay" title="Answering Questions">💬</a> <a href="https://github.com/walkerkay/ngx-gantt/commits?author=walkerkay" title="Code">💻</a> <a href="#design-walkerkay" title="Design">🎨</a> <a href="https://github.com/walkerkay/ngx-gantt/commits?author=walkerkay" title="Documentation">📖</a> <a href="#infra-walkerkay" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-walkerkay" title="Maintenance">🚧</a> <a href="#projectManagement-walkerkay" title="Project Management">📆</a> <a href="https://github.com/walkerkay/ngx-gantt/pulls?q=is%3Apr+reviewed-by%3Awalkerkay" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="https://github.com/ZhangWen"><img src="https://avatars.githubusercontent.com/u/2037765?v=4?s=100" width="100px;" alt=""/><br /><sub><b>atOmega</b></sub></a><br /><a href="https://github.com/walkerkay/ngx-gantt/commits?author=ZhangWen" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/HandsomeButterball"><img src="https://avatars.githubusercontent.com/u/17664721?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangwen</b></sub></a><br /><a href="https://github.com/walkerkay/ngx-gantt/commits?author=HandsomeButterball" title="Code">💻</a></td>
   </tr>
 </table>
 
