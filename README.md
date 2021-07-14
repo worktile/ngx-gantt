@@ -1,6 +1,6 @@
 # ngx-gantt
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CircleCI](https://circleci.com/gh/worktile/ngx-gantt.svg?style=shield)](https://circleci.com/gh/worktile/ngx-gantt)
@@ -109,6 +109,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://www.zhihu.com/people/why520crazy/activities"><img src="https://avatars.githubusercontent.com/u/3959960?v=4?s=100" width="100px;" alt=""/><br /><sub><b>why520crazy</b></sub></a><br /><a href="https://github.com/worktile/ngx-gantt/commits?author=why520crazy" title="Code">💻</a> <a href="#design-why520crazy" title="Design">🎨</a> <a href="https://github.com/worktile/ngx-gantt/commits?author=why520crazy" title="Documentation">📖</a> <a href="#example-why520crazy" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/walker"><img src="https://avatars.githubusercontent.com/u/3987?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Walker</b></sub></a><br /><a href="#a11y-walker" title="Accessibility">️️️️♿️</a></td>
   </tr>
 </table>
 
