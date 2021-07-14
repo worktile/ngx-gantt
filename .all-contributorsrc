@@ -16,6 +16,22 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/15701592?v=4",
       "profile": "https://github.com/walkerkay",
       "contributions": [
+        "question",
+        "code",
+        "design",
+        "doc",
+        "infra",
+        "maintenance",
+        "projectManagement",
+        "review"
+      ]
+    },
+    {
+      "login": "ZhangWen",
+      "name": "atOmega",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2037765?v=4",
+      "profile": "https://github.com/ZhangWen",
+      "contributions": [
         "code"
       ]
     }
