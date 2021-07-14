@@ -22,7 +22,7 @@ $ yarn add @worktile/ngx-gantt
 
 ## Demo
 
-[Try out our live demo][http://gantt.ngnice.com/]
+[Try out our live demo](http://gantt.ngnice.com/)
 
 ## Usage
 
