@@ -38,7 +38,7 @@ order: 1
 
 ## 支持 Angular 版本
 
-`ngx-gantt` 与 `@angular/core` 保持相同的主版本号，目前支持 Angular ^11.0.0 版本。
+`ngx-gantt` 与 `@angular/core` 保持相同的主版本号，目前支持 Angular ^12.0.0 版本。
 
 ## 依赖第三方库
 
