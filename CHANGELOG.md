@@ -1,6 +1,18 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [12.0.0](https://github.com/worktile/ngx-gantt/compare/11.0.0...12.0.0) (2021-07-20)
+
+
+### Features
+
+* bump angular 12 ([7b4511c](https://github.com/worktile/ngx-gantt/commit/7b4511c567307c2a73724f89bcf594f3607068d9))
+
+
+### Bug Fixes
+
+* change favicon.ico ([74c8c1a](https://github.com/worktile/ngx-gantt/commit/74c8c1a8f3d54f3d6f4d45c960c0290320f32300))
+
 ## [11.0.0](https://github.com/worktile/ngx-gantt/compare/0.0.50...11.0.0) (2021-07-09)
 
 
