@@ -15,9 +15,9 @@ A modern and powerful gantt component for Angular
 ## Installation
 
 ```bash
-$ npm i @worktile/ngx-gantt --save
+$ npm i @worktile/gantt --save
 # or
-$ yarn add @worktile/ngx-gantt
+$ yarn add @worktile/gantt
 ```
 
 ## Demo
@@ -30,7 +30,7 @@ $ yarn add @worktile/ngx-gantt
 
 ```ts
 import { NgModule } from '@angular/core';
-import { NgxGanttModule } from '@worktile/ngx-gantt';
+import { NgxGanttModule } from '@worktile/gantt';
 
 @NgModule({
   ...

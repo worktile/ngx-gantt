@@ -18,7 +18,7 @@ $ yarn add @worktile/gantt
 
 ```ts
 import { NgModule } from '@angular/core';
-import { NgxGanttModule } from '@worktile/ngx-gantt';
+import { NgxGanttModule } from '@worktile/gantt';
 
 @NgModule({
   ...
