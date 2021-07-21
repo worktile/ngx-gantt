@@ -17,7 +17,14 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
     imports: [CommonModule, DragDropModule],
-    exports: [NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent, NgxGanttRootComponent, NgxGanttBarComponent],
+    exports: [
+        NgxGanttComponent,
+        NgxGanttTableComponent,
+        NgxGanttTableColumnComponent,
+        NgxGanttRootComponent,
+        NgxGanttBarComponent,
+        NgxGanttRangeComponent
+    ],
     declarations: [
         NgxGanttComponent,
         NgxGanttTableComponent,
