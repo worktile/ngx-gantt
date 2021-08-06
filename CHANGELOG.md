@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [11.0.1](https://github.com/worktile/ngx-gantt/compare/11.0.0...11.0.1) (2021-08-06)
+
+
+### Bug Fixes
+
+* fix empty table error ([7ae0aef](https://github.com/worktile/ngx-gantt/commit/7ae0aefa5f3e5075788627a3f3e55e64e6c46a8a))
+
 ## [11.0.0](https://github.com/worktile/ngx-gantt/compare/0.0.50...11.0.0) (2021-07-09)
 
 

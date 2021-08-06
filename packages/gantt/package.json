@@ -1,6 +1,6 @@
 {
   "name": "@worktile/gantt",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "schematics": "./schematics/collection.json",
   "scripts": {
     "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
