@@ -127,7 +127,7 @@ export abstract class GanttUpper {
         // 根据上一次数据展开状态同步新的数据展开状态
         this.originItems.forEach((item) => {
             if (!this.firstChange) {
-                item.expanded = this.expandedItemIds.includes(item.id);
+                item.expanded = item.expanded || this.expandedItemIds.includes(item.id);
             }
         });
         if (this.groups.length > 0) {
