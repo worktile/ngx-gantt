@@ -122,14 +122,22 @@ export abstract class GanttUpper {
     }
 
     private setupItems() {
-        this.items = [];
         this.originItems = uniqBy(this.originItems, 'id');
+
         // 根据上一次数据展开状态同步新的数据展开状态
-        this.originItems.forEach((item) => {
+        this.originItems.forEach((originItem) => {
+            const oldItem = this.items.find((item) => {
+                return item.id === originItem.id;
+            });
             if (!this.firstChange) {
-                item.expanded = item.expanded || this.expandedItemIds.includes(item.id);
+                if (oldItem && !oldItem.children?.length && originItem.children?.length) {
+                    originItem.expanded = originItem.expanded || this.expandedItemIds.includes(originItem.id);
+                } else {
+                    originItem.expanded = this.expandedItemIds.includes(originItem.id);
+                }
             }
         });
+        this.items = [];
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
