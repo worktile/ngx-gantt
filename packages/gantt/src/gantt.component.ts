@@ -87,7 +87,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     //     return `-${offset}px`;
     // }
 
-    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone, private dom: GanttDomService) {
+    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone) {
         super(elementRef, cdr, ngZone);
     }
 
