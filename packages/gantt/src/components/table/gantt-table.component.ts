@@ -31,9 +31,22 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
     public dragStartLeft: number;
 
-    @Input() groups: GanttGroupInternal[];
+    public hasGroup: boolean;
 
-    @Input() items: GanttItemInternal[];
+    public flatData: GanttGroupInternal[] | GanttItemInternal[];
+
+    // @Input() groups: GanttGroupInternal[];
+
+    // @Input() items: GanttItemInternal[];
+
+    @Input() set tempData(data: GanttGroupInternal[] | GanttItemInternal[]) {
+        const firstData = data[0];
+        if (firstData && firstData.hasOwnProperty('items')) {
+            this.hasGroup = true;
+        }
+        this.ganttTableEmptyClass = data?.length ? false : true;
+        this.flatData = data;
+    }
 
     @Input()
     set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
@@ -60,11 +73,11 @@ export class GanttTableComponent implements OnInit, OnChanges {
     ngOnInit() {}
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!changes.groups.currentValue?.length && !changes.items.currentValue?.length) {
-            this.ganttTableEmptyClass = true;
-        } else {
-            this.ganttTableEmptyClass = false;
-        }
+        // if (!changes.groups?.currentValue?.length && !changes.items?.currentValue?.length) {
+        //     this.ganttTableEmptyClass = true;
+        // } else {
+        //     this.ganttTableEmptyClass = false;
+        // }
     }
 
     private dragFixed(config: DragFixedConfig) {
@@ -157,5 +170,9 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
     private hideAuxiliaryLine() {
         this.draglineElementRef.nativeElement.style.display = 'none';
+    }
+
+    trackBy(item: GanttGroupInternal | GanttItemInternal, index: number) {
+        return item.id || index;
     }
 }

@@ -49,9 +49,11 @@ interface LinkInternal {
     templateUrl: './links.component.html'
 })
 export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
-    @Input() groups: GanttGroupInternal[] = [];
+    // @Input() groups: GanttGroupInternal[] = [];
 
-    @Input() items: GanttItemInternal[] = [];
+    // @Input() items: GanttItemInternal[] = [];
+
+    @Input() flatData: GanttGroupInternal[] | GanttItemInternal[] = [];
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
@@ -107,47 +109,62 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         const lineHeight = this.ganttUpper.styles.lineHeight;
         const barHeight = this.ganttUpper.styles.barHeight;
         this.linkItems = [];
-        if (this.groups.length > 0) {
-            let itemNum = 0;
-            let groupNum = 0;
-            this.groups.forEach((group) => {
-                groupNum++;
-                if (group.expanded) {
-                    const items = recursiveItems(group.items);
-                    items.forEach((item, itemIndex) => {
-                        const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
-                        this.linkItems.push({
-                            ...item,
-                            before: {
-                                x: item.refs.x,
-                                y
-                            },
-                            after: {
-                                x: item.refs.x + item.refs.width,
-                                y
-                            }
-                        });
-                    });
-                    itemNum += items.length;
+        // if (this.groups.length > 0) {
+        //     let itemNum = 0;
+        //     let groupNum = 0;
+        //     this.groups.forEach((group) => {
+        //         groupNum++;
+        //         if (group.expanded) {
+        //             const items = recursiveItems(group.items);
+        //             items.forEach((item, itemIndex) => {
+        //                 const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
+        //                 this.linkItems.push({
+        //                     ...item,
+        //                     before: {
+        //                         x: item.refs.x,
+        //                         y
+        //                     },
+        //                     after: {
+        //                         x: item.refs.x + item.refs.width,
+        //                         y
+        //                     }
+        //                 });
+        //             });
+        //             itemNum += items.length;
+        //         }
+        //     });
+        // } else {
+        //     const items = recursiveItems(this.items);
+        //     items.forEach((item, itemIndex) => {
+        //         const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
+        //         this.linkItems.push({
+        //             ...item,
+        //             before: {
+        //                 x: item.refs.x,
+        //                 y
+        //             },
+        //             after: {
+        //                 x: item.refs.x + item.refs.width,
+        //                 y
+        //             }
+        //         });
+        //     });
+        // }
+
+        this.flatData.forEach((item, itemIndex) => {
+            const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
+            this.linkItems.push({
+                ...item,
+                before: {
+                    x: item.refs.x,
+                    y
+                },
+                after: {
+                    x: item.refs.x + item.refs.width,
+                    y
                 }
             });
-        } else {
-            const items = recursiveItems(this.items);
-            items.forEach((item, itemIndex) => {
-                const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
-                this.linkItems.push({
-                    ...item,
-                    before: {
-                        x: item.refs.x,
-                        y
-                    },
-                    after: {
-                        x: item.refs.x + item.refs.width,
-                        y
-                    }
-                });
-            });
-        }
+        });
     }
 
     private generatePath(source: GanttLinkItem, target: GanttLinkItem) {

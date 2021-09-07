@@ -1,18 +1,26 @@
-<ngx-gantt-root>
-  <ng-template #sideTemplate>
-    <gantt-table [groups]="groups" [items]="items" [columns]="columns" [groupTemplate]="groupTemplate" [emptyTemplate]="tableEmptyTemplate"></gantt-table>
-  </ng-template>
-  <ng-template #mainTemplate>
-    <gantt-main
-      [groups]="groups"
-      [items]="items"
-      [groupHeaderTemplate]="groupHeaderTemplate"
-      [itemTemplate]="itemTemplate"
-      [barTemplate]="barTemplate"
-      [rangeTemplate]="rangeTemplate"
-      (barClick)="barClick.emit($event)"
-      (lineClick)="lineClick.emit($event)"
-    >
-    </gantt-main>
-  </ng-template>
-</ngx-gantt-root>
+<cdk-virtual-scroll-viewport class="gantt-virtual-scroll-viewport" [itemSize]="styles.lineHeight">
+  <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
+  <ngx-gantt-root>
+    <ng-template #sideTemplate>
+      <gantt-table
+        [tempData]="tempData"
+        [columns]="columns"
+        [groupTemplate]="groupTemplate"
+        [emptyTemplate]="tableEmptyTemplate"
+      ></gantt-table>
+    </ng-template>
+    <ng-template #mainTemplate>
+      <gantt-main
+        [tempData]="tempData"
+        [flatData]="flatData"
+        [groupHeaderTemplate]="groupHeaderTemplate"
+        [itemTemplate]="itemTemplate"
+        [barTemplate]="barTemplate"
+        [rangeTemplate]="rangeTemplate"
+        (barClick)="barClick.emit($event)"
+        (lineClick)="lineClick.emit($event)"
+      >
+      </gantt-main>
+    </ng-template>
+  </ngx-gantt-root>
+</cdk-virtual-scroll-viewport>

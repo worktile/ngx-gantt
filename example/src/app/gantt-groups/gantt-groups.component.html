@@ -17,7 +17,15 @@
     </ng-template>
   </thy-header>
   <thy-content>
-    <ngx-gantt #gantt [groups]="groups" [items]="items" [viewType]="viewType" [draggable]="true">
+    <ngx-gantt
+      #gantt
+      [groups]="groups"
+      [items]="items"
+      [viewType]="viewType"
+      [draggable]="true"
+      [async]="true"
+      [childrenResolve]="childrenResolve"
+    >
       <ngx-gantt-table>
         <ngx-gantt-column name="标题" width="180px">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>

@@ -194,6 +194,14 @@ export abstract class GanttUpper {
         };
     }
 
+    // private expandGroups(expanded: boolean) {
+    //     this.groups.forEach((group) => {
+    //         group.setExpand(expanded);
+    //     });
+    //     this.expandChange.next();
+    //     this.cdr.detectChanges();
+    // }
+
     computeRefs() {
         this.groups.forEach((group) => {
             const groupItems = recursiveItems(group.items);
@@ -201,14 +209,6 @@ export abstract class GanttUpper {
         });
         const items = recursiveItems(this.items);
         this.computeItemsRefs(...items);
-    }
-
-    private expandGroups(expanded: boolean) {
-        this.groups.forEach((group) => {
-            group.setExpand(expanded);
-        });
-        this.expandChange.next();
-        this.cdr.detectChanges();
     }
 
     onInit() {
@@ -278,21 +278,21 @@ export abstract class GanttUpper {
         this.cdr.detectChanges();
     }
 
-    expandGroup(group: GanttGroupInternal) {
-        group.setExpand(!group.expanded);
-        this.expandChange.emit();
-        this.cdr.detectChanges();
-    }
+    // expandGroup(group: GanttGroupInternal) {
+    //     group.setExpand(!group.expanded);
+    //     this.expandChange.emit();
+    //     this.cdr.detectChanges();
+    // }
 
-    // public functions
+    // // public functions
 
-    expandAll() {
-        this.expandGroups(true);
-    }
+    // expandAll() {
+    //     this.expandGroups(true);
+    // }
 
-    collapseAll() {
-        this.expandGroups(false);
-    }
+    // collapseAll() {
+    //     this.expandGroups(false);
+    // }
 }
 
 export const GANTT_UPPER_TOKEN = new InjectionToken<GanttUpper>('GANTT_UPPER_TOKEN');

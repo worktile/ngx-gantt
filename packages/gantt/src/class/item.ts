@@ -51,6 +51,7 @@ export class GanttItemInternal {
     type?: GanttItemType;
     progress?: number;
     viewType?: GanttViewType;
+    level?: number;
 
     get refs() {
         return this.refs$.getValue();

@@ -47,7 +47,7 @@
     display: none;
   }
 
-  .gantt-table-row {
+  &-row {
     display: flex;
     box-sizing: border-box;
     border-bottom: 1px solid $gantt-border-color;
@@ -64,21 +64,23 @@
     }
   }
 
-  .gantt-table-header {
+  &-header {
     text-align: center;
-    position: sticky;
-    top: 0;
     background: #fff;
-    z-index: 2;
     height: $gantt-header-height;
     line-height: $gantt-header-height;
+    box-shadow: $gantt-side-shadow;
+
+    // box-shadow: 0 0 10px -10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 2;
 
     .gantt-table-column {
       font-weight: 400;
     }
   }
 
-  .gantt-table-body {
+  &-body {
     .gantt-table-group {
       display: flex;
       height: $gantt-group-height;
