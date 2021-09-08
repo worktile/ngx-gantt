@@ -1,8 +1,20 @@
-.gantt-calendar-overlay {
+.gantt-calendar {
   display: block;
   height: 100%;
   overflow: hidden;
+  svg {
+    position: relative;
+    z-index: 1;
+    background-color: $gantt-bg-color;
+    overflow: visible;
+  }
+  line {
+    shape-rendering: crispEdges;
+  }
 
+  .primary-line {
+    stroke: $gantt-date-primary-border;
+  }
   .gantt-calendar-today-overlay {
     position: relative;
     z-index: 2;
@@ -24,21 +36,11 @@
       margin-left: -2px;
     }
   }
-
-  .gantt-calendar-overlay-main {
-    position: relative;
-    z-index: 1;
-    background-color: $gantt-bg-color;
+}
+.gantt-calendar-header {
+  .header-line {
+    stroke: $gantt-border-color;
   }
-
-  svg {
-    overflow: visible;
-  }
-
-  line {
-    shape-rendering: crispEdges;
-  }
-
   .primary-text {
     fill: $gantt-date-primary-color;
     font-size: $gantt-date-primary-font-size;
@@ -57,18 +59,15 @@
   .secondary-text {
     text-anchor: middle;
   }
-
-  .primary-line {
-    stroke: $gantt-date-primary-border;
+}
+.gantt-calendar-overlay {
+  .gantt-calendar-overlay-main {
+    background-color: transparent;
   }
 
   .secondary-line {
     stroke-dasharray: 2px 5px;
     stroke: #cacaca;
-  }
-
-  .header-line {
-    stroke: $gantt-border-color;
   }
 
   .secondary-backdrop {

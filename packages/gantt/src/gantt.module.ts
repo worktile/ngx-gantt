@@ -15,6 +15,9 @@ import { NgxGanttRangeComponent } from './components/range/range.component';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from './gantt.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
+import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+
 @NgModule({
     imports: [CommonModule, DragDropModule, ScrollingModule],
     exports: [
@@ -30,7 +33,9 @@ import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrollin
         NgxGanttTableComponent,
         NgxGanttTableColumnComponent,
         GanttTableComponent,
+        GanttTableHeaderComponent,
         GanttMainComponent,
+        GanttCalendarHeaderComponent,
         GanttCalendarComponent,
         GanttLinksComponent,
         NgxGanttBarComponent,

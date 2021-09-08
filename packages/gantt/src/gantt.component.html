@@ -1,15 +1,30 @@
-<cdk-virtual-scroll-viewport class="gantt-virtual-scroll-viewport" [itemSize]="styles.lineHeight">
+<div class="gantt-header">
+  <gantt-table-header #tableHeader [columns]="columns"></gantt-table-header>
+  <div class="gantt-container-header">
+    <gantt-calendar-header></gantt-calendar-header>
+  </div>
+</div>
+
+<cdk-virtual-scroll-viewport
+  class="gantt-virtual-scroll-viewport"
+  [itemSize]="styles.lineHeight"
+  [minBufferPx]="styles.lineHeight * 5"
+  [maxBufferPx]="styles.lineHeight * 10"
+>
   <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
-  <ngx-gantt-root>
-    <ng-template #sideTemplate>
+  <div class="gantt-side" [style.width.px]="tableHeader.tableWidth">
+    <div class="gantt-side-container">
       <gantt-table
         [tempData]="tempData"
         [columns]="columns"
         [groupTemplate]="groupTemplate"
         [emptyTemplate]="tableEmptyTemplate"
       ></gantt-table>
-    </ng-template>
-    <ng-template #mainTemplate>
+    </div>
+  </div>
+  <div class="gantt-container">
+    <gantt-calendar-overlay></gantt-calendar-overlay>
+    <div class="gantt-main">
       <gantt-main
         [tempData]="tempData"
         [flatData]="flatData"
@@ -21,6 +36,8 @@
         (lineClick)="lineClick.emit($event)"
       >
       </gantt-main>
-    </ng-template>
-  </ngx-gantt-root>
+    </div>
+  </div>
 </cdk-virtual-scroll-viewport>
+
+<gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth"></gantt-drag-backdrop>

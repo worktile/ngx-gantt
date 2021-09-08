@@ -28,6 +28,8 @@ export class GanttDomService implements OnDestroy {
 
     public mainContainer: Element;
 
+    public calendarHeader: Element;
+
     public calendarOverlay: Element;
 
     public linksOverlay: Element;
@@ -56,6 +58,7 @@ export class GanttDomService implements OnDestroy {
 
     private syncScroll(event: Event) {
         const target = event.currentTarget as HTMLElement;
+        this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
         this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
 
         this.sideContainer.scrollTop = target.scrollTop;
@@ -86,6 +89,7 @@ export class GanttDomService implements OnDestroy {
         this.container = this.root.getElementsByClassName('gantt-container')[0];
         this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
+        this.calendarHeader = this.root.getElementsByClassName('gantt-calendar-header')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-overlay')[0];
         this.monitorScrollChange();
         this.disableBrowserWheelEvent();
@@ -123,6 +127,7 @@ export class GanttDomService implements OnDestroy {
         if (isNumber(left)) {
             const scrollLeft = left - this.mainContainer.clientWidth / 2;
             this.mainContainer.scrollLeft = scrollLeft > scrollThreshold ? scrollLeft : 0;
+            this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
             this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
         }
     }

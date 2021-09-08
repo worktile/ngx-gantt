@@ -13,9 +13,9 @@ import {
 import { GanttDatePoint } from '../../class/date-point';
 import { Subject, merge } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { headerHeight, todayHeight, todayWidth, todayBorderRadius } from '../../gantt.styles';
+import { headerHeight, todayBorderRadius } from '../../gantt.styles';
 import { isNumber } from '../../utils/helpers';
-import { GanttDate } from '../../utils/date';
+
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttViewType } from './../../class/view-type';
 
@@ -36,15 +36,11 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     mainHeight = mainHeight;
 
-    todayHeight = todayHeight;
-
-    todayWidth = todayWidth;
-
     todayBorderRadius = todayBorderRadius;
 
     viewTypes = GanttViewType;
 
-    @HostBinding('class.gantt-calendar-overlay') className = true;
+    @HostBinding('class') className = `gantt-calendar gantt-calendar-overlay`;
 
     constructor(
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
@@ -54,20 +50,12 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     setTodayPoint() {
         const x = this.view.getTodayXPoint();
-        const today = new GanttDate().getDate();
         const todayEle = this.elementRef.nativeElement.getElementsByClassName('gantt-calendar-today-overlay')[0] as HTMLElement;
-        const rect = this.elementRef.nativeElement.getElementsByClassName('today-rect')[0] as HTMLElement;
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0] as HTMLElement;
-
         if (isNumber(x)) {
-            if (rect) {
-                rect.style.left = `${x - todayWidth / 2}px`;
-                rect.style.top = `${headerHeight - todayHeight}px`;
-                rect.innerHTML = today.toString();
-            }
             if (line) {
                 line.style.left = `${x}px`;
-                line.style.top = `${headerHeight}px`;
+                line.style.top = `0px`;
                 line.style.bottom = `${-mainHeight}px`;
             }
         } else {

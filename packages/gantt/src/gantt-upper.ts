@@ -194,14 +194,6 @@ export abstract class GanttUpper {
         };
     }
 
-    // private expandGroups(expanded: boolean) {
-    //     this.groups.forEach((group) => {
-    //         group.setExpand(expanded);
-    //     });
-    //     this.expandChange.next();
-    //     this.cdr.detectChanges();
-    // }
-
     computeRefs() {
         this.groups.forEach((group) => {
             const groupItems = recursiveItems(group.items);
@@ -228,6 +220,7 @@ export abstract class GanttUpper {
             this.dragContainer.dragEnded.subscribe((event) => {
                 this.dragEnded.emit(event);
                 this.computeRefs();
+                // this.computeItemsRefs(new GanttItemInternal(event.item));
                 this.detectChanges();
             });
         });
@@ -277,22 +270,6 @@ export abstract class GanttUpper {
     detectChanges() {
         this.cdr.detectChanges();
     }
-
-    // expandGroup(group: GanttGroupInternal) {
-    //     group.setExpand(!group.expanded);
-    //     this.expandChange.emit();
-    //     this.cdr.detectChanges();
-    // }
-
-    // // public functions
-
-    // expandAll() {
-    //     this.expandGroups(true);
-    // }
-
-    // collapseAll() {
-    //     this.expandGroups(false);
-    // }
 }
 
 export const GANTT_UPPER_TOKEN = new InjectionToken<GanttUpper>('GANTT_UPPER_TOKEN');

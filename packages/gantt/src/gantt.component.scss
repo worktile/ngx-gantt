@@ -76,7 +76,7 @@
   .gantt-virtual-scroll-viewport {
     position: absolute;
     left: 0;
-    top: 0;
+    top: $gantt-header-height;
     right: 0;
     bottom: 0;
     z-index: 2;
@@ -84,10 +84,24 @@
       width: 100%;
       min-width: unset;
       display: flex;
-      .gantt-main-container {
-        height: 100%;
-        top: 0;
+      min-height: 100%;
+      .gantt-container {
+        .gantt-main-container {
+          height: 100%;
+          top: 0;
+        }
       }
     }
+  }
+}
+
+.gantt-header {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  .gantt-container-header {
+    flex: 1;
+    overflow: hidden;
+    background-color: #fafafa;
   }
 }

@@ -16,19 +16,21 @@ import {
     AfterViewInit,
     ViewChild,
     ContentChild,
-    TemplateRef
+    TemplateRef,
+    Optional
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize, debounce, debounceTime } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttGroupInternal } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
-import { sideWidth } from './gantt.styles';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { recursiveItems } from './utils/helpers';
-import { GanttDomService } from './gantt-dom.service';
+import { GanttDomService, ScrollDirection } from './gantt-dom.service';
+import { GanttDragContainer } from './gantt-drag-container';
+import { GanttPrintService } from './gantt-print.service';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
@@ -38,6 +40,8 @@ export const minColumnWidth = 80;
     templateUrl: './gantt.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
+        GanttDomService,
+        GanttDragContainer,
         {
             provide: GANTT_UPPER_TOKEN,
             useExisting: NgxGanttComponent
@@ -67,8 +71,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-    public sideTableWidth = sideWidth;
-
     public flatData: GanttGroupInternal[] | GanttItemInternal[] = [];
 
     public tempData: GanttGroupInternal[] | GanttItemInternal[] = [];
@@ -79,16 +81,16 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     private ngUnsubscribe$ = new Subject();
 
-    // get inverseOfTranslation(): string {
-    //     if (!this.virtualScroll || !this.virtualScroll['_renderedContentOffset']) {
-    //         return '-0px';
-    //     }
-    //     const offset = this.virtualScroll['_renderedContentOffset'];
-    //     return `-${offset}px`;
-    // }
-
-    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone) {
+    constructor(
+        elementRef: ElementRef<HTMLElement>,
+        cdr: ChangeDetectorRef,
+        ngZone: NgZone,
+        private dom: GanttDomService,
+        public dragContainer: GanttDragContainer,
+        @Optional() private printService: GanttPrintService
+    ) {
         super(elementRef, cdr, ngZone);
+        this.dragContainer = dragContainer;
     }
 
     private expandGroups(expanded: boolean) {
@@ -107,9 +109,22 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         this.buildVirtualFlatData();
 
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+            this.dom.initialize(this.elementRef);
+            if (this.printService) {
+                this.printService.register(this.elementRef);
+            }
+
+            this.setupViewScroll();
+            // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
+            this.elementRef.nativeElement.style.opacity = '1';
+            this.viewChange.pipe(startWith(null)).subscribe(() => {
+                this.scrollToToday();
+            });
+
             this.dragContainer.linkDragStarted.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                 this.linkDragStarted.emit(event);
             });
+
             this.dragContainer.linkDragEnded.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                 this.linkDragEnded.emit(event);
             });
@@ -134,15 +149,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             this.rangeEnd = range.end;
             this.tempData = this.flatData.slice(range.start, range.end);
         });
-
-        // this.virtualScroll.elementScrolled().subscribe((event) => {
-        //     const scrollTop = this.virtualScroll.measureScrollOffset();
-        //     const top = scrollTop - this.styles.lineHeight * this.rangeStart;
-        //     const tableHeaderElement = this.elementRef.nativeElement.querySelector('.gantt-table-header') as HTMLDivElement;
-        //     const calendarElement = this.elementRef.nativeElement.querySelector('.gantt-calendar-overlay-main') as HTMLDivElement;
-        //     tableHeaderElement.style.top = `${top}px`;
-        //     calendarElement.style.top = `${top}px`;
-        // });
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -161,9 +167,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     expandGroup(group: GanttGroupInternal) {
         group.setExpand(!group.expanded);
-
         this.afterExpand();
-
         this.expandChange.emit();
         this.cdr.detectChanges();
     }
@@ -232,6 +236,40 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     trackBy(item: GanttGroupInternal | GanttItemInternal, index: number) {
         return item.id || index;
+    }
+
+    private scrollToToday() {
+        const x = this.view.getTodayXPoint();
+        this.dom.scrollMainContainer(x);
+    }
+
+    private setupViewScroll() {
+        if (this.disabledLoadOnScroll) {
+            return;
+        }
+        this.dom
+            .getViewerScroll()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((event) => {
+                if (event.direction === ScrollDirection.LEFT) {
+                    const dates = this.view.addStartDate();
+                    if (dates) {
+                        event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
+                        this.ngZone.run(() => {
+                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        });
+                    }
+                }
+                if (event.direction === ScrollDirection.RIGHT) {
+                    const dates = this.view.addEndDate();
+                    if (dates) {
+                        this.ngZone.run(() => {
+                            this.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
+                        });
+                    }
+                }
+                this.cdr.detectChanges();
+            });
     }
 
     ngOnDestroy() {

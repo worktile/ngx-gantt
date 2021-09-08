@@ -29,11 +29,14 @@
     right: 0;
     bottom: 0;
     cursor: ew-resize;
-    z-index: 1;
+    height: 5000px;
+    &.column-drag-trigger {
+      height: unset;
+      z-index: 1;
+    }
 
     &:hover {
       background: $gantt-table-header-drag-line-color;
-      z-index: 2;
     }
   }
 
@@ -45,6 +48,7 @@
     bottom: 0;
     z-index: 100;
     display: none;
+    height: 5000px;
   }
 
   &-row {
@@ -70,10 +74,9 @@
     height: $gantt-header-height;
     line-height: $gantt-header-height;
     box-shadow: $gantt-side-shadow;
-
-    // box-shadow: 0 0 10px -10px rgba(0, 0, 0, 0.15);
     position: relative;
-    z-index: 2;
+    z-index: 3;
+    border-right: 1px solid $gantt-border-color;
 
     .gantt-table-column {
       font-weight: 400;
