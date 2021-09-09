@@ -13,6 +13,8 @@
         [attr.y2]="mainHeight"
         class="secondary-line"
       ></line>
+    </g>
+    <g>
       <line
         *ngFor="let point of view.primaryDatePoints; let i = index; trackBy: trackBy"
         [attr.x1]="(i + 1) * view.primaryWidth"
