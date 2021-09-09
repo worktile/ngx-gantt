@@ -17,7 +17,7 @@
   }
   .gantt-calendar-today-overlay {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     .today-rect {
       width: 35px;
       height: 24px;
@@ -38,6 +38,8 @@
   }
 }
 .gantt-calendar-header {
+  position: relative;
+  z-index: 2;
   .header-line {
     stroke: $gantt-border-color;
   }
@@ -61,6 +63,8 @@
   }
 }
 .gantt-calendar-overlay {
+  position: absolute;
+  width: 100%;
   .gantt-calendar-overlay-main {
     background-color: transparent;
   }
