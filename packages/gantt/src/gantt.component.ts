@@ -1,4 +1,3 @@
-import { Dictionary } from './../../../dist/gantt/utils/helpers.d';
 import {
     Component,
     OnInit,
@@ -28,7 +27,7 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { keyBy, recursiveItems, uniqBy } from './utils/helpers';
+import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GanttPrintService } from './gantt-print.service';
