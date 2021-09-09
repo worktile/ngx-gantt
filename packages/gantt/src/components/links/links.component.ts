@@ -48,7 +48,7 @@ interface LinkInternal {
     templateUrl: './links.component.html'
 })
 export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
-    @Input() flatData: GanttGroupInternal[] | GanttItemInternal[] = [];
+    @Input() flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
@@ -72,9 +72,8 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.buildLinks();
         this.firstChange = false;
-
+        this.buildLinks();
         this.ganttDragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.visibility = 'hidden';
         });
@@ -106,18 +105,23 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         this.linkItems = [];
 
         this.flatData.forEach((item, itemIndex) => {
-            const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
-            this.linkItems.push({
-                ...item,
-                before: {
-                    x: item.refs.x,
-                    y
-                },
-                after: {
-                    x: item.refs.x + item.refs.width,
-                    y
+            if (!item.hasOwnProperty('items')) {
+                const ganttItem = item as GanttItemInternal;
+                if (ganttItem.refs) {
+                    const y = itemIndex * lineHeight + ganttItem.refs.y + barHeight / 2;
+                    this.linkItems.push({
+                        ...ganttItem,
+                        before: {
+                            x: ganttItem.refs.x,
+                            y
+                        },
+                        after: {
+                            x: ganttItem.refs.x + ganttItem.refs.width,
+                            y
+                        }
+                    });
                 }
-            });
+            }
         });
     }
 

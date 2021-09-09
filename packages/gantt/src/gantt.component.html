@@ -8,8 +8,8 @@
 <cdk-virtual-scroll-viewport
   class="gantt-virtual-scroll-viewport"
   [itemSize]="styles.lineHeight"
-  [minBufferPx]="styles.lineHeight * 5"
-  [maxBufferPx]="styles.lineHeight * 10"
+  [minBufferPx]="styles.lineHeight * 10"
+  [maxBufferPx]="styles.lineHeight * 20"
 >
   <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
   <div class="gantt-side" [style.width.px]="tableHeader.tableWidth">

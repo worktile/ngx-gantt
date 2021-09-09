@@ -74,6 +74,8 @@ export abstract class GanttUpper {
 
     public linkable: boolean;
 
+    public computeAllRefs = true;
+
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     public view: GanttView;
@@ -195,12 +197,14 @@ export abstract class GanttUpper {
     }
 
     computeRefs() {
-        this.groups.forEach((group) => {
-            const groupItems = recursiveItems(group.items);
-            this.computeItemsRefs(...groupItems);
-        });
-        const items = recursiveItems(this.items);
-        this.computeItemsRefs(...items);
+        if (this.computeAllRefs) {
+            this.groups.forEach((group) => {
+                const groupItems = recursiveItems(group.items);
+                this.computeItemsRefs(...groupItems);
+            });
+            const items = recursiveItems(this.items);
+            this.computeItemsRefs(...items);
+        }
     }
 
     onInit() {
@@ -220,7 +224,6 @@ export abstract class GanttUpper {
             this.dragContainer.dragEnded.subscribe((event) => {
                 this.dragEnded.emit(event);
                 this.computeRefs();
-                // this.computeItemsRefs(new GanttItemInternal(event.item));
                 this.detectChanges();
             });
         });

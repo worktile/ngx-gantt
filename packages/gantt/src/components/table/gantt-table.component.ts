@@ -13,9 +13,9 @@ export class GanttTableComponent implements OnInit {
 
     public hasGroup: boolean;
 
-    public flatData: GanttGroupInternal[] | GanttItemInternal[];
+    public flatData: (GanttGroupInternal | GanttItemInternal)[];
 
-    @Input() set tempData(data: GanttGroupInternal[] | GanttItemInternal[]) {
+    @Input() set tempData(data: (GanttGroupInternal | GanttItemInternal)[]) {
         const firstData = data[0];
         if (firstData && firstData.hasOwnProperty('items')) {
             this.hasGroup = true;

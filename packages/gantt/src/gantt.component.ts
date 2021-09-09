@@ -1,3 +1,4 @@
+import { Dictionary } from './../../../dist/gantt/utils/helpers.d';
 import {
     Component,
     OnInit,
@@ -19,7 +20,7 @@ import {
     TemplateRef,
     Optional
 } from '@angular/core';
-import { startWith, takeUntil, take, finalize, debounce, debounceTime } from 'rxjs/operators';
+import { startWith, takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttGroupInternal } from './class';
@@ -27,7 +28,7 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { recursiveItems } from './utils/helpers';
+import { keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GanttPrintService } from './gantt-print.service';
@@ -71,13 +72,15 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-    public flatData: GanttGroupInternal[] | GanttItemInternal[] = [];
+    public flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
 
-    public tempData: GanttGroupInternal[] | GanttItemInternal[] = [];
+    public tempData: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     private rangeStart: number;
 
     private rangeEnd: number;
+
+    private flatDataMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
 
     private ngUnsubscribe$ = new Subject();
 
@@ -91,16 +94,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     ) {
         super(elementRef, cdr, ngZone);
         this.dragContainer = dragContainer;
-    }
-
-    private expandGroups(expanded: boolean) {
-        this.groups.forEach((group) => {
-            group.setExpand(expanded);
-        });
-
-        this.afterExpand();
-        this.expandChange.next();
-        this.cdr.detectChanges();
+        this.computeAllRefs = false;
     }
 
     ngOnInit() {
@@ -121,6 +115,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
                 this.scrollToToday();
             });
 
+            this.dragContainer.dragEnded.subscribe((event) => {
+                this.computeTempDataRefs();
+            });
+
             this.dragContainer.linkDragStarted.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                 this.linkDragStarted.emit(event);
             });
@@ -128,6 +126,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             this.dragContainer.linkDragEnded.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                 this.linkDragEnded.emit(event);
             });
+        });
+
+        this.view.start$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.computeTempDataRefs();
         });
     }
 
@@ -144,10 +146,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         this.virtualScroll.renderedRangeStream.subscribe((range) => {
             const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
             linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
-
             this.rangeStart = range.start;
             this.rangeEnd = range.end;
             this.tempData = this.flatData.slice(range.start, range.end);
+            this.computeTempDataRefs();
         });
     }
 
@@ -157,10 +159,12 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             if (changes.viewType && changes.viewType.currentValue) {
                 this.buildVirtualFlatData();
                 this.tempData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+                this.computeTempDataRefs();
             }
             if (changes.originItems || changes.originGroups) {
                 this.buildVirtualFlatData();
                 this.tempData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+                this.computeTempDataRefs();
             }
         }
     }
@@ -227,6 +231,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             virtualData.push(...recursiveItems(this.items, 0));
         }
         this.flatData = [...virtualData];
+        this.flatDataMap = keyBy(this.flatData, 'id');
     }
 
     afterExpand() {
@@ -270,6 +275,36 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
                 }
                 this.cdr.detectChanges();
             });
+    }
+
+    private expandGroups(expanded: boolean) {
+        this.groups.forEach((group) => {
+            group.setExpand(expanded);
+        });
+
+        this.afterExpand();
+        this.expandChange.next();
+        this.cdr.detectChanges();
+    }
+
+    private computeTempDataRefs() {
+        const tempItemData = [];
+        this.tempData.forEach((data: GanttGroupInternal | GanttItemInternal) => {
+            if (!data.hasOwnProperty('items')) {
+                const item = data as GanttItemInternal;
+                if (item.links) {
+                    item.links.forEach((link) => {
+                        if (this.flatDataMap[link]) {
+                            tempItemData.push(this.flatDataMap[link]);
+                        }
+                    });
+                }
+                tempItemData.push(data);
+            }
+        });
+        this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
+        this.flatData = [...this.flatData];
+        this.tempData = [...this.tempData];
     }
 
     ngOnDestroy() {

@@ -55,3 +55,12 @@ export function recursiveItems(items: GanttItemInternal[], level?: number) {
     });
     return result;
 }
+
+export function keyBy<T>(array: T[], key: T extends object ? keyof T : never): { [key: string]: T } {
+    const result: { [key: string]: T } = {};
+    array.forEach(item => {
+        const keyValue = item[key];
+        (result as any)[keyValue] = item;
+    });
+    return result;
+}

@@ -40,6 +40,7 @@
 .gantt-calendar-header {
   position: relative;
   z-index: 2;
+  height: $gantt-header-height;
   .header-line {
     stroke: $gantt-border-color;
   }

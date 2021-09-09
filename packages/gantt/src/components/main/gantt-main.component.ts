@@ -8,9 +8,9 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 })
 export class GanttMainComponent implements OnInit {
 
-    @Input() tempData: GanttGroupInternal[] | GanttItemInternal[];
+    @Input() tempData: (GanttGroupInternal | GanttItemInternal)[];
 
-    @Input() flatData: GanttGroupInternal[] | GanttItemInternal[];
+    @Input() flatData: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() groupHeaderTemplate: TemplateRef<any>;
 
