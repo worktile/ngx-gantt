@@ -90,7 +90,7 @@ export class GanttDomService implements OnDestroy {
         this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
         this.calendarHeader = this.root.getElementsByClassName('gantt-calendar-header')[0];
-        this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-overlay')[0];
+        this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-grid')[0];
         this.monitorScrollChange();
         this.disableBrowserWheelEvent();
     }

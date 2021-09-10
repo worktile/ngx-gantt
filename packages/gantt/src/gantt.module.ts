@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NgxGanttComponent } from './gantt.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
-import { GanttCalendarComponent } from './components/calendar/calendar.component';
-import { GanttTableComponent } from './components/table/gantt-table.component';
 import { NgxGanttBarComponent } from './components/bar/bar.component';
 import { GanttMainComponent } from './components/main/gantt-main.component';
 import { GanttIconComponent } from './components/icon/icon.component';
@@ -17,6 +15,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
 import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
+import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
 
 @NgModule({
     imports: [CommonModule, DragDropModule, ScrollingModule],
@@ -32,11 +32,11 @@ import { GanttCalendarHeaderComponent } from './components/calendar/header/calen
         NgxGanttComponent,
         NgxGanttTableComponent,
         NgxGanttTableColumnComponent,
-        GanttTableComponent,
         GanttTableHeaderComponent,
+        GanttTableBodyComponent,
         GanttMainComponent,
         GanttCalendarHeaderComponent,
-        GanttCalendarComponent,
+        GanttCalendarGridComponent,
         GanttLinksComponent,
         NgxGanttBarComponent,
         GanttIconComponent,

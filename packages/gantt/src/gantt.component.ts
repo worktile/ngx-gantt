@@ -156,7 +156,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         super.onChanges(changes);
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue) {
-                this.buildVirtualFlatData();
                 this.tempData = this.flatData.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
             }

@@ -14,16 +14,16 @@
   <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
   <div class="gantt-side" [style.width.px]="tableHeader.tableWidth">
     <div class="gantt-side-container">
-      <gantt-table
+      <gantt-table-body
         [tempData]="tempData"
         [columns]="columns"
         [groupTemplate]="groupTemplate"
         [emptyTemplate]="tableEmptyTemplate"
-      ></gantt-table>
+      ></gantt-table-body>
     </div>
   </div>
   <div class="gantt-container">
-    <gantt-calendar-overlay></gantt-calendar-overlay>
+    <gantt-calendar-grid></gantt-calendar-grid>
     <div class="gantt-main">
       <gantt-main
         [tempData]="tempData"

@@ -10,22 +10,22 @@ import {
     ElementRef,
     AfterViewInit
 } from '@angular/core';
-import { GanttDatePoint } from '../../class/date-point';
+import { GanttDatePoint } from '../../../class/date-point';
 import { Subject, merge } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { headerHeight, todayBorderRadius } from '../../gantt.styles';
-import { isNumber } from '../../utils/helpers';
+import { headerHeight, todayBorderRadius } from '../../../gantt.styles';
+import { isNumber } from '../../../utils/helpers';
 
-import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-import { GanttViewType } from './../../class/view-type';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
+import { GanttViewType } from './../../../class/view-type';
 
 const mainHeight = 5000;
 
 @Component({
-    selector: 'gantt-calendar-overlay',
-    templateUrl: './calendar.component.html'
+    selector: 'gantt-calendar-grid',
+    templateUrl: './calendar-grid.component.html'
 })
-export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class GanttCalendarGridComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     get view() {
         return this.ganttUpper.view;
     }
@@ -40,7 +40,7 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     viewTypes = GanttViewType;
 
-    @HostBinding('class') className = `gantt-calendar gantt-calendar-overlay`;
+    @HostBinding('class') className = `gantt-calendar gantt-calendar-grid`;
 
     constructor(
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,

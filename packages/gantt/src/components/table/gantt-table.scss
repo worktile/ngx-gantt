@@ -1,0 +1,146 @@
+.gantt-table-header {
+  text-align: center;
+  background: #fff;
+  height: $gantt-header-height;
+  line-height: $gantt-header-height;
+  box-shadow: $gantt-side-shadow;
+  position: relative;
+  z-index: 3;
+  border-right: 1px solid $gantt-border-color;
+
+  .gantt-table-column {
+    font-weight: 400;
+  }
+}
+
+.gantt-table-body {
+  display: block;
+  .gantt-table-group {
+    display: flex;
+    height: $gantt-group-height;
+    background: $gantt-group-background-color;
+    padding: 0 10px;
+    align-items: center;
+    border-bottom: 1px solid $gantt-border-color;
+    box-sizing: border-box;
+    position: relative;
+
+    .gantt-table-group-title {
+      cursor: pointer;
+
+      .expand-icon {
+        color: #aaa;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  .gantt-table-item {
+    cursor: pointer;
+    &-first-level-group {
+      background: $gantt-group-background-color;
+    }
+
+    &-with-group {
+      .gantt-table-column {
+        &:first-child {
+          padding: 0 15px 0 32px;
+        }
+      }
+    }
+
+    .gantt-table-column {
+      display: flex;
+      padding: $gantt-table-td-padding;
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    .gantt-table-column-content {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      background-color: $gantt-container-background-color;
+    }
+  }
+
+  .gantt-expand-icon {
+    display: inline-block;
+    width: 20px;
+    color: #aaa;
+  }
+}
+.gantt-table-empty {
+  height: 100%;
+  position: relative;
+  .gantt-table-body-container {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 22px;
+    .empty-icon {
+      svg {
+        height: 78px;
+        width: 78px;
+      }
+    }
+    .empty-text {
+      color: #cacaca;
+    }
+  }
+}
+
+.gantt-table-drag-trigger {
+  width: $gantt-table-header-drag-line-width;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  cursor: ew-resize;
+  height: 5000px;
+  &.column-drag-trigger {
+    height: unset;
+    z-index: 1;
+  }
+
+  &:hover {
+    background: $gantt-table-header-drag-line-color;
+  }
+}
+
+.gantt-table-drag-auxiliary-line {
+  width: $gantt-table-header-drag-line-width;
+  background: $gantt-table-header-drag-line-color;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  display: none;
+  height: 5000px;
+}
+
+.gantt-table-row {
+  display: flex;
+  box-sizing: border-box;
+  border-bottom: 1px solid $gantt-border-color;
+
+  .gantt-table-column {
+    overflow: hidden;
+    border-right: 1px solid $gantt-border-color;
+    box-sizing: border-box;
+    position: relative;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}

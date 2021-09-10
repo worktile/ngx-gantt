@@ -36,7 +36,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
             merge(this.ganttUpper.viewChange, this.ganttUpper.view.start$)
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe(() => {
-                    this.setTodayPoint();
+                    if (this.ganttUpper.viewType === GanttViewType.day) this.setTodayPoint();
                 });
         });
     }

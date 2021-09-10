@@ -11,12 +11,13 @@ import { NgxGanttModule } from '../gantt.module';
 import { GanttDate } from '../utils/date';
 import { getMockGroupItems, getMockGroups, getMockItems } from './mocks/data';
 import { CommonModule } from '@angular/common';
-import { GanttCalendarComponent } from '../components/calendar/calendar.component';
+
 import { NgxGanttBarComponent } from '../components/bar/bar.component';
 import { GanttIconComponent } from '../components/icon/icon.component';
 import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { GanttCalendarGridComponent } from '../components/calendar/grid/calendar-grid.component';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
@@ -138,7 +139,7 @@ function assertGanttView<T extends TestGanttComponentBase>(
         lastSecondaryDataPointText: string;
     }
 ) {
-    const calendarElement = fixture.debugElement.query(By.directive(GanttCalendarComponent));
+    const calendarElement = fixture.debugElement.query(By.directive(GanttCalendarGridComponent));
     const primaryElements = calendarElement.queryAll(By.css('.primary-text'));
     const secondaryElements = calendarElement.queryAll(By.css('.secondary-text'));
     expect(primaryElements.length).toEqual(fixture.componentInstance.ganttComponent.view.primaryDatePoints.length);

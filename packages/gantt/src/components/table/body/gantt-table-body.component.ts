@@ -1,14 +1,14 @@
 import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, ElementRef } from '@angular/core';
-import { GanttItemInternal, GanttGroupInternal } from '../../class';
-import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
-import { defaultColumnWidth, NgxGanttComponent } from '../../gantt.component';
+import { GanttItemInternal, GanttGroupInternal } from '../../../class';
+import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
+import { defaultColumnWidth, NgxGanttComponent } from '../../../gantt.component';
 
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 @Component({
-    selector: 'gantt-table',
-    templateUrl: './gantt-table.component.html'
+    selector: 'gantt-table-body',
+    templateUrl: './gantt-table-body.component.html'
 })
-export class GanttTableComponent implements OnInit {
+export class GanttTableBodyComponent implements OnInit {
     public columnList: QueryList<NgxGanttTableColumnComponent>;
 
     public hasGroup: boolean;
@@ -38,7 +38,7 @@ export class GanttTableComponent implements OnInit {
 
     @Input() emptyTemplate: TemplateRef<any>;
 
-    @HostBinding('class.gantt-table') ganttTableClass = true;
+    @HostBinding('class.gantt-table-body') ganttTableClass = true;
 
     @HostBinding('class.gantt-table-empty') ganttTableEmptyClass = false;
 
