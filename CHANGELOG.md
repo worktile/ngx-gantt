@@ -1,7 +1,7 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
-## [12.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/11.0.3...12.1.0-next.0) (2021-09-13)
+## [12.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/12.0.0...12.1.0-next.0) (2021-09-13)
 
 
 ### Features
@@ -14,6 +14,7 @@ All notable changes to ngx-gantt will be documented in this file.
 
 * add calendar header in root component ([9ba65f1](https://github.com/worktile/ngx-gantt/commit/9ba65f14554ebca34f4f46e7717b5f828cd77e50))
 * add computeTempDataRefs ([03eff56](https://github.com/worktile/ngx-gantt/commit/03eff561ca956a153ea19c67b15268b39f3be018))
+* change compilationMode to partial ([607bfb1](https://github.com/worktile/ngx-gantt/commit/607bfb1aef04dbf54570671d2c9299b2afc72efc))
 * change gantt-table and gantt-calendar to table-body and calendar-grid ([3e9bfed](https://github.com/worktile/ngx-gantt/commit/3e9bfed4293fe90e795b21b52f8c14ef4e001e65))
 * delete domService in gantt component ([7296bdd](https://github.com/worktile/ngx-gantt/commit/7296bdd66ff8c899d74224cc26d585273d8669c2))
 * fix Dictionary import error ([85ead5c](https://github.com/worktile/ngx-gantt/commit/85ead5cdf6b8fc24449dd8d2942b8f726eb0d778))
