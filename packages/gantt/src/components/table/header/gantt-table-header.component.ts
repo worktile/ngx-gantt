@@ -1,9 +1,11 @@
-import { Component, HostBinding, QueryList, Input, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, HostBinding, QueryList, Input, OnInit, ViewChild, ElementRef, AfterViewInit, Inject } from '@angular/core';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
-import { defaultColumnWidth, minColumnWidth, NgxGanttComponent } from '../../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
 
+export const defaultColumnWidth = 100;
+export const minColumnWidth = 80;
 interface DragFixedConfig {
     target: HTMLElement;
     originWidth: number;
@@ -35,7 +37,7 @@ export class GanttTableHeaderComponent implements OnInit, AfterViewInit {
 
     @HostBinding('class') className = `gantt-table-header gantt-table-row`;
 
-    constructor(public gantt: NgxGanttComponent, private elementRef: ElementRef) {}
+    constructor(private elementRef: ElementRef, @Inject(GANTT_ABSTRACT_TOKEN) private gantt: GanttAbstractComponent) {}
 
     ngOnInit() {}
 

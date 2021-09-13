@@ -1,9 +1,9 @@
-import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, ElementRef } from '@angular/core';
+import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, Inject } from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../../../class';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
-import { defaultColumnWidth, NgxGanttComponent } from '../../../gantt.component';
-
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
+import { defaultColumnWidth } from '../header/gantt-table-header.component';
 @Component({
     selector: 'gantt-table-body',
     templateUrl: './gantt-table-body.component.html'
@@ -42,7 +42,7 @@ export class GanttTableBodyComponent implements OnInit {
 
     @HostBinding('class.gantt-table-empty') ganttTableEmptyClass = false;
 
-    constructor(public gantt: NgxGanttComponent, private elementRef: ElementRef) {}
+    constructor(@Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent) {}
 
     ngOnInit() {}
 

@@ -17,7 +17,8 @@ import {
     ViewChild,
     ContentChild,
     TemplateRef,
-    Optional
+    Optional,
+    forwardRef
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -31,9 +32,8 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GanttPrintService } from './gantt-print.service';
-
-export const defaultColumnWidth = 100;
-export const minColumnWidth = 80;
+import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
+import { defaultColumnWidth } from './components/table/header/gantt-table-header.component';
 
 @Component({
     selector: 'ngx-gantt',
@@ -45,6 +45,10 @@ export const minColumnWidth = 80;
         {
             provide: GANTT_UPPER_TOKEN,
             useExisting: NgxGanttComponent
+        },
+        {
+            provide: GANTT_ABSTRACT_TOKEN,
+            useExisting: forwardRef(() => NgxGanttComponent)
         }
     ]
 })
