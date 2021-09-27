@@ -89,6 +89,7 @@
         .gantt-main-container {
           height: 100%;
           top: 0;
+          overflow-y: hidden;
         }
       }
     }

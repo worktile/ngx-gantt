@@ -113,6 +113,7 @@
   }
 
   &:hover {
+    z-index: 1;
     background: $gantt-table-header-drag-line-color;
   }
 }
