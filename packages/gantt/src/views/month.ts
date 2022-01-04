@@ -1,6 +1,13 @@
-import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop, GanttViewDate } from './view';
-import { GanttDate, differenceInCalendarQuarters, eachMonthOfInterval } from '../utils/date';
-import { GanttDatePoint } from '../class/date-point';
+import {
+    GanttHeaderPatterns,
+    GanttView,
+    GanttViewDate,
+    GanttViewOptions,
+    primaryDatePointTop,
+    secondaryDatePointTop
+} from './view';
+import {differenceInCalendarQuarters, eachMonthOfInterval, GanttDate} from '../utils/date';
+import {GanttDatePoint} from '../class/date-point';
 
 const viewOptions: GanttViewOptions = {
     start: new GanttDate().startOfQuarter().addQuarters(-1),
@@ -38,7 +45,7 @@ export class GanttViewMonth extends GanttView {
             const start = this.start.addQuarters(i);
             const point = new GanttDatePoint(
                 start,
-                start.format('yyyy年QQQ'),
+                this.getHeaderText(start, this.options?.headerPatterns?.month?.primaryLineTemplate, 'yyyy年QQQ'),
                 (this.getCellWidth() * 3) / 2 + i * (this.getCellWidth() * 3),
                 primaryDatePointTop
             );
@@ -49,13 +56,13 @@ export class GanttViewMonth extends GanttView {
     }
 
     getSecondaryDatePoints(): GanttDatePoint[] {
-        const months = eachMonthOfInterval({ start: this.start.value, end: this.end.value });
+        const months = eachMonthOfInterval({start: this.start.value, end: this.end.value});
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < months.length; i++) {
             const start = new GanttDate(months[i]);
             const point = new GanttDatePoint(
                 start,
-                `${start.getMonth() + 1}月`,
+                this.getHeaderText(start, this.options?.headerPatterns?.month?.secondaryLineTemplate, 'L月'),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 secondaryDatePointTop
             );

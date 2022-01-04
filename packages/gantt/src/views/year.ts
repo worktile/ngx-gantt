@@ -1,4 +1,11 @@
-import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop, GanttViewDate } from './view';
+import {
+    GanttView,
+    GanttViewOptions,
+    primaryDatePointTop,
+    secondaryDatePointTop,
+    GanttViewDate,
+    GanttHeaderPatterns
+} from './view';
 import { GanttDate } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
@@ -51,7 +58,7 @@ export class GanttViewYear extends GanttView {
             const start = this.start.addYears(i);
             const point = new GanttDatePoint(
                 start,
-                `${start.format('yyyy')}年`,
+                this.getHeaderText( start, this.options?.headerPatterns?.year?.secondaryLineTemplate, 'yyyy年'),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 pointTop
             );

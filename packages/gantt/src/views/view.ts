@@ -19,6 +19,40 @@ export interface GanttViewOptions {
     cellWidth?: number;
     addAmount?: number;
     addUnit?: GanttDateUtil;
+    headerPatterns?: GanttHeaderPatterns;
+}
+
+export interface GanttHeaderPatterns {
+    day?: GanttHeaderPattern;
+    week?: GanttHeaderPattern;
+    month?: GanttHeaderPattern;
+    quarter?: GanttHeaderPattern;
+    year?: GanttHeaderPattern;
+}
+
+export interface GanttHeaderPattern {
+    primaryLineTemplate: GanttHeaderTemplate;
+    secondaryLineTemplate: GanttHeaderTemplate;
+}
+
+export class GanttHeaderTemplate {
+    template: string;
+    datePatterns: string[];
+
+    constructor(template: string, datePatterns: string[]) {
+        this.template = template;
+        this.datePatterns = datePatterns;
+    }
+
+    public apply(date: GanttDate): string {
+        return this.replaceTemplate(this.template, this.datePatterns.map(datePattern => date.format(datePattern)))
+    }
+
+    private replaceTemplate(templateString: string, formattedDates: string[]): string {
+        return templateString.replace(/{(\d+)}/g, (match, number) => {
+            return typeof formattedDates[number] !== 'undefined' ? formattedDates[number] : match;
+        });
+    };
 }
 
 const viewOptions: GanttViewOptions = {
@@ -182,5 +216,9 @@ export abstract class GanttView {
     getDateRangeWidth(start: GanttDate, end: GanttDate) {
         // addSeconds(1) 是因为计算相差天会以一个整天来计算 end时间一般是59分59秒不是一个整天，所以需要加1
         return this.getDateIntervalWidth(start, end.addSeconds(1));
+    }
+
+    getHeaderText(date: GanttDate, headerTemplate: GanttHeaderTemplate, defualtPattern: string){
+        return headerTemplate ? headerTemplate.apply(date) : date.format(defualtPattern);
     }
 }

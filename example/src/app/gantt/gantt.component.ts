@@ -9,7 +9,7 @@ import {
     GanttLinkDragEvent,
     GanttItem,
     GanttViewOptions,
-    GanttDate
+    GanttDate, GanttHeaderPattern, GanttHeaderTemplate
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -47,6 +47,31 @@ export class AppGanttExampleComponent implements OnInit {
 
     viewType: GanttViewType = GanttViewType.month;
 
+    viewOptions: GanttViewOptions = {
+        headerPatterns: {
+            day: {
+                primaryLineTemplate: new GanttHeaderTemplate('{0} {1} (week {2})', ['LLLL', 'yyyy', 'w']),
+                secondaryLineTemplate: new GanttHeaderTemplate('{0}', ['d'])
+            },
+            week: {
+                primaryLineTemplate: new GanttHeaderTemplate('{0}', ['yyyy']),
+                secondaryLineTemplate: new GanttHeaderTemplate('week {0}', ['w'])
+            },
+            month: {
+                primaryLineTemplate: new GanttHeaderTemplate('{0} of {1}', ['QQQ', 'yyyy']),
+                secondaryLineTemplate: new GanttHeaderTemplate('{0}', ['LLLL'])
+            },
+            quarter: {
+                primaryLineTemplate: new GanttHeaderTemplate('{0}', ['yyyy']),
+                secondaryLineTemplate: new GanttHeaderTemplate('{0}', ['QQQ'])
+            },
+            year: {
+                primaryLineTemplate: undefined,
+                secondaryLineTemplate: new GanttHeaderTemplate('{0}', ['yyyy'])
+            }
+        }
+    };
+
     items: GanttItem[] = [
         { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
         { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'], expandable: true },
@@ -81,7 +106,7 @@ export class AppGanttExampleComponent implements OnInit {
     ];
 
     options = {
-        viewType: GanttViewType.day
+        viewType: GanttViewType.day,
     };
 
     @HostBinding('class.gantt-example-component') class = true;
