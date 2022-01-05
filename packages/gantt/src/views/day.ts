@@ -1,12 +1,4 @@
-import {
-    GanttHeaderPatterns,
-    GanttHeaderTemplate,
-    GanttView,
-    GanttViewDate,
-    GanttViewOptions,
-    primaryDatePointTop,
-    secondaryDatePointTop
-} from './view';
+import {GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop} from './view';
 import {eachDayOfInterval, eachWeekOfInterval, GanttDate} from '../utils/date';
 import {GanttDatePoint} from '../class/date-point';
 
@@ -35,6 +27,18 @@ export class GanttViewDay extends GanttView {
         return date.endOfWeek({weekStartsOn: 1});
     }
 
+    getItemWidth(start: GanttDate, end: GanttDate) {
+        return this.getDateRangeWidth(start.startOfDay(), end.endOfDay());
+    }
+
+    getTodayXPoint(): number {
+        return this.getTodayXPointDayBased();
+    }
+
+    getXPointByDate(date: GanttDate) {
+        return this.getDateIntervalWidth(this.start, date);
+    }
+
     getPrimaryWidth() {
         return this.getCellWidth() * 7;
     }
@@ -54,7 +58,7 @@ export class GanttViewDay extends GanttView {
             const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
             const point = new GanttDatePoint(
                 weekStart,
-                this.getHeaderText( weekStart.addWeeks(increaseWeek), this.options?.headerPatterns?.day?.primaryLineTemplate, 'yyyy年MM月'),
+                this.getHeaderText(weekStart.addWeeks(increaseWeek), this.options?.headerPatterns?.day?.primaryLineTemplate, 'yyyy年MM月'),
                 (this.getCellWidth() * 7) / 2 + i * (this.getCellWidth() * 7),
                 primaryDatePointTop
             );
@@ -70,7 +74,7 @@ export class GanttViewDay extends GanttView {
             const start = new GanttDate(days[i]);
             const point = new GanttDatePoint(
                 start,
-                this.getHeaderText( start, this.options?.headerPatterns?.day?.secondaryLineTemplate, 'd'),
+                this.getHeaderText(start, this.options?.headerPatterns?.day?.secondaryLineTemplate, 'd'),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 secondaryDatePointTop,
                 {

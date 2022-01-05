@@ -27,6 +27,18 @@ export class GanttViewWeek extends GanttView {
         return this.getCellWidth();
     }
 
+    getItemWidth(start: GanttDate, end: GanttDate) {
+        return super.getDateRangeWidth(start.startOfDay(), end.endOfDay());
+    }
+
+    getTodayXPoint(): number {
+        return this.getTodayXPointDayBased();
+    }
+
+    getXPointByDate(date: GanttDate) {
+        return this.getDateIntervalWidth(this.start, date);
+    }
+
     getDayOccupancyWidth(): number {
         return this.cellWidth / 7;
     }

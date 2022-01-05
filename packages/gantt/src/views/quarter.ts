@@ -1,14 +1,7 @@
-import {
-    GanttView,
-    GanttViewOptions,
-    primaryDatePointTop,
-    secondaryDatePointTop,
-    GanttViewDate,
-    GanttHeaderPatterns
-} from './view';
-import { GanttDate } from '../utils/date';
-import { GanttDatePoint } from '../class/date-point';
-import { eachYearOfInterval, differenceInCalendarQuarters } from 'date-fns';
+import {GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop} from './view';
+import {GanttDate} from '../utils/date';
+import {GanttDatePoint} from '../class/date-point';
+import {differenceInCalendarQuarters, eachYearOfInterval} from 'date-fns';
 
 const viewOptions: GanttViewOptions = {
     start: new GanttDate().addYears(-1).startOfYear(),
@@ -37,18 +30,30 @@ export class GanttViewQuarter extends GanttView {
         return this.getCellWidth() * 4;
     }
 
+    getItemWidth(start: GanttDate, end: GanttDate) {
+        return this.getDateRangeWidth(start.startOfDay(), end.endOfDay());
+    }
+
+    getTodayXPoint(): number {
+        return this.getTodayXPointDayBased();
+    }
+
+    getXPointByDate(date: GanttDate) {
+        return this.getDateIntervalWidth(this.start, date);
+    }
+
     getDayOccupancyWidth(date: GanttDate): number {
         return this.cellWidth / date.getDaysInQuarter();
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
-        const years = eachYearOfInterval({ start: this.start.value, end: this.end.value });
+        const years = eachYearOfInterval({start: this.start.value, end: this.end.value});
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < years.length; i++) {
             const start = new GanttDate(years[i]);
             const point = new GanttDatePoint(
                 start,
-                this.getHeaderText( start, this.options?.headerPatterns?.quarter?.primaryLineTemplate, 'yyyy年'),
+                this.getHeaderText(start, this.options?.headerPatterns?.quarter?.primaryLineTemplate, 'yyyy年'),
                 (this.getCellWidth() * 4) / 2 + i * (this.getCellWidth() * 4),
                 primaryDatePointTop
             );
@@ -64,7 +69,7 @@ export class GanttViewQuarter extends GanttView {
             const start = this.start.addQuarters(i);
             const point = new GanttDatePoint(
                 start,
-                this.getHeaderText( start, this.options?.headerPatterns?.year?.secondaryLineTemplate, 'QQQ'),
+                this.getHeaderText(start, this.options?.headerPatterns?.year?.secondaryLineTemplate, 'QQQ'),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 secondaryDatePointTop
             );

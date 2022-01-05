@@ -1,6 +1,6 @@
-import { GanttDate, differenceInDays, GanttDateUtil } from '../utils/date';
-import { GanttDatePoint } from '../class/date-point';
-import { BehaviorSubject } from 'rxjs';
+import {differenceInDays, GanttDate, GanttDateUtil} from '../utils/date';
+import {GanttDatePoint} from '../class/date-point';
+import {BehaviorSubject} from 'rxjs';
 
 export const primaryDatePointTop = 18;
 
@@ -23,6 +23,7 @@ export interface GanttViewOptions {
 }
 
 export interface GanttHeaderPatterns {
+    hour?: GanttHeaderPattern;
     day?: GanttHeaderPattern;
     week?: GanttHeaderPattern;
     month?: GanttHeaderPattern;
@@ -52,7 +53,7 @@ export class GanttHeaderTemplate {
         return templateString.replace(/{(\d+)}/g, (match, number) => {
             return typeof formattedDates[number] !== 'undefined' ? formattedDates[number] : match;
         });
-    };
+    }
 }
 
 const viewOptions: GanttViewOptions = {
@@ -118,6 +119,13 @@ export abstract class GanttView {
     // 获取二级时间点（坐标，显示名称）
     abstract getSecondaryDatePoints(): GanttDatePoint[];
 
+    abstract getItemWidth(start: GanttDate, end: GanttDate);
+
+    abstract getTodayXPoint(): number;
+
+    // 获取指定时间的X坐标
+    abstract getXPointByDate(date: GanttDate);
+
     protected getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const days = differenceInDays(end.value, start.value);
@@ -142,7 +150,7 @@ export abstract class GanttView {
             const origin = this.start;
             this.start$.next(start);
             this.initialize();
-            return { start: this.start, end: origin };
+            return {start: this.start, end: origin};
         }
         return null;
     }
@@ -153,7 +161,7 @@ export abstract class GanttView {
             const origin = this.end;
             this.end$.next(end);
             this.initialize();
-            return { start: origin, end: this.end };
+            return {start: origin, end: this.end};
         }
         return null;
     }
@@ -181,19 +189,13 @@ export abstract class GanttView {
     }
 
     // 获取当前时间的X坐标
-    getTodayXPoint(): number {
+    getTodayXPointDayBased(): number {
         const toady = new GanttDate().startOfDay();
         if (toady.value > this.start.value && toady.value < this.end.value) {
-            const x = this.getXPointByDate(toady) + this.getDayOccupancyWidth(toady) / 2;
-            return x;
+            return this.getXPointByDate(toady) + this.getDayOccupancyWidth(toady) / 2;
         } else {
             return null;
         }
-    }
-
-    // 获取指定时间的X坐标
-    getXPointByDate(date: GanttDate) {
-        return this.getDateIntervalWidth(this.start, date);
     }
 
     // 根据X坐标获取对应时间
@@ -218,7 +220,7 @@ export abstract class GanttView {
         return this.getDateIntervalWidth(start, end.addSeconds(1));
     }
 
-    getHeaderText(date: GanttDate, headerTemplate: GanttHeaderTemplate, defualtPattern: string){
+    getHeaderText(date: GanttDate, headerTemplate: GanttHeaderTemplate, defualtPattern: string) {
         return headerTemplate ? headerTemplate.apply(date) : date.format(defualtPattern);
     }
 }

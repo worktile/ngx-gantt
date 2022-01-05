@@ -1,11 +1,4 @@
-import {
-    GanttHeaderPatterns,
-    GanttView,
-    GanttViewDate,
-    GanttViewOptions,
-    primaryDatePointTop,
-    secondaryDatePointTop
-} from './view';
+import {GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop} from './view';
 import {differenceInCalendarQuarters, eachMonthOfInterval, GanttDate} from '../utils/date';
 import {GanttDatePoint} from '../class/date-point';
 
@@ -32,6 +25,18 @@ export class GanttViewMonth extends GanttView {
 
     getPrimaryWidth() {
         return this.getCellWidth() * 3;
+    }
+
+    getItemWidth(start: GanttDate, end: GanttDate) {
+        return this.getDateRangeWidth(start.startOfDay(), end.endOfDay());
+    }
+
+    getTodayXPoint(): number {
+        return this.getTodayXPointDayBased();
+    }
+
+    getXPointByDate(date: GanttDate) {
+        return this.getDateIntervalWidth(this.start, date);
     }
 
     getDayOccupancyWidth(date: GanttDate): number {
