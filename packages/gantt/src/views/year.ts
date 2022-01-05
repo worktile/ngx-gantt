@@ -1,7 +1,14 @@
-import {GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop} from './view';
-import {GanttDate} from '../utils/date';
-import {GanttDatePoint} from '../class/date-point';
-import {differenceInCalendarYears, eachYearOfInterval} from 'date-fns';
+import {
+    GanttView,
+    GanttViewOptions,
+    primaryDatePointTop,
+    secondaryDatePointTop,
+    GanttViewDate,
+    GanttHeaderPatterns
+} from './view';
+import { GanttDate } from '../utils/date';
+import { GanttDatePoint } from '../class/date-point';
+import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 480,
@@ -28,24 +35,12 @@ export class GanttViewYear extends GanttView {
         return this.getCellWidth();
     }
 
-    getItemWidth(start: GanttDate, end: GanttDate) {
-        return super.getDateRangeWidth(start.startOfDay(), end.endOfDay());
-    }
-
-    getTodayXPoint(): number {
-        return this.getTodayXPointDayBased();
-    }
-
-    getXPointByDate(date: GanttDate) {
-        return this.getDateIntervalWidth(this.start, date);
-    }
-
     getDayOccupancyWidth(date: GanttDate): number {
         return this.cellWidth / date.getDaysInYear();
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
-        const years = eachYearOfInterval({start: this.start.value, end: this.end.value});
+        const years = eachYearOfInterval({ start: this.start.value, end: this.end.value });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < years.length; i++) {
             const start = new GanttDate(years[i]);
@@ -63,7 +58,7 @@ export class GanttViewYear extends GanttView {
             const start = this.start.addYears(i);
             const point = new GanttDatePoint(
                 start,
-                this.getHeaderText(start, this.options?.headerPatterns?.year?.secondaryLineTemplate, 'yyyy年'),
+                this.getHeaderText( start, this.options?.headerPatterns?.year?.secondaryLineTemplate, 'yyyy年'),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 pointTop
             );

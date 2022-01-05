@@ -1,36 +1,36 @@
 import {
-    ChangeDetectorRef,
-    ContentChild,
-    Directive,
-    ElementRef,
-    EventEmitter,
-    HostBinding,
-    InjectionToken,
     Input,
-    NgZone,
+    TemplateRef,
     Output,
+    EventEmitter,
+    ContentChild,
+    ElementRef,
+    HostBinding,
+    ChangeDetectorRef,
+    NgZone,
     SimpleChanges,
-    TemplateRef
+    InjectionToken,
+    Directive
 } from '@angular/core';
-import {Subject} from 'rxjs';
-import {skip, take, takeUntil} from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil, take, skip } from 'rxjs/operators';
 import {
-    GanttBarClickEvent,
-    GanttDragEvent,
-    GanttGroup,
-    GanttGroupInternal,
     GanttItem,
-    GanttItemInternal,
-    GanttLinkDragEvent,
+    GanttGroup,
+    GanttViewType,
     GanttLoadOnScrollEvent,
-    GanttViewType
+    GanttDragEvent,
+    GanttGroupInternal,
+    GanttItemInternal,
+    GanttBarClickEvent,
+    GanttLinkDragEvent
 } from './class';
-import {GanttView, GanttViewOptions} from './views/view';
-import {createViewFactory} from './views/factory';
-import {GanttDate} from './utils/date';
-import {defaultStyles, GanttStyles} from './gantt.styles';
-import {flatten, recursiveItems, uniqBy} from './utils/helpers';
-import {GanttDragContainer} from './gantt-drag-container';
+import { GanttView, GanttViewOptions } from './views/view';
+import { createViewFactory } from './views/factory';
+import { GanttDate } from './utils/date';
+import { GanttStyles, defaultStyles } from './gantt.styles';
+import { uniqBy, flatten, recursiveItems } from './utils/helpers';
+import { GanttDragContainer } from './gantt-drag-container';
 
 @Directive()
 export abstract class GanttUpper {
@@ -263,8 +263,8 @@ export abstract class GanttUpper {
     computeItemsRefs(...items: GanttItemInternal[]) {
         items.forEach((item) => {
             item.updateRefs({
-                width: item.start && item.end ? this.view.getItemWidth(item.start, item.end) : 0,
-                x: item.start ? this.view.getXPointByDate(item.start) : 0,  //B Giusto horus, sbagliato Drag.  //A sbagliato hours, giusto drag.
+                width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
+                x: item.start ? this.view.getXPointByDate(item.start) : 0,
                 y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
             });
         });
