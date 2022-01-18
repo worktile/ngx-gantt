@@ -78,8 +78,8 @@ describe('GanttView', () => {
         expect(cellWidth).toEqual(20);
         expect(start).toEqual(new GanttDate('2019-12-30 00:00:00').getUnixTime());
         expect(end).toEqual(new GanttDate('2021-01-03 23:59:59').getUnixTime());
-        expect(max).toEqual(new GanttDate('2022-12-31 23:59:59').getUnixTime());
-        expect(min).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
+        expect(max).toEqual(new GanttDate().addYears(1).endOfYear().getUnixTime());
+        expect(min).toEqual(new GanttDate().addYears(-1).startOfYear().getUnixTime());
     });
 
     it(`should has correct start and end`, () => {
@@ -91,8 +91,12 @@ describe('GanttView', () => {
 
     it(`should add start date`, () => {
         const newDate = ganttView.addStartDate();
-        expect(newDate.start.getUnixTime()).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
-        expect(newDate.end.getUnixTime()).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
+        if (ganttView.options.min.value > new GanttDate('2020-01-01 00:00:00').value) {
+            expect(newDate).toBe(null);
+        } else {
+            expect(newDate.start.getUnixTime()).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
+            expect(newDate.end.getUnixTime()).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
+        }
     });
 
     it(`should add end date`, () => {
