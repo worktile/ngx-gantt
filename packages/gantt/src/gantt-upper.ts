@@ -29,7 +29,7 @@ import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
 import { GanttStyles, defaultStyles } from './gantt.styles';
-import { uniqBy, flatten, recursiveItems } from './utils/helpers';
+import { uniqBy, flatten, recursiveItems, getFlatItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
 
 @Directive()
@@ -98,8 +98,6 @@ export abstract class GanttUpper {
 
     private groupsMap: { [key: string]: GanttGroupInternal };
 
-    private expandedItemIds: string[] = [];
-
     @HostBinding('class.gantt') ganttClass = true;
 
     constructor(protected elementRef: ElementRef<HTMLElement>, protected cdr: ChangeDetectorRef, protected ngZone: NgZone) {}
@@ -123,20 +121,6 @@ export abstract class GanttUpper {
 
     private setupItems() {
         this.originItems = uniqBy(this.originItems, 'id');
-
-        // 根据上一次数据展开状态同步新的数据展开状态
-        this.originItems.forEach((originItem) => {
-            const oldItem = this.items.find((item) => {
-                return item.id === originItem.id;
-            });
-            if (!this.firstChange) {
-                if (oldItem && !oldItem.children?.length && originItem.children?.length) {
-                    originItem.expanded = originItem.expanded || this.expandedItemIds.includes(originItem.id);
-                } else {
-                    originItem.expanded = this.expandedItemIds.includes(originItem.id);
-                }
-            }
-        });
         this.items = [];
         if (this.groups.length > 0) {
             this.originItems.forEach((origin) => {
@@ -155,16 +139,21 @@ export abstract class GanttUpper {
     }
 
     private setupExpandedState() {
+        this.originItems = uniqBy(this.originItems, 'id');
         let items: GanttItemInternal[] = [];
+        const flatOriginItems = getFlatItems(this.originItems);
+
         if (this.items.length > 0) {
             items = recursiveItems(this.items);
         } else {
             items = flatten(this.groups.map((group) => recursiveItems(group.items)));
         }
-        this.expandedItemIds = [];
         items.forEach((item) => {
             if (item.origin.expanded) {
-                this.expandedItemIds.push(item.id);
+                const newItem = flatOriginItems.find((originItem) => originItem.id === item.id);
+                if (newItem) {
+                    newItem.expanded = true;
+                }
             }
         });
     }
