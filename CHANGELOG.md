@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [12.0.1](https://github.com/worktile/ngx-gantt/compare/11.0.3...12.0.1) (2022-01-18)
+
+
+### Bug Fixes
+
+* setup expanded state with item children ([#166](https://github.com/worktile/ngx-gantt/issues/166)) ([be7fc38](https://github.com/worktile/ngx-gantt/commit/be7fc3893539cfb9fbf8479afa682ed26d43545e))
+
 ## [12.0.0](https://github.com/worktile/ngx-gantt/compare/11.0.0...12.0.0) (2021-07-20)
 
 
