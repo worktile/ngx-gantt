@@ -8,13 +8,18 @@ import {
     ViewChild,
     ElementRef,
     OnChanges,
-    SimpleChanges
+    SimpleChanges,
+    Inject
 } from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../../class';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
-import { defaultColumnWidth, minColumnWidth, NgxGanttComponent } from '../../gantt.component';
+// import { defaultColumnWidth, minColumnWidth } from '../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../gantt-abstract';
+
+export const defaultColumnWidth = 100;
+export const minColumnWidth = 80;
 
 interface DragFixedConfig {
     target: HTMLElement;
@@ -55,7 +60,7 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
     @HostBinding('class.gantt-table-empty') ganttTableEmptyClass = false;
 
-    constructor(public gantt: NgxGanttComponent, private elementRef: ElementRef) {}
+    constructor(@Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent, private elementRef: ElementRef) {}
 
     ngOnInit() {}
 
