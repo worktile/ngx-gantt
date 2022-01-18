@@ -152,7 +152,9 @@ export abstract class GanttUpper {
             if (item.origin.expanded) {
                 const newItem = flatOriginItems.find((originItem) => originItem.id === item.id);
                 if (newItem) {
-                    newItem.expanded = true;
+                    if (newItem.expanded === undefined) {
+                        newItem.expanded = true;
+                    }
                 }
             }
         });
