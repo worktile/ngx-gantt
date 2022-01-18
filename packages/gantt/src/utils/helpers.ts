@@ -1,4 +1,4 @@
-import { GanttItemInternal } from '../class/item';
+import { GanttItem, GanttItemInternal } from '../class/item';
 
 export interface Dictionary<T = unknown> {
     [key: string]: T;
@@ -49,6 +49,17 @@ export function recursiveItems(items: GanttItemInternal[]) {
         result.push(item);
         if (item.expanded && item.children) {
             result.push(...recursiveItems(item.children));
+        }
+    });
+    return result;
+}
+
+export function getFlatItems(items: GanttItem[]) {
+    const result = [];
+    (items || []).forEach((item) => {
+        result.push(item);
+        if (item.children) {
+            result.push(...getFlatItems(item.children));
         }
     });
     return result;
