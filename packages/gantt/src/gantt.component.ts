@@ -14,9 +14,9 @@ import {
     ContentChildren,
     QueryList,
     AfterViewInit,
-    ViewChild,
     ContentChild,
-    TemplateRef
+    TemplateRef,
+    forwardRef
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -26,10 +26,8 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
-
-export const defaultColumnWidth = 100;
-export const minColumnWidth = 80;
-
+import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
+import { defaultColumnWidth } from './components/table/gantt-table.component';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -38,6 +36,10 @@ export const minColumnWidth = 80;
         {
             provide: GANTT_UPPER_TOKEN,
             useExisting: NgxGanttComponent
+        },
+        {
+            provide: GANTT_ABSTRACT_TOKEN,
+            useExisting: forwardRef(() => NgxGanttComponent)
         }
     ]
 })
