@@ -11,6 +11,14 @@ export interface GanttViewDate {
     isCustom?: boolean;
 }
 
+export interface GanttDateFormat {
+    year?: string;
+    quarter?: string;
+    yearQuarter?: string;
+    month?: string;
+    yearMonth?: string;
+    week?: string;
+}
 export interface GanttViewOptions {
     start?: GanttDate;
     end?: GanttDate;
@@ -19,6 +27,7 @@ export interface GanttViewOptions {
     cellWidth?: number;
     addAmount?: number;
     addUnit?: GanttDateUtil;
+    dateFormat?: GanttDateFormat;
 }
 
 const viewOptions: GanttViewOptions = {

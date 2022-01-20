@@ -16,7 +16,8 @@ import {
     AfterViewInit,
     ContentChild,
     TemplateRef,
-    forwardRef
+    forwardRef,
+    Inject
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -28,6 +29,7 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { defaultColumnWidth } from './components/table/gantt-table.component';
+import { GanttConfig, GANTT_CONFIG_TOKEN } from './gantt.config';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -68,8 +70,13 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     public sideTableWidth = sideWidth;
 
-    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone) {
-        super(elementRef, cdr, ngZone);
+    constructor(
+        elementRef: ElementRef<HTMLElement>,
+        cdr: ChangeDetectorRef,
+        ngZone: NgZone,
+        @Inject(GANTT_CONFIG_TOKEN) config: GanttConfig
+    ) {
+        super(elementRef, cdr, ngZone, config);
     }
 
     ngOnInit() {

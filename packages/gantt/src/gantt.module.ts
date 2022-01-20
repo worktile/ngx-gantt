@@ -14,6 +14,7 @@ import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttRangeComponent } from './components/range/range.component';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from './gantt.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { GANTT_CONFIG_TOKEN, defaultConfig } from './gantt.config';
 
 @NgModule({
     imports: [CommonModule, DragDropModule],
@@ -42,6 +43,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe
     ],
-    providers: []
+    providers: [
+        {
+            provide: GANTT_CONFIG_TOKEN,
+            useValue: defaultConfig
+        }
+    ]
 })
 export class NgxGanttModule {}
