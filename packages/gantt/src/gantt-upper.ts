@@ -33,7 +33,7 @@ import { GanttDate } from './utils/date';
 import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems, getFlatItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
-import { GANTT_CONFIG_TOKEN, GanttConfig, defaultConfig } from './gantt.config';
+import { GANTT_GLOBAL_CONFIG, GanttConfig, defaultConfig } from './gantt.config';
 
 @Directive()
 export abstract class GanttUpper {
@@ -107,7 +107,7 @@ export abstract class GanttUpper {
         protected elementRef: ElementRef<HTMLElement>,
         protected cdr: ChangeDetectorRef,
         protected ngZone: NgZone,
-        @Inject(GANTT_CONFIG_TOKEN) protected config: GanttConfig
+        @Inject(GANTT_GLOBAL_CONFIG) protected config: GanttConfig
     ) {}
 
     private createView() {
@@ -212,7 +212,7 @@ export abstract class GanttUpper {
 
     onInit() {
         this.styles = Object.assign({}, defaultStyles, this.styles);
-        this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.viewOptions.dateFormat, this.config.dateFormat);
+        this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
         this.createView();
         this.setupGroups();
         this.setupItems();

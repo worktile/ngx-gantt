@@ -2,15 +2,15 @@ import { InjectionToken } from '@angular/core';
 
 export const defaultConfig = {
     dateFormat: {
-        year: 'yyyy年',
-        quarter: 'QQQ',
-        yearQuarter: 'yyyy年QQQ',
+        week: '第w周',
         month: 'M月',
-        yearMonth: 'yyyy年MM月',
-        week: '第w周'
+        quarter: 'QQQ',
+        year: 'yyyy年',
+        yearQuarter: 'yyyy年QQQ',
+        yearMonth: 'yyyy年MM月'
     }
 };
 
 export type GanttConfig = typeof defaultConfig;
 
-export const GANTT_CONFIG_TOKEN = new InjectionToken<GanttConfig>('STYX_GANTT_CONFIG');
+export const GANTT_GLOBAL_CONFIG = new InjectionToken<GanttConfig>('GANTT_GLOBAL_CONFIG');
