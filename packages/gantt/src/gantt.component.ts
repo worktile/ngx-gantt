@@ -29,7 +29,7 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { defaultColumnWidth } from './components/table/gantt-table.component';
-import { GanttConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
+import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -74,7 +74,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
         ngZone: NgZone,
-        @Inject(GANTT_GLOBAL_CONFIG) config: GanttConfig
+        @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
     ) {
         super(elementRef, cdr, ngZone, config);
     }

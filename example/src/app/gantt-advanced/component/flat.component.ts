@@ -10,7 +10,7 @@ import {
     ElementRef,
     Inject
 } from '@angular/core';
-import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal, GanttConfig, GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
+import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal, GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from 'ngx-gantt';
 import { startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -35,7 +35,7 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit, OnChang
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
         ngZone: NgZone,
-        @Inject(GANTT_GLOBAL_CONFIG) config: GanttConfig
+        @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
     ) {
         super(elementRef, cdr, ngZone, config);
     }

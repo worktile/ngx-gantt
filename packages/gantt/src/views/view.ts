@@ -1,7 +1,7 @@
 import { GanttDate, differenceInDays, GanttDateUtil } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { BehaviorSubject } from 'rxjs';
-import { defaultConfig } from '../gantt.config';
+import { defaultConfig, GanttDateFormat } from '../gantt.config';
 
 export const primaryDatePointTop = 18;
 
@@ -12,14 +12,6 @@ export interface GanttViewDate {
     isCustom?: boolean;
 }
 
-export interface GanttDateFormat {
-    year?: string;
-    quarter?: string;
-    yearQuarter?: string;
-    month?: string;
-    yearMonth?: string;
-    week?: string;
-}
 export interface GanttViewOptions {
     start?: GanttDate;
     end?: GanttDate;
