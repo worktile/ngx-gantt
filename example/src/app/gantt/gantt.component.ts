@@ -1,15 +1,13 @@
-import { GanttPrintService } from './../../../../packages/gantt/src/gantt-print.service';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttViewType,
     GanttDragEvent,
-    GanttLoadOnScrollEvent,
     GanttLineClickEvent,
     GanttLinkDragEvent,
     GanttItem,
-    GanttViewOptions,
-    GanttDate
+    GanttPrintService,
+    GANTT_GLOBAL_CONFIG
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -56,7 +54,7 @@ export class AppGanttExampleComponent implements OnInit {
         { id: '000005', title: 'Task 5', start: 1628075597, end: 1629544397, color: '#709dc1' },
         { id: '000006', title: 'Task 6', start: 1641121997, end: 1645528397 },
         { id: '000007', title: 'Task 7', start: 1639393997, end: 1640862797 },
-        { id: '000008', title: 'Task 8', end: 1628783999, color:'#709dc1' },
+        { id: '000008', title: 'Task 8', end: 1628783999, color: '#709dc1' },
         { id: '000009', title: 'Task 9', start: 1639307597, end: 1640344397 },
         { id: '0000010', title: 'Task 10', start: 1609067597, end: 1617275597 },
         { id: '0000011', title: 'Task 11', start: 1611918797, end: 1611918797 },
@@ -82,6 +80,12 @@ export class AppGanttExampleComponent implements OnInit {
 
     options = {
         viewType: GanttViewType.day
+    };
+
+    viewOptions = {
+        dateFormat: {
+            month: 'M月'
+        }
     };
 
     @HostBinding('class.gantt-example-component') class = true;

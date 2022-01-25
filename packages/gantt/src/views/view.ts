@@ -1,6 +1,7 @@
 import { GanttDate, differenceInDays, GanttDateUtil } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { BehaviorSubject } from 'rxjs';
+import { defaultConfig, GanttDateFormat } from '../gantt.config';
 
 export const primaryDatePointTop = 18;
 
@@ -19,11 +20,13 @@ export interface GanttViewOptions {
     cellWidth?: number;
     addAmount?: number;
     addUnit?: GanttDateUtil;
+    dateFormat?: GanttDateFormat;
 }
 
 const viewOptions: GanttViewOptions = {
     min: new GanttDate().addYears(-1).startOfYear(),
-    max: new GanttDate().addYears(1).endOfYear()
+    max: new GanttDate().addYears(1).endOfYear(),
+    dateFormat: defaultConfig.dateFormat
 };
 
 export abstract class GanttView {

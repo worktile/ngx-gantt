@@ -1,5 +1,16 @@
-import { Component, OnInit, HostBinding, OnChanges, OnDestroy, SimpleChanges, NgZone, ChangeDetectorRef, ElementRef } from '@angular/core';
-import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal } from 'ngx-gantt';
+import {
+    Component,
+    OnInit,
+    HostBinding,
+    OnChanges,
+    OnDestroy,
+    SimpleChanges,
+    NgZone,
+    ChangeDetectorRef,
+    ElementRef,
+    Inject
+} from '@angular/core';
+import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal, GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from 'ngx-gantt';
 import { startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -20,8 +31,13 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit, OnChang
 
     @HostBinding('class.gantt-flat') ganttFlatClass = true;
 
-    constructor(elementRef: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, ngZone: NgZone) {
-        super(elementRef, cdr, ngZone);
+    constructor(
+        elementRef: ElementRef<HTMLElement>,
+        cdr: ChangeDetectorRef,
+        ngZone: NgZone,
+        @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
+    ) {
+        super(elementRef, cdr, ngZone, config);
     }
 
     private buildGroupMergedItems(items: GanttItemInternal[]) {

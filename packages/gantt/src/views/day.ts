@@ -43,7 +43,7 @@ export class GanttViewDay extends GanttView {
             const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
             const point = new GanttDatePoint(
                 weekStart,
-                weekStart.addWeeks(increaseWeek).format('yyyy年MM月'),
+                weekStart.addWeeks(increaseWeek).format(this.options.dateFormat.yearMonth),
                 (this.getCellWidth() * 7) / 2 + i * (this.getCellWidth() * 7),
                 primaryDatePointTop
             );

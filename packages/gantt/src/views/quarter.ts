@@ -41,7 +41,7 @@ export class GanttViewQuarter extends GanttView {
             const start = new GanttDate(years[i]);
             const point = new GanttDatePoint(
                 start,
-                `${start.format('yyyy')}年`,
+                `${start.format(this.options.dateFormat.year)}`,
                 (this.getCellWidth() * 4) / 2 + i * (this.getCellWidth() * 4),
                 primaryDatePointTop
             );
@@ -57,7 +57,7 @@ export class GanttViewQuarter extends GanttView {
             const start = this.start.addQuarters(i);
             const point = new GanttDatePoint(
                 start,
-                start.format('QQQ'),
+                start.format(this.options.dateFormat.quarter),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 secondaryDatePointTop
             );

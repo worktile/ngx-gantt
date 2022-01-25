@@ -17,15 +17,35 @@ import { GanttIconComponent } from '../components/icon/icon.component';
 import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
 const mockGroups = getMockGroups();
 
+const config = {
+    dateFormat: {
+        week: 'w',
+        month: 'MM',
+        quarter: 'Q',
+        year: 'yyyy',
+        yearMonth: 'yyyy/MM',
+        yearQuarter: 'yyyy/QQQ'
+    }
+};
+
 // Basic Component
 @Component({
     selector: 'test-gantt-basic',
-    template: ` <ngx-gantt #gantt [start]="start" [end]="end" [items]="items" [viewType]="viewType" (barClick)="barClick($event)">
+    template: ` <ngx-gantt
+        #gantt
+        [start]="start"
+        [end]="end"
+        [items]="items"
+        [viewType]="viewType"
+        [viewOptions]="viewOptions"
+        (barClick)="barClick($event)"
+    >
         <ngx-gantt-table>
             <ngx-gantt-column name="标题" width="200px">
                 <ng-template #cell let-item="item">
@@ -47,6 +67,12 @@ export class TestGanttBasicComponent {
     viewType = 'month';
 
     items = mockItems;
+
+    viewOptions = {
+        dateFormat: {
+            yearMonth: 'yyyy-MM'
+        }
+    };
 
     barClick(event: GanttBarClickEvent) {
         console.log(event);
@@ -192,7 +218,13 @@ describe('ngx-gantt', () => {
             TestBed.configureTestingModule({
                 imports: [CommonModule, NgxGanttModule],
                 declarations: [TestGanttBasicComponent],
-                providers: [GanttPrintService]
+                providers: [
+                    GanttPrintService,
+                    {
+                        provide: GANTT_GLOBAL_CONFIG,
+                        useValue: config
+                    }
+                ]
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttBasicComponent);
             fixture.detectChanges();
@@ -208,10 +240,10 @@ describe('ngx-gantt', () => {
 
         it('should render month view', () => {
             assertGanttView(fixture, {
-                firstPrimaryDataPointText: '2020年Q3',
-                lastPrimaryDataPointText: '2021年Q4',
-                firstSecondaryDataPointText: '7月',
-                lastSecondaryDataPointText: '12月'
+                firstPrimaryDataPointText: '2020/Q3',
+                lastPrimaryDataPointText: '2021/Q4',
+                firstSecondaryDataPointText: '07',
+                lastSecondaryDataPointText: '12'
             });
         });
 
@@ -239,8 +271,8 @@ describe('ngx-gantt', () => {
             ganttComponentInstance.viewType = GanttViewType.day;
             fixture.detectChanges();
             assertGanttView(fixture, {
-                firstPrimaryDataPointText: '2020年09月',
-                lastPrimaryDataPointText: '2021年12月',
+                firstPrimaryDataPointText: '2020-09',
+                lastPrimaryDataPointText: '2021-12',
                 firstSecondaryDataPointText: '31',
                 lastSecondaryDataPointText: '5'
             });

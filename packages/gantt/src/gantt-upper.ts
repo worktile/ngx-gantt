@@ -10,7 +10,9 @@ import {
     NgZone,
     SimpleChanges,
     InjectionToken,
-    Directive
+    Directive,
+    Inject,
+    Optional
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
@@ -31,6 +33,7 @@ import { GanttDate } from './utils/date';
 import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems, getFlatItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
+import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
 
 @Directive()
 export abstract class GanttUpper {
@@ -50,7 +53,7 @@ export abstract class GanttUpper {
 
     @Input() styles: GanttStyles;
 
-    @Input() viewOptions: GanttViewOptions;
+    @Input() viewOptions: GanttViewOptions = {};
 
     @Input() disabledLoadOnScroll: boolean;
 
@@ -100,7 +103,12 @@ export abstract class GanttUpper {
 
     @HostBinding('class.gantt') ganttClass = true;
 
-    constructor(protected elementRef: ElementRef<HTMLElement>, protected cdr: ChangeDetectorRef, protected ngZone: NgZone) {}
+    constructor(
+        protected elementRef: ElementRef<HTMLElement>,
+        protected cdr: ChangeDetectorRef,
+        protected ngZone: NgZone,
+        @Inject(GANTT_GLOBAL_CONFIG) protected config: GanttGlobalConfig
+    ) {}
 
     private createView() {
         const viewDate = this.getViewDate();
@@ -204,6 +212,7 @@ export abstract class GanttUpper {
 
     onInit() {
         this.styles = Object.assign({}, defaultStyles, this.styles);
+        this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
         this.createView();
         this.setupGroups();
         this.setupItems();

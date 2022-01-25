@@ -51,7 +51,7 @@ export class GanttViewYear extends GanttView {
             const start = this.start.addYears(i);
             const point = new GanttDatePoint(
                 start,
-                `${start.format('yyyy')}年`,
+                `${start.format(this.options.dateFormat.year)}`,
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 pointTop
             );
