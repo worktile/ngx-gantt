@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [12.1.0](https://github.com/worktile/ngx-gantt/compare/11.0.3...12.1.0) (2022-01-25)
+
+
+### Features
+
+* custom calendar header date format ([#170](https://github.com/worktile/ngx-gantt/issues/170)) ([3e6cd59](https://github.com/worktile/ngx-gantt/commit/3e6cd59ff7f8130888fa01d676f043e3045a49b7))
+
 ### [12.0.2](https://github.com/worktile/ngx-gantt/compare/11.0.3...12.0.2) (2022-01-19)
 
 
