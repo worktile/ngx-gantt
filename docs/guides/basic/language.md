@@ -10,22 +10,24 @@ order: 60
 ```javascript
 import { GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
 
-@Component({
-    selector: 'app-gantt-example',
-    templateUrl: './gantt.component.html',
-    providers: [
-        {
-            provide: GANTT_GLOBAL_CONFIG,
-            useValue: {
-                dateFormat: {
-                    yearQuarter: `QQQ 'of' yyyy`,
-                    month: 'LLLL',
-                    yearMonth: `LLLL yyyy'(week' w ')'`
-                }
-            }
+@NgModule({
+  ...
+  providers: [
+    {
+      provide: GANTT_GLOBAL_CONFIG,
+      useValue: {
+        dateFormat: {
+          ...
         }
-    ]
+      }
+    },
+    ...
+  ]
+  ...
 })
+export class AppModule {
+
+}
 
 ```
 

@@ -9,20 +9,24 @@ subtitle:
 ```javascript
 import { GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
 
-@Component({
-    selector: 'app-gantt-example',
-    templateUrl: './gantt.component.html',
-    providers: [
-        {
-            provide: GANTT_GLOBAL_CONFIG,
-            useValue: {
-                dateFormat: {
-                    ...
-                }
-            }
+@NgModule({
+  ...
+  providers: [
+    {
+      provide: GANTT_GLOBAL_CONFIG,
+      useValue: {
+        dateFormat: {
+          ...
         }
-    ]
+      }
+    },
+    ...
+  ]
+  ...
 })
+export class AppModule {
+
+}
 
 ```
 
