@@ -163,4 +163,8 @@ export class GanttTableComponent implements OnInit, OnChanges {
     private hideAuxiliaryLine() {
         this.draglineElementRef.nativeElement.style.display = 'none';
     }
+
+    trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
+        return item.id || index;
+    }
 }

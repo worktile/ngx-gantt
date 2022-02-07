@@ -25,7 +25,7 @@
   </ng-container>
 
   <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
-    <ng-container *ngFor="let group of groups">
+    <ng-container *ngFor="let group of groups; trackBy: trackBy">
       <div class="gantt-table-group" [ngClass]="group.class">
         <div class="gantt-table-group-title" [class.expanded]="group.expanded" (click)="expandGroup(group)">
           <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
@@ -68,7 +68,7 @@
 </ng-template>
 
 <ng-template #ganttItems let-group="group" let-items="items" let-level="level">
-  <ng-container *ngFor="let item of items">
+  <ng-container *ngFor="let item of items; trackBy: trackBy">
     <div
       class="gantt-table-item gantt-table-row"
       [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"

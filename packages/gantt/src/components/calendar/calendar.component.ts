@@ -89,7 +89,7 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
 
     ngOnChanges(changes: SimpleChanges): void {}
 
-    trackBy(point: GanttDatePoint, index: number) {
+    trackBy(index: number, point: GanttDatePoint) {
         return point.text || index;
     }
 

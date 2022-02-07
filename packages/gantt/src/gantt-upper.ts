@@ -270,7 +270,7 @@ export abstract class GanttUpper {
         });
     }
 
-    trackBy(item: GanttGroupInternal | GanttItemInternal, index: number) {
+    trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
         return item.id || index;
     }
 
