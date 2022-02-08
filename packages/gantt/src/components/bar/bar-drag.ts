@@ -83,6 +83,8 @@ export class GanttBarDrag implements OnDestroy {
             const start = this.ganttUpper.view.getDateByXPoint(x);
             const end = start.addDays(days);
             this.openDragBackdrop(this.barElement, this.ganttUpper.view.getDateByXPoint(x), end);
+            this.item.updateDate(start, end);
+            this.dragContainer.dragMoved.emit({ item: this.item.origin });
         });
         dragRef.ended.subscribe((event) => {
             const days = differenceInCalendarDays(this.item.end.value, this.item.start.value);
@@ -124,6 +126,7 @@ export class GanttBarDrag implements OnDestroy {
                             this.ganttUpper.view.getDateByXPoint(x),
                             this.ganttUpper.view.getDateByXPoint(x + width)
                         );
+                        this.item.updateDate(this.ganttUpper.view.getDateByXPoint(x), this.item.end);
                     }
                 } else {
                     const width = this.item.refs.width + event.distance.x;
@@ -135,7 +138,9 @@ export class GanttBarDrag implements OnDestroy {
                             this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width)
                         );
                     }
+                    this.item.updateDate(this.item.start, this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width));
                 }
+                this.dragContainer.dragMoved.emit({ item: this.item.origin });
                 event.source.reset();
             });
 
