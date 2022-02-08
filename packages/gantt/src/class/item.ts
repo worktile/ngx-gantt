@@ -56,7 +56,7 @@ export class GanttItemInternal {
         return this.refs$.getValue();
     }
 
-    refs$ = new BehaviorSubject<{ width: number; x?: number; y?: number }>(null);
+    refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null);
 
     constructor(item: GanttItem, options?: { viewType: GanttViewType }) {
         this.origin = item;

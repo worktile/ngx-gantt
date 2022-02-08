@@ -61,6 +61,8 @@ export abstract class GanttUpper {
 
     @Output() dragStarted = new EventEmitter<GanttDragEvent>();
 
+    @Output() dragMoved = new EventEmitter<GanttDragEvent>();
+
     @Output() dragEnded = new EventEmitter<GanttDragEvent>();
 
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
@@ -225,6 +227,10 @@ export abstract class GanttUpper {
             this.dragContainer.dragStarted.subscribe((event) => {
                 this.dragStarted.emit(event);
             });
+
+            this.dragContainer.dragMoved.subscribe((event) => {
+                this.dragMoved.emit(event);
+            });
             this.dragContainer.dragEnded.subscribe((event) => {
                 this.dragEnded.emit(event);
                 this.computeRefs();
@@ -292,6 +298,20 @@ export abstract class GanttUpper {
 
     collapseAll() {
         this.expandGroups(false);
+    }
+
+    getGanttItem(id: string) {
+        return this.getGanttItems([id])[0] || null;
+    }
+
+    getGanttItems(ids: string[]) {
+        let items: GanttItemInternal[] = [];
+        if (this.items.length > 0) {
+            items = recursiveItems(this.items);
+        } else {
+            items = flatten(this.groups.map((group) => recursiveItems(group.items)));
+        }
+        return items.filter((item) => ids.includes(item.id));
     }
 }
 

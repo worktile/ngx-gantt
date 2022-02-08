@@ -8,6 +8,8 @@ export type LinkDragFrom = 'source' | 'target';
 export class GanttDragContainer {
     dragStarted = new EventEmitter<GanttDragEvent>();
 
+    dragMoved = new EventEmitter<GanttDragEvent>();
+
     dragEnded = new EventEmitter<GanttDragEvent>();
 
     linkDragStarted = new EventEmitter<GanttLinkDragEvent>();

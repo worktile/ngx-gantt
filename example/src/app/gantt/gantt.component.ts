@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttViewType,
@@ -7,7 +7,7 @@ import {
     GanttLinkDragEvent,
     GanttItem,
     GanttPrintService,
-    GANTT_GLOBAL_CONFIG
+    NgxGanttComponent
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -90,6 +90,8 @@ export class AppGanttExampleComponent implements OnInit {
 
     @HostBinding('class.gantt-example-component') class = true;
 
+    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+
     childrenResolve = (item: GanttItem) => {
         const children = randomItems(random(1, 5), item);
         return of(children).pipe(delay(1000));
@@ -106,6 +108,8 @@ export class AppGanttExampleComponent implements OnInit {
     lineClick(event: GanttLineClickEvent) {
         this.thyNotify.info('Event: lineClick', `你点击了 ${event.source.title} 到 ${event.target.title} 的关联线`);
     }
+
+    dragMoved(event: GanttDragEvent) {}
 
     dragEnded(event: GanttDragEvent) {
         this.thyNotify.info('Event: dragEnded', `修改了 [${event.item.title}] 的时间`);
