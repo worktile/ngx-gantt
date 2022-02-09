@@ -1,6 +1,14 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [12.1.1](https://github.com/worktile/ngx-gantt/compare/11.0.3...12.1.1) (2022-02-09)
+
+
+### Features
+
+* add bar dragMoved event, add getGanttItem public functions #INFR-2563 ([7548ddd](https://github.com/worktile/ngx-gantt/commit/7548ddd0f9121eac1ea9e48e9f6a1d0ab2100899)), closes [#INFR-2563](https://github.com/worktile/ngx-gantt/issues/INFR-2563)
+3e6cd59ff7f8130888fa01d676f043e3045a49b7))
+
 ## [12.1.0](https://github.com/worktile/ngx-gantt/compare/11.0.3...12.1.0) (2022-01-25)
 
 
