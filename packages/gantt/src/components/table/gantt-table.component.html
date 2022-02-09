@@ -76,6 +76,10 @@
       [style.height.px]="gantt.styles.lineHeight"
       [style.lineHeight.px]="gantt.styles.lineHeight"
     >
+      <ng-template
+        [ngTemplateOutlet]="rowBeforeTemplate"
+        [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+      ></ng-template>
       <div class="gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width]="column.columnWidth">
         <div *ngIf="first" class="gantt-expand-icon" [style.marginLeft.px]="level * 20">
           <ng-container *ngIf="level < gantt.maxLevel - 1 && item.expandable">
@@ -95,6 +99,10 @@
           ></ng-template>
         </div>
       </div>
+      <ng-template
+      [ngTemplateOutlet]="rowAfterTemplate"
+      [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+    ></ng-template>
     </div>
     <ng-template
       *ngIf="item.children && item.expanded"

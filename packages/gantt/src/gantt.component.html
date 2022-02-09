@@ -1,6 +1,14 @@
 <ngx-gantt-root>
   <ng-template #sideTemplate>
-    <gantt-table [groups]="groups" [items]="items" [columns]="columns" [groupTemplate]="groupTemplate" [emptyTemplate]="tableEmptyTemplate"></gantt-table>
+    <gantt-table
+      [groups]="groups"
+      [items]="items"
+      [columns]="columns"
+      [groupTemplate]="groupTemplate"
+      [emptyTemplate]="tableEmptyTemplate"
+      [rowBeforeTemplate]="table?.rowBeforeTemplate"
+      [rowAfterTemplate]="table?.rowAfterTemplate"
+    ></gantt-table>
   </ng-template>
   <ng-template #mainTemplate>
     <gantt-main

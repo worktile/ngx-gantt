@@ -54,6 +54,10 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
     @Input() emptyTemplate: TemplateRef<any>;
 
+    @Input() rowBeforeTemplate: TemplateRef<any>;
+
+    @Input() rowAfterTemplate: TemplateRef<any>;
+
     @ViewChild('dragLine', { static: true }) draglineElementRef: ElementRef<HTMLElement>;
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
