@@ -145,7 +145,17 @@ module.exports = [
                 name: 'columnChanges',
                 description: `列宽变化事件集`,
                 type: 'EventEmitter<GanttTableEvent>'
-            }
+            },
+            {
+                name: '#rowBeforeSlot',
+                description: `设置表格中每行的前置自定义渲染模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: '#rowAfterSlot',
+                description: `设置表格中每行的后置自定义渲染模板`,
+                type: 'TemplateRef<any>'
+            },
         ]
     },
     {
