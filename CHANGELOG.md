@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [12.1.2](https://github.com/worktile/ngx-gantt/compare/12.1.1...12.1.2) (2022-02-09)
+
+
+### Features
+
+* support table row before slot and after slot #INFR-2559 ([0470696](https://github.com/worktile/ngx-gantt/commit/0470696178de1f7139a863ca305fbead46a4651e)), closes [#INFR-2559](https://github.com/worktile/ngx-gantt/issues/INFR-2559)
+
 ### [12.1.1](https://github.com/worktile/ngx-gantt/compare/11.0.3...12.1.1) (2022-02-09)
 
 
