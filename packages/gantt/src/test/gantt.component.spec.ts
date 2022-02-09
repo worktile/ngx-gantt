@@ -47,6 +47,12 @@ const config = {
         (barClick)="barClick($event)"
     >
         <ngx-gantt-table>
+            <ng-template #rowBeforeSlot>
+                <div class="row-before"></div>
+            </ng-template>
+            <ng-template #rowAfterSlot>
+                <div class="row-after"></div>
+            </ng-template>
             <ngx-gantt-column name="标题" width="200px">
                 <ng-template #cell let-item="item">
                     {{ item.title }}
@@ -290,6 +296,14 @@ describe('ngx-gantt', () => {
             fixture.detectChanges();
             const ganttTableElement = ganttDebugElement.query(By.css('.gantt-table'));
             expect(ganttTableElement.nativeElement.classList).toContain('gantt-table-empty');
+        });
+
+        it('should render table row before and after template', () => {
+            fixture.detectChanges();
+            const rowBeforeElements = ganttDebugElement.queryAll(By.css('.row-before'));
+            const rowAfterElements = ganttDebugElement.queryAll(By.css('.row-before'));
+            expect(rowBeforeElements.length).toEqual(ganttComponentInstance.items.length);
+            expect(rowAfterElements.length).toEqual(ganttComponentInstance.items.length);
         });
 
         it('should re render when scroll load', () => {});
