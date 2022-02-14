@@ -14,35 +14,12 @@ import {
 import { merge, Subject } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
-import { GanttItemInternal, GanttItem } from './../../class/item';
+import { GanttItemInternal } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { recursiveItems } from '../../utils/helpers';
-import { GanttDate } from '../../utils/date';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-
-enum LinkColors {
-    default = '#cacaca',
-    blocked = '#FF7575',
-    active = '#348FE4'
-}
-
-interface GanttLinkItem {
-    id: string;
-    before: { x: number; y: number };
-    after: { x: number; y: number };
-    start: GanttDate;
-    end: GanttDate;
-    origin: GanttItem;
-    links: string[];
-}
-
-interface LinkInternal {
-    path: string;
-    source: GanttItem;
-    target: GanttItem;
-    color: LinkColors;
-}
+import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
 
 @Component({
     selector: 'gantt-links-overlay',
@@ -150,18 +127,60 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    private generatePath(source: GanttLinkItem, target: GanttLinkItem) {
+    private generatePath(source: GanttLinkItem, target: GanttLinkItem, type: GanttLinkType) {
         if (source.before && source.after && target.before && target.after) {
-            const x1 = source.after.x;
-            const y1 = source.after.y;
+            let x1 = source.after.x;
+            let y1 = source.after.y;
+            let x4 = target.before.x;
+            let y4 = target.before.y;
+            let isMirror: number;
+            const control = Math.abs(y4 - y1) / 2;
 
-            const x4 = target.before.x;
-            const y4 = target.before.y;
+            switch (type) {
+                case GanttLinkType.ss:
+                    x1 = source.before.x;
+                    y1 = source.before.y;
+                    x4 = target.before.x;
+                    y4 = target.before.y;
+                    isMirror = y4 > y1 ? 0 : 1;
+
+                    if (x4 > x1) {
+                        return `M ${x1} ${y1}
+                            A ${control} ${control} 0 1 ${isMirror} ${x1} ${y4}
+                            L ${x1} ${y4} ${x4} ${y4}`;
+                    } else {
+                        return `M ${x1} ${y1}
+                        L ${x1} ${y1} ${x4} ${y1}
+                        A ${control} ${control} 0 1 ${isMirror} ${x4} ${y4}`;
+                    }
+
+                case GanttLinkType.ff:
+                    x1 = source.after.x;
+                    y1 = source.after.y;
+                    x4 = target.after.x;
+                    y4 = target.after.y;
+                    isMirror = y4 > y1 ? 1 : 0;
+                    if (x4 > x1) {
+                        return `M ${x1} ${y1}
+                        L ${x1} ${y1} ${x4} ${y1}
+                        A ${control} ${control} 0 1 ${isMirror} ${x4} ${y4}`;
+                    } else {
+                        return `M ${x1} ${y1}
+                            A ${control} ${control} 0 1 ${isMirror} ${x1} ${y4}
+                            L ${x1} ${y4} ${x4} ${y4}`;
+                    }
+
+                case GanttLinkType.sf:
+                    x1 = target.after.x;
+                    y1 = target.after.y;
+                    x4 = source.before.x;
+                    y4 = source.before.y;
+            }
 
             const dx = Math.abs(x4 - x1) * this.bezierWeight;
+
             const x2 = x1 - dx;
             const x3 = x4 + dx;
-
             const centerX = (x1 + x4) / 2;
             const centerY = (y1 + y4) / 2;
 
@@ -217,13 +236,14 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         this.links = [];
         this.linkItems.forEach((source) => {
             if (source.origin.start || source.origin.end) {
-                source.links.forEach((linkId) => {
-                    const target = this.linkItems.find((item) => item.id === linkId);
+                source.links.forEach((link) => {
+                    const target = this.linkItems.find((item) => item.id === link.link);
                     if (target && (target.origin.start || target.origin.end)) {
                         this.links.push({
-                            path: this.generatePath(source, target),
+                            path: this.generatePath(source, target, link.type),
                             source: source.origin,
                             target: target.origin,
+                            type: link.type,
                             color: source.end.getTime() > target.start.getTime() ? LinkColors.blocked : LinkColors.default
                         });
                     }
