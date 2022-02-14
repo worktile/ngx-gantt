@@ -1,3 +1,5 @@
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
@@ -18,6 +20,19 @@ export class GanttMainComponent implements OnInit {
     @Input() barTemplate: TemplateRef<any>;
 
     @Input() rangeTemplate: TemplateRef<any>;
+
+    @Input()
+    set selectable(value: BooleanInput) {
+        this._selectable = coerceBooleanProperty(value);
+    }
+
+    get selectable() {
+        return this._selectable;
+    }
+
+    private _selectable = false;
+
+    @Input() selectionData: SelectionModel<string>;
 
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 

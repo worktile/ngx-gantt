@@ -9,14 +9,17 @@ import {
     ElementRef,
     OnChanges,
     SimpleChanges,
-    Inject
+    Inject,
+    Output,
+    EventEmitter
 } from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal } from '../../class';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
 // import { defaultColumnWidth, minColumnWidth } from '../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
-import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { BooleanInput, coerceBooleanProperty, coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../gantt-abstract';
+import { SelectionModel } from '@angular/cdk/collections';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
@@ -58,6 +61,43 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
     @Input() rowAfterTemplate: TemplateRef<any>;
 
+    @Input()
+    set selectable(value: BooleanInput) {
+        this._selectable = coerceBooleanProperty(value);
+        if (this._selectable) {
+            this.selectionData = this.initSelectionData();
+        }
+    }
+
+    get selectable() {
+        return this._selectable;
+    }
+
+    private _selectable = false;
+
+    @Input()
+    set isMultiSelect(value: BooleanInput) {
+        this._isMultiSelect = coerceBooleanProperty(value);
+        if (this.selectable) {
+            this.selectionData = this.initSelectionData();
+        }
+    }
+
+    get isMultiSelect() {
+        return this._isMultiSelect;
+    }
+
+    @Output() selectedItemChange = new EventEmitter<{
+        selectionData: SelectionModel<string>;
+        originSelectionData: SelectionModel<GanttItemInternal>;
+    }>();
+
+    private _isMultiSelect = false;
+
+    public selectionData: SelectionModel<string>;
+
+    private originSelectionData: SelectionModel<GanttItemInternal>;
+
     @ViewChild('dragLine', { static: true }) draglineElementRef: ElementRef<HTMLElement>;
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
@@ -86,7 +126,8 @@ export class GanttTableComponent implements OnInit, OnChanges {
         this.gantt.expandGroup(group);
     }
 
-    expandChildren(item: GanttItemInternal) {
+    expandChildren(event: MouseEvent, item: GanttItemInternal) {
+        event.stopPropagation();
         this.gantt.expandChildren(item);
     }
 
@@ -154,6 +195,25 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
         this.hideAuxiliaryLine();
         event.source.reset();
+    }
+
+    private initSelectionData() {
+        this.originSelectionData = new SelectionModel(this._isMultiSelect, []);
+        return new SelectionModel(this._isMultiSelect, []);
+    }
+    selectItem(item: GanttItemInternal) {
+        console.log(new Array(8).fill('⬇️').join(' '));
+        console.log('item', item);
+        console.log(new Array(8).fill('⬆️').join(' '));
+        if (!this.selectable) {
+            return;
+        }
+        if (!this.selectionData) {
+            this.selectionData = this.initSelectionData();
+        }
+        this.selectionData.toggle(item.id);
+        this.originSelectionData.toggle(item);
+        this.selectedItemChange.emit({ selectionData: this.selectionData, originSelectionData: this.originSelectionData });
     }
 
     private showAuxiliaryLine(event: CdkDragMove) {

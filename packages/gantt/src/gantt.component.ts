@@ -30,6 +30,7 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { defaultColumnWidth } from './components/table/gantt-table.component';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
+import { SelectionModel } from '@angular/cdk/collections';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -54,11 +55,17 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @Input() linkable: boolean;
 
+    @Input() selectable = false;
+
+    @Input() isMultiSelect = false;
+
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
+
+    @Output() selectedChange = new EventEmitter<GanttItemInternal | GanttItemInternal[]>();
 
     @ContentChild(NgxGanttTableComponent) table: NgxGanttTableComponent;
 
@@ -69,6 +76,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     private ngUnsubscribe$ = new Subject();
 
     public sideTableWidth = sideWidth;
+
+    public selectionData: SelectionModel<string>;
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
@@ -132,6 +141,18 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         } else {
             item.setExpand(false);
             this.expandChange.emit();
+        }
+    }
+
+    selectedItemChange(selectedData: { selectionData: SelectionModel<string>; originSelectionData: SelectionModel<GanttItemInternal> }) {
+        this.selectionData = selectedData.selectionData;
+        const selectedItems = selectedData.originSelectionData.selected;
+        if (this.isMultiSelect) {
+            this.selectedChange.emit(selectedItems);
+        } else {
+            const selectedItem: GanttItemInternal = selectedItems.length >= 0 ? selectedItems[0] : null;
+
+            this.selectedChange.emit(selectedItem);
         }
     }
 

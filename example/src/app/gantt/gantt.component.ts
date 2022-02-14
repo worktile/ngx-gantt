@@ -7,7 +7,8 @@ import {
     GanttLinkDragEvent,
     GanttItem,
     GanttPrintService,
-    NgxGanttComponent
+    NgxGanttComponent,
+    GanttItemInternal
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -114,6 +115,10 @@ export class AppGanttExampleComponent implements OnInit {
     dragEnded(event: GanttDragEvent) {
         this.thyNotify.info('Event: dragEnded', `修改了 [${event.item.title}] 的时间`);
         this.items = [...this.items];
+    }
+
+    selectedChange(selectedItem: GanttItemInternal[]) {
+        this.thyNotify.info('Event: selectedChange', `当前选中的 item 的 id 为 ${selectedItem.map((item) => item.id).join('、')}`);
     }
 
     linkDragEnded(event: GanttLinkDragEvent) {
