@@ -1,6 +1,18 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [12.2.0-next.0](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.0-next.0) (2022-02-14)
+
+
+### Features
+
+* add link types ([ee4493e](https://github.com/worktile/ngx-gantt/commit/ee4493e39ce93327a9f21b85bd104bb26dee841c))
+
+
+### Bug Fixes
+
+* hide path arrow ([42fe9da](https://github.com/worktile/ngx-gantt/commit/42fe9da83eb66f4ea450ec204d5313523fde2638))
+
 ### [12.1.2](https://github.com/worktile/ngx-gantt/compare/12.1.1...12.1.2) (2022-02-09)
 
 
