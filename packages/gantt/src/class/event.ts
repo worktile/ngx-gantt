@@ -30,3 +30,8 @@ export class GanttBarClickEvent<T = unknown> {
     event: Event;
     item: GanttItem<T>;
 }
+
+export class GanttSelectedEvent<T = unknown> {
+    event: Event;
+    selectedValue: GanttItem<T> | GanttItem<T>[];
+}

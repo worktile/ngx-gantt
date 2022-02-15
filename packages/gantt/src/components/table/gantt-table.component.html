@@ -70,7 +70,7 @@
 <ng-template #ganttItems let-group="group" let-items="items" let-level="level">
   <ng-container *ngFor="let item of items; trackBy: trackBy">
     <div
-      (click)="selectItem(item)"
+      (click)="itemClick.emit({ event: $event, selectedValue: this.item.origin })"
       class="gantt-table-item gantt-table-row"
       [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
       [class.gantt-table-item-with-group]="group"

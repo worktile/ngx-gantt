@@ -13,13 +13,12 @@ import {
     Output,
     EventEmitter
 } from '@angular/core';
-import { GanttItemInternal, GanttGroupInternal } from '../../class';
+import { GanttItemInternal, GanttGroupInternal, GanttSelectedEvent } from '../../class';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
 // import { defaultColumnWidth, minColumnWidth } from '../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../gantt-abstract';
-import { SelectionModel } from '@angular/cdk/collections';
 import { GanttUpper, GANTT_UPPER_TOKEN } from 'ngx-gantt';
 
 export const defaultColumnWidth = 100;
@@ -62,7 +61,7 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
     @Input() rowAfterTemplate: TemplateRef<any>;
 
-    @Output() selectedChange = new EventEmitter<GanttItemInternal>();
+    @Output() itemClick = new EventEmitter<GanttSelectedEvent>();
 
     @ViewChild('dragLine', { static: true }) draglineElementRef: ElementRef<HTMLElement>;
 
@@ -165,10 +164,6 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
         this.hideAuxiliaryLine();
         event.source.reset();
-    }
-
-    selectItem(item: GanttItemInternal) {
-        this.selectedChange.emit(item);
     }
 
     private showAuxiliaryLine(event: CdkDragMove) {

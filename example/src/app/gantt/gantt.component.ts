@@ -8,7 +8,8 @@ import {
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttItemInternal
+    GanttItemInternal,
+    GanttSelectedEvent
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -117,8 +118,11 @@ export class AppGanttExampleComponent implements OnInit {
         this.items = [...this.items];
     }
 
-    selectedChange(selectedItem: GanttItemInternal[]) {
-        this.thyNotify.info('Event: selectedChange', `当前选中的 item 的 id 为 ${selectedItem.map((item) => item.id).join('、')}`);
+    selectedChange(event: GanttSelectedEvent) {
+        this.thyNotify.info(
+            'Event: selectedChange',
+            `当前选中的 item 的 id 为 ${(event.selectedValue as GanttItem[]).map((item) => item.id).join('、')}`
+        );
     }
 
     linkDragEnded(event: GanttLinkDragEvent) {

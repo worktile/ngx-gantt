@@ -22,7 +22,7 @@ import {
 import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
-import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem } from './class';
+import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
@@ -60,7 +60,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
-    @Output() selectedChange = new EventEmitter<GanttItemInternal | GanttItemInternal[]>();
+    @Output() selectedChange = new EventEmitter<GanttSelectedEvent>();
 
     @ContentChild(NgxGanttTableComponent) table: NgxGanttTableComponent;
 
@@ -137,19 +137,20 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         }
     }
 
-    selectedItemChange(item: GanttItemInternal) {
+    selectItem(selectEvent: GanttSelectedEvent) {
         if (!this.selectable) {
             return;
         }
-        this.selectionModel.toggle(item.id);
+        const { event, selectedValue } = selectEvent;
+        this.selectionModel.toggle((selectedValue as GanttItem).id);
 
         const selectedIds = this.selectionModel.selected;
         if (this.multiple) {
-            const selectedItems = this.getGanttItems(selectedIds);
-            this.selectedChange.emit(selectedItems);
+            const selectedValue = this.getGanttItems(selectedIds).map((item) => item.origin);
+            this.selectedChange.emit({ event, selectedValue });
         } else {
-            const selectedItem = this.getGanttItem(selectedIds[0]);
-            this.selectedChange.emit(selectedItem);
+            const selectedValue = this.getGanttItem(selectedIds[0])?.origin;
+            this.selectedChange.emit({ event, selectedValue });
         }
     }
 
