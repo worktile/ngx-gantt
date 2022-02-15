@@ -147,11 +147,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     selectedItemChange(selectedData: { selectionData: SelectionModel<string>; originSelectionData: SelectionModel<GanttItemInternal> }) {
         this.selectionData = selectedData.selectionData;
         const selectedItems = selectedData.originSelectionData.selected;
+
         if (this.isMultiSelect) {
             this.selectedChange.emit(selectedItems);
         } else {
             const selectedItem: GanttItemInternal = selectedItems.length >= 0 ? selectedItems[0] : null;
-
             this.selectedChange.emit(selectedItem);
         }
     }

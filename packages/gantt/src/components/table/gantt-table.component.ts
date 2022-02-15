@@ -202,9 +202,6 @@ export class GanttTableComponent implements OnInit, OnChanges {
         return new SelectionModel(this._isMultiSelect, []);
     }
     selectItem(item: GanttItemInternal) {
-        console.log(new Array(8).fill('⬇️').join(' '));
-        console.log('item', item);
-        console.log(new Array(8).fill('⬆️').join(' '));
         if (!this.selectable) {
             return;
         }
