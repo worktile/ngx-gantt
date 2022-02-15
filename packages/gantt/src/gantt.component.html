@@ -8,9 +8,7 @@
       [emptyTemplate]="tableEmptyTemplate"
       [rowBeforeTemplate]="table?.rowBeforeTemplate"
       [rowAfterTemplate]="table?.rowAfterTemplate"
-      [selectable]="selectable"
-      [isMultiSelect]="isMultiSelect"
-      (selectedItemChange)="selectedItemChange($event)"
+      (selectedChange)="selectedItemChange($event)"
     ></gantt-table>
   </ng-template>
   <ng-template #mainTemplate>
@@ -21,8 +19,6 @@
       [itemTemplate]="itemTemplate"
       [barTemplate]="barTemplate"
       [rangeTemplate]="rangeTemplate"
-      [selectable]="selectable"
-      [selectionData]="selectionData"
       (barClick)="barClick.emit($event)"
       (lineClick)="lineClick.emit($event)"
     >

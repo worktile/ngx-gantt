@@ -21,19 +21,6 @@ export class GanttMainComponent implements OnInit {
 
     @Input() rangeTemplate: TemplateRef<any>;
 
-    @Input()
-    set selectable(value: BooleanInput) {
-        this._selectable = coerceBooleanProperty(value);
-    }
-
-    get selectable() {
-        return this._selectable;
-    }
-
-    private _selectable = false;
-
-    @Input() selectionData: SelectionModel<string>;
-
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();

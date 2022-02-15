@@ -22,7 +22,7 @@
     <div
       class="gantt-item"
       [style.height.px]="ganttUpper.styles.lineHeight"
-      [class.gantt-main-item-active]="selectable && selectionData?.hasValue() && selectionData?.isSelected(item.id)"
+      [class.gantt-main-item-active]="ganttUpper.isSelected(item.id)"
     >
       <ng-container *ngIf="item.type | isGanttCustomItem">
         <ng-template [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>

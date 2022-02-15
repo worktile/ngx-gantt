@@ -74,7 +74,7 @@
       class="gantt-table-item gantt-table-row"
       [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
       [class.gantt-table-item-with-group]="group"
-      [class.gantt-table-item-active]="selectable && selectionData?.hasValue() && selectionData?.isSelected(item.id)"
+      [class.gantt-table-item-active]="ganttUpper.isSelected(item.id)"
       [style.height.px]="gantt.styles.lineHeight"
       [style.lineHeight.px]="gantt.styles.lineHeight"
     >
