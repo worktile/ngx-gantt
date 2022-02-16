@@ -19,7 +19,7 @@ import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../gantt-abstract';
-import { GanttUpper, GANTT_UPPER_TOKEN } from 'ngx-gantt';
+import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
