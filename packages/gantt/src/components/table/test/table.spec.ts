@@ -152,7 +152,6 @@ describe('GanttTable', () => {
         const mainItemNode = ganttMain.query(By.css('.gantt-item')).nativeNode;
         itemNode.click();
         fixture.detectChanges();
-        console.log('gantt-main-item-active', mainItemNode.classList);
         expect(itemNode.classList).toContain('gantt-table-item-active');
         expect(mainItemNode.classList).toContain('gantt-main-item-active');
     }));
