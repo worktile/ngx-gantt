@@ -133,6 +133,13 @@
       &:hover {
         background-color: $gantt-container-background-color;
       }
+
+      &-active {
+        background-color: rgba($color: $gantt-table-header-drag-line-color, $alpha: 0.1);
+        &:hover {
+          background-color: rgba($color: $gantt-table-header-drag-line-color, $alpha: 0.1);
+        }
+      }
     }
 
     .gantt-expand-icon {

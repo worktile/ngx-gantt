@@ -8,6 +8,7 @@
       [emptyTemplate]="tableEmptyTemplate"
       [rowBeforeTemplate]="table?.rowBeforeTemplate"
       [rowAfterTemplate]="table?.rowAfterTemplate"
+      (itemClick)="selectItem($event)"
     ></gantt-table>
   </ng-template>
   <ng-template #mainTemplate>

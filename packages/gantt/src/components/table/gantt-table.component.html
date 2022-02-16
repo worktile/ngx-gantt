@@ -70,9 +70,11 @@
 <ng-template #ganttItems let-group="group" let-items="items" let-level="level">
   <ng-container *ngFor="let item of items; trackBy: trackBy">
     <div
+      (click)="itemClick.emit({ event: $event, selectedValue: this.item.origin })"
       class="gantt-table-item gantt-table-row"
       [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
       [class.gantt-table-item-with-group]="group"
+      [class.gantt-table-item-active]="ganttUpper.isSelected(item.id)"
       [style.height.px]="gantt.styles.lineHeight"
       [style.lineHeight.px]="gantt.styles.lineHeight"
     >
@@ -87,7 +89,7 @@
               *ngIf="!item.loading"
               class="expand-icon"
               [iconName]="item.expanded ? 'angle-down' : 'angle-right'"
-              (click)="expandChildren(item)"
+              (click)="expandChildren($event, item)"
             ></gantt-icon>
             <gantt-icon *ngIf="item.loading" [iconName]="'loading'"></gantt-icon>
           </ng-container>
@@ -100,9 +102,9 @@
         </div>
       </div>
       <ng-template
-      [ngTemplateOutlet]="rowAfterTemplate"
-      [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
-    ></ng-template>
+        [ngTemplateOutlet]="rowAfterTemplate"
+        [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+      ></ng-template>
     </div>
     <ng-template
       *ngIf="item.children && item.expanded"

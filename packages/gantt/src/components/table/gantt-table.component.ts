@@ -9,14 +9,17 @@ import {
     ElementRef,
     OnChanges,
     SimpleChanges,
-    Inject
+    Inject,
+    Output,
+    EventEmitter
 } from '@angular/core';
-import { GanttItemInternal, GanttGroupInternal } from '../../class';
+import { GanttItemInternal, GanttGroupInternal, GanttSelectedEvent } from '../../class';
 import { NgxGanttTableColumnComponent } from '../../table/gantt-column.component';
 // import { defaultColumnWidth, minColumnWidth } from '../../gantt.component';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../gantt-abstract';
+import { GanttUpper, GANTT_UPPER_TOKEN } from 'ngx-gantt';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
@@ -58,13 +61,19 @@ export class GanttTableComponent implements OnInit, OnChanges {
 
     @Input() rowAfterTemplate: TemplateRef<any>;
 
+    @Output() itemClick = new EventEmitter<GanttSelectedEvent>();
+
     @ViewChild('dragLine', { static: true }) draglineElementRef: ElementRef<HTMLElement>;
 
     @HostBinding('class.gantt-table') ganttTableClass = true;
 
     @HostBinding('class.gantt-table-empty') ganttTableEmptyClass = false;
 
-    constructor(@Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent, private elementRef: ElementRef) {}
+    constructor(
+        @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
+        private elementRef: ElementRef
+    ) {}
 
     ngOnInit() {}
 
@@ -86,7 +95,8 @@ export class GanttTableComponent implements OnInit, OnChanges {
         this.gantt.expandGroup(group);
     }
 
-    expandChildren(item: GanttItemInternal) {
+    expandChildren(event: MouseEvent, item: GanttItemInternal) {
+        event.stopPropagation();
         this.gantt.expandChildren(item);
     }
 

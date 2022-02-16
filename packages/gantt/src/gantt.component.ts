@@ -22,7 +22,7 @@ import {
 import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
-import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem } from './class';
+import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { sideWidth } from './gantt.styles';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
@@ -59,6 +59,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
+
+    @Output() selectedChange = new EventEmitter<GanttSelectedEvent>();
 
     @ContentChild(NgxGanttTableComponent) table: NgxGanttTableComponent;
 
@@ -132,6 +134,23 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         } else {
             item.setExpand(false);
             this.expandChange.emit();
+        }
+    }
+
+    selectItem(selectEvent: GanttSelectedEvent) {
+        if (!this.selectable) {
+            return;
+        }
+        const { event, selectedValue } = selectEvent;
+        this.selectionModel.toggle((selectedValue as GanttItem).id);
+
+        const selectedIds = this.selectionModel.selected;
+        if (this.multiple) {
+            const selectedValue = this.getGanttItems(selectedIds).map((item) => item.origin);
+            this.selectedChange.emit({ event, selectedValue });
+        } else {
+            const selectedValue = this.getGanttItem(selectedIds[0])?.origin;
+            this.selectedChange.emit({ event, selectedValue });
         }
     }
 

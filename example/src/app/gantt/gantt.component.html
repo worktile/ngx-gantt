@@ -22,11 +22,14 @@
       [childrenResolve]="childrenResolve"
       [draggable]="true"
       [linkable]="true"
+      [selectable]="true"
+      [multiple]="true"
       [viewOptions]="viewOptions"
       (barClick)="barClick($event)"
       (lineClick)="lineClick($event)"
       (dragMoved)="dragMoved($event)"
       (dragEnded)="dragEnded($event)"
+      (selectedChange)="selectedChange($event)"
       (linkDragEnded)="linkDragEnded($event)"
     >
       <ngx-gantt-table>

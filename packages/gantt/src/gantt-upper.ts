@@ -34,6 +34,8 @@ import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems, getFlatItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
+import { SelectionModel } from '@angular/cdk/collections';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Directive()
 export abstract class GanttUpper {
@@ -56,6 +58,32 @@ export abstract class GanttUpper {
     @Input() viewOptions: GanttViewOptions = {};
 
     @Input() disabledLoadOnScroll: boolean;
+
+    @Input()
+    set selectable(value: BooleanInput) {
+        this._selectable = coerceBooleanProperty(value);
+        if (this._selectable) {
+            this.selectionModel = this.initSelectionModel();
+        } else {
+            this.selectionModel?.clear();
+        }
+    }
+
+    get selectable(): boolean {
+        return this._selectable;
+    }
+
+    @Input()
+    set multiple(value: BooleanInput) {
+        this._multiple = coerceBooleanProperty(value);
+        if (this.selectable) {
+            this.selectionModel = this.initSelectionModel();
+        }
+    }
+
+    get multiple(): boolean {
+        return this._multiple;
+    }
 
     @Output() loadOnScroll = new EventEmitter<GanttLoadOnScrollEvent>();
 
@@ -101,7 +129,13 @@ export abstract class GanttUpper {
 
     public unsubscribe$ = new Subject();
 
+    public selectionModel: SelectionModel<string>;
+
     private groupsMap: { [key: string]: GanttGroupInternal };
+
+    private _selectable = false;
+
+    private _multiple = false;
 
     @HostBinding('class.gantt') ganttClass = true;
 
@@ -212,6 +246,10 @@ export abstract class GanttUpper {
         this.cdr.detectChanges();
     }
 
+    private initSelectionModel() {
+        return new SelectionModel(this.multiple, []);
+    }
+
     onInit() {
         this.styles = Object.assign({}, defaultStyles, this.styles);
         this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
@@ -219,6 +257,7 @@ export abstract class GanttUpper {
         this.setupGroups();
         this.setupItems();
         this.computeRefs();
+        this.initSelectionModel();
         this.firstChange = false;
 
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
@@ -312,6 +351,16 @@ export abstract class GanttUpper {
             items = flatten(this.groups.map((group) => recursiveItems(group.items)));
         }
         return items.filter((item) => ids.includes(item.id));
+    }
+
+    isSelected(id: string) {
+        if (!this.selectable) {
+            return false;
+        }
+        if (!this.selectionModel.hasValue()) {
+            return false;
+        }
+        return this.selectionModel.isSelected(id);
     }
 }
 
