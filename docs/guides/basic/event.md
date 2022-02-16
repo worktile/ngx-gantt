@@ -68,3 +68,14 @@ export class GanttBarClickEvent<T = unknown> {
   item: GanttItem<T>;
 }
 ```
+
+# GanttSelectedEvent
+
+选择表格数据时传递数据项信息，在单选模式下返回单个数据对象，多选模式下返回数据项数组
+
+```ts
+export class GanttSelectedEvent<T = unknown> {
+  event: Event;
+  selectedValue: GanttItem<T> | GanttItem<T>[];
+}
+```

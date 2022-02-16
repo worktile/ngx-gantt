@@ -357,7 +357,7 @@ export abstract class GanttUpper {
         if (!this.selectable) {
             return false;
         }
-        if (!this.selectionModel.hasValue) {
+        if (!this.selectionModel.hasValue()) {
             return false;
         }
         return this.selectionModel.isSelected(id);

@@ -8,7 +8,6 @@ import {
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttItemInternal,
     GanttSelectedEvent
 } from 'ngx-gantt';
 import { of } from 'rxjs';

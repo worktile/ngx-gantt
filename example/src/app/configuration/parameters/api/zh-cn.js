@@ -80,6 +80,18 @@ module.exports = [
                 default: false
             },
             {
+                name: 'selectable',
+                description: `设置是否启动选择整行`,
+                type: 'boolean',
+                default: 'false'
+            },
+            {
+                name: 'multiple',
+                description: `设置选择整行是否为多选模式`,
+                type: 'boolean',
+                default: 'false'
+            },
+            {
                 name: 'loadOnScroll',
                 description: `滚动加载事件`,
                 type: 'EventEmitter<GanttLoadOnScrollEvent>'
@@ -115,6 +127,11 @@ module.exports = [
                 type: 'EventEmitter<GanttLinkDragEvent>'
             },
             {
+                name: 'selectedChange',
+                description: `选择数据项事件`,
+                type: 'EventEmitter<GanttSelectedEvent>'
+            },
+            {
                 name: '#group',
                 description: `设置分组显示模板`,
                 type: 'TemplateRef<any>'
@@ -145,6 +162,10 @@ module.exports = [
                 name: 'columnChanges',
                 description: `列宽变化事件集`,
                 type: 'EventEmitter<GanttTableEvent>'
+            },{
+                name: 'itemClick',
+                description: `选择整行数据项事件`,
+                type: 'EventEmitter<GanttSelectedEvent>'
             },
             {
                 name: '#rowBeforeSlot',

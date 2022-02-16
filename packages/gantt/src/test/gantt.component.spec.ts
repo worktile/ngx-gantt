@@ -3,7 +3,7 @@ import { GanttItemInternal } from './../class/item';
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GanttBarClickEvent, GanttGroup, GanttItem } from '../class';
+import { GanttBarClickEvent, GanttGroup, GanttItem, GanttSelectedEvent } from '../class';
 import { GanttViewType } from '../class/view-type';
 import { GanttPrintService } from '../gantt-print.service';
 import { NgxGanttComponent } from '../gantt.component';
@@ -18,6 +18,7 @@ import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
+import { GanttTableComponent } from 'ngx-gantt/components/table/gantt-table.component';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
@@ -154,6 +155,35 @@ export class TestGanttLoadChildrenComponent {
                 linkable: false
             }
         ]).pipe(delay(1000));
+    }
+}
+
+// selectable Component
+@Component({
+    selector: 'test-gantt-selectable',
+    template: ` <ngx-gantt #gantt [items]="items" [selectable]="selectable" [multiple]="multiple" (selectedChange)="selectedChange($event)">
+        <ngx-gantt-table>
+            <ngx-gantt-column name="标题" width="200px">
+                <ng-template #cell let-item="item">
+                    {{ item.title }}
+                </ng-template>
+            </ngx-gantt-column>
+        </ngx-gantt-table>
+    </ngx-gantt>`
+})
+export class TestGanttSelectableComponent {
+    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+
+    constructor() {}
+
+    selectable = true;
+
+    multiple = true;
+
+    items = mockItems;
+
+    selectedChange(event: GanttSelectedEvent) {
+        console.log(event);
     }
 }
 
@@ -447,4 +477,57 @@ describe('ngx-gantt', () => {
     });
 
     describe('#draggable', () => {});
+
+    describe('#selectable', () => {
+        let fixture: ComponentFixture<TestGanttSelectableComponent>;
+        let ganttComponentInstance: TestGanttSelectableComponent;
+        let ganttDebugElement: DebugElement;
+        let ganttComponent: NgxGanttComponent;
+
+        beforeEach(async () => {
+            TestBed.configureTestingModule({
+                imports: [CommonModule, NgxGanttModule],
+                declarations: [TestGanttSelectableComponent],
+                providers: [
+                    GanttPrintService,
+                    {
+                        provide: GANTT_GLOBAL_CONFIG,
+                        useValue: config
+                    }
+                ]
+            }).compileComponents();
+            fixture = TestBed.createComponent(TestGanttSelectableComponent);
+            fixture.detectChanges();
+            ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
+            ganttComponentInstance = fixture.componentInstance;
+            ganttComponent = ganttComponentInstance.ganttComponent;
+            fixture.detectChanges();
+        });
+
+        it('should init selectionModel when ngAfterViewInit', fakeAsync(() => {
+            fixture.whenStable().then(() => {
+                const selectionModel = ganttComponent.selectionModel;
+                expect(selectionModel.hasValue()).toEqual(false);
+            });
+        }));
+
+        it('should invoke selectedChange when click item', () => {
+            const selectedSpy = spyOn(ganttComponentInstance, 'selectedChange').and.callFake((event: GanttSelectedEvent) => {
+                expect(event.event.type).toEqual('click');
+                expect(event.selectedValue[0]).toEqual(mockItems[0]);
+            });
+            const itemNode = fixture.debugElement.query(By.directive(GanttTableComponent)).query(By.css('.gantt-table-item')).nativeNode;
+            itemNode.click();
+            expect(selectedSpy).toHaveBeenCalledTimes(1);
+        });
+
+        it('should not invoke selectedChange when click item and selectable is false', () => {
+            fixture.componentInstance.selectable = false;
+            fixture.detectChanges();
+            const selectedSpy = spyOn(ganttComponentInstance, 'selectedChange');
+            const itemNode = fixture.debugElement.query(By.directive(GanttTableComponent)).query(By.css('.gantt-table-item')).nativeNode;
+            itemNode.click();
+            expect(selectedSpy).toHaveBeenCalledTimes(0);
+        });
+    });
 });
