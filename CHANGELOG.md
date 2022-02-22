@@ -1,6 +1,22 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [12.1.3](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.1.3) (2022-02-22)
+
+
+### Features
+
+* add select functional ([47c4fed](https://github.com/worktile/ngx-gantt/commit/47c4fed6b6760904e51655107225bd1cba8000c5))
+
+
+### Bug Fixes
+
+* delete items trackBy ([29f8b79](https://github.com/worktile/ngx-gantt/commit/29f8b79a15b76f0e6c87a16083c5af52de1f0d2b))
+* fix cycle import ([bc14e08](https://github.com/worktile/ngx-gantt/commit/bc14e089636bdbf4ff781888eb331da5467f1ccc))
+* remove console ([482ab53](https://github.com/worktile/ngx-gantt/commit/482ab533c77a071cceec928c5b5c7eaa072bab78))
+* remove console code ([8c07eac](https://github.com/worktile/ngx-gantt/commit/8c07eac1bd305187d40a1151db9cd114d1f736fd))
+* rename some function ([cd2f74d](https://github.com/worktile/ngx-gantt/commit/cd2f74da59a81f575aa647267c4bdca3f36a12b3))
+
 ### [12.1.2](https://github.com/worktile/ngx-gantt/compare/12.1.1...12.1.2) (2022-02-09)
 
 
