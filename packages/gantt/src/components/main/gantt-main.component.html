@@ -18,7 +18,7 @@
 </ng-template>
 
 <ng-template #ganttItems let-items="items">
-  <ng-container *ngFor="let item of items; trackBy: trackBy">
+  <ng-container *ngFor="let item of items;">
     <div
       class="gantt-item"
       [style.height.px]="ganttUpper.styles.lineHeight"
