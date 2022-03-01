@@ -2,10 +2,10 @@ import { GanttDate } from '../utils/date';
 import { GanttItem } from './item';
 
 export enum GanttLinkType {
-    fs = 0,
-    ss = 1,
+    fs = 1,
     ff = 2,
-    sf = 3
+    ss = 3,
+    sf = 4
 }
 
 export enum LinkColors {
