@@ -34,6 +34,7 @@ import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems, getFlatItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
+import { GanttLinkOptions } from './class/link';
 
 @Directive()
 export abstract class GanttUpper {
@@ -78,6 +79,8 @@ export abstract class GanttUpper {
     @ContentChild('groupHeader', { static: true }) groupHeaderTemplate: TemplateRef<any>;
 
     public linkable: boolean;
+
+    public linkOptions: GanttLinkOptions;
 
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 

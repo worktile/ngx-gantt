@@ -8,6 +8,11 @@ export enum GanttLinkType {
     sf = 4
 }
 
+export enum GanttLinkPathType {
+    curve = 'curve',
+    line = 'line'
+}
+
 export enum LinkColors {
     default = '#cacaca',
     blocked = '#FF7575',
@@ -17,6 +22,7 @@ export enum LinkColors {
 export interface GanttLink {
     type: GanttLinkType;
     link: string;
+    color?: string;
 }
 
 export interface GanttLinkItem {
@@ -33,6 +39,12 @@ export interface LinkInternal {
     path: string;
     source: GanttItem;
     target: GanttItem;
-    color: LinkColors;
+    color: string;
     type: GanttLinkType;
+}
+
+export interface GanttLinkOptions {
+    dependencyTypes?: [GanttLinkType.fs];
+    showArrow?: false;
+    linkPathType?: GanttLinkPathType.curve;
 }

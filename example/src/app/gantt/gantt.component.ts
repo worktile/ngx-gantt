@@ -1,3 +1,4 @@
+import { GanttLinkPathType } from './../../../../packages/gantt/src/class/link';
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import {
     GanttBarClickEvent,
@@ -68,8 +69,8 @@ export class AppGanttExampleComponent implements OnInit {
             start: 1624705997,
             expandable: true,
             links: [
-                { type: 1, link: '000001' },
-                { type: 1, link: '000003' }
+                // { type: 1, link: '000001' },
+                { type: 3, link: '000005' }
             ]
         },
         {
@@ -79,7 +80,7 @@ export class AppGanttExampleComponent implements OnInit {
             end: 1629544397,
             color: '#709dc1',
             links: [
-                { type: 3, link: '000004' },
+                { type: 4, link: '000004' },
                 { type: 2, link: '000003' }
             ]
         },
@@ -118,6 +119,11 @@ export class AppGanttExampleComponent implements OnInit {
             month: 'M月'
         }
     };
+
+    linkOptions = {
+        showArrow: true,
+        linkPathType: GanttLinkPathType.line
+    }
 
     @HostBinding('class.gantt-example-component') class = true;
 

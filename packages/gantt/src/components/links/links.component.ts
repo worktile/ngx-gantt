@@ -20,6 +20,8 @@ import { GanttDragContainer } from '../../gantt-drag-container';
 import { recursiveItems } from '../../utils/helpers';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
+import { GanttLinkPath } from './paths/path';
+import { generatePathFactory } from './paths/factory';
 
 @Component({
     selector: 'gantt-links-overlay',
@@ -34,11 +36,15 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     public links: LinkInternal[] = [];
 
+    public ganttLinkTypes = GanttLinkType;
+
+    public showArrow = false;
+
     private linkItems: GanttLinkItem[] = [];
 
-    private bezierWeight = -0.5;
-
     private firstChange = true;
+
+    private linkPath: GanttLinkPath;
 
     private unsubscribe$ = new Subject();
 
@@ -52,6 +58,9 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     ) {}
 
     ngOnInit() {
+        this.linkPath = generatePathFactory(this.ganttUpper.linkOptions.linkPathType, this.ganttUpper);
+
+        this.showArrow = this.ganttUpper.linkOptions.showArrow;
         this.buildLinks();
         this.firstChange = false;
 
@@ -127,110 +136,6 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    private generatePath(source: GanttLinkItem, target: GanttLinkItem, type: GanttLinkType) {
-        if (source.before && source.after && target.before && target.after) {
-            let x1 = source.after.x;
-            let y1 = source.after.y;
-            let x4 = target.before.x;
-            let y4 = target.before.y;
-            let isMirror: number;
-            const control = Math.abs(y4 - y1) / 2;
-
-            switch (type) {
-                case GanttLinkType.ss:
-                    x1 = source.before.x;
-                    y1 = source.before.y;
-                    x4 = target.before.x;
-                    y4 = target.before.y;
-                    isMirror = y4 > y1 ? 0 : 1;
-
-                    if (x4 > x1) {
-                        return `M ${x1} ${y1}
-                            A ${control} ${control} 0 1 ${isMirror} ${x1} ${y4}
-                            L ${x1} ${y4} ${x4} ${y4}`;
-                    } else {
-                        return `M ${x1} ${y1}
-                        L ${x1} ${y1} ${x4} ${y1}
-                        A ${control} ${control} 0 1 ${isMirror} ${x4} ${y4}`;
-                    }
-
-                case GanttLinkType.ff:
-                    x1 = source.after.x;
-                    y1 = source.after.y;
-                    x4 = target.after.x;
-                    y4 = target.after.y;
-                    isMirror = y4 > y1 ? 1 : 0;
-                    if (x4 > x1) {
-                        return `M ${x1} ${y1}
-                        L ${x1} ${y1} ${x4} ${y1}
-                        A ${control} ${control} 0 1 ${isMirror} ${x4} ${y4}`;
-                    } else {
-                        return `M ${x1} ${y1}
-                            A ${control} ${control} 0 1 ${isMirror} ${x1} ${y4}
-                            L ${x1} ${y4} ${x4} ${y4}`;
-                    }
-
-                case GanttLinkType.sf:
-                    x1 = target.after.x;
-                    y1 = target.after.y;
-                    x4 = source.before.x;
-                    y4 = source.before.y;
-            }
-
-            const dx = Math.abs(x4 - x1) * this.bezierWeight;
-
-            const x2 = x1 - dx;
-            const x3 = x4 + dx;
-            const centerX = (x1 + x4) / 2;
-            const centerY = (y1 + y4) / 2;
-
-            let controlX = this.ganttUpper.styles.lineHeight / 2;
-            const controlY = this.ganttUpper.styles.lineHeight / 2;
-
-            if (x1 >= x4) {
-                if (y4 > y1) {
-                    if (Math.abs(y4 - y1) <= this.ganttUpper.styles.lineHeight) {
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 + controlX} ${x1} ${y1 + controlY}
-                        L ${x1} ${y1 + controlY} ${centerX} ${centerY}
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 - controlX} ${x4} ${y4 - controlY}
-                        L ${x4} ${y4 - controlY} ${centerX} ${centerY}`;
-                    } else {
-                        controlX = this.ganttUpper.styles.lineHeight;
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 + controlX} ${centerX} ${centerY}
-
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 - controlX} ${centerX} ${centerY}`;
-                    }
-                } else {
-                    if (Math.abs(y4 - y1) <= this.ganttUpper.styles.lineHeight) {
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 - controlX} ${x1} ${y1 - controlY}
-                        L ${x1} ${y1 - controlY} ${centerX} ${centerY}
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 + controlX} ${x4} ${y4 + controlY}
-                        L ${x4} ${y4 + controlY} ${centerX} ${centerY}
-                        `;
-                    } else {
-                        controlX = this.ganttUpper.styles.lineHeight;
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 - controlX} ${centerX} ${centerY}
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 + controlX} ${centerX} ${centerY}`;
-                    }
-                }
-            }
-
-            return `M ${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`;
-        }
-    }
-
     buildLinks() {
         this.computeItemPosition();
         this.links = [];
@@ -239,12 +144,16 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
                 source.links.forEach((link) => {
                     const target = this.linkItems.find((item) => item.id === link.link);
                     if (target && (target.origin.start || target.origin.end)) {
+                        let color = LinkColors.default;
+                        if (link.type === GanttLinkType.fs && source.end.getTime() > target.start.getTime()) {
+                            color = LinkColors.blocked;
+                        }
                         this.links.push({
-                            path: this.generatePath(source, target, link.type),
+                            path: this.linkPath.generatePath(source, target, link.type),
                             source: source.origin,
                             target: target.origin,
                             type: link.type,
-                            color: source.end.getTime() > target.start.getTime() ? LinkColors.blocked : LinkColors.default
+                            color: link.color || color
                         });
                     }
                 });
