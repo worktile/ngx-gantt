@@ -78,19 +78,22 @@ export class GanttBarDrag implements OnDestroy {
             this.dragContainer.dragStarted.emit({ item: this.item.origin });
         });
         dragRef.moved.subscribe((event) => {
-            const x = this.item.refs.x + event.distance.x;
-            const days = differenceInCalendarDays(this.item.end.value, this.item.start.value);
-            const start = this.ganttUpper.view.getDateByXPoint(x);
-            const end = start.addDays(days);
-            this.openDragBackdrop(this.barElement, this.ganttUpper.view.getDateByXPoint(x), end);
+            const currentX = this.item.refs.x + event.distance.x;
+            const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
+            const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
+            const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
+            const diffDays = differenceInCalendarDays(this.item.end.value, this.item.start.value);
+            let start = currentDate;
+            let end = currentDate.addDays(diffDays);
+            if (currentX > currentStartX + dayWidth / 2) {
+                start = start.addDays(1);
+                end = end.addDays(1);
+            }
+            this.openDragBackdrop(this.barElement, start, end);
             this.item.updateDate(start, end);
             this.dragContainer.dragMoved.emit({ item: this.item.origin });
         });
         dragRef.ended.subscribe((event) => {
-            const days = differenceInCalendarDays(this.item.end.value, this.item.start.value);
-            const start = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + event.distance.x);
-            const end = start.addDays(days);
-            this.item.updateDate(start, end);
             this.clearDraggingStyles();
             this.closeDragBackdrop();
             event.source.reset();

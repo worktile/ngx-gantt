@@ -72,6 +72,11 @@
             border-bottom: 1px solid $gantt-border-color;
             box-sizing: border-box;
             position: relative;
+
+            &.gantt-main-item-active {
+                background-color: rgba($color: $gantt-table-header-drag-line-color, $alpha: 0.1);
+            }
         }
+
     }
 }

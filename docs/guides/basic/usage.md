@@ -169,6 +169,20 @@ export class AppGanttExampleComponent {
 }
 ```
 
+## 选择整行
+
+通过设置 `[selectable]=true` 来启用选择整行功能，同时也可使用 `[multiple]=true` 来启用多选模式。支持 `(selectedChange)` 事件。
+
+```html
+<ngx-gantt #gantt [items]="items" [selectable]="true" [multiple]="true" (selectedChange)="selectedChange($event)"> ... </ngx-gantt>
+```
+
+```javascript
+export class AppGanttExampleComponent {
+  selectedChange(event: GanttSelectedEvent) { }
+}
+```
+
 ## 导出为图片
 
 如需要导出图片功能，我们需要在使用组件时注入图片打印服务 `GanttPrintService`

@@ -12,7 +12,7 @@ import {
     OnChanges
 } from '@angular/core';
 import { merge, Subject } from 'rxjs';
-import { takeUntil, skip } from 'rxjs/operators';
+import { takeUntil, skip, debounceTime } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
@@ -75,7 +75,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             this.ganttUpper.dragEnded,
             this.ganttUpper.linkDragEnded
         )
-            .pipe(takeUntil(this.unsubscribe$), skip(1))
+            .pipe(takeUntil(this.unsubscribe$), skip(1), debounceTime(0))
             .subscribe(() => {
                 this.elementRef.nativeElement.style.visibility = 'visible';
                 this.buildLinks();

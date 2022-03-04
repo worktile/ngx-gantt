@@ -3,12 +3,13 @@ import { Component, ViewChild, DebugElement } from '@angular/core';
 import { NgxGanttModule } from 'ngx-gantt';
 import { By } from '@angular/platform-browser';
 import { GanttTableComponent } from '../gantt-table.component';
-import { getMockGroupItems, getMockGroups} from '../../../test/mocks/data';
+import { getMockGroupItems, getMockGroups } from '../../../test/mocks/data';
 import { dispatchMouseEvent } from '../../../utils/testing';
+import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.component';
 @Component({
     selector: 'test-gantt-table',
     template: `
-        <ngx-gantt #gantt [items]="items" [groups]="groups">
+        <ngx-gantt #gantt [items]="items" [groups]="groups" [selectable]="selectable" [multiple]="multiple">
             <ngx-gantt-table>
                 <ngx-gantt-column [width]="200" name="标题">
                     <ng-template #cell let-item="item">
@@ -23,9 +24,15 @@ import { dispatchMouseEvent } from '../../../utils/testing';
 export class TestGanttTableComponent {
     @ViewChild(GanttTableComponent, { static: true }) ganttTableComponent: GanttTableComponent;
 
+    @ViewChild(GanttMainComponent, { static: true }) ganttMainComponent: GanttMainComponent;
+
     items = getMockGroupItems();
 
     groups = getMockGroups();
+
+    selectable = true;
+
+    multiple = true;
 
     constructor() {}
 }
@@ -126,4 +133,73 @@ describe('GanttTable', () => {
 
         expect(dragTrigger.getBoundingClientRect().left).not.toBe(dragTriggerRight);
     }));
+
+    it('should active item when click item and selectable is true', fakeAsync(() => {
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
+        const items = component.items;
+
+        ganttTable.query(By.css('.gantt-table-item')).nativeNode.click();
+        fixture.detectChanges();
+        expect(selectionModel.hasValue()).toBeTrue();
+        expect(selectionModel.selected[0]).toEqual(items[0].id);
+    }));
+
+    it('should has active class when click item and selectable is true', fakeAsync(() => {
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttMain: DebugElement = fixture.debugElement.query(By.directive(GanttMainComponent));
+        const itemNode = ganttTable.query(By.css('.gantt-table-item')).nativeNode;
+        const mainItemNode = ganttMain.query(By.css('.gantt-item')).nativeNode;
+        itemNode.click();
+        fixture.detectChanges();
+        expect(itemNode.classList).toContain('gantt-table-item-active');
+        expect(mainItemNode.classList).toContain('gantt-main-item-active');
+    }));
+
+    it('should active two item when click two item and multiple is true', () => {
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
+        const items = component.items;
+        const itemNodes = ganttTable.queryAll(By.css('.gantt-table-item'));
+
+        itemNodes[0].nativeNode.click();
+        expect(selectionModel.selected.length).toEqual(1);
+        itemNodes[1].nativeNode.click();
+        expect(selectionModel.selected.length).toEqual(2);
+        expect(selectionModel.selected.join(' ')).toEqual(
+            items
+                .slice(0, 2)
+                .map((item) => item.id)
+                .join(' ')
+        );
+        itemNodes[1].nativeNode.click();
+        expect(selectionModel.selected.length).toEqual(1);
+        expect(selectionModel.selected[0]).toEqual(items[0].id);
+    });
+
+    it('should active one item when multiple is false', () => {
+        fixture.componentInstance.multiple = false;
+        fixture.detectChanges();
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
+        const items = component.items;
+        const itemNodes = ganttTable.queryAll(By.css('.gantt-table-item'));
+        itemNodes[0].nativeNode.click();
+        expect(selectionModel.selected.length).toEqual(1);
+        itemNodes[1].nativeNode.click();
+        expect(selectionModel.selected.length).toEqual(1);
+        expect(selectionModel.selected[0]).toEqual(items[1].id);
+    });
+
+    it('should toggle active one item when multiple is false and click same item', () => {
+        fixture.componentInstance.multiple = false;
+        fixture.detectChanges();
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
+        const itemNode = ganttTable.query(By.css('.gantt-table-item')).nativeNode;
+        itemNode.click();
+        expect(selectionModel.selected.length).toEqual(1);
+        itemNode.click();
+        expect(selectionModel.selected.length).toEqual(0);
+    });
 });
