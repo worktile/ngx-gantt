@@ -1,6 +1,28 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [12.2.0-next.1](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.0-next.1) (2022-03-04)
+
+
+### Features
+
+* add link types ([ee4493e](https://github.com/worktile/ngx-gantt/commit/ee4493e39ce93327a9f21b85bd104bb26dee841c))
+* add select functional ([47c4fed](https://github.com/worktile/ngx-gantt/commit/47c4fed6b6760904e51655107225bd1cba8000c5))
+* support curve and line path ([580392d](https://github.com/worktile/ngx-gantt/commit/580392dcaaf091a3febaab8b2151a350fe77b47f))
+
+
+### Bug Fixes
+
+* delete items trackBy ([29f8b79](https://github.com/worktile/ngx-gantt/commit/29f8b79a15b76f0e6c87a16083c5af52de1f0d2b))
+* fix  date calc logic of overall drag bar ([67d56af](https://github.com/worktile/ngx-gantt/commit/67d56af77adffcc468a0a1d733bc89b1ca5ad771))
+* fix cycle import ([bc14e08](https://github.com/worktile/ngx-gantt/commit/bc14e089636bdbf4ff781888eb331da5467f1ccc))
+* fix GanttLinkType ([fd2ee4d](https://github.com/worktile/ngx-gantt/commit/fd2ee4d234d1f021a864c022a1f9a9a7cc655817))
+* **dnd:** fix calc error of bar overall drag end date ([5fba2f8](https://github.com/worktile/ngx-gantt/commit/5fba2f8250a53ccb78dbdc36caf991a688e5c0f8))
+* hide path arrow ([42fe9da](https://github.com/worktile/ngx-gantt/commit/42fe9da83eb66f4ea450ec204d5313523fde2638))
+* remove console ([482ab53](https://github.com/worktile/ngx-gantt/commit/482ab533c77a071cceec928c5b5c7eaa072bab78))
+* remove console code ([8c07eac](https://github.com/worktile/ngx-gantt/commit/8c07eac1bd305187d40a1151db9cd114d1f736fd))
+* rename some function ([cd2f74d](https://github.com/worktile/ngx-gantt/commit/cd2f74da59a81f575aa647267c4bdca3f36a12b3))
+
 ## [12.2.0-next.0](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.0-next.0) (2022-02-14)
 
 
