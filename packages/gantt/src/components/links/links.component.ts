@@ -20,8 +20,8 @@ import { GanttDragContainer } from '../../gantt-drag-container';
 import { recursiveItems } from '../../utils/helpers';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
-import { GanttLinkPath } from './paths/path';
-import { generatePathFactory } from './paths/factory';
+import { GanttLinkLine } from './lines/line';
+import { createLineGenerator } from './lines/factory';
 
 @Component({
     selector: 'gantt-links-overlay',
@@ -44,7 +44,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     private firstChange = true;
 
-    private linkPath: GanttLinkPath;
+    private linkLine: GanttLinkLine;
 
     private unsubscribe$ = new Subject();
 
@@ -58,7 +58,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.linkPath = generatePathFactory(this.ganttUpper.linkOptions.linkPathType, this.ganttUpper);
+        this.linkLine = createLineGenerator(this.ganttUpper.linkOptions.lineType, this.ganttUpper);
 
         this.showArrow = this.ganttUpper.linkOptions.showArrow;
         this.buildLinks();
@@ -149,7 +149,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
                             color = LinkColors.blocked;
                         }
                         this.links.push({
-                            path: this.linkPath.generatePath(source, target, link.type),
+                            path: this.linkLine.generatePath(source, target, link.type),
                             source: source.origin,
                             target: target.origin,
                             type: link.type,

@@ -1,4 +1,4 @@
-import { GanttLinkPathType, GanttLinkOptions, GanttLinkType } from './class/link';
+import { GanttLinkType, GanttLinkOptions, GanttLinkLineType } from './class/link';
 import { InjectionToken } from '@angular/core';
 
 export interface GanttDateFormat {
@@ -27,7 +27,7 @@ export const defaultConfig = {
     linkOptions: {
         dependencyTypes: [GanttLinkType.fs],
         showArrow: false,
-        linkPathType: GanttLinkPathType.curve
+        lineType: GanttLinkLineType.curve
     }
 };
 

@@ -1,4 +1,3 @@
-import { GanttLinkPathType } from './../../../../packages/gantt/src/class/link';
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import {
     GanttBarClickEvent,
@@ -9,7 +8,8 @@ import {
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttSelectedEvent
+    GanttSelectedEvent,
+    GanttLinkLineType
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -49,42 +49,11 @@ export class AppGanttExampleComponent implements OnInit {
 
     items: GanttItem[] = [
         { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
-        {
-            id: '000001',
-            title: 'Task 1',
-            start: 1617361997,
-            end: 1625483597,
-            links: [
-                { type: 0, link: '000003' },
-                { type: 1, link: '000004' },
-                { type: 2, link: '000003' },
-                { type: 3, link: '000000' }
-            ],
-            expandable: true
-        },
+        { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'], expandable: true },
         { id: '000002', title: 'Task 2', start: 1610536397, end: 1610622797 },
         { id: '000003', title: 'Task 3', start: 1628507597, end: 1633345997, expandable: true },
-        {
-            id: '000004',
-            title: 'Task 4',
-            start: 1624705997,
-            expandable: true,
-            links: [
-                // { type: 1, link: '000001' },
-                { type: 3, link: '000005' }
-            ]
-        },
-        {
-            id: '000005',
-            title: 'Task 5',
-            start: 1628075597,
-            end: 1629544397,
-            color: '#709dc1',
-            links: [
-                { type: 4, link: '000004' },
-                { type: 2, link: '000003' }
-            ]
-        },
+        { id: '000004', title: 'Task 4', start: 1624705997, expandable: true },
+        { id: '000005', title: 'Task 5', start: 1628075597, end: 1629544397, color: '#709dc1' },
         { id: '000006', title: 'Task 6', start: 1641121997, end: 1645528397 },
         { id: '000007', title: 'Task 7', start: 1639393997, end: 1640862797 },
         { id: '000008', title: 'Task 8', end: 1628783999, color: '#709dc1' },
@@ -120,11 +89,6 @@ export class AppGanttExampleComponent implements OnInit {
             month: 'M月'
         }
     };
-
-    linkOptions = {
-        showArrow: true,
-        linkPathType: GanttLinkPathType.line
-    }
 
     @HostBinding('class.gantt-example-component') class = true;
 

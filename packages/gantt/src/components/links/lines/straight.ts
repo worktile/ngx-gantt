@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-
-import { GanttLinkPath } from './path';
+import { GanttLinkLine } from './line';
 import { GanttLinkItem, GanttLinkType } from '../../../class/link';
 
-export class GanttLinkPathLine extends GanttLinkPath {
+export class GanttLinkLineStraight extends GanttLinkLine {
     private pathControl = 20;
 
     constructor() {
@@ -16,7 +14,6 @@ export class GanttLinkPathLine extends GanttLinkPath {
         const x4 = target.before.x;
         const y4 = target.before.y;
         const control = this.pathControl;
-        const centerY = (y1 + y4) / 2;
 
         return `M ${x1} ${y1}
                         L ${x4 > x1 ? x1 - control : x4 - control} ${y1}

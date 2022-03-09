@@ -8,9 +8,9 @@ export enum GanttLinkType {
     sf = 4
 }
 
-export enum GanttLinkPathType {
+export enum GanttLinkLineType {
     curve = 'curve',
-    line = 'line'
+    straight = 'straight'
 }
 
 export enum LinkColors {
@@ -44,7 +44,7 @@ export interface LinkInternal {
 }
 
 export interface GanttLinkOptions {
-    dependencyTypes?: [GanttLinkType.fs];
-    showArrow?: false;
-    linkPathType?: GanttLinkPathType.curve;
+    dependencyTypes?: GanttLinkType[];
+    showArrow?: boolean;
+    lineType?: GanttLinkLineType;
 }

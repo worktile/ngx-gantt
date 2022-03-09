@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
 import { GanttLinkItem, GanttLinkType } from '../../../class/link';
 
-@Injectable()
-export abstract class GanttLinkPath {
+export abstract class GanttLinkLine {
     constructor() {}
 
     abstract generateSSPath(source: GanttLinkItem, target: GanttLinkItem): string;

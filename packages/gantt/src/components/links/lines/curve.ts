@@ -1,9 +1,9 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject } from '@angular/core';
 import { GanttLinkItem, GanttLinkType } from '../../../class/link';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../../gantt-upper';
-import { GanttLinkPath } from './path';
+import { GanttLinkLine } from './line';
 
-export class GanttLinkPathCurve extends GanttLinkPath {
+export class GanttLinkLineCurve extends GanttLinkLine {
     private bezierWeight = -0.5;
 
     constructor(@Inject(GANTT_UPPER_TOKEN) private ganttUpper: GanttUpper) {
@@ -98,7 +98,7 @@ export class GanttLinkPathCurve extends GanttLinkPath {
                     `;
                 }
             }
-        } else if (x4 - x1 < 100) {
+        } else if (this.ganttUpper.linkOptions?.showArrow && x4 - x1 < 100) {
             const radius = Math.abs(y4 - y1) / 4;
             let lindWidth = x4 - x1 - radius;
             lindWidth = Math.max(lindWidth, radius);

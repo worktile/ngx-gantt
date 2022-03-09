@@ -11,8 +11,7 @@ import {
     SimpleChanges,
     InjectionToken,
     Directive,
-    Inject,
-    Optional
+    Inject
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
