@@ -8,7 +8,8 @@ import {
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttSelectedEvent
+    GanttSelectedEvent,
+    GanttLinkLineType
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';

@@ -14,35 +14,14 @@ import {
 import { merge, Subject } from 'rxjs';
 import { takeUntil, skip, debounceTime } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
-import { GanttItemInternal, GanttItem } from './../../class/item';
+import { GanttItemInternal } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { recursiveItems } from '../../utils/helpers';
-import { GanttDate } from '../../utils/date';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-
-enum LinkColors {
-    default = '#cacaca',
-    blocked = '#FF7575',
-    active = '#348FE4'
-}
-
-interface GanttLinkItem {
-    id: string;
-    before: { x: number; y: number };
-    after: { x: number; y: number };
-    start: GanttDate;
-    end: GanttDate;
-    origin: GanttItem;
-    links: string[];
-}
-
-interface LinkInternal {
-    path: string;
-    source: GanttItem;
-    target: GanttItem;
-    color: LinkColors;
-}
+import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
+import { GanttLinkLine } from './lines/line';
+import { createLineGenerator } from './lines/factory';
 
 @Component({
     selector: 'gantt-links-overlay',
@@ -57,11 +36,15 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     public links: LinkInternal[] = [];
 
+    public ganttLinkTypes = GanttLinkType;
+
+    public showArrow = false;
+
     private linkItems: GanttLinkItem[] = [];
 
-    private bezierWeight = -0.5;
-
     private firstChange = true;
+
+    private linkLine: GanttLinkLine;
 
     private unsubscribe$ = new Subject();
 
@@ -75,6 +58,9 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     ) {}
 
     ngOnInit() {
+        this.linkLine = createLineGenerator(this.ganttUpper.linkOptions.lineType, this.ganttUpper);
+
+        this.showArrow = this.ganttUpper.linkOptions.showArrow;
         this.buildLinks();
         this.firstChange = false;
 
@@ -150,81 +136,24 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    private generatePath(source: GanttLinkItem, target: GanttLinkItem) {
-        if (source.before && source.after && target.before && target.after) {
-            const x1 = source.after.x;
-            const y1 = source.after.y;
-
-            const x4 = target.before.x;
-            const y4 = target.before.y;
-
-            const dx = Math.abs(x4 - x1) * this.bezierWeight;
-            const x2 = x1 - dx;
-            const x3 = x4 + dx;
-
-            const centerX = (x1 + x4) / 2;
-            const centerY = (y1 + y4) / 2;
-
-            let controlX = this.ganttUpper.styles.lineHeight / 2;
-            const controlY = this.ganttUpper.styles.lineHeight / 2;
-
-            if (x1 >= x4) {
-                if (y4 > y1) {
-                    if (Math.abs(y4 - y1) <= this.ganttUpper.styles.lineHeight) {
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 + controlX} ${x1} ${y1 + controlY}
-                        L ${x1} ${y1 + controlY} ${centerX} ${centerY}
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 - controlX} ${x4} ${y4 - controlY}
-                        L ${x4} ${y4 - controlY} ${centerX} ${centerY}`;
-                    } else {
-                        controlX = this.ganttUpper.styles.lineHeight;
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 + controlX} ${centerX} ${centerY}
-
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 - controlX} ${centerX} ${centerY}`;
-                    }
-                } else {
-                    if (Math.abs(y4 - y1) <= this.ganttUpper.styles.lineHeight) {
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 - controlX} ${x1} ${y1 - controlY}
-                        L ${x1} ${y1 - controlY} ${centerX} ${centerY}
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 + controlX} ${x4} ${y4 + controlY}
-                        L ${x4} ${y4 + controlY} ${centerX} ${centerY}
-                        `;
-                    } else {
-                        controlX = this.ganttUpper.styles.lineHeight;
-                        return `M ${x1} ${y1}
-                        C ${x1 + controlX} ${y1} ${x1 + controlX} ${y1 - controlX} ${centerX} ${centerY}
-
-                        M ${x4} ${y4}
-                        C ${x4 - controlX} ${y4} ${x4 - controlX} ${y4 + controlX} ${centerX} ${centerY}`;
-                    }
-                }
-            }
-
-            return `M ${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`;
-        }
-    }
-
     buildLinks() {
         this.computeItemPosition();
         this.links = [];
         this.linkItems.forEach((source) => {
             if (source.origin.start || source.origin.end) {
-                source.links.forEach((linkId) => {
-                    const target = this.linkItems.find((item) => item.id === linkId);
+                source.links.forEach((link) => {
+                    const target = this.linkItems.find((item) => item.id === link.link);
                     if (target && (target.origin.start || target.origin.end)) {
+                        let color = LinkColors.default;
+                        if (link.type === GanttLinkType.fs && source.end.getTime() > target.start.getTime()) {
+                            color = LinkColors.blocked;
+                        }
                         this.links.push({
-                            path: this.generatePath(source, target),
+                            path: this.linkLine.generatePath(source, target, link.type),
                             source: source.origin,
                             target: target.origin,
-                            color: source.end.getTime() > target.start.getTime() ? LinkColors.blocked : LinkColors.default
+                            type: link.type,
+                            color: link.color || color
                         });
                     }
                 });

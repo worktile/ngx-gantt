@@ -11,8 +11,7 @@ import {
     SimpleChanges,
     InjectionToken,
     Directive,
-    Inject,
-    Optional
+    Inject
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
@@ -34,6 +33,7 @@ import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems, getFlatItems } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
+import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
@@ -106,6 +106,8 @@ export abstract class GanttUpper {
     @ContentChild('groupHeader', { static: true }) groupHeaderTemplate: TemplateRef<any>;
 
     public linkable: boolean;
+
+    public linkOptions: GanttLinkOptions;
 
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 

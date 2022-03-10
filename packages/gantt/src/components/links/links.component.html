@@ -1,6 +1,13 @@
 <svg [attr.width]="ganttUpper.view.width" class="gantt-links-overlay-main">
   <ng-container *ngFor="let link of links; let i = index; trackBy: trackBy">
-    <path [attr.d]="link.path" fill="transparent" stroke-width="2" [attr.stroke]="link.color" pointer-events="none"></path>
+    <path
+      [attr.d]="link.path"
+      fill="transparent"
+      stroke-width="2"
+      [attr.stroke]="link.color"
+      pointer-events="none"
+      [attr.style]="link.type === ganttLinkTypes.sf ? 'marker-start: url(#triangle' + i + ')' : 'marker-end: url(#triangle' + i + ')'"
+    ></path>
     <g>
       <path
         class="link-line"
@@ -14,6 +21,26 @@
         cursor="pointer"
       ></path>
     </g>
+    <defs *ngIf="showArrow">
+      <marker
+        *ngIf="link.type === ganttLinkTypes.sf; else markerEnd"
+        [id]="'triangle' + i"
+        markerUnits="strokeWidth"
+        markerWidth="5"
+        markerHeight="4"
+        refX="5"
+        refY="2"
+        orient="180"
+      >
+        <path [attr.fill]="link.color" [attr.stroke]="link.color" d="M 0 0 L 5 2 L 0 4 z" />
+      </marker>
+
+      <ng-template #markerEnd>
+        <marker [id]="'triangle' + i" markerUnits="strokeWidth" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto">
+          <path [attr.fill]="link.color" [attr.stroke]="link.color" d="M 0 0 L 5 2 L 0 4 z" />
+        </marker>
+      </ng-template>
+    </defs>
   </ng-container>
   <line class="link-dragging-line"></line>
 </svg>
