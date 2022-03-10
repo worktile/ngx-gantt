@@ -25,9 +25,9 @@ export const defaultConfig = {
         yearQuarter: 'yyyy年QQQ'
     },
     linkOptions: {
-        dependencyTypes: [GanttLinkType.fs],
-        showArrow: false,
-        lineType: GanttLinkLineType.curve
+        dependencyTypes: [GanttLinkType.fs, GanttLinkType.ss, GanttLinkType.sf, GanttLinkType.ff],
+        showArrow: true,
+        lineType: GanttLinkLineType.straight
     }
 };
 

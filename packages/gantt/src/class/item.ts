@@ -132,8 +132,9 @@ export class GanttItemInternal {
         this.origin.expanded = expanded;
     }
 
-    addLink(linkId: string) {
-        this.links = [...this.links, { type: GanttLinkType.fs, link: linkId }];
+    addLink(link: GanttLink) {
+        console.log(link);
+        this.links = [...this.links, link];
         this.origin.links = this.links;
     }
 }

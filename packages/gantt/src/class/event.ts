@@ -1,6 +1,7 @@
 import { QueryList } from '@angular/core';
 import { NgxGanttTableColumnComponent } from '../table/gantt-column.component';
 import { GanttItem } from './item';
+import { GanttLinkType } from './link';
 
 export class GanttDragEvent<T = unknown> {
     item: GanttItem<T>;
@@ -13,6 +14,7 @@ export class GanttTableEvent {
 export class GanttLinkDragEvent<T = unknown> {
     source: GanttItem<T>;
     target?: GanttItem<T>;
+    type?: GanttLinkType;
 }
 
 export class GanttLoadOnScrollEvent {

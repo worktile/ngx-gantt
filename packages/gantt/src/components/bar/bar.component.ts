@@ -1,8 +1,6 @@
 import {
     Component,
     OnInit,
-    Input,
-    TemplateRef,
     HostBinding,
     ElementRef,
     OnChanges,
