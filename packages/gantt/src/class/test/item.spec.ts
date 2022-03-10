@@ -1,3 +1,4 @@
+import { GanttLinkType } from 'ngx-gantt';
 import { GanttDate } from '../../utils/date';
 import { GanttItem, GanttItemInternal } from '../item';
 import { GanttViewType } from '../view-type';
@@ -96,7 +97,10 @@ describe('GanttItemInternal', () => {
     });
 
     it(`should add link`, () => {
-        ganttItemInternal.addLink('0102');
+        ganttItemInternal.addLink({
+            link: '0102',
+            type: GanttLinkType.fs
+        });
         // expect(ganttItemInternal.links).toContain('0102');
     });
 });
