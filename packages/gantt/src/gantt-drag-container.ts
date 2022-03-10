@@ -1,8 +1,37 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Inject } from '@angular/core';
+import { GanttLinkType } from './class';
 import { GanttDragEvent, GanttLinkDragEvent } from './class/event';
 import { GanttItemInternal } from './class/item';
+import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 
-export type LinkDragFrom = 'source' | 'target';
+function getDependencyType(path: LinkDragPath, dependencyTypes: GanttLinkType[]): GanttLinkType {
+    if (dependencyTypes.includes(GanttLinkType.ss) && path.from.pos === InBarPosition.start && path.to.pos === InBarPosition.start) {
+        return GanttLinkType.ss;
+    }
+    if (dependencyTypes.includes(GanttLinkType.ff) && path.from.pos === InBarPosition.finish && path.to.pos === InBarPosition.finish) {
+        return GanttLinkType.ff;
+    }
+    if (dependencyTypes.includes(GanttLinkType.sf) && path.from.pos === InBarPosition.start && path.to.pos === InBarPosition.finish) {
+        return GanttLinkType.sf;
+    }
+    return GanttLinkType.fs;
+}
+
+export enum InBarPosition {
+    start = 'start',
+    finish = 'finish'
+}
+
+export type LinkDragPosition = {
+    element: HTMLElement;
+    item: GanttItemInternal;
+    pos?: InBarPosition;
+};
+
+export interface LinkDragPath {
+    from?: LinkDragPosition;
+    to?: LinkDragPosition;
+}
 
 @Injectable()
 export class GanttDragContainer {
@@ -20,56 +49,44 @@ export class GanttDragContainer {
 
     linkDraggingId: string;
 
-    private linkDragSource: GanttItemInternal;
+    linkDragPath: LinkDragPath = { from: null, to: null };
 
-    private linkDragTarget: GanttItemInternal;
+    constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper) {}
 
-    private linkDragFrom: LinkDragFrom;
-
-    constructor() {}
-
-    emitLinkDragStarted(from: LinkDragFrom, item: GanttItemInternal) {
-        this.linkDraggingId = item.id;
-        this.linkDragFrom = from;
-        this.linkDragSource = this.linkDragFrom === 'source' ? item : null;
-        this.linkDragTarget = this.linkDragFrom === 'target' ? item : null;
+    emitLinkDragStarted(from: LinkDragPosition) {
+        this.linkDraggingId = from.item.id;
+        this.linkDragPath.from = from;
         this.linkDragStarted.emit({
-            source: this.linkDragSource && this.linkDragSource.origin,
-            target: this.linkDragTarget && this.linkDragTarget.origin
+            source: from.item.origin,
+            target: null
         });
     }
 
-    emitLinkDragEntered(item: GanttItemInternal) {
-        if (this.linkDragFrom === 'source') {
-            this.linkDragTarget = item;
-        } else {
-            this.linkDragSource = item;
-        }
+    emitLinkDragEntered(to: LinkDragPosition) {
+        this.linkDragPath.to = to;
         this.linkDragEntered.emit({
-            source: this.linkDragSource.origin,
-            target: this.linkDragTarget.origin
+            source: this.linkDragPath.from.item.origin,
+            target: to.item.origin
         });
     }
 
     emitLinkDragLeaved() {
-        if (this.linkDragFrom === 'source') {
-            this.linkDragTarget = null;
-        } else {
-            this.linkDragSource = null;
-        }
+        this.linkDragPath.to = null;
     }
 
-    emitLinkDragEnded() {
+    emitLinkDragEnded(to: LinkDragPosition) {
+        this.linkDragPath.to = to;
+        const dependencyType = getDependencyType(this.linkDragPath, this.ganttUpper.linkOptions?.dependencyTypes);
+        this.linkDragPath.from.item.addLink({
+            link: this.linkDragPath.to.item.id,
+            type: dependencyType
+        });
+        this.linkDragEnded.emit({
+            source: this.linkDragPath.from.item.origin,
+            target: this.linkDragPath.to.item.origin,
+            type: dependencyType
+        });
         this.linkDraggingId = null;
-        if (this.linkDragSource && this.linkDragTarget) {
-            this.linkDragSource.addLink(this.linkDragTarget.id);
-
-            this.linkDragEnded.emit({
-                source: this.linkDragSource.origin,
-                target: this.linkDragTarget.origin
-            });
-        }
-        this.linkDragSource = null;
-        this.linkDragTarget = null;
+        this.linkDragPath = { from: null, to: null };
     }
 }

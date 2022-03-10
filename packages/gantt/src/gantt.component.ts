@@ -55,8 +55,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @Input() linkable: boolean;
 
-    @Input() linkOptions: GanttLinkOptions;
-
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
@@ -149,11 +147,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
         const selectedIds = this.selectionModel.selected;
         if (this.multiple) {
-            const selectedValue = this.getGanttItems(selectedIds).map((item) => item.origin);
-            this.selectedChange.emit({ event, selectedValue });
+            const _selectedValue = this.getGanttItems(selectedIds).map((item) => item.origin);
+            this.selectedChange.emit({ event, selectedValue: _selectedValue });
         } else {
-            const selectedValue = this.getGanttItem(selectedIds[0])?.origin;
-            this.selectedChange.emit({ event, selectedValue });
+            const _selectedValue = this.getGanttItem(selectedIds[0])?.origin;
+            this.selectedChange.emit({ event, selectedValue: _selectedValue });
         }
     }
 

@@ -57,6 +57,14 @@ export abstract class GanttUpper {
 
     @Input() viewOptions: GanttViewOptions = {};
 
+    @Input() set linkOptions(options: GanttLinkOptions) {
+        this._linkOptions = Object.assign(options, this.config.linkOptions);
+    }
+
+    get linkOptions() {
+        return this._linkOptions;
+    }
+
     @Input() disabledLoadOnScroll: boolean;
 
     @Input()
@@ -107,8 +115,6 @@ export abstract class GanttUpper {
 
     public linkable: boolean;
 
-    public linkOptions: GanttLinkOptions;
-
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     public view: GanttView;
@@ -139,13 +145,15 @@ export abstract class GanttUpper {
 
     private _multiple = false;
 
+    private _linkOptions: GanttLinkOptions;
+
     @HostBinding('class.gantt') ganttClass = true;
 
     constructor(
         protected elementRef: ElementRef<HTMLElement>,
         protected cdr: ChangeDetectorRef,
         protected ngZone: NgZone,
-        @Inject(GANTT_GLOBAL_CONFIG) protected config: GanttGlobalConfig
+        @Inject(GANTT_GLOBAL_CONFIG) public config: GanttGlobalConfig
     ) {}
 
     private createView() {

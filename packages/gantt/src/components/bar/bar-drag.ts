@@ -1,16 +1,18 @@
-import { Injectable, ElementRef, OnDestroy, NgZone } from '@angular/core';
+import { Injectable, ElementRef, OnDestroy } from '@angular/core';
 import { DragRef, DragDrop } from '@angular/cdk/drag-drop';
 import { GanttDomService } from '../../gantt-dom.service';
-import { GanttDragContainer } from '../../gantt-drag-container';
+import { GanttDragContainer, InBarPosition } from '../../gantt-drag-container';
 import { GanttItemInternal } from '../../class/item';
 import { GanttDate, differenceInCalendarDays } from '../../utils/date';
 import { fromEvent, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttUpper } from '../../gantt-upper';
+import { GanttLinkType } from '../../class/link';
 
 const dragMinWidth = 10;
 const activeClass = 'gantt-bar-active';
-const linkDropClass = 'gantt-bar-link-drop';
+const dropActiveClass = 'gantt-bar-drop-active';
+const singleDropActiveClass = 'gantt-bar-single-drop-active';
 
 function createSvgElement(qualifiedName: string, className: string) {
     const element = document.createElementNS('http://www.w3.org/2000/svg', qualifiedName);
@@ -45,13 +47,22 @@ export class GanttBarDrag implements OnDestroy {
     constructor(private dragDrop: DragDrop, private dom: GanttDomService, private dragContainer: GanttDragContainer) {}
 
     private createMouseEvents() {
+        const dropClass =
+            this.ganttUpper.config.linkOptions?.dependencyTypes?.length === 0 &&
+            this.ganttUpper.config.linkOptions?.dependencyTypes[0] === GanttLinkType.fs
+                ? singleDropActiveClass
+                : dropActiveClass;
+
         fromEvent(this.barElement, 'mouseenter')
             .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
+            .subscribe((event: MouseEvent) => {
                 if (this.dragContainer.linkDraggingId && this.dragContainer.linkDraggingId !== this.item.id) {
                     if (this.item.linkable) {
-                        this.barElement.classList.add(linkDropClass);
-                        this.dragContainer.emitLinkDragEntered(this.item);
+                        this.barElement.classList.add(dropClass);
+                        this.dragContainer.emitLinkDragEntered({
+                            item: this.item,
+                            element: this.barElement
+                        });
                     }
                 } else {
                     this.barElement.classList.add(activeClass);
@@ -64,9 +75,11 @@ export class GanttBarDrag implements OnDestroy {
                 if (!this.dragContainer.linkDraggingId) {
                     this.barElement.classList.remove(activeClass);
                 } else {
+                    if (this.dragContainer.linkDraggingId !== this.item.id) {
+                        this.barElement.classList.remove(dropClass);
+                    }
                     this.dragContainer.emitLinkDragLeaved();
                 }
-                this.barElement.classList.remove(linkDropClass);
             });
     }
 
@@ -179,7 +192,7 @@ export class GanttBarDrag implements OnDestroy {
         const dragRefs = [];
         const handles = this.barElement.querySelectorAll<HTMLElement>('.link-handles .handle');
         handles.forEach((handle, index) => {
-            const isBefore = index === 0;
+            const isBegin = index === 0;
             const dragRef = this.dragDrop.createDrag(handle);
             dragRef.withBoundaryElement(this.dom.root as HTMLElement);
             dragRef.beforeStarted.subscribe(() => {
@@ -188,11 +201,15 @@ export class GanttBarDrag implements OnDestroy {
                     this.barDragRef.disabled = true;
                 }
                 this.createLinkDraggingLine();
-                this.dragContainer.emitLinkDragStarted(isBefore ? 'target' : 'source', this.item);
+                this.dragContainer.emitLinkDragStarted({
+                    element: this.barElement,
+                    item: this.item,
+                    pos: isBegin ? InBarPosition.start : InBarPosition.finish
+                });
             });
 
             dragRef.moved.subscribe(() => {
-                const positions = this.calcLinkLinePositions(handle, isBefore);
+                const positions = this.calcLinkLinePositions(handle, isBegin);
                 this.linkDraggingLine.setAttribute('x1', positions.x1.toString());
                 this.linkDraggingLine.setAttribute('y1', positions.y1.toString());
                 this.linkDraggingLine.setAttribute('x2', positions.x2.toString());
@@ -200,14 +217,27 @@ export class GanttBarDrag implements OnDestroy {
             });
 
             dragRef.ended.subscribe((event) => {
-                event.source.reset();
                 handle.style.pointerEvents = '';
                 if (this.barDragRef) {
                     this.barDragRef.disabled = false;
                 }
+                // 计算line拖动的落点位于目标Bar的值，如果值大于Bar宽度的一半，说明是拖动到Begin位置，否则则为拖动到End位置
+                if (this.dragContainer.linkDragPath.to) {
+                    const placePointX =
+                        event.source.getRootElement().getBoundingClientRect().x -
+                        this.dragContainer.linkDragPath.to.element.getBoundingClientRect().x;
+
+                    this.dragContainer.emitLinkDragEnded({
+                        ...this.dragContainer.linkDragPath.to,
+                        pos:
+                            placePointX < this.dragContainer.linkDragPath.to.item.refs.width / 2
+                                ? InBarPosition.start
+                                : InBarPosition.finish
+                    });
+                }
+                event.source.reset();
                 this.barElement.classList.remove(activeClass);
                 this.destroyLinkDraggingLine();
-                this.dragContainer.emitLinkDragEnded();
             });
 
             dragRefs.push(dragRef);

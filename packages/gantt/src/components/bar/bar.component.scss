@@ -144,6 +144,7 @@ $gantt-bar-link-drop-border: 5px;
         background: $gantt-bar-background-color;
         overflow: hidden;
         box-sizing: border-box;
+
         .gantt-bar-content-progress {
             position: absolute;
             left: 0;
@@ -157,13 +158,35 @@ $gantt-bar-link-drop-border: 5px;
         @include active-bar();
     }
 
-    &-link-drop {
+    &-single-drop-active- {
         .gantt-bar-border {
             display: block;
         }
 
         .gantt-bar-content {
             box-shadow: none;
+        }
+    }
+
+    &-drop-active {
+        @include active-bar();
+
+        .gantt-bar-layer {
+            .link-handles {
+                .handle {
+                    &:first-child {
+                        left: -$gantt-bar-link-height;
+                        top: 50%;
+                        padding-bottom: $gantt-bar-link-height;
+                    }
+
+                    &:last-child {
+                        right: -$gantt-bar-link-height;
+                        top: 50%;
+                        padding-bottom: $gantt-bar-link-height;
+                    }
+                }
+            }
         }
     }
 }
