@@ -48,7 +48,7 @@ export class GanttBarDrag implements OnDestroy {
 
     private createMouseEvents() {
         const dropClass =
-            this.ganttUpper.config.linkOptions?.dependencyTypes?.length === 0 &&
+            this.ganttUpper.config.linkOptions?.dependencyTypes?.length === 1 &&
             this.ganttUpper.config.linkOptions?.dependencyTypes[0] === GanttLinkType.fs
                 ? singleDropActiveClass
                 : dropActiveClass;
@@ -71,14 +71,15 @@ export class GanttBarDrag implements OnDestroy {
 
         fromEvent(this.barElement, 'mouseleave')
             .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
+            .subscribe((event: MouseEvent) => {
                 if (!this.dragContainer.linkDraggingId) {
                     this.barElement.classList.remove(activeClass);
                 } else {
-                    if (this.dragContainer.linkDraggingId !== this.item.id) {
-                        this.barElement.classList.remove(dropClass);
-                    }
                     this.dragContainer.emitLinkDragLeaved();
+                }
+                const currentMousePointElement = document.elementFromPoint(event.clientX, event.clientY);
+                if (!this.barElement.contains(currentMousePointElement)) {
+                    this.barElement.classList.remove(dropClass);
                 }
             });
     }
@@ -293,6 +294,7 @@ export class GanttBarDrag implements OnDestroy {
         if (!this.linkDraggingLine) {
             const svgElement = createSvgElement('svg', 'gantt-link-drag-container');
             const linElement = createSvgElement('line', 'link-dragging-line');
+            linElement.style.pointerEvents = 'none';
             svgElement.appendChild(linElement);
             this.dom.root.appendChild(svgElement);
             this.linkDraggingLine = linElement;

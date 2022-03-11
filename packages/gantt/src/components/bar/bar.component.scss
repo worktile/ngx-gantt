@@ -1,6 +1,7 @@
 $gantt-bar-layer-append-width: 32px;
 $gantt-bar-layer-append-height: 42px;
 $gantt-bar-link-height: 16px;
+$gantt-bar-link-handle-size: 16px;
 $gantt-bar-link-drop-border: 5px;
 
 @mixin link-handles {
@@ -158,7 +159,7 @@ $gantt-bar-link-drop-border: 5px;
         @include active-bar();
     }
 
-    &-single-drop-active- {
+    &-single-drop-active {
         .gantt-bar-border {
             display: block;
         }
@@ -174,16 +175,22 @@ $gantt-bar-link-drop-border: 5px;
         .gantt-bar-layer {
             .link-handles {
                 .handle {
+                    width: $gantt-bar-link-handle-size + 10px;
+                    height: 100%;
+
                     &:first-child {
-                        left: -$gantt-bar-link-height;
-                        top: 50%;
-                        padding-bottom: $gantt-bar-link-height;
+                        left: -$gantt-bar-link-handle-size - 5px;
                     }
 
                     &:last-child {
-                        right: -$gantt-bar-link-height;
-                        top: 50%;
-                        padding-bottom: $gantt-bar-link-height;
+                        right: -$gantt-bar-link-handle-size - 5px;
+                    }
+
+                    &:hover {
+                        .point {
+                            width: 12px;
+                            height: 12px;
+                        }
                     }
                 }
             }
