@@ -77,10 +77,7 @@ export class GanttBarDrag implements OnDestroy {
                 } else {
                     this.dragContainer.emitLinkDragLeaved();
                 }
-                const currentMousePointElement = document.elementFromPoint(event.clientX, event.clientY);
-                if (!this.barElement.contains(currentMousePointElement)) {
-                    this.barElement.classList.remove(dropClass);
-                }
+                this.barElement.classList.remove(dropClass);
             });
     }
 
