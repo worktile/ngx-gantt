@@ -8,11 +8,10 @@ import {
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttSelectedEvent,
-    GanttLinkLineType
+    GanttSelectedEvent
 } from 'ngx-gantt';
 import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, startWith } from 'rxjs/operators';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { randomItems, random } from '../helper';
 
