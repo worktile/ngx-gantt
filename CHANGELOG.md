@@ -1,6 +1,29 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [12.2.0](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.0) (2022-03-14)
+
+
+### Features
+
+* add select functional ([47c4fed](https://github.com/worktile/ngx-gantt/commit/47c4fed6b6760904e51655107225bd1cba8000c5))
+* support  fs,ff,ss,sf link types ([#194](https://github.com/worktile/ngx-gantt/issues/194)) ([175508c](https://github.com/worktile/ngx-gantt/commit/175508c4cccc991f7a62f80a79c54158aacfcc2c))
+* support fs,ss,sf,ff dnd to create line ([#195](https://github.com/worktile/ngx-gantt/issues/195)) ([e91ce5b](https://github.com/worktile/ngx-gantt/commit/e91ce5b459045d541f3039e7e4f7462938babdd8))
+
+
+### Bug Fixes
+
+* delete items trackBy ([29f8b79](https://github.com/worktile/ngx-gantt/commit/29f8b79a15b76f0e6c87a16083c5af52de1f0d2b))
+* fix  date calc logic of overall drag bar ([67d56af](https://github.com/worktile/ngx-gantt/commit/67d56af77adffcc468a0a1d733bc89b1ca5ad771))
+* fix cycle import ([bc14e08](https://github.com/worktile/ngx-gantt/commit/bc14e089636bdbf4ff781888eb331da5467f1ccc))
+* fix drag link line flickering ([19fba4e](https://github.com/worktile/ngx-gantt/commit/19fba4e9e13bb5cba711c6eafe9b94230ff9e919))
+* fix generateFSAndSFPath when line is curve ([539c9d3](https://github.com/worktile/ngx-gantt/commit/539c9d31584e4dc17a6b595b2926bc7e1380e636))
+* fix linkOptions merge error ([911ecf9](https://github.com/worktile/ngx-gantt/commit/911ecf933de16d15690f390ac307cd947589fbab))
+* **dnd:** fix calc error of bar overall drag end date ([5fba2f8](https://github.com/worktile/ngx-gantt/commit/5fba2f8250a53ccb78dbdc36caf991a688e5c0f8))
+* remove console ([482ab53](https://github.com/worktile/ngx-gantt/commit/482ab533c77a071cceec928c5b5c7eaa072bab78))
+* remove console code ([8c07eac](https://github.com/worktile/ngx-gantt/commit/8c07eac1bd305187d40a1151db9cd114d1f736fd))
+* rename some function ([cd2f74d](https://github.com/worktile/ngx-gantt/commit/cd2f74da59a81f575aa647267c4bdca3f36a12b3))
+
 ## [12.2.0-next.1](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.0-next.1) (2022-03-04)
 
 
