@@ -58,11 +58,11 @@ export abstract class GanttUpper {
     @Input() viewOptions: GanttViewOptions = {};
 
     @Input() set linkOptions(options: GanttLinkOptions) {
-        this._linkOptions = Object.assign(options, this.config.linkOptions);
+        this._linkOptions = options;
     }
 
     get linkOptions() {
-        return this._linkOptions;
+        return Object.assign({}, defaultConfig.linkOptions, this.config.linkOptions, this._linkOptions);
     }
 
     @Input() disabledLoadOnScroll: boolean;

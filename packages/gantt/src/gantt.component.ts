@@ -29,8 +29,7 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { defaultColumnWidth } from './components/table/gantt-table.component';
-import { defaultConfig, GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
-import { GanttLinkOptions } from './class/link';
+import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -84,7 +83,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     ngOnInit() {
         super.onInit();
-        this.linkOptions = Object.assign({}, defaultConfig.linkOptions, this.config?.linkOptions, this.linkOptions);
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
             this.dragContainer.linkDragStarted.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                 this.linkDragStarted.emit(event);
