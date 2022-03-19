@@ -1,5 +1,4 @@
 import { Injectable, ElementRef } from '@angular/core';
-import html2canvas from 'html2canvas';
 
 @Injectable()
 export class GanttPrintService {
@@ -45,7 +44,7 @@ export class GanttPrintService {
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0] as HTMLElement;
     }
 
-    print(name: string = 'download', ignoreElementClass?: string) {
+    async print(name: string = 'download', ignoreElementClass?: string) {
         const root = this.root as HTMLElement;
 
         const mainContainer = this.mainContainer as HTMLElement;
@@ -54,6 +53,8 @@ export class GanttPrintService {
 
         // set print height
         const printHeight = root.offsetHeight - mainContainer.offsetHeight + mainContainer.scrollHeight;
+
+        const html2canvas = (await import(/* webpackChunkName: 'html2canvas' */ 'html2canvas')).default;
 
         html2canvas(root, {
             logging: false,
