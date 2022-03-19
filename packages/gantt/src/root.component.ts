@@ -14,7 +14,7 @@ import {
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
 import { take, takeUntil, startWith } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { from, Subject } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttPrintService } from './gantt-print.service';
 
@@ -50,18 +50,25 @@ export class NgxGanttRootComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            this.dom.initialize(this.elementRef);
-            if (this.printService) {
-                this.printService.register(this.elementRef);
-            }
-            this.setupScrollClass();
-            this.setupResize();
-            this.setupViewScroll();
-            // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
-            this.elementRef.nativeElement.style.opacity = '1';
-            this.ganttUpper.viewChange.pipe(startWith(null)).subscribe(() => {
-                this.scrollToToday();
+        // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
+        // the `onStable` will never emit any value.
+        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
+        // Normally this isn't in the zone, but it can cause performance regressions for apps
+        // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
+        this.ngZone.runOutsideAngular(() => {
+            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+                this.dom.initialize(this.elementRef);
+                if (this.printService) {
+                    this.printService.register(this.elementRef);
+                }
+                this.setupScrollClass();
+                this.setupResize();
+                this.setupViewScroll();
+                // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
+                this.elementRef.nativeElement.style.opacity = '1';
+                this.ganttUpper.viewChange.pipe(startWith(null)).subscribe(() => {
+                    this.scrollToToday();
+                });
             });
         });
     }

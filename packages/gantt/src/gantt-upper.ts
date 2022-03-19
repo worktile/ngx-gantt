@@ -13,7 +13,7 @@ import {
     Directive,
     Inject
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { from, Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
 import {
     GanttItem,
@@ -270,20 +270,27 @@ export abstract class GanttUpper {
         this.initSelectionModel();
         this.firstChange = false;
 
-        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            this.element.style.opacity = '1';
+        // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
+        // the `onStable` will never emit any value.
+        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
+        // Normally this isn't in the zone, but it can cause performance regressions for apps
+        // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
+        this.ngZone.runOutsideAngular(() => {
+            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+                this.element.style.opacity = '1';
 
-            this.dragContainer.dragStarted.subscribe((event) => {
-                this.dragStarted.emit(event);
-            });
+                this.dragContainer.dragStarted.subscribe((event) => {
+                    this.dragStarted.emit(event);
+                });
 
-            this.dragContainer.dragMoved.subscribe((event) => {
-                this.dragMoved.emit(event);
-            });
-            this.dragContainer.dragEnded.subscribe((event) => {
-                this.dragEnded.emit(event);
-                this.computeRefs();
-                this.detectChanges();
+                this.dragContainer.dragMoved.subscribe((event) => {
+                    this.dragMoved.emit(event);
+                });
+                this.dragContainer.dragEnded.subscribe((event) => {
+                    this.dragEnded.emit(event);
+                    this.computeRefs();
+                    this.detectChanges();
+                });
             });
         });
 
