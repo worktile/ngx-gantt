@@ -1,6 +1,7 @@
-import { Injectable, ElementRef, OnDestroy } from '@angular/core';
-import { fromEvent, Subject, merge } from 'rxjs';
-import { pairwise, map, auditTime, takeUntil, take, startWith } from 'rxjs/operators';
+import { isPlatformServer } from '@angular/common';
+import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
+import { pairwise, map, auditTime, takeUntil, startWith } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 
 const scrollThreshold = 50;
@@ -34,7 +35,7 @@ export class GanttDomService implements OnDestroy {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor() {}
+    constructor(@Inject(PLATFORM_ID) private platformId: string) {}
 
     private monitorScrollChange() {
         merge(fromEvent(this.mainContainer, 'scroll'), fromEvent(this.sideContainer, 'scroll'))
@@ -115,8 +116,8 @@ export class GanttDomService implements OnDestroy {
         );
     }
 
-    getResize() {
-        return fromEvent(window, 'resize').pipe(auditTime(150));
+    getResize(): Observable<Event> {
+        return isPlatformServer(this.platformId) ? EMPTY : fromEvent(window, 'resize').pipe(auditTime(150));
     }
 
     scrollMainContainer(left: number) {
