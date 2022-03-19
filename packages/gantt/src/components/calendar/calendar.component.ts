@@ -11,7 +11,7 @@ import {
     AfterViewInit
 } from '@angular/core';
 import { GanttDatePoint } from '../../class/date-point';
-import { Subject, merge } from 'rxjs';
+import { Subject, merge, from } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { headerHeight, todayHeight, todayWidth, todayBorderRadius } from '../../gantt.styles';
 import { isNumber } from '../../utils/helpers';
@@ -76,12 +76,19 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     }
 
     ngOnInit() {
-        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            merge(this.ganttUpper.viewChange, this.ganttUpper.view.start$)
-                .pipe(takeUntil(this.unsubscribe$))
-                .subscribe(() => {
-                    this.setTodayPoint();
-                });
+        // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
+        // the `onStable` will never emit any value.
+        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
+        // Normally this isn't in the zone, but it can cause performance regressions for apps
+        // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
+        this.ngZone.runOutsideAngular(() => {
+            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+                merge(this.ganttUpper.viewChange, this.ganttUpper.view.start$)
+                    .pipe(takeUntil(this.unsubscribe$))
+                    .subscribe(() => {
+                        this.setTodayPoint();
+                    });
+            });
         });
     }
 
