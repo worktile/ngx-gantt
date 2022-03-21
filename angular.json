@@ -31,14 +31,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "packages/gantt/tsconfig.lib.json",
-              "packages/gantt/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "packages/gantt/**/*.ts",
+              "packages/gantt/**/*.html"
             ]
           }
         }
@@ -76,7 +73,8 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "allowedCommonJsDependencies": ["docsearch.js"]
           },
           "configurations": {
             "production": {
@@ -131,6 +129,7 @@
   },
   "defaultProject": "example",
   "cli": {
-    "analytics": "7595d21d-c10d-4b06-8050-b8e56319939c"
+    "analytics": "7595d21d-c10d-4b06-8050-b8e56319939c",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

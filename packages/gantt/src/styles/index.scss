@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import './variables.scss';
 @import '../gantt.component.scss';
 @import '../components/table/gantt-table.component.scss';

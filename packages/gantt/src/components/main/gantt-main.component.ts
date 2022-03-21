@@ -1,6 +1,4 @@
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 
@@ -8,7 +6,7 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
     selector: 'gantt-main',
     templateUrl: './gantt-main.component.html'
 })
-export class GanttMainComponent implements OnInit {
+export class GanttMainComponent {
     @Input() groups: GanttGroupInternal[];
 
     @Input() items: GanttItemInternal[];
@@ -28,8 +26,6 @@ export class GanttMainComponent implements OnInit {
     @HostBinding('class.gantt-main-container') ganttMainClass = true;
 
     constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper) {}
-
-    ngOnInit() {}
 
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
         return item.id || index;

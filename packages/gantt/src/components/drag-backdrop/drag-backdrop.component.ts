@@ -1,13 +1,9 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
     selector: 'gantt-drag-backdrop',
     templateUrl: `./drag-backdrop.component.html`
 })
-export class GanttDragBackdropComponent implements OnInit {
+export class GanttDragBackdropComponent {
     @HostBinding('class.gantt-drag-backdrop') backdropClass = true;
-
-    constructor() {}
-
-    ngOnInit() {}
 }

@@ -8,10 +8,12 @@ jobs:
             - checkout
             - restore_cache:
                   key: ngx-gantt-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - run: npm install
+            - run: npm ci
             - save_cache:
                   key: ngx-gantt-{{ .Branch }}-{{ checksum "package-lock.json" }}
                   paths:
                       - 'node_modules'
+            - run: npm run lint -- --quiet
             - run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
             - run: npm run report-coverage
+            - run: npm run build

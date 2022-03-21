@@ -1,4 +1,4 @@
-import { Input, ElementRef, Inject, TemplateRef, Directive } from '@angular/core';
+import { Input, ElementRef, Inject, TemplateRef, Directive, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { GanttItemInternal, GanttItemType } from './class';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { rangeHeight } from './gantt.styles';
 import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
 
 @Directive()
-export abstract class GanttItemUpper {
+export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
     @Input() template: TemplateRef<any>;
 
     @Input() item: GanttItemInternal;
@@ -17,14 +17,14 @@ export abstract class GanttItemUpper {
 
     constructor(protected elementRef: ElementRef<HTMLElement>, @Inject(GANTT_UPPER_TOKEN) protected ganttUpper: GanttUpper) {}
 
-    onInit() {
+    ngOnInit() {
         this.firstChange = false;
         this.item.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.setPositions();
         });
     }
 
-    onChanges(): void {
+    ngOnChanges(): void {
         if (!this.firstChange) {
             this.setPositions();
         }
@@ -43,7 +43,7 @@ export abstract class GanttItemUpper {
         }
     }
 
-    onDestroy() {
+    ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }

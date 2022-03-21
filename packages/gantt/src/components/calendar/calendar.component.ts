@@ -1,15 +1,4 @@
-import {
-    Component,
-    OnInit,
-    HostBinding,
-    OnChanges,
-    SimpleChanges,
-    OnDestroy,
-    NgZone,
-    Inject,
-    ElementRef,
-    AfterViewInit
-} from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, NgZone, Inject, ElementRef } from '@angular/core';
 import { GanttDatePoint } from '../../class/date-point';
 import { Subject, merge, from } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -25,12 +14,10 @@ const mainHeight = 5000;
     selector: 'gantt-calendar-overlay',
     templateUrl: './calendar.component.html'
 })
-export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class GanttCalendarComponent implements OnInit, OnDestroy {
     get view() {
         return this.ganttUpper.view;
     }
-
-    private unsubscribe$ = new Subject();
 
     headerHeight = headerHeight;
 
@@ -45,6 +32,8 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
     viewTypes = GanttViewType;
 
     @HostBinding('class.gantt-calendar-overlay') className = true;
+
+    private unsubscribe$ = new Subject<void>();
 
     constructor(
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
@@ -91,10 +80,6 @@ export class GanttCalendarComponent implements OnInit, AfterViewInit, OnChanges,
             });
         });
     }
-
-    ngAfterViewInit() {}
-
-    ngOnChanges(changes: SimpleChanges): void {}
 
     trackBy(index: number, point: GanttDatePoint) {
         return point.text || index;
