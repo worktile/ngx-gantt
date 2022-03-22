@@ -8,13 +8,14 @@
       pointer-events="none"
       [attr.style]="link.type === ganttLinkTypes.sf ? 'marker-start: url(#triangle' + i + ')' : 'marker-end: url(#triangle' + i + ')'"
     ></path>
+
     <g>
       <path
         class="link-line"
         (click)="onLineClick($event, link)"
-        (mouseenter)="mouseEnterPath(link)"
-        (mouseleave)="mouseLeavePath(link)"
         [attr.d]="link.path"
+        (mouseenter)="mouseEnterPath(link, i)"
+        (mouseleave)="mouseLeavePath(link)"
         stroke="transparent"
         stroke-width="9"
         fill="none"

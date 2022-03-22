@@ -22,7 +22,7 @@ export enum LinkColors {
 export interface GanttLink {
     type: GanttLinkType;
     link: string;
-    color?: string;
+    color?: { default: string; active?: string } | string;
 }
 
 export interface GanttLinkItem {
@@ -39,8 +39,10 @@ export interface LinkInternal {
     path: string;
     source: GanttItem;
     target: GanttItem;
-    color: string;
     type: GanttLinkType;
+    color: string;
+    defaultColor?: string;
+    activeColor?: string;
 }
 
 export interface GanttLinkOptions {
