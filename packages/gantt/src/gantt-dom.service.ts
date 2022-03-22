@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
-import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone } from '@angular/core';
 import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
-import { pairwise, map, auditTime, takeUntil, startWith } from 'rxjs/operators';
+import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 
 const scrollThreshold = 50;
@@ -35,24 +35,26 @@ export class GanttDomService implements OnDestroy {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor(@Inject(PLATFORM_ID) private platformId: string) {}
+    constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
 
     private monitorScrollChange() {
-        merge(fromEvent(this.mainContainer, 'scroll'), fromEvent(this.sideContainer, 'scroll'))
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((event) => {
-                this.syncScroll(event);
-            });
+        this.ngZone.runOutsideAngular(() =>
+            merge(fromEvent(this.mainContainer, 'scroll'), fromEvent(this.sideContainer, 'scroll'))
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe((event) => {
+                    this.syncScroll(event);
+                })
+        );
 
-        fromEvent(this.mainContainer, 'scroll')
-            .pipe(startWith(), takeUntil(this.unsubscribe$))
-            .subscribe((event) => {
-                // if (this.mainContainer.scrollLeft > 0) {
-                //     this.side.classList.add('gantt-side-has-shadow');
-                // } else {
-                //     this.side.classList.remove('gantt-side-has-shadow');
-                // }
-            });
+        // fromEvent(this.mainContainer, 'scroll')
+        //     .pipe(startWith(), takeUntil(this.unsubscribe$))
+        //     .subscribe((event) => {
+        //         // if (this.mainContainer.scrollLeft > 0) {
+        //         //     this.side.classList.add('gantt-side-has-shadow');
+        //         // } else {
+        //         //     this.side.classList.remove('gantt-side-has-shadow');
+        //         // }
+        //     });
     }
 
     private syncScroll(event: Event) {
@@ -65,20 +67,22 @@ export class GanttDomService implements OnDestroy {
 
     private disableBrowserWheelEvent() {
         const container = this.mainContainer as HTMLElement;
-        fromEvent(container, 'wheel')
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((event: WheelEvent) => {
-                const delta = event.deltaX;
-                if (!delta) {
-                    return;
-                }
-                if (
-                    (container.scrollLeft + container.offsetWidth === container.scrollWidth && delta > 0) ||
-                    (container.scrollLeft === 0 && delta < 0)
-                ) {
-                    event.preventDefault();
-                }
-            });
+        this.ngZone.runOutsideAngular(() =>
+            fromEvent(container, 'wheel')
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe((event: WheelEvent) => {
+                    const delta = event.deltaX;
+                    if (!delta) {
+                        return;
+                    }
+                    if (
+                        (container.scrollLeft + container.offsetWidth === container.scrollWidth && delta > 0) ||
+                        (container.scrollLeft === 0 && delta < 0)
+                    ) {
+                        event.preventDefault();
+                    }
+                })
+        );
     }
 
     initialize(root: ElementRef<HTMLElement>) {
