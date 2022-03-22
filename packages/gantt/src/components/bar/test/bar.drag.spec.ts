@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement, Directive } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
+import { ApplicationRef, Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttDragEvent, GanttLinkDragEvent } from '../../../class';
 import { NgxGanttComponent } from '../../../gantt.component';
@@ -192,5 +192,17 @@ describe('bar-drag', () => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
         const lastHandleElement = bar.queryAll(By.css('.link-handles .handle'))[1].nativeElement;
         linkDragEvent(fixture, lastHandleElement);
+    });
+
+    it('should not run change detection when the `mousedown` is dispatched on the handle', () => {
+        const appRef = TestBed.inject(ApplicationRef);
+        spyOn(appRef, 'tick');
+        const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[0];
+        const firstHandleElement = bar.queryAll(By.css('.drag-handles .handle'))[0].nativeElement;
+        const event = new Event('mousedown');
+        spyOn(event, 'stopPropagation').and.callThrough();
+        firstHandleElement.dispatchEvent(event);
+        expect(appRef.tick).not.toHaveBeenCalled();
+        expect(event.stopPropagation).toHaveBeenCalled();
     });
 });

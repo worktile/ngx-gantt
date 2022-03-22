@@ -9,9 +9,13 @@ import {
     ViewChild,
     Output,
     EventEmitter,
-    AfterViewInit
+    AfterViewInit,
+    ViewChildren,
+    QueryList,
+    NgZone
 } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { fromEvent, merge, Observable } from 'rxjs';
+import { startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { GanttBarDrag } from './bar-drag';
 import { hexToRgb } from '../../utils/helpers';
 import { GanttDragContainer } from '../../gantt-drag-container';
@@ -36,13 +40,16 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     @HostBinding('class.gantt-bar') ganttItemClass = true;
 
+    @ViewChildren('handle') handles: QueryList<ElementRef<HTMLElement>>;
+
     color = 'red';
 
     constructor(
         private dragContainer: GanttDragContainer,
         private drag: GanttBarDrag,
         elementRef: ElementRef<HTMLDivElement>,
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
+        private ngZone: NgZone
     ) {
         super(elementRef, ganttUpper);
     }
@@ -57,6 +64,27 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     ngAfterViewInit() {
         this.drag.createDrags(this.elementRef, this.item, this.ganttUpper);
         this.setContentBackground();
+
+        this.handles.changes
+            .pipe(
+                startWith(this.handles),
+                switchMap(
+                    () =>
+                        // Note: we need to explicitly subscribe outside of the Angular zone since `addEventListener`
+                        // is called when the `fromEvent` is subscribed.
+                        new Observable<Event>((subscriber) =>
+                            this.ngZone.runOutsideAngular(() =>
+                                merge(...this.handles.toArray().map((handle) => fromEvent(handle.nativeElement, 'mousedown'))).subscribe(
+                                    subscriber
+                                )
+                            )
+                        )
+                ),
+                takeUntil(this.unsubscribe$)
+            )
+            .subscribe((event) => {
+                event.stopPropagation();
+            });
     }
 
     ngOnChanges(): void {
@@ -95,10 +123,6 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
                 contentElement.style[key] = style[key];
             }
         }
-    }
-
-    stopPropagation(event: Event) {
-        event.stopPropagation();
     }
 
     ngOnDestroy() {
