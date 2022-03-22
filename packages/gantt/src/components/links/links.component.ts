@@ -144,16 +144,31 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
                 source.links.forEach((link) => {
                     const target = this.linkItems.find((item) => item.id === link.link);
                     if (target && (target.origin.start || target.origin.end)) {
-                        let color = LinkColors.default;
+                        let defaultColor: string = LinkColors.default;
+                        let activeColor: string = LinkColors.active;
+
                         if (link.type === GanttLinkType.fs && source.end.getTime() > target.start.getTime()) {
-                            color = LinkColors.blocked;
+                            defaultColor = LinkColors.blocked;
+                            activeColor = LinkColors.blocked;
                         }
+                        if (link.color) {
+                            if (typeof link.color === 'string') {
+                                defaultColor = link.color;
+                                activeColor = link.color;
+                            } else {
+                                defaultColor = link.color.default;
+                                activeColor = link.color.active;
+                            }
+                        }
+
                         this.links.push({
                             path: this.linkLine.generatePath(source, target, link.type),
                             source: source.origin,
                             target: target.origin,
                             type: link.type,
-                            color: link.color || color
+                            color: defaultColor,
+                            defaultColor,
+                            activeColor
                         });
                     }
                 });
@@ -173,16 +188,16 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
 
-    mouseEnterPath(link: LinkInternal) {
-        if (link.color === LinkColors.default) {
-            link.color = LinkColors.active;
+    mouseEnterPath(link: LinkInternal, index: number) {
+        link.color = link.activeColor || link.defaultColor;
+        if (index < this.links.length - 1) {
+            this.links.splice(index, 1);
+            this.links.push(link);
         }
     }
 
     mouseLeavePath(link: LinkInternal) {
-        if (link.color === LinkColors.active) {
-            link.color = LinkColors.default;
-        }
+        link.color = link.defaultColor;
     }
 
     ngOnDestroy() {
