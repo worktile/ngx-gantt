@@ -1,6 +1,8 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [12.2.1](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.1) (2022-03-24)
+
 ## [12.2.0](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.0) (2022-03-14)
 
 
