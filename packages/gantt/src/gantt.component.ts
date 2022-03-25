@@ -8,9 +8,6 @@ import {
     Output,
     ChangeDetectorRef,
     NgZone,
-    OnChanges,
-    OnDestroy,
-    SimpleChanges,
     ContentChildren,
     QueryList,
     AfterViewInit,
@@ -45,18 +42,18 @@ import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
         }
     ]
 })
-export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewInit {
     @Input() maxLevel = 2;
 
     @Input() async: boolean;
 
     @Input() childrenResolve: (GanttItem) => Observable<GanttItem[]>;
 
-    @Input() linkable: boolean;
+    @Input() override linkable: boolean;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
-    @Output() linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
+    @Output() override linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
@@ -81,8 +78,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         super(elementRef, cdr, ngZone, config);
     }
 
-    ngOnInit() {
-        super.onInit();
+    override ngOnInit() {
+        super.ngOnInit();
         // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
         // the `onStable` will never emit any value.
         const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
@@ -109,10 +106,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             });
             this.cdr.detectChanges();
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        super.onChanges(changes);
     }
 
     expandChildren(item: GanttItemInternal) {
@@ -158,9 +151,5 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             const _selectedValue = this.getGanttItem(selectedIds[0])?.origin;
             this.selectedChange.emit({ event, selectedValue: _selectedValue });
         }
-    }
-
-    ngOnDestroy() {
-        super.onDestroy();
     }
 }

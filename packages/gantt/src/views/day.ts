@@ -11,9 +11,9 @@ const viewOptions: GanttViewOptions = {
 };
 
 export class GanttViewDay extends GanttView {
-    showWeekBackdrop = true;
+    override showWeekBackdrop = true;
 
-    showTimeline = false;
+    override showTimeline = false;
 
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
         super(start, end, Object.assign({}, viewOptions, options));

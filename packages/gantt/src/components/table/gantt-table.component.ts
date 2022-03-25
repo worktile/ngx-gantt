@@ -4,7 +4,6 @@ import {
     TemplateRef,
     QueryList,
     Input,
-    OnInit,
     ViewChild,
     ElementRef,
     OnChanges,
@@ -34,7 +33,7 @@ interface DragFixedConfig {
     selector: 'gantt-table',
     templateUrl: './gantt-table.component.html'
 })
-export class GanttTableComponent implements OnInit, OnChanges {
+export class GanttTableComponent implements OnChanges {
     public columnList: QueryList<NgxGanttTableColumnComponent>;
 
     public dragStartLeft: number;
@@ -74,8 +73,6 @@ export class GanttTableComponent implements OnInit, OnChanges {
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private elementRef: ElementRef
     ) {}
-
-    ngOnInit() {}
 
     ngOnChanges(changes: SimpleChanges) {
         if (!changes.groups.currentValue?.length && !changes.items.currentValue?.length) {

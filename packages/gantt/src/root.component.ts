@@ -9,7 +9,7 @@ import {
     TemplateRef,
     Input,
     Optional,
-    AfterViewInit
+    OnDestroy
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
@@ -23,7 +23,7 @@ import { GanttPrintService } from './gantt-print.service';
     templateUrl: './root.component.html',
     providers: [GanttDomService, GanttDragContainer]
 })
-export class NgxGanttRootComponent implements OnInit {
+export class NgxGanttRootComponent implements OnInit, OnDestroy {
     @Input() sideWidth: number;
 
     @HostBinding('class.gantt') ganttClass = true;
@@ -32,7 +32,7 @@ export class NgxGanttRootComponent implements OnInit {
 
     @ContentChild('mainTemplate', { static: true }) mainTemplate: TemplateRef<any>;
 
-    private unsubscribe$ = new Subject();
+    private unsubscribe$ = new Subject<void>();
 
     private get view() {
         return this.ganttUpper.view;
@@ -66,11 +66,15 @@ export class NgxGanttRootComponent implements OnInit {
                 this.setupViewScroll();
                 // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
                 this.elementRef.nativeElement.style.opacity = '1';
-                this.ganttUpper.viewChange.pipe(startWith(null)).subscribe(() => {
+                this.ganttUpper.viewChange.pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$)).subscribe(() => {
                     this.scrollToToday();
                 });
             });
         });
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe$.next();
     }
 
     private setupViewScroll() {

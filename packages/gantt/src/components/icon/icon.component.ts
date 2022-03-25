@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, HostBinding } from '@angular/core';
+import { Component, Input, ElementRef, HostBinding } from '@angular/core';
 import { icons } from './icons';
+
 @Component({
     selector: 'gantt-icon',
     template: ''
 })
-export class GanttIconComponent implements OnInit, AfterViewInit {
+export class GanttIconComponent {
     @HostBinding('class.gantt-icon') isIcon = true;
 
     @Input() set iconName(name: string) {
@@ -12,10 +13,6 @@ export class GanttIconComponent implements OnInit, AfterViewInit {
     }
 
     constructor(private elementRef: ElementRef<HTMLElement>) {}
-
-    ngOnInit(): void {}
-
-    ngAfterViewInit() {}
 
     setSvg(name: string) {
         const iconSvg = icons[name];

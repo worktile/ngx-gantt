@@ -48,14 +48,14 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         private dragContainer: GanttDragContainer,
         private drag: GanttBarDrag,
         elementRef: ElementRef<HTMLDivElement>,
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
+        @Inject(GANTT_UPPER_TOKEN) public override ganttUpper: GanttUpper,
         private ngZone: NgZone
     ) {
         super(elementRef, ganttUpper);
     }
 
-    ngOnInit() {
-        super.onInit();
+    override ngOnInit() {
+        super.ngOnInit();
         this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.setContentBackground();
         });
@@ -85,10 +85,6 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             .subscribe((event) => {
                 event.stopPropagation();
             });
-    }
-
-    ngOnChanges(): void {
-        super.onChanges();
     }
 
     onBarClick(event: Event) {
@@ -125,7 +121,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         }
     }
 
-    ngOnDestroy() {
-        super.onDestroy();
+    stopPropagation(event: Event) {
+        event.stopPropagation();
     }
 }

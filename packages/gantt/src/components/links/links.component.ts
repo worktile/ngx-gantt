@@ -75,7 +75,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             this.ganttUpper.dragEnded,
             this.ganttUpper.linkDragEnded
         )
-            .pipe(takeUntil(this.unsubscribe$), skip(1), debounceTime(0))
+            .pipe(skip(1), debounceTime(0), takeUntil(this.unsubscribe$))
             .subscribe(() => {
                 this.elementRef.nativeElement.style.visibility = 'visible';
                 this.buildLinks();

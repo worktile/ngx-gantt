@@ -1,11 +1,11 @@
-import { Component, OnInit, ContentChild, TemplateRef, Input, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, ContentChild, TemplateRef, Input, Inject } from '@angular/core';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 @Component({
     selector: 'ngx-gantt-column',
     template: ''
 })
-export class NgxGanttTableColumnComponent implements OnInit {
+export class NgxGanttTableColumnComponent {
     public columnWidth: string;
 
     @Input()
@@ -20,6 +20,4 @@ export class NgxGanttTableColumnComponent implements OnInit {
     @ContentChild('header', { static: true }) headerTemplateRef: TemplateRef<any>;
 
     constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper) {}
-
-    ngOnInit() {}
 }

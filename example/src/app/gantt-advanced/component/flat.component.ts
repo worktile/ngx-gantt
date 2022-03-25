@@ -1,15 +1,4 @@
-import {
-    Component,
-    OnInit,
-    HostBinding,
-    OnChanges,
-    OnDestroy,
-    SimpleChanges,
-    NgZone,
-    ChangeDetectorRef,
-    ElementRef,
-    Inject
-} from '@angular/core';
+import { Component, OnInit, HostBinding, NgZone, ChangeDetectorRef, ElementRef, Inject } from '@angular/core';
 import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal, GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from 'ngx-gantt';
 import { startWith, takeUntil } from 'rxjs/operators';
 
@@ -24,10 +13,10 @@ import { startWith, takeUntil } from 'rxjs/operators';
         }
     ]
 })
-export class AppGanttFlatComponent extends GanttUpper implements OnInit, OnChanges, OnDestroy {
+export class AppGanttFlatComponent extends GanttUpper implements OnInit {
     mergeIntervalDays = 3;
 
-    groups: GanttGroupInternal[] = [];
+    override groups: GanttGroupInternal[] = [];
 
     @HostBinding('class.gantt-flat') ganttFlatClass = true;
 
@@ -62,9 +51,9 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit, OnChang
         return mergedItems;
     }
 
-    ngOnInit() {
-        super.onInit();
-        this.dragEnded.pipe(startWith(null), takeUntil(this.unsubscribe$)).subscribe(() => {
+    override ngOnInit() {
+        super.ngOnInit();
+        this.dragEnded.pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$)).subscribe(() => {
             this.buildGroupItems();
         });
     }
@@ -76,13 +65,5 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit, OnChang
             // 如果没有数据，默认填充两行空行
             group.mergedItems = group.mergedItems.length === 0 ? [[]] : group.mergedItems;
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        super.onChanges(changes);
-    }
-
-    ngOnDestroy() {
-        super.onDestroy();
     }
 }

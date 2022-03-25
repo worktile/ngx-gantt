@@ -11,7 +11,10 @@ import {
     SimpleChanges,
     InjectionToken,
     Directive,
-    Inject
+    Inject,
+    OnInit,
+    OnDestroy,
+    OnChanges
 } from '@angular/core';
 import { from, Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
@@ -38,9 +41,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Directive()
-export abstract class GanttUpper {
+export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
+    // eslint-disable-next-line @angular-eslint/no-input-rename
     @Input('items') originItems: GanttItem[] = [];
 
+    // eslint-disable-next-line @angular-eslint/no-input-rename
     @Input('groups') originGroups: GanttGroup[] = [];
 
     @Input() viewType: GanttViewType = GanttViewType.month;
@@ -260,7 +265,7 @@ export abstract class GanttUpper {
         return new SelectionModel(this.multiple, []);
     }
 
-    onInit() {
+    ngOnInit() {
         this.styles = Object.assign({}, defaultStyles, this.styles);
         this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
         this.createView();
@@ -279,14 +284,15 @@ export abstract class GanttUpper {
             onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
                 this.element.style.opacity = '1';
 
-                this.dragContainer.dragStarted.subscribe((event) => {
+                this.dragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
                     this.dragStarted.emit(event);
                 });
 
-                this.dragContainer.dragMoved.subscribe((event) => {
+                this.dragContainer.dragMoved.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
                     this.dragMoved.emit(event);
                 });
-                this.dragContainer.dragEnded.subscribe((event) => {
+
+                this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
                     this.dragEnded.emit(event);
                     this.computeRefs();
                     this.detectChanges();
@@ -299,7 +305,7 @@ export abstract class GanttUpper {
         });
     }
 
-    onChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges) {
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue) {
                 this.createView();
@@ -317,7 +323,7 @@ export abstract class GanttUpper {
         }
     }
 
-    onDestroy() {
+    ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }
