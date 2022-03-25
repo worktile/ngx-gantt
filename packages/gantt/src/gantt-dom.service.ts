@@ -39,7 +39,7 @@ export class GanttDomService implements OnDestroy {
 
     private monitorScrollChange() {
         this.ngZone.runOutsideAngular(() =>
-            merge(fromEvent(this.mainContainer, 'scroll'), fromEvent(this.sideContainer, 'scroll'))
+            merge(fromEvent(this.mainContainer, 'scroll', { passive: true }), fromEvent(this.sideContainer, 'scroll', { passive: true }))
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe((event) => {
                     this.syncScroll(event);
@@ -96,27 +96,40 @@ export class GanttDomService implements OnDestroy {
         this.disableBrowserWheelEvent();
     }
 
-    getViewerScroll() {
-        return fromEvent<Event>(this.mainContainer, 'scroll').pipe(
-            map(() => this.mainContainer.scrollLeft),
-            pairwise(),
-            map(([previous, current]) => {
-                const event: ScrollEvent = {
-                    target: this.mainContainer,
-                    direction: ScrollDirection.NONE
-                };
-                if (current - previous < 0) {
-                    if (this.mainContainer.scrollLeft < scrollThreshold && this.mainContainer.scrollLeft > 0) {
-                        event.direction = ScrollDirection.LEFT;
-                    }
-                }
-                if (current - previous > 0) {
-                    if (this.mainContainer.scrollWidth - this.mainContainer.clientWidth - this.mainContainer.scrollLeft < scrollThreshold) {
-                        event.direction = ScrollDirection.RIGHT;
-                    }
-                }
-                return event;
-            })
+    /**
+     * @returns An observable that will emit outside the Angular zone. Note, consumers should re-enter the Angular zone
+     * to run the change detection if needed.
+     */
+    getViewerScroll(options?: AddEventListenerOptions): Observable<ScrollEvent> {
+        return new Observable<ScrollEvent>((subscriber) =>
+            this.ngZone.runOutsideAngular(() =>
+                fromEvent(this.mainContainer, 'scroll', options)
+                    .pipe(
+                        map(() => this.mainContainer.scrollLeft),
+                        pairwise(),
+                        map(([previous, current]) => {
+                            const event: ScrollEvent = {
+                                target: this.mainContainer,
+                                direction: ScrollDirection.NONE
+                            };
+                            if (current - previous < 0) {
+                                if (this.mainContainer.scrollLeft < scrollThreshold && this.mainContainer.scrollLeft > 0) {
+                                    event.direction = ScrollDirection.LEFT;
+                                }
+                            }
+                            if (current - previous > 0) {
+                                if (
+                                    this.mainContainer.scrollWidth - this.mainContainer.clientWidth - this.mainContainer.scrollLeft <
+                                    scrollThreshold
+                                ) {
+                                    event.direction = ScrollDirection.RIGHT;
+                                }
+                            }
+                            return event;
+                        })
+                    )
+                    .subscribe(subscriber)
+            )
         );
     }
 

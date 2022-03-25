@@ -82,24 +82,26 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
             return;
         }
         this.dom
-            .getViewerScroll()
+            .getViewerScroll({ passive: true })
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((event) => {
                 if (event.direction === ScrollDirection.LEFT) {
                     const dates = this.view.addStartDate();
                     if (dates) {
                         event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
-                        this.ngZone.run(() => {
-                            this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        });
+                        if (this.ganttUpper.loadOnScroll.observers) {
+                            this.ngZone.run(() =>
+                                this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
+                            );
+                        }
                     }
                 }
                 if (event.direction === ScrollDirection.RIGHT) {
                     const dates = this.view.addEndDate();
-                    if (dates) {
-                        this.ngZone.run(() => {
-                            this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() });
-                        });
+                    if (dates && this.ganttUpper.loadOnScroll.observers) {
+                        this.ngZone.run(() =>
+                            this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
+                        );
                     }
                 }
             });
