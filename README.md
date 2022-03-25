@@ -15,9 +15,9 @@ A modern and powerful gantt component for Angular
 ## Installation
 
 ```bash
-$ npm i @worktile/gantt --save
+$ npm i @worktile/gantt html2canvas --save
 # or
-$ yarn add @worktile/gantt
+$ yarn add @worktile/gantt html2canvas
 ```
 
 ## Demo
@@ -51,7 +51,7 @@ export class AppModule {
 ```
 
 ```scss
-@import '~@worktile/gantt/main.bundle.scss';
+@import '@worktile/gantt/main.bundle.scss';
 ```
 
 ### 3. Using component
@@ -92,7 +92,7 @@ See [Getting Started](http://gantt.ngnice.com/guides/getting-started) for more d
 ```bash
 $ git clone git@github.com:worktile/ngx-gantt.git
 $ cd ngx-gantt
-$ npm install
+$ npm ci
 $ npm run start
 ```
 

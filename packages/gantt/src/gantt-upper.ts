@@ -140,7 +140,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public dragContainer: GanttDragContainer;
 
-    public unsubscribe$ = new Subject();
+    public unsubscribe$ = new Subject<void>();
 
     public selectionModel: SelectionModel<string>;
 

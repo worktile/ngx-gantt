@@ -42,7 +42,7 @@ export class GanttBarDrag implements OnDestroy {
 
     private dragRefs: DragRef[] = [];
 
-    private destroy$ = new Subject();
+    private destroy$ = new Subject<void>();
 
     constructor(private dragDrop: DragDrop, private dom: GanttDomService, private dragContainer: GanttDragContainer) {}
 
