@@ -1,4 +1,4 @@
-import { Injectable, ElementRef, OnDestroy } from '@angular/core';
+import { Injectable, ElementRef, OnDestroy, SkipSelf } from '@angular/core';
 import { DragRef, DragDrop } from '@angular/cdk/drag-drop';
 import { GanttDomService } from '../../gantt-dom.service';
 import { GanttDragContainer, InBarPosition } from '../../gantt-drag-container';
@@ -8,6 +8,8 @@ import { fromEvent, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttUpper } from '../../gantt-upper';
 import { GanttLinkType } from '../../class/link';
+import { NgxGanttRootComponent } from '../../root.component';
+import { passiveListenerOptions } from '../../utils/passive-listeners';
 
 const dragMinWidth = 10;
 const activeClass = 'gantt-bar-active';
@@ -44,7 +46,12 @@ export class GanttBarDrag implements OnDestroy {
 
     private destroy$ = new Subject();
 
-    constructor(private dragDrop: DragDrop, private dom: GanttDomService, private dragContainer: GanttDragContainer) {}
+    constructor(
+        private dragDrop: DragDrop,
+        private dom: GanttDomService,
+        private dragContainer: GanttDragContainer,
+        @SkipSelf() private root: NgxGanttRootComponent
+    ) {}
 
     private createMouseEvents() {
         const dropClass =
@@ -53,9 +60,9 @@ export class GanttBarDrag implements OnDestroy {
                 ? singleDropActiveClass
                 : dropActiveClass;
 
-        fromEvent(this.barElement, 'mouseenter')
+        fromEvent(this.barElement, 'mouseenter', passiveListenerOptions)
             .pipe(takeUntil(this.destroy$))
-            .subscribe((event: MouseEvent) => {
+            .subscribe(() => {
                 if (this.dragContainer.linkDraggingId && this.dragContainer.linkDraggingId !== this.item.id) {
                     if (this.item.linkable) {
                         this.barElement.classList.add(dropClass);
@@ -69,9 +76,9 @@ export class GanttBarDrag implements OnDestroy {
                 }
             });
 
-        fromEvent(this.barElement, 'mouseleave')
+        fromEvent(this.barElement, 'mouseleave', passiveListenerOptions)
             .pipe(takeUntil(this.destroy$))
-            .subscribe((event: MouseEvent) => {
+            .subscribe(() => {
                 if (!this.dragContainer.linkDraggingId) {
                     this.barElement.classList.remove(activeClass);
                 } else {
@@ -244,23 +251,25 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private openDragBackdrop(dragElement: HTMLElement, start: GanttDate, end: GanttDate) {
-        const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
-        const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
+        const dragBackdropElement = this.root.backdrop.nativeElement;
+        const dragMaskElement = dragBackdropElement.querySelector('.gantt-drag-mask') as HTMLElement;
         const rootRect = this.dom.root.getBoundingClientRect();
         const dragRect = dragElement.getBoundingClientRect();
         const left = dragRect.left - rootRect.left - this.dom.side.clientWidth;
         const width = dragRect.right - dragRect.left;
+        // Note: updating styles will cause re-layout so we have to place them consistently one by one.
         dragMaskElement.style.left = left + 'px';
         dragMaskElement.style.width = width + 'px';
-        dragMaskElement.querySelector('.start').innerHTML = start.format('MM-dd');
-        dragMaskElement.querySelector('.end').innerHTML = end.format('MM-dd');
         dragMaskElement.style.display = 'block';
         dragBackdropElement.style.display = 'block';
+        // This will invalidate the layout, but we won't need re-layout, because we set styles previously.
+        dragMaskElement.querySelector('.start').innerHTML = start.format('MM-dd');
+        dragMaskElement.querySelector('.end').innerHTML = end.format('MM-dd');
     }
 
     private closeDragBackdrop() {
-        const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
-        const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
+        const dragBackdropElement = this.root.backdrop.nativeElement;
+        const dragMaskElement = dragBackdropElement.querySelector('.gantt-drag-mask') as HTMLElement;
         dragMaskElement.style.display = 'none';
         dragBackdropElement.style.display = 'none';
     }

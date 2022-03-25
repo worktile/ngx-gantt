@@ -24,7 +24,8 @@
       "rules": {
         "rxjs/no-unsafe-takeuntil": "error",
         "rxjs/no-subject-unsubscribe": "error",
-        "rxjs/no-unsafe-subject-next": "error"
+        "rxjs/no-unsafe-subject-next": "error",
+        "@angular-eslint/no-host-metadata-property": "off"
       }
     },
     {

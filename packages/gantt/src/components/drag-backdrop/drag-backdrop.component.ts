@@ -1,9 +1,10 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'gantt-drag-backdrop',
-    templateUrl: `./drag-backdrop.component.html`
+    templateUrl: `./drag-backdrop.component.html`,
+    host: {
+        class: 'gantt-drag-backdrop'
+    }
 })
-export class GanttDragBackdropComponent {
-    @HostBinding('class.gantt-drag-backdrop') backdropClass = true;
-}
+export class GanttDragBackdropComponent {}
