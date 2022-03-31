@@ -13,7 +13,7 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
 
     public firstChange = true;
 
-    public unsubscribe$ = new Subject();
+    public unsubscribe$ = new Subject<void>();
 
     constructor(protected elementRef: ElementRef<HTMLElement>, @Inject(GANTT_UPPER_TOKEN) protected ganttUpper: GanttUpper) {}
 

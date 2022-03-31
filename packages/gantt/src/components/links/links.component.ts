@@ -46,7 +46,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     private linkLine: GanttLinkLine;
 
-    private unsubscribe$ = new Subject();
+    private unsubscribe$ = new Subject<void>();
 
     @HostBinding('class.gantt-links-overlay') ganttLinksOverlay = true;
 
