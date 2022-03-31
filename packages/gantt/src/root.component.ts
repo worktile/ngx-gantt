@@ -1,7 +1,6 @@
 import {
     Component,
     OnInit,
-    HostBinding,
     NgZone,
     ElementRef,
     Inject,
@@ -9,7 +8,8 @@ import {
     TemplateRef,
     Input,
     Optional,
-    OnDestroy
+    OnDestroy,
+    ViewChild
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
@@ -17,20 +17,26 @@ import { take, takeUntil, startWith } from 'rxjs/operators';
 import { from, Subject } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttPrintService } from './gantt-print.service';
+import { passiveListenerOptions } from './utils/passive-listeners';
+import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
 
 @Component({
     selector: 'ngx-gantt-root',
     templateUrl: './root.component.html',
-    providers: [GanttDomService, GanttDragContainer]
+    providers: [GanttDomService, GanttDragContainer],
+    host: {
+        class: 'gantt'
+    }
 })
 export class NgxGanttRootComponent implements OnInit, OnDestroy {
     @Input() sideWidth: number;
 
-    @HostBinding('class.gantt') ganttClass = true;
-
     @ContentChild('sideTemplate', { static: true }) sideTemplate: TemplateRef<any>;
 
     @ContentChild('mainTemplate', { static: true }) mainTemplate: TemplateRef<any>;
+
+    /** The native `<gantt-drag-backdrop></gantt-drag-backdrop>` element. */
+    @ViewChild(GanttDragBackdropComponent, { static: true, read: ElementRef }) backdrop: ElementRef<HTMLElement>;
 
     private unsubscribe$ = new Subject<void>();
 
@@ -82,7 +88,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
             return;
         }
         this.dom
-            .getViewerScroll({ passive: true })
+            .getViewerScroll(passiveListenerOptions)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((event) => {
                 if (event.direction === ScrollDirection.LEFT) {

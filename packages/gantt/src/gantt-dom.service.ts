@@ -3,6 +3,7 @@ import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone } from '
 import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
 import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
+import { passiveListenerOptions } from './utils/passive-listeners';
 
 const scrollThreshold = 50;
 
@@ -39,7 +40,10 @@ export class GanttDomService implements OnDestroy {
 
     private monitorScrollChange() {
         this.ngZone.runOutsideAngular(() =>
-            merge(fromEvent(this.mainContainer, 'scroll', { passive: true }), fromEvent(this.sideContainer, 'scroll', { passive: true }))
+            merge(
+                fromEvent(this.mainContainer, 'scroll', passiveListenerOptions),
+                fromEvent(this.sideContainer, 'scroll', passiveListenerOptions)
+            )
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe((event) => {
                     this.syncScroll(event);
