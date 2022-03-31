@@ -135,11 +135,7 @@ export class GanttBarDrag implements OnDestroy {
                     if (width > dragMinWidth) {
                         this.barElement.style.width = width + 'px';
                         this.barElement.style.left = x + 'px';
-                        this.openDragBackdrop(
-                            this.barElement,
-                            this.ganttUpper.view.getDateByXPoint(x),
-                            this.ganttUpper.view.getDateByXPoint(x + width)
-                        );
+                        this.openDragBackdrop(this.barElement, this.ganttUpper.view.getDateByXPoint(x), this.item.end);
                         this.item.updateDate(this.ganttUpper.view.getDateByXPoint(x), this.item.end);
                     }
                 } else {
@@ -148,7 +144,7 @@ export class GanttBarDrag implements OnDestroy {
                         this.barElement.style.width = width + 'px';
                         this.openDragBackdrop(
                             this.barElement,
-                            this.ganttUpper.view.getDateByXPoint(this.item.refs.x),
+                            this.item.start,
                             this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width)
                         );
                     }
