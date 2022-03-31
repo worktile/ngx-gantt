@@ -19,6 +19,7 @@ import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../gantt-abstract';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
+import { setStyleWithVendorPrefix } from '../../utils/set-style-with-vendor-prefix';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
@@ -84,7 +85,11 @@ export class GanttTableComponent implements OnChanges {
 
     private dragFixed(config: DragFixedConfig) {
         if (config.movedWidth < config.minWidth) {
-            config.target.style.transform = `translate3d(${config.minWidth - config.originWidth}px, 0, 0)`;
+            setStyleWithVendorPrefix({
+                element: config.target,
+                style: 'transform',
+                value: `translate3d(${config.minWidth - config.originWidth}px, 0, 0)`
+            });
         }
     }
 
