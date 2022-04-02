@@ -235,6 +235,8 @@ export class GanttBarDrag implements OnDestroy {
                                 ? InBarPosition.start
                                 : InBarPosition.finish
                     });
+                } else {
+                    this.dragContainer.emitLinkDragEnded();
                 }
                 event.source.reset();
                 this.barElement.classList.remove(activeClass);
@@ -314,8 +316,8 @@ export class GanttBarDrag implements OnDestroy {
         this.item = item;
         this.barElement = elementRef.nativeElement;
         this.ganttUpper = ganttUpper;
-
-        if (!item.draggable || (this.dragDisabled && this.linkDragDisabled)) {
+        // if (!item.draggable || (this.dragDisabled && this.linkDragDisabled)) {
+        if (this.dragDisabled && this.linkDragDisabled) {
             return;
         } else {
             this.createMouseEvents();
