@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [12.2.3](https://github.com/worktile/ngx-gantt/compare/12.2.2...12.2.3) (2022-04-02)
+
+### Bug Fixes
+
+- support only drag or link #INFR-2818 ([12eef47](https://github.com/worktile/ngx-gantt/commit/12eef471631a648f483ad447553e9ab1ba84dacb)), closes [#INFR-2818](https://github.com/worktile/ngx-gantt/issues/INFR-2818)
+
 ## [12.2.2](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.2) (2022-03-31)
 
 ### Features
