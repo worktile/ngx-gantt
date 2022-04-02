@@ -1,6 +1,6 @@
 <div class="gantt-bar-layer">
-  <div *ngIf="item.draggable && ganttUpper.draggable" class="drag-handles">
-    <ng-container>
+  <div class="drag-handles">
+    <ng-container *ngIf="item.draggable && ganttUpper.draggable">
       <span class="handle" #handle></span>
       <span class="handle" #handle></span>
     </ng-container>

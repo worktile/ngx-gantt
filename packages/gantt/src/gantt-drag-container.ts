@@ -74,18 +74,21 @@ export class GanttDragContainer {
         this.linkDragPath.to = null;
     }
 
-    emitLinkDragEnded(to: LinkDragPosition) {
-        this.linkDragPath.to = to;
-        const dependencyType = getDependencyType(this.linkDragPath, this.ganttUpper.linkOptions?.dependencyTypes);
-        this.linkDragPath.from.item.addLink({
-            link: this.linkDragPath.to.item.id,
-            type: dependencyType
-        });
-        this.linkDragEnded.emit({
-            source: this.linkDragPath.from.item.origin,
-            target: this.linkDragPath.to.item.origin,
-            type: dependencyType
-        });
+    emitLinkDragEnded(to?: LinkDragPosition) {
+        if (to) {
+            this.linkDragPath.to = to;
+            const dependencyType = getDependencyType(this.linkDragPath, this.ganttUpper.linkOptions?.dependencyTypes);
+            this.linkDragPath.from.item.addLink({
+                link: this.linkDragPath.to.item.id,
+                type: dependencyType
+            });
+            this.linkDragEnded.emit({
+                source: this.linkDragPath.from.item.origin,
+                target: this.linkDragPath.to.item.origin,
+                type: dependencyType
+            });
+        }
+
         this.linkDraggingId = null;
         this.linkDragPath = { from: null, to: null };
     }
