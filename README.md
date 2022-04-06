@@ -22,7 +22,6 @@ $ yarn add @worktile/gantt html2canvas
 
 ## Demo
 
-[Try out our live demo](http://gantt.ngnice.com/)
 
 ## Usage
 
