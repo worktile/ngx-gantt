@@ -2,55 +2,55 @@
 
 // docgeni
 
-$primary:#348fe4;
+$primary: #348fe4;
 
 @import '../../packages/gantt/src/styles/index.scss';
 @import '~@docgeni/template/styles/index.scss';
-@import "~ngx-tethys/styles/main.bundle.scss";
+@import '~ngx-tethys/styles/index.scss';
 
 .gantt-demo {
-    height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #eee;
+  padding: 20px;
+
+  .gantt-demo-header {
+    height: 50px;
+    background: #fff;
+    padding: 0px 20px;
+    margin-bottom: 15px;
     display: flex;
-    flex-direction: column;
-    background: #eee;
-    padding: 20px;
+    align-items: center;
 
-    .gantt-demo-header {
-        height: 50px;
-        background: #fff;
-        padding: 0px 20px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
+    .header-section {
+      margin-right: 20px;
 
-        .header-section {
-            margin-right: 20px;
-
-            &-title {
-                font-weight: bold;
-            }
-        }
+      &-title {
+        font-weight: bold;
+      }
     }
+  }
 
-    .gantt-demo-content {
-        flex: 1;
-        height: 1px;
-    }
+  .gantt-demo-content {
+    flex: 1;
+    height: 1px;
+  }
 }
 
 .gantt-example-content {
-    margin-left: 300px;
+  margin-left: 300px;
 }
 
 .gantt-example-component {
-    display: block;
-    margin: 20px;
-    border: 1px solid #eee;
-    height: calc(100vh - 95px);
+  display: block;
+  margin: 20px;
+  border: 1px solid #eee;
+  height: calc(100vh - 95px);
 
-    .thy-layout-header {
-        .layout-header-title {
-            display: none;
-        }
+  .thy-layout-header {
+    .layout-header-title {
+      display: none;
     }
+  }
 }
