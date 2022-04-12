@@ -331,7 +331,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     computeItemsRefs(...items: GanttItemInternal[]) {
         items.forEach((item) => {
             item.updateRefs({
-                width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
+                width: item.start && item.end ? this.view.getBarWidth(item.start, item.end) : 0,
                 x: item.start ? this.view.getXPointByDate(item.start) : 0,
                 y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
             });

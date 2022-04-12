@@ -181,9 +181,13 @@ export abstract class GanttView {
         }
     }
 
+    getBarWidth(start: GanttDate, end: GanttDate) {
+        return this.getDateRangeWidthDayNormalized(start, end);
+    }
+
     // 获取指定时间范围的宽度
-    getDateRangeWidth(start: GanttDate, end: GanttDate) {
+    getDateRangeWidthDayNormalized(start: GanttDate, end: GanttDate) {
         // addSeconds(1) 是因为计算相差天会以一个整天来计算 end时间一般是59分59秒不是一个整天，所以需要加1
-        return this.getDateIntervalWidth(start, end.addSeconds(1));
+        return this.getDateIntervalWidth(start.startOfDay(), end.endOfDay().addSeconds(1));
     }
 }

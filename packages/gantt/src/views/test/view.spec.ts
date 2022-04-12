@@ -138,7 +138,7 @@ describe('GanttView', () => {
     });
 
     it(`should get date range width`, () => {
-        const width = ganttView.getDateRangeWidth(new GanttDate('2020-03-01 00:00:00'), new GanttDate('2020-05-01 00:00:00'));
+        const width = ganttView.getDateRangeWidthDayNormalized(new GanttDate('2020-03-01 00:00:00'), new GanttDate('2020-05-01 00:00:00'));
         expect(width).toEqual(610);
     });
 });

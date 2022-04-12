@@ -94,7 +94,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
                 if (event.direction === ScrollDirection.LEFT) {
                     const dates = this.view.addStartDate();
                     if (dates) {
-                        event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
+                        event.target.scrollLeft += this.view.getDateRangeWidthDayNormalized(dates.start, dates.end);
                         if (this.ganttUpper.loadOnScroll.observers) {
                             this.ngZone.run(() =>
                                 this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })

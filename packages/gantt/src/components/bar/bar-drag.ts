@@ -261,8 +261,8 @@ export class GanttBarDrag implements OnDestroy {
         dragMaskElement.style.display = 'block';
         dragBackdropElement.style.display = 'block';
         // This will invalidate the layout, but we won't need re-layout, because we set styles previously.
-        dragMaskElement.querySelector('.start').innerHTML = start.format('MM-dd');
-        dragMaskElement.querySelector('.end').innerHTML = end.format('MM-dd');
+        dragMaskElement.querySelector('.start').innerHTML = start.format('MM-dd HH:mm');
+        dragMaskElement.querySelector('.end').innerHTML = end.format('MM-dd HH:mm');
     }
 
     private closeDragBackdrop() {

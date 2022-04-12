@@ -8,7 +8,8 @@ import {
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttSelectedEvent
+    GanttSelectedEvent,
+    GanttDate
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay, startWith } from 'rxjs/operators';
@@ -22,6 +23,10 @@ import { randomItems, random } from '../helper';
 })
 export class AppGanttExampleComponent implements OnInit {
     views = [
+        {
+            name: 'hour',
+            value: GanttViewType.hour
+        },
         {
             name: '日',
             value: GanttViewType.day
@@ -44,7 +49,7 @@ export class AppGanttExampleComponent implements OnInit {
         }
     ];
 
-    viewType: GanttViewType = GanttViewType.month;
+    viewType: GanttViewType = GanttViewType.hour;
 
     items: GanttItem[] = [
         { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
