@@ -1,6 +1,17 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [13.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/12.2.2...13.0.0-next.0) (2022-05-18)
+
+### Features
+
+- use new sass moudle #INFR-2780 ([8ddd816](https://github.com/worktile/ngx-gantt/commit/8ddd81693acf6b11670a6d28f207b07b8d3326d3)), closes [#INFR-2780](https://github.com/worktile/ngx-gantt/issues/INFR-2780)
+
+### Bug Fixes
+
+- change style docs ([aac04d8](https://github.com/worktile/ngx-gantt/commit/aac04d89b30042a2cbdd6c81ef515b4eaae573ad))
+- support only drag or link #INFR-2818 ([4cd5dd5](https://github.com/worktile/ngx-gantt/commit/4cd5dd55824c41af76e1dc3060fb6d4f1deacd17)), closes [#INFR-2818](https://github.com/worktile/ngx-gantt/issues/INFR-2818)
+
 ## [12.2.2](https://github.com/worktile/ngx-gantt/compare/12.1.2...12.2.2) (2022-03-31)
 
 ### Features
