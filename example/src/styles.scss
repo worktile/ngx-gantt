@@ -4,7 +4,7 @@
 
 $primary: #348fe4;
 
-@import '../../packages/gantt/src/styles/index.scss';
+@use '../../packages/gantt/src/styles/index.scss';
 @import '~@docgeni/template/styles/index.scss';
 @import '~ngx-tethys/styles/index.scss';
 

@@ -1,3 +1,5 @@
+@use '../../styles/variables';
+
 .gantt-table {
   display: block;
   &-empty {
@@ -23,7 +25,7 @@
   }
 
   &-drag-trigger {
-    width: $gantt-table-header-drag-line-width;
+    width: variables.$gantt-table-header-drag-line-width;
     position: absolute;
     top: 0;
     right: 0;
@@ -32,14 +34,14 @@
     z-index: 1;
 
     &:hover {
-      background: $gantt-table-header-drag-line-color;
+      background: variables.$gantt-table-header-drag-line-color;
       z-index: 2;
     }
   }
 
   &-drag-auxiliary-line {
-    width: $gantt-table-header-drag-line-width;
-    background: $gantt-table-header-drag-line-color;
+    width: variables.$gantt-table-header-drag-line-width;
+    background: variables.$gantt-table-header-drag-line-color;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -50,11 +52,11 @@
   .gantt-table-row {
     display: flex;
     box-sizing: border-box;
-    border-bottom: 1px solid $gantt-border-color;
+    border-bottom: 1px solid variables.$gantt-border-color;
 
     .gantt-table-column {
       overflow: hidden;
-      border-right: 1px solid $gantt-border-color;
+      border-right: 1px solid variables.$gantt-border-color;
       box-sizing: border-box;
       position: relative;
 
@@ -70,8 +72,8 @@
     top: 0;
     background: #fff;
     z-index: 2;
-    height: $gantt-header-height;
-    line-height: $gantt-header-height;
+    height: variables.$gantt-header-height;
+    line-height: variables.$gantt-header-height;
 
     .gantt-table-column {
       font-weight: 400;
@@ -81,11 +83,11 @@
   .gantt-table-body {
     .gantt-table-group {
       display: flex;
-      height: $gantt-group-height;
-      background: $gantt-group-background-color;
+      height: variables.$gantt-group-height;
+      background: variables.$gantt-group-background-color;
       padding: 0 10px;
       align-items: center;
-      border-bottom: 1px solid $gantt-border-color;
+      border-bottom: 1px solid variables.$gantt-border-color;
       box-sizing: border-box;
       position: relative;
 
@@ -102,7 +104,7 @@
     .gantt-table-item {
       cursor: pointer;
       &-first-level-group {
-        background: $gantt-group-background-color;
+        background: variables.$gantt-group-background-color;
       }
 
       &-with-group {
@@ -115,7 +117,7 @@
 
       .gantt-table-column {
         display: flex;
-        padding: $gantt-table-td-padding;
+        padding: variables.$gantt-table-td-padding;
 
         &:last-child {
           border-right: none;
@@ -131,13 +133,13 @@
       }
 
       &:hover {
-        background-color: $gantt-container-background-color;
+        background-color: variables.$gantt-container-background-color;
       }
 
       &-active {
-        background-color: rgba($color: $gantt-table-header-drag-line-color, $alpha: 0.1);
+        background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
         &:hover {
-          background-color: rgba($color: $gantt-table-header-drag-line-color, $alpha: 0.1);
+          background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
         }
       }
     }

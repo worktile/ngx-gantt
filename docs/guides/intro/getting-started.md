@@ -33,21 +33,22 @@ export class AppModule {
 <br/>
 
 ### 引入样式
+
 在 angular.json 中引入
+
 ```json
 {
-    "styles": [
-        "node_modules/@worktile/gantt/main.bundle.scss"
-    ]
+  "styles": ["node_modules/@worktile/gantt/styles/index.scss"]
 }
 ```
-在style.scss中引入预构建样式文件
+
+在 style.scss 中引入预构建样式文件
+
 ```
-@import "~@worktile/gantt/main.bundle.scss";
+@use "@worktile/gantt/styles/index.scss";
 ```
 
 ### 组件中使用
-
 
 ```html
 <!-- component.html -->

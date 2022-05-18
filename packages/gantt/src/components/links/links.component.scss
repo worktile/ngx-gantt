@@ -1,3 +1,5 @@
+@use '../../styles/variables';
+
 .gantt-links-overlay {
   position: absolute;
   top: 0px;
@@ -16,12 +18,12 @@
   height: 1px;
   overflow: visible !important;
   position: absolute;
-  top: $gantt-header-height;
+  top: variables.$gantt-header-height;
   left: 0;
   z-index: 2000;
 
   .link-dragging-line {
-    stroke: $gantt-link-line-color;
+    stroke: variables.$gantt-link-line-color;
     stroke-width: 2px;
   }
 }
