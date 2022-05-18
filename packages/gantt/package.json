@@ -2,6 +2,20 @@
   "name": "@worktile/gantt",
   "version": "13.0.0-next.0",
   "schematics": "./schematics/collection.json",
+  "exports": {
+    ".": {
+      "sass": "./styles/index.scss"
+    },
+    "./styles/variables": {
+      "sass": "./styles/variables.scss"
+    },
+    "./styles/index": {
+      "sass": "./styles/index.scss"
+    },
+    "./styles/*": {
+      "sass": "./styles/*"
+    }
+  },
   "scripts": {
     "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
     "copy:schemas": "cp --parents schematics/*/schema.json ../../dist/gantt/",
