@@ -46,12 +46,12 @@ export class AppModule {
 
 ```json
 {
-  "styles": ["node_modules/@worktile/gantt/main.bundle.scss"]
+  "styles": ["node_modules/@worktile/gantt/styles/index.scss"]
 }
 ```
 
 ```scss
-@import '@worktile/gantt/main.bundle.scss';
+@use '@worktile/gantt/styles/index.scss';
 ```
 
 ### 3. Using component

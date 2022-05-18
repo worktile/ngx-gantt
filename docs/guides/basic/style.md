@@ -4,8 +4,7 @@ path: 'style'
 order: 50
 ---
 
-`ngx-gantt` 使用了 `css` 预处理器 `scss`，支持重写组件的大部分的色值和部分layout样式。
-
+`ngx-gantt` 使用了 `css` 预处理器 `scss`，支持重写组件的大部分的色值和部分 layout 样式。
 
 ```scss
 // basic
@@ -54,7 +53,6 @@ $gantt-link-line-color: #348fe4 !default;
 // table
 $gantt-table-header-drag-line-width: 3px !default;
 $gantt-table-header-drag-line-color: #348fe4 !default;
-
 ```
 
 示例：
@@ -63,6 +61,6 @@ $gantt-table-header-drag-line-color: #348fe4 !default;
 $gantt-color: #000;
 $gantt-bg-color: #fafafa;
 
-@import '~@worktile/gantt/main.bundle.scss';
+@import '~@worktile/gantt/styles/index.scss';
 
 ```

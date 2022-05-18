@@ -1,3 +1,5 @@
+@use '../../styles/variables';
+
 .gantt-calendar-overlay {
   display: block;
   height: 100%;
@@ -10,15 +12,15 @@
       width: 35px;
       height: 24px;
       position: absolute;
-      background: $gantt-date-today-color;
-      color: $gantt-date-today-text-color;
+      background: variables.$gantt-date-today-color;
+      color: variables.$gantt-date-today-text-color;
       text-align: center;
       border-radius: 4px;
     }
     .today-line {
       position: absolute;
       width: 3px;
-      background: $gantt-date-today-color;
+      background: variables.$gantt-date-today-color;
       transform: scaleX(0.5);
       transform-origin: 100% 0;
       margin-left: -2px;
@@ -28,7 +30,7 @@
   .gantt-calendar-overlay-main {
     position: relative;
     z-index: 1;
-    background-color: $gantt-bg-color;
+    background-color: variables.$gantt-bg-color;
   }
 
   svg {
@@ -40,16 +42,16 @@
   }
 
   .primary-text {
-    fill: $gantt-date-primary-color;
-    font-size: $gantt-date-primary-font-size;
+    fill: variables.$gantt-date-primary-color;
+    font-size: variables.$gantt-date-primary-font-size;
   }
 
   .secondary-text {
-    fill: $gantt-date-secondary-color;
-    font-size: $gantt-date-secondary-font-size;
+    fill: variables.$gantt-date-secondary-color;
+    font-size: variables.$gantt-date-secondary-font-size;
 
     &-weekend {
-      fill: $gantt-date-secondary-weekend-color;
+      fill: variables.$gantt-date-secondary-weekend-color;
     }
   }
 
@@ -59,7 +61,7 @@
   }
 
   .primary-line {
-    stroke: $gantt-date-primary-border;
+    stroke: variables.$gantt-date-primary-border;
   }
 
   .secondary-line {
@@ -68,10 +70,10 @@
   }
 
   .header-line {
-    stroke: $gantt-border-color;
+    stroke: variables.$gantt-border-color;
   }
 
   .secondary-backdrop {
-    fill: $gantt-date-week-backdrop-bg;
+    fill: variables.$gantt-date-week-backdrop-bg;
   }
 }
