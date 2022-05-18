@@ -45,7 +45,7 @@ export class AppModule {
 在 style.scss 中引入预构建样式文件
 
 ```
-@import "~@worktile/gantt/styles/index.scss";
+@use "@worktile/gantt/styles/index.scss";
 ```
 
 ### 组件中使用
