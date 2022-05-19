@@ -170,9 +170,7 @@ export class GanttTableComponent implements OnChanges {
 
     private showAuxiliaryLine(event: CdkDragMove) {
         const tableRect = this.elementRef.nativeElement.getBoundingClientRect();
-        const targetRect = event.source.element.nativeElement.getBoundingClientRect();
-        const distance = { x: targetRect.left - tableRect.left, y: targetRect.top - tableRect.top };
-        this.draglineElementRef.nativeElement.style.left = `${distance.x}px`;
+        this.draglineElementRef.nativeElement.style.left = `${(event.event as any).clientX - tableRect.left}px`;
         this.draglineElementRef.nativeElement.style.display = 'block';
     }
 
