@@ -6,7 +6,7 @@ order: 10
 
 ## 基本使用
 
-一般情况下最基本的使用我们只需要定义 `items` 数据传入组件中，如需要左侧的表格展示，则还需要定义表格的 column
+一般情况下最基本的使用我们只需要定义 `items` 数据传入组件中（需要注意的是，目前时间格式仅支持 10 位时间戳），如需要左侧的表格展示，则还需要定义表格的 column
 
 ```html
 <ngx-gantt #gantt [items]="items">
@@ -179,7 +179,7 @@ export class AppGanttExampleComponent {
 
 ```javascript
 export class AppGanttExampleComponent {
-  selectedChange(event: GanttSelectedEvent) { }
+  selectedChange(event: GanttSelectedEvent) {}
 }
 ```
 
