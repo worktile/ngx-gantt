@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [13.0.0](https://github.com/worktile/ngx-gantt/compare/13.0.0-next.1...13.0.0) (2022-05-24)
+
+### Bug Fixes
+
+- fix table adjusting width shake in firefox [#200](https://github.com/worktile/ngx-gantt/issues/200) ([1311f52](https://github.com/worktile/ngx-gantt/commit/1311f52e07c670c25a4dd9ba8acd49c8787e3c28))
+
 ## [13.0.0-next.1](https://github.com/worktile/ngx-gantt/compare/13.0.0-next.0...13.0.0-next.1) (2022-05-18)
 
 ## [13.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/12.2.2...13.0.0-next.0) (2022-05-18)
