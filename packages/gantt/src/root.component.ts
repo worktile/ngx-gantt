@@ -133,7 +133,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
         }
     }
 
-    private scrollToToday() {
+    public scrollToToday() {
         const x = this.view.getTodayXPoint();
         this.dom.scrollMainContainer(x);
     }

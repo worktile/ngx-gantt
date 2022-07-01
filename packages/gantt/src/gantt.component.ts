@@ -14,7 +14,8 @@ import {
     ContentChild,
     TemplateRef,
     forwardRef,
-    Inject
+    Inject,
+    ViewChild
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize } from 'rxjs/operators';
 import { Subject, Observable, from } from 'rxjs';
@@ -27,6 +28,7 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { defaultColumnWidth } from './components/table/gantt-table.component';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
+import { NgxGanttRootComponent } from './root.component';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -64,6 +66,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 
     @ContentChild('tableEmpty', { static: true }) tableEmptyTemplate: TemplateRef<any>;
+
+    @ViewChild('ganttRoot') ganttRoot: NgxGanttRootComponent;
 
     private ngUnsubscribe$ = new Subject();
 
