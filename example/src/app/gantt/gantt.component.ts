@@ -132,4 +132,8 @@ export class AppGanttExampleComponent implements OnInit {
     print(name: string) {
         this.printService.print(name);
     }
+
+    scrollToToday() {
+        this.ganttComponent.ganttRoot.scrollToToday();
+    }
 }
