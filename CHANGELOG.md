@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [13.1.0](https://github.com/worktile/ngx-gantt/compare/13.0.0...13.1.0) (2022-07-01)
+
+### Features
+
+- public scrollToToday function ([79b5a6c](https://github.com/worktile/ngx-gantt/commit/79b5a6ce1765f2a415a3797b1a4b9318de224ead))
+
 ## [13.0.0](https://github.com/worktile/ngx-gantt/compare/13.0.0-next.1...13.0.0) (2022-05-24)
 
 ### Bug Fixes
