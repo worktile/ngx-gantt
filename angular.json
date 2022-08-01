@@ -127,9 +127,10 @@
       }
     }
   },
-  "defaultProject": "example",
   "cli": {
     "analytics": "7595d21d-c10d-4b06-8050-b8e56319939c",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
