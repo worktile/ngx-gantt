@@ -19,6 +19,7 @@
     <ngx-gantt
       #gantt
       [items]="items"
+      [baselineItems]="baselineItems"
       [viewType]="viewType"
       [async]="true"
       [childrenResolve]="childrenResolve"
@@ -26,6 +27,7 @@
       [linkable]="true"
       [selectable]="true"
       [multiple]="true"
+      [showBaseline]="true"
       [viewOptions]="viewOptions"
       (barClick)="barClick($event)"
       (lineClick)="lineClick($event)"

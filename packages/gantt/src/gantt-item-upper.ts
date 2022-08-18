@@ -39,7 +39,6 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
             itemElement.style.height = this.ganttUpper.styles.barHeight + 'px';
         } else if (this.item.type === GanttItemType.range) {
             itemElement.style.height = rangeHeight + 'px';
-        } else {
         }
     }
 

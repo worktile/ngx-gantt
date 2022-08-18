@@ -1,0 +1,8 @@
+.gantt-baseline {
+  position: absolute;
+  z-index: 1;
+  .baseline-content {
+    height: 8px;
+    border-radius: 2px;
+  }
+}

@@ -1,6 +1,7 @@
 export const defaultStyles = {
     lineHeight: 44,
-    barHeight: 22
+    barHeight: 22,
+    baselineColor: '#cacaca'
 };
 
 export const headerHeight = 44;
@@ -24,5 +25,3 @@ export const todayHeight = 24;
 export const todayWidth = 35;
 
 export const todayBorderRadius = 4;
-
-
