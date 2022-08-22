@@ -11,6 +11,9 @@
       &nbsp; &nbsp; &nbsp;
       <thy-button thyType="primary" thySize="sm" (click)="print('gantt-example')"> ↓ 导出为图片 </thy-button>
       &nbsp; &nbsp; &nbsp;
+      <span>滚动到：</span>
+      <thy-date-picker [(ngModel)]="date" (ngModelChange)="dateChange($event)" [thyAllowClear]="false"> </thy-date-picker>
+      &nbsp; &nbsp; &nbsp;
       <span>基线对比：</span>
       <thy-switch class="baseline-switch" [(ngModel)]="isBaselineChecked" (ngModelChange)="switchChange()">基线对比 </thy-switch>
     </ng-template>

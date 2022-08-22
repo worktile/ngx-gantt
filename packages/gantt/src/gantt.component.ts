@@ -156,4 +156,12 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             this.selectedChange.emit({ event, selectedValue: _selectedValue });
         }
     }
+
+    scrollToToday() {
+        this.ganttRoot.scrollToToday();
+    }
+
+    scrollToDate(date: number) {
+        this.ganttRoot.scrollToDate(date);
+    }
 }
