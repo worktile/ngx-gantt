@@ -29,6 +29,7 @@ import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { defaultColumnWidth } from './components/table/gantt-table.component';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
 import { NgxGanttRootComponent } from './root.component';
+import { GanttDate } from './utils/date';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -161,7 +162,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
         this.ganttRoot.scrollToToday();
     }
 
-    scrollToDate(date: number) {
+    scrollToDate(date: number | GanttDate) {
         this.ganttRoot.scrollToDate(date);
     }
 }
