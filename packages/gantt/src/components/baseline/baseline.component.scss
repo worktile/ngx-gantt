@@ -1,8 +1,11 @@
+@use '../../styles/variables.scss';
+
 .gantt-baseline {
   position: absolute;
   z-index: 1;
   .baseline-content {
     height: 8px;
     border-radius: 2px;
+    background-color: variables.$gantt-baseline-background-color;
   }
 }

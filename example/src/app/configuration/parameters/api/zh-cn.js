@@ -15,6 +15,11 @@ module.exports = [
                 type: 'GanttGroup[]'
             },
             {
+                name: 'baselineItems',
+                description: `设置基线对比数据`,
+                type: 'GanttBaselineItem[]'
+            },
+            {
                 name: 'viewType',
                 description: `设置视图类型`,
                 type: `day | month | quarter`,
@@ -162,7 +167,8 @@ module.exports = [
                 name: 'columnChanges',
                 description: `列宽变化事件集`,
                 type: 'EventEmitter<GanttTableEvent>'
-            },{
+            },
+            {
                 name: 'itemClick',
                 description: `选择整行数据项事件`,
                 type: 'EventEmitter<GanttSelectedEvent>'
@@ -176,7 +182,7 @@ module.exports = [
                 name: '#rowAfterSlot',
                 description: `设置表格中每行的后置自定义渲染模板`,
                 type: 'TemplateRef<any>'
-            },
+            }
         ]
     },
     {
@@ -247,6 +253,18 @@ module.exports = [
     },
     {
         type: 'component',
+        name: 'ngx-gantt-baseline',
+        description: '基线展示组件',
+        properties: [
+            {
+                name: 'baselineItem',
+                description: `设置基线展示数据`,
+                type: 'GanttBaselineItemInternal'
+            }
+        ]
+    },
+    {
+        type: 'component',
         name: 'ngx-gantt-root',
         description: '甘特图根组件',
         properties: [
@@ -267,115 +285,4 @@ module.exports = [
             }
         ]
     }
-    // {
-    //     type: 'class',
-    //     name: 'GanttItem',
-    //     description: '数据项格式定义',
-    //     properties: [
-    //         {
-    //             name: 'id',
-    //             description: `唯一标识`,
-    //             type: 'string'
-    //         },
-    //         {
-    //             name: 'title',
-    //             description: `名称`,
-    //             type: 'string'
-    //         },
-    //         {
-    //             name: 'start',
-    //             description: `开始时间`,
-    //             type: 'number'
-    //         },
-    //         {
-    //             name: 'end',
-    //             description: `截止时间`,
-    //             type: 'number'
-    //         },
-    //         {
-    //             name: 'group_id',
-    //             description: `对应分组的Id`,
-    //             type: 'string'
-    //         },
-    //         {
-    //             name: 'links',
-    //             description: `关联数据项Ids`,
-    //             type: 'string[]'
-    //         },
-    //         {
-    //             name: 'color',
-    //             description: `设置颜色`,
-    //             type: 'string'
-    //         },
-    //         {
-    //             name: 'draggable',
-    //             description: `设置是否可拖拽`,
-    //             type: 'boolean'
-    //         },
-    //         {
-    //             name: 'linkable',
-    //             description: `设置是否可关联/被关联`,
-    //             type: 'boolean'
-    //         },
-    //         {
-    //             name: 'expand',
-    //             description: `设置是否展开`,
-    //             type: 'boolean',
-    //             default: 'false'
-    //         },
-    //         {
-    //             name: 'children',
-    //             description: `设置子数据`,
-    //             type: 'GanttItem[]',
-    //             default: ''
-    //         },
-    //         {
-    //             name: 'origin',
-    //             description: `设置原始数据`,
-    //             type: 'T',
-    //             default: ''
-    //         },
-    //         {
-    //             name: 'type',
-    //             description: `数据展示方式（区间展示和普通展示）`,
-    //             type: 'GanttItemType',
-    //             default: ''
-    //         },
-    //         {
-    //             name: 'progress',
-    //             description: `进度`,
-    //             type: 'number',
-    //             default: ''
-    //         }
-    //     ]
-    // },
-    // {
-    //     type: 'class',
-    //     name: 'GanttGroup',
-    //     description: '分组数据格式定义',
-    //     properties: [
-    //         {
-    //             name: 'id',
-    //             description: `唯一标识`,
-    //             type: 'string'
-    //         },
-    //         {
-    //             name: 'title',
-    //             description: `名称`,
-    //             type: 'string'
-    //         },
-    //         {
-    //             name: 'expand',
-    //             description: `设置是否展开`,
-    //             type: 'boolean',
-    //             default: 'true'
-    //         },
-    //         {
-    //             name: 'origin',
-    //             description: `设置原始数据`,
-    //             type: 'T',
-    //             default: ''
-    //         }
-    //     ]
-    // }
 ];

@@ -3,6 +3,7 @@ import { setPrintErrorWhenIconNotFound } from 'ngx-tethys/icon';
 import { ThyNavModule } from 'ngx-tethys/nav';
 import { ThyButtonModule } from 'ngx-tethys/button';
 import { ThyCheckboxModule } from 'ngx-tethys/checkbox';
+import { ThySwitchModule } from 'ngx-tethys/switch';
 import { ThyNotifyModule } from 'ngx-tethys/notify';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -45,6 +46,8 @@ import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.comp
         ThyLayoutModule,
         ThyCheckboxModule,
         ThyNotifyModule,
+        ThySwitchModule,
+        ThySwitchModule,
         ...EXAMPLE_MODULES
     ],
     providers: [...DOCGENI_SITE_PROVIDERS],

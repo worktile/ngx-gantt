@@ -1,3 +1,4 @@
+import { GanttBaselineItem, GanttBaselineItemInternal } from './../class/baseline';
 import { GanttGroupInternal } from './../class/group';
 import { GanttItemInternal } from './../class/item';
 import { Component, DebugElement, ViewChild } from '@angular/core';
@@ -9,7 +10,7 @@ import { GanttPrintService } from '../gantt-print.service';
 import { NgxGanttComponent } from '../gantt.component';
 import { NgxGanttModule } from '../gantt.module';
 import { GanttDate } from '../utils/date';
-import { getMockGroupItems, getMockGroups, getMockItems } from './mocks/data';
+import { getMockBaselineItems, getMockGroupItems, getMockGroups, getMockItems } from './mocks/data';
 import { CommonModule } from '@angular/common';
 import { GanttCalendarComponent } from '../components/calendar/calendar.component';
 import { NgxGanttBarComponent } from '../components/bar/bar.component';
@@ -19,10 +20,12 @@ import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
 import { GanttTableComponent } from 'ngx-gantt/components/table/gantt-table.component';
+import { NgxGanttBaselineComponent } from '../components/baseline/baseline.component';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
 const mockGroups = getMockGroups();
+const mockBaselineItems = getMockBaselineItems();
 
 const config = {
     dateFormat: {
@@ -43,6 +46,7 @@ const config = {
         [start]="start"
         [end]="end"
         [items]="items"
+        [baselineItems]="baselineItems"
         [viewType]="viewType"
         [viewOptions]="viewOptions"
         (barClick)="barClick($event)"
@@ -74,6 +78,8 @@ export class TestGanttBasicComponent {
     viewType = 'month';
 
     items = mockItems;
+
+    baselineItems = mockBaselineItems;
 
     viewOptions = {
         dateFormat: {
@@ -211,12 +217,18 @@ function assertGanttView<T extends TestGanttComponentBase>(
     expect(secondaryElements[secondaryElements.length - 1].nativeElement.textContent).toContain(expected.lastSecondaryDataPointText);
 }
 
-function assertItem(item: DebugElement, ganttItem: GanttItemInternal) {
+function assertItem(item: DebugElement, ganttItem: GanttItemInternal | GanttBaselineItemInternal) {
     const elem = item.nativeElement as HTMLElement;
     const top = elem.style.getPropertyValue('top');
+    const bottom = elem.style.getPropertyValue('bottom');
     const left = elem.style.getPropertyValue('left');
     const width = elem.style.getPropertyValue('width');
-    expect(top).toEqual(ganttItem.refs.y + 'px');
+    if (ganttItem instanceof GanttItemInternal) {
+        expect(top).toEqual(ganttItem.refs.y + 'px');
+    } else {
+        expect(bottom).toEqual(2 + 'px');
+    }
+
     expect(left).toEqual(ganttItem.refs.x + 'px');
     expect(width).toEqual(ganttItem.refs.width + 'px');
 }
@@ -228,6 +240,16 @@ function assertItems<T extends TestGanttComponentBase>(fixture: ComponentFixture
     items.forEach((item: DebugElement, index: number) => {
         expect(ganttComponent.items[index].id).toEqual(expectedItems[index].id);
         assertItem(item, ganttComponent.items[index]);
+    });
+}
+
+function assertBaselineItems<T extends TestGanttComponentBase>(fixture: ComponentFixture<T>, expectedItems: GanttBaselineItem[]) {
+    const ganttComponent = fixture.componentInstance.ganttComponent;
+    const items = fixture.debugElement.queryAll(By.directive(NgxGanttBaselineComponent));
+    expect(items.length).toEqual(expectedItems.length);
+    items.forEach((item: DebugElement, index: number) => {
+        expect(ganttComponent.baselineItems[index].id).toEqual(expectedItems[index].id);
+        assertItem(item, ganttComponent.baselineItems[index]);
     });
 }
 
@@ -287,6 +309,10 @@ describe('ngx-gantt', () => {
             assertItems(fixture, mockItems);
         });
 
+        it('should render baseline items', () => {
+            assertBaselineItems(fixture, mockBaselineItems);
+        });
+
         it('should bar click', fakeAsync(() => {
             const barClickSpy = spyOn(ganttComponentInstance, 'barClick').and.callFake((event: GanttBarClickEvent) => {
                 expect(event.event.type).toEqual('click');
@@ -319,6 +345,13 @@ describe('ngx-gantt', () => {
             ganttComponentInstance.items = [...newItems];
             fixture.detectChanges();
             assertItems(fixture, newItems);
+        });
+
+        it('should re render baseline items when change baseline items', () => {
+            const newItems = mockBaselineItems.slice(0, 2);
+            ganttComponentInstance.baselineItems = [...newItems];
+            fixture.detectChanges();
+            assertBaselineItems(fixture, newItems);
         });
 
         it('should has empty class when has no items', () => {

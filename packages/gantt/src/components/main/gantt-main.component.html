@@ -40,10 +40,7 @@
       <ng-container *ngIf="(item.type | isGanttRangeItem) || (item.type | isGanttBarItem)">
         <gantt-range *ngIf="item.type | isGanttRangeItem" [template]="rangeTemplate" [item]="item"></gantt-range>
         <gantt-bar *ngIf="item.type | isGanttBarItem" [item]="item" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
-        <gantt-baseline
-          *ngIf="ganttUpper.showBaseline && ganttUpper.baselineItemsMap[item.id]"
-          [baselineItem]="ganttUpper.baselineItemsMap[item.id]"
-        ></gantt-baseline>
+        <gantt-baseline *ngIf="ganttUpper.baselineItemsMap[item.id]" [baselineItem]="ganttUpper.baselineItemsMap[item.id]"></gantt-baseline>
       </ng-container>
     </div>
     <ng-template

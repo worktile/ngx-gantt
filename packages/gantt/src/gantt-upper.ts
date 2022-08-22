@@ -60,8 +60,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @Input() showTodayLine = true;
 
-    @Input() showBaseline = false;
-
     @Input() draggable: boolean;
 
     @Input() styles: GanttStyles;
