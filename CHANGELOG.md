@@ -1,6 +1,20 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [13.1.1](https://github.com/worktile/ngx-gantt/compare/13.1.0...13.1.1) (2022-08-22)
+
+### Features
+
+- add scroll to date #INFR-4334 ([71220d7](https://github.com/worktile/ngx-gantt/commit/71220d7f3e28c0b82b411d4184c58bc5e06e9853)), closes [#INFR-4334](https://github.com/worktile/ngx-gantt/issues/INFR-4334)
+- public scrollToToday function ([79b5a6c](https://github.com/worktile/ngx-gantt/commit/79b5a6ce1765f2a415a3797b1a4b9318de224ead))
+- support baseline #INFR-4222 ([626805d](https://github.com/worktile/ngx-gantt/commit/626805de30e5691466caf0cba8ff3f830b3dea5f)), closes [#INFR-4222](https://github.com/worktile/ngx-gantt/issues/INFR-4222)
+
+### Bug Fixes
+
+- add baseline doc and test #INFR-4222 ([56ca20a](https://github.com/worktile/ngx-gantt/commit/56ca20ad2c9aa85169308024cd9cb4cc1e4c4c6b)), closes [#INFR-4222](https://github.com/worktile/ngx-gantt/issues/INFR-4222)
+- delete useless code ([9523dbc](https://github.com/worktile/ngx-gantt/commit/9523dbcdfd5a11b8a730cc73b1901de9d68e0452))
+- fix demo and support GanttDate in scrollToDate #INFR-4334 ([4f339d7](https://github.com/worktile/ngx-gantt/commit/4f339d7d025c624234a89782e68900739022d5d7)), closes [#INFR-4334](https://github.com/worktile/ngx-gantt/issues/INFR-4334)
+
 ## [13.1.0](https://github.com/worktile/ngx-gantt/compare/13.0.0...13.1.0) (2022-07-01)
 
 ### Features
