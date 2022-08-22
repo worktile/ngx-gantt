@@ -19,7 +19,7 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttPrintService } from './gantt-print.service';
 import { passiveListenerOptions } from './utils/passive-listeners';
 import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
-import { GanttDate } from './public-api';
+import { GanttDate } from './utils/date';
 
 @Component({
     selector: 'ngx-gantt-root',
@@ -139,8 +139,14 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
         this.dom.scrollMainContainer(x);
     }
 
-    public scrollToDate(date: number) {
-        const x = this.view.getXPointByDate(new GanttDate(date));
+    public scrollToDate(date: number | GanttDate) {
+        let x: number;
+        if (typeof date === 'number') {
+            x = this.view.getXPointByDate(new GanttDate(date));
+        } else {
+            x = this.view.getXPointByDate(date);
+        }
+
         this.dom.scrollMainContainer(x);
     }
 }

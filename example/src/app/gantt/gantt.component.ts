@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, AfterViewInit } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttViewType,
@@ -21,7 +21,7 @@ import { randomItems, random } from '../helper';
     templateUrl: './gantt.component.html',
     providers: [GanttPrintService]
 })
-export class AppGanttExampleComponent implements OnInit {
+export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     views = [
         {
             name: '日',
@@ -94,8 +94,6 @@ export class AppGanttExampleComponent implements OnInit {
         }
     };
 
-    date = new Date();
-
     @HostBinding('class.gantt-example-component') class = true;
 
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;
@@ -108,6 +106,10 @@ export class AppGanttExampleComponent implements OnInit {
     constructor(private printService: GanttPrintService, private thyNotify: ThyNotifyService) {}
 
     ngOnInit(): void {}
+
+    ngAfterViewInit() {
+        setTimeout(() => this.ganttComponent.scrollToDate(1627729997), 200);
+    }
 
     barClick(event: GanttBarClickEvent) {
         this.thyNotify.info('Event: barClick', `你点击了 [${event.item.title}]`);
@@ -141,12 +143,7 @@ export class AppGanttExampleComponent implements OnInit {
     }
 
     scrollToToday() {
-        this.date = new Date();
         this.ganttComponent.scrollToToday();
-    }
-
-    dateChange(event: number) {
-        this.ganttComponent.scrollToDate(event);
     }
 
     switchChange() {
