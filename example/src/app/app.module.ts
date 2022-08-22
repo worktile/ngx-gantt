@@ -47,7 +47,6 @@ import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.comp
         ThyCheckboxModule,
         ThyNotifyModule,
         ThySwitchModule,
-        ThySwitchModule,
         ...EXAMPLE_MODULES
     ],
     providers: [...DOCGENI_SITE_PROVIDERS],
