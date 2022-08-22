@@ -9,11 +9,10 @@ import {
     GanttPrintService,
     NgxGanttComponent,
     GanttSelectedEvent,
-    GanttBaselineItem,
-    GanttItemType
+    GanttBaselineItem
 } from 'ngx-gantt';
 import { of } from 'rxjs';
-import { delay, startWith } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { randomItems, random } from '../helper';
 
@@ -95,6 +94,8 @@ export class AppGanttExampleComponent implements OnInit {
         }
     };
 
+    date = new Date();
+
     @HostBinding('class.gantt-example-component') class = true;
 
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;
@@ -140,7 +141,12 @@ export class AppGanttExampleComponent implements OnInit {
     }
 
     scrollToToday() {
-        this.ganttComponent.ganttRoot.scrollToToday();
+        this.date = new Date();
+        this.ganttComponent.scrollToToday();
+    }
+
+    dateChange(event: number) {
+        this.ganttComponent.scrollToDate(event);
     }
 
     switchChange() {

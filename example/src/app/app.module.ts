@@ -5,6 +5,7 @@ import { ThyButtonModule } from 'ngx-tethys/button';
 import { ThyCheckboxModule } from 'ngx-tethys/checkbox';
 import { ThySwitchModule } from 'ngx-tethys/switch';
 import { ThyNotifyModule } from 'ngx-tethys/notify';
+import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgxGanttModule } from 'ngx-gantt';
@@ -47,6 +48,7 @@ import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.comp
         ThyCheckboxModule,
         ThyNotifyModule,
         ThySwitchModule,
+        ThyDatePickerModule,
         ...EXAMPLE_MODULES
     ],
     providers: [...DOCGENI_SITE_PROVIDERS],
