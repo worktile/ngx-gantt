@@ -42,8 +42,6 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     @ViewChildren('handle') handles: QueryList<ElementRef<HTMLElement>>;
 
-    color = 'red';
-
     constructor(
         private dragContainer: GanttDragContainer,
         private drag: GanttBarDrag,

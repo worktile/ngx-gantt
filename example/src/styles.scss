@@ -54,3 +54,12 @@ $primary: #348fe4;
     }
   }
 }
+.header-with-baseline {
+  .layout-header-content {
+    display: flex;
+    align-items: center;
+    .baseline-switch {
+      display: flex;
+    }
+  }
+}

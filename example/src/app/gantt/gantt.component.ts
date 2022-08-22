@@ -8,7 +8,9 @@ import {
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttSelectedEvent
+    GanttSelectedEvent,
+    GanttBaselineItem,
+    GanttItemType
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay, startWith } from 'rxjs/operators';
@@ -46,6 +48,8 @@ export class AppGanttExampleComponent implements OnInit {
 
     viewType: GanttViewType = GanttViewType.month;
 
+    isBaselineChecked = false;
+
     items: GanttItem[] = [
         { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
         { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'], expandable: true },
@@ -78,6 +82,8 @@ export class AppGanttExampleComponent implements OnInit {
         { id: '0000028', title: 'Task 28', start: 1611400397, end: 1615547597 },
         { id: '0000029', title: 'Task 29', start: 1618053197, end: 1619176397 }
     ];
+
+    baselineItems: GanttBaselineItem[] = [];
 
     options = {
         viewType: GanttViewType.day
@@ -135,5 +141,19 @@ export class AppGanttExampleComponent implements OnInit {
 
     scrollToToday() {
         this.ganttComponent.ganttRoot.scrollToToday();
+    }
+
+    switchChange() {
+        if (this.isBaselineChecked) {
+            this.baselineItems = [
+                { id: '000000', start: 1627728888, end: 1628421197 },
+                { id: '000001', start: 1617361997, end: 1625483597 },
+                { id: '000002', start: 1610536397, end: 1610622797 },
+                { id: '000003', start: 1628507597, end: 1633345997 },
+                { id: '000004', start: 1624705997 }
+            ];
+        } else {
+            this.baselineItems = [];
+        }
     }
 }

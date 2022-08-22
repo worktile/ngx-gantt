@@ -33,12 +33,13 @@ import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
 import { GanttStyles, defaultStyles } from './gantt.styles';
-import { uniqBy, flatten, recursiveItems, getFlatItems } from './utils/helpers';
+import { uniqBy, flatten, recursiveItems, getFlatItems, Dictionary, keyBy } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
@@ -47,6 +48,9 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     // eslint-disable-next-line @angular-eslint/no-input-rename
     @Input('groups') originGroups: GanttGroup[] = [];
+
+    // eslint-disable-next-line @angular-eslint/no-input-rename
+    @Input('baselineItems') originBaselineItems: GanttBaselineItem[] = [];
 
     @Input() viewType: GanttViewType = GanttViewType.month;
 
@@ -128,6 +132,10 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public groups: GanttGroupInternal[] = [];
 
+    public baselineItems: GanttBaselineItemInternal[] = [];
+
+    public baselineItemsMap: Dictionary<GanttBaselineItemInternal> = {};
+
     public viewChange = new EventEmitter<GanttView>();
 
     public expandChange = new EventEmitter<void>();
@@ -195,6 +203,18 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 this.items.push(item);
             });
         }
+    }
+
+    private setupBaselineItems() {
+        this.originBaselineItems = uniqBy(this.originBaselineItems, 'id');
+        this.baselineItems = [];
+
+        this.originBaselineItems.forEach((origin) => {
+            const item = new GanttBaselineItemInternal(origin);
+            this.baselineItems.push(item);
+        });
+
+        this.baselineItemsMap = keyBy(this.baselineItems, 'id');
     }
 
     private setupExpandedState() {
@@ -272,6 +292,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.setupGroups();
         this.setupItems();
         this.computeRefs();
+        this.setupBaselineItems();
+        this.computeItemsRefs(...this.baselineItems);
         this.initSelectionModel();
         this.firstChange = false;
 
@@ -312,6 +334,9 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 this.setupGroups();
                 this.setupItems();
                 this.computeRefs();
+                this.setupBaselineItems();
+                this.computeItemsRefs(...this.baselineItems);
+
                 this.viewChange.emit(this.view);
             }
             if (changes.originItems || changes.originGroups) {
@@ -319,6 +344,11 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 this.setupGroups();
                 this.setupItems();
                 this.computeRefs();
+            }
+
+            if (changes.originBaselineItems) {
+                this.setupBaselineItems();
+                this.computeItemsRefs(...this.baselineItems);
             }
         }
     }
@@ -328,7 +358,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.unsubscribe$.complete();
     }
 
-    computeItemsRefs(...items: GanttItemInternal[]) {
+    computeItemsRefs(...items: GanttItemInternal[] | GanttBaselineItemInternal[]) {
         items.forEach((item) => {
             item.updateRefs({
                 width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,

@@ -1,5 +1,5 @@
 <thy-layout>
-  <thy-header>
+  <thy-header class="header-with-baseline">
     <ng-template #headerContent>
       <thy-button-group thySize="sm" thyType="outline-default">
         <button thyButton *ngFor="let view of views" [class.active]="view.value === viewType" (click)="viewType = view.value">
@@ -10,6 +10,9 @@
       <thy-button thyType="primary" thySize="sm" (click)="scrollToToday()">今天</thy-button>
       &nbsp; &nbsp; &nbsp;
       <thy-button thyType="primary" thySize="sm" (click)="print('gantt-example')"> ↓ 导出为图片 </thy-button>
+      &nbsp; &nbsp; &nbsp;
+      <span>基线对比：</span>
+      <thy-switch class="baseline-switch" [(ngModel)]="isBaselineChecked" (ngModelChange)="switchChange()">基线对比 </thy-switch>
     </ng-template>
     <ng-template #headerOperation>
       <a href="https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt" target="_blank">查看源码</a>
@@ -19,6 +22,7 @@
     <ngx-gantt
       #gantt
       [items]="items"
+      [baselineItems]="baselineItems"
       [viewType]="viewType"
       [async]="true"
       [childrenResolve]="childrenResolve"

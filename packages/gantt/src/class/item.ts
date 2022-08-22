@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from './view-type';
 import { GanttLink, GanttLinkType } from './link';
 
-interface GanttItemRefs {
+export interface GanttItemRefs {
     width: number;
     x: number;
     y: number;

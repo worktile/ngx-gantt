@@ -129,6 +129,29 @@ export function getMockItems() {
     ];
 }
 
+export function getMockBaselineItems() {
+    return [
+        {
+            id: 'item-0101',
+            start: new GanttDate('2020-05-21 12:34:35').getUnixTime()
+        },
+        {
+            id: 'item-0103',
+            end: new GanttDate('2020-06-13 11:20:00').getUnixTime()
+        },
+        {
+            id: 'item-0204',
+            start: new GanttDate('2020-06-02 02:21:15').getUnixTime(),
+            end: new GanttDate('2020-06-18 02:26:40').getUnixTime()
+        },
+        {
+            id: 'item-0502',
+            start: new GanttDate('2020-06-02 02:21:15').getUnixTime(),
+            end: new GanttDate('2020-07-06 14:53:20').getUnixTime()
+        }
+    ];
+}
+
 export function getMockGroupItems() {
     return [
         {
