@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+### [13.1.2](https://github.com/worktile/ngx-gantt/compare/13.1.1...13.1.2) (2022-08-24)
+
+### Bug Fixes
+
+- fix takeUntil import error ([6a5efd1](https://github.com/worktile/ngx-gantt/commit/6a5efd15c520db8398d398641a8a691fc4f23d70))
+
 ## [13.1.1](https://github.com/worktile/ngx-gantt/compare/13.1.0...13.1.1) (2022-08-22)
 
 ### Features
