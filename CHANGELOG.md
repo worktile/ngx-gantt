@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [14.0.0](https://github.com/worktile/ngx-gantt/compare/13.1.1...14.0.0) (2022-08-24)
+
+### Features
+
+- merge angular v14 ([4251122](https://github.com/worktile/ngx-gantt/commit/42511226cca914637d9da6fe35337a03c393f976))
+
 ## [13.1.1](https://github.com/worktile/ngx-gantt/compare/13.1.0...13.1.1) (2022-08-22)
 
 ### Features
