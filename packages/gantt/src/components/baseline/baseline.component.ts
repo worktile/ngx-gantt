@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostBinding, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { GanttBaselineItemInternal } from '../../class/baseline';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
 
