@@ -16,6 +16,7 @@ import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GANTT_GLOBAL_CONFIG, defaultConfig } from './gantt.config';
 import { NgxGanttBaselineComponent } from './components/baseline/baseline.component';
+import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
     imports: [CommonModule, DragDropModule],
@@ -26,7 +27,8 @@ import { NgxGanttBaselineComponent } from './components/baseline/baseline.compon
         NgxGanttRootComponent,
         NgxGanttBarComponent,
         NgxGanttRangeComponent,
-        NgxGanttBaselineComponent
+        NgxGanttBaselineComponent,
+        NgxGanttToolbarComponent
     ],
     declarations: [
         NgxGanttComponent,
@@ -42,6 +44,7 @@ import { NgxGanttBaselineComponent } from './components/baseline/baseline.compon
         NgxGanttRangeComponent,
         NgxGanttRootComponent,
         NgxGanttBaselineComponent,
+        NgxGanttToolbarComponent,
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe

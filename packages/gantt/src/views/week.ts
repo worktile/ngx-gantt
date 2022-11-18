@@ -1,3 +1,4 @@
+import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { eachWeekOfInterval, GanttDate } from '../utils/date';
 import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
@@ -11,6 +12,8 @@ const viewOptions: GanttViewOptions = {
 };
 
 export class GanttViewWeek extends GanttView {
+    override viewType = GanttViewType.week;
+
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
         super(start, end, Object.assign({}, viewOptions, options));
     }

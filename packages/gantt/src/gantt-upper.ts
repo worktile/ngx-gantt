@@ -27,7 +27,8 @@ import {
     GanttGroupInternal,
     GanttItemInternal,
     GanttBarClickEvent,
-    GanttLinkDragEvent
+    GanttLinkDragEvent,
+    GanttToolbarOptions
 } from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
@@ -63,6 +64,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     @Input() draggable: boolean;
 
     @Input() styles: GanttStyles;
+
+    @Input() showToolbar = false;
+
+    @Input() toolbarOptions: GanttToolbarOptions = {
+        showViewSwitcher: true,
+        viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
+    };
 
     @Input() viewOptions: GanttViewOptions = {};
 
@@ -112,6 +120,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
+    @Output() viewChange = new EventEmitter<GanttView>();
+
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
     @ContentChild('range', { static: true }) rangeTemplate: TemplateRef<any>;
@@ -121,6 +131,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
     @ContentChild('groupHeader', { static: true }) groupHeaderTemplate: TemplateRef<any>;
+
+    @ContentChild('toolbar', { static: true }) toolbarTemplate: TemplateRef<any>;
 
     public linkable: boolean;
 
@@ -136,7 +148,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public baselineItemsMap: Dictionary<GanttBaselineItemInternal> = {};
 
-    public viewChange = new EventEmitter<GanttView>();
+    // public viewChange = new EventEmitter<GanttView>();
 
     public expandChange = new EventEmitter<void>();
 
@@ -329,15 +341,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
         if (!this.firstChange) {
-            if (changes.viewType && changes.viewType.currentValue) {
-                this.createView();
-                this.setupGroups();
-                this.setupItems();
-                this.computeRefs();
-                this.setupBaselineItems();
-                this.computeItemsRefs(...this.baselineItems);
-
-                this.viewChange.emit(this.view);
+            if (changes.viewType && changes.viewType.currentValue && changes.viewType.currentValue !== changes.viewType.previousValue) {
+                this.viewTypeChange(changes.viewType.currentValue);
             }
             if (changes.originItems || changes.originGroups) {
                 this.setupExpandedState();
@@ -414,6 +419,17 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
             return false;
         }
         return this.selectionModel.isSelected(id);
+    }
+
+    viewTypeChange(type: GanttViewType) {
+        this.viewType = type;
+        this.createView();
+        this.setupGroups();
+        this.setupItems();
+        this.computeRefs();
+        this.setupBaselineItems();
+        this.computeItemsRefs(...this.baselineItems);
+        this.viewChange.emit(this.view);
     }
 }
 

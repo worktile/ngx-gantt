@@ -4,7 +4,7 @@ import { GanttItemInternal } from './../class/item';
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GanttBarClickEvent, GanttGroup, GanttItem, GanttSelectedEvent } from '../class';
+import { GanttBarClickEvent, GanttGroup, GanttItem, GanttSelectedEvent, GanttToolbarOptions } from '../class';
 import { GanttViewType } from '../class/view-type';
 import { GanttPrintService } from '../gantt-print.service';
 import { NgxGanttComponent } from '../gantt.component';
@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { GanttCalendarComponent } from '../components/calendar/calendar.component';
 import { NgxGanttBarComponent } from '../components/bar/bar.component';
 import { GanttIconComponent } from '../components/icon/icon.component';
+import { NgxGanttToolbarComponent } from '../components/toolbar/toolbar.component';
 import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -49,6 +50,8 @@ const config = {
         [baselineItems]="baselineItems"
         [viewType]="viewType"
         [viewOptions]="viewOptions"
+        [showToolbar]="showToolbar"
+        [toolbarOptions]="toolbarOptions"
         (barClick)="barClick($event)"
     >
         <ngx-gantt-table>
@@ -64,6 +67,10 @@ const config = {
                 </ng-template>
             </ngx-gantt-column>
         </ngx-gantt-table>
+
+        <ng-template #toolbar>
+            <span class="toolbar-test">toolbar</span>
+        </ng-template>
     </ngx-gantt>`
 })
 export class TestGanttBasicComponent {
@@ -85,6 +92,13 @@ export class TestGanttBasicComponent {
         dateFormat: {
             yearMonth: 'yyyy-MM'
         }
+    };
+
+    showToolbar = false;
+
+    toolbarOptions: GanttToolbarOptions = {
+        showViewSwitcher: true,
+        viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
     };
 
     barClick(event: GanttBarClickEvent) {
@@ -370,6 +384,36 @@ describe('ngx-gantt', () => {
         });
 
         it('should re render when scroll load', () => {});
+
+        it('should create toolbar and toolbar views', () => {
+            const toolbarComponent = fixture.debugElement.query(By.css('.gantt-toolbar'));
+            const views = toolbarComponent.queryAll(By.css('.toolbar-view'));
+            expect(toolbarComponent).toBeTruthy();
+            expect(views.length).toBe(3);
+        });
+
+        it('should render toolbar template', () => {
+            const toolbarTest = fixture.debugElement.query(By.css('.toolbar-test'));
+            expect(toolbarTest).toBeTruthy();
+        });
+
+        it('should hide toolbar views', () => {
+            ganttComponentInstance.toolbarOptions = {
+                showViewSwitcher: false
+            };
+            fixture.detectChanges();
+            const toolbarViews = fixture.debugElement.query(By.css('.toolbar-views'));
+            expect(toolbarViews).toBeFalsy();
+        });
+
+        it('should hide toolbar when has no view types', () => {
+            ganttComponentInstance.toolbarOptions = {
+                viewTypes: []
+            };
+            fixture.detectChanges();
+            const toolbarViews = fixture.debugElement.query(By.css('.toolbar-views'));
+            expect(toolbarViews).toBeFalsy();
+        });
     });
 
     describe('#with groups', () => {

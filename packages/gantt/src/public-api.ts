@@ -11,6 +11,7 @@ export * from './table/gantt-column.component';
 export * from './components/bar/bar.component';
 export * from './components/range/range.component';
 export * from './components/baseline/baseline.component';
+export * from './components/toolbar/toolbar.component';
 export * from './utils/date';
 export * from './class';
 export * from './views/view';

@@ -97,6 +97,21 @@ module.exports = [
                 default: 'false'
             },
             {
+                name: 'showToolbar',
+                description: `设置是否展示工具栏`,
+                type: 'boolean',
+                default: 'false'
+            },
+            {
+                name: 'toolbarOptions',
+                description: `toolbar 配置项`,
+                type: 'GanttToolbarOptions',
+                default: `{
+                    showViewSwitcher: true,
+                    viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
+                }`
+            },
+            {
                 name: 'loadOnScroll',
                 description: `滚动加载事件`,
                 type: 'EventEmitter<GanttLoadOnScrollEvent>'
@@ -154,6 +169,11 @@ module.exports = [
             {
                 name: '#tableEmpty',
                 description: `设置空表格模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: '#toolbar',
+                description: `工具栏自定义模版`,
                 type: 'TemplateRef<any>'
             }
         ]
@@ -248,6 +268,18 @@ module.exports = [
                 name: 'item',
                 description: `设置区间展示数据`,
                 type: 'GanttItemInternal'
+            }
+        ]
+    },
+    {
+        type: 'component',
+        name: 'ngx-gantt-toolbar',
+        description: '工具栏组件',
+        properties: [
+            {
+                name: 'template',
+                description: `自定义工具栏模板`,
+                type: 'TemplateRef<any>'
             }
         ]
     },

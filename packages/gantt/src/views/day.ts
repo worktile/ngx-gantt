@@ -1,6 +1,7 @@
 import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop, GanttViewDate } from './view';
 import { GanttDate, eachWeekOfInterval, eachDayOfInterval } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
+import { GanttViewType } from '../class';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 35,
@@ -14,6 +15,8 @@ export class GanttViewDay extends GanttView {
     override showWeekBackdrop = true;
 
     override showTimeline = false;
+
+    override viewType = GanttViewType.day;
 
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
         super(start, end, Object.assign({}, viewOptions, options));

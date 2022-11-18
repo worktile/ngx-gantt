@@ -1,7 +1,8 @@
-import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop, GanttViewDate } from './view';
+import { GanttView, GanttViewOptions, primaryDatePointTop, GanttViewDate } from './view';
 import { GanttDate } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
+import { GanttViewType } from '../class';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 480,
@@ -12,6 +13,8 @@ const viewOptions: GanttViewOptions = {
 };
 
 export class GanttViewYear extends GanttView {
+    override viewType = GanttViewType.year;
+
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
         super(start, end, Object.assign({}, viewOptions, options));
     }

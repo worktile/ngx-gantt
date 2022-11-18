@@ -10,3 +10,4 @@
     <ng-template [ngTemplateOutlet]="mainTemplate"></ng-template>
   </div>
 </div>
+<gantt-toolbar *ngIf="ganttUpper.showToolbar || ganttUpper.toolbarTemplate" [template]="ganttUpper.toolbarTemplate"> </gantt-toolbar>

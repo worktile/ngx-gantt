@@ -2,7 +2,7 @@
   <thy-header class="header-with-baseline">
     <ng-template #headerContent>
       <thy-button-group thySize="sm" thyType="outline-default">
-        <button thyButton *ngFor="let view of views" [class.active]="view.value === viewType" (click)="viewType = view.value">
+        <button thyButton *ngFor="let view of views" [class.active]="view.value === selectedViewType" (click)="selectView(view.value)">
           {{ view.name }}
         </button>
       </thy-button-group>
@@ -10,6 +10,9 @@
       <thy-button thyType="primary" thySize="sm" (click)="scrollToToday()">今天</thy-button>
       &nbsp; &nbsp; &nbsp;
       <thy-button thyType="primary" thySize="sm" (click)="print('gantt-example')"> ↓ 导出为图片 </thy-button>
+      &nbsp; &nbsp; &nbsp;
+      <span>Toolbar：</span>
+      <thy-switch class="baseline-switch" [(ngModel)]="isShowToolbarChecked"> </thy-switch>
       &nbsp; &nbsp; &nbsp;
       <span>基线对比：</span>
       <thy-switch class="baseline-switch" [(ngModel)]="isBaselineChecked" (ngModelChange)="switchChange()">基线对比 </thy-switch>
@@ -31,7 +34,11 @@
       [selectable]="true"
       [multiple]="true"
       [viewOptions]="viewOptions"
+      [showToolbar]="true"
+      [showToolbar]="isShowToolbarChecked"
+      [toolbarOptions]="toolbarOptions"
       (barClick)="barClick($event)"
+      (viewChange)="viewChange($event)"
       (lineClick)="lineClick($event)"
       (dragMoved)="dragMoved($event)"
       (dragEnded)="dragEnded($event)"

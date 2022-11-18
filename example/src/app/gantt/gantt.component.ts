@@ -9,7 +9,9 @@ import {
     GanttPrintService,
     NgxGanttComponent,
     GanttSelectedEvent,
-    GanttBaselineItem
+    GanttBaselineItem,
+    GanttView,
+    GanttToolbarOptions
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -47,7 +49,11 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
 
     viewType: GanttViewType = GanttViewType.month;
 
+    selectedViewType: GanttViewType = GanttViewType.month;
+
     isBaselineChecked = false;
+
+    isShowToolbarChecked = true;
 
     items: GanttItem[] = [
         { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
@@ -81,6 +87,11 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         { id: '0000028', title: 'Task 28', start: 1611400397, end: 1615547597 },
         { id: '0000029', title: 'Task 29', start: 1618053197, end: 1619176397 }
     ];
+
+    toolbarOptions: GanttToolbarOptions = {
+        showViewSwitcher: true,
+        viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
+    };
 
     baselineItems: GanttBaselineItem[] = [];
 
@@ -158,5 +169,15 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         } else {
             this.baselineItems = [];
         }
+    }
+
+    selectView(type: GanttViewType) {
+        this.viewType = type;
+        this.selectedViewType = type;
+    }
+
+    viewChange(event: GanttView) {
+        console.log(event.viewType);
+        this.selectedViewType = event.viewType;
     }
 }
