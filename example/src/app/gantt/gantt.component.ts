@@ -89,7 +89,6 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     ];
 
     toolbarOptions: GanttToolbarOptions = {
-        showViewSwitcher: true,
         viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
     };
 

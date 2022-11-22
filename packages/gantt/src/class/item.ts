@@ -133,7 +133,6 @@ export class GanttItemInternal {
     }
 
     addLink(link: GanttLink) {
-        console.log(link);
         this.links = [...this.links, link];
         this.origin.links = this.links;
     }

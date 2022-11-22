@@ -104,10 +104,9 @@ module.exports = [
             },
             {
                 name: 'toolbarOptions',
-                description: `toolbar 配置项`,
+                description: `工具栏配置项`,
                 type: 'GanttToolbarOptions',
                 default: `{
-                    showViewSwitcher: true,
                     viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
                 }`
             },

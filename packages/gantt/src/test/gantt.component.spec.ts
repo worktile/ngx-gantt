@@ -67,10 +67,6 @@ const config = {
                 </ng-template>
             </ngx-gantt-column>
         </ngx-gantt-table>
-
-        <ng-template #toolbar>
-            <span class="toolbar-test">toolbar</span>
-        </ng-template>
     </ngx-gantt>`
 })
 export class TestGanttBasicComponent {
@@ -94,10 +90,9 @@ export class TestGanttBasicComponent {
         }
     };
 
-    showToolbar = false;
+    showToolbar = true;
 
     toolbarOptions: GanttToolbarOptions = {
-        showViewSwitcher: true,
         viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
     };
 
@@ -207,6 +202,31 @@ export class TestGanttSelectableComponent {
     }
 }
 
+// customToolbar
+@Component({
+    selector: 'test-gantt-custom-toolbar',
+    template: ` <ngx-gantt #gantt [items]="items">
+        <ngx-gantt-table>
+            <ngx-gantt-column name="标题" width="200px">
+                <ng-template #cell let-item="item">
+                    {{ item.title }}
+                </ng-template>
+            </ngx-gantt-column>
+        </ngx-gantt-table>
+
+        <ng-template #toolbar>
+            <span class="custom-toolbar"></span>
+        </ng-template>
+    </ngx-gantt>`
+})
+export class TestGanttCustomToolbarComponent {
+    items = mockItems;
+
+    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+
+    constructor() {}
+}
+
 interface TestGanttComponentBase {
     ganttComponent: NgxGanttComponent;
 }
@@ -284,7 +304,6 @@ describe('ngx-gantt', () => {
         let fixture: ComponentFixture<TestGanttBasicComponent>;
         let ganttComponentInstance: TestGanttBasicComponent;
         let ganttDebugElement: DebugElement;
-        let ganttComponent: NgxGanttComponent;
 
         beforeEach(async () => {
             TestBed.configureTestingModule({
@@ -302,7 +321,6 @@ describe('ngx-gantt', () => {
             fixture.detectChanges();
             ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
             ganttComponentInstance = fixture.componentInstance;
-            ganttComponent = ganttComponentInstance.ganttComponent;
             fixture.detectChanges();
         });
 
@@ -392,18 +410,11 @@ describe('ngx-gantt', () => {
             expect(views.length).toBe(3);
         });
 
-        it('should render toolbar template', () => {
-            const toolbarTest = fixture.debugElement.query(By.css('.toolbar-test'));
-            expect(toolbarTest).toBeTruthy();
-        });
-
-        it('should hide toolbar views', () => {
-            ganttComponentInstance.toolbarOptions = {
-                showViewSwitcher: false
-            };
+        it('should hide toolbar when showToolbar is false', () => {
+            ganttComponentInstance.showToolbar = false;
             fixture.detectChanges();
-            const toolbarViews = fixture.debugElement.query(By.css('.toolbar-views'));
-            expect(toolbarViews).toBeFalsy();
+            const toolbarComponent = fixture.debugElement.query(By.css('.gantt-toolbar'));
+            expect(toolbarComponent).toBeFalsy();
         });
 
         it('should hide toolbar when has no view types', () => {
@@ -419,7 +430,6 @@ describe('ngx-gantt', () => {
     describe('#with groups', () => {
         let fixture: ComponentFixture<TestGanttWithGroupsComponent>;
         let ganttComponentInstance: TestGanttWithGroupsComponent;
-        let ganttDebugElement: DebugElement;
         let ganttComponent: NgxGanttComponent;
 
         beforeEach(async () => {
@@ -430,7 +440,6 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttWithGroupsComponent);
             fixture.detectChanges();
-            ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
             ganttComponentInstance = fixture.componentInstance;
             ganttComponent = ganttComponentInstance.ganttComponent;
             fixture.detectChanges();
@@ -496,7 +505,6 @@ describe('ngx-gantt', () => {
     describe('#load children', () => {
         let fixture: ComponentFixture<TestGanttLoadChildrenComponent>;
         let ganttComponentInstance: TestGanttLoadChildrenComponent;
-        let ganttDebugElement: DebugElement;
         let ganttComponent: NgxGanttComponent;
 
         beforeEach(async () => {
@@ -507,7 +515,6 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttLoadChildrenComponent);
             fixture.detectChanges();
-            ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
             ganttComponentInstance = fixture.componentInstance;
             ganttComponent = ganttComponentInstance.ganttComponent;
             fixture.detectChanges();
@@ -558,7 +565,6 @@ describe('ngx-gantt', () => {
     describe('#selectable', () => {
         let fixture: ComponentFixture<TestGanttSelectableComponent>;
         let ganttComponentInstance: TestGanttSelectableComponent;
-        let ganttDebugElement: DebugElement;
         let ganttComponent: NgxGanttComponent;
 
         beforeEach(async () => {
@@ -575,7 +581,6 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttSelectableComponent);
             fixture.detectChanges();
-            ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
             ganttComponentInstance = fixture.componentInstance;
             ganttComponent = ganttComponentInstance.ganttComponent;
             fixture.detectChanges();
@@ -605,6 +610,42 @@ describe('ngx-gantt', () => {
             const itemNode = fixture.debugElement.query(By.directive(GanttTableComponent)).query(By.css('.gantt-table-item')).nativeNode;
             itemNode.click();
             expect(selectedSpy).toHaveBeenCalledTimes(0);
+        });
+    });
+
+    describe('#custom-toolbar', () => {
+        let fixture: ComponentFixture<TestGanttCustomToolbarComponent>;
+        let ganttComponentInstance: TestGanttCustomToolbarComponent;
+        let ganttDebugElement: DebugElement;
+        let ganttComponent: NgxGanttComponent;
+
+        beforeEach(async () => {
+            TestBed.configureTestingModule({
+                imports: [CommonModule, NgxGanttModule],
+                declarations: [TestGanttCustomToolbarComponent],
+                providers: [
+                    GanttPrintService,
+                    {
+                        provide: GANTT_GLOBAL_CONFIG,
+                        useValue: config
+                    }
+                ]
+            }).compileComponents();
+            fixture = TestBed.createComponent(TestGanttCustomToolbarComponent);
+            fixture.detectChanges();
+            ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
+            ganttComponentInstance = fixture.componentInstance;
+            ganttComponent = ganttComponentInstance.ganttComponent;
+            fixture.detectChanges();
+        });
+
+        it('should create custom toolbar', () => {
+            const toolbarComponent = fixture.debugElement.query(By.css('.gantt-toolbar'));
+            const views = toolbarComponent.query(By.css('.toolbar-views'));
+            const customToolbar = toolbarComponent.query(By.css('.custom-toolbar'));
+            expect(toolbarComponent).toBeTruthy();
+            expect(customToolbar).toBeTruthy();
+            expect(views).toBeFalsy;
         });
     });
 });

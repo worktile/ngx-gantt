@@ -11,7 +11,7 @@
       &nbsp; &nbsp; &nbsp;
       <thy-button thyType="primary" thySize="sm" (click)="print('gantt-example')"> ↓ 导出为图片 </thy-button>
       &nbsp; &nbsp; &nbsp;
-      <span>Toolbar：</span>
+      <span>工具栏：</span>
       <thy-switch class="baseline-switch" [(ngModel)]="isShowToolbarChecked"> </thy-switch>
       &nbsp; &nbsp; &nbsp;
       <span>基线对比：</span>
@@ -34,7 +34,6 @@
       [selectable]="true"
       [multiple]="true"
       [viewOptions]="viewOptions"
-      [showToolbar]="true"
       [showToolbar]="isShowToolbarChecked"
       [toolbarOptions]="toolbarOptions"
       (barClick)="barClick($event)"
@@ -64,6 +63,9 @@
       <ng-template #bar let-item="item">
         <span style="color: #fff">&nbsp;&nbsp;{{ item.title }} </span>
       </ng-template>
+      <!-- <ng-template #toolbar>
+        <span>test</span>
+      </ng-template> -->
     </ngx-gantt>
   </thy-content>
 </thy-layout>
