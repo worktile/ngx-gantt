@@ -50,7 +50,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
         private ngZone: NgZone,
         private dom: GanttDomService,
         public dragContainer: GanttDragContainer,
-        @Inject(GANTT_UPPER_TOKEN) private ganttUpper: GanttUpper,
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         @Optional() private printService: GanttPrintService
     ) {
         this.ganttUpper.dragContainer = dragContainer;

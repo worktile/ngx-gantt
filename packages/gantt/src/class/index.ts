@@ -5,3 +5,4 @@ export * from './group';
 export * from './view-type';
 export * from './link';
 export * from './baseline';
+export * from './toolbar';
