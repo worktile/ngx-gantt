@@ -20,6 +20,12 @@ export class AppExampleComponentsComponent implements OnInit {
             path: 'groups'
         },
         {
+            id: 'custom-view',
+            title: '自定义视图',
+            subtitle: 'Custom View',
+            path: 'custom-view'
+        },
+        {
             id: 'advanced',
             title: '高级使用',
             subtitle: 'Advanced',

@@ -101,13 +101,21 @@ export class GanttBarDrag implements OnDestroy {
             const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
             const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
             const diffDays = differenceInCalendarDays(this.item.end.value, this.item.start.value);
+
             let start = currentDate;
             let end = currentDate.addDays(diffDays);
+
             if (currentX > currentStartX + dayWidth / 2) {
                 start = start.addDays(1);
                 end = end.addDays(1);
             }
-            this.openDragBackdrop(this.barElement, start, end);
+            // this.openDragBackdrop(this.barElement, start, end);
+            this.openDragBackdrop(
+                this.barElement,
+                this.ganttUpper.view.getDateByXPoint(currentX),
+                this.ganttUpper.view.getDateByXPoint(currentX + this.item.refs.width)
+            );
+
             this.item.updateDate(start, end);
             this.dragContainer.dragMoved.emit({ item: this.item.origin });
         });

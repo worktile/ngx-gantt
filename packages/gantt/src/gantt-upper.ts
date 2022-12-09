@@ -343,6 +343,9 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
             if (changes.viewType && changes.viewType.currentValue && changes.viewType.currentValue !== changes.viewType.previousValue) {
                 this.viewTypeChange(changes.viewType.currentValue);
             }
+            if (changes.viewOptions) {
+                this.viewTypeChange(this.viewType);
+            }
             if (changes.originItems || changes.originGroups) {
                 this.setupExpandedState();
                 this.setupGroups();
@@ -429,6 +432,10 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.setupBaselineItems();
         this.computeItemsRefs(...this.baselineItems);
         this.viewChange.emit(this.view);
+    }
+
+    renderView(type: GanttViewType) {
+        this.viewTypeChange(type);
     }
 }
 

@@ -1,25 +1,23 @@
-import { GanttViewOptions, GanttViewDate } from './view';
+import { GanttViewOptions, GanttViewDate, GanttView } from './view';
 import { GanttViewMonth } from './month';
-import { GanttDate } from '../utils/date';
 import { GanttViewType } from '../class/view-type';
 import { GanttViewQuarter } from './quarter';
 import { GanttViewDay } from './day';
 import { GanttViewWeek } from './week';
 import { GanttViewYear } from './year';
 
+const ganttViewsMap = {
+    [GanttViewType.day]: GanttViewDay,
+    [GanttViewType.week]: GanttViewWeek,
+    [GanttViewType.month]: GanttViewMonth,
+    [GanttViewType.quarter]: GanttViewQuarter,
+    [GanttViewType.year]: GanttViewYear
+};
+
+export function registerView<T extends typeof GanttView>(type: string, view: T) {
+    ganttViewsMap[type] = view;
+}
+
 export function createViewFactory(type: GanttViewType, start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-    switch (type) {
-        case GanttViewType.month:
-            return new GanttViewMonth(start, end, options);
-        case GanttViewType.week:
-            return new GanttViewWeek(start, end, options);
-        case GanttViewType.quarter:
-            return new GanttViewQuarter(start, end, options);
-        case GanttViewType.day:
-            return new GanttViewDay(start, end, options);
-        case GanttViewType.year:
-            return new GanttViewYear(start, end, options);
-        default:
-            throw new Error('gantt view type invalid');
-    }
+    return new ganttViewsMap[type](start, end, options);
 }

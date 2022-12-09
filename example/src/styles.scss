@@ -40,26 +40,28 @@ $primary: #348fe4;
 
 .gantt-example-content {
   margin-left: 300px;
-}
+  .gantt-example-component {
+    display: block;
+    margin: 20px;
+    border: 1px solid #eee;
+    height: calc(100vh - 95px);
 
-.gantt-example-component {
-  display: block;
-  margin: 20px;
-  border: 1px solid #eee;
-  height: calc(100vh - 95px);
-
-  .thy-layout-header {
-    .layout-header-title {
-      display: none;
+    .thy-layout-header {
+      .layout-header-title {
+        display: none;
+      }
     }
-  }
-}
-.header-with-baseline {
-  .layout-header-content {
-    display: flex;
-    align-items: center;
-    .baseline-switch {
-      display: flex;
+    .header-with-baseline {
+      .layout-header-content {
+        display: flex;
+        align-items: center;
+        .baseline-switch {
+          display: flex;
+        }
+      }
+    }
+    ngx-gantt-root {
+      border: 1px solid #eee;
     }
   }
 }
