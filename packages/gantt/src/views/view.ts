@@ -22,6 +22,8 @@ export interface GanttViewOptions {
     addAmount?: number;
     addUnit?: GanttDateUtil;
     dateFormat?: GanttDateFormat;
+    // custom key and value
+    [key: string]: any;
 }
 
 const viewOptions: GanttViewOptions = {

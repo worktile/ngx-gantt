@@ -1,0 +1,41 @@
+<thy-layout>
+  <thy-header>
+    <ng-template #headerContent>
+      <span>显示周末：</span>
+      <thy-switch [(ngModel)]="showWeekend" (ngModelChange)="weekendChange()"> </thy-switch>
+    </ng-template>
+    <ng-template #headerOperation>
+      <a href="https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt-custom-view" target="_blank">查看源码</a>
+    </ng-template>
+  </thy-header>
+  <thy-content>
+    <ngx-gantt
+      #gantt
+      [items]="items"
+      [viewType]="viewType"
+      [async]="true"
+      [childrenResolve]="childrenResolve"
+      [draggable]="true"
+      [linkable]="true"
+      [selectable]="true"
+      [multiple]="true"
+      [viewOptions]="viewOptions"
+      (barClick)="barClick($event)"
+      (lineClick)="lineClick($event)"
+      (dragMoved)="dragMoved($event)"
+      (dragEnded)="dragEnded($event)"
+      (selectedChange)="selectedChange($event)"
+      (linkDragEnded)="linkDragEnded($event)"
+    >
+      <ngx-gantt-table>
+        <ngx-gantt-column name="标题" width="300px">
+          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
+
+      <ng-template #bar let-item="item">
+        <span style="color: #fff">&nbsp;&nbsp;{{ item.title }} </span>
+      </ng-template>
+    </ngx-gantt>
+  </thy-content>
+</thy-layout>

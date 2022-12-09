@@ -5,6 +5,7 @@ import { AppGanttAdvancedExampleComponent } from './gantt-advanced/gantt-advance
 import { AppGanttRangeExampleComponent } from './gantt-range/gantt-range.component';
 import { AppExampleComponentsComponent } from './components/components.component';
 import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.component';
+import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.component';
 
 const routes: Routes = [
     {
@@ -14,6 +15,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'basic', pathMatch: 'full' },
             { path: 'basic', component: AppGanttExampleComponent },
             { path: 'groups', component: AppGanttGroupsExampleComponent },
+            { path: 'custom-view', component: AppGanttCustomViewExampleComponent },
             { path: 'advanced', component: AppGanttAdvancedExampleComponent }
         ]
     }

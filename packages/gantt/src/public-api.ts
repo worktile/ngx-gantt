@@ -15,6 +15,7 @@ export * from './components/toolbar/toolbar.component';
 export * from './utils/date';
 export * from './class';
 export * from './views/view';
+export { registerView } from './views/factory';
 export * from './gantt-item-upper';
 export * from './gantt.pipe';
 export * from './gantt-print.service';
