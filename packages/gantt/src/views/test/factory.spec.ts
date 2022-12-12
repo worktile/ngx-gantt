@@ -1,11 +1,12 @@
 import { GanttViewMonth } from '../month';
 import { GanttViewDay } from '../day';
 import { GanttViewQuarter } from '../quarter';
-import { createViewFactory } from '../factory';
+import { createViewFactory, registerView } from '../factory';
 import { GanttViewType } from '../../class';
 import { date } from './mock';
 import { GanttViewYear } from '../year';
 import { GanttViewWeek } from '../week';
+import { GanttViewCustom } from './custom-view.mock';
 
 describe('CreateViewFactory', () => {
     it(`should be day view`, () => {
@@ -38,4 +39,13 @@ describe('CreateViewFactory', () => {
     //         createViewFactory(GanttViewType.year, date.start, date.end);
     //     }).toThrow(new Error('gantt view type invalid'));
     // });
+});
+
+describe('RegisterView', () => {
+    it(`should register custom view`, () => {
+        const viewType = 'custom';
+        registerView(viewType, GanttViewCustom);
+        const customView = createViewFactory(viewType as GanttViewType, date.start, date.end);
+        expect(customView).toEqual(jasmine.any(GanttViewCustom));
+    });
 });
