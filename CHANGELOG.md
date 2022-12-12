@@ -1,6 +1,17 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [14.0.2](https://github.com/worktile/ngx-gantt/compare/14.0.1...14.0.2) (2022-12-12)
+
+### Features
+
+- support custom view #INFR-5626 ([4609b68](https://github.com/worktile/ngx-gantt/commit/4609b682da5177914aa7b6d9fb0abccc8c444a15)), closes [#INFR-5626](https://github.com/worktile/ngx-gantt/issues/INFR-5626)
+- **toolbar:** add toolbar component #INFR-5195 ([#276](https://github.com/worktile/ngx-gantt/issues/276)) ([a420280](https://github.com/worktile/ngx-gantt/commit/a4202808ff0d0b0a766a48454e5b7b9b4e78e381)), closes [#INFR-5195](https://github.com/worktile/ngx-gantt/issues/INFR-5195)
+
+### Bug Fixes
+
+- add register custom view test ([90eca8a](https://github.com/worktile/ngx-gantt/commit/90eca8aedde5354976e5265fa9e6f4d725f35dbf))
+
 ### [14.0.1](https://github.com/worktile/ngx-gantt/compare/14.0.0...14.0.1) (2022-08-24)
 
 ### Bug Fixes
