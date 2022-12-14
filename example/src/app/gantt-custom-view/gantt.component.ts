@@ -14,7 +14,9 @@ import { delay } from 'rxjs/operators';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { randomItems, random } from '../helper';
 import { GanttViewCustom } from './custom-day-view';
+
 const customViewType = 'custom';
+
 registerView(customViewType, GanttViewCustom);
 @Component({
     selector: 'app-gantt-custom-view-example',
