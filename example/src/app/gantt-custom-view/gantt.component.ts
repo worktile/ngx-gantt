@@ -18,6 +18,7 @@ import { GanttViewCustom } from './custom-day-view';
 const customViewType = 'custom';
 
 registerView(customViewType, GanttViewCustom);
+
 @Component({
     selector: 'app-gantt-custom-view-example',
     templateUrl: './gantt.component.html'
