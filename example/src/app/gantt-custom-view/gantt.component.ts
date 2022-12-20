@@ -15,12 +15,16 @@ import { ThyNotifyService } from 'ngx-tethys/notify';
 import { randomItems, random } from '../helper';
 import { GanttViewCustom } from './custom-day-view';
 
+const customViewType = 'custom';
+
+registerView(customViewType, GanttViewCustom);
+
 @Component({
     selector: 'app-gantt-custom-view-example',
     templateUrl: './gantt.component.html'
 })
 export class AppGanttCustomViewExampleComponent implements OnInit, AfterViewInit {
-    viewType: 'custom';
+    viewType = customViewType;
 
     showWeekend = true;
 
@@ -72,9 +76,7 @@ export class AppGanttCustomViewExampleComponent implements OnInit, AfterViewInit
 
     constructor(private thyNotify: ThyNotifyService) {}
 
-    ngOnInit(): void {
-        registerView(this.viewType, GanttViewCustom);
-    }
+    ngOnInit(): void {}
 
     ngAfterViewInit() {
         setTimeout(() => this.ganttComponent.scrollToDate(1627729997), 200);

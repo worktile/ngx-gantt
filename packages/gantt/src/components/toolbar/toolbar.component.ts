@@ -17,6 +17,6 @@ export class NgxGanttToolbarComponent {
     constructor(@Inject(GANTT_UPPER_TOKEN) protected ganttUpper: GanttUpper) {}
 
     selectView(view: GanttViewType) {
-        this.ganttUpper.viewTypeChange(view);
+        this.ganttUpper.changeView(view);
     }
 }

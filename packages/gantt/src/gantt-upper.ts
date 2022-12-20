@@ -341,10 +341,10 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     ngOnChanges(changes: SimpleChanges) {
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue && changes.viewType.currentValue !== changes.viewType.previousValue) {
-                this.viewTypeChange(changes.viewType.currentValue);
+                this.changeView(changes.viewType.currentValue);
             }
             if (changes.viewOptions) {
-                this.viewTypeChange(this.viewType);
+                this.changeView(this.viewType);
             }
             if (changes.originItems || changes.originGroups) {
                 this.setupExpandedState();
@@ -423,7 +423,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         return this.selectionModel.isSelected(id);
     }
 
-    viewTypeChange(type: GanttViewType) {
+    changeView(type: GanttViewType) {
         this.viewType = type;
         this.createView();
         this.setupGroups();
@@ -434,8 +434,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.viewChange.emit(this.view);
     }
 
-    renderView(type: GanttViewType) {
-        this.viewTypeChange(type);
+    rerenderView() {
+        this.changeView(this.viewType);
     }
 }
 
