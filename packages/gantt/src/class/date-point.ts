@@ -9,6 +9,7 @@ export class GanttDatePoint {
         public additions?: {
             isWeekend: boolean;
             isToday: boolean;
-        }
+        },
+        public style?: Partial<CSSStyleDeclaration>
     ) {}
 }
