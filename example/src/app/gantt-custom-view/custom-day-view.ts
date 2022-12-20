@@ -77,6 +77,12 @@ export class GanttViewCustom extends GanttView {
                     isToday: start.isToday()
                 }
             );
+            if (isWeekend) {
+                point.style = { fill: '#ff9f73' };
+            }
+            if (start.isToday()) {
+                point.style = { fill: '#ff9f73' };
+            }
             points.push(point);
         }
         if (!this.options.showWeekend) {
@@ -106,6 +112,12 @@ export class GanttViewCustom extends GanttView {
                     isToday: start.isToday()
                 }
             );
+            if (isWeekend) {
+                point.style = { fill: '#ff9f73' };
+            }
+            if (start.isToday()) {
+                point.style = { fill: '#ff9f73' };
+            }
             points.push(point);
         }
 
