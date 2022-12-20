@@ -8,7 +8,7 @@
     <text
       class="primary-text"
       [ngStyle]="point.style"
-      [class.primary-text-today]="point.additions?.isToday"
+      [class.today]="point.additions?.isToday"
       *ngFor="let point of view.primaryDatePoints; trackBy: trackBy"
       [attr.x]="point.x"
       [attr.y]="point.y"
@@ -19,7 +19,7 @@
       <text
         class="secondary-text"
         [ngStyle]="point.style"
-        [class.secondary-text-today]="point.additions?.isToday"
+        [class.today]="point.additions?.isToday"
         [class.secondary-text-weekend]="point.additions?.isWeekend"
         [attr.x]="point.x"
         [attr.y]="point.y"
