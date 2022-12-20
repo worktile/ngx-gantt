@@ -204,13 +204,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
                 if (group) {
-                    const item = new GanttItemInternal(origin, { viewType: this.viewType });
+                    const item = new GanttItemInternal(origin, { view: this.view });
                     group.items.push(item);
                 }
             });
         } else {
             this.originItems.forEach((origin) => {
-                const item = new GanttItemInternal(origin, { viewType: this.viewType });
+                const item = new GanttItemInternal(origin, { view: this.view });
                 this.items.push(item);
             });
         }

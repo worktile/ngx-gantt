@@ -22,6 +22,7 @@ export interface GanttViewOptions {
     addAmount?: number;
     addUnit?: GanttDateUtil;
     dateFormat?: GanttDateFormat;
+    fillItemStartOrEndDays?: number;
     // custom key and value
     [key: string]: any;
 }

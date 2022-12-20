@@ -2,6 +2,7 @@ import { GanttDate } from '../utils/date';
 import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from './view-type';
 import { GanttLink, GanttLinkType } from './link';
+import { GanttView } from '../views/view';
 
 export interface GanttItemRefs {
     width: number;
@@ -51,7 +52,7 @@ export class GanttItemInternal {
     children: GanttItemInternal[];
     type?: GanttItemType;
     progress?: number;
-    viewType?: GanttViewType;
+    view?: GanttView;
 
     get refs() {
         return this.refs$.getValue();
@@ -59,7 +60,7 @@ export class GanttItemInternal {
 
     refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null);
 
-    constructor(item: GanttItem, options?: { viewType: GanttViewType }) {
+    constructor(item: GanttItem, options?: { view: GanttView }) {
         this.origin = item;
         this.id = this.origin.id;
         this.links = (this.origin.links || []).map((link) => {
@@ -80,9 +81,9 @@ export class GanttItemInternal {
         this.expanded = this.origin.expanded === undefined ? false : this.origin.expanded;
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
-        this.viewType = options && options.viewType ? options.viewType : GanttViewType.month;
+        this.view = options && options.view;
         this.children = (item.children || []).map((subItem) => {
-            return new GanttItemInternal(subItem, { viewType: this.viewType });
+            return new GanttItemInternal(subItem, { view: this.view });
         });
         this.type = this.origin.type || GanttItemType.bar;
         this.progress = this.origin.progress;
@@ -91,21 +92,26 @@ export class GanttItemInternal {
     }
 
     fillItemStartOrEnd(item: GanttItem) {
-        let addInterval: number;
-        switch (this.viewType) {
-            case GanttViewType.day:
-            case GanttViewType.week:
-                addInterval = 0;
-                break;
-            default:
-                addInterval = 30;
-                break;
+        const viewType = this.view?.viewType || GanttViewType.month;
+        let fillItemStartOrEndDays = this.view?.options?.fillItemStartOrEndDays;
+
+        if (!fillItemStartOrEndDays && fillItemStartOrEndDays !== 0) {
+            switch (viewType) {
+                case GanttViewType.day:
+                case GanttViewType.week:
+                    fillItemStartOrEndDays = 0;
+                    break;
+                default:
+                    fillItemStartOrEndDays = 30;
+                    break;
+            }
         }
+
         if (item.start && !item.end) {
-            this.end = new GanttDate(item.start).addDays(addInterval).endOfDay();
+            this.end = new GanttDate(item.start).addDays(fillItemStartOrEndDays).endOfDay();
         }
         if (!item.start && item.end) {
-            this.start = new GanttDate(item.end).addDays(-addInterval).startOfDay();
+            this.start = new GanttDate(item.end).addDays(-fillItemStartOrEndDays).startOfDay();
         }
     }
 
@@ -123,7 +129,7 @@ export class GanttItemInternal {
     addChildren(items: GanttItem[]) {
         this.origin.children = items;
         this.children = (items || []).map((subItem) => {
-            return new GanttItemInternal(subItem, { viewType: this.viewType });
+            return new GanttItemInternal(subItem, { view: this.view });
         });
     }
 

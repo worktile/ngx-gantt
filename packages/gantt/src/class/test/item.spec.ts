@@ -1,11 +1,14 @@
-import { GanttLinkType } from 'ngx-gantt';
+import { GanttLinkType, GanttView } from 'ngx-gantt';
 import { GanttDate } from '../../utils/date';
+import { createViewFactory } from '../../views/factory';
 import { GanttItem, GanttItemInternal } from '../item';
 import { GanttViewType } from '../view-type';
 
 describe('GanttItemInternal', () => {
     let ganttItemInternal: GanttItemInternal;
     let ganttItem: GanttItem;
+    let view: GanttView;
+    let customFillView: GanttView;
 
     beforeEach(() => {
         ganttItem = {
@@ -26,6 +29,18 @@ describe('GanttItemInternal', () => {
             ]
         };
         ganttItemInternal = new GanttItemInternal(ganttItem);
+        view = createViewFactory(
+            GanttViewType.day,
+            { date: new GanttDate('2020-05-21 12:34:35') },
+            { date: new GanttDate('2021-05-21 12:34:35') }
+        );
+
+        customFillView = createViewFactory(
+            GanttViewType.day,
+            { date: new GanttDate('2020-05-21 12:34:35') },
+            { date: new GanttDate('2021-05-21 12:34:35') },
+            { fillItemStartOrEndDays: 5 }
+        );
     });
 
     it(`should has correct children`, () => {
@@ -40,8 +55,11 @@ describe('GanttItemInternal', () => {
         ganttItemInternal = new GanttItemInternal(ganttItem);
         expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-20 23:59:59').getUnixTime());
 
-        ganttItemInternal = new GanttItemInternal(ganttItem, { viewType: GanttViewType.day });
+        ganttItemInternal = new GanttItemInternal(ganttItem, { view });
         expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
+
+        ganttItemInternal = new GanttItemInternal(ganttItem, { view: customFillView });
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-26 23:59:59').getUnixTime());
     });
 
     it(`should has correct start`, () => {
@@ -50,8 +68,11 @@ describe('GanttItemInternal', () => {
         ganttItemInternal = new GanttItemInternal(ganttItem);
         expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-21 00:00:00').getUnixTime());
 
-        ganttItemInternal = new GanttItemInternal(ganttItem, { viewType: GanttViewType.day });
+        ganttItemInternal = new GanttItemInternal(ganttItem, { view });
         expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-21 00:00:00').getUnixTime());
+
+        ganttItemInternal = new GanttItemInternal(ganttItem, { view: customFillView });
+        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-16 00:00:00').getUnixTime());
     });
 
     it(`should update refs`, () => {
