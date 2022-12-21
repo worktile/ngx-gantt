@@ -90,11 +90,14 @@ export class GanttItemInternal {
     }
 
     fillItemStartOrEnd(item: GanttItem) {
-        if (item.start && !item.end) {
-            this.end = new GanttDate(item.start).addDays(this.fillDays).endOfDay();
-        }
-        if (!item.start && item.end) {
-            this.start = new GanttDate(item.end).addDays(-this.fillDays).startOfDay();
+        if (this.fillDays > 0) {
+            const fillDays = this.fillDays - 1;
+            if (item.start && !item.end) {
+                this.end = new GanttDate(item.start).addDays(fillDays).endOfDay();
+            }
+            if (!item.start && item.end) {
+                this.start = new GanttDate(item.end).addDays(-fillDays).startOfDay();
+            }
         }
     }
 

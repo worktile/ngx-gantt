@@ -9,7 +9,7 @@ const viewOptions: GanttViewOptions = {
     end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }),
     addAmount: 1,
     addUnit: 'month',
-    fillDays: 0
+    fillDays: 1
 };
 
 export class GanttViewDay extends GanttView {
