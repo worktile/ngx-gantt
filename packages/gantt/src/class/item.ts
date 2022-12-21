@@ -79,8 +79,8 @@ export class GanttItemInternal {
         this.expanded = this.origin.expanded === undefined ? false : this.origin.expanded;
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
-        //  未设置fillDays默认不填充
-        this.fillDays = options?.fillDays || 0;
+        //  默认填充 30 天
+        this.fillDays = options?.fillDays || 30;
         this.children = (item.children || []).map((subItem) => {
             return new GanttItemInternal(subItem, { fillDays: this.fillDays });
         });

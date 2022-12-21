@@ -32,20 +32,20 @@ describe('GanttItemInternal', () => {
     });
 
     it(`should has correct end`, () => {
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-19 23:59:59').getUnixTime());
 
         ganttItemInternal = new GanttItemInternal(ganttItem, { fillDays: 1 });
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-22 23:59:59').getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
     });
 
     it(`should has correct start`, () => {
         ganttItem.start = null;
         ganttItem.end = new GanttDate('2020-05-21 12:34:35').getUnixTime();
         ganttItemInternal = new GanttItemInternal(ganttItem);
-        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-21 00:00:00').getUnixTime());
+        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-22 00:00:00').getUnixTime());
 
         ganttItemInternal = new GanttItemInternal(ganttItem, { fillDays: 1 });
-        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-20 00:00:00').getUnixTime());
+        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-21 00:00:00').getUnixTime());
     });
 
     it(`should update refs`, () => {
