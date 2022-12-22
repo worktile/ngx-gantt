@@ -1,7 +1,6 @@
 import { GanttLinkType } from 'ngx-gantt';
 import { GanttDate } from '../../utils/date';
 import { GanttItem, GanttItemInternal } from '../item';
-import { GanttViewType } from '../view-type';
 
 describe('GanttItemInternal', () => {
     let ganttItemInternal: GanttItemInternal;
@@ -33,14 +32,9 @@ describe('GanttItemInternal', () => {
     });
 
     it(`should has correct end`, () => {
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-20 23:59:59').getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-19 23:59:59').getUnixTime());
 
-        ganttItem.end = null;
-        ganttItem.start = new GanttDate('2020-05-21 12:34:35').getUnixTime();
-        ganttItemInternal = new GanttItemInternal(ganttItem);
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-20 23:59:59').getUnixTime());
-
-        ganttItemInternal = new GanttItemInternal(ganttItem, { viewType: GanttViewType.day });
+        ganttItemInternal = new GanttItemInternal(ganttItem, { fillDays: 1 });
         expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
     });
 
@@ -48,9 +42,9 @@ describe('GanttItemInternal', () => {
         ganttItem.start = null;
         ganttItem.end = new GanttDate('2020-05-21 12:34:35').getUnixTime();
         ganttItemInternal = new GanttItemInternal(ganttItem);
-        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-21 00:00:00').getUnixTime());
+        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-22 00:00:00').getUnixTime());
 
-        ganttItemInternal = new GanttItemInternal(ganttItem, { viewType: GanttViewType.day });
+        ganttItemInternal = new GanttItemInternal(ganttItem, { fillDays: 1 });
         expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-21 00:00:00').getUnixTime());
     });
 

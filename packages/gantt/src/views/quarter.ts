@@ -11,7 +11,8 @@ const viewOptions: GanttViewOptions = {
     max: new GanttDate().addYears(2).endOfYear(),
     cellWidth: 500,
     addAmount: 1,
-    addUnit: 'year'
+    addUnit: 'year',
+    fillDays: 30
 };
 
 export class GanttViewQuarter extends GanttView {
