@@ -54,7 +54,9 @@
     bottom: 0;
     left: 0;
     right: 0;
+    // 兼容火狐浏览器
     overflow: auto;
+    overflow: overlay;
     background-color: variables.$gantt-container-background-color;
 
     .gantt-main-groups,
