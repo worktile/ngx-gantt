@@ -1,6 +1,23 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [14.0.3](https://github.com/worktile/ngx-gantt/compare/14.0.2...14.0.3) (2022-12-22)
+
+### ⚠ BREAKING CHANGES
+
+- 使用 secondary-text-weekend 自定义样式改为 weekend
+
+### Features
+
+- support custom date point style #INFR-5801 ([#287](https://github.com/worktile/ngx-gantt/issues/287)) ([3642100](https://github.com/worktile/ngx-gantt/commit/36421008252c7c8db156620c6549f0ca62b35502)), closes [#INFR-5801](https://github.com/worktile/ngx-gantt/issues/INFR-5801) [#INFR-5801](https://github.com/worktile/ngx-gantt/issues/INFR-5801)
+- support custom fill start or end days #INFR-5800 ([#286](https://github.com/worktile/ngx-gantt/issues/286)) ([c4b12e9](https://github.com/worktile/ngx-gantt/commit/c4b12e980a65b85156c3ad26340e15dd8cfa0919)), closes [#INFR-5800](https://github.com/worktile/ngx-gantt/issues/INFR-5800) [#INFR-5800](https://github.com/worktile/ngx-gantt/issues/INFR-5800)
+
+### Bug Fixes
+
+- change class secondary-text-weekend to weekend ([770731b](https://github.com/worktile/ngx-gantt/commit/770731ba7b45712d8332a018655c5befb76359d9))
+- fix demo and support rerenderView #INFR-5754 ([#284](https://github.com/worktile/ngx-gantt/issues/284)) ([c77f9ef](https://github.com/worktile/ngx-gantt/commit/c77f9ef4e90b055238da2226235ae1b0371e83b7)), closes [#INFR-5754](https://github.com/worktile/ngx-gantt/issues/INFR-5754)
+- fix overflow style #INFR-5854 ([b5c751c](https://github.com/worktile/ngx-gantt/commit/b5c751c8e420017e38d68b3ab761b4f3e9d0a7c7)), closes [#INFR-5854](https://github.com/worktile/ngx-gantt/issues/INFR-5854)
+
 ## [14.0.2](https://github.com/worktile/ngx-gantt/compare/14.0.1...14.0.2) (2022-12-12)
 
 ### Features
