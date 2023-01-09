@@ -174,8 +174,8 @@ export abstract class GanttView {
 
     // 根据X坐标获取对应时间
     getDateByXPoint(x: number) {
-        const indexOfSecondaryDate = Math.floor(x / this.getCellWidth());
-        const matchDate = this.secondaryDatePoints[indexOfSecondaryDate];
+        const indexOfSecondaryDate = Math.max(Math.floor(x / this.getCellWidth()), 0);
+        const matchDate = this.secondaryDatePoints[Math.min(this.secondaryDatePoints.length - 1, indexOfSecondaryDate)];
         const dayWidth = this.getDayOccupancyWidth(matchDate?.start);
         if (dayWidth === this.getCellWidth()) {
             return matchDate?.start;
