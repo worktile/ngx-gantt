@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [14.0.4](https://github.com/worktile/ngx-gantt/compare/14.0.3...14.0.4) (2023-01-09)
+
+### Bug Fixes
+
+- fix drag to boundary error #INFR-5951 ([#293](https://github.com/worktile/ngx-gantt/issues/293)) ([6dfa78b](https://github.com/worktile/ngx-gantt/commit/6dfa78b4274a78d79008b297a408a1c6fc429089)), closes [#INFR-5951](https://github.com/worktile/ngx-gantt/issues/INFR-5951)
+
 ## [14.0.3](https://github.com/worktile/ngx-gantt/compare/14.0.2...14.0.3) (2022-12-22)
 
 ### ⚠ BREAKING CHANGES
