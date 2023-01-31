@@ -121,6 +121,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @Output() viewChange = new EventEmitter<GanttView>();
 
+    @Output() expandChange = new EventEmitter<GanttItemInternal | GanttGroupInternal>();
+
     @ContentChild('bar', { static: true }) barTemplate: TemplateRef<any>;
 
     @ContentChild('range', { static: true }) rangeTemplate: TemplateRef<any>;
@@ -148,8 +150,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     public baselineItemsMap: Dictionary<GanttBaselineItemInternal> = {};
 
     // public viewChange = new EventEmitter<GanttView>();
-
-    public expandChange = new EventEmitter<void>();
 
     public get element() {
         return this.elementRef.nativeElement;
@@ -288,7 +288,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.groups.forEach((group) => {
             group.setExpand(expanded);
         });
-        this.expandChange.next();
+        this.expandChange.next(null);
         this.cdr.detectChanges();
     }
 
@@ -385,7 +385,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     expandGroup(group: GanttGroupInternal) {
         group.setExpand(!group.expanded);
-        this.expandChange.emit();
+        this.expandChange.emit(group);
         this.cdr.detectChanges();
     }
 
