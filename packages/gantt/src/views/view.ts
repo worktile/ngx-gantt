@@ -22,6 +22,7 @@ export interface GanttViewOptions {
     addAmount?: number;
     addUnit?: GanttDateUtil;
     dateFormat?: GanttDateFormat;
+    dragMinWidth?: number;
     // fill days when start or end is null
     fillDays?: number;
     // custom key and value
@@ -84,7 +85,6 @@ export abstract class GanttView {
 
     // 获取一级时间网格合并后的宽度
     abstract getPrimaryWidth(): number;
-
     // 获取当前视图下每一天占用的宽度
     abstract getDayOccupancyWidth(date: GanttDate): number;
 

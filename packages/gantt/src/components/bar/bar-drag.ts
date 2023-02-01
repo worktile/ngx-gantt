@@ -133,6 +133,7 @@ export class GanttBarDrag implements OnDestroy {
     private createBarHandleDrags() {
         const dragRefs = [];
         const handles = this.barElement.querySelectorAll<HTMLElement>('.drag-handles .handle');
+        const minWidth = this.ganttUpper.view.options.dragMinWidth || dragMinWidth;
         handles.forEach((handle, index) => {
             const isBefore = index === 0;
             const dragRef = this.dragDrop.createDrag(handle);
@@ -149,7 +150,7 @@ export class GanttBarDrag implements OnDestroy {
                     const x = this.item.refs.x + event.distance.x;
                     const width = this.item.refs.width + event.distance.x * -1;
                     const start = this.ganttUpper.view.getDateByXPoint(x);
-                    if (width > dragMinWidth) {
+                    if (width > minWidth) {
                         this.barElement.style.width = width + 'px';
                         this.barElement.style.left = x + 'px';
                         this.openDragBackdrop(this.barElement, start, this.item.end);
@@ -158,7 +159,7 @@ export class GanttBarDrag implements OnDestroy {
                 } else {
                     const width = this.item.refs.width + event.distance.x;
                     const end = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width);
-                    if (width > dragMinWidth) {
+                    if (width > minWidth) {
                         this.barElement.style.width = width + 'px';
                         this.openDragBackdrop(this.barElement, this.item.start, end);
                         this.item.updateDate(this.item.start, end);
@@ -171,12 +172,12 @@ export class GanttBarDrag implements OnDestroy {
             dragRef.ended.subscribe((event) => {
                 if (isBefore) {
                     const width = this.item.refs.width + event.distance.x * -1;
-                    if (width <= dragMinWidth) {
+                    if (width <= minWidth) {
                         this.item.updateDate(this.item.end.startOfDay(), this.item.end);
                     }
                 } else {
                     const width = this.item.refs.width + event.distance.x;
-                    if (width <= dragMinWidth) {
+                    if (width <= minWidth) {
                         this.item.updateDate(this.item.start, this.item.start.endOfDay());
                     }
                 }
