@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [14.0.5](https://github.com/worktile/ngx-gantt/compare/14.0.4...14.0.5) (2023-02-01)
+
+### Features
+
+- **gantt:** support export expand change(#INFR-6265) ([d583aaf](https://github.com/worktile/ngx-gantt/commit/d583aafd23ef7ebfeaa8c88cea2d1a0e059cd7ac)), closes [#INFR-6265](https://github.com/worktile/ngx-gantt/issues/INFR-6265)
+
 ## [14.0.4](https://github.com/worktile/ngx-gantt/compare/14.0.3...14.0.4) (2023-01-09)
 
 ### Bug Fixes
