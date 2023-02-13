@@ -123,7 +123,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
                         take(1),
                         finalize(() => {
                             item.loading = false;
-                            this.expandChange.emit();
+                            this.expandChange.emit(item);
                             this.cdr.detectChanges();
                         })
                     )
@@ -133,11 +133,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
                     });
             } else {
                 this.computeItemsRefs(...item.children);
-                this.expandChange.emit();
+                this.expandChange.emit(item);
             }
         } else {
             item.setExpand(false);
-            this.expandChange.emit();
+            this.expandChange.emit(item);
         }
     }
 
