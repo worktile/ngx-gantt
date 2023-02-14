@@ -560,7 +560,7 @@ describe('ngx-gantt', () => {
         }));
     });
 
-    describe('#draggable', () => {});
+    // describe('#draggable', () => {});
 
     describe('#selectable', () => {
         let fixture: ComponentFixture<TestGanttSelectableComponent>;
