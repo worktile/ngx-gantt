@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/14.0.5...15.0.0-next.0) (2023-02-14)
+
+### Features
+
+- upgrade ng to 15 ([#305](https://github.com/worktile/ngx-gantt/issues/305)) ([ac11bae](https://github.com/worktile/ngx-gantt/commit/ac11bae2fe151925612c57b5c892aaafb3673ecd))
+
 ## [14.0.5](https://github.com/worktile/ngx-gantt/compare/14.0.4...14.0.5) (2023-02-01)
 
 ### Features
