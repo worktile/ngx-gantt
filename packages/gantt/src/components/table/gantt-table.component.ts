@@ -51,11 +51,11 @@ export class GanttTableComponent implements OnChanges {
             if (!column.columnWidth) {
                 column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
             }
+            if (column.fixedExpandIcon) {
+                this.hasFixedExpandIcon = true;
+            }
         });
         this.columnList = columns;
-        this.hasFixedExpandIcon = !!this.columnList.toArray().find((item: NgxGanttTableColumnComponent) => {
-            return item.fixedExpandIcon;
-        });
     }
 
     @Input() groupTemplate: TemplateRef<any>;
