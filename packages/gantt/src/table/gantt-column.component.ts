@@ -15,6 +15,8 @@ export class NgxGanttTableColumnComponent {
 
     @Input() name: string;
 
+    @Input() fixedExpandIcon: boolean;
+
     @ContentChild('cell', { static: true }) templateRef: TemplateRef<any>;
 
     @ContentChild('header', { static: true }) headerTemplateRef: TemplateRef<any>;

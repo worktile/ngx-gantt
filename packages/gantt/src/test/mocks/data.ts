@@ -165,9 +165,19 @@ export function getMockGroupItems() {
                     id: 'item-child-0101',
                     title: 'VERSION Children 0101',
                     start: new GanttDate('2020-05-21 12:34:35').getUnixTime(),
-                    group_id: '00001',
+                    group_id: 'item-0101',
                     color: '#FF0000',
-                    linkable: false
+                    linkable: false,
+                    children: [
+                        {
+                            id: 'item-child-010101',
+                            title: 'VERSION Children 010101',
+                            start: new GanttDate('2020-05-21 12:34:35').getUnixTime(),
+                            group_id: 'item-child-0101',
+                            color: '#FF0000',
+                            linkable: false
+                        }
+                    ]
                 }
             ]
         },
