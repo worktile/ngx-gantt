@@ -39,6 +39,8 @@ export class GanttTableComponent implements OnChanges {
 
     public dragStartLeft: number;
 
+    public hasFixedExpandIcon = false;
+
     @Input() groups: GanttGroupInternal[];
 
     @Input() items: GanttItemInternal[];
@@ -51,6 +53,9 @@ export class GanttTableComponent implements OnChanges {
             }
         });
         this.columnList = columns;
+        this.hasFixedExpandIcon = !!this.columnList.toArray().find((item: NgxGanttTableColumnComponent) => {
+            return item.fixedExpandIcon;
+        });
     }
 
     @Input() groupTemplate: TemplateRef<any>;
