@@ -47,6 +47,7 @@ export class GanttTableComponent implements OnChanges {
 
     @Input()
     set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
+        this.hasFixedExpandIcon = false;
         columns.forEach((column) => {
             if (!column.columnWidth) {
                 column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
