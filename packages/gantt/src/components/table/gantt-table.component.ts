@@ -39,7 +39,7 @@ export class GanttTableComponent implements OnChanges {
 
     public dragStartLeft: number;
 
-    public expandIconColumn: string;
+    public hasShowExpandIcon = false;
 
     @Input() groups: GanttGroupInternal[];
 
@@ -47,13 +47,13 @@ export class GanttTableComponent implements OnChanges {
 
     @Input()
     set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
-        this.expandIconColumn = columns.toArray()[0]?.name;
+        this.hasShowExpandIcon = false;
         columns.forEach((column) => {
             if (!column.columnWidth) {
                 column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
             }
             if (column.showExpandIcon) {
-                this.expandIconColumn = column?.name;
+                this.hasShowExpandIcon = true;
             }
         });
         this.columnList = columns;
