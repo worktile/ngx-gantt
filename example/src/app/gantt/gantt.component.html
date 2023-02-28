@@ -45,17 +45,17 @@
       (linkDragEnded)="linkDragEnded($event)"
     >
       <ngx-gantt-table>
-        <ngx-gantt-column name="标题" width="180px">
-          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
-        </ngx-gantt-column>
         <ngx-gantt-column name="开始时间" width="140px">
           <ng-template #cell let-item="item">
-            {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
+            {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
           </ng-template>
+        </ngx-gantt-column>
+        <ngx-gantt-column name="标题" width="180px" [showExpandIcon]="true">
+          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="截止时间" width="140px">
           <ng-template #cell let-item="item">
-            {{ item.end * 1000 | date: 'yyyy-MM-dd' }}
+            {{ item.end * 1000 | date : 'yyyy-MM-dd' }}
           </ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>

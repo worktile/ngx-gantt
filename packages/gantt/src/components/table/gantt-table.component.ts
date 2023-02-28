@@ -39,15 +39,21 @@ export class GanttTableComponent implements OnChanges {
 
     public dragStartLeft: number;
 
+    public expandIconColumn: string;
+
     @Input() groups: GanttGroupInternal[];
 
     @Input() items: GanttItemInternal[];
 
     @Input()
     set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
+        this.expandIconColumn = columns.toArray()[0]?.name;
         columns.forEach((column) => {
             if (!column.columnWidth) {
                 column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
+            }
+            if (column.showExpandIcon) {
+                this.expandIconColumn = column?.name;
             }
         });
         this.columnList = columns;

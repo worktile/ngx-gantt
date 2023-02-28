@@ -11,7 +11,12 @@ import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.compone
     template: `
         <ngx-gantt #gantt [items]="items" [groups]="groups" [selectable]="selectable" [multiple]="multiple">
             <ngx-gantt-table>
-                <ngx-gantt-column [width]="200" name="标题">
+                <ngx-gantt-column name="开始时间" width="140px">
+                    <ng-template #cell let-item="item">
+                        {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
+                    </ng-template>
+                </ngx-gantt-column>
+                <ngx-gantt-column [width]="200" name="标题" [showExpandIcon]="showExpandIcon">
                     <ng-template #cell let-item="item">
                         {{ item.title }}
                     </ng-template>
@@ -33,6 +38,8 @@ export class TestGanttTableComponent {
     selectable = true;
 
     multiple = true;
+
+    showExpandIcon = true;
 
     constructor() {}
 }
@@ -201,5 +208,11 @@ describe('GanttTable', () => {
         expect(selectionModel.selected.length).toEqual(1);
         itemNode.click();
         expect(selectionModel.selected.length).toEqual(0);
+    });
+
+    it('should fixed expand icon column', () => {
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const column = ganttTable.queryAll(By.css('.gantt-table-item'))[0].queryAll(By.css('.gantt-table-column'))[1];
+        expect(column.nativeElement.querySelector('.gantt-expand-icon').classList.contains('gantt-expand-icon')).toBeTrue();
     });
 });
