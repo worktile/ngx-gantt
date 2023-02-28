@@ -1,5 +1,5 @@
 import { Injectable, ElementRef, OnDestroy, SkipSelf } from '@angular/core';
-import { DragRef, DragDrop } from '@angular/cdk/drag-drop';
+import { DragRef, DragDrop, DropListRef, DragRefConfig } from '@angular/cdk/drag-drop';
 import { GanttDomService } from '../../gantt-dom.service';
 import { GanttDragContainer, InBarPosition } from '../../gantt-drag-container';
 import { GanttItemInternal } from '../../class/item';
@@ -40,6 +40,8 @@ export class GanttBarDrag implements OnDestroy {
 
     private linkDraggingLine: SVGElement;
 
+    private dropListRef: DropListRef;
+
     private barDragRef: DragRef;
 
     private dragRefs: DragRef[] = [];
@@ -52,6 +54,12 @@ export class GanttBarDrag implements OnDestroy {
         private dragContainer: GanttDragContainer,
         @SkipSelf() private root: NgxGanttRootComponent
     ) {}
+
+    private createDragRef<T = any>(element: ElementRef<HTMLElement> | HTMLElement, config?: DragRefConfig): DragRef<T> {
+        const dragRef = this.dragDrop.createDrag(element);
+        dragRef.withPreviewContainer(this.dom.mainContainer as HTMLElement);
+        return dragRef;
+    }
 
     private createMouseEvents() {
         const dropClass =
@@ -89,9 +97,10 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private createBarDrag() {
-        const dragRef = this.dragDrop.createDrag(this.barElement);
+        const dragRef = this.createDragRef(this.barElement);
         dragRef.lockAxis = 'x';
         dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
+        // dragRef.withPlaceholderTemplate(null);
         dragRef.started.subscribe(() => {
             this.setDraggingStyles();
             this.dragContainer.dragStarted.emit({ item: this.item.origin });
@@ -112,7 +121,7 @@ export class GanttBarDrag implements OnDestroy {
             }
 
             this.openDragBackdrop(
-                this.barElement,
+                dragRef['_preview'],
                 this.ganttUpper.view.getDateByXPoint(currentX),
                 this.ganttUpper.view.getDateByXPoint(currentX + this.item.refs.width)
             );
@@ -135,7 +144,7 @@ export class GanttBarDrag implements OnDestroy {
         const handles = this.barElement.querySelectorAll<HTMLElement>('.drag-handles .handle');
         handles.forEach((handle, index) => {
             const isBefore = index === 0;
-            const dragRef = this.dragDrop.createDrag(handle);
+            const dragRef = this.createDragRef(handle);
             dragRef.lockAxis = 'x';
             dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
 
@@ -325,6 +334,13 @@ export class GanttBarDrag implements OnDestroy {
                 const dragRef = this.createBarDrag();
                 const dragHandlesRefs = this.createBarHandleDrags();
                 this.dragRefs.push(dragRef, ...dragHandlesRefs);
+                // 创建拖拽容器并将所有元素添加到容器中，利用容器来实现自动滚动
+                if (!this.dropListRef) {
+                    this.dropListRef = this.dragDrop.createDropList(this.dom.mainContainer as HTMLElement);
+                    this.dropListRef.autoScrollStep = 10;
+                    this.dropListRef.withOrientation('horizontal');
+                }
+                this.dropListRef.withItems([dragRef, ...dragHandlesRefs]);
             }
             if (!this.linkDragDisabled) {
                 const linkDragRefs = this.createLinkHandleDrags();
