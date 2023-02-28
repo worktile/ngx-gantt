@@ -50,7 +50,7 @@
             {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
           </ng-template>
         </ngx-gantt-column>
-        <ngx-gantt-column name="标题" width="180px" [fixedExpandIcon]="true">
+        <ngx-gantt-column name="标题" width="180px" [showExpandIcon]="true">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="截止时间" width="140px">
