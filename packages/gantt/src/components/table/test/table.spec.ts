@@ -16,7 +16,7 @@ import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.compone
                         {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
                     </ng-template>
                 </ngx-gantt-column>
-                <ngx-gantt-column [width]="200" name="标题" [fixedExpandIcon]="fixedExpandIcon">
+                <ngx-gantt-column [width]="200" name="标题" [showExpandIcon]="showExpandIcon">
                     <ng-template #cell let-item="item">
                         {{ item.title }}
                     </ng-template>
@@ -39,7 +39,7 @@ export class TestGanttTableComponent {
 
     multiple = true;
 
-    fixedExpandIcon = true;
+    showExpandIcon = true;
 
     constructor() {}
 }
