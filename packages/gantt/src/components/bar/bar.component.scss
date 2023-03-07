@@ -157,6 +157,12 @@ $gantt-bar-link-drop-border: 5px;
     }
   }
 
+  &-draggable-drag {
+    .gantt-bar-layer {
+      visibility: hidden;
+    }
+  }
+
   &-active {
     @include active-bar();
   }
@@ -200,7 +206,6 @@ $gantt-bar-link-drop-border: 5px;
   }
 
   // 强制去掉 cdk drag placeholder 默认样式
-
   &.cdk-drag-placeholder,
   .drag-handles .handle.cdk-drag-placeholder {
     background: none !important;
@@ -208,5 +213,11 @@ $gantt-bar-link-drop-border: 5px;
 }
 
 .handle.cdk-drag-preview {
-  opacity: 0 !important;
+  visibility: hidden;
+}
+
+.gantt-bar.cdk-drag-preview {
+  .gantt-bar-layer {
+    display: none;
+  }
 }

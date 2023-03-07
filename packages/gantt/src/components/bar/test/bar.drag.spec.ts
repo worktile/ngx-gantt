@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ApplicationRef, Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttDragEvent, GanttLinkDragEvent } from '../../../class';
 import { NgxGanttComponent } from '../../../gantt.component';
@@ -108,6 +108,7 @@ function dragEvent(fixture: ComponentFixture<TestGanttBarComponent>, dragElement
     expect(dragBackdropElement.style.getPropertyValue('display')).toEqual('block');
 
     dispatchMouseEvent(document, 'mouseup', 200);
+    tick(100);
     fixture.detectChanges();
     expect(barElement.style.getPropertyValue('pointer-events')).toEqual('');
     expect(barElement.classList).not.toContain('gantt-bar-draggable-drag');
@@ -161,26 +162,26 @@ describe('bar-drag', () => {
         expect(barElement.classList).not.toContain(activeClass);
     });
 
-    it('should bar drag', () => {
+    it('should bar drag', fakeAsync(() => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[0];
         dragEvent(fixture, bar.nativeElement);
         expect(bar.componentInstance.item.start.getUnixTime()).toEqual(new GanttDate('2020-04-21 00:00:00').getUnixTime());
         expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-06-26 23:59:59').getUnixTime());
-    });
+    }));
 
-    it('should first bar handle drag', () => {
+    it('should first bar handle drag', fakeAsync(() => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[1];
         const firstHandleElement = bar.queryAll(By.css('.drag-handles .handle'))[0].nativeElement;
         dragEvent(fixture, firstHandleElement, bar.nativeElement);
         expect(bar.componentInstance.item.start.getUnixTime()).toEqual(new GanttDate('2020-05-14 00:00:00').getUnixTime());
-    });
+    }));
 
-    it('should last bar handles drag', () => {
+    it('should last bar handles drag', fakeAsync(() => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[1];
         const lastHandleElement = bar.queryAll(By.css('.drag-handles .handle'))[1].nativeElement;
         dragEvent(fixture, lastHandleElement, bar.nativeElement);
         expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-07-15 23:59:59').getUnixTime());
-    });
+    }));
 
     it('should first bar link handle drag', () => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
