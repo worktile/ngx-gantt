@@ -1,6 +1,14 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.0.0](https://github.com/worktile/ngx-gantt/compare/15.0.0-next.0...15.0.0) (2023-03-09)
+
+### Features
+
+- **gantt:** optimize code to expand icon column(#INFR-6568) ([61e5e7f](https://github.com/worktile/ngx-gantt/commit/61e5e7fdf2055b25430249751703a27cca3ec32e)), closes [#INFR-6568](https://github.com/worktile/ngx-gantt/issues/INFR-6568)
+- **gantt:** support fixed expand icon assign column #INFR-6568 [@zhangwen](https://github.com/zhangwen) (#INFR-6568) ([#307](https://github.com/worktile/ngx-gantt/issues/307)) ([7f47743](https://github.com/worktile/ngx-gantt/commit/7f47743c5d2720ee2ca76e9523372b91e10e6885)), closes [#INFR-6568](https://github.com/worktile/ngx-gantt/issues/INFR-6568) [#INFR-6568](https://github.com/worktile/ngx-gantt/issues/INFR-6568) [#INFR-6568](https://github.com/worktile/ngx-gantt/issues/INFR-6568) [#INFR-6568](https://github.com/worktile/ngx-gantt/issues/INFR-6568) [#INFR-6568](https://github.com/worktile/ngx-gantt/issues/INFR-6568)
+- **gantt:** support fixed expand icon assign column(#INFR-6568) ([1b0ec59](https://github.com/worktile/ngx-gantt/commit/1b0ec5983fca4e0268b1a433d62df6c9cb987d1c)), closes [#INFR-6568](https://github.com/worktile/ngx-gantt/issues/INFR-6568)
+
 ## [15.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/14.0.5...15.0.0-next.0) (2023-02-14)
 
 ### Features
