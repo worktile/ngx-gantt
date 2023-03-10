@@ -151,3 +151,16 @@
     }
   }
 }
+
+.gantt-table-item.drag-preview {
+  background-color: #fff;
+  display: flex;
+  .gantt-table-column {
+    display: flex;
+    padding: variables.$gantt-table-td-padding;
+  }
+}
+
+.drag-placeholder {
+  background-color: red;
+}

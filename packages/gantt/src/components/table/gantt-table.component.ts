@@ -20,6 +20,7 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../gantt-abstract';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
 import { setStyleWithVendorPrefix } from '../../utils/set-style-with-vendor-prefix';
+import { TreeDragDrop } from '../../drag-drop/tree-drag-drop';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
@@ -78,8 +79,16 @@ export class GanttTableComponent implements OnChanges {
     constructor(
         @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        private elementRef: ElementRef
-    ) {}
+        private elementRef: ElementRef,
+        private treeDragDrop: TreeDragDrop
+    ) {
+        setTimeout(() => {
+            this.treeDragDrop.initialize({
+                draggable: '.gantt-table-item',
+                handle: '.gantt-table-item-drag-handle'
+            });
+        }, 500);
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (!changes.groups.currentValue?.length && !changes.items.currentValue?.length) {

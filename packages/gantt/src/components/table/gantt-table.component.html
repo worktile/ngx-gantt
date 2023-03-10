@@ -1,115 +1,122 @@
-<div class="gantt-table-header gantt-table-row">
-  <div class="gantt-table-column" *ngFor="let column of columnList; let i = index" [style.width]="column.columnWidth">
-    <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
-    <ng-template #default>
-      {{ column.name }}
-    </ng-template>
-    <div
-      class="gantt-table-drag-trigger"
-      cdkDrag
-      cdkDragLockAxis="x"
-      cdkDragBoundary=".gantt"
-      (cdkDragMoved)="dragMoved($event, column)"
-      (cdkDragStarted)="dragStarted($event)"
-      (cdkDragEnded)="columnDragEnded($event, column)"
-    ></div>
+<div cdkDropList>
+  <div class="gantt-table-header gantt-table-row">
+    <div class="gantt-table-column" *ngFor="let column of columnList; let i = index" [style.width]="column.columnWidth">
+      <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
+      <ng-template #default>
+        {{ column.name }}
+      </ng-template>
+      <div
+        class="gantt-table-drag-trigger"
+        cdkDrag
+        cdkDragLockAxis="x"
+        cdkDragBoundary=".gantt"
+        (cdkDragMoved)="dragMoved($event, column)"
+        (cdkDragStarted)="dragStarted($event)"
+        (cdkDragEnded)="columnDragEnded($event, column)"
+      ></div>
+    </div>
   </div>
-</div>
-<div class="gantt-table-body">
-  <ng-container *ngIf="!groups.length && !items.length">
-    <ng-container *ngIf="!emptyTemplate">
-      <gantt-icon class="empty-icon" iconName="empty"></gantt-icon>
-      <div class="empty-text">没有数据</div>
+  <div class="gantt-table-body">
+    <ng-container *ngIf="!groups.length && !items.length">
+      <ng-container *ngIf="!emptyTemplate">
+        <gantt-icon class="empty-icon" iconName="empty"></gantt-icon>
+        <div class="empty-text">没有数据</div>
+      </ng-container>
+      <ng-template [ngTemplateOutlet]="emptyTemplate"></ng-template>
     </ng-container>
-    <ng-template [ngTemplateOutlet]="emptyTemplate"></ng-template>
-  </ng-container>
 
-  <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
-    <ng-container *ngFor="let group of groups; trackBy: trackBy">
-      <div class="gantt-table-group" [ngClass]="group.class">
-        <div class="gantt-table-group-title" [class.expanded]="group.expanded" (click)="expandGroup(group)">
-          <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
-          <ng-container *ngIf="groupTemplate; else default">
-            <ng-template
-              [ngTemplateOutlet]="groupTemplate"
-              [ngTemplateOutletContext]="{ $implicit: group.origin, group: group.origin }"
-            ></ng-template>
-          </ng-container>
-          <ng-template #default>
-            <span class="group-title">{{ group.title }}</span>
-          </ng-template>
+    <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
+      <ng-container *ngFor="let group of groups; trackBy: trackBy">
+        <div class="gantt-table-group" [ngClass]="group.class">
+          <div class="gantt-table-group-title" [class.expanded]="group.expanded" (click)="expandGroup(group)">
+            <gantt-icon class="expand-icon" [iconName]="group.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
+            <ng-container *ngIf="groupTemplate; else default">
+              <ng-template
+                [ngTemplateOutlet]="groupTemplate"
+                [ngTemplateOutletContext]="{ $implicit: group.origin, group: group.origin }"
+              ></ng-template>
+            </ng-container>
+            <ng-template #default>
+              <span class="group-title">{{ group.title }}</span>
+            </ng-template>
+          </div>
         </div>
-      </div>
 
-      <ng-container *ngIf="group.expanded">
-        <ng-template
-          [ngTemplateOutlet]="ganttItems"
-          [ngTemplateOutletContext]="{ group: group, items: group.items, level: 0 }"
-        ></ng-template>
+        <ng-container *ngIf="group.expanded">
+          <ng-template
+            [ngTemplateOutlet]="ganttItems"
+            [ngTemplateOutletContext]="{ group: group, items: group.items, level: 0 }"
+          ></ng-template>
+        </ng-container>
       </ng-container>
     </ng-container>
-  </ng-container>
-</div>
+  </div>
 
-<div
-  class="gantt-table-drag-trigger"
-  cdkDrag
-  cdkDragLockAxis="x"
-  cdkDragBoundary=".gantt"
-  (cdkDragMoved)="dragMoved($event)"
-  (cdkDragStarted)="dragStarted($event)"
-  (cdkDragEnded)="tableDragEnded($event)"
-></div>
+  <div
+    class="gantt-table-drag-trigger"
+    cdkDrag
+    cdkDragLockAxis="x"
+    cdkDragBoundary=".gantt"
+    (cdkDragMoved)="dragMoved($event)"
+    (cdkDragStarted)="dragStarted($event)"
+    (cdkDragEnded)="tableDragEnded($event)"
+  ></div>
 
-<div #dragLine class="gantt-table-drag-auxiliary-line"></div>
+  <div #dragLine class="gantt-table-drag-auxiliary-line"></div>
 
-<ng-template #itemsTemplate>
-  <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items, level: 0 }"></ng-template>
-</ng-template>
+  <ng-template #itemsTemplate>
+    <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items, level: 0 }"></ng-template>
+  </ng-template>
 
-<ng-template #ganttItems let-group="group" let-items="items" let-level="level">
-  <ng-container *ngFor="let item of items; trackBy: trackBy">
-    <div
-      (click)="itemClick.emit({ event: $event, selectedValue: this.item.origin })"
-      class="gantt-table-item gantt-table-row"
-      [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
-      [class.gantt-table-item-with-group]="group"
-      [class.gantt-table-item-active]="ganttUpper.isSelected(item.id)"
-      [style.height.px]="gantt.styles.lineHeight"
-      [style.lineHeight.px]="gantt.styles.lineHeight"
-    >
-      <ng-template
-        [ngTemplateOutlet]="rowBeforeTemplate"
-        [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
-      ></ng-template>
-      <div class="gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width]="column.columnWidth">
-        <div *ngIf="column?.showExpandIcon || (!hasShowExpandIcon && first)" class="gantt-expand-icon" [style.marginLeft.px]="level * 20">
-          <ng-container *ngIf="level < gantt.maxLevel - 1 && item.expandable">
-            <gantt-icon
-              *ngIf="!item.loading"
-              class="expand-icon"
-              [iconName]="item.expanded ? 'angle-down' : 'angle-right'"
-              (click)="expandChildren($event, item)"
-            ></gantt-icon>
-            <gantt-icon *ngIf="item.loading" [iconName]="'loading'"></gantt-icon>
-          </ng-container>
+  <ng-template #ganttItems let-group="group" let-items="items" let-level="level">
+    <ng-container *ngFor="let item of items; trackBy: trackBy">
+      <div
+        (click)="itemClick.emit({ event: $event, selectedValue: this.item.origin })"
+        class="gantt-table-item gantt-table-row"
+        [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
+        [class.gantt-table-item-with-group]="group"
+        [class.gantt-table-item-active]="ganttUpper.isSelected(item.id)"
+        [style.height.px]="gantt.styles.lineHeight"
+        [style.lineHeight.px]="gantt.styles.lineHeight"
+      >
+        <ng-template
+          [ngTemplateOutlet]="rowBeforeTemplate"
+          [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+        ></ng-template>
+        <div class="gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width]="column.columnWidth">
+          <a *ngIf="first" class="gantt-table-item-drag-handle" style="width: 20px; height: 20px">○</a>
+          <div *ngIf="column?.showExpandIcon || (!hasShowExpandIcon && first)" class="gantt-expand-icon" [style.marginLeft.px]="level * 20">
+            <ng-container *ngIf="level < gantt.maxLevel - 1 && item.expandable">
+              <gantt-icon
+                *ngIf="!item.loading"
+                class="expand-icon"
+                [iconName]="item.expanded ? 'angle-down' : 'angle-right'"
+                (click)="expandChildren($event, item)"
+              ></gantt-icon>
+              <gantt-icon *ngIf="item.loading" [iconName]="'loading'"></gantt-icon>
+            </ng-container>
+          </div>
+          <div class="gantt-table-column-content">
+            <ng-template
+              [ngTemplateOutlet]="column.templateRef"
+              [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+            ></ng-template>
+          </div>
         </div>
-        <div class="gantt-table-column-content">
-          <ng-template
-            [ngTemplateOutlet]="column.templateRef"
-            [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
-          ></ng-template>
-        </div>
+        <ng-template
+          [ngTemplateOutlet]="rowAfterTemplate"
+          [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+        ></ng-template>
       </div>
       <ng-template
-        [ngTemplateOutlet]="rowAfterTemplate"
-        [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
+        *ngIf="item.children && item.expanded"
+        [ngTemplateOutlet]="ganttItems"
+        [ngTemplateOutletContext]="{ items: item.children, level: level + 1, group: group }"
       ></ng-template>
-    </div>
-    <ng-template
-      *ngIf="item.children && item.expanded"
-      [ngTemplateOutlet]="ganttItems"
-      [ngTemplateOutletContext]="{ items: item.children, level: level + 1, group: group }"
-    ></ng-template>
-  </ng-container>
-</ng-template>
+    </ng-container>
+  </ng-template>
+</div>
+
+<div dropList>
+  <div dropList></div>
+</div>
