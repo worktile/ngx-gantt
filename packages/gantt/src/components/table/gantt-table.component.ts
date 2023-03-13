@@ -79,16 +79,8 @@ export class GanttTableComponent implements OnChanges {
     constructor(
         @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        private elementRef: ElementRef,
-        private treeDragDrop: TreeDragDrop
-    ) {
-        setTimeout(() => {
-            this.treeDragDrop.initialize({
-                draggable: '.gantt-table-item',
-                handle: '.gantt-table-item-drag-handle'
-            });
-        }, 500);
-    }
+        private elementRef: ElementRef
+    ) {}
 
     ngOnChanges(changes: SimpleChanges) {
         if (!changes.groups.currentValue?.length && !changes.items.currentValue?.length) {

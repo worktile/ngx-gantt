@@ -18,6 +18,12 @@ import { GANTT_GLOBAL_CONFIG, defaultConfig } from './gantt.config';
 import { NgxGanttBaselineComponent } from './components/baseline/baseline.component';
 import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
 
+import { TreeDragDropDirective } from './drag-drop/directives/drag-drop.directive';
+import { TreeDragItemDirective } from './drag-drop/directives/drag-item.directive';
+import { TreeDragItemHandleDirective } from './drag-drop/directives/drag-handle.directive';
+
+const treeDragDropDirectives = [TreeDragDropDirective, TreeDragItemDirective, TreeDragItemHandleDirective];
+
 @NgModule({
     imports: [CommonModule, DragDropModule],
     exports: [
@@ -47,7 +53,8 @@ import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component
         NgxGanttToolbarComponent,
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
-        IsGanttCustomItemPipe
+        IsGanttCustomItemPipe,
+        ...treeDragDropDirectives
     ],
     providers: [
         {
