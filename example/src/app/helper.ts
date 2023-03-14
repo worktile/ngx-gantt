@@ -15,7 +15,8 @@ export function randomItems(length: number, parent?: GanttItem, group?: string) 
             title: `${parent?.title || 'Task'}-${i}`,
             start: getUnixTime(start),
             end: getUnixTime(end),
-            group_id: group
+            group_id: group,
+            expandable: true
         });
     }
     return items;

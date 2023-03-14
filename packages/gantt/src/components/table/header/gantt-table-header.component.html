@@ -1,0 +1,27 @@
+<div class="gantt-table-column" *ngFor="let column of columnList; let i = index" [style.width]="column.columnWidth">
+  <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
+  <ng-template #default>
+    {{ column.name }}
+  </ng-template>
+  <div
+    class="gantt-table-drag-trigger"
+    cdkDrag
+    cdkDragLockAxis="x"
+    cdkDragBoundary=".gantt"
+    (cdkDragMoved)="dragMoved($event, column)"
+    (cdkDragStarted)="dragStarted($event)"
+    (cdkDragEnded)="columnDragEnded($event, column)"
+  ></div>
+</div>
+
+<div
+  class="gantt-table-drag-trigger"
+  cdkDrag
+  cdkDragLockAxis="x"
+  cdkDragBoundary=".gantt"
+  (cdkDragMoved)="dragMoved($event)"
+  (cdkDragStarted)="dragStarted($event)"
+  (cdkDragEnded)="tableDragEnded($event)"
+></div>
+
+<div #dragLine class="gantt-table-drag-auxiliary-line"></div>

@@ -1,6 +1,9 @@
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { GanttViewType, GanttItem, GanttGroup, NgxGanttComponent } from 'ngx-gantt';
-import { randomGroupsAndItems } from '../helper';
+// import { randomGroupsAndItems } from '../helper';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { random, randomGroupsAndItems, randomItems } from '../helper';
 
 @Component({
     selector: 'app-gantt-groups-example',
@@ -45,7 +48,8 @@ export class AppGanttGroupsExampleComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
-        const { groups, items } = randomGroupsAndItems(10);
+        // const { groups, items } = randomGroupsAndItems(10);
+        const { groups, items } = randomGroupsAndItems(1000);
         this.groups = groups;
         this.items = items;
     }
@@ -59,4 +63,9 @@ export class AppGanttGroupsExampleComponent implements OnInit {
             this.ganttComponent.expandAll();
         }
     }
+
+    childrenResolve = (item: GanttItem) => {
+        const children = randomItems(random(1, 5), item);
+        return of(children).pipe(delay(1000));
+    };
 }

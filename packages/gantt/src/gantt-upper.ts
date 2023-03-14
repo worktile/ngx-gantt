@@ -137,6 +137,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public linkable: boolean;
 
+    public computeAllRefs = true;
+
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     public view: GanttView;
@@ -276,20 +278,14 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     computeRefs() {
-        this.groups.forEach((group) => {
-            const groupItems = recursiveItems(group.items);
-            this.computeItemsRefs(...groupItems);
-        });
-        const items = recursiveItems(this.items);
-        this.computeItemsRefs(...items);
-    }
-
-    private expandGroups(expanded: boolean) {
-        this.groups.forEach((group) => {
-            group.setExpand(expanded);
-        });
-        this.expandChange.next(null);
-        this.cdr.detectChanges();
+        if (this.computeAllRefs) {
+            this.groups.forEach((group) => {
+                const groupItems = recursiveItems(group.items);
+                this.computeItemsRefs(...groupItems);
+            });
+            const items = recursiveItems(this.items);
+            this.computeItemsRefs(...items);
+        }
     }
 
     private initSelectionModel() {
@@ -327,8 +323,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
                 this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
                     this.dragEnded.emit(event);
-                    // this.computeRefs();
-                    // this.detectChanges();
+                    this.computeRefs();
+                    this.detectChanges();
                 });
             });
         });
@@ -383,21 +379,21 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
-    expandGroup(group: GanttGroupInternal) {
-        group.setExpand(!group.expanded);
-        this.expandChange.emit(group);
-        this.cdr.detectChanges();
-    }
+    // expandGroup(group: GanttGroupInternal) {
+    //     group.setExpand(!group.expanded);
+    //     this.expandChange.emit(group);
+    //     this.cdr.detectChanges();
+    // }
 
-    // public functions
+    // // public functions
 
-    expandAll() {
-        this.expandGroups(true);
-    }
+    // expandAll() {
+    //     this.expandGroups(true);
+    // }
 
-    collapseAll() {
-        this.expandGroups(false);
-    }
+    // collapseAll() {
+    //     this.expandGroups(false);
+    // }
 
     getGanttItem(id: string) {
         return this.getGanttItems([id])[0] || null;

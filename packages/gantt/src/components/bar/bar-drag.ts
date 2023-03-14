@@ -68,9 +68,9 @@ export class GanttBarDrag implements OnDestroy {
         @SkipSelf() private root: NgxGanttRootComponent
     ) {}
 
-    private createDragRef<T = any>(element: ElementRef<HTMLElement> | HTMLElement, config?: DragRefConfig): DragRef<T> {
+    private createDragRef<T = any>(element: ElementRef<HTMLElement> | HTMLElement): DragRef<T> {
         const dragRef = this.dragDrop.createDrag(element);
-        dragRef.withPreviewContainer(this.dom.mainContainer as HTMLElement);
+        // dragRef.withPreviewContainer(this.dom.mainContainer as HTMLElement);
         return dragRef;
     }
 
@@ -116,7 +116,7 @@ export class GanttBarDrag implements OnDestroy {
     private createBarDrag() {
         const dragRef = this.createDragRef(this.barElement);
         dragRef.lockAxis = 'x';
-        dragRef.withBoundaryElement(this.dom.mainContainer as HTMLElement);
+        dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
         dragRef.started.subscribe(() => {
             this.setDraggingStyles();
             this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
@@ -142,6 +142,7 @@ export class GanttBarDrag implements OnDestroy {
             this.closeDragBackdrop();
             event.source.reset();
             this.dragScrolling = false;
+            this.barDragMoveDistance = 0;
             this.dragContainer.dragEnded.emit({ item: this.item.origin });
         });
         this.barDragRef = dragRef;
@@ -156,7 +157,7 @@ export class GanttBarDrag implements OnDestroy {
             const isBefore = index === 0;
             const dragRef = this.createDragRef(handle);
             dragRef.lockAxis = 'x';
-            dragRef.withBoundaryElement(this.dom.mainContainer as HTMLElement);
+            dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
 
             dragRef.started.subscribe(() => {
                 this.setDraggingStyles();
@@ -194,6 +195,7 @@ export class GanttBarDrag implements OnDestroy {
                 this.closeDragBackdrop();
                 event.source.reset();
                 this.dragScrolling = false;
+                this.barHandleDragMoveDistance = 0;
                 this.dragContainer.dragEnded.emit({ item: this.item.origin });
             });
             dragRefs.push(dragRef);
@@ -261,8 +263,10 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private openDragBackdrop(dragElement: HTMLElement, start: GanttDate, end: GanttDate) {
-        const dragBackdropElement = this.root.backdrop.nativeElement;
-        const dragMaskElement = dragBackdropElement.querySelector('.gantt-drag-mask') as HTMLElement;
+        // const dragBackdropElement = this.root.backdrop.nativeElement;
+        // const dragMaskElement = dragBackdropElement.querySelector('.gantt-drag-mask') as HTMLElement;
+        const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
+        const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
         const rootRect = this.dom.root.getBoundingClientRect();
         const dragRect = dragElement.getBoundingClientRect();
         const left = dragRect.left - rootRect.left - this.dom.side.clientWidth;
@@ -278,8 +282,8 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private closeDragBackdrop() {
-        const dragBackdropElement = this.root.backdrop.nativeElement;
-        const dragMaskElement = dragBackdropElement.querySelector('.gantt-drag-mask') as HTMLElement;
+        const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
+        const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
         dragMaskElement.style.display = 'none';
         dragBackdropElement.style.display = 'none';
     }

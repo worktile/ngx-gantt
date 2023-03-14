@@ -75,7 +75,7 @@ export class GanttPrintService {
                 const ganttClass = root.className;
                 const cloneGanttDom = cloneDocument.querySelector(`.${ganttClass.replace(/\s+/g, '.')}`) as HTMLElement;
                 const cloneGanttContainerDom = cloneDocument.querySelector('.gantt-container') as HTMLElement;
-                const cloneCalendarOverlay = cloneDocument.querySelector('.gantt-calendar-overlay-main') as HTMLElement;
+                const cloneCalendarOverlay = cloneDocument.querySelector('.gantt-calendar-grid-main') as HTMLElement;
                 const cloneLinksOverlay = cloneDocument.querySelector('.gantt-links-overlay-main') as HTMLElement;
 
                 // change targetDom width
