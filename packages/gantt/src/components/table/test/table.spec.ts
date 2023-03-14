@@ -2,10 +2,10 @@ import { fakeAsync, TestBed, ComponentFixture, async, inject, flush } from '@ang
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { NgxGanttModule } from 'ngx-gantt';
 import { By } from '@angular/platform-browser';
-import { GanttTableComponent } from '../gantt-table.component';
 import { getMockGroupItems, getMockGroups } from '../../../test/mocks/data';
 import { dispatchMouseEvent } from '../../../utils/testing';
 import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.component';
+import { GanttTableBodyComponent } from '../body/gantt-table-body.component';
 @Component({
     selector: 'test-gantt-table',
     template: `
@@ -26,8 +26,8 @@ import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.compone
     `,
     providers: []
 })
-export class TestGanttTableComponent {
-    @ViewChild(GanttTableComponent, { static: true }) ganttTableComponent: GanttTableComponent;
+export class TestGanttTableBodyComponent {
+    @ViewChild(GanttTableBodyComponent, { static: true }) GanttTableBodyComponent: GanttTableBodyComponent;
 
     @ViewChild(GanttMainComponent, { static: true }) ganttMainComponent: GanttMainComponent;
 
@@ -45,31 +45,31 @@ export class TestGanttTableComponent {
 }
 
 describe('GanttTable', () => {
-    let component: TestGanttTableComponent;
-    let fixture: ComponentFixture<TestGanttTableComponent>;
+    let component: TestGanttTableBodyComponent;
+    let fixture: ComponentFixture<TestGanttTableBodyComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [NgxGanttModule],
-            declarations: [TestGanttTableComponent]
+            declarations: [TestGanttTableBodyComponent]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(TestGanttTableComponent);
+        fixture = TestBed.createComponent(TestGanttTableBodyComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should create gantt-table', () => {
         expect(component).toBeDefined();
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         expect(ganttTable).toBeTruthy();
         expect(ganttTable.nativeElement).toBeTruthy();
     });
 
     it('should expand groups', () => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         expect(ganttTable.query(By.css('.gantt-table-group-title')).nativeNode.classList.contains('expanded')).toBeTruthy();
         ganttTable.query(By.css('.gantt-table-group-title')).nativeNode.click();
         fixture.detectChanges();
@@ -77,7 +77,7 @@ describe('GanttTable', () => {
     });
 
     it('should expand children', () => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const tableChildrenLength = ganttTable.query(By.css('.gantt-table-body')).children.length;
         ganttTable.nativeElement.querySelector('.gantt-table-item-with-group .gantt-expand-icon .expand-icon').click();
         fixture.detectChanges();
@@ -85,7 +85,7 @@ describe('GanttTable', () => {
     });
 
     it('should column drag', fakeAsync(() => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const dragTrigger = ganttTable.nativeElement.querySelector('.gantt-table-header .gantt-table-column .gantt-table-drag-trigger');
         fixture.detectChanges();
         flush();
@@ -114,7 +114,7 @@ describe('GanttTable', () => {
     }));
 
     it('should table drag', fakeAsync(() => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const dragTrigger = ganttTable.nativeElement.children[2];
         fixture.detectChanges();
 
@@ -142,7 +142,7 @@ describe('GanttTable', () => {
     }));
 
     it('should active item when click item and selectable is true', fakeAsync(() => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
         const items = component.items;
 
@@ -153,7 +153,7 @@ describe('GanttTable', () => {
     }));
 
     it('should has active class when click item and selectable is true', fakeAsync(() => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const ganttMain: DebugElement = fixture.debugElement.query(By.directive(GanttMainComponent));
         const itemNode = ganttTable.query(By.css('.gantt-table-item')).nativeNode;
         const mainItemNode = ganttMain.query(By.css('.gantt-item')).nativeNode;
@@ -164,7 +164,7 @@ describe('GanttTable', () => {
     }));
 
     it('should active two item when click two item and multiple is true', () => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
         const items = component.items;
         const itemNodes = ganttTable.queryAll(By.css('.gantt-table-item'));
@@ -187,7 +187,7 @@ describe('GanttTable', () => {
     it('should active one item when multiple is false', () => {
         fixture.componentInstance.multiple = false;
         fixture.detectChanges();
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
         const items = component.items;
         const itemNodes = ganttTable.queryAll(By.css('.gantt-table-item'));
@@ -201,7 +201,7 @@ describe('GanttTable', () => {
     it('should toggle active one item when multiple is false and click same item', () => {
         fixture.componentInstance.multiple = false;
         fixture.detectChanges();
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
         const itemNode = ganttTable.query(By.css('.gantt-table-item')).nativeNode;
         itemNode.click();
@@ -211,7 +211,7 @@ describe('GanttTable', () => {
     });
 
     it('should fixed expand icon column', () => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         const column = ganttTable.queryAll(By.css('.gantt-table-item'))[0].queryAll(By.css('.gantt-table-column'))[1];
         expect(column.nativeElement.querySelector('.gantt-expand-icon').classList.contains('gantt-expand-icon')).toBeTrue();
     });

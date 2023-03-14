@@ -32,9 +32,9 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
 
     private setPositions() {
         const itemElement = this.elementRef.nativeElement;
-        itemElement.style.left = this.item.refs.x + 'px';
-        itemElement.style.top = this.item.refs.y + 'px';
-        itemElement.style.width = this.item.refs.width + 'px';
+        itemElement.style.left = this.item.refs?.x + 'px';
+        itemElement.style.top = this.item.refs?.y + 'px';
+        itemElement.style.width = this.item.refs?.width + 'px';
         if (this.item.type === GanttItemType.bar) {
             itemElement.style.height = this.ganttUpper.styles.barHeight + 'px';
         } else if (this.item.type === GanttItemType.range) {

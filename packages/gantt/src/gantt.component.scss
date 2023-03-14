@@ -82,4 +82,36 @@
       }
     }
   }
+
+  .gantt-virtual-scroll-viewport {
+    position: absolute;
+    left: 0;
+    top: variables.$gantt-header-height;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    .cdk-virtual-scroll-content-wrapper {
+      width: 100%;
+      min-width: unset;
+      display: flex;
+      min-height: 100%;
+      .gantt-container {
+        .gantt-main-container {
+          height: 100%;
+          top: 0;
+        }
+      }
+    }
+  }
+}
+
+.gantt-header {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  .gantt-container-header {
+    flex: 1;
+    overflow: hidden;
+    background-color: #fafafa;
+  }
 }

@@ -28,9 +28,11 @@ import { createLineGenerator } from './lines/factory';
     templateUrl: './links.component.html'
 })
 export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
-    @Input() groups: GanttGroupInternal[] = [];
+    // @Input() groups: GanttGroupInternal[] = [];
 
-    @Input() items: GanttItemInternal[] = [];
+    // @Input() items: GanttItemInternal[] = [];
+
+    @Input() flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
@@ -61,8 +63,10 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         this.linkLine = createLineGenerator(this.ganttUpper.linkOptions.lineType, this.ganttUpper);
 
         this.showArrow = this.ganttUpper.linkOptions.showArrow;
-        this.buildLinks();
+        // this.buildLinks();
         this.firstChange = false;
+
+        this.buildLinks();
 
         this.ganttDragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.visibility = 'hidden';
@@ -93,47 +97,67 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         const lineHeight = this.ganttUpper.styles.lineHeight;
         const barHeight = this.ganttUpper.styles.barHeight;
         this.linkItems = [];
-        if (this.groups.length > 0) {
-            let itemNum = 0;
-            let groupNum = 0;
-            this.groups.forEach((group) => {
-                groupNum++;
-                if (group.expanded) {
-                    const items = recursiveItems(group.items);
-                    items.forEach((item, itemIndex) => {
-                        const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
-                        this.linkItems.push({
-                            ...item,
-                            before: {
-                                x: item.refs.x,
-                                y
-                            },
-                            after: {
-                                x: item.refs.x + item.refs.width,
-                                y
-                            }
-                        });
+        // if (this.groups.length > 0) {
+        //     let itemNum = 0;
+        //     let groupNum = 0;
+        //     this.groups.forEach((group) => {
+        //         groupNum++;
+        //         if (group.expanded) {
+        //             const items = recursiveItems(group.items);
+        //             items.forEach((item, itemIndex) => {
+        //                 const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
+        //                 this.linkItems.push({
+        //                     ...item,
+        //                     before: {
+        //                         x: item.refs.x,
+        //                         y
+        //                     },
+        //                     after: {
+        //                         x: item.refs.x + item.refs.width,
+        //                         y
+        //                     }
+        //                 });
+        //             });
+        //             itemNum += items.length;
+        //         }
+        //     });
+        // } else {
+        //     const items = recursiveItems(this.items);
+        //     items.forEach((item, itemIndex) => {
+        //         const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
+        //         this.linkItems.push({
+        //             ...item,
+        //             before: {
+        //                 x: item.refs.x,
+        //                 y
+        //             },
+        //             after: {
+        //                 x: item.refs.x + item.refs.width,
+        //                 y
+        //             }
+        //         });
+        //     });
+        // }
+
+        this.flatData.forEach((item, itemIndex) => {
+            if (!item.hasOwnProperty('items')) {
+                const ganttItem = item as GanttItemInternal;
+                if (ganttItem.refs) {
+                    const y = itemIndex * lineHeight + ganttItem.refs.y + barHeight / 2;
+                    this.linkItems.push({
+                        ...ganttItem,
+                        before: {
+                            x: ganttItem.refs.x,
+                            y
+                        },
+                        after: {
+                            x: ganttItem.refs.x + ganttItem.refs.width,
+                            y
+                        }
                     });
-                    itemNum += items.length;
                 }
-            });
-        } else {
-            const items = recursiveItems(this.items);
-            items.forEach((item, itemIndex) => {
-                const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
-                this.linkItems.push({
-                    ...item,
-                    before: {
-                        x: item.refs.x,
-                        y
-                    },
-                    after: {
-                        x: item.refs.x + item.refs.width,
-                        y
-                    }
-                });
-            });
-        }
+            }
+        });
     }
 
     buildLinks() {

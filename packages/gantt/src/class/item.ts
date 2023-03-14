@@ -1,6 +1,7 @@
 import { GanttDate } from '../utils/date';
 import { BehaviorSubject } from 'rxjs';
 import { GanttLink, GanttLinkType } from './link';
+import { GanttViewType } from './view-type';
 
 export interface GanttItemRefs {
     width: number;
@@ -51,6 +52,8 @@ export class GanttItemInternal {
     type?: GanttItemType;
     progress?: number;
     fillDays?: number;
+    viewType?: GanttViewType;
+    level?: number;
 
     get refs() {
         return this.refs$.getValue();

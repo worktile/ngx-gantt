@@ -30,6 +30,8 @@ export class GanttDomService implements OnDestroy {
 
     public mainContainer: Element;
 
+    public calendarHeader: Element;
+
     public mainItems: Element;
 
     public calendarOverlay: Element;
@@ -51,20 +53,11 @@ export class GanttDomService implements OnDestroy {
                     this.syncScroll(event);
                 })
         );
-
-        // fromEvent(this.mainContainer, 'scroll')
-        //     .pipe(startWith(), takeUntil(this.unsubscribe$))
-        //     .subscribe((event) => {
-        //         // if (this.mainContainer.scrollLeft > 0) {
-        //         //     this.side.classList.add('gantt-side-has-shadow');
-        //         // } else {
-        //         //     this.side.classList.remove('gantt-side-has-shadow');
-        //         // }
-        //     });
     }
 
     private syncScroll(event: Event) {
         const target = event.currentTarget as HTMLElement;
+        this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
         this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
 
         this.sideContainer.scrollTop = target.scrollTop;
@@ -97,8 +90,12 @@ export class GanttDomService implements OnDestroy {
         this.container = this.root.getElementsByClassName('gantt-container')[0];
         this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
-        this.mainItems = this.root.getElementsByClassName('gantt-main-items')[0];
-        this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-overlay')[0];
+        const mainItems = this.mainContainer.getElementsByClassName('gantt-main-items')[0];
+        const mainGroups = this.mainContainer.getElementsByClassName('gantt-main-groups')[0];
+        this.mainItems = mainItems || mainGroups;
+        this.calendarHeader = this.root.getElementsByClassName('gantt-calendar-header')[0];
+        this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-grid')[0];
+
         this.monitorScrollChange();
         this.disableBrowserWheelEvent();
     }
@@ -148,6 +145,7 @@ export class GanttDomService implements OnDestroy {
         if (isNumber(left)) {
             const scrollLeft = left - this.mainContainer.clientWidth / 2;
             this.mainContainer.scrollLeft = scrollLeft > scrollThreshold ? scrollLeft : 0;
+            this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
             this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
         }
     }
