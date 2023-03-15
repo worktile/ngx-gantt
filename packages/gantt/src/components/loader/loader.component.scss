@@ -35,13 +35,13 @@
 
     &:before {
       animation: loading-ellipsis-b 1s ease-in-out infinite;
-      background: variables.$gantt-loading-color;
+      background: variables.$gantt-loader-color;
       opacity: 0.4;
     }
 
     &:after {
       animation: loading-ellipsis-a 1s ease-in-out infinite;
-      background: variables.$gantt-loading-color;
+      background: variables.$gantt-loader-color;
       opacity: 0.8;
     }
 
@@ -50,7 +50,7 @@
       left: 13px;
       height: 8px;
       width: 8px;
-      background: variables.$gantt-loading-color;
+      background: variables.$gantt-loader-color;
       border-radius: 4px;
     }
   }
