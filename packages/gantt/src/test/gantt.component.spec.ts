@@ -21,7 +21,7 @@ import { delay, finalize } from 'rxjs/operators';
 import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
 import { GanttTableComponent } from 'ngx-gantt/components/table/gantt-table.component';
 import { NgxGanttBaselineComponent } from '../components/baseline/baseline.component';
-import { NgxGanttLoaderComponent } from 'ngx-gantt';
+import { NgxGanttLoaderComponent } from '../components/loader/loader.component';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
