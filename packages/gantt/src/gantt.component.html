@@ -8,6 +8,9 @@
       [emptyTemplate]="tableEmptyTemplate"
       [rowBeforeTemplate]="table?.rowBeforeTemplate"
       [rowAfterTemplate]="table?.rowAfterTemplate"
+      [draggable]="table.draggable"
+      [dropEnterPredicate]="table.dropEnterPredicate"
+      (dragDropped)="table.dragDropped.emit($event)"
       (itemClick)="selectItem($event)"
     ></gantt-table>
   </ng-template>

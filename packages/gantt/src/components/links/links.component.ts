@@ -9,10 +9,11 @@ import {
     ChangeDetectorRef,
     ElementRef,
     OnDestroy,
-    OnChanges
+    OnChanges,
+    NgZone
 } from '@angular/core';
-import { merge, Subject } from 'rxjs';
-import { takeUntil, skip, debounceTime } from 'rxjs/operators';
+import { empty, EMPTY, merge, NEVER, of, Subject, timer } from 'rxjs';
+import { takeUntil, skip, debounceTime, switchMap, take } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
@@ -54,7 +55,8 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
         private elementRef: ElementRef,
-        private ganttDragContainer: GanttDragContainer
+        private ganttDragContainer: GanttDragContainer,
+        private ngZone: NgZone
     ) {}
 
     ngOnInit() {
@@ -73,7 +75,8 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             this.ganttUpper.expandChange,
             this.ganttUpper.view.start$,
             this.ganttUpper.dragEnded,
-            this.ganttUpper.linkDragEnded
+            this.ganttUpper.linkDragEnded,
+            this.ngZone.onStable.pipe(take(1)).pipe(switchMap(() => this.ganttUpper.table?.dragDropped || EMPTY))
         )
             .pipe(skip(1), debounceTime(0), takeUntil(this.unsubscribe$))
             .subscribe(() => {

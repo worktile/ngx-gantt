@@ -41,6 +41,7 @@ import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
+import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
@@ -162,6 +163,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     public unsubscribe$ = new Subject<void>();
 
     public selectionModel: SelectionModel<string>;
+
+    public table?: NgxGanttTableComponent;
 
     private groupsMap: { [key: string]: GanttGroupInternal };
 

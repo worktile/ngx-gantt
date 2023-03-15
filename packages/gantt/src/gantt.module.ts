@@ -17,9 +17,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GANTT_GLOBAL_CONFIG, defaultConfig } from './gantt.config';
 import { NgxGanttBaselineComponent } from './components/baseline/baseline.component';
 import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
-    imports: [CommonModule, DragDropModule],
+    imports: [CommonModule, DragDropModule, ScrollingModule],
     exports: [
         NgxGanttComponent,
         NgxGanttTableComponent,

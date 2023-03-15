@@ -62,7 +62,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @Output() selectedChange = new EventEmitter<GanttSelectedEvent>();
 
-    @ContentChild(NgxGanttTableComponent) table: NgxGanttTableComponent;
+    @ContentChild(NgxGanttTableComponent) override table: NgxGanttTableComponent;
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 
