@@ -1,15 +1,4 @@
-import {
-    Component,
-    OnInit,
-    HostBinding,
-    OnChanges,
-    SimpleChanges,
-    OnDestroy,
-    NgZone,
-    Inject,
-    ElementRef,
-    AfterViewInit
-} from '@angular/core';
+import { Component, OnInit, HostBinding, OnChanges, SimpleChanges, OnDestroy, NgZone, Inject, ElementRef } from '@angular/core';
 import { GanttDatePoint } from '../../../class/date-point';
 import { Subject, merge } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -26,7 +15,7 @@ const mainHeight = 5000;
     selector: 'gantt-calendar-grid',
     templateUrl: './calendar-grid.component.html'
 })
-export class GanttCalendarGridComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class GanttCalendarGridComponent implements OnInit, OnDestroy {
     get view() {
         return this.ganttUpper.view;
     }
@@ -73,10 +62,6 @@ export class GanttCalendarGridComponent implements OnInit, AfterViewInit, OnChan
                 });
         });
     }
-
-    ngAfterViewInit() {}
-
-    ngOnChanges(changes: SimpleChanges): void {}
 
     trackBy(point: GanttDatePoint, index: number) {
         return point.text || index;

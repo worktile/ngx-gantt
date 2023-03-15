@@ -292,6 +292,14 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         return new SelectionModel(this.multiple, []);
     }
 
+    expandGroups(expanded: boolean) {
+        this.groups.forEach((group) => {
+            group.setExpand(expanded);
+        });
+        this.expandChange.next(null);
+        this.cdr.detectChanges();
+    }
+
     ngOnInit() {
         this.styles = Object.assign({}, defaultStyles, this.styles);
         this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
@@ -379,21 +387,21 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
-    // expandGroup(group: GanttGroupInternal) {
-    //     group.setExpand(!group.expanded);
-    //     this.expandChange.emit(group);
-    //     this.cdr.detectChanges();
-    // }
+    // public functions
 
-    // // public functions
+    expandGroup(group: GanttGroupInternal) {
+        group.setExpand(!group.expanded);
+        this.expandChange.emit(group);
+        this.cdr.detectChanges();
+    }
 
-    // expandAll() {
-    //     this.expandGroups(true);
-    // }
+    expandAll() {
+        this.expandGroups(true);
+    }
 
-    // collapseAll() {
-    //     this.expandGroups(false);
-    // }
+    collapseAll() {
+        this.expandGroups(false);
+    }
 
     getGanttItem(id: string) {
         return this.getGanttItems([id])[0] || null;

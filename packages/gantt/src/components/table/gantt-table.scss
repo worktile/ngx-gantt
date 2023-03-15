@@ -9,9 +9,9 @@
   position: relative;
   z-index: 3;
   border-right: 1px solid variables.$gantt-border-color;
-
   .gantt-table-column {
     font-weight: 400;
+    z-index: 1;
   }
 }
 
@@ -54,10 +54,6 @@
     .gantt-table-column {
       display: flex;
       padding: variables.$gantt-table-td-padding;
-
-      &:last-child {
-        border-right: none;
-      }
     }
 
     .gantt-table-column-content {

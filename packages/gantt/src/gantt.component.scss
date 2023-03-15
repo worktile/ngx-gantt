@@ -90,6 +90,9 @@
     right: 0;
     bottom: 0;
     z-index: 2;
+    // 兼容火狐浏览器
+    overflow: auto;
+    overflow: overlay;
     .cdk-virtual-scroll-content-wrapper {
       width: 100%;
       min-width: unset;
