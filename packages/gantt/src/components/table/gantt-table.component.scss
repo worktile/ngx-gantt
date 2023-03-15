@@ -81,6 +81,8 @@
   }
 
   .gantt-table-body {
+    position: relative;
+
     .gantt-table-group {
       display: flex;
       height: variables.$gantt-group-height;

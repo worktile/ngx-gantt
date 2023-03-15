@@ -45,6 +45,8 @@ export class GanttTableComponent implements OnChanges {
 
     @Input() items: GanttItemInternal[];
 
+    @Input() loadingDone: boolean = true;
+
     @Input()
     set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
         this.hasShowExpandIcon = false;
@@ -82,10 +84,13 @@ export class GanttTableComponent implements OnChanges {
     ) {}
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!changes.groups.currentValue?.length && !changes.items.currentValue?.length) {
-            this.ganttTableEmptyClass = true;
-        } else {
-            this.ganttTableEmptyClass = false;
+        const { groups, items } = changes;
+        if (groups && items) {
+            if (!changes.groups.currentValue?.length && !changes.items.currentValue?.length) {
+                this.ganttTableEmptyClass = true;
+            } else {
+                this.ganttTableEmptyClass = false;
+            }
         }
     }
 

@@ -20,3 +20,4 @@ export * from './gantt-item-upper';
 export * from './gantt.pipe';
 export * from './gantt-print.service';
 export * from './gantt.config';
+export * from './components/loader/loader.component';

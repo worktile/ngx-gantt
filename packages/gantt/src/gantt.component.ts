@@ -54,6 +54,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     @Input() override linkable: boolean;
 
+    @Input() loadingDone: boolean = true;
+
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() override linkDragEnded = new EventEmitter<GanttLinkDragEvent>();

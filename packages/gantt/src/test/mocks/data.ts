@@ -1,6 +1,7 @@
 import { GanttDate } from './../../utils/date';
+import { GanttItem } from 'ngx-gantt';
 
-export function getMockItems() {
+export function getMockItems(): GanttItem[] {
     return [
         {
             id: 'item-0101',

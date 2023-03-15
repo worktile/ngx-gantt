@@ -1,7 +1,7 @@
 import { GanttBaselineItem, GanttBaselineItemInternal } from './../class/baseline';
 import { GanttGroupInternal } from './../class/group';
 import { GanttItemInternal } from './../class/item';
-import { Component, DebugElement, ViewChild } from '@angular/core';
+import { Component, DebugElement, OnInit, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttBarClickEvent, GanttGroup, GanttItem, GanttSelectedEvent, GanttToolbarOptions } from '../class';
@@ -15,13 +15,13 @@ import { CommonModule } from '@angular/common';
 import { GanttCalendarComponent } from '../components/calendar/calendar.component';
 import { NgxGanttBarComponent } from '../components/bar/bar.component';
 import { GanttIconComponent } from '../components/icon/icon.component';
-import { NgxGanttToolbarComponent } from '../components/toolbar/toolbar.component';
 import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, finalize } from 'rxjs/operators';
 import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
 import { GanttTableComponent } from 'ngx-gantt/components/table/gantt-table.component';
 import { NgxGanttBaselineComponent } from '../components/baseline/baseline.component';
+import { NgxGanttLoaderComponent } from 'ngx-gantt';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
@@ -51,6 +51,7 @@ const config = {
         [viewType]="viewType"
         [viewOptions]="viewOptions"
         [showToolbar]="showToolbar"
+        [loadingDone]="loadingDone"
         [toolbarOptions]="toolbarOptions"
         (barClick)="barClick($event)"
     >
@@ -91,6 +92,8 @@ export class TestGanttBasicComponent {
     };
 
     showToolbar = true;
+
+    loadingDone = true;
 
     toolbarOptions: GanttToolbarOptions = {
         viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
@@ -425,6 +428,17 @@ describe('ngx-gantt', () => {
             const toolbarViews = fixture.debugElement.query(By.css('.toolbar-views'));
             expect(toolbarViews).toBeFalsy();
         });
+
+        it('should show table loader when loadingDone with false', fakeAsync(() => {
+            ganttComponentInstance.loadingDone = false;
+            fixture.detectChanges();
+            let loaderDom = fixture.debugElement.query(By.directive(NgxGanttLoaderComponent));
+            expect(loaderDom).toBeTruthy();
+            ganttComponentInstance.loadingDone = true;
+            fixture.detectChanges();
+            loaderDom = fixture.debugElement.query(By.directive(NgxGanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+        }));
     });
 
     describe('#with groups', () => {
