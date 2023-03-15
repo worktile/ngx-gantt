@@ -13,17 +13,19 @@
     [maxBufferPx]="styles.lineHeight * 20"
   >
     <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
-    <div class="gantt-side" [style.width.px]="tableHeader.tableWidth">
+    <div class="gantt-side">
       <div class="gantt-side-container">
-        <gantt-table-body
-          [tempData]="tempData"
-          [columns]="columns"
-          [groupTemplate]="groupTemplate"
-          [emptyTemplate]="tableEmptyTemplate"
-          [rowBeforeTemplate]="table?.rowBeforeTemplate"
-          [rowAfterTemplate]="table?.rowAfterTemplate"
-          (itemClick)="selectItem($event)"
-        ></gantt-table-body>
+        <div class="gantt-table">
+          <gantt-table-body
+            [tempData]="tempData"
+            [columns]="columns"
+            [groupTemplate]="groupTemplate"
+            [emptyTemplate]="tableEmptyTemplate"
+            [rowBeforeTemplate]="table?.rowBeforeTemplate"
+            [rowAfterTemplate]="table?.rowAfterTemplate"
+            (itemClick)="selectItem($event)"
+          ></gantt-table-body>
+        </div>
       </div>
     </div>
     <div class="gantt-container">
@@ -43,5 +45,5 @@
       </div>
     </div>
   </cdk-virtual-scroll-viewport>
-  <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth"></gantt-drag-backdrop>
+  <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth + 1"></gantt-drag-backdrop>
 </ngx-gantt-root>

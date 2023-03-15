@@ -39,7 +39,7 @@
           [ngTemplateOutletContext]="{ $implicit: data.origin, item: data.origin }"
         ></ng-template>
 
-        <div class="gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width]="column.columnWidth">
+        <div class="gantt-table-column" *ngFor="let column of columns; let first = first" [style.width]="column.columnWidth">
           <div
             *ngIf="column?.showExpandIcon || (!hasShowExpandIcon && first)"
             class="gantt-expand-icon"

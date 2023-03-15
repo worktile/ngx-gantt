@@ -1,4 +1,17 @@
-import { Component, HostBinding, TemplateRef, QueryList, Input, OnInit, Inject, Output, EventEmitter } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import {
+    Component,
+    HostBinding,
+    TemplateRef,
+    QueryList,
+    Input,
+    OnInit,
+    Inject,
+    Output,
+    EventEmitter,
+    OnDestroy,
+    ChangeDetectorRef
+} from '@angular/core';
 import { GanttItemInternal, GanttGroupInternal, GanttSelectedEvent } from '../../../class';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
@@ -9,14 +22,14 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from '../../../gantt-upper';
     selector: 'gantt-table-body',
     templateUrl: './gantt-table-body.component.html'
 })
-export class GanttTableBodyComponent implements OnInit {
-    public columnList: QueryList<NgxGanttTableColumnComponent>;
-
+export class GanttTableBodyComponent implements OnInit, OnDestroy {
     public hasGroup: boolean;
 
     public flatData: (GanttGroupInternal | GanttItemInternal)[];
 
     public hasShowExpandIcon = false;
+
+    private unsubscribe$ = new Subject<void>();
 
     @Input() set tempData(data: (GanttGroupInternal | GanttItemInternal)[]) {
         const firstData = data[0];
@@ -27,19 +40,7 @@ export class GanttTableBodyComponent implements OnInit {
         this.flatData = data;
     }
 
-    @Input()
-    set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
-        this.hasShowExpandIcon = false;
-        columns.forEach((column) => {
-            if (!column.columnWidth) {
-                column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
-            }
-            if (column.showExpandIcon) {
-                this.hasShowExpandIcon = true;
-            }
-        });
-        this.columnList = columns;
-    }
+    @Input() columns: QueryList<NgxGanttTableColumnComponent>;
 
     @Input() groupTemplate: TemplateRef<any>;
 
@@ -57,10 +58,29 @@ export class GanttTableBodyComponent implements OnInit {
 
     constructor(
         @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
+        private cdr: ChangeDetectorRef
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.columnsChange();
+        this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.columnsChange();
+            this.cdr.detectChanges();
+        });
+    }
+
+    private columnsChange() {
+        this.hasShowExpandIcon = false;
+        this.columns.forEach((column) => {
+            if (!column.columnWidth) {
+                column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
+            }
+            if (column.showExpandIcon) {
+                this.hasShowExpandIcon = true;
+            }
+        });
+    }
 
     expandGroup(group: GanttGroupInternal) {
         this.gantt.expandGroup(group);
@@ -73,5 +93,10 @@ export class GanttTableBodyComponent implements OnInit {
 
     trackBy(item: GanttGroupInternal | GanttItemInternal, index: number) {
         return item.id || index;
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

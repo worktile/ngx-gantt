@@ -21,7 +21,7 @@ import {
     SimpleChanges
 } from '@angular/core';
 import { startWith, takeUntil, take, finalize, skip } from 'rxjs/operators';
-import { Subject, Observable, from } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent, GanttGroupInternal } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
@@ -75,8 +75,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @ViewChild('ganttRoot') ganttRoot: NgxGanttRootComponent;
 
-    private ngUnsubscribe$ = new Subject<void>();
-
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
     public flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
@@ -114,11 +112,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                     this.computeTempDataRefs();
                 });
 
-                this.dragContainer.linkDragStarted.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
+                this.dragContainer.linkDragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                     this.linkDragStarted.emit(event);
                 });
 
-                this.dragContainer.linkDragEnded.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
+                this.dragContainer.linkDragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                     this.linkDragEnded.emit(event);
                 });
             });
@@ -145,16 +143,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     ngAfterViewInit() {
-        this.columns.changes.pipe(startWith(true), takeUntil(this.ngUnsubscribe$)).subscribe(() => {
-            this.columns.forEach((column) => {
-                if (!column.columnWidth) {
-                    column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
-                }
-            });
-            this.cdr.detectChanges();
-        });
-
-        this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((range) => {
+        this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
             const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
             linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
             this.rangeStart = range.start;
@@ -203,20 +192,9 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 tempItemData.push(data);
             }
         });
-
         this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
         this.flatData = [...this.flatData];
         this.tempData = [...this.tempData];
-    }
-
-    private expandGroups(expanded: boolean) {
-        this.groups.forEach((group) => {
-            group.setExpand(expanded);
-        });
-
-        this.afterExpand();
-        this.expandChange.next(null);
-        this.cdr.detectChanges();
     }
 
     expandChildren(item: GanttItemInternal) {
@@ -275,18 +253,20 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.ganttRoot.scrollToDate(date);
     }
 
-    expandGroup(group: GanttGroupInternal) {
+    override expandGroups(expanded: boolean) {
+        this.groups.forEach((group) => {
+            group.setExpand(expanded);
+        });
+
+        this.afterExpand();
+        this.expandChange.next(null);
+        this.cdr.detectChanges();
+    }
+
+    override expandGroup(group: GanttGroupInternal) {
         group.setExpand(!group.expanded);
         this.afterExpand();
         this.expandChange.emit();
         this.cdr.detectChanges();
-    }
-
-    expandAll() {
-        this.expandGroups(true);
-    }
-
-    collapseAll() {
-        this.expandGroups(false);
     }
 }

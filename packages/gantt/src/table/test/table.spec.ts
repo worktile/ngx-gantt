@@ -1,9 +1,9 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { NgxGanttModule } from 'ngx-gantt';
-import { GanttTableComponent } from '../../components/table/gantt-table.component';
 import { getMockGroupItems, getMockGroups } from '../../test/mocks/data';
 import { By } from '@angular/platform-browser';
+import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
 
 @Component({
     selector: 'test-gantt-table',
@@ -21,7 +21,7 @@ import { By } from '@angular/platform-browser';
     providers: []
 })
 export class TestGanttTableComponent {
-    @ViewChild(GanttTableComponent, { static: true }) ganttTableComponent: GanttTableComponent;
+    @ViewChild(GanttTableBodyComponent, { static: true }) ganttTableComponent: GanttTableBodyComponent;
 
     items = getMockGroupItems();
 
@@ -49,7 +49,7 @@ describe('NgxGanttTableComponent', () => {
 
     it('should create ngx-gantt-table', () => {
         expect(component).toBeDefined();
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableComponent));
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
         expect(ganttTable).toBeTruthy();
         expect(ganttTable.nativeElement).toBeTruthy();
     });
