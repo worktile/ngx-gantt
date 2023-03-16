@@ -5,7 +5,7 @@
       <gantt-calendar-header></gantt-calendar-header>
     </div>
   </div>
-  <gantt-loader *ngIf="!loading"></gantt-loader>
+  <gantt-loader *ngIf="loading"></gantt-loader>
   <cdk-virtual-scroll-viewport
     class="gantt-virtual-scroll-viewport"
     [itemSize]="styles.lineHeight"

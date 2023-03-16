@@ -40,7 +40,7 @@ import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.c
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
+import { GanttBaselineItem, GanttBaselineItemInternal } from './class';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 @Directive()
@@ -202,7 +202,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    private setupItems() {
+    public setupItems() {
         this.originItems = uniqBy(this.originItems, 'id');
         this.items = [];
         if (this.groups.length > 0) {
@@ -235,7 +235,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     private setupExpandedState() {
         this.originItems = uniqBy(this.originItems, 'id');
-        let items: GanttItemInternal[] = [];
+        let items: GanttItemInternal[];
         const flatOriginItems = getFlatItems(this.originItems);
 
         if (this.items.length > 0) {
@@ -271,11 +271,11 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         return {
             start: {
                 date: new GanttDate(start),
-                isCustom: this.start ? true : false
+                isCustom: !!this.start
             },
             end: {
                 date: new GanttDate(end),
-                isCustom: this.end ? true : false
+                isCustom: !!this.end
             }
         };
     }
@@ -411,7 +411,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     getGanttItems(ids: string[]) {
-        let items: GanttItemInternal[] = [];
+        let items: GanttItemInternal[];
         if (this.items.length > 0) {
             items = recursiveItems(this.items);
         } else {

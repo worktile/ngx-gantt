@@ -2,17 +2,13 @@ import { Component, OnInit, HostBinding, ViewChild, AfterViewInit } from '@angul
 import {
     GanttBarClickEvent,
     GanttViewType,
-    GanttDragEvent,
     GanttLineClickEvent,
-    GanttLinkDragEvent,
     GanttItem,
     GanttPrintService,
     NgxGanttComponent,
-    GanttSelectedEvent,
     GanttBaselineItem,
     GanttView,
-    GanttToolbarOptions,
-    GanttTableDragEnterPredicateContext
+    GanttToolbarOptions
 } from 'ngx-gantt';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -29,6 +25,7 @@ enum Direction {
 @Component({
     selector: 'app-gantt-loader-example',
     templateUrl: './gantt-loader.component.html',
+    styleUrls: ['./gantt-loader.component.scss'],
     providers: [GanttPrintService]
 })
 export class AppGanttLoaderExampleComponent implements OnInit, AfterViewInit {
@@ -84,7 +81,7 @@ export class AppGanttLoaderExampleComponent implements OnInit, AfterViewInit {
         }
     ];
 
-    sortType: Direction = 0;
+    sortType: Direction = Direction.default;
 
     items: GanttItem[] = [];
 
@@ -113,14 +110,10 @@ export class AppGanttLoaderExampleComponent implements OnInit, AfterViewInit {
         return of(children).pipe(delay(1000));
     };
 
-    dropEnterPredicate = (event: GanttTableDragEnterPredicateContext) => {
-        return true;
-    };
-
     constructor(private printService: GanttPrintService, private thyNotify: ThyNotifyService) {}
 
     ngOnInit(): void {
-        this.fetchItems();
+        this.items = items;
     }
 
     ngAfterViewInit() {
@@ -135,29 +128,9 @@ export class AppGanttLoaderExampleComponent implements OnInit, AfterViewInit {
         this.thyNotify.info('Event: lineClick', `你点击了 ${event.source.title} 到 ${event.target.title} 的关联线`);
     }
 
-    dragMoved(event: GanttDragEvent) {}
-
-    dragEnded(event: GanttDragEvent) {
-        this.thyNotify.info('Event: dragEnded', `修改了 [${event.item.title}] 的时间`);
-        this.items = [...this.items];
-    }
-
-    selectedChange(event: GanttSelectedEvent) {
-        this.thyNotify.info(
-            'Event: selectedChange',
-            `当前选中的 item 的 id 为 ${(event.selectedValue as GanttItem[]).map((item) => item.id).join('、')}`
-        );
-    }
-
-    linkDragEnded(event: GanttLinkDragEvent) {
-        this.items = [...this.items];
-        this.thyNotify.info('Event: linkDragEnded', `创建了关联关系`);
-    }
-
     fetchItems(direction: Direction = 0, delayTime = 0) {
         this.loading = true;
         const resp = this.sortItems(direction);
-        console.log(resp);
         of(resp)
             .pipe(
                 delay(delayTime),
@@ -166,34 +139,37 @@ export class AppGanttLoaderExampleComponent implements OnInit, AfterViewInit {
                 })
             )
             .subscribe((res) => {
-                console.log(res);
                 this.items = res;
             });
     }
 
     onSort() {
-        console.log(this.sortType);
         if (this.loading) return;
-        this.sortType = (this.sortType + 1) % 3;
+        this.sortType =
+            this.sortType === Direction.default
+                ? Direction.ascending
+                : this.sortType === Direction.ascending
+                ? Direction.descending
+                : Direction.default;
         this.fetchItems(this.sortType, 3000);
     }
 
+    deepClone(obj: any) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+
     sortItems(dire: Direction) {
+        const cloneItems = this.deepClone(items);
         switch (dire) {
             case Direction.default:
-                return items;
+                return cloneItems;
             case Direction.ascending:
-                return items.sort((a, b) => Number(a.id) - Number(b.id));
+                return cloneItems.sort((a, b) => Number(a.id) - Number(b.id));
             case Direction.descending:
-                return items.sort((a, b) => Number(b.id) - Number(a.id));
+                return cloneItems.sort((a, b) => Number(b.id) - Number(a.id));
         }
     }
     viewChange(event: GanttView) {
-        console.log(event.viewType);
         this.selectedViewType = event.viewType;
-    }
-
-    onDragDropped(event) {
-        console.log(event);
     }
 }

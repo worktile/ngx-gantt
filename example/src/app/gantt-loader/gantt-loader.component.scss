@@ -1,18 +1,12 @@
-.sortable-icon {
-  visibility: visible;
-  vertical-align: text-bottom;
-  &.sort-desc {
-    visibility: visible;
-    color: #ddd !important;
-    svg g path:last-child {
-      fill: #6698ff !important;
-    }
-  }
-  &.sort-asc {
-    visibility: visible;
-    color: #6698ff !important;
-    svg g path:last-child {
-      fill: #ddd !important;
-    }
-  }
+.sort-asc::before {
+  content: '\25B2';
+  font-size: 1px;
+}
+.sort-desc::before {
+  content: '\25BC';
+  font-size: 1px;
+}
+
+.active {
+  color: #6698ff;
 }

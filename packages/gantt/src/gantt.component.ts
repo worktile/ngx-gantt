@@ -20,12 +20,11 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { startWith, takeUntil, take, finalize, skip } from 'rxjs/operators';
+import { takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent, GanttGroupInternal } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
-import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
@@ -34,7 +33,6 @@ import { GanttDate } from './utils/date';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttPrintService } from './gantt-print.service';
-import { defaultColumnWidth } from './components/table/header/gantt-table-header.component';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -59,7 +57,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() override linkable: boolean;
 
-    @Input() loading: boolean = true;
+    @Input() loading: boolean = false;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
@@ -130,13 +128,13 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     override ngOnChanges(changes: SimpleChanges) {
-        super.ngOnChanges(changes);
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue) {
                 this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
             }
             if (changes.originItems || changes.originGroups) {
+                this.setupItems();
                 this.buildVirtualFlatData();
                 this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
@@ -145,9 +143,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     ngAfterViewInit() {
-        this.columns.changes.subscribe((res) => {
-            console.log(res);
-        });
         this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
             const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
             linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;

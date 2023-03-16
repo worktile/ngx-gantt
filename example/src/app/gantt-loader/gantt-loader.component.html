@@ -2,6 +2,8 @@
   <thy-header class="header-with-baseline">
     <ng-template #headerContent
       >&nbsp; &nbsp; &nbsp;
+      <thy-button thyType="primary" thySize="sm" (click)="fetchItems()">升序排序</thy-button>
+      <thy-button thyType="primary" thySize="sm" (click)="fetchItems()">请求数据</thy-button>
       <thy-button thyType="primary" thySize="sm" (click)="fetchItems()">请求数据</thy-button>
     </ng-template>
     <ng-template #headerOperation>
@@ -22,44 +24,12 @@
       [toolbarOptions]="toolbarOptions"
     >
       <ngx-gantt-table>
-        <!--        <ngx-gantt-column [name]="column.name" *ngFor="let column of allColumns" [width]="column.key === 'id' ? 140 : 100">-->
-        <!--          <ng-template #header>-->
-        <!--            <div [title]="column.name" class="plan-roadmap-gantt-header" (click)="onSort()">-->
-        <!--              {{ column.name }}-->
-        <!--              &lt;!&ndash; sort icon &ndash;&gt;-->
-        <!--              <ng-container *ngIf="column.key === 'id'">-->
-        <!--                <ng-container *ngIf="sortType !== 0; else headerSort">-->
-        <!--                  <thy-icon thyIconName="sort-vertical-tt" class="text-light"></thy-icon>-->
-        <!--                </ng-container>-->
-        <!--                <ng-template #headerSort>-->
-        <!--                  <thy-icon-->
-        <!--                    class="sortable-icon"-->
-        <!--                    [ngClass]="sortType === 1 ? 'sort-asc' : 'sort-desc'"-->
-        <!--                    thyIconName="sort-vertical-tt"-->
-        <!--                  ></thy-icon>-->
-        <!--                </ng-template>-->
-        <!--              </ng-container>-->
-        <!--            </div>-->
-        <!--          </ng-template>-->
-
-        <!--          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>-->
-        <!--        </ngx-gantt-column>-->
-
         <ngx-gantt-column name="编号" [width]="140">
           <ng-template #header>
-            <div title="编号" class="plan-roadmap-gantt-header" (click)="onSort()">
+            <div title="编号" (click)="onSort()">
               编号
-              <!-- sort icon -->
-              <ng-container *ngIf="sortType === 0; else headerSort">
-                <thy-icon thyIconName="sort-vertical-tt" class="text-light"></thy-icon>
-              </ng-container>
-              <ng-template #headerSort>
-                <thy-icon
-                  class="sortable-icon"
-                  [ngClass]="sortType === 1 ? 'sort-asc' : 'sort-desc'"
-                  thyIconName="sort-vertical-tt"
-                ></thy-icon>
-              </ng-template>
+              <span class="sort-asc" [class.active]="sortType === 1"></span>
+              <span class="sort-desc" [class.active]="sortType === -1"></span>
             </div>
           </ng-template>
           <ng-template #cell let-item="item">
