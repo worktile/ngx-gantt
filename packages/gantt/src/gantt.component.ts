@@ -108,9 +108,9 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
         this.ngZone.runOutsideAngular(() => {
             onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.dragContainer.dragEnded.subscribe((event) => {
-                    this.computeTempDataRefs();
-                });
+                // this.dragContainer.dragEnded.subscribe((event) => {
+                //     this.computeTempDataRefs();
+                // });
 
                 this.dragContainer.linkDragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                     this.linkDragStarted.emit(event);

@@ -12,7 +12,8 @@ import {
     AfterViewInit,
     ViewChildren,
     QueryList,
-    NgZone
+    NgZone,
+    SimpleChanges
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -57,6 +58,13 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.setContentBackground();
         });
+    }
+
+    override ngOnChanges(changes: SimpleChanges): void {
+        super.ngOnChanges(changes);
+        if (!this.firstChange) {
+            this.drag.updateItem(this.item);
+        }
     }
 
     ngAfterViewInit() {

@@ -331,8 +331,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
                 this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
                     this.dragEnded.emit(event);
-                    this.computeRefs();
-                    this.detectChanges();
+                    // this.computeRefs();
+                    // this.detectChanges();
                 });
             });
         });
