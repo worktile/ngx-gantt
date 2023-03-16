@@ -86,7 +86,7 @@ describe('GanttTable', () => {
 
     it('should column drag', fakeAsync(() => {
         const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const dragTrigger = ganttTable.nativeElement.querySelector('.gantt-table-header .gantt-table-column .gantt-table-drag-trigger');
+        const dragTrigger = ganttTable.nativeElement.querySelector('.gantt-table-header .gantt-table-column .table-resize-handle');
         fixture.detectChanges();
         flush();
 

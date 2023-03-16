@@ -39,7 +39,7 @@
 
 //     public dragStartLeft: number;
 
-//     public hasShowExpandIcon = false;
+//     public hasExpandIcon = false;
 
 //     @Input() groups: GanttGroupInternal[];
 
@@ -47,13 +47,13 @@
 
 //     @Input()
 //     set columns(columns: QueryList<NgxGanttTableColumnComponent>) {
-//         this.hasShowExpandIcon = false;
+//         this.hasExpandIcon = false;
 //         columns.forEach((column) => {
 //             if (!column.columnWidth) {
 //                 column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
 //             }
 //             if (column.showExpandIcon) {
-//                 this.hasShowExpandIcon = true;
+//                 this.hasExpandIcon = true;
 //             }
 //         });
 //         this.columnList = columns;

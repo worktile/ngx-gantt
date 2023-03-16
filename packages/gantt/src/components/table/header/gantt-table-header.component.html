@@ -5,25 +5,25 @@
       {{ column.name }}
     </ng-template>
     <div
-      class="gantt-table-drag-trigger"
+      class="column-resize-handle"
       cdkDrag
       cdkDragLockAxis="x"
       cdkDragBoundary=".gantt"
-      (cdkDragMoved)="dragMoved($event, column)"
-      (cdkDragStarted)="dragStarted($event)"
-      (cdkDragEnded)="columnDragEnded($event, column)"
+      (cdkDragMoved)="onResizeMoved($event, column)"
+      (cdkDragStarted)="onResizeStarted($event)"
+      (cdkDragEnded)="onResizeEnded($event, column)"
     ></div>
   </div>
 </div>
 
 <div
-  class="gantt-table-drag-trigger"
+  class="table-resize-handle"
   cdkDrag
   cdkDragLockAxis="x"
   cdkDragBoundary=".gantt"
-  (cdkDragMoved)="dragMoved($event)"
-  (cdkDragStarted)="dragStarted($event)"
-  (cdkDragEnded)="tableDragEnded($event)"
+  (cdkDragMoved)="onResizeMoved($event)"
+  (cdkDragStarted)="onResizeStarted($event)"
+  (cdkDragEnded)="onOverallResizeEnded($event)"
 ></div>
 
-<div #dragLine class="gantt-table-drag-auxiliary-line"></div>
+<div #resizeLine class="table-resize-auxiliary-line"></div>

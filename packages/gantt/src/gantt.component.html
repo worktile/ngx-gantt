@@ -17,12 +17,16 @@
       <div class="gantt-side-container">
         <div class="gantt-table">
           <gantt-table-body
-            [tempData]="tempData"
+            [flatData]="flatData"
+            [renderData]="renderData"
             [columns]="columns"
             [groupTemplate]="groupTemplate"
             [emptyTemplate]="tableEmptyTemplate"
             [rowBeforeTemplate]="table?.rowBeforeTemplate"
             [rowAfterTemplate]="table?.rowAfterTemplate"
+            [draggable]="table.draggable"
+            [dropEnterPredicate]="table.dropEnterPredicate"
+            (dragDropped)="table.dragDropped.emit($event)"
             (itemClick)="selectItem($event)"
           ></gantt-table-body>
         </div>
@@ -32,8 +36,8 @@
       <gantt-calendar-grid></gantt-calendar-grid>
       <div class="gantt-main">
         <gantt-main
-          [tempData]="tempData"
           [flatData]="flatData"
+          [renderData]="renderData"
           [groupHeaderTemplate]="groupHeaderTemplate"
           [itemTemplate]="itemTemplate"
           [barTemplate]="barTemplate"
