@@ -22,6 +22,7 @@ import { GanttTableHeaderComponent } from './components/table/header/gantt-table
 import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
 import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
 import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
+import { VirtualForOf } from './components/table/body/virtual-for-of';
 
 @NgModule({
     imports: [CommonModule, DragDropModule, ScrollingModule],
@@ -56,7 +57,8 @@ import { GanttTableBodyComponent } from './components/table/body/gantt-table-bod
         NgxGanttToolbarComponent,
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
-        IsGanttCustomItemPipe
+        IsGanttCustomItemPipe,
+        VirtualForOf
     ],
     providers: [
         CdkVirtualScrollViewport,

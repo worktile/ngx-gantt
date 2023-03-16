@@ -11,7 +11,8 @@ import {
     GanttSelectedEvent,
     GanttBaselineItem,
     GanttView,
-    GanttToolbarOptions
+    GanttToolbarOptions,
+    GanttTableDragEnterPredicateContext
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -60,7 +61,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         // { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'], expandable: true },
         { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'], expandable: true },
         { id: '000002', title: 'Task 2', start: 1610536397, end: 1610622797, progress: 0.5 },
-        { id: '000003', title: 'Task 3', start: 1628507597, end: 1633345997, expandable: true },
+        { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, expandable: true, itemDraggable: false },
         { id: '000004', title: 'Task 4', start: 1624705997, expandable: true },
         { id: '000005', title: 'Task 5', start: 1628075597, end: 1629544397, color: '#709dc1' },
         { id: '000006', title: 'Task 6', start: 1641121997, end: 1645528397 },
@@ -112,6 +113,10 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     childrenResolve = (item: GanttItem) => {
         const children = randomItems(random(1, 5), item);
         return of(children).pipe(delay(1000));
+    };
+
+    dropEnterPredicate = (event: GanttTableDragEnterPredicateContext) => {
+        return true;
     };
 
     constructor(private printService: GanttPrintService, private thyNotify: ThyNotifyService) {}
@@ -178,5 +183,9 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     viewChange(event: GanttView) {
         console.log(event.viewType);
         this.selectedViewType = event.viewType;
+    }
+
+    onDragDropped(event) {
+        console.log(event);
     }
 }

@@ -54,7 +54,7 @@
 
 <gantt-links-overlay [flatData]="flatData" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
 <div class="gantt-main-groups" [style.width.px]="ganttUpper.view.width">
-  <ng-container *ngFor="let data of tempData; trackBy: trackBy">
+  <ng-container *ngFor="let data of renderData; trackBy: trackBy">
     <div class="gantt-group" [ngClass]="data.class" *ngIf="data.items">
       <ng-template [ngTemplateOutlet]="groupHeaderTemplate" [ngTemplateOutletContext]="{ group: data }"></ng-template>
     </div>

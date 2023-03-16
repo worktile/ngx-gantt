@@ -1,11 +1,11 @@
-<!-- <div class="gantt-table-header gantt-table-row">
+<!-- <div class="gantt-table-header ">
   <div class="gantt-table-column" *ngFor="let column of columnList; let i = index" [style.width]="column.columnWidth">
     <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"></ng-container>
     <ng-template #default>
       {{ column.name }}
     </ng-template>
     <div
-      class="gantt-table-drag-trigger"
+      class="table-resize-handle"
       cdkDrag
       cdkDragLockAxis="x"
       cdkDragBoundary=".gantt"
@@ -23,7 +23,6 @@
     </ng-container>
     <ng-template [ngTemplateOutlet]="emptyTemplate"></ng-template>
   </ng-container>
-
   <ng-container *ngIf="groups && groups.length > 0; else itemsTemplate">
     <ng-container *ngFor="let group of groups; trackBy: trackBy">
       <div class="gantt-table-group" [ngClass]="group.class">
@@ -40,7 +39,6 @@
           </ng-template>
         </div>
       </div>
-
       <ng-container *ngIf="group.expanded">
         <ng-template
           [ngTemplateOutlet]="ganttItems"
@@ -50,9 +48,8 @@
     </ng-container>
   </ng-container>
 </div>
-
 <div
-  class="gantt-table-drag-trigger"
+  class="table-resize-handle"
   cdkDrag
   cdkDragLockAxis="x"
   cdkDragBoundary=".gantt"
@@ -60,18 +57,15 @@
   (cdkDragStarted)="dragStarted($event)"
   (cdkDragEnded)="tableDragEnded($event)"
 ></div>
-
-<div #dragLine class="gantt-table-drag-auxiliary-line"></div>
-
+<div #dragLine class="table-resize-auxiliary-line"></div>
 <ng-template #itemsTemplate>
   <ng-template [ngTemplateOutlet]="ganttItems" [ngTemplateOutletContext]="{ items: items, level: 0 }"></ng-template>
 </ng-template>
-
 <ng-template #ganttItems let-group="group" let-items="items" let-level="level">
   <ng-container *ngFor="let item of items; trackBy: trackBy">
     <div
       (click)="itemClick.emit({ event: $event, selectedValue: this.item.origin })"
-      class="gantt-table-item gantt-table-row"
+      class="gantt-table-item "
       [class.gantt-table-item-first-level-group]="level === 0 && (item.type | isGanttRangeItem)"
       [class.gantt-table-item-with-group]="group"
       [class.gantt-table-item-active]="ganttUpper.isSelected(item.id)"
@@ -83,7 +77,7 @@
         [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
       ></ng-template>
       <div class="gantt-table-column" *ngFor="let column of columnList; let first = first" [style.width]="column.columnWidth">
-        <div *ngIf="column?.showExpandIcon || (!hasShowExpandIcon && first)" class="gantt-expand-icon" [style.marginLeft.px]="level * 20">
+        <div *ngIf="column?.showExpandIcon || (!hasExpandIcon && first)" class="gantt-expand-icon" [style.marginLeft.px]="level * 20">
           <ng-container *ngIf="level < gantt.maxLevel - 1 && item.expandable">
             <gantt-icon
               *ngIf="!item.loading"

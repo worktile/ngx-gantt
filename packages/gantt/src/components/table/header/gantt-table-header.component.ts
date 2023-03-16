@@ -38,9 +38,9 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     @Input() columns: QueryList<NgxGanttTableColumnComponent>;
 
-    @ViewChild('dragLine', { static: true }) draglineElementRef: ElementRef<HTMLElement>;
+    @ViewChild('resizeLine', { static: true }) resizeLineElementRef: ElementRef<HTMLElement>;
 
-    @HostBinding('class') className = `gantt-table-header gantt-table-row`;
+    @HostBinding('class') className = `gantt-table-header `;
 
     constructor(
         private elementRef: ElementRef,
@@ -77,12 +77,12 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         }
     }
 
-    dragStarted(event: CdkDragStart) {
+    onResizeStarted(event: CdkDragStart) {
         const target = event.source.element.nativeElement;
         this.dragStartLeft = target.getBoundingClientRect().left;
     }
 
-    dragMoved(event: CdkDragMove, column?: NgxGanttTableColumnComponent) {
+    onResizeMoved(event: CdkDragMove, column?: NgxGanttTableColumnComponent) {
         const target = event.source.element.nativeElement;
         const left = target.getBoundingClientRect().left;
 
@@ -109,7 +109,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         this.showAuxiliaryLine(event);
     }
 
-    columnDragEnded(event: CdkDragEnd, column: NgxGanttTableColumnComponent) {
+    onResizeEnded(event: CdkDragEnd, column: NgxGanttTableColumnComponent) {
         const beforeWidth = parseInt(column.columnWidth, 10);
         const target = event.source.element.nativeElement;
         const left = target.getBoundingClientRect().left;
@@ -126,7 +126,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         event.source.reset();
     }
 
-    tableDragEnded(event: CdkDragEnd) {
+    onOverallResizeEnded(event: CdkDragEnd) {
         const target = event.source.element.nativeElement;
         const left = target.getBoundingClientRect().left;
         const tableWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
@@ -152,12 +152,12 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         const tableRect = this.elementRef.nativeElement.getBoundingClientRect();
         const targetRect = event.source.element.nativeElement.getBoundingClientRect();
         const distance = { x: targetRect.left - tableRect.left, y: targetRect.top - tableRect.top };
-        this.draglineElementRef.nativeElement.style.left = `${distance.x}px`;
-        this.draglineElementRef.nativeElement.style.display = 'block';
+        this.resizeLineElementRef.nativeElement.style.left = `${distance.x}px`;
+        this.resizeLineElementRef.nativeElement.style.display = 'block';
     }
 
     private hideAuxiliaryLine() {
-        this.draglineElementRef.nativeElement.style.display = 'none';
+        this.resizeLineElementRef.nativeElement.style.display = 'none';
     }
 
     ngOnDestroy() {

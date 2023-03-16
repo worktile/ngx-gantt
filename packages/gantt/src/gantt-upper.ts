@@ -41,6 +41,7 @@ import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
+import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
@@ -165,6 +166,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public selectionModel: SelectionModel<string>;
 
+    public table?: NgxGanttTableComponent;
+
     private groupsMap: { [key: string]: GanttGroupInternal };
 
     private _selectable = false;
@@ -206,13 +209,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
                 if (group) {
-                    const item = new GanttItemInternal(origin, { fillDays: this.view.options?.fillDays });
+                    const item = new GanttItemInternal(origin, 0, { fillDays: this.view.options?.fillDays });
                     group.items.push(item);
                 }
             });
         } else {
             this.originItems.forEach((origin) => {
-                const item = new GanttItemInternal(origin, { fillDays: this.view.options?.fillDays });
+                const item = new GanttItemInternal(origin, 0, { fillDays: this.view.options?.fillDays });
                 this.items.push(item);
             });
         }

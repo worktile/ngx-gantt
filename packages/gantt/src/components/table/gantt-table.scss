@@ -1,5 +1,169 @@
 @use '../../styles/variables';
 
+@mixin gantt-table-item-base() {
+  display: flex;
+  box-sizing: border-box;
+  border-bottom: 1px solid variables.$gantt-border-color;
+
+  .gantt-table-column {
+    overflow: hidden;
+    border-right: 1px solid variables.$gantt-border-color;
+    box-sizing: border-box;
+    position: relative;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+@mixin gantt-table-item {
+  @include gantt-table-item-base();
+  cursor: pointer;
+  &-first-level-group {
+    background: variables.$gantt-group-background-color;
+  }
+
+  &-with-group {
+    .gantt-table-column {
+      &:first-child {
+        padding: 0 15px 0 32px;
+      }
+    }
+  }
+
+  .gantt-table-column {
+    display: flex;
+    padding: variables.$gantt-table-td-padding;
+  }
+
+  .gantt-table-column-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background-color: variables.$gantt-container-background-color;
+  }
+
+  &-active {
+    background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
+    &:hover {
+      background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
+    }
+  }
+
+  .gantt-table-column {
+    display: flex;
+    padding: variables.$gantt-table-td-padding;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .gantt-table-column-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .gantt-expand-icon {
+    display: inline-block;
+    width: 20px;
+    color: #aaa;
+  }
+
+  .gantt-drag-handle {
+    width: 1rem;
+    padding: 0 5px 0 0;
+    display: flex;
+    align-items: center;
+    margin-left: -10px;
+  }
+
+  &:hover {
+    background-color: variables.$gantt-container-background-color;
+  }
+
+  &-active {
+    background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
+    &:hover {
+      background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
+    }
+  }
+}
+
+@mixin gantt-items-drag-drop() {
+  .cdk-drag-preview.gantt-table-item {
+    box-sizing: border-box;
+    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+    opacity: 0.9;
+    @include gantt-table-item();
+  }
+
+  .gantt-table-body.gantt-table-draggable {
+    .cdk-drag-placeholder {
+      display: none !important;
+      & + .cdk-drop-list {
+        display: none !important;
+      }
+    }
+
+    .cdk-drag-disabled.gantt-table-item {
+      .gantt-drag-handle {
+        svg {
+          display: none;
+        }
+      }
+    }
+
+    &.gantt-table-dragging {
+      .gantt-table-item {
+        &:hover {
+          background: unset;
+          .gantt-drag-handle {
+            visibility: hidden !important;
+          }
+        }
+      }
+    }
+
+    .drag-item-hide {
+      display: none !important;
+    }
+
+    .drop-position-inside {
+      .gantt-table-column {
+        height: 100%;
+        border-top: 2px dashed variables.$gantt-primary-color !important;
+        border-bottom: 2px dashed variables.$gantt-primary-color !important;
+        &:first-child {
+          border-left: 2px dashed variables.$gantt-primary-color !important;
+        }
+        &:last-child {
+          border-right: 2px dashed variables.$gantt-primary-color !important;
+        }
+      }
+    }
+
+    .drop-position-before {
+      background: variables.$gantt-table-items-drop-background-color !important;
+      border-top: 2px solid variables.$gantt-primary-color !important;
+    }
+
+    .drop-position-after {
+      background: variables.$gantt-table-items-drop-background-color !important;
+      border-bottom: 2px solid variables.$gantt-primary-color !important;
+    }
+  }
+}
+
 .gantt-table-header {
   text-align: center;
   background: #fff;
@@ -9,6 +173,9 @@
   position: relative;
   z-index: 3;
   border-right: 1px solid variables.$gantt-border-color;
+
+  @include gantt-table-item();
+
   .gantt-table-column {
     font-weight: 400;
     z-index: 1;
@@ -38,42 +205,7 @@
   }
 
   .gantt-table-item {
-    cursor: pointer;
-    &-first-level-group {
-      background: variables.$gantt-group-background-color;
-    }
-
-    &-with-group {
-      .gantt-table-column {
-        &:first-child {
-          padding: 0 15px 0 32px;
-        }
-      }
-    }
-
-    .gantt-table-column {
-      display: flex;
-      padding: variables.$gantt-table-td-padding;
-    }
-
-    .gantt-table-column-content {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &:hover {
-      background-color: variables.$gantt-container-background-color;
-    }
-
-    &-active {
-      background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
-      &:hover {
-        background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
-      }
-    }
+    @include gantt-table-item();
   }
 
   .gantt-expand-icon {
@@ -105,7 +237,8 @@
   }
 }
 
-.gantt-table-drag-trigger {
+.table-resize-handle,
+.column-resize-handle {
   width: variables.$gantt-table-header-drag-line-width;
   position: absolute;
   top: 0;
@@ -113,17 +246,18 @@
   bottom: 0;
   cursor: ew-resize;
   height: 5000px;
-  &.column-drag-trigger {
-    height: unset;
-    z-index: 1;
-  }
 
   &:hover {
     background: variables.$gantt-table-header-drag-line-color;
   }
 }
 
-.gantt-table-drag-auxiliary-line {
+.column-resize-handle {
+  height: unset;
+  z-index: 1;
+}
+
+.table-resize-auxiliary-line {
   width: variables.$gantt-table-header-drag-line-width;
   background: variables.$gantt-table-header-drag-line-color;
   position: absolute;
@@ -134,19 +268,4 @@
   height: 5000px;
 }
 
-.gantt-table-row {
-  display: flex;
-  box-sizing: border-box;
-  border-bottom: 1px solid variables.$gantt-border-color;
-
-  .gantt-table-column {
-    overflow: hidden;
-    border-right: 1px solid variables.$gantt-border-color;
-    box-sizing: border-box;
-    position: relative;
-
-    &:last-child {
-      border-right: none;
-    }
-  }
-}
+@include gantt-items-drag-drop();

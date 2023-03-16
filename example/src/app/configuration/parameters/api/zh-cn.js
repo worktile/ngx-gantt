@@ -183,9 +183,25 @@ module.exports = [
         description: '甘特图左侧表格',
         properties: [
             {
+                name: 'draggable',
+                description: `设置表格数据项是否支持上下拖动排序`,
+                default: false,
+                type: 'boolean'
+            },
+            {
+                name: 'dropEnterPredicate',
+                description: `该函数用于判断是否允许某个数据项拖到其他项`,
+                type: '(context: GanttTableDragEnterPredicateContext<T>) => boolean'
+            },
+            {
                 name: 'columnChanges',
                 description: `列宽变化事件集`,
                 type: 'EventEmitter<GanttTableEvent>'
+            },
+            {
+                name: 'dragDropped',
+                description: `当把一个数据项拖动到另一个数据项时就会触发`,
+                type: 'EventEmitter<GanttTableDragDroppedEvent>'
             },
             {
                 name: 'itemClick',

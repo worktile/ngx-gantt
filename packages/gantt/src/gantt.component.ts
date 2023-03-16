@@ -67,7 +67,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Output() selectedChange = new EventEmitter<GanttSelectedEvent>();
 
-    @ContentChild(NgxGanttTableComponent) table: NgxGanttTableComponent;
+    @ContentChild(NgxGanttTableComponent) override table: NgxGanttTableComponent;
 
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 
@@ -79,7 +79,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     public flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
 
-    public tempData: (GanttGroupInternal | GanttItemInternal)[] = [];
+    public renderData: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     private rangeStart: number;
 
@@ -131,12 +131,12 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         super.ngOnChanges(changes);
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue) {
-                this.tempData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+                this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
             }
             if (changes.originItems || changes.originGroups) {
                 this.buildVirtualFlatData();
-                this.tempData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+                this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
             }
         }
@@ -148,7 +148,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
             this.rangeStart = range.start;
             this.rangeEnd = range.end;
-            this.tempData = this.flatData.slice(range.start, range.end);
+            this.renderData = this.flatData.slice(range.start, range.end);
             this.computeTempDataRefs();
         });
     }
@@ -159,14 +159,14 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             this.groups.forEach((group) => {
                 virtualData.push(group);
                 if (group.expanded) {
-                    const items = recursiveItems(group.items, 0);
+                    const items = recursiveItems(group.items);
                     virtualData.push(...items);
                 }
             });
         }
 
         if (this.items.length) {
-            virtualData.push(...recursiveItems(this.items, 0));
+            virtualData.push(...recursiveItems(this.items));
         }
         this.flatData = [...virtualData];
         this.flatDataMap = keyBy(this.flatData, 'id');
@@ -174,12 +174,12 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     private afterExpand() {
         this.buildVirtualFlatData();
-        this.tempData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+        this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
     }
 
     private computeTempDataRefs() {
         const tempItemData = [];
-        this.tempData.forEach((data: GanttGroupInternal | GanttItemInternal) => {
+        this.renderData.forEach((data: GanttGroupInternal | GanttItemInternal) => {
             if (!data.hasOwnProperty('items')) {
                 const item = data as GanttItemInternal;
                 if (item.links) {
@@ -194,7 +194,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         });
         this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
         this.flatData = [...this.flatData];
-        this.tempData = [...this.tempData];
+        this.renderData = [...this.renderData];
     }
 
     expandChildren(item: GanttItemInternal) {
