@@ -138,6 +138,11 @@ export class GanttBarDrag implements OnDestroy {
         });
 
         dragRef.ended.subscribe((event) => {
+            this.item.updateRefs({
+                width: this.ganttUpper.view.getDateRangeWidth(this.item.start.startOfDay(), this.item.end.endOfDay()),
+                x: this.ganttUpper.view.getXPointByDate(this.item.start),
+                y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
+            });
             this.clearDraggingStyles();
             this.closeDragBackdrop();
             event.source.reset();
@@ -191,6 +196,11 @@ export class GanttBarDrag implements OnDestroy {
                         this.item.updateDate(this.item.start, this.item.start.endOfDay());
                     }
                 }
+                this.item.updateRefs({
+                    width: this.ganttUpper.view.getDateRangeWidth(this.item.start.startOfDay(), this.item.end.endOfDay()),
+                    x: this.ganttUpper.view.getXPointByDate(this.item.start),
+                    y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
+                });
                 this.clearDraggingStyles();
                 this.closeDragBackdrop();
                 event.source.reset();
@@ -401,6 +411,10 @@ export class GanttBarDrag implements OnDestroy {
                 this.dragRefs.push(...linkDragRefs);
             }
         }
+    }
+
+    updateItem(item: GanttItemInternal) {
+        this.item = item;
     }
 
     ngOnDestroy() {

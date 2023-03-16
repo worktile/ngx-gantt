@@ -121,7 +121,6 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         }
 
         this.tableWidth = this.tableWidth - beforeWidth + columnWidth;
-        console.log(this.tableWidth);
         this.hideAuxiliaryLine();
         event.source.reset();
     }

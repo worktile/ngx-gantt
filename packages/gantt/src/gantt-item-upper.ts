@@ -1,4 +1,4 @@
-import { Input, ElementRef, Inject, TemplateRef, Directive, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Input, ElementRef, Inject, TemplateRef, Directive, OnInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { GanttItemInternal, GanttItemType } from './class';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -24,10 +24,20 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
         if (!this.firstChange) {
-            this.setPositions();
+            this.itemChange(changes.item.currentValue);
         }
+    }
+
+    private itemChange(item: GanttItemInternal) {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+        this.item = item;
+        this.setPositions();
+        this.item.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.setPositions();
+        });
     }
 
     private setPositions() {
