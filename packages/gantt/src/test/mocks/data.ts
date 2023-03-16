@@ -1,7 +1,6 @@
 import { GanttDate } from './../../utils/date';
-import { GanttItem } from '../../class';
 
-export function getMockItems(): GanttItem[] {
+export function getMockItems() {
     return [
         {
             id: 'item-0101',

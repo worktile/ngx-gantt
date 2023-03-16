@@ -17,7 +17,7 @@ import { NgxGanttBarComponent } from '../components/bar/bar.component';
 import { GanttIconComponent } from '../components/icon/icon.component';
 import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
-import { delay, finalize } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
 import { GanttTableComponent } from 'ngx-gantt/components/table/gantt-table.component';
 import { NgxGanttBaselineComponent } from '../components/baseline/baseline.component';
