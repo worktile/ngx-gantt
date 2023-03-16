@@ -1,6 +1,19 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/15.0.0...15.1.0-next.0) (2023-03-16)
+
+### Features
+
+- auto scroll when dragging #INFR-6189 ([#317](https://github.com/worktile/ngx-gantt/issues/317)) ([d18654d](https://github.com/worktile/ngx-gantt/commit/d18654d3d55b1cd7dd65d38284093ced3eab6cf2)), closes [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189)
+- support table items drag and drop #INFR-6731 ([#325](https://github.com/worktile/ngx-gantt/issues/325)) ([1d1f671](https://github.com/worktile/ngx-gantt/commit/1d1f67194fffc3419384fa1e7fe15286f2ba6f5f)), closes [#INFR-6731](https://github.com/worktile/ngx-gantt/issues/INFR-6731) [#INFR-6731](https://github.com/worktile/ngx-gantt/issues/INFR-6731)
+- support virtual scroll ([5597411](https://github.com/worktile/ngx-gantt/commit/559741174a8971f5e4dee829a161488ac9c84e85))
+
+### Bug Fixes
+
+- fix drag error ([#326](https://github.com/worktile/ngx-gantt/issues/326)) ([f314c9b](https://github.com/worktile/ngx-gantt/commit/f314c9b708575b85146b16b29a7eb355ec98d647))
+- fix lint error and columns change error ([790860d](https://github.com/worktile/ngx-gantt/commit/790860d055286c165a1558f1f2f33a617c0a7b78))
+
 ## [15.0.0](https://github.com/worktile/ngx-gantt/compare/15.0.0-next.0...15.0.0) (2023-03-09)
 
 ### Features
