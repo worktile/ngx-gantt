@@ -154,7 +154,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     onItemDragStarted(event: CdkDragStart<GanttItemInternal>) {
         this.ganttTableDragging = true;
         // 拖动开始时隐藏所有的子项
-        const children = this.getChildrenElementsByDragRef(event.source);
+        const children = this.getChildrenElementsByElement(event.source.getPlaceholderElement());
         children.forEach((element) => {
             element.classList.add('drag-item-hide');
         });
@@ -256,9 +256,19 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     private insertItem(target: GanttItemInternal, inserted: GanttItemInternal, position: 'before' | 'after') {
-        const appendIndex = position === 'after' ? 1 : 0;
-        this.renderData.splice(this.renderData.indexOf(target) + appendIndex, 0, inserted);
-        this.flatData.splice(this.flatData.indexOf(target) + appendIndex, 0, inserted);
+        if (position === 'before') {
+            this.renderData.splice(this.renderData.indexOf(target), 0, inserted);
+            this.flatData.splice(this.flatData.indexOf(target), 0, inserted);
+        } else {
+            const dragRef = this.cdkDrags.find((drag) => drag.data === target);
+            // 如果目标项是展开的，插入的 index 位置需要考虑子项的数量
+            let childrenCount = 0;
+            if (target.expanded) {
+                childrenCount = this.getChildrenElementsByElement(dragRef.element.nativeElement)?.length || 0;
+            }
+            this.renderData.splice(this.renderData.indexOf(target) + 1 + childrenCount, 0, inserted);
+            this.flatData.splice(this.flatData.indexOf(target) + 1 + childrenCount, 0, inserted);
+        }
     }
 
     private insertChildrenItem(target: GanttItemInternal, inserted: GanttItemInternal) {
@@ -275,10 +285,11 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         });
     }
 
-    private getChildrenElementsByDragRef(dragRef: CdkDrag<GanttItemInternal>) {
+    private getChildrenElementsByElement(element: HTMLElement) {
         // 通过循环持续查找 next element，如果 element 的 level 小于当前 item 的 level，则为它的 children
         const children: HTMLElement[] = [];
-        let nextElement = dragRef.getPlaceholderElement().nextElementSibling as HTMLElement;
+        const dragRef = this.itemDragRefMap.get(element);
+        let nextElement = element.nextElementSibling as HTMLElement;
         let nextDragRef = this.itemDragRefMap.get(nextElement);
         while (nextDragRef && nextDragRef.data.level > dragRef.data.level) {
             children.push(nextElement);
