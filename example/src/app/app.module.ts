@@ -1,5 +1,5 @@
 import { ThyLayoutModule } from 'ngx-tethys/layout';
-import { setPrintErrorWhenIconNotFound } from 'ngx-tethys/icon';
+import { setPrintErrorWhenIconNotFound, ThyIconComponent } from 'ngx-tethys/icon';
 import { ThyNavModule } from 'ngx-tethys/nav';
 import { ThyButtonModule } from 'ngx-tethys/button';
 import { ThyCheckboxModule } from 'ngx-tethys/checkbox';
@@ -24,6 +24,7 @@ import { EXAMPLE_MODULES } from './content/example-modules';
 import { AppExampleComponentsComponent } from './components/components.component';
 import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.component';
 import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.component';
+import { AppGanttLoaderExampleComponent } from './gantt-loader/gantt-loader.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.co
         AppGanttGroupsExampleComponent,
         AppGanttRangeExampleComponent,
         AppGanttCustomViewExampleComponent,
-        AppGanttFlatComponent
+        AppGanttFlatComponent,
+        AppGanttLoaderExampleComponent
     ],
     imports: [
         BrowserModule,
@@ -51,6 +53,7 @@ import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.co
         ThyNotifyModule,
         ThySwitchModule,
         ThyDatePickerModule,
+        ThyIconComponent,
         ...EXAMPLE_MODULES
     ],
     providers: [...DOCGENI_SITE_PROVIDERS],

@@ -59,6 +59,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() override linkable: boolean;
 
+    @Input() loading: boolean = true;
+
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() override linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
@@ -143,6 +145,9 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     ngAfterViewInit() {
+        this.columns.changes.subscribe((res) => {
+            console.log(res);
+        });
         this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
             const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
             linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
