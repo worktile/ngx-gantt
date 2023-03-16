@@ -87,9 +87,9 @@ export class GanttSelectedEvent<T = unknown> {
 ```ts
 export class GanttTableDragDroppedEvent<T = unknown> {
   source: GanttItem<T>; // 拖动开始数据项
-  sourceParentId: string; // 拖动开始数据项父 ID
+  sourceParent: GanttItem<T>; // 拖动开始数据项父 ID
   target: GanttItem<T>; // 拖动目标数据项
-  targetParentId: string; // 拖动目标数据项父 ID
+  targetParent: GanttItem<T>; // 拖动目标数据项父 ID
   dropPosition: GanttTableDropPosition; // 拖动放下的位置  'before' | 'inside' | 'after'
 }
 ```
