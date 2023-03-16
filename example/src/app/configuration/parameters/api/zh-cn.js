@@ -194,14 +194,14 @@ module.exports = [
                 type: '(context: GanttTableDragEnterPredicateContext<T>) => boolean'
             },
             {
-                name: 'columnChanges',
-                description: `列宽变化事件集`,
-                type: 'EventEmitter<GanttTableEvent>'
-            },
-            {
                 name: 'dragDropped',
                 description: `当把一个数据项拖动到另一个数据项时就会触发`,
                 type: 'EventEmitter<GanttTableDragDroppedEvent>'
+            },
+            {
+                name: 'columnChanges',
+                description: `列宽变化事件集`,
+                type: 'EventEmitter<GanttTableEvent>'
             },
             {
                 name: 'itemClick',
