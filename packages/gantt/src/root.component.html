@@ -1,5 +1,5 @@
 <div class="gantt-side" *ngIf="sideTemplate" [style.width.px]="sideWidth">
-  <div class="gantt-side-container">
+  <div class="gantt-side-container" cdkScrollable>
     <ng-template [ngTemplateOutlet]="sideTemplate"></ng-template>
   </div>
 </div>

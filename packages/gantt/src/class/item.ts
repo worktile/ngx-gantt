@@ -23,6 +23,7 @@ export interface GanttItem<T = unknown> {
     group_id?: string;
     links?: (GanttLink | string)[];
     draggable?: boolean;
+    itemDraggable?: boolean;
     linkable?: boolean;
     expandable?: boolean;
     expanded?: boolean;
@@ -43,6 +44,7 @@ export class GanttItemInternal {
     color?: string;
     barStyle?: Partial<CSSStyleDeclaration>;
     draggable?: boolean;
+    itemDraggable?: boolean;
     linkable?: boolean;
     origin: GanttItem;
     expandable?: boolean;
@@ -61,7 +63,7 @@ export class GanttItemInternal {
 
     refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null);
 
-    constructor(item: GanttItem, options?: { fillDays: number }) {
+    constructor(item: GanttItem, level?: number, options?: { fillDays: number }) {
         this.origin = item;
         this.id = this.origin.id;
         this.links = (this.origin.links || []).map((link) => {
@@ -78,14 +80,16 @@ export class GanttItemInternal {
         this.barStyle = this.origin.barStyle;
         this.linkable = this.origin.linkable === undefined ? true : this.origin.linkable;
         this.draggable = this.origin.draggable === undefined ? true : this.origin.draggable;
+        this.itemDraggable = this.origin.itemDraggable;
         this.expandable = this.origin.expandable || (this.origin.children || []).length > 0;
         this.expanded = this.origin.expanded === undefined ? false : this.origin.expanded;
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
+        this.level = level;
         //  默认填充 30 天
         this.fillDays = options?.fillDays || 30;
         this.children = (item.children || []).map((subItem) => {
-            return new GanttItemInternal(subItem, { fillDays: this.fillDays });
+            return new GanttItemInternal(subItem, level + 1, { fillDays: this.fillDays });
         });
         this.type = this.origin.type || GanttItemType.bar;
         this.progress = this.origin.progress;
@@ -116,10 +120,14 @@ export class GanttItemInternal {
         this.origin.end = this.end.getUnixTime();
     }
 
+    updateLevel(level: number) {
+        this.level = level;
+    }
+
     addChildren(items: GanttItem[]) {
         this.origin.children = items;
         this.children = (items || []).map((subItem) => {
-            return new GanttItemInternal(subItem, { fillDays: this.fillDays });
+            return new GanttItemInternal(subItem, this.level + 1, { fillDays: this.fillDays });
         });
     }
 

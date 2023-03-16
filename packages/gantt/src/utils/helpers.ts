@@ -54,13 +54,12 @@ export function flatten<T = unknown>(array: T[]) {
 //     return result;
 // }
 
-export function recursiveItems(items: GanttItemInternal[], level?: number) {
+export function recursiveItems(items: GanttItemInternal[]) {
     const result = [];
     (items || []).forEach((item) => {
-        item.level = level;
         result.push(item);
         if (item.expanded && item.children) {
-            result.push(...recursiveItems(item.children, level + 1));
+            result.push(...recursiveItems(item.children));
         }
     });
     return result;

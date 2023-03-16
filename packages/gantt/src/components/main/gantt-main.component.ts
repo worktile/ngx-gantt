@@ -10,7 +10,7 @@ export class GanttMainComponent {
     // @Input() groups: GanttGroupInternal[];
 
     // @Input() items: GanttItemInternal[];
-    @Input() tempData: (GanttGroupInternal | GanttItemInternal)[];
+    @Input() renderData: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() flatData: (GanttGroupInternal | GanttItemInternal)[];
 

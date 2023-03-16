@@ -27,7 +27,7 @@
       [async]="true"
       [childrenResolve]="childrenResolve"
     >
-      <ngx-gantt-table>
+      <ngx-gantt-table [draggable]="true">
         <ngx-gantt-column name="标题" width="180px">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>
