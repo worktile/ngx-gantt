@@ -50,6 +50,20 @@ module.exports = [
             },
 
             {
+                name: 'loading',
+                description: `是否展示加载器`,
+                type: 'boolean',
+                default: 'false'
+            },
+
+            {
+                name: 'loadingDelay',
+                description: '设置在多少`毫秒`内,忽略加载器展示',
+                type: 'number',
+                default: '0'
+            },
+
+            {
                 name: 'maxLevel',
                 description: `设置最大展示层级`,
                 type: 'number',

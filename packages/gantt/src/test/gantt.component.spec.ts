@@ -24,6 +24,7 @@ import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
 import { NgxGanttBaselineComponent } from '../components/baseline/baseline.component';
 import { GanttCalendarGridComponent } from '../components/calendar/grid/calendar-grid.component';
 import { GanttTableBodyComponent } from '../components/table/body/gantt-table-body.component';
+import { GanttLoaderComponent } from '../components/loader/loader.component';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
@@ -51,6 +52,8 @@ const config = {
         [items]="items"
         [baselineItems]="baselineItems"
         [viewType]="viewType"
+        [loading]="loading"
+        [loadingDelay]="loadingDelay"
         [viewOptions]="viewOptions"
         [showToolbar]="showToolbar"
         [toolbarOptions]="toolbarOptions"
@@ -80,9 +83,13 @@ export class TestGanttBasicComponent {
 
     end = new GanttDate('2021-12-01 00:00:00').getUnixTime();
 
-    viewType = 'month';
+    viewType = GanttViewType.month;
 
     items = mockItems;
+
+    loading = false;
+
+    loadingDelay = 0;
 
     baselineItems = mockBaselineItems;
 
@@ -129,7 +136,7 @@ export class TestGanttWithGroupsComponent {
 
     constructor() {}
 
-    viewType = 'month';
+    viewType = GanttViewType.month;
 
     groups = mockGroups;
 
@@ -154,7 +161,7 @@ export class TestGanttLoadChildrenComponent {
 
     constructor() {}
 
-    viewType = 'month';
+    viewType = GanttViewType.month;
 
     items = mockItems;
 
@@ -427,6 +434,36 @@ describe('ngx-gantt', () => {
             const toolbarViews = fixture.debugElement.query(By.css('.toolbar-views'));
             expect(toolbarViews).toBeFalsy();
         });
+
+        it('should show table loader when loading with true', fakeAsync(() => {
+            ganttComponentInstance.loading = true;
+            fixture.detectChanges();
+            let loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeTruthy();
+            ganttComponentInstance.loading = false;
+            fixture.detectChanges();
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+        }));
+        it('should hide loader when loading time less than loadingDelay', fakeAsync(() => {
+            ganttComponentInstance.loadingDelay = 2000;
+            fixture.detectChanges();
+            ganttComponentInstance.loading = true;
+            fixture.detectChanges();
+            let loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+            tick(1000);
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+            tick(2000);
+            fixture.detectChanges();
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeTruthy();
+            ganttComponentInstance.loading = false;
+            fixture.detectChanges();
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+        }));
     });
 
     describe('#with groups', () => {

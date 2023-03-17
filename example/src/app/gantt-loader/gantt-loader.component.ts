@@ -151,7 +151,7 @@ export class AppGanttLoaderExampleComponent implements OnInit, AfterViewInit {
                 : this.sortType === Direction.ascending
                 ? Direction.descending
                 : Direction.default;
-        this.fetchItems(this.sortType, 3000);
+        this.fetchItems(this.sortType, this.sortType === Direction.default ? 500 : 3000);
     }
 
     deepClone(obj: any) {
