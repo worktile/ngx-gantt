@@ -191,7 +191,6 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     refresh() {
         this.loading = true;
         const resp = this.deepClone(this.items);
-        console.log(resp);
         of(resp)
             .pipe(
                 delay(2000),
