@@ -24,7 +24,6 @@ import { EXAMPLE_MODULES } from './content/example-modules';
 import { AppExampleComponentsComponent } from './components/components.component';
 import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.component';
 import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.component';
-import { AppGanttLoaderExampleComponent } from './gantt-loader/gantt-loader.component';
 
 @NgModule({
     declarations: [
@@ -35,8 +34,7 @@ import { AppGanttLoaderExampleComponent } from './gantt-loader/gantt-loader.comp
         AppGanttGroupsExampleComponent,
         AppGanttRangeExampleComponent,
         AppGanttCustomViewExampleComponent,
-        AppGanttFlatComponent,
-        AppGanttLoaderExampleComponent
+        AppGanttFlatComponent
     ],
     imports: [
         BrowserModule,
