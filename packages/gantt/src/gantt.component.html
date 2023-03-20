@@ -15,7 +15,7 @@
     <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
     <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1">
       <div class="gantt-side-container">
-        <div class="gantt-table h-100">
+        <div class="gantt-table">
           <gantt-table-body
             [flatData]="flatData"
             [renderData]="renderData"

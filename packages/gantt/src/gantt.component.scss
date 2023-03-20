@@ -31,6 +31,10 @@
       background-color: variables.$gantt-bg-color;
       overflow-y: auto;
 
+      .gantt-table {
+        height: 100%;
+      }
+
       &::-webkit-scrollbar {
         display: none;
       }
