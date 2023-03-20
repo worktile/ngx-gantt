@@ -202,7 +202,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    public setupItems() {
+    private setupItems() {
         this.originItems = uniqBy(this.originItems, 'id');
         this.items = [];
         if (this.groups.length > 0) {
@@ -411,7 +411,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     getGanttItems(ids: string[]) {
-        let items: GanttItemInternal[];
+        let items: GanttItemInternal[] = [];
         if (this.items.length > 0) {
             items = recursiveItems(this.items);
         } else {

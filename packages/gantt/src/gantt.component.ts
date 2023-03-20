@@ -158,7 +158,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.computeTempDataRefs();
             }
             if (changes.originItems || changes.originGroups) {
-                this.setupItems();
                 this.buildVirtualFlatData();
                 this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();

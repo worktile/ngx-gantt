@@ -435,7 +435,7 @@ describe('ngx-gantt', () => {
             expect(toolbarViews).toBeFalsy();
         });
 
-        it('should show table loader when loading with true', fakeAsync(() => {
+        it('should show gantt loader when loading with true', fakeAsync(() => {
             ganttComponentInstance.loading = true;
             fixture.detectChanges();
             let loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
