@@ -13,9 +13,9 @@
     [maxBufferPx]="styles.lineHeight * 20"
   >
     <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
-    <div class="gantt-side">
+    <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1">
       <div class="gantt-side-container">
-        <div class="gantt-table">
+        <div class="gantt-table h-100">
           <gantt-table-body
             [flatData]="flatData"
             [renderData]="renderData"
