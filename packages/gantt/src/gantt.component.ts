@@ -152,6 +152,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     override ngOnChanges(changes: SimpleChanges) {
+        super.ngOnChanges(changes);
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue) {
                 this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
