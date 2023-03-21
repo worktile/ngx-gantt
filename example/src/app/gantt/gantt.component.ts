@@ -190,8 +190,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
 
     refresh() {
         this.loading = true;
-        const resp = this.deepClone(this.items);
-        of(resp)
+        of(randomItems(30))
             .pipe(
                 delay(2000),
                 finalize(() => {
@@ -201,10 +200,6 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
             .subscribe((res) => {
                 this.items = res;
             });
-    }
-
-    deepClone(obj: any) {
-        return JSON.parse(JSON.stringify(obj)).sort((a, b) => Number(b.id) - Number(a.id));
     }
 
     onDragDropped(event) {
