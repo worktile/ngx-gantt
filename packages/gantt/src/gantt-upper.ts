@@ -40,7 +40,7 @@ import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.c
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { GanttBaselineItem, GanttBaselineItemInternal } from './class';
+import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 @Directive()
@@ -235,7 +235,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     private setupExpandedState() {
         this.originItems = uniqBy(this.originItems, 'id');
-        let items: GanttItemInternal[];
+        let items: GanttItemInternal[] = [];
         const flatOriginItems = getFlatItems(this.originItems);
 
         if (this.items.length > 0) {
@@ -271,11 +271,11 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         return {
             start: {
                 date: new GanttDate(start),
-                isCustom: !!this.start
+                isCustom: this.start ? true : false
             },
             end: {
                 date: new GanttDate(end),
-                isCustom: !!this.end
+                isCustom: this.end ? true : false
             }
         };
     }

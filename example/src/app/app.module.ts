@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { AppGanttAdvancedExampleComponent } from './gantt-advanced/gantt-advanced.component';
 import { AppGanttRangeExampleComponent } from './gantt-range/gantt-range.component';
-import { DOCGENI_SITE_PROVIDERS } from './content';
+import { DOCGENI_SITE_PROVIDERS } from './content/index';
 import { DocgeniTemplateModule } from '@docgeni/template';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

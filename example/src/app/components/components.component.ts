@@ -26,12 +26,6 @@ export class AppExampleComponentsComponent implements OnInit {
             path: 'custom-view'
         },
         {
-            id: 'loader',
-            title: '加载器',
-            subtitle: 'Loader',
-            path: 'loader'
-        },
-        {
             id: 'advanced',
             title: '高级使用',
             subtitle: 'Advanced',

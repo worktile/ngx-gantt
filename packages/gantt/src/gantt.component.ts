@@ -20,11 +20,12 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { takeUntil, take, finalize, skip } from 'rxjs/operators';
+import { startWith, takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent, GanttGroupInternal } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
@@ -33,6 +34,7 @@ import { GanttDate } from './utils/date';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttPrintService } from './gantt-print.service';
+import { defaultColumnWidth } from './components/table/header/gantt-table-header.component';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
