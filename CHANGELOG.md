@@ -1,6 +1,17 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.1](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.0...15.1.0-next.0) (2023-03-21)
+
+### Features
+
+- support table loader #INFR-6879 ([#329](https://github.com/worktile/ngx-gantt/issues/329)) ([9ac7146](https://github.com/worktile/ngx-gantt/commit/9ac7146ecf052256c2e98d80a217760a543a7056)), closes [#INFR-6879](https://github.com/worktile/ngx-gantt/issues/INFR-6879)
+
+### Bug Fixes
+
+- fix drag insert index bug when target expanded ([#328](https://github.com/worktile/ngx-gantt/issues/328)) ([57f82da](https://github.com/worktile/ngx-gantt/commit/57f82da626fa3a3f3b5c4260713155e3c2cecf4c))
+- fix empty table style #INFR-6959 ([#330](https://github.com/worktile/ngx-gantt/issues/330)) ([a81f54a](https://github.com/worktile/ngx-gantt/commit/a81f54a7f48278785cc3c9df1f85343f49262232)), closes [#INFR-6959](https://github.com/worktile/ngx-gantt/issues/INFR-6959) [#INFR-6959](https://github.com/worktile/ngx-gantt/issues/INFR-6959)
+
 ## [15.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/15.0.0...15.1.0-next.0) (2023-03-16)
 
 ### Features
