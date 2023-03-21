@@ -59,6 +59,28 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() override linkable: boolean;
 
+    @Input() set loading(loading: boolean) {
+        if (loading) {
+            if (this.loadingDelay > 0) {
+                this.loadingTimer = setTimeout(() => {
+                    this._loading = loading;
+                    this.cdr.markForCheck();
+                }, this.loadingDelay);
+            } else {
+                this._loading = loading;
+            }
+        } else {
+            clearTimeout(this.loadingTimer);
+            this._loading = loading;
+        }
+    }
+
+    get loading() {
+        return this._loading;
+    }
+
+    @Input() loadingDelay: number = 0;
+
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() override linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
@@ -80,6 +102,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     public flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     public renderData: (GanttGroupInternal | GanttItemInternal)[] = [];
+
+    private _loading: boolean = false;
+
+    private loadingTimer;
 
     private rangeStart: number;
 

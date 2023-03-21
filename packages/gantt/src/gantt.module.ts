@@ -22,6 +22,7 @@ import { GanttTableHeaderComponent } from './components/table/header/gantt-table
 import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
 import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
 import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
+import { GanttLoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
     imports: [CommonModule, DragDropModule, ScrollingModule],
@@ -47,6 +48,7 @@ import { GanttTableBodyComponent } from './components/table/body/gantt-table-bod
         GanttCalendarHeaderComponent,
         GanttCalendarGridComponent,
         GanttLinksComponent,
+        GanttLoaderComponent,
         NgxGanttBarComponent,
         GanttIconComponent,
         GanttDragBackdropComponent,

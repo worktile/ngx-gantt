@@ -14,7 +14,7 @@ import {
     GanttToolbarOptions,
     GanttTableDragEnterPredicateContext
 } from 'ngx-gantt';
-import { of } from 'rxjs';
+import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { randomItems, random } from '../helper';
@@ -55,6 +55,8 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     isBaselineChecked = false;
 
     isShowToolbarChecked = true;
+
+    loading = false;
 
     items: GanttItem[] = [
         { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
@@ -184,6 +186,20 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     viewChange(event: GanttView) {
         console.log(event.viewType);
         this.selectedViewType = event.viewType;
+    }
+
+    refresh() {
+        this.loading = true;
+        of(randomItems(30))
+            .pipe(
+                delay(2000),
+                finalize(() => {
+                    this.loading = false;
+                })
+            )
+            .subscribe((res) => {
+                this.items = res;
+            });
     }
 
     onDragDropped(event) {
