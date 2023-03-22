@@ -52,7 +52,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         this.columnsChange();
         this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.columnsChange();
-            this.cdr.detectChanges();
+            this.gantt.cdr.detectChanges();
         });
     }
 
