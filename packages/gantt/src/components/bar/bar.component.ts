@@ -64,6 +64,10 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         super.ngOnChanges(changes);
         if (!this.firstChange) {
             this.drag.updateItem(this.item);
+
+            if (changes.item.currentValue.refs?.width !== changes.item.previousValue.refs?.width) {
+                this.setContentBackground();
+            }
         }
     }
 
