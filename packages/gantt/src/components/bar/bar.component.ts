@@ -108,7 +108,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     }
 
     private setContentBackground() {
-        if (this.contentElementRef) {
+        if (this.item.refs?.width) {
             const contentElement = this.contentElementRef.nativeElement;
             const color = this.item.color || barBackground;
             const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
