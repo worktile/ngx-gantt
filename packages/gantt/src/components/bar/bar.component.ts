@@ -108,31 +108,33 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     }
 
     private setContentBackground() {
-        const contentElement = this.contentElementRef.nativeElement;
-        const color = this.item.color || barBackground;
-        const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
-        if (this.item.origin.start && this.item.origin.end) {
-            style.background = color;
-            style.borderRadius = '';
-        }
-        if (this.item.origin.start && !this.item.origin.end) {
-            style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
-            style.borderRadius = '4px 12.5px 12.5px 4px';
-        }
-        if (!this.item.origin.start && this.item.origin.end) {
-            style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
-            style.borderRadius = '12.5px 4px 4px 12.5px';
-        }
-        if (this.item.progress >= 0) {
-            const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
-            style.background = hexToRgb(color, 0.3);
-            style.borderRadius = '';
-            contentProgressElement.style.background = color;
-        }
+        if (this.contentElementRef) {
+            const contentElement = this.contentElementRef.nativeElement;
+            const color = this.item.color || barBackground;
+            const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
+            if (this.item.origin.start && this.item.origin.end) {
+                style.background = color;
+                style.borderRadius = '';
+            }
+            if (this.item.origin.start && !this.item.origin.end) {
+                style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
+                style.borderRadius = '4px 12.5px 12.5px 4px';
+            }
+            if (!this.item.origin.start && this.item.origin.end) {
+                style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
+                style.borderRadius = '12.5px 4px 4px 12.5px';
+            }
+            if (this.item.progress >= 0) {
+                const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
+                style.background = hexToRgb(color, 0.3);
+                style.borderRadius = '';
+                contentProgressElement.style.background = color;
+            }
 
-        for (const key in style) {
-            if (style.hasOwnProperty(key)) {
-                contentElement.style[key] = style[key];
+            for (const key in style) {
+                if (style.hasOwnProperty(key)) {
+                    contentElement.style[key] = style[key];
+                }
             }
         }
     }

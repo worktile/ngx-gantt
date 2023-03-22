@@ -11,7 +11,7 @@
   </div>
 </div>
 <div class="gantt-bar-border"></div>
-<div #content class="gantt-bar-content" (click)="onBarClick($event)">
+<div #content class="gantt-bar-content" *ngIf="item.refs?.width" (click)="onBarClick($event)">
   <div class="gantt-bar-content-progress" *ngIf="item.progress >= 0" [style.width.%]="item.progress * 100"></div>
-  <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>
+  <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"> </ng-template>
 </div>
