@@ -48,7 +48,7 @@
       (linkDragEnded)="linkDragEnded($event)"
     >
       <ngx-gantt-table [draggable]="true" [dropEnterPredicate]="dropEnterPredicate" (dragDropped)="onDragDropped($event)">
-        <ngx-gantt-column name="开始时间" [width]="140">
+        <ngx-gantt-column name="开始时间" [class.start-time]="true" [width]="140">
           <ng-template #cell let-item="item">
             {{ item.id }}
           </ng-template>

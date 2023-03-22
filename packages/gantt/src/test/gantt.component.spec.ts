@@ -66,7 +66,13 @@ const config = {
             <ng-template #rowAfterSlot>
                 <div class="row-after"></div>
             </ng-template>
-            <ngx-gantt-column name="标题" width="200px">
+            <ngx-gantt-column
+                name="标题"
+                width="200px"
+                [class.title-name]="true"
+                [ngClass]="{ 'title-name-2': true }"
+                [class]="'title-name-3'"
+            >
                 <ng-template #cell let-item="item">
                     {{ item.title }}
                 </ng-template>
@@ -463,6 +469,17 @@ describe('ngx-gantt', () => {
             fixture.detectChanges();
             loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
             expect(loaderDom).toBeFalsy();
+        }));
+
+        it('should column inherits the class when gantt-table-column sets class"', fakeAsync(() => {
+            const newItems = mockItems.slice(0, 1);
+            ganttComponentInstance.items = [...newItems];
+            fixture.detectChanges();
+            const ganttTable: DebugElement = ganttDebugElement.query(By.directive(GanttTableBodyComponent));
+            const ganttTableColumn = ganttTable.query(By.css('.gantt-table-column')).nativeElement;
+            expect(ganttTableColumn.classList).toContain('title-name');
+            expect(ganttTableColumn.classList).toContain('title-name-2');
+            expect(ganttTableColumn.classList).toContain('title-name-3');
         }));
     });
 
