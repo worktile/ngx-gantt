@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.3](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.1...15.1.0-next.3) (2023-03-24)
+
+### Bug Fixes
+
+- fix table drag error when drag stared #INFR-7058 ([d5a0093](https://github.com/worktile/ngx-gantt/commit/d5a0093bb140ef1ac4c6edfa702fc6ade0c373c0)), closes [#INFR-7058](https://github.com/worktile/ngx-gantt/issues/INFR-7058)
+
 ## [15.1.0-next.2](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.1...15.1.0-next.2) (2023-03-24)
 
 ### Features
