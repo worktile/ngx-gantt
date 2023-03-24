@@ -155,7 +155,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     onItemDragStarted(event: CdkDragStart<GanttItemInternal>) {
         this.ganttTableDragging = true;
         // 拖动开始时隐藏所有的子项
-        const children = this.getChildrenElementsByElement(event.source.getPlaceholderElement());
+        const children = this.getChildrenElementsByElement(event.source.element.nativeElement);
         children.forEach((element) => {
             element.classList.add('drag-item-hide');
         });
@@ -286,17 +286,21 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         });
     }
 
-    private getChildrenElementsByElement(element: HTMLElement) {
+    private getChildrenElementsByElement(dragElement: HTMLElement) {
         // 通过循环持续查找 next element，如果 element 的 level 小于当前 item 的 level，则为它的 children
         const children: HTMLElement[] = [];
-        const dragRef = this.itemDragRefMap.get(element);
-        let nextElement = element.nextElementSibling as HTMLElement;
+        const dragRef = this.itemDragRefMap.get(dragElement);
+
+        // 如果当前的 Drag 正在拖拽，会创建 PlaceholderElement 占位，所以以 PlaceholderElement 向下查找
+        let nextElement = (dragRef.getPlaceholderElement() || dragElement).nextElementSibling as HTMLElement;
         let nextDragRef = this.itemDragRefMap.get(nextElement);
+
         while (nextDragRef && nextDragRef.data.level > dragRef.data.level) {
             children.push(nextElement);
             nextElement = nextElement.nextElementSibling as HTMLElement;
             nextDragRef = this.itemDragRefMap.get(nextElement);
         }
+
         return children;
     }
 
