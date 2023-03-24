@@ -15,11 +15,13 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
 
     public unsubscribe$ = new Subject<void>();
 
+    public refsUnsubscribe$ = new Subject<void>();
+
     constructor(protected elementRef: ElementRef<HTMLElement>, @Inject(GANTT_UPPER_TOKEN) protected ganttUpper: GanttUpper) {}
 
     ngOnInit() {
         this.firstChange = false;
-        this.item.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+        this.item.refs$.pipe(takeUntil(this.refsUnsubscribe$)).subscribe(() => {
             this.setPositions();
         });
     }
@@ -31,11 +33,11 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     private itemChange(item: GanttItemInternal) {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
+        this.refsUnsubscribe$.next();
+        this.refsUnsubscribe$.complete();
         this.item = item;
         this.setPositions();
-        this.item.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+        this.item.refs$.pipe(takeUntil(this.refsUnsubscribe$)).subscribe(() => {
             this.setPositions();
         });
     }
@@ -55,5 +57,7 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+        this.refsUnsubscribe$.next();
+        this.refsUnsubscribe$.complete();
     }
 }
