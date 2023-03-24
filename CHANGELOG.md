@@ -1,6 +1,18 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.2](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.1...15.1.0-next.2) (2023-03-24)
+
+### Features
+
+- bar drag scroll without drop list #INFR-6189 ([2926586](https://github.com/worktile/ngx-gantt/commit/29265863b348bfa9be51aac3a85845453e6519d6)), closes [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189)
+- support column inherits the class when gantt-table-column sets class #INFR-6999 ([81f37c9](https://github.com/worktile/ngx-gantt/commit/81f37c9f02025bfdc315cbba718b876202a021a0)), closes [#INFR-6999](https://github.com/worktile/ngx-gantt/issues/INFR-6999)
+
+### Bug Fixes
+
+- fix table width error when change columns #INFR-7012 ([25b1487](https://github.com/worktile/ngx-gantt/commit/25b1487d15e5130ae05ae14f32ba07bb3ef0aef2)), closes [#INFR-7012](https://github.com/worktile/ngx-gantt/issues/INFR-7012)
+- hide items without start and end #INFR-7011 ([#334](https://github.com/worktile/ngx-gantt/issues/334)) ([00d70be](https://github.com/worktile/ngx-gantt/commit/00d70be1cc1044c5d766c1005be6cc752a10d729)), closes [#INFR-7011](https://github.com/worktile/ngx-gantt/issues/INFR-7011) [#INFR-7011](https://github.com/worktile/ngx-gantt/issues/INFR-7011)
+
 ## [15.1.0-next.1](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.0...15.1.0-next.0) (2023-03-21)
 
 ### Features
