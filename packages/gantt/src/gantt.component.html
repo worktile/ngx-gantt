@@ -6,6 +6,7 @@
     </div>
   </div>
   <gantt-loader *ngIf="loading"></gantt-loader>
+
   <cdk-virtual-scroll-viewport
     class="gantt-virtual-scroll-viewport"
     [itemSize]="styles.lineHeight"
@@ -32,6 +33,7 @@
         </div>
       </div>
     </div>
+
     <div class="gantt-container">
       <gantt-calendar-grid></gantt-calendar-grid>
       <div class="gantt-main">
@@ -49,5 +51,6 @@
       </div>
     </div>
   </cdk-virtual-scroll-viewport>
+
   <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth + 1"></gantt-drag-backdrop>
 </ngx-gantt-root>
