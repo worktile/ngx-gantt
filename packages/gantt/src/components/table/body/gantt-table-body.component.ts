@@ -106,7 +106,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         this.columns.changes.pipe(startWith(this.columns), takeUntil(this.destroy$)).subscribe(() => {
             this.hasExpandIcon = false;
             this.columns.forEach((column) => {
-                column.classList.add('gantt-table-column');
+                // column.classList.add('gantt-table-column');
                 if (!column.columnWidth) {
                     column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
                 }
