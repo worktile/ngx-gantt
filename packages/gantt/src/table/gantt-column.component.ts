@@ -3,7 +3,10 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 @Component({
     selector: 'ngx-gantt-column',
-    template: ''
+    template: '',
+    host: {
+        class: 'gantt-table-column'
+    }
 })
 export class NgxGanttTableColumnComponent {
     public columnWidth: string;
