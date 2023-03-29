@@ -3,7 +3,7 @@ import { DragRef, DragDrop } from '@angular/cdk/drag-drop';
 import { GanttDomService } from '../../gantt-dom.service';
 import { GanttDragContainer, InBarPosition } from '../../gantt-drag-container';
 import { GanttItemInternal } from '../../class/item';
-import { GanttDate, differenceInCalendarDays } from '../../utils/date';
+import { GanttDate, differenceInCalendarDays, differenceInDays } from '../../utils/date';
 import { animationFrameScheduler, fromEvent, interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttUpper } from '../../gantt-upper';
@@ -203,18 +203,6 @@ export class GanttBarDrag implements OnDestroy {
             });
 
             dragRef.ended.subscribe((event) => {
-                if (isBefore) {
-                    const width = this.item.refs.width + event.distance.x * -1;
-                    if (width <= dragMinWidth) {
-                        this.item.updateDate(this.item.end.startOfDay(), this.item.end);
-                    }
-                } else {
-                    const width = this.item.refs.width + event.distance.x;
-                    if (width <= dragMinWidth) {
-                        this.item.updateDate(this.item.start, this.item.start.endOfDay());
-                    }
-                }
-
                 this.clearDraggingStyles();
                 this.closeDragBackdrop();
                 event.source.reset();
@@ -367,25 +355,36 @@ export class GanttBarDrag implements OnDestroy {
             const x = this.item.refs.x + distance;
             const width = this.item.refs.width + distance * -1;
             const start = this.ganttUpper.view.getDateByXPoint(x);
-            if (width > dragMinWidth) {
+            const days = differenceInDays(this.item.end.value, start.value);
+
+            if (!this.isStartOrEndInsideView(start, this.item.end)) {
+                return;
+            }
+
+            if (width > dragMinWidth && days > 0) {
                 this.barElement.style.width = width + 'px';
                 this.barElement.style.left = x + 'px';
                 this.openDragBackdrop(this.barElement, start, this.item.end);
-                if (!this.isStartOrEndInsideView(start, this.item.end)) {
-                    return;
-                }
                 this.item.updateDate(start, this.item.end);
+            } else {
+                this.openDragBackdrop(this.barElement, this.item.end.startOfDay(), this.item.end);
+                this.item.updateDate(this.item.end.startOfDay(), this.item.end);
             }
         } else {
             const width = this.item.refs.width + distance;
             const end = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width);
-            if (width > dragMinWidth) {
+            const days = differenceInDays(end.value, this.item.start.value);
+            if (!this.isStartOrEndInsideView(this.item.start, end)) {
+                return;
+            }
+            if (width > dragMinWidth && days > 0) {
                 this.barElement.style.width = width + 'px';
                 this.openDragBackdrop(this.barElement, this.item.start, end);
-                if (!this.isStartOrEndInsideView(this.item.start, end)) {
-                    return;
-                }
+
                 this.item.updateDate(this.item.start, end);
+            } else {
+                this.openDragBackdrop(this.barElement, this.item.start, this.item.start.endOfDay());
+                this.item.updateDate(this.item.start, this.item.start.endOfDay());
             }
         }
         this.dragContainer.dragMoved.emit({ item: this.item.origin });
