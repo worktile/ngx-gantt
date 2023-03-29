@@ -36,7 +36,6 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
         this.refsUnsubscribe$.next();
         this.refsUnsubscribe$.complete();
         this.item = item;
-        this.setPositions();
         this.item.refs$.pipe(takeUntil(this.refsUnsubscribe$)).subscribe(() => {
             this.setPositions();
         });
