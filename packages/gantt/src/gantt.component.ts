@@ -51,7 +51,7 @@ import { defaultColumnWidth } from './components/table/header/gantt-table-header
     ]
 })
 export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit {
-    @Input() maxLevel = 3;
+    @Input() maxLevel = 2;
 
     @Input() async: boolean;
 
