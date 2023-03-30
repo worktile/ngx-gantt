@@ -1,14 +1,13 @@
-import { Injectable, ElementRef, OnDestroy, SkipSelf, NgZone } from '@angular/core';
+import { Injectable, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { DragRef, DragDrop } from '@angular/cdk/drag-drop';
 import { GanttDomService } from '../../gantt-dom.service';
 import { GanttDragContainer, InBarPosition } from '../../gantt-drag-container';
 import { GanttItemInternal } from '../../class/item';
 import { GanttDate, differenceInCalendarDays, differenceInDays } from '../../utils/date';
-import { animationFrameScheduler, fromEvent, interval, Subject } from 'rxjs';
+import { animationFrameScheduler, interval, Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttUpper } from '../../gantt-upper';
 import { GanttLinkType } from '../../class/link';
-import { NgxGanttRootComponent } from '../../root.component';
 import { passiveListenerOptions } from '../../utils/passive-listeners';
 import { AutoScrollHorizontalDirection, getHorizontalScrollDirection, isPointerNearClientRect } from '../../utils/drag-scroll';
 
@@ -79,8 +78,7 @@ export class GanttBarDrag implements OnDestroy {
         private dragDrop: DragDrop,
         private dom: GanttDomService,
         private dragContainer: GanttDragContainer,
-        private _ngZone: NgZone,
-        @SkipSelf() private root: NgxGanttRootComponent
+        private _ngZone: NgZone
     ) {}
 
     private createDragRef<T = any>(element: ElementRef<HTMLElement> | HTMLElement): DragRef<T> {
@@ -133,19 +131,20 @@ export class GanttBarDrag implements OnDestroy {
         dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
         dragRef.started.subscribe(() => {
             this.setDraggingStyles();
-            // this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
-            // this.createDragScrollEvent(dragRef).subscribe(() => {
-            //     if (dragRef.isDragging()) {
-            //         const dragScrollDistance = this.dom.mainContainer.scrollLeft - this.containerScrollLeft;
-            //         this.dragScrollDistance = dragScrollDistance;
-            //         this.barDragMove();
-            //     }
-            // });
+            this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
+            this.createDragScrollEvent(dragRef).subscribe(() => {
+                if (dragRef.isDragging()) {
+                    const dragScrollDistance = this.dom.mainContainer.scrollLeft - this.containerScrollLeft;
+                    this.dragScrollDistance = dragScrollDistance;
+                    dragRef['_boundaryRect'] = this.dom.mainItems.getBoundingClientRect();
+                    this.barDragMove();
+                }
+            });
             this.dragContainer.dragStarted.emit({ item: this.item.origin });
         });
 
         dragRef.moved.subscribe((event) => {
-            // this.startScrollingIfNecessary(event.pointerPosition.x, event.pointerPosition.y);
+            this.startScrollingIfNecessary(event.pointerPosition.x, event.pointerPosition.y);
             this.barDragMoveDistance = event.distance.x;
             if (!this.dragScrolling) {
                 this.barDragMove();
@@ -156,9 +155,9 @@ export class GanttBarDrag implements OnDestroy {
             this.clearDraggingStyles();
             this.closeDragBackdrop();
             event.source.reset();
-            // this.stopScrolling();
-            // this.dragScrolling = false;
-            // this.dragScrollDistance = 0;
+            this.stopScrolling();
+            this.dragScrolling = false;
+            this.dragScrollDistance = 0;
             this.barDragMoveDistance = 0;
             this.item.updateRefs({
                 width: this.ganttUpper.view.getDateRangeWidth(this.item.start.startOfDay(), this.item.end.endOfDay()),
@@ -180,22 +179,23 @@ export class GanttBarDrag implements OnDestroy {
             const dragRef = this.createDragRef(handle);
             dragRef.lockAxis = 'x';
             dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
-
             dragRef.started.subscribe(() => {
                 this.setDraggingStyles();
-                // this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
-                // this.createDragScrollEvent(dragRef).subscribe(() => {
-                //     if (dragRef.isDragging()) {
-                //         const dragScrollDistance = this.dom.mainContainer.scrollLeft - this.containerScrollLeft;
-                //         this.dragScrollDistance = dragScrollDistance;
-                //         this.barHandleDragMove(isBefore);
-                //     }
-                // });
+                this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
+                this.createDragScrollEvent(dragRef).subscribe(() => {
+                    if (dragRef.isDragging()) {
+                        const dragScrollDistance = this.dom.mainContainer.scrollLeft - this.containerScrollLeft;
+                        this.dragScrollDistance = dragScrollDistance;
+                        dragRef['_boundaryRect'] = this.dom.mainItems.getBoundingClientRect();
+                        this.barHandleDragMove(isBefore);
+                    }
+                });
                 this.dragContainer.dragStarted.emit({ item: this.item.origin });
             });
 
             dragRef.moved.subscribe((event) => {
-                // this.startScrollingIfNecessary(event.pointerPosition.x, event.pointerPosition.y);
+                this.startScrollingIfNecessary(event.pointerPosition.x, event.pointerPosition.y);
+
                 this.barHandleDragMoveDistance = event.distance.x;
                 if (!this.dragScrolling) {
                     this.barHandleDragMove(isBefore);
@@ -206,9 +206,9 @@ export class GanttBarDrag implements OnDestroy {
                 this.clearDraggingStyles();
                 this.closeDragBackdrop();
                 event.source.reset();
-                // this.stopScrolling();
-                // this.dragScrolling = false;
-                // this.dragScrollDistance = 0;
+                this.stopScrolling();
+                this.dragScrolling = false;
+                this.dragScrollDistance = 0;
                 this.barHandleDragMoveDistance = 0;
                 this.item.updateRefs({
                     width: this.ganttUpper.view.getDateRangeWidth(this.item.start.startOfDay(), this.item.end.endOfDay()),
@@ -282,14 +282,20 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private openDragBackdrop(dragElement: HTMLElement, start: GanttDate, end: GanttDate) {
-        // const dragBackdropElement = this.root.backdrop.nativeElement;
-        // const dragMaskElement = dragBackdropElement.querySelector('.gantt-drag-mask') as HTMLElement;
         const dragBackdropElement = this.dom.root.querySelector('.gantt-drag-backdrop') as HTMLElement;
         const dragMaskElement = this.dom.root.querySelector('.gantt-drag-mask') as HTMLElement;
         const rootRect = this.dom.root.getBoundingClientRect();
         const dragRect = dragElement.getBoundingClientRect();
-        const left = dragRect.left - rootRect.left - (this.dom.side.clientWidth + 1);
+        let left = dragRect.left - rootRect.left - (this.dom.side.clientWidth + 1);
+        if (this.dragScrolling) {
+            if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT) {
+                left += autoScrollStep;
+            } else if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT) {
+                left -= autoScrollStep;
+            }
+        }
         const width = dragRect.right - dragRect.left;
+
         // Note: updating styles will cause re-layout so we have to place them consistently one by one.
         dragMaskElement.style.left = left + 'px';
         dragMaskElement.style.width = width + 'px';
@@ -333,7 +339,8 @@ export class GanttBarDrag implements OnDestroy {
         }
 
         if (this.dragScrolling) {
-            this.barElement.style.left = currentX - this.barDragMoveDistance + 'px';
+            const left = currentX - this.barDragMoveDistance;
+            this.barElement.style.left = left + 'px';
         }
 
         this.openDragBackdrop(
@@ -341,6 +348,7 @@ export class GanttBarDrag implements OnDestroy {
             this.ganttUpper.view.getDateByXPoint(currentX),
             this.ganttUpper.view.getDateByXPoint(currentX + this.item.refs.width)
         );
+
         if (!this.isStartOrEndInsideView(start, end)) {
             return;
         }
@@ -357,14 +365,15 @@ export class GanttBarDrag implements OnDestroy {
             const start = this.ganttUpper.view.getDateByXPoint(x);
             const days = differenceInDays(this.item.end.value, start.value);
 
-            if (!this.isStartOrEndInsideView(start, this.item.end)) {
-                return;
-            }
-
             if (width > dragMinWidth && days > 0) {
                 this.barElement.style.width = width + 'px';
                 this.barElement.style.left = x + 'px';
                 this.openDragBackdrop(this.barElement, start, this.item.end);
+
+                if (!this.isStartOrEndInsideView(start, this.item.end)) {
+                    return;
+                }
+
                 this.item.updateDate(start, this.item.end);
             } else {
                 this.openDragBackdrop(this.barElement, this.item.end.startOfDay(), this.item.end);
@@ -374,13 +383,13 @@ export class GanttBarDrag implements OnDestroy {
             const width = this.item.refs.width + distance;
             const end = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width);
             const days = differenceInDays(end.value, this.item.start.value);
-            if (!this.isStartOrEndInsideView(this.item.start, end)) {
-                return;
-            }
+
             if (width > dragMinWidth && days > 0) {
                 this.barElement.style.width = width + 'px';
                 this.openDragBackdrop(this.barElement, this.item.start, end);
-
+                if (!this.isStartOrEndInsideView(this.item.start, end)) {
+                    return;
+                }
                 this.item.updateDate(this.item.start, end);
             } else {
                 this.openDragBackdrop(this.barElement, this.item.start, this.item.start.endOfDay());
@@ -420,39 +429,45 @@ export class GanttBarDrag implements OnDestroy {
         }
     }
 
-    // private startScrollInterval = () => {
-    //     this.stopScrolling();
-    //     interval(0, animationFrameScheduler)
-    //         .pipe(takeUntil(this.stopScrollTimers$))
-    //         .subscribe(() => {
-    //             const node = this.dom.mainContainer;
-    //             const scrollStep = autoScrollStep;
-    //             if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT) {
-    //                 node.scrollBy(-scrollStep, 0);
-    //             } else if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT) {
-    //                 node.scrollBy(scrollStep, 0);
-    //             }
-    //         });
-    // };
+    private startScrollInterval = () => {
+        this.stopScrolling();
+        interval(0, animationFrameScheduler)
+            .pipe(takeUntil(this.stopScrollTimers$))
+            .subscribe(() => {
+                const node = this.dom.mainContainer;
+                const scrollStep = autoScrollStep;
+                if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT) {
+                    node.scrollBy(-scrollStep, 0);
+                } else if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT) {
+                    node.scrollBy(scrollStep, 0);
+                }
+            });
+    };
 
-    // private startScrollingIfNecessary(pointerX: number, pointerY: number) {
-    //     const clientRect = this.dom.mainContainer.getBoundingClientRect();
-    //     if (isPointerNearClientRect(clientRect, DROP_PROXIMITY_THRESHOLD, pointerX, pointerY)) {
-    //         const horizontalScrollDirection = getHorizontalScrollDirection(clientRect, pointerX);
-    //         if (horizontalScrollDirection) {
-    //             this._horizontalScrollDirection = horizontalScrollDirection;
-    //             this.dragScrolling = true;
-    //             this._ngZone.runOutsideAngular(this.startScrollInterval);
-    //         } else {
-    //             this.dragScrolling = false;
-    //             this.stopScrolling();
-    //         }
-    //     }
-    // }
+    private startScrollingIfNecessary(pointerX: number, pointerY: number) {
+        const clientRect = this.dom.mainContainer.getBoundingClientRect();
+        const scrollLeft = this.dom.mainContainer.scrollLeft;
+        if (isPointerNearClientRect(clientRect, DROP_PROXIMITY_THRESHOLD, pointerX, pointerY)) {
+            const horizontalScrollDirection = getHorizontalScrollDirection(clientRect, pointerX);
 
-    // private stopScrolling() {
-    //     this.stopScrollTimers$.next();
-    // }
+            if (
+                (horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT && scrollLeft > 0) ||
+                (horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT &&
+                    scrollLeft < this.ganttUpper.view.width - clientRect.width)
+            ) {
+                this._horizontalScrollDirection = horizontalScrollDirection;
+                this.dragScrolling = true;
+                this._ngZone.runOutsideAngular(this.startScrollInterval);
+            } else {
+                this.dragScrolling = false;
+                this.stopScrolling();
+            }
+        }
+    }
+
+    private stopScrolling() {
+        this.stopScrollTimers$.next();
+    }
 
     private isStartOrEndInsideView(start: GanttDate, end: GanttDate) {
         const itemStart = start.getUnixTime();
@@ -496,7 +511,7 @@ export class GanttBarDrag implements OnDestroy {
         this.dragRefs.forEach((dragRef) => dragRef.dispose());
         this.destroy$.next();
         this.destroy$.complete();
-        // this.stopScrolling();
+        this.stopScrolling();
         this.stopScrollTimers$.complete();
     }
 }
