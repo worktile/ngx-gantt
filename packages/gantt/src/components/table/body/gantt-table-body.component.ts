@@ -1,4 +1,4 @@
-import { debounceTime, filter, startWith, Subject, takeUntil } from 'rxjs';
+import { auditTime, debounceTime, filter, startWith, Subject, takeUntil } from 'rxjs';
 import {
     Component,
     HostBinding,
@@ -27,7 +27,7 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
 import { defaultColumnWidth } from '../header/gantt-table-header.component';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../../gantt-upper';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragMove, CdkDragStart, DragRef } from '@angular/cdk/drag-drop';
 import { DOCUMENT } from '@angular/common';
 @Component({
     selector: 'gantt-table-body',
@@ -83,7 +83,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     public hasExpandIcon = false;
 
     // 缓存 Element 和 DragRef 的关系，方便在 Item 拖动时查找
-    private itemDragRefMap = new Map<HTMLElement, CdkDrag<GanttItemInternal>>();
+    private itemDragsMap = new Map<HTMLElement, CdkDrag<GanttItemInternal>>();
 
     private itemDragMoved = new Subject<CdkDragMove>();
 
@@ -121,19 +121,19 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         this.cdkDrags.changes
             .pipe(startWith(this.cdkDrags), takeUntil(this.destroy$))
             .subscribe((drags: QueryList<CdkDrag<GanttItemInternal>>) => {
-                this.itemDragRefMap.clear();
+                this.itemDragsMap.clear();
                 drags.forEach((drag) => {
                     if (drag.data) {
                         // cdkDrag 变化时，缓存 Element 与 DragRef 的关系，方便 Drag Move 时查找
-                        this.itemDragRefMap.set(drag.element.nativeElement, drag);
+                        this.itemDragsMap.set(drag.element.nativeElement, drag);
                     }
                 });
             });
 
         this.itemDragMoved
             .pipe(
-                debounceTime(30),
-                //  debounce 可能会导致拖动结束后仍然执行 moved ，所以通过判断 dragging 状态来过滤无效 moved
+                auditTime(30),
+                //  auditTime 可能会导致拖动结束后仍然执行 moved ，所以通过判断 dragging 状态来过滤无效 moved
                 filter((event: CdkDragMove) => event.source._dragRef.isDragging()),
                 takeUntil(this.destroy$)
             )
@@ -181,13 +181,13 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
         // 缓存放置目标Id 并计算鼠标相对应的位置
         this.itemDropTarget = {
-            id: this.itemDragRefMap.get(targetElement)?.data.id,
+            id: this.itemDragsMap.get(targetElement)?.data.id,
             position: this.getTargetPosition(targetElement, event)
         };
 
         // 执行外部传入的 dropEnterPredicate 判断是否允许拖入目标项
         if (this.dropEnterPredicate) {
-            const targetDragRef = this.itemDragRefMap.get(targetElement);
+            const targetDragRef = this.itemDragsMap.get(targetElement);
             if (
                 this.dropEnterPredicate({
                     source: event.source.data.origin,
@@ -212,29 +212,34 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         if (!this.itemDropTarget) {
             return;
         }
-        const targetDragRef = this.cdkDrags.find((item) => item.data?.id === this.itemDropTarget.id);
-        const sourceItem = event.item.data;
-        const targetItem = targetDragRef?.data;
 
-        this.removeItem(sourceItem);
+        const sourceItem = event.item.data;
+        const sourceParent = this.getParentByItem(sourceItem);
+        const sourceChildren = this.getExpandChildrenByDrag(event.item);
+
+        const targetDragRef = this.cdkDrags.find((item) => item.data?.id === this.itemDropTarget.id);
+        const targetItem = targetDragRef?.data;
+        const targetParent = this.getParentByItem(targetItem);
+
+        this.removeItem(sourceItem, sourceChildren);
 
         switch (this.itemDropTarget.position) {
             case 'before':
             case 'after':
-                this.insertItem(targetItem, sourceItem, this.itemDropTarget.position);
+                this.insertItem(targetItem, sourceItem, sourceChildren, this.itemDropTarget.position);
                 sourceItem.updateLevel(targetItem.level);
                 break;
             case 'inside':
-                this.insertChildrenItem(targetItem, sourceItem);
+                this.insertChildrenItem(targetItem, sourceItem, sourceChildren);
                 sourceItem.updateLevel(targetItem.level + 1);
                 break;
         }
 
         this.dragDropped.emit({
             source: sourceItem.origin,
-            sourceParent: this.getParentByItem(sourceItem)?.origin,
+            sourceParent: sourceParent?.origin,
             target: targetItem.origin,
-            targetParent: this.getParentByItem(targetItem)?.origin,
+            targetParent: targetParent?.origin,
             dropPosition: this.itemDropTarget.position
         });
 
@@ -250,15 +255,20 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         this.destroy$.complete();
     }
 
-    private removeItem(item: GanttItemInternal) {
-        this.renderData.splice(this.renderData.indexOf(item), 1);
-        this.flatData.splice(this.flatData.indexOf(item), 1);
+    private removeItem(item: GanttItemInternal, children: GanttItemInternal[]) {
+        this.renderData.splice(this.renderData.indexOf(item), 1 + children.length);
+        this.flatData.splice(this.flatData.indexOf(item), 1 + children.length);
     }
 
-    private insertItem(target: GanttItemInternal, inserted: GanttItemInternal, position: 'before' | 'after') {
+    private insertItem(
+        target: GanttItemInternal,
+        inserted: GanttItemInternal,
+        children: GanttItemInternal[],
+        position: 'before' | 'after'
+    ) {
         if (position === 'before') {
-            this.renderData.splice(this.renderData.indexOf(target), 0, inserted);
-            this.flatData.splice(this.flatData.indexOf(target), 0, inserted);
+            this.renderData.splice(this.renderData.indexOf(target), 0, inserted, ...children);
+            this.flatData.splice(this.flatData.indexOf(target), 0, inserted, ...children);
         } else {
             const dragRef = this.cdkDrags.find((drag) => drag.data === target);
             // 如果目标项是展开的，插入的 index 位置需要考虑子项的数量
@@ -266,15 +276,15 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
             if (target.expanded) {
                 childrenCount = this.getChildrenElementsByElement(dragRef.element.nativeElement)?.length || 0;
             }
-            this.renderData.splice(this.renderData.indexOf(target) + 1 + childrenCount, 0, inserted);
-            this.flatData.splice(this.flatData.indexOf(target) + 1 + childrenCount, 0, inserted);
+            this.renderData.splice(this.renderData.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
+            this.flatData.splice(this.flatData.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
         }
     }
 
-    private insertChildrenItem(target: GanttItemInternal, inserted: GanttItemInternal) {
+    private insertChildrenItem(target: GanttItemInternal, inserted: GanttItemInternal, children: GanttItemInternal[]) {
         if (target.expanded) {
-            this.renderData.splice(this.renderData.indexOf(target) + target.children.length + 1, 0, inserted);
-            this.flatData.splice(this.flatData.indexOf(target) + target.children.length + 1, 0, inserted);
+            this.renderData.splice(this.renderData.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
+            this.flatData.splice(this.flatData.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
         }
         target.children.push(inserted);
     }
@@ -285,19 +295,28 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         });
     }
 
+    private getExpandChildrenByDrag(dragRef: CdkDrag<GanttItemInternal>) {
+        if (!dragRef.data.expanded) {
+            return [];
+        } else {
+            const childrenElements = this.getChildrenElementsByElement(dragRef.element.nativeElement);
+            return childrenElements.map((element) => this.itemDragsMap.get(element).data);
+        }
+    }
+
     private getChildrenElementsByElement(dragElement: HTMLElement) {
         // 通过循环持续查找 next element，如果 element 的 level 小于当前 item 的 level，则为它的 children
         const children: HTMLElement[] = [];
-        const dragRef = this.itemDragRefMap.get(dragElement);
+        const dragRef = this.itemDragsMap.get(dragElement);
 
         // 如果当前的 Drag 正在拖拽，会创建 PlaceholderElement 占位，所以以 PlaceholderElement 向下查找
         let nextElement = (dragRef.getPlaceholderElement() || dragElement).nextElementSibling as HTMLElement;
-        let nextDragRef = this.itemDragRefMap.get(nextElement);
+        let nextDragRef = this.itemDragsMap.get(nextElement);
 
         while (nextDragRef && nextDragRef.data.level > dragRef.data.level) {
             children.push(nextElement);
             nextElement = nextElement.nextElementSibling as HTMLElement;
-            nextDragRef = this.itemDragRefMap.get(nextElement);
+            nextDragRef = this.itemDragsMap.get(nextElement);
         }
 
         return children;
@@ -326,10 +345,10 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     private cleanupDragArtifacts(dropped = false) {
         if (dropped) {
             this.itemDropTarget = null;
+            this.document.querySelectorAll('.drag-item-hide').forEach((element) => element.classList.remove('drag-item-hide'));
         }
         this.document.querySelectorAll('.drop-position-before').forEach((element) => element.classList.remove('drop-position-before'));
         this.document.querySelectorAll('.drop-position-after').forEach((element) => element.classList.remove('drop-position-after'));
         this.document.querySelectorAll('.drop-position-inside').forEach((element) => element.classList.remove('drop-position-inside'));
-        this.document.querySelectorAll('.drag-item-hide').forEach((element) => element.classList.remove('drop-item-hide'));
     }
 }

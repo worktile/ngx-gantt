@@ -12,7 +12,8 @@ import {
     GanttBaselineItem,
     GanttView,
     GanttToolbarOptions,
-    GanttTableDragEnterPredicateContext
+    GanttTableDragEnterPredicateContext,
+    GanttTableDragDroppedEvent
 } from 'ngx-gantt';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -59,12 +60,12 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     loading = false;
 
     items: GanttItem[] = [
-        { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197, expandable: true },
-        // { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'], expandable: true },
-        { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'], expandable: true },
+        { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197 },
+        // { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'],  },
+        { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'] },
         { id: '000002', title: 'Task 2', start: 1610536397, end: 1610622797, progress: 0.5 },
-        { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, expandable: true, itemDraggable: false },
-        { id: '000004', title: 'Task 4', start: 1624705997, expandable: true },
+        { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, itemDraggable: false },
+        { id: '000004', title: 'Task 4', start: 1624705997 },
         { id: '000005', title: 'Task 5', start: 1628075597, end: 1629544397, color: '#709dc1' },
         { id: '000006', title: 'Task 6', start: 1641121997, end: 1645528397 },
         { id: '000007', title: 'Task 7', start: 1639393997, end: 1640862797 },
@@ -112,18 +113,22 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
 
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;
 
-    childrenResolve = (item: GanttItem) => {
-        const children = randomItems(random(1, 5), item);
-        return of(children).pipe(delay(1000));
-    };
-
     dropEnterPredicate = (event: GanttTableDragEnterPredicateContext) => {
         return true;
     };
 
     constructor(private printService: GanttPrintService, private thyNotify: ThyNotifyService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        // init items children
+        this.items.forEach((item, index) => {
+            if (index % 5 === 0) {
+                item.children = randomItems(random(1, 5), item);
+            }
+        });
+
+        console.log(this.items);
+    }
 
     ngAfterViewInit() {
         setTimeout(() => this.ganttComponent.scrollToDate(1627729997), 200);
@@ -202,7 +207,19 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
             });
     }
 
-    onDragDropped(event) {
-        console.log(event);
+    onDragDropped(event: GanttTableDragDroppedEvent) {
+        const sourceItems = event.sourceParent?.children || this.items;
+        sourceItems.splice(sourceItems.indexOf(event.source), 1);
+        if (event.dropPosition === 'inside') {
+            event.target.children = [...(event.target.children || []), event.source];
+        } else {
+            const targetItems = event.targetParent?.children || this.items;
+            if (event.dropPosition === 'before') {
+                targetItems.splice(targetItems.indexOf(event.target), 0, event.source);
+            } else {
+                targetItems.splice(targetItems.indexOf(event.target) + 1, 0, event.source);
+            }
+        }
+        this.items = [...this.items];
     }
 }

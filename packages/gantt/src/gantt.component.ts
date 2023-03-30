@@ -20,7 +20,7 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { startWith, takeUntil, take, finalize, skip } from 'rxjs/operators';
+import { takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent, GanttGroupInternal } from './class';
