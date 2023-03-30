@@ -198,6 +198,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
                 this.showDropPositionPlaceholder(targetElement);
             } else {
                 this.itemDropTarget = null;
+                this.cleanupDragArtifacts(false);
             }
         } else {
             this.showDropPositionPlaceholder(targetElement);
