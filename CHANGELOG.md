@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.6](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.5...15.1.0-next.6) (2023-03-30)
+
+### Bug Fixes
+
+- children did not move together after dragging #INFR-7103 ([#344](https://github.com/worktile/ngx-gantt/issues/344)) ([9697d2e](https://github.com/worktile/ngx-gantt/commit/9697d2ef9aa3e6b0096a4f93f1ee9cec9e60ad01)), closes [#INFR-7103](https://github.com/worktile/ngx-gantt/issues/INFR-7103)
+
 ## [15.1.0-next.5](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.4...15.1.0-next.5) (2023-03-29)
 
 ### Bug Fixes
