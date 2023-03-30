@@ -323,8 +323,9 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.ngZone.runOutsideAngular(() => {
             onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
                 this.element.style.opacity = '1';
-
+                const disabledLoadOnScroll = this.disabledLoadOnScroll;
                 this.dragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+                    this.disabledLoadOnScroll = true;
                     this.dragStarted.emit(event);
                 });
 
@@ -333,9 +334,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 });
 
                 this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+                    this.disabledLoadOnScroll = disabledLoadOnScroll;
                     this.dragEnded.emit(event);
-                    // this.computeRefs();
-                    // this.detectChanges();
                 });
             });
         });
