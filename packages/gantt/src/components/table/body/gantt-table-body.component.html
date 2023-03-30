@@ -67,7 +67,7 @@
             class="gantt-expand-icon"
             [style.marginLeft.px]="item.level * 20"
           >
-            <ng-container *ngIf="item.level < gantt.maxLevel - 1 && item.expandable">
+            <ng-container *ngIf="item.level < gantt.maxLevel - 1 && ((gantt.async && item.expandable) || item.children?.length > 0)">
               <gantt-icon
                 *ngIf="!item.loading"
                 class="expand-icon"

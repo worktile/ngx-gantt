@@ -7,6 +7,7 @@ export interface GanttAbstractComponent {
     table: NgxGanttTableComponent;
     styles: GanttStyles;
     maxLevel: number;
+    async: boolean;
     cdr: ChangeDetectorRef;
     expandGroup(group: GanttGroupInternal): void;
     expandChildren(item: GanttItemInternal): void;

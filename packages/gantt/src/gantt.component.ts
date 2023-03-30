@@ -20,7 +20,7 @@ import {
     OnChanges,
     SimpleChanges
 } from '@angular/core';
-import { startWith, takeUntil, take, finalize, skip } from 'rxjs/operators';
+import { takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent, GanttGroupInternal } from './class';
@@ -51,7 +51,7 @@ import { defaultColumnWidth } from './components/table/header/gantt-table-header
     ]
 })
 export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit {
-    @Input() maxLevel = 2;
+    @Input() maxLevel = 3;
 
     @Input() async: boolean;
 
