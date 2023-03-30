@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.7](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.6...15.1.0-next.7) (2023-03-30)
+
+### Bug Fixes
+
+- **gantt:** fix drag scroll #INFR-6189 ([#345](https://github.com/worktile/ngx-gantt/issues/345)) ([fbfeeb1](https://github.com/worktile/ngx-gantt/commit/fbfeeb19b0c2f946f21f291df6cec2514474effc)), closes [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189)
+
 ## [15.1.0-next.6](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.5...15.1.0-next.6) (2023-03-30)
 
 ### Bug Fixes
