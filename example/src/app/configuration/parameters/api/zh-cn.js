@@ -213,6 +213,16 @@ module.exports = [
                 type: 'EventEmitter<GanttTableDragDroppedEvent>'
             },
             {
+                name: 'dragStarted',
+                description: `拖拽开始后事件`,
+                type: 'EventEmitter<GanttTableDragStartedEvent>'
+            },
+            {
+                name: 'dragEnded',
+                description: `拖拽结束后事件`,
+                type: 'EventEmitter<GanttTableDragEndedEvent>'
+            },
+            {
                 name: 'columnChanges',
                 description: `列宽变化事件集`,
                 type: 'EventEmitter<GanttTableEvent>'

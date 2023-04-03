@@ -20,7 +20,9 @@ import {
     GanttSelectedEvent,
     GanttTableDropPosition,
     GanttTableDragEnterPredicateContext,
-    GanttTableDragDroppedEvent
+    GanttTableDragDroppedEvent,
+    GanttTableDragStartedEvent,
+    GanttTableDragEndedEvent
 } from '../../../class';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
@@ -67,6 +69,10 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     @Input() dropEnterPredicate?: (context: GanttTableDragEnterPredicateContext) => boolean;
 
     @Output() dragDropped = new EventEmitter<GanttTableDragDroppedEvent>();
+
+    @Output() dragStarted = new EventEmitter<GanttTableDragStartedEvent>();
+
+    @Output() dragEnded = new EventEmitter<GanttTableDragEndedEvent>();
 
     @Output() itemClick = new EventEmitter<GanttSelectedEvent>();
 
@@ -158,6 +164,10 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         children.forEach((element) => {
             element.classList.add('drag-item-hide');
         });
+        this.dragStarted.emit({
+            source: event.source.data?.origin,
+            sourceParent: this.getParentByItem(event.source.data)?.origin
+        });
     }
 
     emitItemDragMoved(event: CdkDragMove) {
@@ -207,6 +217,10 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     onItemDragEnded(event: CdkDragEnd<GanttItemInternal>) {
         this.ganttTableDragging = false;
+        this.dragEnded.emit({
+            source: event.source.data?.origin,
+            sourceParent: this.getParentByItem(event.source.data)?.origin
+        });
     }
 
     onListDropped(event: CdkDragDrop<GanttItemInternal[], GanttItemInternal[], GanttItemInternal>) {

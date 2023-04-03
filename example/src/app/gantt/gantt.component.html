@@ -45,7 +45,13 @@
       (selectedChange)="selectedChange($event)"
       (linkDragEnded)="linkDragEnded($event)"
     >
-      <ngx-gantt-table [draggable]="true" [dropEnterPredicate]="dropEnterPredicate" (dragDropped)="onDragDropped($event)">
+      <ngx-gantt-table
+        [draggable]="true"
+        [dropEnterPredicate]="dropEnterPredicate"
+        (dragDropped)="onDragDropped($event)"
+        (dragStarted)="onDragStarted($event)"
+        (dragEnded)="onDragEnded($event)"
+      >
         <ngx-gantt-column name="开始时间" [class.start-time]="true" [width]="140">
           <ng-template #cell let-item="item">
             {{ item.id }}
