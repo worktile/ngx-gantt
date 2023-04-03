@@ -13,7 +13,8 @@ import {
     GanttView,
     GanttToolbarOptions,
     GanttTableDragEnterPredicateContext,
-    GanttTableDragDroppedEvent
+    GanttTableDragDroppedEvent,
+    GanttItemInternal
 } from 'ngx-gantt';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -221,5 +222,13 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
             }
         }
         this.items = [...this.items];
+    }
+
+    onDragStarted(event: GanttItemInternal) {
+        console.log('拖拽开始了', event);
+    }
+
+    onDragEnded(event: GanttItemInternal) {
+        console.log('拖拽结束了', event);
     }
 }

@@ -68,6 +68,10 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Output() dragDropped = new EventEmitter<GanttTableDragDroppedEvent>();
 
+    @Output() dragStarted = new EventEmitter<GanttItemInternal>();
+
+    @Output() dragEnded = new EventEmitter<GanttItemInternal>();
+
     @Output() itemClick = new EventEmitter<GanttSelectedEvent>();
 
     @HostBinding('class.gantt-table-body') ganttTableClass = true;
@@ -158,6 +162,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         children.forEach((element) => {
             element.classList.add('drag-item-hide');
         });
+        this.dragStarted.emit(event.source.data);
     }
 
     emitItemDragMoved(event: CdkDragMove) {
@@ -207,6 +212,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     onItemDragEnded(event: CdkDragEnd<GanttItemInternal>) {
         this.ganttTableDragging = false;
+        this.dragEnded.emit(event.source.data);
     }
 
     onListDropped(event: CdkDragDrop<GanttItemInternal[], GanttItemInternal[], GanttItemInternal>) {
