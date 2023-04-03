@@ -225,7 +225,8 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
             source: event.source.data?.origin,
             sourceParent: this.getParentByItem(event.source.data)?.origin,
             target: targetItem?.origin,
-            targetParent: targetParent?.origin
+            targetParent: targetParent?.origin,
+            dropPosition: this.itemDropTarget?.position
         });
     }
 

@@ -56,6 +56,7 @@ export class GanttTableDragEndedEvent<T = unknown> {
     sourceParent: GanttItem<T>;
     target: GanttItem<T>;
     targetParent: GanttItem<T>;
+    dropPosition: GanttTableDropPosition;
 }
 
 export type GanttTableDropPosition = 'before' | 'inside' | 'after';
