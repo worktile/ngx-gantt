@@ -20,7 +20,9 @@ import {
     GanttSelectedEvent,
     GanttTableDropPosition,
     GanttTableDragEnterPredicateContext,
-    GanttTableDragDroppedEvent
+    GanttTableDragDroppedEvent,
+    GanttTableDragStartedEvent,
+    GanttTableDragEndedEvent
 } from '../../../class';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
@@ -68,9 +70,9 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     @Output() dragDropped = new EventEmitter<GanttTableDragDroppedEvent>();
 
-    @Output() dragStarted = new EventEmitter<GanttItemInternal>();
+    @Output() dragStarted = new EventEmitter<GanttTableDragStartedEvent>();
 
-    @Output() dragEnded = new EventEmitter<GanttItemInternal>();
+    @Output() dragEnded = new EventEmitter<GanttTableDragEndedEvent>();
 
     @Output() itemClick = new EventEmitter<GanttSelectedEvent>();
 
@@ -162,7 +164,10 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         children.forEach((element) => {
             element.classList.add('drag-item-hide');
         });
-        this.dragStarted.emit(event.source.data);
+        this.dragStarted.emit({
+            source: event.source.data?.origin,
+            sourceParent: this.getParentByItem(event.source.data)?.origin
+        });
     }
 
     emitItemDragMoved(event: CdkDragMove) {
@@ -212,7 +217,16 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     onItemDragEnded(event: CdkDragEnd<GanttItemInternal>) {
         this.ganttTableDragging = false;
-        this.dragEnded.emit(event.source.data);
+        const targetDragRef = this.cdkDrags.find((item) => item.data?.id === this.itemDropTarget?.id);
+        const targetItem = targetDragRef?.data;
+        const targetParent = this.getParentByItem(targetItem);
+
+        this.dragEnded.emit({
+            source: event.source.data?.origin,
+            sourceParent: this.getParentByItem(event.source.data)?.origin,
+            target: targetItem?.origin,
+            targetParent: targetParent?.origin
+        });
     }
 
     onListDropped(event: CdkDragDrop<GanttItemInternal[], GanttItemInternal[], GanttItemInternal>) {
