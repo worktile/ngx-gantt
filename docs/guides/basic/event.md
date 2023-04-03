@@ -93,3 +93,25 @@ export class GanttTableDragDroppedEvent<T = unknown> {
   dropPosition: GanttTableDropPosition; // 拖动放下的位置  'before' | 'inside' | 'after'
 }
 ```
+
+# GanttTableDragStartedEvent
+
+Table 组件拖拽开始后事件
+
+```ts
+export class GanttTableDragStartedEvent<T = unknown> {
+  source: GanttItem<T>; // 拖动开始数据项
+  sourceParent: GanttItem<T>; // 拖动开始数据项父
+}
+```
+
+# GanttTableDragEndedEvent
+
+Table 组件拖拽结束后事件
+
+```ts
+export class GanttTableDragEndedEvent<T = unknown> {
+  source: GanttItem<T>; // 拖动开始数据项
+  sourceParent: GanttItem<T>; // 拖动开始数据项父
+}
+```
