@@ -217,16 +217,9 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     onItemDragEnded(event: CdkDragEnd<GanttItemInternal>) {
         this.ganttTableDragging = false;
-        const targetDragRef = this.cdkDrags.find((item) => item.data?.id === this.itemDropTarget?.id);
-        const targetItem = targetDragRef?.data;
-        const targetParent = this.getParentByItem(targetItem);
-
         this.dragEnded.emit({
             source: event.source.data?.origin,
-            sourceParent: this.getParentByItem(event.source.data)?.origin,
-            target: targetItem?.origin,
-            targetParent: targetParent?.origin,
-            dropPosition: this.itemDropTarget?.position
+            sourceParent: this.getParentByItem(event.source.data)?.origin
         });
     }
 
