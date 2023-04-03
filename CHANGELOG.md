@@ -1,6 +1,17 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.8](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.7...15.1.0-next.8) (2023-04-03)
+
+### Features
+
+- **gantt:** support color change bar background update(#INFR-7135) ([368d98a](https://github.com/worktile/ngx-gantt/commit/368d98a62d88f75230d2aaee4e8ae6813dcbeee0)), closes [#INFR-7135](https://github.com/worktile/ngx-gantt/issues/INFR-7135)
+- **gantt:** support gantt table body dragStarted dragEnded function(#INFR-7138) ([#350](https://github.com/worktile/ngx-gantt/issues/350)) ([2fece74](https://github.com/worktile/ngx-gantt/commit/2fece74a2b213e45185fe791dec3447ed90e0013)), closes [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138)
+
+### Bug Fixes
+
+- clear drag artifacts when moved on non draggable item #INFR-7120 ([379a3f9](https://github.com/worktile/ngx-gantt/commit/379a3f95177eebe10ac677a0f29086403f851dd0)), closes [#INFR-7120](https://github.com/worktile/ngx-gantt/issues/INFR-7120)
+
 ## [15.1.0-next.7](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.6...15.1.0-next.7) (2023-03-30)
 
 ### Bug Fixes
