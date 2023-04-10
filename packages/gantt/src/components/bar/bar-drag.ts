@@ -74,7 +74,7 @@ export class GanttBarDrag implements OnDestroy {
     /** Horizontal direction in which the list is currently scrolling. */
     private _horizontalScrollDirection = AutoScrollHorizontalDirection.NONE;
 
-    private flagDays = 0;
+    private barHandleDragMoveRecordDays = 0;
 
     constructor(
         private dragDrop: DragDrop,
@@ -378,7 +378,7 @@ export class GanttBarDrag implements OnDestroy {
 
                 this.item.updateDate(start, this.item.end);
             } else {
-                if (this.flagDays > 0 && days <= 0) {
+                if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
                     const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.end.startOfDay(), this.item.end);
                     this.barElement.style.width = oneDayWidth + 'px';
                     const x = this.ganttUpper.view.getXPointByDate(this.item.end);
@@ -387,7 +387,7 @@ export class GanttBarDrag implements OnDestroy {
                 this.openDragBackdrop(this.barElement, this.item.end.startOfDay(), this.item.end);
                 this.item.updateDate(this.item.end.startOfDay(), this.item.end);
             }
-            this.flagDays = days;
+            this.barHandleDragMoveRecordDays = days;
         } else {
             const width = this.item.refs.width + distance;
             const end = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width);
@@ -401,14 +401,14 @@ export class GanttBarDrag implements OnDestroy {
                 }
                 this.item.updateDate(this.item.start, end);
             } else {
-                if (this.flagDays > 0 && days <= 0) {
+                if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
                     const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.start, this.item.start.endOfDay());
                     this.barElement.style.width = oneDayWidth + 'px';
                 }
                 this.openDragBackdrop(this.barElement, this.item.start, this.item.start.endOfDay());
                 this.item.updateDate(this.item.start, this.item.start.endOfDay());
             }
-            this.flagDays = days;
+            this.barHandleDragMoveRecordDays = days;
         }
         this.dragContainer.dragMoved.emit({ item: this.item.origin });
     }
