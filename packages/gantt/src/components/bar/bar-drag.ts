@@ -379,7 +379,8 @@ export class GanttBarDrag implements OnDestroy {
                 this.item.updateDate(start, this.item.end);
             } else {
                 if (this.flagDays > 0 && days <= 0) {
-                    this.barElement.style.width = this.ganttUpper.view.cellWidth + 'px';
+                    const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.end.startOfDay(), this.item.end);
+                    this.barElement.style.width = oneDayWidth + 'px';
                     const x = this.ganttUpper.view.getXPointByDate(this.item.end);
                     this.barElement.style.left = x + 'px';
                 }
@@ -401,7 +402,8 @@ export class GanttBarDrag implements OnDestroy {
                 this.item.updateDate(this.item.start, end);
             } else {
                 if (this.flagDays > 0 && days <= 0) {
-                    this.barElement.style.width = this.ganttUpper.view.cellWidth + 'px';
+                    const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.start, this.item.start.endOfDay());
+                    this.barElement.style.width = oneDayWidth + 'px';
                 }
                 this.openDragBackdrop(this.barElement, this.item.start, this.item.start.endOfDay());
                 this.item.updateDate(this.item.start, this.item.start.endOfDay());
