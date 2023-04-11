@@ -189,6 +189,12 @@ export class GanttBarDrag implements OnDestroy {
                         const dragScrollDistance = this.dom.mainContainer.scrollLeft - this.containerScrollLeft;
                         this.dragScrollDistance = dragScrollDistance;
                         dragRef['_boundaryRect'] = this.dom.mainItems.getBoundingClientRect();
+
+                        if (this.dragScrolling && this.isStartGreaterThanEndWhenBarHandleDragMove(isBefore)) {
+                            this.stopScrolling();
+                            this.dragScrolling = false;
+                        }
+
                         this.barHandleDragMove(isBefore);
                     }
                 });
@@ -477,6 +483,36 @@ export class GanttBarDrag implements OnDestroy {
                 this.stopScrolling();
             }
         }
+    }
+
+    // Conditions to stop auto-scroll: when the start is greater than the end and the bar appears in the view
+    private isStartGreaterThanEndWhenBarHandleDragMove(isBefore: boolean) {
+        let isStartGreaterThanEnd: boolean;
+        let isBarAppearsInView: boolean;
+
+        const distance = this.barHandleDragMoveDistance + this.dragScrollDistance;
+        const scrollLeft = this.dom.mainContainer.scrollLeft;
+        const clientWidth = this.dom.mainContainer.clientWidth;
+        const xThreshold = clientWidth * DROP_PROXIMITY_THRESHOLD;
+
+        if (isBefore) {
+            const x = this.item.refs.x + distance;
+            const start = this.ganttUpper.view.getDateByXPoint(x);
+            const xPointerByEndDate = this.ganttUpper.view.getXPointByDate(this.item.end);
+            const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.end.startOfDay(), this.item.end);
+
+            isStartGreaterThanEnd = start.value > this.item.end.value;
+            isBarAppearsInView = xPointerByEndDate + oneDayWidth + xThreshold <= scrollLeft + clientWidth;
+        } else {
+            const width = this.item.refs.width + distance;
+            const end = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width);
+            const xPointerByStartDate = this.ganttUpper.view.getXPointByDate(this.item.start);
+
+            isStartGreaterThanEnd = end.value < this.item.start.value;
+            isBarAppearsInView = scrollLeft + xThreshold <= xPointerByStartDate;
+        }
+
+        return isStartGreaterThanEnd && isBarAppearsInView ? true : false;
     }
 
     private stopScrolling() {
