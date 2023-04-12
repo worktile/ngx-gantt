@@ -45,6 +45,10 @@ export class GanttBarDrag implements OnDestroy {
         return !this.item.linkable || !this.ganttUpper.linkable;
     }
 
+    private get barHandleDragMoveAndScrollDistance() {
+        return this.barHandleDragMoveDistance + this.dragScrollDistance;
+    }
+
     private linkDraggingLine: SVGElement;
 
     private barDragRef: DragRef;
@@ -366,11 +370,9 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private barHandleDragMove(isBefore?: boolean) {
-        const distance = this.barHandleDragMoveDistance + this.dragScrollDistance;
         if (isBefore) {
-            const x = this.item.refs.x + distance;
-            const width = this.item.refs.width + distance * -1;
-            const start = this.ganttUpper.view.getDateByXPoint(x);
+            const { x, start, oneDayWidth } = this.barHandleDragStart();
+            const width = this.item.refs.width + this.barHandleDragMoveAndScrollDistance * -1;
             const days = differenceInDays(this.item.end.value, start.value);
 
             if (width > dragMinWidth && days > 0) {
@@ -385,7 +387,6 @@ export class GanttBarDrag implements OnDestroy {
                 this.item.updateDate(start, this.item.end);
             } else {
                 if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
-                    const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.end.startOfDay(), this.item.end);
                     this.barElement.style.width = oneDayWidth + 'px';
                     const x = this.ganttUpper.view.getXPointByDate(this.item.end);
                     this.barElement.style.left = x + 'px';
@@ -395,8 +396,7 @@ export class GanttBarDrag implements OnDestroy {
             }
             this.barHandleDragMoveRecordDays = days;
         } else {
-            const width = this.item.refs.width + distance;
-            const end = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width);
+            const { width, end } = this.barHandleDragEnd();
             const days = differenceInDays(end.value, this.item.start.value);
 
             if (width > dragMinWidth && days > 0) {
@@ -490,22 +490,18 @@ export class GanttBarDrag implements OnDestroy {
         let isStartGreaterThanEnd: boolean;
         let isBarAppearsInView: boolean;
 
-        const distance = this.barHandleDragMoveDistance + this.dragScrollDistance;
         const scrollLeft = this.dom.mainContainer.scrollLeft;
         const clientWidth = this.dom.mainContainer.clientWidth;
         const xThreshold = clientWidth * DROP_PROXIMITY_THRESHOLD;
 
         if (isBefore) {
-            const x = this.item.refs.x + distance;
-            const start = this.ganttUpper.view.getDateByXPoint(x);
+            const { start, oneDayWidth } = this.barHandleDragStart();
             const xPointerByEndDate = this.ganttUpper.view.getXPointByDate(this.item.end);
-            const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.end.startOfDay(), this.item.end);
 
             isStartGreaterThanEnd = start.value > this.item.end.value;
             isBarAppearsInView = xPointerByEndDate + oneDayWidth + xThreshold <= scrollLeft + clientWidth;
         } else {
-            const width = this.item.refs.width + distance;
-            const end = this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width);
+            const { end } = this.barHandleDragEnd();
             const xPointerByStartDate = this.ganttUpper.view.getXPointByDate(this.item.start);
 
             isStartGreaterThanEnd = end.value < this.item.start.value;
@@ -513,6 +509,26 @@ export class GanttBarDrag implements OnDestroy {
         }
 
         return isStartGreaterThanEnd && isBarAppearsInView ? true : false;
+    }
+
+    // Some data information about dragging start until it is equal to or greater than end
+    private barHandleDragStart() {
+        const x = this.item.refs.x + this.barHandleDragMoveAndScrollDistance;
+        return {
+            x,
+            start: this.ganttUpper.view.getDateByXPoint(x),
+            oneDayWidth: this.ganttUpper.view.getDateRangeWidth(this.item.end.startOfDay(), this.item.end)
+        };
+    }
+
+    // Some data information about dragging end of bar handle
+    private barHandleDragEnd() {
+        const width = this.item.refs.width + this.barHandleDragMoveAndScrollDistance;
+
+        return {
+            width,
+            end: this.ganttUpper.view.getDateByXPoint(this.item.refs.x + width)
+        };
     }
 
     private stopScrolling() {
