@@ -1,6 +1,6 @@
 {
   "name": "@worktile/gantt",
-  "version": "15.1.0-next.8",
+  "version": "15.1.0-next.9",
   "schematics": "./schematics/collection.json",
   "exports": {
     ".": {

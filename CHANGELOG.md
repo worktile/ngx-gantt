@@ -1,6 +1,13 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.9](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.8...15.1.0-next.9) (2023-04-12)
+
+### Bug Fixes
+
+- **gantt:** auto-scroll should be stopped when start time is greater than end time #INFR-7195 ([#352](https://github.com/worktile/ngx-gantt/issues/352)) ([6f3d29f](https://github.com/worktile/ngx-gantt/commit/6f3d29f8044d27f7ef2534585397609271684647)), closes [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195) [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195) [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195) [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195)
+- **gantt:** the fast right (left) dragging start (end) time, the width of the bar is wrong #INFR-7111 ([#351](https://github.com/worktile/ngx-gantt/issues/351)) ([683661c](https://github.com/worktile/ngx-gantt/commit/683661cb3d4b65bee602f17d087871bda9d004b3)), closes [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111) [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111) [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111) [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111)
+
 ## [15.1.0-next.8](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.7...15.1.0-next.8) (2023-04-03)
 
 ### Features
