@@ -371,7 +371,7 @@ export class GanttBarDrag implements OnDestroy {
 
     private barHandleDragMove(isBefore?: boolean) {
         if (isBefore) {
-            const { x, start, oneDayWidth } = this.barHandleDragStart();
+            const { x, start, oneDayWidth } = this.startOfBarHandle();
             const width = this.item.refs.width + this.barHandleDragMoveAndScrollDistance * -1;
             const days = differenceInDays(this.item.end.value, start.value);
 
@@ -396,7 +396,7 @@ export class GanttBarDrag implements OnDestroy {
             }
             this.barHandleDragMoveRecordDays = days;
         } else {
-            const { width, end } = this.barHandleDragEnd();
+            const { width, end } = this.endOfBarHandle();
             const days = differenceInDays(end.value, this.item.start.value);
 
             if (width > dragMinWidth && days > 0) {
@@ -495,13 +495,13 @@ export class GanttBarDrag implements OnDestroy {
         const xThreshold = clientWidth * DROP_PROXIMITY_THRESHOLD;
 
         if (isBefore) {
-            const { start, oneDayWidth } = this.barHandleDragStart();
+            const { start, oneDayWidth } = this.startOfBarHandle();
             const xPointerByEndDate = this.ganttUpper.view.getXPointByDate(this.item.end);
 
             isStartGreaterThanEnd = start.value > this.item.end.value;
             isBarAppearsInView = xPointerByEndDate + oneDayWidth + xThreshold <= scrollLeft + clientWidth;
         } else {
-            const { end } = this.barHandleDragEnd();
+            const { end } = this.endOfBarHandle();
             const xPointerByStartDate = this.ganttUpper.view.getXPointByDate(this.item.start);
 
             isStartGreaterThanEnd = end.value < this.item.start.value;
@@ -512,7 +512,7 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     // Some data information about dragging start until it is equal to or greater than end
-    private barHandleDragStart() {
+    private startOfBarHandle() {
         const x = this.item.refs.x + this.barHandleDragMoveAndScrollDistance;
         return {
             x,
@@ -522,7 +522,7 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     // Some data information about dragging end of bar handle
-    private barHandleDragEnd() {
+    private endOfBarHandle() {
         const width = this.item.refs.width + this.barHandleDragMoveAndScrollDistance;
 
         return {
