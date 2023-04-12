@@ -1,7 +1,7 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
-## [15.1.0-next.9](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.8...15.1.0-next.9) (2023-04-12)
+## [15.1.0-next.10](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.9...15.1.0-next.10) (2023-04-12)
 
 ### Bug Fixes
 
