@@ -78,7 +78,8 @@ export class GanttBarDrag implements OnDestroy {
     /** Horizontal direction in which the list is currently scrolling. */
     private _horizontalScrollDirection = AutoScrollHorizontalDirection.NONE;
 
-    private barHandleDragMoveRecordDays = 0;
+    /** Record bar days when bar handle drag move. */
+    private barHandleDragMoveRecordDays: number;
 
     constructor(
         private dragDrop: DragDrop,
@@ -199,18 +200,27 @@ export class GanttBarDrag implements OnDestroy {
                             this.dragScrolling = false;
                         }
 
-                        this.barHandleDragMove(isBefore);
+                        if (isBefore) {
+                            this.barBeforeHandleDragMove();
+                        } else {
+                            this.barAfterHandleDragMove();
+                        }
                     }
                 });
                 this.dragContainer.dragStarted.emit({ item: this.item.origin });
             });
 
             dragRef.moved.subscribe((event) => {
-                this.startScrollingIfNecessary(event.pointerPosition.x, event.pointerPosition.y);
-
+                if (this.barHandleDragMoveRecordDays && this.barHandleDragMoveRecordDays > 0) {
+                    this.startScrollingIfNecessary(event.pointerPosition.x, event.pointerPosition.y);
+                }
                 this.barHandleDragMoveDistance = event.distance.x;
                 if (!this.dragScrolling) {
-                    this.barHandleDragMove(isBefore);
+                    if (isBefore) {
+                        this.barBeforeHandleDragMove();
+                    } else {
+                        this.barAfterHandleDragMove();
+                    }
                 }
             });
 
@@ -369,53 +379,55 @@ export class GanttBarDrag implements OnDestroy {
         this.dragContainer.dragMoved.emit({ item: this.item.origin });
     }
 
-    private barHandleDragMove(isBefore?: boolean) {
-        if (isBefore) {
-            const { x, start, oneDayWidth } = this.startOfBarHandle();
-            const width = this.item.refs.width + this.barHandleDragMoveAndScrollDistance * -1;
-            const days = differenceInDays(this.item.end.value, start.value);
+    private barBeforeHandleDragMove() {
+        const { x, start, oneDayWidth } = this.startOfBarHandle();
+        const width = this.item.refs.width + this.barHandleDragMoveAndScrollDistance * -1;
+        const days = differenceInDays(this.item.end.value, start.value);
 
-            if (width > dragMinWidth && days > 0) {
-                this.barElement.style.width = width + 'px';
-                this.barElement.style.left = x + 'px';
-                this.openDragBackdrop(this.barElement, start, this.item.end);
+        if (width > dragMinWidth && days > 0) {
+            this.barElement.style.width = width + 'px';
+            this.barElement.style.left = x + 'px';
+            this.openDragBackdrop(this.barElement, start, this.item.end);
 
-                if (!this.isStartOrEndInsideView(start, this.item.end)) {
-                    return;
-                }
-
-                this.item.updateDate(start, this.item.end);
-            } else {
-                if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
-                    this.barElement.style.width = oneDayWidth + 'px';
-                    const x = this.ganttUpper.view.getXPointByDate(this.item.end);
-                    this.barElement.style.left = x + 'px';
-                }
-                this.openDragBackdrop(this.barElement, this.item.end.startOfDay(), this.item.end);
-                this.item.updateDate(this.item.end.startOfDay(), this.item.end);
+            if (!this.isStartOrEndInsideView(start, this.item.end)) {
+                return;
             }
-            this.barHandleDragMoveRecordDays = days;
+
+            this.item.updateDate(start, this.item.end);
         } else {
-            const { width, end } = this.endOfBarHandle();
-            const days = differenceInDays(end.value, this.item.start.value);
-
-            if (width > dragMinWidth && days > 0) {
-                this.barElement.style.width = width + 'px';
-                this.openDragBackdrop(this.barElement, this.item.start, end);
-                if (!this.isStartOrEndInsideView(this.item.start, end)) {
-                    return;
-                }
-                this.item.updateDate(this.item.start, end);
-            } else {
-                if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
-                    const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.start, this.item.start.endOfDay());
-                    this.barElement.style.width = oneDayWidth + 'px';
-                }
-                this.openDragBackdrop(this.barElement, this.item.start, this.item.start.endOfDay());
-                this.item.updateDate(this.item.start, this.item.start.endOfDay());
+            if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
+                this.barElement.style.width = oneDayWidth + 'px';
+                const x = this.ganttUpper.view.getXPointByDate(this.item.end);
+                this.barElement.style.left = x + 'px';
             }
-            this.barHandleDragMoveRecordDays = days;
+            this.openDragBackdrop(this.barElement, this.item.end.startOfDay(), this.item.end);
+            this.item.updateDate(this.item.end.startOfDay(), this.item.end);
         }
+        this.barHandleDragMoveRecordDays = days;
+
+        this.dragContainer.dragMoved.emit({ item: this.item.origin });
+    }
+
+    private barAfterHandleDragMove() {
+        const { width, end } = this.endOfBarHandle();
+        const days = differenceInDays(end.value, this.item.start.value);
+
+        if (width > dragMinWidth && days > 0) {
+            this.barElement.style.width = width + 'px';
+            this.openDragBackdrop(this.barElement, this.item.start, end);
+            if (!this.isStartOrEndInsideView(this.item.start, end)) {
+                return;
+            }
+            this.item.updateDate(this.item.start, end);
+        } else {
+            if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
+                const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.start, this.item.start.endOfDay());
+                this.barElement.style.width = oneDayWidth + 'px';
+            }
+            this.openDragBackdrop(this.barElement, this.item.start, this.item.start.endOfDay());
+            this.item.updateDate(this.item.start, this.item.start.endOfDay());
+        }
+        this.barHandleDragMoveRecordDays = days;
         this.dragContainer.dragMoved.emit({ item: this.item.origin });
     }
 
