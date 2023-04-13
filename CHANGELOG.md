@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.11](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.10...15.1.0-next.11) (2023-04-13)
+
+### Features
+
+- **gantt:** optimize auto scroll speed: the speed increases when the mouse is closer to the gantt edge #INFR-7196 ([#355](https://github.com/worktile/ngx-gantt/issues/355)) ([da8c377](https://github.com/worktile/ngx-gantt/commit/da8c377e4d48c528dd562bc189ea01590e35e59a)), closes [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196) [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196) [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196) [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196)
+
 ## [15.1.0-next.10](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.9...15.1.0-next.10) (2023-04-12)
 
 ### Bug Fixes
