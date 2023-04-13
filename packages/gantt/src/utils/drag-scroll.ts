@@ -6,11 +6,6 @@ export const enum AutoScrollHorizontalDirection {
 }
 
 /**
- * This number indicates how many increment speeds are provided.
- */
-export const AUTO_SCROLL_SPEED_RATES = 4;
-
-/**
  * Proximity, as a ratio to width/height at which to start auto-scrolling the drop list or the
  * viewport. The value comes from trying it out manually until it feels right.
  */
