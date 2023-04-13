@@ -9,7 +9,12 @@ import { takeUntil } from 'rxjs/operators';
 import { GanttUpper } from '../../gantt-upper';
 import { GanttLinkType } from '../../class/link';
 import { passiveListenerOptions } from '../../utils/passive-listeners';
-import { AutoScrollHorizontalDirection, getHorizontalScrollDirection, isPointerNearClientRect } from '../../utils/drag-scroll';
+import {
+    AutoScrollHorizontalDirection,
+    getHorizontalScrollDirection,
+    isPointerNearClientRect,
+    getAutoScrollSpeedRates
+} from '../../utils/drag-scroll';
 
 /**
  * Proximity, as a ratio to width/height, at which a
@@ -18,7 +23,7 @@ import { AutoScrollHorizontalDirection, getHorizontalScrollDirection, isPointerN
 const DROP_PROXIMITY_THRESHOLD = 0.05;
 
 const dragMinWidth = 10;
-const autoScrollStep = 5;
+const autoScrollBaseStep = 2;
 const activeClass = 'gantt-bar-active';
 const dropActiveClass = 'gantt-bar-drop-active';
 const singleDropActiveClass = 'gantt-bar-single-drop-active';
@@ -47,6 +52,10 @@ export class GanttBarDrag implements OnDestroy {
 
     private get barHandleDragMoveAndScrollDistance() {
         return this.barHandleDragMoveDistance + this.dragScrollDistance;
+    }
+
+    private get autoScrollStep() {
+        return Math.pow(autoScrollBaseStep, this.autoScrollSpeedRates);
     }
 
     private linkDraggingLine: SVGElement;
@@ -80,6 +89,9 @@ export class GanttBarDrag implements OnDestroy {
 
     /** Record bar days when bar handle drag move. */
     private barHandleDragMoveRecordDays: number;
+
+    /** Speed ratio for auto scroll */
+    private autoScrollSpeedRates = 1;
 
     constructor(
         private dragDrop: DragDrop,
@@ -311,9 +323,9 @@ export class GanttBarDrag implements OnDestroy {
         let left = dragRect.left - rootRect.left - (this.dom.side.clientWidth + 1);
         if (this.dragScrolling) {
             if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT) {
-                left += autoScrollStep;
+                left += this.autoScrollStep;
             } else if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT) {
-                left -= autoScrollStep;
+                left -= this.autoScrollStep;
             }
         }
         const width = dragRect.right - dragRect.left;
@@ -467,7 +479,7 @@ export class GanttBarDrag implements OnDestroy {
             .pipe(takeUntil(this.stopScrollTimers$))
             .subscribe(() => {
                 const node = this.dom.mainContainer;
-                const scrollStep = autoScrollStep;
+                const scrollStep = this.autoScrollStep;
                 if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT) {
                     node.scrollBy(-scrollStep, 0);
                 } else if (this._horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT) {
@@ -488,6 +500,7 @@ export class GanttBarDrag implements OnDestroy {
                     scrollLeft < this.ganttUpper.view.width - clientRect.width)
             ) {
                 this._horizontalScrollDirection = horizontalScrollDirection;
+                this.autoScrollSpeedRates = getAutoScrollSpeedRates(clientRect, pointerX, horizontalScrollDirection);
                 this.dragScrolling = true;
                 this._ngZone.runOutsideAngular(this.startScrollInterval);
             } else {
