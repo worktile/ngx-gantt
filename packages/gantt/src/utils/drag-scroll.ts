@@ -56,16 +56,16 @@ export function isPointerNearClientRect(rect: DOMRect, threshold: number, pointe
  * @param horizontalScrollDirection The direction in which the mouse is dragged horizontally
  */
 export function getAutoScrollSpeedRates(clientRect: DOMRect, pointerX: number, horizontalScrollDirection: AutoScrollHorizontalDirection) {
-    let autoScrollSpeedRates = AUTO_SCROLL_SPEED_RATES;
-
+    let autoScrollSpeedRates = 4;
+    const speedLevels = 4;
     const { left, right, width } = clientRect;
     const xThreshold = width * SCROLL_PROXIMITY_THRESHOLD;
 
     if (horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT) {
-        autoScrollSpeedRates = Math.ceil((xThreshold - (pointerX > left ? pointerX - left : 0)) / (xThreshold / AUTO_SCROLL_SPEED_RATES));
+        autoScrollSpeedRates = Math.ceil((xThreshold - (pointerX > left ? pointerX - left : 0)) / (xThreshold / speedLevels));
     }
     if (horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT) {
-        autoScrollSpeedRates = Math.ceil((xThreshold - (right > pointerX ? right - pointerX : 0)) / (xThreshold / AUTO_SCROLL_SPEED_RATES));
+        autoScrollSpeedRates = Math.ceil((xThreshold - (right > pointerX ? right - pointerX : 0)) / (xThreshold / speedLevels));
     }
 
     return autoScrollSpeedRates;

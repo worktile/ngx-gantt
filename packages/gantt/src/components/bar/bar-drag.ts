@@ -13,8 +13,7 @@ import {
     AutoScrollHorizontalDirection,
     getHorizontalScrollDirection,
     isPointerNearClientRect,
-    getAutoScrollSpeedRates,
-    AUTO_SCROLL_SPEED_RATES
+    getAutoScrollSpeedRates
 } from '../../utils/drag-scroll';
 
 /**
@@ -92,7 +91,7 @@ export class GanttBarDrag implements OnDestroy {
     private barHandleDragMoveRecordDays: number;
 
     /** Speed ratio for auto scroll */
-    private autoScrollSpeedRates = AUTO_SCROLL_SPEED_RATES;
+    private autoScrollSpeedRates = 1;
 
     constructor(
         private dragDrop: DragDrop,
