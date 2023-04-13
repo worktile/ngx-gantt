@@ -6,6 +6,11 @@ export const enum AutoScrollHorizontalDirection {
 }
 
 /**
+ * This number indicates how many increment speeds are provided.
+ */
+export const AUTO_SCROLL_SPEED_RATES = 4;
+
+/**
  * Proximity, as a ratio to width/height at which to start auto-scrolling the drop list or the
  * viewport. The value comes from trying it out manually until it feels right.
  */
@@ -42,4 +47,26 @@ export function isPointerNearClientRect(rect: DOMRect, threshold: number, pointe
     const yThreshold = height * threshold;
 
     return pointerY > top - yThreshold && pointerY < bottom + yThreshold && pointerX > left - xThreshold && pointerX < right + xThreshold;
+}
+
+/**
+ * Gets the speed rate of auto scrolling
+ * @param clientRect Dimensions of the node.
+ * @param pointerX Position of the user's pointer along the x axis.
+ * @param horizontalScrollDirection The direction in which the mouse is dragged horizontally
+ */
+export function getAutoScrollSpeedRates(clientRect: DOMRect, pointerX: number, horizontalScrollDirection: AutoScrollHorizontalDirection) {
+    let autoScrollSpeedRates = AUTO_SCROLL_SPEED_RATES;
+
+    const { left, right, width } = clientRect;
+    const xThreshold = width * SCROLL_PROXIMITY_THRESHOLD;
+
+    if (horizontalScrollDirection === AutoScrollHorizontalDirection.LEFT) {
+        autoScrollSpeedRates = Math.ceil((xThreshold - (pointerX > left ? pointerX - left : 0)) / (xThreshold / AUTO_SCROLL_SPEED_RATES));
+    }
+    if (horizontalScrollDirection === AutoScrollHorizontalDirection.RIGHT) {
+        autoScrollSpeedRates = Math.ceil((xThreshold - (right > pointerX ? right - pointerX : 0)) / (xThreshold / AUTO_SCROLL_SPEED_RATES));
+    }
+
+    return autoScrollSpeedRates;
 }
