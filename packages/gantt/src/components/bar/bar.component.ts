@@ -67,7 +67,9 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
             if (
                 changes.item.currentValue.refs?.width !== changes.item.previousValue.refs?.width ||
-                changes.item.currentValue.color !== changes.item.previousValue.color
+                changes.item.currentValue.color !== changes.item.previousValue.color ||
+                changes.item.currentValue.start?.value !== changes.item.previousValue.start?.value ||
+                changes.item.currentValue.end?.value !== changes.item.previousValue.end?.value
             ) {
                 this.setContentBackground();
             }
