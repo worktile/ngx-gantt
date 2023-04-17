@@ -1,6 +1,12 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.12](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.11...15.1.0-next.12) (2023-04-17)
+
+### Bug Fixes
+
+- **gantt:** handle style change when start and end same(#INFR-7407) ([ceca539](https://github.com/worktile/ngx-gantt/commit/ceca539e11a1bdd09f6f089eef1bc7571bce4c09)), closes [#INFR-7407](https://github.com/worktile/ngx-gantt/issues/INFR-7407)
+
 ## [15.1.0-next.11](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.10...15.1.0-next.11) (2023-04-13)
 
 ### Features
