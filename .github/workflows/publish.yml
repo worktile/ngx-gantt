@@ -14,13 +14,6 @@ on:
   status: {}
 
 jobs:
-  test-job:
-    name: echo name
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print ref
-        run: |
-          echo "${{github.head_ref}}"
   autoApprove:
     if: startsWith(github.head_ref, 'release-auto-')
     runs-on: ubuntu-latest
