@@ -1,0 +1,82 @@
+name: Publish
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
+
+jobs:
+  autoApprove:
+    if: startsWith(github.head_ref, 'release-auto-')
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: hmarr/auto-approve-action@v3
+        with:
+          review-message: 'Auto approve sync PRs to auto merge them'
+  publish:
+    if: startsWith(github.head_ref, 'release-auto-')
+    needs: [autoApprove]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: npm ci --force
+      - name: Publish
+        if: startsWith(github.head_ref, 'release-auto-v')
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com 
+          npm run pub
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish-next
+        if: startsWith(github.head_ref, 'release-auto-next-v')
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          npm run pub-next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Read package.json
+        id: read-version
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: 'package.json'
+          prop_path: 'version'
+      - name: send message to webhook
+        uses: joelwmale/webhook-action@master
+        with:
+          url: 'https://hook-rc.pingcode.com/api/flow/w/http/357bdd4f00f34bfab2f878ad3b9e8b48'
+          body: '{ "version": "${{ steps.read-version.outputs.prop }}", "name": "甘特图 ngx-gantt" }'
+  autoMerge:
+    if: startsWith(github.head_ref, 'release-auto-')
+    needs: [publish]
+    runs-on: ubuntu-latest
+    steps:
+      - id: autoMerge
+        name: autoMerge
+        uses: 'pascalgn/automerge-action@v0.15.5'
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          MERGE_LABELS: ''
+          MERGE_FORKS: 'false'
+          MERGE_RETRIES: '20'
+          MERGE_RETRY_SLEEP: '60000'
