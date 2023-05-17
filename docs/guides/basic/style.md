@@ -36,17 +36,17 @@ order: 50
   $gantt-bar-layer-bg: #fff,
   $gantt-bar-handle-color: #cacaca,
   $gantt-bar-handle-height: 12px,
-  $gantt-bar-background-color: #348fe4,
+  $gantt-bar-background-color: #6698ff,
 
   // drag
-  $gantt-item-drag-mask-color: #348fe4,
-  $gantt-link-dragging-line-color: #348fe4,
+  $gantt-item-drag-mask-color: #6698ff,
+  $gantt-link-dragging-line-color: #6698ff,
 
   // link
-  $gantt-link-line-color: #348fe4,
+  $gantt-link-line-color: #6698ff,
 
   // table
   $gantt-table-header-drag-line-width: 3px,
-  $gantt-table-header-drag-line-color: #348fe4
+  $gantt-table-header-drag-line-color: #6698ff
 );
 ```

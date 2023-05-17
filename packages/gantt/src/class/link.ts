@@ -16,7 +16,7 @@ export enum GanttLinkLineType {
 export enum LinkColors {
     default = '#cacaca',
     blocked = '#FF7575',
-    active = '#348FE4'
+    active = '#6698ff'
 }
 
 export interface GanttLink {
