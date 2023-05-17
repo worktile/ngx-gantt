@@ -31,11 +31,11 @@ $gantt-bar-link-drop-border: 5px;
       }
 
       .point {
-        color: #348fe4;
+        color: variables.$gantt-bar-link-handle-point;
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background: #348fe4;
+        background: variables.$gantt-bar-link-handle-point;
         transition: 0.3 ease;
 
         &:hover {
