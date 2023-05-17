@@ -42,7 +42,7 @@ module.exports = [
                 default: 'false'
             },
             {
-                name: 'virtualScrollable',
+                name: 'virtualScrollEnabled',
                 description: `设置是否使用虚拟滚动功能`,
                 type: 'boolean',
                 default: 'true'

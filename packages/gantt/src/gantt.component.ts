@@ -74,7 +74,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         }
     }
 
-    @Input() @InputBoolean() virtualScrollable = true;
+    @Input() @InputBoolean() virtualScrollEnabled = true;
 
     @Input() loadingDelay: number = 0;
 
@@ -153,7 +153,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             this.computeTempDataRefs();
         });
 
-        if (!this.virtualScrollable) {
+        if (!this.virtualScrollEnabled) {
             this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
             this.computeTempDataRefs();
         }
@@ -175,7 +175,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     ngAfterViewInit() {
-        if (this.virtualScrollable) {
+        if (this.virtualScrollEnabled) {
             this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
                 const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
                 linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
@@ -204,7 +204,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         }
         this.flatItems = [...virtualData];
         this.flatItemsMap = keyBy(this.flatItems, 'id');
-        if (!this.virtualScrollable) {
+        if (!this.virtualScrollEnabled) {
             this.rangeStart = 0;
             this.rangeEnd = this.flatItems.length - 1;
         }

@@ -1,20 +1,20 @@
 <div style="line-height: 30px; padding: 15px; display: flex">
   <div style="flex: 1">
     <span class="text-primary">NgxGantt</span>
-    默认开启了虚拟滚动功能，如需关闭该功能设置 virtualScrollable 参数为 false。
+    默认开启了虚拟滚动功能，如需关闭该功能设置 virtualScrollEnabled 参数为 false。
   </div>
 </div>
 <thy-layout>
   <thy-content>
-    <ngx-gantt #gantt [items]="items" virtualScrollable="true">
+    <ngx-gantt #gantt [items]="items" virtualScrollEnabled="true">
       <ngx-gantt-table>
+        <ngx-gantt-column name="标题" width="180px">
+          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+        </ngx-gantt-column>
         <ngx-gantt-column name="开始时间" [class.start-time]="true" [width]="140">
           <ng-template #cell let-item="item">
-            {{ item.id }}
+            {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
           </ng-template>
-        </ngx-gantt-column>
-        <ngx-gantt-column name="标题" width="180px" [showExpandIcon]="true">
-          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="截止时间">
           <ng-template #cell let-item="item">
