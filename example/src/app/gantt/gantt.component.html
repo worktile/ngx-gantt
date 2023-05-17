@@ -37,6 +37,7 @@
       [showToolbar]="isShowToolbarChecked"
       [toolbarOptions]="toolbarOptions"
       [loading]="loading"
+      virtualScrollEnabled="false"
       (barClick)="barClick($event)"
       (viewChange)="viewChange($event)"
       (lineClick)="lineClick($event)"
@@ -52,13 +53,18 @@
         (dragStarted)="onDragStarted($event)"
         (dragEnded)="onDragEnded($event)"
       >
-        <ngx-gantt-column name="开始时间" [class.start-time]="true" [width]="140">
+        <ngx-gantt-column name="Id" [class.start-time]="true" [width]="120">
           <ng-template #cell let-item="item">
             {{ item.id }}
           </ng-template>
         </ngx-gantt-column>
-        <ngx-gantt-column name="标题" width="180px" [showExpandIcon]="true">
+        <ngx-gantt-column name="标题" width="160px" [showExpandIcon]="true">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+        </ngx-gantt-column>
+        <ngx-gantt-column name="开始时间">
+          <ng-template #cell let-item="item">
+            {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
+          </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="截止时间">
           <ng-template #cell let-item="item">
