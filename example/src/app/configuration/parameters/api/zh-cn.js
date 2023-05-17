@@ -41,7 +41,12 @@ module.exports = [
                 type: 'boolean',
                 default: 'false'
             },
-
+            {
+                name: 'virtualScrollable',
+                description: `设置是否使用虚拟滚动功能`,
+                type: 'boolean',
+                default: 'true'
+            },
             {
                 name: 'linkable',
                 description: `设置是否可连接关联关系`,

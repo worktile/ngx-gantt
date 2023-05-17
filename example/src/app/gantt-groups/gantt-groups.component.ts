@@ -48,8 +48,7 @@ export class AppGanttGroupsExampleComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
-        // const { groups, items } = randomGroupsAndItems(10);
-        const { groups, items } = randomGroupsAndItems(1000);
+        const { groups, items } = randomGroupsAndItems(10);
         this.groups = groups;
         this.items = items;
     }

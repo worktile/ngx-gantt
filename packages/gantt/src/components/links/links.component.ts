@@ -32,7 +32,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     // @Input() items: GanttItemInternal[] = [];
 
-    @Input() flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
+    @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
@@ -141,7 +141,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         //     });
         // }
 
-        this.flatData.forEach((item, itemIndex) => {
+        this.flatItems.forEach((item, itemIndex) => {
             if (!item.hasOwnProperty('items')) {
                 const ganttItem = item as GanttItemInternal;
                 if (ganttItem.refs) {

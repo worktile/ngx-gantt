@@ -36,21 +36,21 @@ import { DOCUMENT } from '@angular/common';
     templateUrl: './gantt-table-body.component.html'
 })
 export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit {
-    private _renderData: (GanttGroupInternal | GanttItemInternal)[];
-    @Input() set renderData(data: (GanttGroupInternal | GanttItemInternal)[]) {
+    private _viewportItems: (GanttGroupInternal | GanttItemInternal)[];
+    @Input() set viewportItems(data: (GanttGroupInternal | GanttItemInternal)[]) {
         const firstData = data[0];
         if (firstData && firstData.hasOwnProperty('items')) {
             this.hasGroup = true;
         }
         this.ganttTableEmptyClass = data?.length ? false : true;
-        this._renderData = data;
+        this._viewportItems = data;
     }
 
-    get renderData() {
-        return this._renderData;
+    get viewportItems() {
+        return this._viewportItems;
     }
 
-    @Input() flatData: (GanttGroupInternal | GanttItemInternal)[];
+    @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() columns: QueryList<NgxGanttTableColumnComponent>;
 
@@ -271,8 +271,8 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     private removeItem(item: GanttItemInternal, children: GanttItemInternal[]) {
-        this.renderData.splice(this.renderData.indexOf(item), 1 + children.length);
-        this.flatData.splice(this.flatData.indexOf(item), 1 + children.length);
+        this.viewportItems.splice(this.viewportItems.indexOf(item), 1 + children.length);
+        this.flatItems.splice(this.flatItems.indexOf(item), 1 + children.length);
     }
 
     private insertItem(
@@ -282,8 +282,8 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         position: 'before' | 'after'
     ) {
         if (position === 'before') {
-            this.renderData.splice(this.renderData.indexOf(target), 0, inserted, ...children);
-            this.flatData.splice(this.flatData.indexOf(target), 0, inserted, ...children);
+            this.viewportItems.splice(this.viewportItems.indexOf(target), 0, inserted, ...children);
+            this.flatItems.splice(this.flatItems.indexOf(target), 0, inserted, ...children);
         } else {
             const dragRef = this.cdkDrags.find((drag) => drag.data === target);
             // 如果目标项是展开的，插入的 index 位置需要考虑子项的数量
@@ -291,21 +291,21 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
             if (target.expanded) {
                 childrenCount = this.getChildrenElementsByElement(dragRef.element.nativeElement)?.length || 0;
             }
-            this.renderData.splice(this.renderData.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
-            this.flatData.splice(this.flatData.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
+            this.viewportItems.splice(this.viewportItems.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
+            this.flatItems.splice(this.flatItems.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
         }
     }
 
     private insertChildrenItem(target: GanttItemInternal, inserted: GanttItemInternal, children: GanttItemInternal[]) {
         if (target.expanded) {
-            this.renderData.splice(this.renderData.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
-            this.flatData.splice(this.flatData.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
+            this.viewportItems.splice(this.viewportItems.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
+            this.flatItems.splice(this.flatItems.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
         }
         target.children.push(inserted);
     }
 
     private getParentByItem(item: GanttItemInternal) {
-        return (this.flatData || []).find((n: GanttItemInternal) => {
+        return (this.flatItems || []).find((n: GanttItemInternal) => {
             return n.children?.includes(item);
         });
     }

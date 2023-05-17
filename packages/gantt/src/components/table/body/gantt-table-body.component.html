@@ -2,11 +2,11 @@
   class="gantt-table-body-container"
   cdkDropList
   [cdkDropListAutoScrollStep]="6"
-  [cdkDropListData]="renderData"
+  [cdkDropListData]="viewportItems"
   [cdkDropListSortingDisabled]="true"
   (cdkDropListDropped)="onListDropped($event)"
 >
-  <ng-container *ngIf="!renderData?.length">
+  <ng-container *ngIf="!viewportItems?.length">
     <ng-container *ngIf="!emptyTemplate">
       <gantt-icon class="empty-icon" iconName="empty"></gantt-icon>
       <div class="empty-text">没有数据</div>
@@ -14,8 +14,8 @@
     <ng-template [ngTemplateOutlet]="emptyTemplate"></ng-template>
   </ng-container>
 
-  <ng-container *ngIf="renderData && renderData.length > 0">
-    <ng-container *ngFor="let item of renderData; trackBy: trackBy">
+  <ng-container *ngIf="viewportItems && viewportItems.length > 0">
+    <ng-container *ngFor="let item of viewportItems; trackBy: trackBy">
       <div class="gantt-table-group" [ngClass]="item.class" *ngIf="item.items">
         <div class="gantt-table-group-title" [class.expanded]="item.expanded" (click)="expandGroup(item)">
           <gantt-icon class="expand-icon" [iconName]="item.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>

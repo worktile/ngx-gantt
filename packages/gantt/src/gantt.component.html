@@ -9,17 +9,18 @@
 
   <cdk-virtual-scroll-viewport
     class="gantt-virtual-scroll-viewport"
+    [ngClass]="{ 'gantt-normal-viewport': !virtualScrollable }"
     [itemSize]="styles.lineHeight"
     [minBufferPx]="styles.lineHeight * 10"
     [maxBufferPx]="styles.lineHeight * 20"
   >
-    <ng-container *cdkVirtualFor="let item of flatData; trackBy: trackBy"></ng-container>
+    <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>
     <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1">
       <div class="gantt-side-container">
         <div class="gantt-table">
           <gantt-table-body
-            [flatData]="flatData"
-            [renderData]="renderData"
+            [flatItems]="flatItems"
+            [viewportItems]="viewportItems"
             [columns]="columns"
             [groupTemplate]="groupTemplate"
             [emptyTemplate]="tableEmptyTemplate"
@@ -31,17 +32,17 @@
             (dragStarted)="table.dragStarted.emit($event)"
             (dragEnded)="table.dragEnded.emit($event)"
             (itemClick)="selectItem($event)"
-          ></gantt-table-body>
+          >
+          </gantt-table-body>
         </div>
       </div>
     </div>
-
     <div class="gantt-container">
       <gantt-calendar-grid></gantt-calendar-grid>
       <div class="gantt-main">
         <gantt-main
-          [flatData]="flatData"
-          [renderData]="renderData"
+          [flatItems]="flatItems"
+          [viewportItems]="viewportItems"
           [groupHeaderTemplate]="groupHeaderTemplate"
           [itemTemplate]="itemTemplate"
           [barTemplate]="barTemplate"

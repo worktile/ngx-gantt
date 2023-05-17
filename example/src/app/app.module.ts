@@ -24,6 +24,7 @@ import { EXAMPLE_MODULES } from './content/example-modules';
 import { AppExampleComponentsComponent } from './components/components.component';
 import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.component';
 import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.component';
+import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/gantt.component';
 
 @NgModule({
     declarations: [
@@ -32,6 +33,7 @@ import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.co
         AppGanttExampleComponent,
         AppGanttAdvancedExampleComponent,
         AppGanttGroupsExampleComponent,
+        AppGanttVirtualScrollExampleComponent,
         AppGanttRangeExampleComponent,
         AppGanttCustomViewExampleComponent,
         AppGanttFlatComponent

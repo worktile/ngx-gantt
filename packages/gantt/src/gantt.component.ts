@@ -25,7 +25,6 @@ import { Observable, from } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent, GanttGroupInternal } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
-import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
@@ -34,7 +33,7 @@ import { GanttDate } from './utils/date';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttPrintService } from './gantt-print.service';
-import { defaultColumnWidth } from './components/table/header/gantt-table-header.component';
+import { InputBoolean } from 'ngx-tethys/core';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -75,9 +74,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         }
     }
 
-    get loading() {
-        return this._loading;
-    }
+    @Input() @InputBoolean() virtualScrollable = true;
 
     @Input() loadingDelay: number = 0;
 
@@ -99,11 +96,15 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-    public flatData: (GanttGroupInternal | GanttItemInternal)[] = [];
+    get loading() {
+        return this._loading;
+    }
 
-    public renderData: (GanttGroupInternal | GanttItemInternal)[] = [];
+    public flatItems: (GanttGroupInternal | GanttItemInternal)[] = [];
 
-    private _loading: boolean = false;
+    public viewportItems: (GanttGroupInternal | GanttItemInternal)[] = [];
+
+    private _loading = false;
 
     private loadingTimer;
 
@@ -111,7 +112,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     private rangeEnd: number;
 
-    private flatDataMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
+    private flatItemsMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
@@ -126,7 +127,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     override ngOnInit() {
         super.ngOnInit();
-        this.buildVirtualFlatData();
+        this.buildFlatItems();
         // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
         // the `onStable` will never emit any value.
         const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
@@ -151,35 +152,42 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.view.start$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(() => {
             this.computeTempDataRefs();
         });
+
+        if (!this.virtualScrollable) {
+            this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
+            this.computeTempDataRefs();
+        }
     }
 
     override ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (!this.firstChange) {
             if (changes.viewType && changes.viewType.currentValue) {
-                this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+                this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
             }
             if (changes.originItems || changes.originGroups) {
-                this.buildVirtualFlatData();
-                this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+                this.buildFlatItems();
+                this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
             }
         }
     }
 
     ngAfterViewInit() {
-        this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
-            const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
-            linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
-            this.rangeStart = range.start;
-            this.rangeEnd = range.end;
-            this.renderData = this.flatData.slice(range.start, range.end);
-            this.computeTempDataRefs();
-        });
+        if (this.virtualScrollable) {
+            this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
+                const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
+                linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
+                this.rangeStart = range.start;
+                this.rangeEnd = range.end;
+                this.viewportItems = this.flatItems.slice(range.start, range.end);
+                this.computeTempDataRefs();
+            });
+        }
     }
 
-    private buildVirtualFlatData() {
+    private buildFlatItems() {
         const virtualData = [];
         if (this.groups.length) {
             this.groups.forEach((group) => {
@@ -194,24 +202,28 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         if (this.items.length) {
             virtualData.push(...recursiveItems(this.items));
         }
-        this.flatData = [...virtualData];
-        this.flatDataMap = keyBy(this.flatData, 'id');
+        this.flatItems = [...virtualData];
+        this.flatItemsMap = keyBy(this.flatItems, 'id');
+        if (!this.virtualScrollable) {
+            this.rangeStart = 0;
+            this.rangeEnd = this.flatItems.length - 1;
+        }
     }
 
     private afterExpand() {
-        this.buildVirtualFlatData();
-        this.renderData = this.flatData.slice(this.rangeStart, this.rangeEnd);
+        this.buildFlatItems();
+        this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
     }
 
     private computeTempDataRefs() {
         const tempItemData = [];
-        this.renderData.forEach((data: GanttGroupInternal | GanttItemInternal) => {
+        this.viewportItems.forEach((data: GanttGroupInternal | GanttItemInternal) => {
             if (!data.hasOwnProperty('items')) {
                 const item = data as GanttItemInternal;
                 if (item.links) {
                     item.links.forEach((link) => {
-                        if (this.flatDataMap[link.link]) {
-                            tempItemData.push(this.flatDataMap[link.link]);
+                        if (this.flatItemsMap[link.link]) {
+                            tempItemData.push(this.flatItemsMap[link.link]);
                         }
                     });
                 }
@@ -219,8 +231,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             }
         });
         this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
-        this.flatData = [...this.flatData];
-        this.renderData = [...this.renderData];
+        this.flatItems = [...this.flatItems];
+        this.viewportItems = [...this.viewportItems];
     }
 
     expandChildren(item: GanttItemInternal) {

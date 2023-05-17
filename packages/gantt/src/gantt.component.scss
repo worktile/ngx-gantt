@@ -87,6 +87,10 @@
     }
   }
 
+  .gantt-normal-viewport {
+    display: flex;
+  }
+
   .gantt-virtual-scroll-viewport {
     position: absolute;
     left: 0;
@@ -107,6 +111,15 @@
           height: 100%;
           top: 0;
         }
+      }
+    }
+
+    &.gantt-normal-viewport {
+      .cdk-virtual-scroll-content-wrapper {
+        height: 100%;
+      }
+      .cdk-virtual-scroll-spacer {
+        display: none;
       }
     }
   }
