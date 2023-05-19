@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NgxGanttComponent } from './gantt.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
-// import { GanttCalendarComponent } from './components/calendar/calendar.component';
-// import { GanttTableComponent } from './components/table/gantt-table.component';
 import { NgxGanttBarComponent } from './components/bar/bar.component';
 import { GanttMainComponent } from './components/main/gantt-main.component';
 import { GanttIconComponent } from './components/icon/icon.component';
@@ -40,11 +38,9 @@ import { GanttLoaderComponent } from './components/loader/loader.component';
         NgxGanttComponent,
         NgxGanttTableComponent,
         NgxGanttTableColumnComponent,
-        // GanttTableComponent,
         GanttTableHeaderComponent,
         GanttTableBodyComponent,
         GanttMainComponent,
-        // GanttCalendarComponent,
         GanttCalendarHeaderComponent,
         GanttCalendarGridComponent,
         GanttLinksComponent,

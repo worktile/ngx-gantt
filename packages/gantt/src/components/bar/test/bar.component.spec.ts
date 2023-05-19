@@ -45,6 +45,9 @@ describe('ngx-gantt-bar', () => {
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttBarComponent);
         fixture.detectChanges();
+        await fixture.whenStable();
+        await fixture.whenStable();
+        fixture.detectChanges();
     });
 
     it('should has bar progress', () => {

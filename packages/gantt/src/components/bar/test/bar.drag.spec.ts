@@ -149,8 +149,11 @@ describe('bar-drag', () => {
             declarations: [TestGanttBarComponent]
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttBarComponent);
+        fixture.detectChanges();
+        await fixture.whenStable();
         ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
         ganttComponentInstance = fixture.componentInstance;
+        await fixture.whenStable();
         fixture.detectChanges();
     });
 
