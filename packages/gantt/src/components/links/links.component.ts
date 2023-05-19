@@ -9,15 +9,15 @@ import {
     ChangeDetectorRef,
     ElementRef,
     OnDestroy,
-    OnChanges
+    OnChanges,
+    NgZone
 } from '@angular/core';
-import { merge, Subject } from 'rxjs';
-import { takeUntil, skip, debounceTime } from 'rxjs/operators';
+import { empty, EMPTY, merge, NEVER, of, Subject, timer } from 'rxjs';
+import { takeUntil, skip, debounceTime, switchMap, take } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
 import { GanttDragContainer } from '../../gantt-drag-container';
-import { recursiveItems } from '../../utils/helpers';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
 import { GanttLinkLine } from './lines/line';
@@ -28,9 +28,11 @@ import { createLineGenerator } from './lines/factory';
     templateUrl: './links.component.html'
 })
 export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
-    @Input() groups: GanttGroupInternal[] = [];
+    // @Input() groups: GanttGroupInternal[] = [];
 
-    @Input() items: GanttItemInternal[] = [];
+    // @Input() items: GanttItemInternal[] = [];
+
+    @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
@@ -54,15 +56,18 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
         private elementRef: ElementRef,
-        private ganttDragContainer: GanttDragContainer
+        private ganttDragContainer: GanttDragContainer,
+        private ngZone: NgZone
     ) {}
 
     ngOnInit() {
         this.linkLine = createLineGenerator(this.ganttUpper.linkOptions.lineType, this.ganttUpper);
 
         this.showArrow = this.ganttUpper.linkOptions.showArrow;
-        this.buildLinks();
+        // this.buildLinks();
         this.firstChange = false;
+
+        this.buildLinks();
 
         this.ganttDragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.visibility = 'hidden';
@@ -73,7 +78,8 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             this.ganttUpper.expandChange,
             this.ganttUpper.view.start$,
             this.ganttUpper.dragEnded,
-            this.ganttUpper.linkDragEnded
+            this.ganttUpper.linkDragEnded,
+            this.ngZone.onStable.pipe(take(1)).pipe(switchMap(() => this.ganttUpper.table?.dragDropped || EMPTY))
         )
             .pipe(skip(1), debounceTime(0), takeUntil(this.unsubscribe$))
             .subscribe(() => {
@@ -93,47 +99,67 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         const lineHeight = this.ganttUpper.styles.lineHeight;
         const barHeight = this.ganttUpper.styles.barHeight;
         this.linkItems = [];
-        if (this.groups.length > 0) {
-            let itemNum = 0;
-            let groupNum = 0;
-            this.groups.forEach((group) => {
-                groupNum++;
-                if (group.expanded) {
-                    const items = recursiveItems(group.items);
-                    items.forEach((item, itemIndex) => {
-                        const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
-                        this.linkItems.push({
-                            ...item,
-                            before: {
-                                x: item.refs.x,
-                                y
-                            },
-                            after: {
-                                x: item.refs.x + item.refs.width,
-                                y
-                            }
-                        });
+        // if (this.groups.length > 0) {
+        //     let itemNum = 0;
+        //     let groupNum = 0;
+        //     this.groups.forEach((group) => {
+        //         groupNum++;
+        //         if (group.expanded) {
+        //             const items = recursiveItems(group.items);
+        //             items.forEach((item, itemIndex) => {
+        //                 const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
+        //                 this.linkItems.push({
+        //                     ...item,
+        //                     before: {
+        //                         x: item.refs.x,
+        //                         y
+        //                     },
+        //                     after: {
+        //                         x: item.refs.x + item.refs.width,
+        //                         y
+        //                     }
+        //                 });
+        //             });
+        //             itemNum += items.length;
+        //         }
+        //     });
+        // } else {
+        //     const items = recursiveItems(this.items);
+        //     items.forEach((item, itemIndex) => {
+        //         const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
+        //         this.linkItems.push({
+        //             ...item,
+        //             before: {
+        //                 x: item.refs.x,
+        //                 y
+        //             },
+        //             after: {
+        //                 x: item.refs.x + item.refs.width,
+        //                 y
+        //             }
+        //         });
+        //     });
+        // }
+
+        this.flatItems.forEach((item, itemIndex) => {
+            if (!item.hasOwnProperty('items')) {
+                const ganttItem = item as GanttItemInternal;
+                if (ganttItem.refs) {
+                    const y = itemIndex * lineHeight + ganttItem.refs.y + barHeight / 2;
+                    this.linkItems.push({
+                        ...ganttItem,
+                        before: {
+                            x: ganttItem.refs.x,
+                            y
+                        },
+                        after: {
+                            x: ganttItem.refs.x + ganttItem.refs.width,
+                            y
+                        }
                     });
-                    itemNum += items.length;
                 }
-            });
-        } else {
-            const items = recursiveItems(this.items);
-            items.forEach((item, itemIndex) => {
-                const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
-                this.linkItems.push({
-                    ...item,
-                    before: {
-                        x: item.refs.x,
-                        y
-                    },
-                    after: {
-                        x: item.refs.x + item.refs.width,
-                        y
-                    }
-                });
-            });
-        }
+            }
+        });
     }
 
     buildLinks() {

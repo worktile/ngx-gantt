@@ -76,11 +76,14 @@ xmlns:xlink="http://www.w3.org/1999/xlink"
   </g>
 </g>
 </svg>`;
+
+const dragIcon = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="aijaction/drag--" stroke-width="1" fill-rule="evenodd"><g id="aij拖动" transform="translate(5 1)" fill-rule="nonzero"><path d="M1 2a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM1 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" id="aij形状结合"></path></g></g></svg>`;
 export const icons = {
     'angle-right': angleRight,
     'angle-down': angleDown,
     'plus-square': plusSquare,
     'minus-square': minusSquare,
     loading: loadingIcon,
-    empty: emptyIcon
+    empty: emptyIcon,
+    drag: dragIcon
 };

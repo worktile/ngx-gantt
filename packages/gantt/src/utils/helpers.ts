@@ -43,6 +43,17 @@ export function flatten<T = unknown>(array: T[]) {
     }, []);
 }
 
+// export function recursiveItems(items: GanttItemInternal[]) {
+//     const result = [];
+//     (items || []).forEach((item) => {
+//         result.push(item);
+//         if (item.expanded && item.children) {
+//             result.push(...recursiveItems(item.children));
+//         }
+//     });
+//     return result;
+// }
+
 export function recursiveItems(items: GanttItemInternal[]) {
     const result = [];
     (items || []).forEach((item) => {

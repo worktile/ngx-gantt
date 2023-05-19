@@ -12,7 +12,8 @@ import {
     AfterViewInit,
     ViewChildren,
     QueryList,
-    NgZone
+    NgZone,
+    SimpleChanges
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -59,6 +60,22 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         });
     }
 
+    override ngOnChanges(changes: SimpleChanges): void {
+        super.ngOnChanges(changes);
+        if (!this.firstChange) {
+            this.drag.updateItem(this.item);
+
+            if (
+                changes.item.currentValue.refs?.width !== changes.item.previousValue.refs?.width ||
+                changes.item.currentValue.color !== changes.item.previousValue.color ||
+                changes.item.currentValue.start?.value !== changes.item.previousValue.start?.value ||
+                changes.item.currentValue.end?.value !== changes.item.previousValue.end?.value
+            ) {
+                this.setContentBackground();
+            }
+        }
+    }
+
     ngAfterViewInit() {
         // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
         // the `onStable` will never emit any value.
@@ -100,31 +117,33 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     }
 
     private setContentBackground() {
-        const contentElement = this.contentElementRef.nativeElement;
-        const color = this.item.color || barBackground;
-        const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
-        if (this.item.origin.start && this.item.origin.end) {
-            style.background = color;
-            style.borderRadius = '';
-        }
-        if (this.item.origin.start && !this.item.origin.end) {
-            style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
-            style.borderRadius = '4px 12.5px 12.5px 4px';
-        }
-        if (!this.item.origin.start && this.item.origin.end) {
-            style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
-            style.borderRadius = '12.5px 4px 4px 12.5px';
-        }
-        if (this.item.progress >= 0) {
-            const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
-            style.background = hexToRgb(color, 0.3);
-            style.borderRadius = '';
-            contentProgressElement.style.background = color;
-        }
+        if (this.item.refs?.width) {
+            const contentElement = this.contentElementRef.nativeElement;
+            const color = this.item.color || barBackground;
+            const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
+            if (this.item.origin.start && this.item.origin.end) {
+                style.background = color;
+                style.borderRadius = '';
+            }
+            if (this.item.origin.start && !this.item.origin.end) {
+                style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
+                style.borderRadius = '4px 12.5px 12.5px 4px';
+            }
+            if (!this.item.origin.start && this.item.origin.end) {
+                style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
+                style.borderRadius = '12.5px 4px 4px 12.5px';
+            }
+            if (this.item.progress >= 0) {
+                const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
+                style.background = hexToRgb(color, 0.3);
+                style.borderRadius = '';
+                contentProgressElement.style.background = color;
+            }
 
-        for (const key in style) {
-            if (style.hasOwnProperty(key)) {
-                contentElement.style[key] = style[key];
+            for (const key in style) {
+                if (style.hasOwnProperty(key)) {
+                    contentElement.style[key] = style[key];
+                }
             }
         }
     }

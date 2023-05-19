@@ -31,6 +31,10 @@
       background-color: variables.$gantt-bg-color;
       overflow-y: auto;
 
+      .gantt-table {
+        height: 100%;
+      }
+
       &::-webkit-scrollbar {
         display: none;
       }
@@ -81,5 +85,53 @@
         background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
       }
     }
+  }
+
+  .gantt-normal-viewport {
+    display: flex;
+  }
+
+  .gantt-virtual-scroll-viewport {
+    position: absolute;
+    left: 0;
+    top: variables.$gantt-header-height;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    // 兼容火狐浏览器
+    overflow: auto;
+    overflow: overlay;
+    .cdk-virtual-scroll-content-wrapper {
+      width: 100%;
+      min-width: unset;
+      display: flex;
+      min-height: 100%;
+      .gantt-container {
+        .gantt-main-container {
+          height: 100%;
+          top: 0;
+        }
+      }
+    }
+
+    &.gantt-normal-viewport {
+      .cdk-virtual-scroll-content-wrapper {
+        height: 100%;
+      }
+      .cdk-virtual-scroll-spacer {
+        display: none;
+      }
+    }
+  }
+}
+
+.gantt-header {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  .gantt-container-header {
+    flex: 1;
+    overflow: hidden;
+    background-color: #fafafa;
   }
 }

@@ -37,3 +37,29 @@ export class GanttSelectedEvent<T = unknown> {
     event: Event;
     selectedValue: GanttItem<T> | GanttItem<T>[];
 }
+
+export class GanttTableDragDroppedEvent<T = unknown> {
+    source: GanttItem<T>;
+    sourceParent: GanttItem<T>;
+    target: GanttItem<T>;
+    targetParent: GanttItem<T>;
+    dropPosition: GanttTableDropPosition;
+}
+
+export class GanttTableDragStartedEvent<T = unknown> {
+    source: GanttItem<T>;
+    sourceParent: GanttItem<T>;
+}
+
+export class GanttTableDragEndedEvent<T = unknown> {
+    source: GanttItem<T>;
+    sourceParent: GanttItem<T>;
+}
+
+export type GanttTableDropPosition = 'before' | 'inside' | 'after';
+
+export class GanttTableDragEnterPredicateContext<T = unknown> {
+    source: GanttItem<T>;
+    target: GanttItem<T>;
+    dropPosition: GanttTableDropPosition;
+}

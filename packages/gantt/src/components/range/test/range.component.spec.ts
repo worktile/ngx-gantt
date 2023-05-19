@@ -66,6 +66,9 @@ describe('ngx-gantt-range', () => {
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttRangeComponent);
         fixture.detectChanges();
+        await fixture.whenStable();
+        await fixture.whenStable();
+        fixture.detectChanges();
     });
 
     it('should render range item', () => {

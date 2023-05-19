@@ -41,12 +41,31 @@ module.exports = [
                 type: 'boolean',
                 default: 'false'
             },
-
+            {
+                name: 'virtualScrollEnabled',
+                description: `设置是否使用虚拟滚动功能`,
+                type: 'boolean',
+                default: 'true'
+            },
             {
                 name: 'linkable',
                 description: `设置是否可连接关联关系`,
                 type: 'boolean',
                 default: 'false'
+            },
+
+            {
+                name: 'loading',
+                description: `是否展示加载器`,
+                type: 'boolean',
+                default: 'false'
+            },
+
+            {
+                name: 'loadingDelay',
+                description: '设置在多少`毫秒`内,忽略加载器展示',
+                type: 'number',
+                default: '0'
             },
 
             {
@@ -182,6 +201,32 @@ module.exports = [
         name: 'ngx-gantt-table',
         description: '甘特图左侧表格',
         properties: [
+            {
+                name: 'draggable',
+                description: `设置表格数据项是否支持上下拖动排序`,
+                default: false,
+                type: 'boolean'
+            },
+            {
+                name: 'dropEnterPredicate',
+                description: `该函数用于判断是否允许某个数据项拖到其他项`,
+                type: '(context: GanttTableDragEnterPredicateContext<T>) => boolean'
+            },
+            {
+                name: 'dragDropped',
+                description: `当把一个数据项拖动到另一个数据项时就会触发`,
+                type: 'EventEmitter<GanttTableDragDroppedEvent>'
+            },
+            {
+                name: 'dragStarted',
+                description: `拖拽开始后事件`,
+                type: 'EventEmitter<GanttTableDragStartedEvent>'
+            },
+            {
+                name: 'dragEnded',
+                description: `拖拽结束后事件`,
+                type: 'EventEmitter<GanttTableDragEndedEvent>'
+            },
             {
                 name: 'columnChanges',
                 description: `列宽变化事件集`,

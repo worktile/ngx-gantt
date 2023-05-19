@@ -41,6 +41,7 @@ import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
+import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
@@ -137,6 +138,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public linkable: boolean;
 
+    public computeAllRefs = true;
+
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     public view: GanttView;
@@ -162,6 +165,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     public unsubscribe$ = new Subject<void>();
 
     public selectionModel: SelectionModel<string>;
+
+    public table?: NgxGanttTableComponent;
 
     private groupsMap: { [key: string]: GanttGroupInternal };
 
@@ -204,13 +209,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
                 if (group) {
-                    const item = new GanttItemInternal(origin, { fillDays: this.view.options?.fillDays });
+                    const item = new GanttItemInternal(origin, 0, { fillDays: this.view.options?.fillDays });
                     group.items.push(item);
                 }
             });
         } else {
             this.originItems.forEach((origin) => {
-                const item = new GanttItemInternal(origin, { fillDays: this.view.options?.fillDays });
+                const item = new GanttItemInternal(origin, 0, { fillDays: this.view.options?.fillDays });
                 this.items.push(item);
             });
         }
@@ -276,24 +281,26 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     computeRefs() {
-        this.groups.forEach((group) => {
-            const groupItems = recursiveItems(group.items);
-            this.computeItemsRefs(...groupItems);
-        });
-        const items = recursiveItems(this.items);
-        this.computeItemsRefs(...items);
+        if (this.computeAllRefs) {
+            this.groups.forEach((group) => {
+                const groupItems = recursiveItems(group.items);
+                this.computeItemsRefs(...groupItems);
+            });
+            const items = recursiveItems(this.items);
+            this.computeItemsRefs(...items);
+        }
     }
 
-    private expandGroups(expanded: boolean) {
+    private initSelectionModel() {
+        return new SelectionModel(this.multiple, []);
+    }
+
+    expandGroups(expanded: boolean) {
         this.groups.forEach((group) => {
             group.setExpand(expanded);
         });
         this.expandChange.next(null);
         this.cdr.detectChanges();
-    }
-
-    private initSelectionModel() {
-        return new SelectionModel(this.multiple, []);
     }
 
     ngOnInit() {
@@ -316,8 +323,9 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.ngZone.runOutsideAngular(() => {
             onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
                 this.element.style.opacity = '1';
-
+                const disabledLoadOnScroll = this.disabledLoadOnScroll;
                 this.dragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+                    this.disabledLoadOnScroll = true;
                     this.dragStarted.emit(event);
                 });
 
@@ -326,9 +334,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 });
 
                 this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+                    this.disabledLoadOnScroll = disabledLoadOnScroll;
                     this.dragEnded.emit(event);
-                    // this.computeRefs();
-                    // this.detectChanges();
                 });
             });
         });
@@ -383,13 +390,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
+    // public functions
+
     expandGroup(group: GanttGroupInternal) {
         group.setExpand(!group.expanded);
         this.expandChange.emit(group);
         this.cdr.detectChanges();
     }
-
-    // public functions
 
     expandAll() {
         this.expandGroups(true);
