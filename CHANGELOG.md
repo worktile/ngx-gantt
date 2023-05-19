@@ -1,5 +1,22 @@
-Changelog
-All notable changes to ngx-gantt will be documented in this file.
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+# [15.1.0](https://github.com/worktile/ngx-gantt/compare/15.0.0...15.1.0) (2023-05-19)
+
+### chore
+
+- change color [#348](https://github.com/worktile/ngx-gantt/issues/348)fe4 to [#6698](https://github.com/worktile/ngx-gantt/issues/6698)ff #INFR-7105 ([5849ddb](https://github.com/worktile/ngx-gantt/commit/5849ddbe4fc83d941f2dedbeab3fa1505a1b70ad)), closes [#348fe4](https://github.com/worktile/ngx-gantt/issues/348fe4) [#INFR-7105](https://github.com/worktile/ngx-gantt/issues/INFR-7105)
+
+### Features
+
+- auto scroll when dragging #INFR-6189 ([#317](https://github.com/worktile/ngx-gantt/issues/317)) ([d18654d](https://github.com/worktile/ngx-gantt/commit/d18654d3d55b1cd7dd65d38284093ced3eab6cf2)), closes [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189)
+- **git:** add auto publish ([#364](https://github.com/worktile/ngx-gantt/issues/364)) ([29b2ec6](https://github.com/worktile/ngx-gantt/commit/29b2ec6412f2e7d6d9e30ff70b6ada804a5e4673))
+- merge 15.1.0-next ([1aaedf2](https://github.com/worktile/ngx-gantt/commit/1aaedf28b56cf50e1de06ee91121f872f837617d))
+
+### BREAKING CHANGES
+
+- modified some color variables #348fe4 to #6698ff
 
 ## [15.1.0-next.12](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.11...15.1.0-next.12) (2023-04-17)
 
