@@ -1,5 +1,6 @@
 // basic
 $gantt-color: #333 !default;
+$gantt-primary-color: #6698ff !default;
 $gantt-header-height: 44px !default;
 $gantt-border-color: #eee !default;
 $gantt-bg-color: #fff !default;
@@ -32,22 +33,26 @@ $gantt-bar-bg: #fff !default;
 $gantt-bar-layer-bg: #fff !default;
 $gantt-bar-handle-color: #cacaca !default;
 $gantt-bar-handle-height: 12px !default;
-$gantt-bar-link-handle-point: #6698ff !default;
-$gantt-bar-background-color: #6698ff !default;
+$gantt-bar-link-handle-point: $gantt-primary-color !default;
+$gantt-bar-background-color: $gantt-primary-color !default;
 
 // drag
-$gantt-item-drag-mask-color: #6698ff !default;
-$gantt-link-dragging-line-color: #6698ff !default;
+$gantt-item-drag-mask-color: $gantt-primary-color !default;
+$gantt-link-dragging-line-color: $gantt-primary-color !default;
 
 // link
-$gantt-link-line-color: #6698ff !default;
+$gantt-link-line-color: $gantt-primary-color !default;
 
 // table
 $gantt-table-header-drag-line-width: 3px !default;
-$gantt-table-header-drag-line-color: #6698ff !default;
+$gantt-table-header-drag-line-color: $gantt-primary-color !default;
+$gantt-table-items-drop-background-color: #f5f5f5 !default;
 
 // baseline
 $gantt-baseline-background-color: #cacaca !default;
 
-// toobar
-$gantt-toolbar-view-active-color: #6698ff !default;
+// toolbar
+$gantt-toolbar-view-active-color: $gantt-primary-color !default;
+
+// loader
+$gantt-loader-loading-color: $gantt-primary-color !default;

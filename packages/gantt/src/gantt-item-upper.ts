@@ -1,4 +1,4 @@
-import { Input, ElementRef, Inject, TemplateRef, Directive, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Input, ElementRef, Inject, TemplateRef, Directive, OnInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { GanttItemInternal, GanttItemType } from './class';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,26 +15,37 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
 
     public unsubscribe$ = new Subject<void>();
 
+    public refsUnsubscribe$ = new Subject<void>();
+
     constructor(protected elementRef: ElementRef<HTMLElement>, @Inject(GANTT_UPPER_TOKEN) protected ganttUpper: GanttUpper) {}
 
     ngOnInit() {
         this.firstChange = false;
-        this.item.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+        this.item.refs$.pipe(takeUntil(this.refsUnsubscribe$)).subscribe(() => {
             this.setPositions();
         });
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
         if (!this.firstChange) {
-            this.setPositions();
+            this.itemChange(changes.item.currentValue);
         }
+    }
+
+    private itemChange(item: GanttItemInternal) {
+        this.refsUnsubscribe$.next();
+        this.refsUnsubscribe$.complete();
+        this.item = item;
+        this.item.refs$.pipe(takeUntil(this.refsUnsubscribe$)).subscribe(() => {
+            this.setPositions();
+        });
     }
 
     private setPositions() {
         const itemElement = this.elementRef.nativeElement;
-        itemElement.style.left = this.item.refs.x + 'px';
-        itemElement.style.top = this.item.refs.y + 'px';
-        itemElement.style.width = this.item.refs.width + 'px';
+        itemElement.style.left = this.item.refs?.x + 'px';
+        itemElement.style.top = this.item.refs?.y + 'px';
+        itemElement.style.width = this.item.refs?.width + 'px';
         if (this.item.type === GanttItemType.bar) {
             itemElement.style.height = this.ganttUpper.styles.barHeight + 'px';
         } else if (this.item.type === GanttItemType.range) {
@@ -45,5 +56,7 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+        this.refsUnsubscribe$.next();
+        this.refsUnsubscribe$.complete();
     }
 }

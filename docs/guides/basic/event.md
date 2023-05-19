@@ -79,3 +79,39 @@ export class GanttSelectedEvent<T = unknown> {
   selectedValue: GanttItem<T> | GanttItem<T>[];
 }
 ```
+
+# GanttTableDragDroppedEvent
+
+当在 Table 中把一个数据项拖动到另一个数据项时触发事件的 Event
+
+```ts
+export class GanttTableDragDroppedEvent<T = unknown> {
+  source: GanttItem<T>; // 拖动开始数据项
+  sourceParent: GanttItem<T>; // 拖动开始数据项父 ID
+  target: GanttItem<T>; // 拖动目标数据项
+  targetParent: GanttItem<T>; // 拖动目标数据项父 ID
+  dropPosition: GanttTableDropPosition; // 拖动放下的位置  'before' | 'inside' | 'after'
+}
+```
+
+# GanttTableDragStartedEvent
+
+Table 组件拖拽开始后事件
+
+```ts
+export class GanttTableDragStartedEvent<T = unknown> {
+  source: GanttItem<T>; // 拖动开始数据项
+  sourceParent: GanttItem<T>; // 拖动开始数据项父
+}
+```
+
+# GanttTableDragEndedEvent
+
+Table 组件拖拽结束后事件
+
+```ts
+export class GanttTableDragEndedEvent<T = unknown> {
+  source: GanttItem<T>; // 拖动开始数据项
+  sourceParent: GanttItem<T>; // 拖动开始数据项父
+}
+```

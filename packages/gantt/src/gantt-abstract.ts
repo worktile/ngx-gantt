@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, ChangeDetectorRef } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal } from './class';
 import { GanttStyles } from './gantt.styles';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
@@ -7,6 +7,8 @@ export interface GanttAbstractComponent {
     table: NgxGanttTableComponent;
     styles: GanttStyles;
     maxLevel: number;
+    async: boolean;
+    cdr: ChangeDetectorRef;
     expandGroup(group: GanttGroupInternal): void;
     expandChildren(item: GanttItemInternal): void;
 }

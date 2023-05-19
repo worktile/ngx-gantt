@@ -1,0 +1,29 @@
+<div class="d-flex">
+  <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth">
+    <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"> </ng-container>
+    <ng-template #default>
+      {{ column.name }}
+    </ng-template>
+    <div
+      class="column-resize-handle"
+      cdkDrag
+      cdkDragLockAxis="x"
+      cdkDragBoundary=".gantt"
+      (cdkDragMoved)="onResizeMoved($event, column)"
+      (cdkDragStarted)="onResizeStarted($event)"
+      (cdkDragEnded)="onResizeEnded($event, column)"
+    ></div>
+  </div>
+</div>
+
+<div
+  class="table-resize-handle"
+  cdkDrag
+  cdkDragLockAxis="x"
+  cdkDragBoundary=".gantt"
+  (cdkDragMoved)="onResizeMoved($event)"
+  (cdkDragStarted)="onResizeStarted($event)"
+  (cdkDragEnded)="onOverallResizeEnded($event)"
+></div>
+
+<div #resizeLine class="table-resize-auxiliary-line"></div>

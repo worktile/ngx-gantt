@@ -7,9 +7,9 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
     templateUrl: './gantt-main.component.html'
 })
 export class GanttMainComponent {
-    @Input() groups: GanttGroupInternal[];
+    @Input() viewportItems: (GanttGroupInternal | GanttItemInternal)[];
 
-    @Input() items: GanttItemInternal[];
+    @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() groupHeaderTemplate: TemplateRef<any>;
 

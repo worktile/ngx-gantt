@@ -54,6 +54,9 @@ describe('ngx-gantt-baseline', () => {
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttBaselineComponent);
         fixture.detectChanges();
+        await fixture.whenStable();
+        await fixture.whenStable();
+        fixture.detectChanges();
     });
 
     it('should render baseline item', () => {

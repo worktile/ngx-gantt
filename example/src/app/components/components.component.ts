@@ -20,6 +20,12 @@ export class AppExampleComponentsComponent implements OnInit {
             path: 'groups'
         },
         {
+            id: 'virtual-scroll',
+            title: '虚拟滚动',
+            subtitle: 'Virtual Scroll',
+            path: 'virtual-scroll'
+        },
+        {
             id: 'custom-view',
             title: '自定义视图',
             subtitle: 'Custom View',

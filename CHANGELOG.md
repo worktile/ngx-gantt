@@ -1,6 +1,104 @@
 Changelog
 All notable changes to ngx-gantt will be documented in this file.
 
+## [15.1.0-next.12](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.11...15.1.0-next.12) (2023-04-17)
+
+### Bug Fixes
+
+- **gantt:** handle style change when start and end same(#INFR-7407) ([ceca539](https://github.com/worktile/ngx-gantt/commit/ceca539e11a1bdd09f6f089eef1bc7571bce4c09)), closes [#INFR-7407](https://github.com/worktile/ngx-gantt/issues/INFR-7407)
+
+## [15.1.0-next.11](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.10...15.1.0-next.11) (2023-04-13)
+
+### Features
+
+- **gantt:** optimize auto scroll speed: the speed increases when the mouse is closer to the gantt edge #INFR-7196 ([#355](https://github.com/worktile/ngx-gantt/issues/355)) ([da8c377](https://github.com/worktile/ngx-gantt/commit/da8c377e4d48c528dd562bc189ea01590e35e59a)), closes [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196) [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196) [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196) [#INFR-7196](https://github.com/worktile/ngx-gantt/issues/INFR-7196)
+
+## [15.1.0-next.10](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.9...15.1.0-next.10) (2023-04-12)
+
+### Bug Fixes
+
+- **gantt:** auto-scroll should be stopped when start time is greater than end time #INFR-7195 ([#352](https://github.com/worktile/ngx-gantt/issues/352)) ([6f3d29f](https://github.com/worktile/ngx-gantt/commit/6f3d29f8044d27f7ef2534585397609271684647)), closes [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195) [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195) [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195) [#INFR-7195](https://github.com/worktile/ngx-gantt/issues/INFR-7195)
+- **gantt:** the fast right (left) dragging start (end) time, the width of the bar is wrong #INFR-7111 ([#351](https://github.com/worktile/ngx-gantt/issues/351)) ([683661c](https://github.com/worktile/ngx-gantt/commit/683661cb3d4b65bee602f17d087871bda9d004b3)), closes [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111) [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111) [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111) [#INFR-7111](https://github.com/worktile/ngx-gantt/issues/INFR-7111)
+
+## [15.1.0-next.8](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.7...15.1.0-next.8) (2023-04-03)
+
+### Features
+
+- **gantt:** support color change bar background update(#INFR-7135) ([368d98a](https://github.com/worktile/ngx-gantt/commit/368d98a62d88f75230d2aaee4e8ae6813dcbeee0)), closes [#INFR-7135](https://github.com/worktile/ngx-gantt/issues/INFR-7135)
+- **gantt:** support gantt table body dragStarted dragEnded function(#INFR-7138) ([#350](https://github.com/worktile/ngx-gantt/issues/350)) ([2fece74](https://github.com/worktile/ngx-gantt/commit/2fece74a2b213e45185fe791dec3447ed90e0013)), closes [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138) [#INFR-7138](https://github.com/worktile/ngx-gantt/issues/INFR-7138)
+
+### Bug Fixes
+
+- clear drag artifacts when moved on non draggable item #INFR-7120 ([379a3f9](https://github.com/worktile/ngx-gantt/commit/379a3f95177eebe10ac677a0f29086403f851dd0)), closes [#INFR-7120](https://github.com/worktile/ngx-gantt/issues/INFR-7120)
+
+## [15.1.0-next.7](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.6...15.1.0-next.7) (2023-03-30)
+
+### Bug Fixes
+
+- **gantt:** fix drag scroll #INFR-6189 ([#345](https://github.com/worktile/ngx-gantt/issues/345)) ([fbfeeb1](https://github.com/worktile/ngx-gantt/commit/fbfeeb19b0c2f946f21f291df6cec2514474effc)), closes [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189)
+
+## [15.1.0-next.6](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.5...15.1.0-next.6) (2023-03-30)
+
+### Bug Fixes
+
+- children did not move together after dragging #INFR-7103 ([#344](https://github.com/worktile/ngx-gantt/issues/344)) ([9697d2e](https://github.com/worktile/ngx-gantt/commit/9697d2ef9aa3e6b0096a4f93f1ee9cec9e60ad01)), closes [#INFR-7103](https://github.com/worktile/ngx-gantt/issues/INFR-7103)
+
+## [15.1.0-next.5](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.4...15.1.0-next.5) (2023-03-29)
+
+### Bug Fixes
+
+- fix failed to add class dynamically from ngx-gantt-column component ([#340](https://github.com/worktile/ngx-gantt/issues/340)) ([1c66611](https://github.com/worktile/ngx-gantt/commit/1c666115f59383553ab7898adf81a0a7de83b8f5))
+- **gantt:** first set time bar background error because old data also set width(#INFR-7096) ([b801d41](https://github.com/worktile/ngx-gantt/commit/b801d4152441a9d7de9e105794c747b128417689)), closes [#INFR-7096](https://github.com/worktile/ngx-gantt/issues/INFR-7096)
+- **gantt:** limit min date one day when bar handle drag #INFR-7097 ([252d7e6](https://github.com/worktile/ngx-gantt/commit/252d7e6b1345a6afc6691d6fb8c2e596d3df3131)), closes [#INFR-7097](https://github.com/worktile/ngx-gantt/issues/INFR-7097)
+
+## [15.1.0-next.4](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.3...15.1.0-next.4) (2023-03-27)
+
+### Bug Fixes
+
+- disable drag scroll ([#337](https://github.com/worktile/ngx-gantt/issues/337)) ([75d49ec](https://github.com/worktile/ngx-gantt/commit/75d49ec16fbeb3fccdcc950f2ca863e3ec0dd810))
+
+## [15.1.0-next.3](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.2...15.1.0-next.3) (2023-03-24)
+
+### Bug Fixes
+
+- fix table drag error when drag stared #INFR-7058 ([d5a0093](https://github.com/worktile/ngx-gantt/commit/d5a0093bb140ef1ac4c6edfa702fc6ade0c373c0)), closes [#INFR-7058](https://github.com/worktile/ngx-gantt/issues/INFR-7058)
+
+## [15.1.0-next.2](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.1...15.1.0-next.2) (2023-03-24)
+
+### Features
+
+- bar drag scroll without drop list #INFR-6189 ([2926586](https://github.com/worktile/ngx-gantt/commit/29265863b348bfa9be51aac3a85845453e6519d6)), closes [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189)
+- support column inherits the class when gantt-table-column sets class #INFR-6999 ([81f37c9](https://github.com/worktile/ngx-gantt/commit/81f37c9f02025bfdc315cbba718b876202a021a0)), closes [#INFR-6999](https://github.com/worktile/ngx-gantt/issues/INFR-6999)
+
+### Bug Fixes
+
+- fix table width error when change columns #INFR-7012 ([25b1487](https://github.com/worktile/ngx-gantt/commit/25b1487d15e5130ae05ae14f32ba07bb3ef0aef2)), closes [#INFR-7012](https://github.com/worktile/ngx-gantt/issues/INFR-7012)
+- hide items without start and end #INFR-7011 ([#334](https://github.com/worktile/ngx-gantt/issues/334)) ([00d70be](https://github.com/worktile/ngx-gantt/commit/00d70be1cc1044c5d766c1005be6cc752a10d729)), closes [#INFR-7011](https://github.com/worktile/ngx-gantt/issues/INFR-7011) [#INFR-7011](https://github.com/worktile/ngx-gantt/issues/INFR-7011)
+
+## [15.1.0-next.1](https://github.com/worktile/ngx-gantt/compare/15.1.0-next.0...15.1.0-next.1) (2023-03-21)
+
+### Features
+
+- support table loader #INFR-6879 ([#329](https://github.com/worktile/ngx-gantt/issues/329)) ([9ac7146](https://github.com/worktile/ngx-gantt/commit/9ac7146ecf052256c2e98d80a217760a543a7056)), closes [#INFR-6879](https://github.com/worktile/ngx-gantt/issues/INFR-6879)
+
+### Bug Fixes
+
+- fix drag insert index bug when target expanded ([#328](https://github.com/worktile/ngx-gantt/issues/328)) ([57f82da](https://github.com/worktile/ngx-gantt/commit/57f82da626fa3a3f3b5c4260713155e3c2cecf4c))
+- fix empty table style #INFR-6959 ([#330](https://github.com/worktile/ngx-gantt/issues/330)) ([a81f54a](https://github.com/worktile/ngx-gantt/commit/a81f54a7f48278785cc3c9df1f85343f49262232)), closes [#INFR-6959](https://github.com/worktile/ngx-gantt/issues/INFR-6959) [#INFR-6959](https://github.com/worktile/ngx-gantt/issues/INFR-6959)
+
+## [15.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/15.0.0...15.1.0-next.0) (2023-03-16)
+
+### Features
+
+- auto scroll when dragging #INFR-6189 ([#317](https://github.com/worktile/ngx-gantt/issues/317)) ([d18654d](https://github.com/worktile/ngx-gantt/commit/d18654d3d55b1cd7dd65d38284093ced3eab6cf2)), closes [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189) [#INFR-6189](https://github.com/worktile/ngx-gantt/issues/INFR-6189)
+- support table items drag and drop #INFR-6731 ([#325](https://github.com/worktile/ngx-gantt/issues/325)) ([1d1f671](https://github.com/worktile/ngx-gantt/commit/1d1f67194fffc3419384fa1e7fe15286f2ba6f5f)), closes [#INFR-6731](https://github.com/worktile/ngx-gantt/issues/INFR-6731) [#INFR-6731](https://github.com/worktile/ngx-gantt/issues/INFR-6731)
+- support virtual scroll ([5597411](https://github.com/worktile/ngx-gantt/commit/559741174a8971f5e4dee829a161488ac9c84e85))
+
+### Bug Fixes
+
+- fix drag error ([#326](https://github.com/worktile/ngx-gantt/issues/326)) ([f314c9b](https://github.com/worktile/ngx-gantt/commit/f314c9b708575b85146b16b29a7eb355ec98d647))
+- fix lint error and columns change error ([790860d](https://github.com/worktile/ngx-gantt/commit/790860d055286c165a1558f1f2f33a617c0a7b78))
+
 ## [15.0.0](https://github.com/worktile/ngx-gantt/compare/15.0.0-next.0...15.0.0) (2023-03-09)
 
 ### Features

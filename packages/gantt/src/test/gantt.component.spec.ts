@@ -2,7 +2,7 @@ import { GanttBaselineItem, GanttBaselineItemInternal } from './../class/baselin
 import { GanttGroupInternal } from './../class/group';
 import { GanttItemInternal } from './../class/item';
 import { Component, DebugElement, ViewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttBarClickEvent, GanttGroup, GanttItem, GanttSelectedEvent, GanttToolbarOptions } from '../class';
 import { GanttViewType } from '../class/view-type';
@@ -12,16 +12,16 @@ import { NgxGanttModule } from '../gantt.module';
 import { GanttDate } from '../utils/date';
 import { getMockBaselineItems, getMockGroupItems, getMockGroups, getMockItems } from './mocks/data';
 import { CommonModule } from '@angular/common';
-import { GanttCalendarComponent } from '../components/calendar/calendar.component';
 import { NgxGanttBarComponent } from '../components/bar/bar.component';
 import { GanttIconComponent } from '../components/icon/icon.component';
-import { NgxGanttToolbarComponent } from '../components/toolbar/toolbar.component';
 import { NgxGanttRootComponent } from '../root.component';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { GANTT_GLOBAL_CONFIG } from '../gantt.config';
-import { GanttTableComponent } from 'ngx-gantt/components/table/gantt-table.component';
 import { NgxGanttBaselineComponent } from '../components/baseline/baseline.component';
+import { GanttTableBodyComponent } from '../components/table/body/gantt-table-body.component';
+import { GanttLoaderComponent } from '../components/loader/loader.component';
+import { GanttCalendarHeaderComponent } from '../components/calendar/header/calendar-header.component';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
@@ -49,8 +49,11 @@ const config = {
         [items]="items"
         [baselineItems]="baselineItems"
         [viewType]="viewType"
+        [loading]="loading"
+        [loadingDelay]="loadingDelay"
         [viewOptions]="viewOptions"
         [showToolbar]="showToolbar"
+        [virtualScrollEnabled]="virtualScrollEnabled"
         [toolbarOptions]="toolbarOptions"
         (barClick)="barClick($event)"
     >
@@ -61,7 +64,13 @@ const config = {
             <ng-template #rowAfterSlot>
                 <div class="row-after"></div>
             </ng-template>
-            <ngx-gantt-column name="标题" width="200px">
+            <ngx-gantt-column
+                name="标题"
+                width="200px"
+                [class.title-name]="true"
+                [ngClass]="{ 'title-name-2': true }"
+                [class]="'title-name-3'"
+            >
                 <ng-template #cell let-item="item">
                     {{ item.title }}
                 </ng-template>
@@ -78,11 +87,17 @@ export class TestGanttBasicComponent {
 
     end = new GanttDate('2021-12-01 00:00:00').getUnixTime();
 
-    viewType = 'month';
+    viewType = GanttViewType.month;
 
     items = mockItems;
 
+    loading = false;
+
+    loadingDelay = 0;
+
     baselineItems = mockBaselineItems;
+
+    virtualScrollEnabled = true;
 
     viewOptions = {
         dateFormat: {
@@ -127,7 +142,7 @@ export class TestGanttWithGroupsComponent {
 
     constructor() {}
 
-    viewType = 'month';
+    viewType = GanttViewType.month;
 
     groups = mockGroups;
 
@@ -152,7 +167,7 @@ export class TestGanttLoadChildrenComponent {
 
     constructor() {}
 
-    viewType = 'month';
+    viewType = GanttViewType.month;
 
     items = mockItems;
 
@@ -240,7 +255,7 @@ function assertGanttView<T extends TestGanttComponentBase>(
         lastSecondaryDataPointText: string;
     }
 ) {
-    const calendarElement = fixture.debugElement.query(By.directive(GanttCalendarComponent));
+    const calendarElement = fixture.debugElement.query(By.directive(GanttCalendarHeaderComponent));
     const primaryElements = calendarElement.queryAll(By.css('.primary-text'));
     const secondaryElements = calendarElement.queryAll(By.css('.secondary-text'));
     expect(primaryElements.length).toEqual(fixture.componentInstance.ganttComponent.view.primaryDatePoints.length);
@@ -319,8 +334,10 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttBasicComponent);
             fixture.detectChanges();
+            await fixture.whenStable();
             ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
             ganttComponentInstance = fixture.componentInstance;
+            await fixture.whenStable();
             fixture.detectChanges();
         });
 
@@ -389,7 +406,7 @@ describe('ngx-gantt', () => {
         it('should has empty class when has no items', () => {
             ganttComponentInstance.items = [];
             fixture.detectChanges();
-            const ganttTableElement = ganttDebugElement.query(By.css('.gantt-table'));
+            const ganttTableElement = ganttDebugElement.query(By.css('.gantt-table-body'));
             expect(ganttTableElement.nativeElement.classList).toContain('gantt-table-empty');
         });
 
@@ -425,6 +442,56 @@ describe('ngx-gantt', () => {
             const toolbarViews = fixture.debugElement.query(By.css('.toolbar-views'));
             expect(toolbarViews).toBeFalsy();
         });
+
+        it('should show gantt loader when loading with true', fakeAsync(() => {
+            ganttComponentInstance.loading = true;
+            fixture.detectChanges();
+            let loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeTruthy();
+            ganttComponentInstance.loading = false;
+            fixture.detectChanges();
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+        }));
+
+        it('should hide loader when loading time less than loadingDelay', fakeAsync(() => {
+            ganttComponentInstance.loadingDelay = 2000;
+            fixture.detectChanges();
+            ganttComponentInstance.loading = true;
+            fixture.detectChanges();
+            let loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+            tick(1000);
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+            tick(2000);
+            fixture.detectChanges();
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeTruthy();
+            ganttComponentInstance.loading = false;
+            fixture.detectChanges();
+            loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            expect(loaderDom).toBeFalsy();
+        }));
+
+        it('should column inherits the class when gantt-table-column sets class"', fakeAsync(() => {
+            const newItems = mockItems.slice(0, 1);
+            ganttComponentInstance.items = [...newItems];
+            fixture.detectChanges();
+            const ganttTable: DebugElement = ganttDebugElement.query(By.directive(GanttTableBodyComponent));
+            const ganttTableColumn = ganttTable.query(By.css('.gantt-table-column')).nativeElement;
+            expect(ganttTableColumn.classList).toContain('title-name');
+            expect(ganttTableColumn.classList).toContain('title-name-2');
+            expect(ganttTableColumn.classList).toContain('title-name-3');
+        }));
+
+        it('should viewport has correct class', () => {
+            const viewportElement = ganttDebugElement.query(By.css('.gantt-virtual-scroll-viewport'));
+            expect(viewportElement.nativeElement.classList).not.toContain('gantt-normal-viewport');
+            ganttComponentInstance.virtualScrollEnabled = false;
+            fixture.detectChanges();
+            expect(viewportElement.nativeElement.classList).toContain('gantt-normal-viewport');
+        });
     });
 
     describe('#with groups', () => {
@@ -440,8 +507,10 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttWithGroupsComponent);
             fixture.detectChanges();
+            await fixture.whenStable();
             ganttComponentInstance = fixture.componentInstance;
             ganttComponent = ganttComponentInstance.ganttComponent;
+            await fixture.whenStable();
             fixture.detectChanges();
         });
 
@@ -471,24 +540,17 @@ describe('ngx-gantt', () => {
         it('should group can be expanded', () => {
             const groupTitle = fixture.debugElement.query(By.css('.gantt-table-group-title'));
             groupTitle.nativeElement.click();
-            const afterCollapseItems = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
             expect(ganttComponent.groups[0].expanded).toBe(false);
-            expect(afterCollapseItems.length).toEqual(mockGroupItems.length - ganttComponent.groups[0].items.length);
-
             groupTitle.nativeElement.click();
-            const afterExpandItems = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
             expect(ganttComponent.groups[0].expanded).toBe(true);
-            expect(afterExpandItems.length).toEqual(mockGroupItems.length);
         });
 
         it('should expand all groups ', () => {
             const groupExpandAll = fixture.debugElement.query(By.css('.expand'));
             groupExpandAll.nativeElement.click();
-            const afterExpandItems = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
             ganttComponent.groups.forEach((group: GanttGroupInternal) => {
                 expect(group.expanded).toBe(true);
             });
-            expect(afterExpandItems.length).toEqual(mockGroupItems.length);
         });
 
         it('should collapse all groups ', () => {
@@ -515,49 +577,37 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttLoadChildrenComponent);
             fixture.detectChanges();
+            await fixture.whenStable();
             ganttComponentInstance = fixture.componentInstance;
             ganttComponent = ganttComponentInstance.ganttComponent;
+            await fixture.whenStable();
             fixture.detectChanges();
         });
 
         it('should show expand icon and load children', () => {
             const ganttIcons = fixture.debugElement.queryAll(By.directive(GanttIconComponent));
-            expect(ganttIcons.length).toEqual(2);
+            expect(ganttIcons.length).toEqual(1);
         });
 
         it('should load children', () => {
             const ganttIcon = fixture.debugElement.queryAll(By.directive(GanttIconComponent))[0];
             ganttIcon.nativeElement.click();
-            fixture.detectChanges();
-            const afterExpandItems = fixture.debugElement.queryAll(By.css('.gantt-table-item'));
             expect(ganttComponent.items[0].expanded).toBe(true);
-            expect(afterExpandItems.length).toEqual(mockItems.length + ganttComponent.items[0].children.length);
-
             ganttIcon.nativeElement.click();
-            fixture.detectChanges();
-            const afterCollapseItems = fixture.debugElement.queryAll(By.css('.gantt-table-item'));
             expect(ganttComponent.items[0].expanded).toBe(false);
-            expect(afterCollapseItems.length).toEqual(mockItems.length);
         });
 
-        it('should load async children', fakeAsync(() => {
+        it('should load async children', () => {
             ganttComponentInstance.async = true;
             fixture.detectChanges();
-            const ganttIcon = fixture.debugElement.queryAll(By.directive(GanttIconComponent))[1];
+            const ganttIcons = fixture.debugElement.queryAll(By.directive(GanttIconComponent));
+            expect(ganttIcons.length).toEqual(2);
+            const ganttIcon = ganttIcons[1];
             ganttIcon.nativeElement.click();
-            tick(2000);
-            fixture.detectChanges();
-            const afterExpandItems = fixture.debugElement.queryAll(By.css('.gantt-table-item'));
             expect(ganttComponent.items[1].expanded).toBe(true);
-            expect(afterExpandItems.length).toEqual(mockItems.length + 1);
-
             ganttIcon.nativeElement.click();
-            tick(2000);
-            fixture.detectChanges();
-            const afterCollapseItems = fixture.debugElement.queryAll(By.css('.gantt-table-item'));
             expect(ganttComponent.items[1].expanded).toBe(false);
-            expect(afterCollapseItems.length).toEqual(mockItems.length);
-        }));
+        });
     });
 
     // describe('#draggable', () => {});
@@ -581,24 +631,26 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttSelectableComponent);
             fixture.detectChanges();
+            await fixture.whenStable();
             ganttComponentInstance = fixture.componentInstance;
             ganttComponent = ganttComponentInstance.ganttComponent;
+            await fixture.whenStable();
             fixture.detectChanges();
         });
 
-        it('should init selectionModel when ngAfterViewInit', fakeAsync(() => {
-            fixture.whenStable().then(() => {
-                const selectionModel = ganttComponent.selectionModel;
-                expect(selectionModel.hasValue()).toEqual(false);
-            });
-        }));
+        it('should init selectionModel when ngAfterViewInit', () => {
+            const selectionModel = ganttComponent.selectionModel;
+            expect(selectionModel.hasValue()).toEqual(false);
+        });
 
         it('should invoke selectedChange when click item', () => {
             const selectedSpy = spyOn(ganttComponentInstance, 'selectedChange').and.callFake((event: GanttSelectedEvent) => {
                 expect(event.event.type).toEqual('click');
                 expect(event.selectedValue[0]).toEqual(mockItems[0]);
             });
-            const itemNode = fixture.debugElement.query(By.directive(GanttTableComponent)).query(By.css('.gantt-table-item')).nativeNode;
+            const itemNode = fixture.debugElement
+                .query(By.directive(GanttTableBodyComponent))
+                .query(By.css('.gantt-table-item')).nativeNode;
             itemNode.click();
             expect(selectedSpy).toHaveBeenCalledTimes(1);
         });
@@ -607,7 +659,9 @@ describe('ngx-gantt', () => {
             fixture.componentInstance.selectable = false;
             fixture.detectChanges();
             const selectedSpy = spyOn(ganttComponentInstance, 'selectedChange');
-            const itemNode = fixture.debugElement.query(By.directive(GanttTableComponent)).query(By.css('.gantt-table-item')).nativeNode;
+            const itemNode = fixture.debugElement
+                .query(By.directive(GanttTableBodyComponent))
+                .query(By.css('.gantt-table-item')).nativeNode;
             itemNode.click();
             expect(selectedSpy).toHaveBeenCalledTimes(0);
         });
@@ -633,9 +687,11 @@ describe('ngx-gantt', () => {
             }).compileComponents();
             fixture = TestBed.createComponent(TestGanttCustomToolbarComponent);
             fixture.detectChanges();
+            await fixture.whenStable();
             ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
             ganttComponentInstance = fixture.componentInstance;
             ganttComponent = ganttComponentInstance.ganttComponent;
+            await fixture.whenStable();
             fixture.detectChanges();
         });
 

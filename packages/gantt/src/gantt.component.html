@@ -1,27 +1,59 @@
 <ngx-gantt-root #ganttRoot>
-  <ng-template #sideTemplate>
-    <gantt-table
-      [groups]="groups"
-      [items]="items"
-      [columns]="columns"
-      [groupTemplate]="groupTemplate"
-      [emptyTemplate]="tableEmptyTemplate"
-      [rowBeforeTemplate]="table?.rowBeforeTemplate"
-      [rowAfterTemplate]="table?.rowAfterTemplate"
-      (itemClick)="selectItem($event)"
-    ></gantt-table>
-  </ng-template>
-  <ng-template #mainTemplate>
-    <gantt-main
-      [groups]="groups"
-      [items]="items"
-      [groupHeaderTemplate]="groupHeaderTemplate"
-      [itemTemplate]="itemTemplate"
-      [barTemplate]="barTemplate"
-      [rangeTemplate]="rangeTemplate"
-      (barClick)="barClick.emit($event)"
-      (lineClick)="lineClick.emit($event)"
-    >
-    </gantt-main>
-  </ng-template>
+  <div class="gantt-header">
+    <gantt-table-header #tableHeader [columns]="columns"></gantt-table-header>
+    <div class="gantt-container-header">
+      <gantt-calendar-header></gantt-calendar-header>
+    </div>
+  </div>
+  <gantt-loader *ngIf="loading"></gantt-loader>
+
+  <cdk-virtual-scroll-viewport
+    class="gantt-virtual-scroll-viewport"
+    [ngClass]="{ 'gantt-normal-viewport': !virtualScrollEnabled }"
+    [itemSize]="styles.lineHeight"
+    [minBufferPx]="styles.lineHeight * 10"
+    [maxBufferPx]="styles.lineHeight * 20"
+  >
+    <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>
+    <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1">
+      <div class="gantt-side-container">
+        <div class="gantt-table">
+          <gantt-table-body
+            [flatItems]="flatItems"
+            [viewportItems]="viewportItems"
+            [columns]="columns"
+            [groupTemplate]="groupTemplate"
+            [emptyTemplate]="tableEmptyTemplate"
+            [rowBeforeTemplate]="table?.rowBeforeTemplate"
+            [rowAfterTemplate]="table?.rowAfterTemplate"
+            [draggable]="table.draggable"
+            [dropEnterPredicate]="table.dropEnterPredicate"
+            (dragDropped)="table.dragDropped.emit($event)"
+            (dragStarted)="table.dragStarted.emit($event)"
+            (dragEnded)="table.dragEnded.emit($event)"
+            (itemClick)="selectItem($event)"
+          >
+          </gantt-table-body>
+        </div>
+      </div>
+    </div>
+    <div class="gantt-container">
+      <gantt-calendar-grid></gantt-calendar-grid>
+      <div class="gantt-main">
+        <gantt-main
+          [flatItems]="flatItems"
+          [viewportItems]="viewportItems"
+          [groupHeaderTemplate]="groupHeaderTemplate"
+          [itemTemplate]="itemTemplate"
+          [barTemplate]="barTemplate"
+          [rangeTemplate]="rangeTemplate"
+          (barClick)="barClick.emit($event)"
+          (lineClick)="lineClick.emit($event)"
+        >
+        </gantt-main>
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+
+  <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth + 1"></gantt-drag-backdrop>
 </ngx-gantt-root>

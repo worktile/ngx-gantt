@@ -34,7 +34,7 @@ describe('GanttItemInternal', () => {
     it(`should has correct end`, () => {
         expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-19 23:59:59').getUnixTime());
 
-        ganttItemInternal = new GanttItemInternal(ganttItem, { fillDays: 1 });
+        ganttItemInternal = new GanttItemInternal(ganttItem, 0, { fillDays: 1 });
         expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
     });
 
@@ -44,7 +44,7 @@ describe('GanttItemInternal', () => {
         ganttItemInternal = new GanttItemInternal(ganttItem);
         expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-22 00:00:00').getUnixTime());
 
-        ganttItemInternal = new GanttItemInternal(ganttItem, { fillDays: 1 });
+        ganttItemInternal = new GanttItemInternal(ganttItem, 0, { fillDays: 1 });
         expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-21 00:00:00').getUnixTime());
     });
 
