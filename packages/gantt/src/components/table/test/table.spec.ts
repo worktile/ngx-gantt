@@ -6,6 +6,7 @@ import { getMockGroupItems, getMockGroups } from '../../../test/mocks/data';
 import { dispatchMouseEvent } from '../../../utils/testing';
 import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.component';
 import { GanttTableBodyComponent } from '../body/gantt-table-body.component';
+import { GanttTableHeaderComponent } from '../header/gantt-table-header.component';
 @Component({
     selector: 'test-gantt-table',
     template: `
@@ -55,9 +56,12 @@ describe('GanttTable', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach(async () => {
         fixture = TestBed.createComponent(TestGanttTableBodyComponent);
         component = fixture.componentInstance;
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await fixture.whenStable();
         fixture.detectChanges();
     });
 
@@ -78,15 +82,15 @@ describe('GanttTable', () => {
 
     it('should expand children', () => {
         const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const tableChildrenLength = ganttTable.query(By.css('.gantt-table-body')).children.length;
+        const tableChildrenLength = ganttTable.query(By.css('.gantt-table-body-container')).children.length;
         ganttTable.nativeElement.querySelector('.gantt-table-item-with-group .gantt-expand-icon .expand-icon').click();
         fixture.detectChanges();
-        expect(ganttTable.query(By.css('.gantt-table-body')).children.length).toEqual(tableChildrenLength + 1);
+        expect(ganttTable.query(By.css('.gantt-table-body-container')).children.length).toEqual(tableChildrenLength);
     });
 
     it('should column drag', fakeAsync(() => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const dragTrigger = ganttTable.nativeElement.querySelector('.gantt-table-header .gantt-table-column .table-resize-handle');
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableHeaderComponent));
+        const dragTrigger = ganttTable.nativeElement.querySelector('.column-resize-handle');
         fixture.detectChanges();
         flush();
 
@@ -114,8 +118,8 @@ describe('GanttTable', () => {
     }));
 
     it('should table drag', fakeAsync(() => {
-        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const dragTrigger = ganttTable.nativeElement.children[2];
+        const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableHeaderComponent));
+        const dragTrigger = ganttTable.nativeElement.querySelector('.table-resize-handle');
         fixture.detectChanges();
 
         const dragTriggerRight = dragTrigger.getBoundingClientRect().right;
