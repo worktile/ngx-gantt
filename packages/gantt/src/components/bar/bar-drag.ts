@@ -265,15 +265,12 @@ export class GanttBarDrag implements OnDestroy {
             const isBegin = index === 0;
             const dragRef = this.dragDrop.createDrag(handle);
             dragRef.withBoundaryElement(this.dom.root as HTMLElement);
-            dragRef.beforeStarted.subscribe(() => {
-                if (this.barDragRef) {
-                    this.barDragRef.disabled = true;
-                }
-            });
-
             dragRef.moved.subscribe(() => {
                 if (!this.linkDragStarted) {
                     handle.style.pointerEvents = 'none';
+                    if (this.barDragRef) {
+                        this.barDragRef.disabled = true;
+                    }
                     this.createLinkDraggingLine();
                     this.dragContainer.emitLinkDragStarted({
                         element: this.barElement,
