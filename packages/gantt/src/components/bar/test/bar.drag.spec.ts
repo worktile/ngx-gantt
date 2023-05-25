@@ -187,17 +187,17 @@ describe('bar-drag', () => {
         expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-07-15 23:59:59').getUnixTime());
     }));
 
-    it('should first bar link handle drag', fakeAsync(() => {
+    it('should first bar link handle drag', () => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
         const firstHandleElement = bar.queryAll(By.css('.link-handles .handle'))[0].nativeElement;
         linkDragEvent(fixture, firstHandleElement);
-    }));
+    });
 
-    it('should last bar link handles drag', fakeAsync(() => {
+    it('should last bar link handles drag', () => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
         const lastHandleElement = bar.queryAll(By.css('.link-handles .handle'))[1].nativeElement;
         linkDragEvent(fixture, lastHandleElement);
-    }));
+    });
 
     it('should not run change detection when the `mousedown` is dispatched on the handle', () => {
         const appRef = TestBed.inject(ApplicationRef);
