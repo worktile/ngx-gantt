@@ -58,6 +58,8 @@ export class GanttBarDrag implements OnDestroy {
         return Math.pow(autoScrollBaseStep, this.autoScrollSpeedRates);
     }
 
+    private linkDragStarted: boolean;
+
     private linkDraggingLine: SVGElement;
 
     private barDragRef: DragRef;
@@ -264,24 +266,29 @@ export class GanttBarDrag implements OnDestroy {
             const dragRef = this.dragDrop.createDrag(handle);
             dragRef.withBoundaryElement(this.dom.root as HTMLElement);
             dragRef.beforeStarted.subscribe(() => {
-                handle.style.pointerEvents = 'none';
                 if (this.barDragRef) {
                     this.barDragRef.disabled = true;
                 }
-                this.createLinkDraggingLine();
-                this.dragContainer.emitLinkDragStarted({
-                    element: this.barElement,
-                    item: this.item,
-                    pos: isBegin ? InBarPosition.start : InBarPosition.finish
-                });
             });
 
             dragRef.moved.subscribe(() => {
-                const positions = this.calcLinkLinePositions(handle, isBegin);
-                this.linkDraggingLine.setAttribute('x1', positions.x1.toString());
-                this.linkDraggingLine.setAttribute('y1', positions.y1.toString());
-                this.linkDraggingLine.setAttribute('x2', positions.x2.toString());
-                this.linkDraggingLine.setAttribute('y2', positions.y2.toString());
+                if (!this.linkDragStarted) {
+                    handle.style.pointerEvents = 'none';
+                    this.createLinkDraggingLine();
+                    this.dragContainer.emitLinkDragStarted({
+                        element: this.barElement,
+                        item: this.item,
+                        pos: isBegin ? InBarPosition.start : InBarPosition.finish
+                    });
+                    this.linkDragStarted = true;
+                }
+                if (this.linkDragStarted) {
+                    const positions = this.calcLinkLinePositions(handle, isBegin);
+                    this.linkDraggingLine.setAttribute('x1', positions.x1.toString());
+                    this.linkDraggingLine.setAttribute('y1', positions.y1.toString());
+                    this.linkDraggingLine.setAttribute('x2', positions.x2.toString());
+                    this.linkDraggingLine.setAttribute('y2', positions.y2.toString());
+                }
             });
 
             dragRef.ended.subscribe((event) => {
@@ -305,6 +312,7 @@ export class GanttBarDrag implements OnDestroy {
                 } else {
                     this.dragContainer.emitLinkDragEnded();
                 }
+                this.linkDragStarted = false;
                 event.source.reset();
                 this.barElement.classList.remove(activeClass);
                 this.destroyLinkDraggingLine();

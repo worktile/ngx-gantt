@@ -126,13 +126,14 @@ function linkDragEvent(fixture: ComponentFixture<TestGanttBarComponent>, dragEle
     dispatchMouseEvent(document, 'mousemove', 10, 10);
     fixture.detectChanges();
 
-    const ganttLinkDragContainer = root.nativeElement.querySelector('.gantt-link-drag-container');
-    const linkDraggingLine = root.nativeElement.querySelector('.link-dragging-line');
-    expect(ganttLinkDragContainer).toBeTruthy();
-    expect(linkDraggingLine).toBeTruthy();
-
     dispatchMouseEvent(document, 'mousemove', 200, -30);
     fixture.detectChanges();
+
+    const ganttLinkDragContainer = root.nativeElement.querySelector('.gantt-link-drag-container');
+    const linkDraggingLine = root.nativeElement.querySelector('.link-dragging-line');
+
+    expect(ganttLinkDragContainer).toBeTruthy();
+    expect(linkDraggingLine).toBeTruthy();
 
     dispatchMouseEvent(document, 'mouseup', 200, -30);
     fixture.detectChanges();
@@ -186,17 +187,17 @@ describe('bar-drag', () => {
         expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-07-15 23:59:59').getUnixTime());
     }));
 
-    it('should first bar link handle drag', () => {
+    it('should first bar link handle drag', fakeAsync(() => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
         const firstHandleElement = bar.queryAll(By.css('.link-handles .handle'))[0].nativeElement;
         linkDragEvent(fixture, firstHandleElement);
-    });
+    }));
 
-    it('should last bar link handles drag', () => {
+    it('should last bar link handles drag', fakeAsync(() => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
         const lastHandleElement = bar.queryAll(By.css('.link-handles .handle'))[1].nativeElement;
         linkDragEvent(fixture, lastHandleElement);
-    });
+    }));
 
     it('should not run change detection when the `mousedown` is dispatched on the handle', () => {
         const appRef = TestBed.inject(ApplicationRef);
