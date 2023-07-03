@@ -9,7 +9,9 @@ import {
     Input,
     Optional,
     OnDestroy,
-    ViewChild
+    ViewChild,
+    AfterViewInit,
+    HostListener
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
@@ -29,7 +31,7 @@ import { GanttDate } from './utils/date';
         class: 'gantt'
     }
 })
-export class NgxGanttRootComponent implements OnInit, OnDestroy {
+export class NgxGanttRootComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() sideWidth: number;
 
     @ContentChild('sideTemplate', { static: true }) sideTemplate: TemplateRef<any>;
@@ -39,10 +41,19 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     /** The native `<gantt-drag-backdrop></gantt-drag-backdrop>` element. */
     @ViewChild(GanttDragBackdropComponent, { static: true, read: ElementRef }) backdrop: ElementRef<HTMLElement>;
 
+    verticalScrollbarWidth = 0;
+
+    horizontalScrollbarHeight = 0;
+
     private unsubscribe$ = new Subject<void>();
 
     private get view() {
         return this.ganttUpper.view;
+    }
+
+    @HostListener('window:resize')
+    onWindowResize() {
+        this.updateScrollBarOffset();
     }
 
     constructor(
@@ -78,6 +89,23 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
                 });
             });
         });
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.updateScrollBarOffset();
+        });
+    }
+
+    updateScrollBarOffset() {
+        if (this.mainTemplate?.elementRef) {
+            const ganttMainContainer =
+                this.mainTemplate.elementRef.nativeElement.previousElementSibling.querySelector('.gantt-main').firstChild;
+            const verticalScrollbarWidth = ganttMainContainer.offsetWidth - ganttMainContainer.clientWidth;
+            const horizontalScrollbarHeight = ganttMainContainer.offsetHeight - ganttMainContainer.clientHeight;
+            this.verticalScrollbarWidth = verticalScrollbarWidth;
+            this.horizontalScrollbarHeight = horizontalScrollbarHeight;
+        }
     }
 
     ngOnDestroy(): void {

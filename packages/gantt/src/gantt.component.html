@@ -2,7 +2,7 @@
   <div class="gantt-header">
     <gantt-table-header #tableHeader [columns]="columns"></gantt-table-header>
     <div class="gantt-container-header">
-      <gantt-calendar-header></gantt-calendar-header>
+      <gantt-calendar-header [style.padding-right.px]="verticalScrollbarWidth"></gantt-calendar-header>
     </div>
   </div>
   <gantt-loader *ngIf="loading"></gantt-loader>
@@ -15,7 +15,7 @@
     [maxBufferPx]="styles.lineHeight * 20"
   >
     <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>
-    <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1">
+    <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1" [style.padding-bottom.px]="horizontalScrollbarHeight">
       <div class="gantt-side-container">
         <div class="gantt-table">
           <gantt-table-body
@@ -38,7 +38,10 @@
       </div>
     </div>
     <div class="gantt-container">
-      <gantt-calendar-grid></gantt-calendar-grid>
+      <gantt-calendar-grid
+        [style.padding-right.px]="verticalScrollbarWidth"
+        [style.padding-bottom.px]="horizontalScrollbarHeight"
+      ></gantt-calendar-grid>
       <div class="gantt-main">
         <gantt-main
           [flatItems]="flatItems"

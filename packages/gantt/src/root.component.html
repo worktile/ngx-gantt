@@ -1,11 +1,14 @@
-<div class="gantt-side" *ngIf="sideTemplate" [style.width.px]="sideWidth">
+<div class="gantt-side" *ngIf="sideTemplate" [style.width.px]="sideWidth" [style.padding-bottom.px]="horizontalScrollbarHeight">
   <div class="gantt-side-container" cdkScrollable>
     <ng-template [ngTemplateOutlet]="sideTemplate"></ng-template>
   </div>
 </div>
 <div class="gantt-container" *ngIf="mainTemplate">
-  <gantt-calendar-header></gantt-calendar-header>
-  <gantt-calendar-grid></gantt-calendar-grid>
+  <gantt-calendar-header [style.padding-right.px]="verticalScrollbarWidth"></gantt-calendar-header>
+  <gantt-calendar-grid
+    [style.padding-right.px]="verticalScrollbarWidth"
+    [style.padding-bottom.px]="horizontalScrollbarHeight"
+  ></gantt-calendar-grid>
   <gantt-drag-backdrop></gantt-drag-backdrop>
   <div class="gantt-main">
     <ng-template [ngTemplateOutlet]="mainTemplate"></ng-template>
