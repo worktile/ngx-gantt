@@ -6,7 +6,7 @@
 </div>
 <thy-layout>
   <thy-content>
-    <ngx-gantt #gantt [items]="items" virtualScrollEnabled="true">
+    <ngx-gantt #gantt [items]="items" [virtualScrollEnabled]="true">
       <ngx-gantt-table>
         <ngx-gantt-column name="标题" width="180px">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>

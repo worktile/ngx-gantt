@@ -60,7 +60,6 @@
     right: 0;
     // 兼容火狐浏览器
     overflow: auto;
-    overflow: overlay;
     background-color: variables.$gantt-container-background-color;
 
     .gantt-main-groups,
@@ -100,7 +99,6 @@
     z-index: 2;
     // 兼容火狐浏览器
     overflow: auto;
-    overflow: overlay;
     .cdk-virtual-scroll-content-wrapper {
       width: 100%;
       min-width: unset;
@@ -110,6 +108,7 @@
         .gantt-main-container {
           height: 100%;
           top: 0;
+          overflow-y: hidden;
         }
       }
     }
@@ -120,6 +119,11 @@
       }
       .cdk-virtual-scroll-spacer {
         display: none;
+      }
+      .gantt-container {
+        .gantt-main-container {
+          overflow-y: auto;
+        }
       }
     }
   }

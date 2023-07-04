@@ -33,7 +33,6 @@ import { GanttDate } from './utils/date';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttPrintService } from './gantt-print.service';
-import { InputBoolean } from 'ngx-tethys/core';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -74,7 +73,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         }
     }
 
-    @Input() @InputBoolean() virtualScrollEnabled = true;
+    @Input() virtualScrollEnabled = true;
 
     @Input() loadingDelay: number = 0;
 
