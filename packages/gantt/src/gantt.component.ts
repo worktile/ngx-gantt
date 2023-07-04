@@ -188,6 +188,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     ngAfterViewInit() {
+        this.updateScrollBarOffset();
         if (this.virtualScrollEnabled) {
             this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
                 const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
@@ -198,9 +199,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.computeTempDataRefs();
             });
         }
-        setTimeout(() => {
-            this.updateScrollBarOffset();
-        });
     }
 
     private buildFlatItems() {
