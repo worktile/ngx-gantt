@@ -10,7 +10,6 @@ import {
     Optional,
     OnDestroy,
     ViewChild,
-    AfterViewInit,
     HostListener
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
@@ -31,7 +30,7 @@ import { GanttDate } from './utils/date';
         class: 'gantt'
     }
 })
-export class NgxGanttRootComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NgxGanttRootComponent implements OnInit, OnDestroy {
     @Input() sideWidth: number;
 
     @ContentChild('sideTemplate', { static: true }) sideTemplate: TemplateRef<any>;
@@ -87,25 +86,18 @@ export class NgxGanttRootComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.ganttUpper.viewChange.pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$)).subscribe(() => {
                     this.scrollToToday();
                 });
+                this.updateScrollBarOffset();
             });
         });
     }
 
-    ngAfterViewInit() {
-        setTimeout(() => {
-            this.updateScrollBarOffset();
-        });
-    }
-
     updateScrollBarOffset() {
-        if (this.mainTemplate?.elementRef) {
-            const ganttMainContainer =
-                this.mainTemplate.elementRef.nativeElement.previousElementSibling.querySelector('.gantt-main').firstChild;
-            const verticalScrollbarWidth = ganttMainContainer.offsetWidth - ganttMainContainer.clientWidth;
-            const horizontalScrollbarHeight = ganttMainContainer.offsetHeight - ganttMainContainer.clientHeight;
-            this.verticalScrollbarWidth = verticalScrollbarWidth;
-            this.horizontalScrollbarHeight = horizontalScrollbarHeight;
-        }
+        // @ts-ignore
+        const ganttMainContainer = this.dom.mainContainer as HTMLElement;
+        const verticalScrollbarWidth = ganttMainContainer.offsetWidth - ganttMainContainer.clientWidth;
+        const horizontalScrollbarHeight = ganttMainContainer.offsetHeight - ganttMainContainer.clientHeight;
+        this.verticalScrollbarWidth = verticalScrollbarWidth;
+        this.horizontalScrollbarHeight = horizontalScrollbarHeight;
     }
 
     ngOnDestroy(): void {

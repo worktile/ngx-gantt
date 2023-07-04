@@ -19,7 +19,7 @@ import {
     Optional,
     OnChanges,
     SimpleChanges,
-    HostListener
+    AfterViewChecked
 } from '@angular/core';
 import { takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
@@ -31,11 +31,10 @@ import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
 import { NgxGanttRootComponent } from './root.component';
 import { GanttDate } from './utils/date';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttPrintService } from './gantt-print.service';
 import { InputBoolean } from 'ngx-tethys/core';
-import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.component';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -51,7 +50,7 @@ import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.compone
         }
     ]
 })
-export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit {
+export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit, AfterViewChecked {
     @Input() maxLevel = 2;
 
     @Input() async: boolean;
@@ -98,17 +97,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-    @ViewChild(GanttMainComponent, { static: true, read: ElementRef }) ganttMainContent: ElementRef;
-
-    @HostListener('window:resize')
-    onWindowResize() {
-        this.updateScrollBarOffset();
-    }
-
-    verticalScrollbarWidth = 0;
-
-    horizontalScrollbarHeight = 0;
-
     get loading() {
         return this._loading;
     }
@@ -131,6 +119,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
         ngZone: NgZone,
+        private viewportRuler: ViewportRuler,
         @Optional() private printService: GanttPrintService,
         @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
     ) {
@@ -188,7 +177,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     ngAfterViewInit() {
-        this.updateScrollBarOffset();
         if (this.virtualScrollEnabled) {
             this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
                 const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
@@ -197,6 +185,18 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.rangeEnd = range.end;
                 this.viewportItems = this.flatItems.slice(range.start, range.end);
                 this.computeTempDataRefs();
+            });
+        }
+    }
+
+    ngAfterViewChecked() {
+        if (this.virtualScrollEnabled && this.viewportRuler && this.virtualScroll.getRenderedRange().end > 0) {
+            this.ngZone.runOutsideAngular(() => {
+                setTimeout(() => {
+                    this.ganttRoot.verticalScrollbarWidth =
+                        this.virtualScroll.elementRef.nativeElement.offsetWidth - this.virtualScroll.elementRef.nativeElement.clientWidth;
+                    this.cdr.markForCheck();
+                });
             });
         }
     }
@@ -247,16 +247,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
         this.flatItems = [...this.flatItems];
         this.viewportItems = [...this.viewportItems];
-    }
-
-    private updateScrollBarOffset() {
-        if (this.ganttMainContent?.nativeElement) {
-            const ganttMainContainer = this.ganttMainContent.nativeElement;
-            const verticalScrollbarWidth = ganttMainContainer.offsetWidth - ganttMainContainer.clientWidth;
-            const horizontalScrollbarHeight = ganttMainContainer.offsetHeight - ganttMainContainer.clientHeight;
-            this.verticalScrollbarWidth = verticalScrollbarWidth;
-            this.horizontalScrollbarHeight = horizontalScrollbarHeight;
-        }
     }
 
     expandChildren(item: GanttItemInternal) {
