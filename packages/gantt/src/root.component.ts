@@ -92,7 +92,6 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     }
 
     updateScrollBarOffset() {
-        // @ts-ignore
         const ganttMainContainer = this.dom.mainContainer as HTMLElement;
         const verticalScrollbarWidth = ganttMainContainer.offsetWidth - ganttMainContainer.clientWidth;
         const horizontalScrollbarHeight = ganttMainContainer.offsetHeight - ganttMainContainer.clientHeight;
