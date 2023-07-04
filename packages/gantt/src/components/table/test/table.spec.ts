@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, ComponentFixture, async, inject, flush } from '@angular/core/testing';
+import { fakeAsync, TestBed, ComponentFixture, async, flush, tick } from '@angular/core/testing';
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { NgxGanttModule } from 'ngx-gantt';
 import { By } from '@angular/platform-browser';
@@ -152,6 +152,7 @@ describe('GanttTable', () => {
 
         ganttTable.query(By.css('.gantt-table-item')).nativeNode.click();
         fixture.detectChanges();
+        tick(200);
         expect(selectionModel.hasValue()).toBeTrue();
         expect(selectionModel.selected[0]).toEqual(items[0].id);
     }));
@@ -163,6 +164,7 @@ describe('GanttTable', () => {
         const mainItemNode = ganttMain.query(By.css('.gantt-item')).nativeNode;
         itemNode.click();
         fixture.detectChanges();
+        tick(200);
         expect(itemNode.classList).toContain('gantt-table-item-active');
         expect(mainItemNode.classList).toContain('gantt-main-item-active');
     }));
