@@ -9,7 +9,7 @@
 
   <cdk-virtual-scroll-viewport
     class="gantt-virtual-scroll-viewport"
-    [ngClass]="{ 'gantt-normal-viewport': !virtualScrollEnabled }"
+    [ngClass]="{ 'gantt-normal-viewport': !virtualScrollEnabled, 'gantt-scroll-container': virtualScrollEnabled }"
     [itemSize]="styles.lineHeight"
     [minBufferPx]="styles.lineHeight * 10"
     [maxBufferPx]="styles.lineHeight * 20"

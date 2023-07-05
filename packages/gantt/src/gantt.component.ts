@@ -16,7 +16,6 @@ import {
     forwardRef,
     Inject,
     ViewChild,
-    Optional,
     OnChanges,
     SimpleChanges,
     AfterViewChecked
@@ -33,7 +32,7 @@ import { NgxGanttRootComponent } from './root.component';
 import { GanttDate } from './utils/date';
 import { CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-import { GanttPrintService } from './gantt-print.service';
+
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -119,7 +118,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         cdr: ChangeDetectorRef,
         ngZone: NgZone,
         private viewportRuler: ViewportRuler,
-        @Optional() private printService: GanttPrintService,
         @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
     ) {
         super(elementRef, cdr, ngZone, config);
@@ -190,11 +188,13 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     ngAfterViewChecked() {
         if (this.virtualScrollEnabled && this.viewportRuler && this.virtualScroll.getRenderedRange().end > 0) {
+            const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
             this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.ganttRoot.verticalScrollbarWidth =
-                        this.virtualScroll.elementRef.nativeElement.offsetWidth - this.virtualScroll.elementRef.nativeElement.clientWidth;
-                    this.cdr.markForCheck();
+                onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+                    if (!this.ganttRoot.verticalScrollbarWidth) {
+                        this.ganttRoot.computeScrollBarOffset();
+                        this.cdr.markForCheck();
+                    }
                 });
             });
         }
