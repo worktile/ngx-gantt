@@ -451,6 +451,7 @@ describe('ngx-gantt', () => {
             ganttComponentInstance.loading = false;
             fixture.detectChanges();
             loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            tick(200);
             expect(loaderDom).toBeFalsy();
         }));
 
@@ -471,15 +472,17 @@ describe('ngx-gantt', () => {
             ganttComponentInstance.loading = false;
             fixture.detectChanges();
             loaderDom = fixture.debugElement.query(By.directive(GanttLoaderComponent));
+            tick(200);
             expect(loaderDom).toBeFalsy();
         }));
 
-        it('should column inherits the class when gantt-table-column sets class"', fakeAsync(() => {
+        it('should column inherits the class when gantt-table-column sets class', fakeAsync(() => {
             const newItems = mockItems.slice(0, 1);
             ganttComponentInstance.items = [...newItems];
             fixture.detectChanges();
             const ganttTable: DebugElement = ganttDebugElement.query(By.directive(GanttTableBodyComponent));
             const ganttTableColumn = ganttTable.query(By.css('.gantt-table-column')).nativeElement;
+            tick(200);
             expect(ganttTableColumn.classList).toContain('title-name');
             expect(ganttTableColumn.classList).toContain('title-name-2');
             expect(ganttTableColumn.classList).toContain('title-name-3');

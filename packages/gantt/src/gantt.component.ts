@@ -18,7 +18,8 @@ import {
     ViewChild,
     Optional,
     OnChanges,
-    SimpleChanges
+    SimpleChanges,
+    AfterViewChecked
 } from '@angular/core';
 import { takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
@@ -30,7 +31,7 @@ import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
 import { NgxGanttRootComponent } from './root.component';
 import { GanttDate } from './utils/date';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttPrintService } from './gantt-print.service';
 @Component({
@@ -48,7 +49,7 @@ import { GanttPrintService } from './gantt-print.service';
         }
     ]
 })
-export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit {
+export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit, AfterViewChecked {
     @Input() maxLevel = 2;
 
     @Input() async: boolean;
@@ -117,6 +118,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
         ngZone: NgZone,
+        private viewportRuler: ViewportRuler,
         @Optional() private printService: GanttPrintService,
         @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
     ) {
@@ -182,6 +184,18 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.rangeEnd = range.end;
                 this.viewportItems = this.flatItems.slice(range.start, range.end);
                 this.computeTempDataRefs();
+            });
+        }
+    }
+
+    ngAfterViewChecked() {
+        if (this.virtualScrollEnabled && this.viewportRuler && this.virtualScroll.getRenderedRange().end > 0) {
+            this.ngZone.runOutsideAngular(() => {
+                setTimeout(() => {
+                    this.ganttRoot.verticalScrollbarWidth =
+                        this.virtualScroll.elementRef.nativeElement.offsetWidth - this.virtualScroll.elementRef.nativeElement.clientWidth;
+                    this.cdr.markForCheck();
+                });
             });
         }
     }

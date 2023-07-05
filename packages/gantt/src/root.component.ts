@@ -9,7 +9,8 @@ import {
     Input,
     Optional,
     OnDestroy,
-    ViewChild
+    ViewChild,
+    HostListener
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
@@ -39,10 +40,19 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     /** The native `<gantt-drag-backdrop></gantt-drag-backdrop>` element. */
     @ViewChild(GanttDragBackdropComponent, { static: true, read: ElementRef }) backdrop: ElementRef<HTMLElement>;
 
+    verticalScrollbarWidth = 0;
+
+    horizontalScrollbarHeight = 0;
+
     private unsubscribe$ = new Subject<void>();
 
     private get view() {
         return this.ganttUpper.view;
+    }
+
+    @HostListener('window:resize')
+    onWindowResize() {
+        this.updateScrollBarOffset();
     }
 
     constructor(
@@ -76,8 +86,17 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
                 this.ganttUpper.viewChange.pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$)).subscribe(() => {
                     this.scrollToToday();
                 });
+                this.updateScrollBarOffset();
             });
         });
+    }
+
+    updateScrollBarOffset() {
+        const ganttMainContainer = this.dom.mainContainer as HTMLElement;
+        const verticalScrollbarWidth = ganttMainContainer.offsetWidth - ganttMainContainer.clientWidth;
+        const horizontalScrollbarHeight = ganttMainContainer.offsetHeight - ganttMainContainer.clientHeight;
+        this.verticalScrollbarWidth = verticalScrollbarWidth;
+        this.horizontalScrollbarHeight = horizontalScrollbarHeight;
     }
 
     ngOnDestroy(): void {
