@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.1.1](https://github.com/worktile/ngx-gantt/compare/15.1.0...15.1.1) (2023-07-05)
+
+### Bug Fixes
+
+- fix compute scroll bar error ([395d82a](https://github.com/worktile/ngx-gantt/commit/395d82ab1d90c3063367cfb1942d70a844120d42))
+- fix misalignment when scrollbar scrolls to the edge ([#389](https://github.com/worktile/ngx-gantt/issues/389)) ([6f5c862](https://github.com/worktile/ngx-gantt/commit/6f5c86281942882e3d115ee55e50212df83d5c24))
+- fix two scrollbar error ([b73c3e3](https://github.com/worktile/ngx-gantt/commit/b73c3e30d3eba7dafd567d0ae4b71a12c268ac9d))
+
 # [15.1.0](https://github.com/worktile/ngx-gantt/compare/15.0.0...15.1.0) (2023-05-19)
 
 ### chore
