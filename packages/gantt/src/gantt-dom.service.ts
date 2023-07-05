@@ -30,6 +30,8 @@ export class GanttDomService implements OnDestroy {
 
     public mainContainer: Element;
 
+    public verticalScrollContainer: Element;
+
     public calendarHeader: Element;
 
     public mainItems: Element;
@@ -90,8 +92,10 @@ export class GanttDomService implements OnDestroy {
         this.container = this.root.getElementsByClassName('gantt-container')[0];
         this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
+        this.verticalScrollContainer = this.root.getElementsByClassName('gantt-scroll-container')[0];
         const mainItems = this.mainContainer.getElementsByClassName('gantt-main-items')[0];
         const mainGroups = this.mainContainer.getElementsByClassName('gantt-main-groups')[0];
+
         this.mainItems = mainItems || mainGroups;
         this.calendarHeader = this.root.getElementsByClassName('gantt-calendar-header')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-grid')[0];
