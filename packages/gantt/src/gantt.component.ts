@@ -32,7 +32,6 @@ import { NgxGanttRootComponent } from './root.component';
 import { GanttDate } from './utils/date';
 import { CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -75,6 +74,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() virtualScrollEnabled = true;
 
+    @Input() loadOnVirtualScrollEnabled = false;
+
     @Input() loadingDelay: number = 0;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
@@ -84,6 +85,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
     @Output() selectedChange = new EventEmitter<GanttSelectedEvent>();
+
+    @Output() loadOnVirtualScroll = new EventEmitter<number>();
 
     @ContentChild(NgxGanttTableComponent) override table: NgxGanttTableComponent;
 
@@ -166,6 +169,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.computeTempDataRefs();
             }
             if (changes.originItems || changes.originGroups) {
+                console.log('build');
                 this.buildFlatItems();
                 this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
@@ -176,6 +180,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     ngAfterViewInit() {
         if (this.virtualScrollEnabled) {
             this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
+                console.log(range);
+                if (this.flatItems.length <= range.end && this.loadOnVirtualScrollEnabled) {
+                    this.loadOnVirtualScroll.emit(range.start);
+                }
                 const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
                 linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
                 this.rangeStart = range.start;
@@ -219,7 +227,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.flatItemsMap = keyBy(this.flatItems, 'id');
         if (!this.virtualScrollEnabled) {
             this.rangeStart = 0;
-            this.rangeEnd = this.flatItems.length - 1;
+            this.rangeEnd = this.flatItems.length;
         }
     }
 

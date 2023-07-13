@@ -1,5 +1,6 @@
-import { Component, OnInit, HostBinding, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { GanttItem, GanttPrintService, NgxGanttComponent } from 'ngx-gantt';
+import { delay, of } from 'rxjs';
 import { randomItems, random } from '../helper';
 
 @Component({
@@ -8,13 +9,13 @@ import { randomItems, random } from '../helper';
     providers: [GanttPrintService]
 })
 export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewInit {
-    items: GanttItem[] = randomItems(10000);
+    items: GanttItem[] = randomItems(30);
 
     @HostBinding('class.gantt-example-component') class = true;
 
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;
 
-    constructor() {}
+    constructor(private cdr: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         // init items children
@@ -27,5 +28,17 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
 
     ngAfterViewInit() {
         setTimeout(() => this.ganttComponent.scrollToDate(1627729997), 200);
+    }
+
+    loadOnVirtualScroll($event: number) {
+        const items = randomItems(100);
+        of(items)
+            .pipe(delay(1000))
+            .subscribe(() => {
+                console.log('loadDone', $event);
+                this.items = [...this.items, ...items];
+                console.log(this.items);
+                this.cdr.detectChanges();
+            });
     }
 }
