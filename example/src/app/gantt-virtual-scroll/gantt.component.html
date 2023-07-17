@@ -21,10 +21,36 @@
             {{ item.end * 1000 | date : 'yyyy-MM-dd' }}
           </ng-template>
         </ngx-gantt-column>
+
+        <ng-template #footer let-columns="columns">
+          <div class="table-footer">
+            <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth">
+              {{ column.name }}
+            </div>
+          </div>
+        </ng-template>
       </ngx-gantt-table>
 
       <ng-template #bar let-item="item">
         <span style="color: #fff">&nbsp;&nbsp;{{ item.title }} </span>
+      </ng-template>
+
+      <ng-template #mainFooter>
+        <div class="footer-container" [style.width.px]="ganttComponent?.view.width">
+          <div
+            class="footer-item"
+            *ngFor="let day of ganttComponent?.view.secondaryDatePoints"
+            [style.left.px]="day.x - ganttComponent?.view.options.cellWidth / 2"
+            [style.width.px]="ganttComponent?.view.options.cellWidth"
+          >
+            <ng-container *ngIf="false; else empty">
+              <div class="stat stat-fill"></div>
+            </ng-container>
+            <ng-template #empty>
+              <div class="stat stat-empty">0</div>
+            </ng-template>
+          </div>
+        </div>
       </ng-template>
     </ngx-gantt>
   </thy-content>

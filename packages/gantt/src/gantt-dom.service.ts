@@ -40,6 +40,10 @@ export class GanttDomService implements OnDestroy {
 
     public linksOverlay: Element;
 
+    private mainFooter: Element;
+
+    private mainScrollbar: Element;
+
     private unsubscribe$ = new Subject<void>();
 
     constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
@@ -61,6 +65,13 @@ export class GanttDomService implements OnDestroy {
         const target = event.currentTarget as HTMLElement;
         this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
         this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
+        if (this.mainScrollbar) {
+            this.mainScrollbar.scrollLeft = this.mainContainer.scrollLeft;
+        }
+
+        if (this.mainFooter) {
+            this.mainFooter.scrollLeft = this.mainContainer.scrollLeft;
+        }
 
         this.sideContainer.scrollTop = target.scrollTop;
         this.mainContainer.scrollTop = target.scrollTop;
@@ -92,6 +103,8 @@ export class GanttDomService implements OnDestroy {
         this.container = this.root.getElementsByClassName('gantt-container')[0];
         this.sideContainer = this.root.getElementsByClassName('gantt-side-container')[0];
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0];
+        this.mainScrollbar = this.root.getElementsByClassName('gantt-main-scrollbar')[0];
+        this.mainFooter = this.root.getElementsByClassName('gantt-container-footer')[0];
         this.verticalScrollContainer = this.root.getElementsByClassName('gantt-scroll-container')[0];
         const mainItems = this.mainContainer.getElementsByClassName('gantt-main-items')[0];
         const mainGroups = this.mainContainer.getElementsByClassName('gantt-main-groups')[0];
@@ -151,6 +164,12 @@ export class GanttDomService implements OnDestroy {
             this.mainContainer.scrollLeft = scrollLeft > scrollThreshold ? scrollLeft : 0;
             this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
             this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
+            if (this.mainScrollbar) {
+                this.mainScrollbar.scrollLeft = this.mainContainer.scrollLeft;
+            }
+            if (this.mainFooter) {
+                this.mainFooter.scrollLeft = this.mainContainer.scrollLeft;
+            }
         }
     }
 

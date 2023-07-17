@@ -9,7 +9,11 @@
 
   <cdk-virtual-scroll-viewport
     class="gantt-virtual-scroll-viewport"
-    [ngClass]="{ 'gantt-normal-viewport': !virtualScrollEnabled, 'gantt-scroll-container': virtualScrollEnabled }"
+    [ngClass]="{
+      'gantt-normal-viewport': !virtualScrollEnabled,
+      'gantt-scroll-container': virtualScrollEnabled,
+      'with-footer': table?.footerTemplate && mainFooterTemplate
+    }"
     [itemSize]="styles.lineHeight"
     [minBufferPx]="styles.lineHeight * 10"
     [maxBufferPx]="styles.lineHeight * 20"
@@ -59,4 +63,28 @@
   </cdk-virtual-scroll-viewport>
 
   <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth + 1"></gantt-drag-backdrop>
+
+  <div
+    class="gantt-scrollbar"
+    [style.height.px]="ganttRoot.horizontalScrollbarHeight + 1"
+    [style.right.px]="ganttRoot.verticalScrollbarWidth"
+  >
+    <div
+      [style.width.px]="tableHeader.tableWidth"
+      class="gantt-table-scrollbar"
+      [class.with-scrollbar]="ganttRoot.horizontalScrollbarHeight"
+    ></div>
+    <div class="gantt-main-scrollbar">
+      <div [style.width.px]="view.width"></div>
+    </div>
+  </div>
+
+  <div class="gantt-footer" [style.right.px]="ganttRoot.verticalScrollbarWidth" [style.bottom.px]="ganttRoot.horizontalScrollbarHeight">
+    <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1" *ngIf="table?.footerTemplate">
+      <ng-template [ngTemplateOutlet]="table?.footerTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
+    </div>
+    <div class="gantt-container-footer" *ngIf="mainFooterTemplate">
+      <ng-template [ngTemplateOutlet]="mainFooterTemplate"> </ng-template>
+    </div>
+  </div>
 </ngx-gantt-root>
