@@ -217,9 +217,15 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     onItemDragEnded(event: CdkDragEnd<GanttItemInternal>) {
         this.ganttTableDragging = false;
+
         this.dragEnded.emit({
             source: event.source.data?.origin,
             sourceParent: this.getParentByItem(event.source.data)?.origin
+        });
+        // dropEnterPredicate 方法返回值为 false 时，始终未执行 onListDropped，所以只能在 dragEnded 中移除 drag-item-hide
+        const children = this.getChildrenElementsByElement(event.source.element.nativeElement);
+        children.forEach((element) => {
+            element.classList.remove('drag-item-hide');
         });
     }
 
