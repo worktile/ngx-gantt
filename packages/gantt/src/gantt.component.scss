@@ -63,6 +63,7 @@
     .gantt-main-scrollbar {
       flex: 1;
       overflow-x: auto;
+      overflow-y: hidden;
     }
   }
 
@@ -113,7 +114,6 @@
     right: 0;
     bottom: 0;
     z-index: 2;
-    // 兼容火狐浏览器
     overflow: auto;
 
     &.with-footer {
@@ -183,7 +183,11 @@
   }
   .gantt-container-footer {
     height: variables.$gantt-footer-height;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     flex: 1;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

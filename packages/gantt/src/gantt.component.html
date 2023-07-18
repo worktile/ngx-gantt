@@ -12,7 +12,7 @@
     [ngClass]="{
       'gantt-normal-viewport': !virtualScrollEnabled,
       'gantt-scroll-container': virtualScrollEnabled,
-      'with-footer': table?.footerTemplate && mainFooterTemplate
+      'with-footer': table?.tableFooterTemplate || footerTemplate
     }"
     [itemSize]="styles.lineHeight"
     [minBufferPx]="styles.lineHeight * 10"
@@ -27,7 +27,7 @@
             [viewportItems]="viewportItems"
             [columns]="columns"
             [groupTemplate]="groupTemplate"
-            [emptyTemplate]="tableEmptyTemplate"
+            [emptyTemplate]="table.tableEmptyTemplate || tableEmptyTemplate"
             [rowBeforeTemplate]="table?.rowBeforeTemplate"
             [rowAfterTemplate]="table?.rowAfterTemplate"
             [draggable]="table.draggable"
@@ -75,16 +75,16 @@
       [class.with-scrollbar]="ganttRoot.horizontalScrollbarHeight"
     ></div>
     <div class="gantt-main-scrollbar">
-      <div [style.width.px]="view.width"></div>
+      <div class="h-100" [style.width.px]="view.width"></div>
     </div>
   </div>
 
   <div class="gantt-footer" [style.right.px]="ganttRoot.verticalScrollbarWidth" [style.bottom.px]="ganttRoot.horizontalScrollbarHeight">
-    <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1" *ngIf="table?.footerTemplate">
-      <ng-template [ngTemplateOutlet]="table?.footerTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
+    <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1" *ngIf="table?.tableFooterTemplate">
+      <ng-template [ngTemplateOutlet]="table?.tableFooterTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
     </div>
-    <div class="gantt-container-footer" *ngIf="mainFooterTemplate">
-      <ng-template [ngTemplateOutlet]="mainFooterTemplate"> </ng-template>
+    <div class="gantt-container-footer" *ngIf="footerTemplate">
+      <ng-template [ngTemplateOutlet]="footerTemplate"> </ng-template>
     </div>
   </div>
 </ngx-gantt-root>

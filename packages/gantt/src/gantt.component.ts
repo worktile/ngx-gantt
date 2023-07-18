@@ -87,13 +87,14 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @ContentChild(NgxGanttTableComponent) override table: NgxGanttTableComponent;
 
-    @ContentChild('mainFooter', { static: true }) mainFooterTemplate: TemplateRef<any>;
-
     @ContentChildren(NgxGanttTableColumnComponent, { descendants: true }) columns: QueryList<NgxGanttTableColumnComponent>;
 
+    // 此模版已挪到 table 组件下，为了兼容此处暂时保留
     @ContentChild('tableEmpty', { static: true }) tableEmptyTemplate: TemplateRef<any>;
 
     @ViewChild('ganttRoot') ganttRoot: NgxGanttRootComponent;
+
+    @ContentChild('footer', { static: true }) footerTemplate: TemplateRef<any>;
 
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 

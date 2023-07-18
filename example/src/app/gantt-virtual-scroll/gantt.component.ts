@@ -7,7 +7,7 @@ import { randomItems, random } from '../helper';
     templateUrl: './gantt.component.html',
     providers: [GanttPrintService]
 })
-export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewInit {
+export class AppGanttVirtualScrollExampleComponent implements OnInit {
     items: GanttItem[] = randomItems(10000);
 
     @HostBinding('class.gantt-example-component') class = true;
@@ -23,9 +23,5 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
                 item.children = randomItems(random(1, 5), item);
             }
         });
-    }
-
-    ngAfterViewInit() {
-        setTimeout(() => this.ganttComponent.scrollToDate(1627729997), 200);
     }
 }

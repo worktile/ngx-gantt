@@ -1,10 +1,10 @@
-<div style="line-height: 30px; padding: 15px; display: flex">
-  <div style="flex: 1">
-    <span class="text-primary">NgxGantt</span>
-    默认开启了虚拟滚动功能，如需关闭该功能设置 virtualScrollEnabled 参数为 false 即可。
-  </div>
-</div>
 <thy-layout>
+  <thy-header class="header-with-baseline">
+    <ng-template #headerContent>
+      <span class="text-primary">NgxGantt</span>
+      &nbsp;&nbsp;默认开启了虚拟滚动功能，如需关闭该功能设置 virtualScrollEnabled 参数为 false 即可。
+    </ng-template>
+  </thy-header>
   <thy-content>
     <ngx-gantt #gantt [items]="items" [virtualScrollEnabled]="true">
       <ngx-gantt-table>
@@ -22,7 +22,7 @@
           </ng-template>
         </ngx-gantt-column>
 
-        <ng-template #footer let-columns="columns">
+        <ng-template #tableFooter let-columns="columns">
           <div class="table-footer">
             <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth">
               {{ column.name }}
@@ -35,13 +35,13 @@
         <span style="color: #fff">&nbsp;&nbsp;{{ item.title }} </span>
       </ng-template>
 
-      <ng-template #mainFooter>
-        <div class="footer-container" [style.width.px]="ganttComponent?.view.width">
+      <ng-template #footer>
+        <div class="footer-container" [style.width.px]="gantt?.view.width">
           <div
             class="footer-item"
-            *ngFor="let day of ganttComponent?.view.secondaryDatePoints"
-            [style.left.px]="day.x - ganttComponent?.view.options.cellWidth / 2"
-            [style.width.px]="ganttComponent?.view.options.cellWidth"
+            *ngFor="let day of gantt?.view.secondaryDatePoints"
+            [style.left.px]="day.x - gantt?.view.options.cellWidth / 2"
+            [style.width.px]="gantt?.view.options.cellWidth"
           >
             <ng-container *ngIf="false; else empty">
               <div class="stat stat-fill"></div>

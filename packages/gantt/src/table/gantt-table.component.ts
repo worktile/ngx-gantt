@@ -28,5 +28,7 @@ export class NgxGanttTableComponent {
 
     @ContentChild('rowAfterSlot', { static: true }) rowAfterTemplate: TemplateRef<any>;
 
-    @ContentChild('footer', { static: true }) footerTemplate: TemplateRef<any>;
+    @ContentChild('tableEmpty', { static: true }) tableEmptyTemplate: TemplateRef<any>;
+
+    @ContentChild('tableFooter', { static: true }) tableFooterTemplate: TemplateRef<any>;
 }

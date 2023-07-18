@@ -49,11 +49,16 @@ export class GanttDomService implements OnDestroy {
     constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
 
     private monitorScrollChange() {
+        const scrollObservers = [
+            fromEvent(this.mainContainer, 'scroll', passiveListenerOptions),
+            fromEvent(this.sideContainer, 'scroll', passiveListenerOptions)
+        ];
+
+        this.mainFooter && scrollObservers.push(fromEvent(this.mainFooter, 'scroll', passiveListenerOptions));
+        this.mainScrollbar && scrollObservers.push(fromEvent(this.mainScrollbar, 'scroll', passiveListenerOptions));
+
         this.ngZone.runOutsideAngular(() =>
-            merge(
-                fromEvent(this.mainContainer, 'scroll', passiveListenerOptions),
-                fromEvent(this.sideContainer, 'scroll', passiveListenerOptions)
-            )
+            merge(...scrollObservers)
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe((event) => {
                     this.syncScroll(event);
@@ -63,18 +68,22 @@ export class GanttDomService implements OnDestroy {
 
     private syncScroll(event: Event) {
         const target = event.currentTarget as HTMLElement;
-        this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
-        this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
-        if (this.mainScrollbar) {
-            this.mainScrollbar.scrollLeft = this.mainContainer.scrollLeft;
-        }
+        const classList = target.classList;
 
-        if (this.mainFooter) {
-            this.mainFooter.scrollLeft = this.mainContainer.scrollLeft;
+        if (!classList.contains('gantt-side-container')) {
+            this.mainContainer.scrollLeft = target.scrollLeft;
+            this.calendarHeader.scrollLeft = target.scrollLeft;
+            this.calendarOverlay.scrollLeft = target.scrollLeft;
+            this.mainScrollbar && (this.mainScrollbar.scrollLeft = target.scrollLeft);
+            this.mainFooter && (this.mainFooter.scrollLeft = target.scrollLeft);
+            if (classList.contains('gantt-main-container')) {
+                this.sideContainer.scrollTop = target.scrollTop;
+                this.mainContainer.scrollTop = target.scrollTop;
+            }
+        } else {
+            this.sideContainer.scrollTop = target.scrollTop;
+            this.mainContainer.scrollTop = target.scrollTop;
         }
-
-        this.sideContainer.scrollTop = target.scrollTop;
-        this.mainContainer.scrollTop = target.scrollTop;
     }
 
     private disableBrowserWheelEvent() {
@@ -108,7 +117,6 @@ export class GanttDomService implements OnDestroy {
         this.verticalScrollContainer = this.root.getElementsByClassName('gantt-scroll-container')[0];
         const mainItems = this.mainContainer.getElementsByClassName('gantt-main-items')[0];
         const mainGroups = this.mainContainer.getElementsByClassName('gantt-main-groups')[0];
-
         this.mainItems = mainItems || mainGroups;
         this.calendarHeader = this.root.getElementsByClassName('gantt-calendar-header')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-grid')[0];
@@ -122,9 +130,13 @@ export class GanttDomService implements OnDestroy {
      * to run the change detection if needed.
      */
     getViewerScroll(options?: AddEventListenerOptions): Observable<ScrollEvent> {
+        const scrollObservers = [fromEvent(this.mainContainer, 'scroll', options)];
+        this.mainFooter && scrollObservers.push(fromEvent(this.mainFooter, 'scroll', options));
+        this.mainScrollbar && scrollObservers.push(fromEvent(this.mainScrollbar, 'scroll', options));
+
         return new Observable<ScrollEvent>((subscriber) =>
             this.ngZone.runOutsideAngular(() =>
-                fromEvent(this.mainContainer, 'scroll', options)
+                merge(...scrollObservers)
                     .pipe(
                         map(() => this.mainContainer.scrollLeft),
                         pairwise(),
@@ -164,12 +176,8 @@ export class GanttDomService implements OnDestroy {
             this.mainContainer.scrollLeft = scrollLeft > scrollThreshold ? scrollLeft : 0;
             this.calendarHeader.scrollLeft = this.mainContainer.scrollLeft;
             this.calendarOverlay.scrollLeft = this.mainContainer.scrollLeft;
-            if (this.mainScrollbar) {
-                this.mainScrollbar.scrollLeft = this.mainContainer.scrollLeft;
-            }
-            if (this.mainFooter) {
-                this.mainFooter.scrollLeft = this.mainContainer.scrollLeft;
-            }
+            this.mainScrollbar && (this.mainScrollbar.scrollLeft = this.mainContainer.scrollLeft);
+            this.mainFooter && (this.mainFooter.scrollLeft = this.mainContainer.scrollLeft);
         }
     }
 

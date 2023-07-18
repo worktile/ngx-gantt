@@ -185,13 +185,13 @@ module.exports = [
                 type: 'TemplateRef<any>'
             },
             {
-                name: '#tableEmpty',
-                description: `设置空表格模板`,
+                name: '#toolbar',
+                description: `工具栏自定义模版`,
                 type: 'TemplateRef<any>'
             },
             {
-                name: '#toolbar',
-                description: `工具栏自定义模版`,
+                name: '#tableFooter',
+                description: `设置底部模板`,
                 type: 'TemplateRef<any>'
             }
         ]
@@ -245,6 +245,16 @@ module.exports = [
             {
                 name: '#rowAfterSlot',
                 description: `设置表格中每行的后置自定义渲染模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: '#tableEmpty',
+                description: `设置空表格模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: '#tableFooter',
+                description: `设置表格底部模板`,
                 type: 'TemplateRef<any>'
             }
         ]
