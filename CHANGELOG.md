@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.1.2](https://github.com/worktile/ngx-gantt/compare/15.1.1...15.1.2) (2023-07-19)
+
+### Bug Fixes
+
+- fix children display error when dropEnterPredicate return false #INFR-8641 ([54c3455](https://github.com/worktile/ngx-gantt/commit/54c3455739e0e6559e18f0e77130c84a50e5e118)), closes [#INFR-8641](https://github.com/worktile/ngx-gantt/issues/INFR-8641)
+
 ## [15.1.1](https://github.com/worktile/ngx-gantt/compare/15.1.0...15.1.1) (2023-07-05)
 
 ### Bug Fixes
