@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [15.2.0-next.0](https://github.com/worktile/ngx-gantt/compare/15.1.1...15.2.0-next.0) (2023-07-19)
+
+### Features
+
+- gantt component support footer template #INFR-8626 ([#394](https://github.com/worktile/ngx-gantt/issues/394)) ([c437b0c](https://github.com/worktile/ngx-gantt/commit/c437b0c80782ce1c17e38d63eaf49c76554ca3b3)), closes [#INFR-8626](https://github.com/worktile/ngx-gantt/issues/INFR-8626) [#INFR-8626](https://github.com/worktile/ngx-gantt/issues/INFR-8626)
+
 ## [15.1.1](https://github.com/worktile/ngx-gantt/compare/15.1.0...15.1.1) (2023-07-05)
 
 ### Bug Fixes
