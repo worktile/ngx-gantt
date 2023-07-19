@@ -61,6 +61,8 @@ export abstract class GanttView {
 
     showTimeline = true;
 
+    showHeaderTimeline = false;
+
     showWeekBackdrop: boolean;
 
     options: GanttViewOptions;

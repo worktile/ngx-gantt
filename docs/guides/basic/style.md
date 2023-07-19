@@ -24,6 +24,7 @@ order: 50
   $gantt-date-primary-color: #888,
   $gantt-date-primary-font-size: 14px,
   $gantt-date-primary-border: #ddd,
+  $gantt-date-secondary-border: #cacaca,
   $gantt-date-secondary-color: #333,
   $gantt-date-secondary-font-size: 14px,
   $gantt-date-secondary-weekend-color: #aaa,

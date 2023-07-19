@@ -19,6 +19,10 @@
     stroke: variables.$gantt-date-primary-border;
   }
 
+  .secondary-line {
+    stroke: variables.$gantt-date-secondary-border;
+  }
+
   .gantt-calendar-today-overlay {
     position: relative;
     z-index: 1;
@@ -82,7 +86,6 @@
 
   .secondary-line {
     stroke-dasharray: 2px 5px;
-    stroke: #cacaca;
   }
 
   .secondary-backdrop {
