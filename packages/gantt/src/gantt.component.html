@@ -17,6 +17,7 @@
     [itemSize]="styles.lineHeight"
     [minBufferPx]="styles.lineHeight * 10"
     [maxBufferPx]="styles.lineHeight * 20"
+    (scrolledIndexChange)="scrolledIndexChange($event)"
   >
     <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>
     <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1" [style.padding-bottom.px]="ganttRoot.horizontalScrollbarHeight">

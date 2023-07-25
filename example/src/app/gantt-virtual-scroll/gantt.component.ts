@@ -9,11 +9,13 @@ import { randomItems, random } from '../helper';
     providers: [GanttPrintService]
 })
 export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewInit {
-    items: GanttItem[] = randomItems(30);
+    items: GanttItem[] = [];
 
     @HostBinding('class.gantt-example-component') class = true;
 
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+
+    loading = false;
 
     constructor(private cdr: ChangeDetectorRef) {}
 
@@ -32,12 +34,13 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
 
     loadOnVirtualScroll($event: number) {
         const items = randomItems(100);
+        this.loading = true;
         of(items)
             .pipe(delay(1000))
             .subscribe(() => {
                 console.log('loadDone', $event);
+                this.loading = false;
                 this.items = [...this.items, ...items];
-                console.log(this.items);
                 this.cdr.detectChanges();
             });
     }

@@ -76,7 +76,9 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() loadOnVirtualScrollEnabled = false;
 
-    @Input() loadingDelay: number = 0;
+    @Input() loadingDelay = 0;
+
+    @Input() loadBuffer = 100;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
@@ -113,9 +115,9 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     private loadingTimer;
 
-    private rangeStart: number;
+    private rangeStart = 0;
 
-    private rangeEnd: number;
+    private rangeEnd = 0;
 
     private flatItemsMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
 
@@ -140,10 +142,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
         this.ngZone.runOutsideAngular(() => {
             onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                // this.dragContainer.dragEnded.subscribe((event) => {
-                //     this.computeTempDataRefs();
-                // });
-
                 this.dragContainer.linkDragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
                     this.linkDragStarted.emit(event);
                 });
@@ -172,7 +170,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.computeTempDataRefs();
             }
             if (changes.originItems || changes.originGroups) {
-                console.log('build');
                 this.buildFlatItems();
                 this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
                 this.computeTempDataRefs();
@@ -183,10 +180,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     ngAfterViewInit() {
         if (this.virtualScrollEnabled) {
             this.virtualScroll.renderedRangeStream.pipe(takeUntil(this.unsubscribe$)).subscribe((range) => {
-                console.log(range);
-                if (this.flatItems.length <= range.end && this.loadOnVirtualScrollEnabled) {
-                    this.loadOnVirtualScroll.emit(range.start);
-                }
                 const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
                 linksElement.style.top = `${-(this.styles.lineHeight * range.start)}px`;
                 this.rangeStart = range.start;
@@ -313,6 +306,16 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     scrollToDate(date: number | GanttDate) {
         this.ganttRoot.scrollToDate(date);
+    }
+
+    scrolledIndexChange(index: number) {
+        // 检查滚动位置是否接近列表底部
+        if (this.rangeEnd + this.loadBuffer >= this.flatItems.length) {
+            // 加载更多数据
+            if (this.loadOnVirtualScrollEnabled && !this.loading) {
+                this.loadOnVirtualScroll.emit(index);
+            }
+        }
     }
 
     override expandGroups(expanded: boolean) {
