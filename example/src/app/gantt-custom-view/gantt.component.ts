@@ -23,7 +23,7 @@ registerView(customViewType, GanttViewCustom);
     selector: 'app-gantt-custom-view-example',
     templateUrl: './gantt.component.html'
 })
-export class AppGanttCustomViewExampleComponent implements OnInit, AfterViewInit {
+export class AppGanttCustomViewExampleComponent implements OnInit {
     viewType = customViewType;
 
     showWeekend = true;
@@ -77,10 +77,6 @@ export class AppGanttCustomViewExampleComponent implements OnInit, AfterViewInit
     constructor(private thyNotify: ThyNotifyService) {}
 
     ngOnInit(): void {}
-
-    ngAfterViewInit() {
-        setTimeout(() => this.ganttComponent.scrollToDate(1627729997), 200);
-    }
 
     barClick(event: GanttBarClickEvent) {
         this.thyNotify.info('Event: barClick', `你点击了 [${event.item.title}]`);
