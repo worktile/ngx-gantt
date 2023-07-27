@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { GanttItem, GanttPrintService, NgxGanttComponent } from 'ngx-gantt';
+import { GanttItem, GanttPrintService, GanttVirtualScrolledIndexChangeEvent, NgxGanttComponent } from 'ngx-gantt';
 import { delay, of } from 'rxjs';
 import { randomItems, random } from '../helper';
 
@@ -32,16 +32,22 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
         setTimeout(() => this.ganttComponent.scrollToDate(1627729997), 200);
     }
 
-    loadOnVirtualScroll($event: number) {
-        const items = randomItems(100);
-        this.loading = true;
-        of(items)
-            .pipe(delay(1000))
-            .subscribe(() => {
-                console.log('loadDone', $event);
-                this.loading = false;
-                this.items = [...this.items, ...items];
-                this.cdr.detectChanges();
-            });
+    virtualScrolledIndexChange(event: GanttVirtualScrolledIndexChangeEvent) {
+        // 检查滚动位置是否接近列表底部
+        if (event.renderedRange.end + 20 >= event.count) {
+            // 加载更多数据
+            if (!this.loading) {
+                const items = randomItems(100);
+                this.loading = true;
+                of(items)
+                    .pipe(delay(1000))
+                    .subscribe(() => {
+                        console.log('loadDone');
+                        this.loading = false;
+                        this.items = [...this.items, ...items];
+                        this.cdr.detectChanges();
+                    });
+            }
+        }
     }
 }

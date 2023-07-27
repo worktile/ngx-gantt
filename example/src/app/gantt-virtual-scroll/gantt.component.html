@@ -10,8 +10,7 @@
       #gantt
       [items]="items"
       [virtualScrollEnabled]="true"
-      [loadOnVirtualScrollEnabled]="true"
-      (loadOnVirtualScroll)="loadOnVirtualScroll($event)"
+      (virtualScrolledIndexChange)="virtualScrolledIndexChange($event)"
       [loading]="loading"
     >
       <ngx-gantt-table>

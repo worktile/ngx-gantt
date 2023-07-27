@@ -23,7 +23,15 @@ import {
 import { takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
-import { GanttLinkDragEvent, GanttLineClickEvent, GanttItemInternal, GanttItem, GanttSelectedEvent, GanttGroupInternal } from './class';
+import {
+    GanttLinkDragEvent,
+    GanttLineClickEvent,
+    GanttItemInternal,
+    GanttItem,
+    GanttSelectedEvent,
+    GanttGroupInternal,
+    GanttVirtualScrolledIndexChangeEvent
+} from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
@@ -74,8 +82,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() virtualScrollEnabled = true;
 
-    @Input() loadOnVirtualScrollEnabled = false;
-
     @Input() loadingDelay = 0;
 
     @Input() loadBuffer = 100;
@@ -88,7 +94,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Output() selectedChange = new EventEmitter<GanttSelectedEvent>();
 
-    @Output() loadOnVirtualScroll = new EventEmitter<number>();
+    @Output() virtualScrolledIndexChange = new EventEmitter<GanttVirtualScrolledIndexChangeEvent>();
 
     @ContentChild(NgxGanttTableComponent) override table: NgxGanttTableComponent;
 
@@ -309,13 +315,14 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     scrolledIndexChange(index: number) {
-        // 检查滚动位置是否接近列表底部
-        if (this.rangeEnd + this.loadBuffer >= this.flatItems.length) {
-            // 加载更多数据
-            if (this.loadOnVirtualScrollEnabled && !this.loading) {
-                this.loadOnVirtualScroll.emit(index);
-            }
-        }
+        this.virtualScrolledIndexChange.emit({
+            index,
+            renderedRange: {
+                start: this.rangeStart,
+                end: this.rangeEnd
+            },
+            count: this.flatItems.length
+        });
     }
 
     override expandGroups(expanded: boolean) {
