@@ -170,6 +170,11 @@ module.exports = [
                 type: 'EventEmitter<GanttSelectedEvent>'
             },
             {
+                name: 'virtualScrolledIndexChange',
+                description: `虚拟滚动视口中可见的第一个元素的索引发生变化事件`,
+                type: 'EventEmitter<GanttVirtualScrolledIndexChangeEvent>'
+            },
+            {
                 name: '#group',
                 description: `设置分组显示模板`,
                 type: 'TemplateRef<any>'

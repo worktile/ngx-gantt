@@ -11,7 +11,7 @@ export function randomItems(length: number, parent?: GanttItem, group?: string) 
         const start = addDays(new Date(), random(-200, 200));
         const end = addDays(start, random(0, 100));
         items.push({
-            id: `${parent?.id || group || ''}00000${i}`,
+            id: `${parent?.id || group || ''}${Math.floor(Math.random() * 100000000)}`,
             title: `${parent?.title || 'Task'}-${i}`,
             start: getUnixTime(start),
             end: getUnixTime(end),

@@ -63,3 +63,12 @@ export class GanttTableDragEnterPredicateContext<T = unknown> {
     target: GanttItem<T>;
     dropPosition: GanttTableDropPosition;
 }
+
+export class GanttVirtualScrolledIndexChangeEvent {
+    index: number;
+    renderedRange: {
+        start: number;
+        end: number;
+    };
+    count: number;
+}

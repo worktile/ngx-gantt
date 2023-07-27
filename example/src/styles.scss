@@ -45,6 +45,7 @@ $primary: #6698ff;
     margin: 20px;
     border: 1px solid #eee;
     height: calc(100vh - 95px);
+    overflow: auto;
 
     .thy-layout-header {
       .layout-header-title {
