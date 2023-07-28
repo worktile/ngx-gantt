@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [15.2.0-next.1](https://github.com/worktile/ngx-gantt/compare/15.2.0-next.0...15.2.0-next.1) (2023-07-28)
+
+### Features
+
+- support load data when virtual scroll #INFR-8652 ([#395](https://github.com/worktile/ngx-gantt/issues/395)) ([f20ad4c](https://github.com/worktile/ngx-gantt/commit/f20ad4c3913b0fe7a19ae480dec495a99392427a)), closes [#INFR-8652](https://github.com/worktile/ngx-gantt/issues/INFR-8652) [#INFR-8626](https://github.com/worktile/ngx-gantt/issues/INFR-8626)
+
 # [15.2.0-next.0](https://github.com/worktile/ngx-gantt/compare/15.1.1...15.2.0-next.0) (2023-07-19)
 
 ### Features
