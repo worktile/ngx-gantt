@@ -171,6 +171,10 @@ $gantt-bar-link-drop-border: 5px;
     }
   }
 
+  &-draggable-drag {
+    z-index: 1001;
+  }
+
   &-drop-active {
     @include active-bar();
 
