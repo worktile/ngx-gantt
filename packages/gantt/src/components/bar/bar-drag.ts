@@ -128,9 +128,7 @@ export class GanttBarDrag implements OnDestroy {
                         });
                     }
                 } else {
-                    if (!this.dragContainer.draggingItem) {
-                        this.barElement.classList.add(activeClass);
-                    }
+                    this.barElement.classList.add(activeClass);
                 }
             });
 
@@ -161,7 +159,7 @@ export class GanttBarDrag implements OnDestroy {
                     this.barDragMove();
                 }
             });
-            this.dragContainer.emitDragStarted(this.item.origin);
+            this.dragContainer.dragStarted.emit({ item: this.item.origin });
         });
 
         dragRef.moved.subscribe((event) => {
@@ -185,7 +183,7 @@ export class GanttBarDrag implements OnDestroy {
                 x: this.ganttUpper.view.getXPointByDate(this.item.start),
                 y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
             });
-            this.dragContainer.emitDragEnded(this.item.origin);
+            this.dragContainer.dragEnded.emit({ item: this.item.origin });
         });
         this.barDragRef = dragRef;
 
@@ -221,7 +219,7 @@ export class GanttBarDrag implements OnDestroy {
                         }
                     }
                 });
-                this.dragContainer.emitDragStarted(this.item.origin);
+                this.dragContainer.dragStarted.emit({ item: this.item.origin });
             });
 
             dragRef.moved.subscribe((event) => {
@@ -251,7 +249,7 @@ export class GanttBarDrag implements OnDestroy {
                     x: this.ganttUpper.view.getXPointByDate(this.item.start),
                     y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
                 });
-                this.dragContainer.emitDragEnded(this.item.origin);
+                this.dragContainer.dragEnded.emit({ item: this.item.origin });
             });
             dragRefs.push(dragRef);
         });
@@ -350,12 +348,10 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private setDraggingStyles() {
-        this.barElement.style.pointerEvents = 'none';
         this.barElement.classList.add('gantt-bar-draggable-drag');
     }
 
     private clearDraggingStyles() {
-        this.barElement.style.pointerEvents = '';
         this.barElement.classList.remove('gantt-bar-draggable-drag');
     }
 
