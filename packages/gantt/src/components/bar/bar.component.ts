@@ -55,7 +55,11 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     override ngOnInit() {
         super.ngOnInit();
+        this.dragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.elementRef.nativeElement.style.pointerEvents = 'none';
+        });
         this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+            this.elementRef.nativeElement.style.pointerEvents = '';
             this.setContentBackground();
         });
     }

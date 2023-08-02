@@ -348,12 +348,10 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private setDraggingStyles() {
-        this.barElement.style.pointerEvents = 'none';
         this.barElement.classList.add('gantt-bar-draggable-drag');
     }
 
     private clearDraggingStyles() {
-        this.barElement.style.pointerEvents = '';
         this.barElement.classList.remove('gantt-bar-draggable-drag');
     }
 
