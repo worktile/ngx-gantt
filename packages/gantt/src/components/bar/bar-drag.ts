@@ -128,7 +128,9 @@ export class GanttBarDrag implements OnDestroy {
                         });
                     }
                 } else {
-                    this.barElement.classList.add(activeClass);
+                    if (!this.dragContainer.draggingItem) {
+                        this.barElement.classList.add(activeClass);
+                    }
                 }
             });
 
@@ -159,7 +161,7 @@ export class GanttBarDrag implements OnDestroy {
                     this.barDragMove();
                 }
             });
-            this.dragContainer.dragStarted.emit({ item: this.item.origin });
+            this.dragContainer.emitDragStarted(this.item.origin);
         });
 
         dragRef.moved.subscribe((event) => {
@@ -183,7 +185,7 @@ export class GanttBarDrag implements OnDestroy {
                 x: this.ganttUpper.view.getXPointByDate(this.item.start),
                 y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
             });
-            this.dragContainer.dragEnded.emit({ item: this.item.origin });
+            this.dragContainer.emitDragEnded(this.item.origin);
         });
         this.barDragRef = dragRef;
 
@@ -219,7 +221,7 @@ export class GanttBarDrag implements OnDestroy {
                         }
                     }
                 });
-                this.dragContainer.dragStarted.emit({ item: this.item.origin });
+                this.dragContainer.emitDragStarted(this.item.origin);
             });
 
             dragRef.moved.subscribe((event) => {
@@ -249,7 +251,7 @@ export class GanttBarDrag implements OnDestroy {
                     x: this.ganttUpper.view.getXPointByDate(this.item.start),
                     y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
                 });
-                this.dragContainer.dragEnded.emit({ item: this.item.origin });
+                this.dragContainer.emitDragEnded(this.item.origin);
             });
             dragRefs.push(dragRef);
         });

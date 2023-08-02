@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { GanttLinkType } from './class';
 import { GanttDragEvent, GanttLinkDragEvent } from './class/event';
-import { GanttItemInternal } from './class/item';
+import { GanttItem, GanttItemInternal } from './class/item';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 
 function getDependencyType(path: LinkDragPath, dependencyTypes: GanttLinkType[]): GanttLinkType {
@@ -47,11 +47,23 @@ export class GanttDragContainer {
 
     linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
+    draggingItem: GanttItem;
+
     linkDraggingId: string;
 
     linkDragPath: LinkDragPath = { from: null, to: null };
 
     constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper) {}
+
+    emitDragStarted(item: GanttItem) {
+        this.draggingItem = item;
+        this.dragStarted.emit({ item });
+    }
+
+    emitDragEnded(item: GanttItem) {
+        this.draggingItem = null;
+        this.dragEnded.emit({ item });
+    }
 
     emitLinkDragStarted(from: LinkDragPosition) {
         this.linkDraggingId = from.item.id;
