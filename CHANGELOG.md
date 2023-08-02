@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.1.3](https://github.com/worktile/ngx-gantt/compare/15.1.2...15.1.3) (2023-08-02)
+
+### Bug Fixes
+
+- add bar index when drag #INFR-8617 ([#404](https://github.com/worktile/ngx-gantt/issues/404)) ([a17bf27](https://github.com/worktile/ngx-gantt/commit/a17bf27a6619b75f34920e277263c1d0f7ff6cb9)), closes [#INFR-8617](https://github.com/worktile/ngx-gantt/issues/INFR-8617) [#INFR-8617](https://github.com/worktile/ngx-gantt/issues/INFR-8617)
+
 ## [15.1.2](https://github.com/worktile/ngx-gantt/compare/15.1.1...15.1.2) (2023-07-19)
 
 ### Bug Fixes
