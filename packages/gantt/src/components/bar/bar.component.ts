@@ -125,17 +125,25 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             const contentElement = this.contentElementRef.nativeElement;
             const color = this.item.color || barBackground;
             const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
+            const barElement = this.elementRef.nativeElement;
+
             if (this.item.origin.start && this.item.origin.end) {
                 style.background = color;
                 style.borderRadius = '';
             }
             if (this.item.origin.start && !this.item.origin.end) {
                 style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
-                style.borderRadius = '4px 12.5px 12.5px 4px';
+
+                const borderRadius = '4px 12.5px 12.5px 4px';
+                style.borderRadius = borderRadius;
+                barElement.style.borderRadius = borderRadius;
             }
             if (!this.item.origin.start && this.item.origin.end) {
                 style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
-                style.borderRadius = '12.5px 4px 4px 12.5px';
+
+                const borderRadius = '12.5px 4px 4px 12.5px';
+                style.borderRadius = borderRadius;
+                barElement.style.borderRadius = borderRadius;
             }
             if (this.item.progress >= 0) {
                 const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
