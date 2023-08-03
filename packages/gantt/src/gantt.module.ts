@@ -32,7 +32,10 @@ import { GanttLoaderComponent } from './components/loader/loader.component';
         NgxGanttBarComponent,
         NgxGanttRangeComponent,
         NgxGanttBaselineComponent,
-        NgxGanttToolbarComponent
+        NgxGanttToolbarComponent,
+        GanttCalendarHeaderComponent,
+        GanttCalendarGridComponent,
+        GanttDragBackdropComponent
     ],
     declarations: [
         NgxGanttComponent,
