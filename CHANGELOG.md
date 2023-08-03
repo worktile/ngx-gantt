@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.1.4](https://github.com/worktile/ngx-gantt/compare/15.1.3...15.1.4) (2023-08-03)
+
+### Features
+
+- export components ([45c978a](https://github.com/worktile/ngx-gantt/commit/45c978a6fa9a49bbf3fbf144e4b89c8384b903db))
+- export components ([5a46f9d](https://github.com/worktile/ngx-gantt/commit/5a46f9d4b3840a1086820e2e315661b992f3af7e))
+- remove the redundant white border #INFR-9002 ([a5ecd75](https://github.com/worktile/ngx-gantt/commit/a5ecd75a53501e1147bb784d8e4359ec1edc7cf8)), closes [#INFR-9002](https://github.com/worktile/ngx-gantt/issues/INFR-9002)
+- remove the redundant white border at gantt bar #INFR-9002 ([47da959](https://github.com/worktile/ngx-gantt/commit/47da95918919e28e9a108f5b3e94760644fe42ee)), closes [#INFR-9002](https://github.com/worktile/ngx-gantt/issues/INFR-9002)
+
 ## [15.1.3](https://github.com/worktile/ngx-gantt/compare/15.1.2...15.1.3) (2023-08-02)
 
 ### Bug Fixes
