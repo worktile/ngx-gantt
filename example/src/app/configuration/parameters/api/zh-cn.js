@@ -170,6 +170,11 @@ module.exports = [
                 type: 'EventEmitter<GanttSelectedEvent>'
             },
             {
+                name: 'virtualScrolledIndexChange',
+                description: `虚拟滚动视口中可见的第一个元素的索引发生变化事件`,
+                type: 'EventEmitter<GanttVirtualScrolledIndexChangeEvent>'
+            },
+            {
                 name: '#group',
                 description: `设置分组显示模板`,
                 type: 'TemplateRef<any>'
@@ -185,13 +190,13 @@ module.exports = [
                 type: 'TemplateRef<any>'
             },
             {
-                name: '#tableEmpty',
-                description: `设置空表格模板`,
+                name: '#toolbar',
+                description: `工具栏自定义模版`,
                 type: 'TemplateRef<any>'
             },
             {
-                name: '#toolbar',
-                description: `工具栏自定义模版`,
+                name: '#tableFooter',
+                description: `设置底部模板`,
                 type: 'TemplateRef<any>'
             }
         ]
@@ -245,6 +250,16 @@ module.exports = [
             {
                 name: '#rowAfterSlot',
                 description: `设置表格中每行的后置自定义渲染模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: '#tableEmpty',
+                description: `设置空表格模板`,
+                type: 'TemplateRef<any>'
+            },
+            {
+                name: '#tableFooter',
+                description: `设置表格底部模板`,
                 type: 'TemplateRef<any>'
             }
         ]

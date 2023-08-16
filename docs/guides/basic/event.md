@@ -115,3 +115,18 @@ export class GanttTableDragEndedEvent<T = unknown> {
   sourceParent: GanttItem<T>; // 拖动开始数据项父
 }
 ```
+
+# GanttVirtualScrolledIndexChangeEvent
+
+Gantt 组件虚拟滚动视口中可见的第一个元素的索引发生变化时触发
+
+```ts
+export class GanttVirtualScrolledIndexChangeEvent {
+  index: number; // 视口第一个元素 index
+  renderedRange: {
+    start: number;
+    end: number;
+  }; // 当前渲染的条目范围
+  count: number; // 总条目数量
+}
+```

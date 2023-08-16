@@ -45,6 +45,7 @@ $primary: #6698ff;
     margin: 20px;
     border: 1px solid #eee;
     height: calc(100vh - 95px);
+    overflow: auto;
 
     .thy-layout-header {
       .layout-header-title {
@@ -62,6 +63,32 @@ $primary: #6698ff;
     }
     ngx-gantt-root {
       border: 1px solid #eee;
+      .table-footer {
+        display: flex;
+        .gantt-table-column {
+          overflow: hidden;
+          border-right: 1px solid #eee;
+          box-sizing: border-box;
+          padding: 0 15px;
+          line-height: 44px;
+
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+      .footer-container {
+        display: flex;
+        position: relative;
+        height: 100%;
+        .footer-item {
+          border-right: 1px solid #eee;
+          line-height: 44px;
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
     }
   }
 }
