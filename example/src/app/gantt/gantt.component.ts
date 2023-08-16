@@ -25,6 +25,7 @@ import { randomItems, random } from '../helper';
 @Component({
     selector: 'app-gantt-example',
     templateUrl: './gantt.component.html',
+    styleUrls: ['./gantt.scss'],
     providers: [GanttPrintService]
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
