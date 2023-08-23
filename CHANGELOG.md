@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [16.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/15.2.0...16.0.0-next.0) (2023-08-17)
+
 # [15.2.0](https://github.com/worktile/ngx-gantt/compare/15.1.4...15.2.0) (2023-08-17)
 
 ### Features
