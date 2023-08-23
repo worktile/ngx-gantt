@@ -64,3 +64,50 @@ describe('ngx-gantt-baseline', () => {
         expect(baselineItems.length).toEqual(mockBaselineItems.length);
     });
 });
+
+@Component({
+    selector: 'test-gantt-baseline-template',
+    template: ` <ngx-gantt #gantt [items]="items" [baselineItems]="baselineItems" [viewType]="viewType">
+        <ngx-gantt-table>
+            <ngx-gantt-column name="标题" width="200px">
+                <ng-template #cell let-item="item">
+                    {{ item.title }}
+                </ng-template>
+            </ngx-gantt-column>
+        </ngx-gantt-table>
+        <ng-template #baseline>
+            <div class="baseline-container"></div>
+        </ng-template>
+    </ngx-gantt>`
+})
+export class TestGanttBaselineTemplateComponent {
+    constructor() {}
+
+    viewType = 'month';
+
+    items = mockBarItems;
+
+    baselineItems = mockBaselineItems;
+}
+
+describe('ngx-gantt-baseline-template', () => {
+    let fixture: ComponentFixture<TestGanttBaselineComponent>;
+    beforeEach(async () => {
+        TestBed.configureTestingModule({
+            imports: [CommonModule, NgxGanttModule],
+            declarations: [TestGanttBaselineComponent]
+        }).compileComponents();
+        fixture = TestBed.createComponent(TestGanttBaselineComponent);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await fixture.whenStable();
+        fixture.detectChanges();
+    });
+
+    it('should render baseline item by template', () => {
+        const baselineItems = fixture.debugElement.queryAll(By.directive(NgxGanttBaselineComponent));
+        expect(baselineItems.length).toEqual(mockBaselineItems.length);
+        const baselineContainer = fixture.debugElement.queryAll(By.css('.baseline-container'));
+        expect(baselineContainer).toBeTruthy();
+    });
+});

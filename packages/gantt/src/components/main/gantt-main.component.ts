@@ -19,6 +19,8 @@ export class GanttMainComponent {
 
     @Input() rangeTemplate: TemplateRef<any>;
 
+    @Input() baselineTemplate: TemplateRef<any>;
+
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();

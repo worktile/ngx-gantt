@@ -130,6 +130,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @ContentChild('item', { static: true }) itemTemplate: TemplateRef<any>;
 
+    @ContentChild('baseline', { static: true }) baselineTemplate: TemplateRef<any>;
+
     @ContentChild('group', { static: true }) groupTemplate: TemplateRef<any>;
 
     @ContentChild('groupHeader', { static: true }) groupHeaderTemplate: TemplateRef<any>;
