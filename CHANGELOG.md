@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [16.0.1](https://github.com/worktile/ngx-gantt/compare/16.0.0...16.0.1) (2023-08-30)
+
+### Features
+
+- **baseline:** #INFR-9182 support baseline template ([32b2295](https://github.com/worktile/ngx-gantt/commit/32b229574b3d526fb1b21c3c614b855e99182458)), closes [#INFR-9182](https://github.com/worktile/ngx-gantt/issues/INFR-9182)
+
 # [16.0.0](https://github.com/worktile/ngx-gantt/compare/16.0.0-next.0...16.0.0) (2023-08-23)
 
 # [16.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/15.2.0...16.0.0-next.0) (2023-08-17)
