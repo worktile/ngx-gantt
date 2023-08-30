@@ -26,7 +26,11 @@
       <ng-container *ngIf="(data.type | isGanttRangeItem) || (data.type | isGanttBarItem)">
         <gantt-range *ngIf="data.type | isGanttRangeItem" [template]="rangeTemplate" [item]="data"></gantt-range>
         <gantt-bar *ngIf="data.type | isGanttBarItem" [item]="data" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
-        <gantt-baseline *ngIf="ganttUpper.baselineItemsMap[data.id]" [baselineItem]="ganttUpper.baselineItemsMap[data.id]"></gantt-baseline>
+        <gantt-baseline
+          *ngIf="ganttUpper.baselineItemsMap[data.id]"
+          [baselineItem]="ganttUpper.baselineItemsMap[data.id]"
+          [template]="baselineTemplate"
+        ></gantt-baseline>
       </ng-container>
     </div>
   </ng-container>
