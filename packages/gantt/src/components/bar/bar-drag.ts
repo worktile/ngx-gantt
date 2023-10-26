@@ -150,7 +150,7 @@ export class GanttBarDrag implements OnDestroy {
         if (this.ganttUpper.restrictToBounds) {
             dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
         }
-        dragRef.started.subscribe((event) => {
+        dragRef.started.subscribe(() => {
             this.setDraggingStyles();
             this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
             this.createDragScrollEvent(dragRef).subscribe(() => {
