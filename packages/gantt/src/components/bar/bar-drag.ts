@@ -147,8 +147,10 @@ export class GanttBarDrag implements OnDestroy {
     private createBarDrag() {
         const dragRef = this.createDragRef(this.barElement);
         dragRef.lockAxis = 'x';
-        dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
-        dragRef.started.subscribe(() => {
+        if (this.ganttUpper.restrictToBounds) {
+            dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
+        }
+        dragRef.started.subscribe((event) => {
             this.setDraggingStyles();
             this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
             this.createDragScrollEvent(dragRef).subscribe(() => {
@@ -563,6 +565,9 @@ export class GanttBarDrag implements OnDestroy {
         const itemEnd = end.getUnixTime();
         const viewStart = this.ganttUpper.view.start.getUnixTime();
         const viewEnd = this.ganttUpper.view.end.getUnixTime();
+        if (!this.ganttUpper.restrictToBounds) {
+            return true;
+        }
         if (itemStart < viewStart || itemEnd > viewEnd) {
             return false;
         } else {

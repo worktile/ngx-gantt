@@ -1,5 +1,5 @@
-<div style="line-height: 30px; padding: 15px; display: flex;">
-  <div style="flex: 1;">
+<div style="line-height: 30px; padding: 15px; display: flex">
+  <div style="flex: 1">
     <span class="text-primary">NgxGantt</span> 导出了 <span class="text-primary">ngx-gantt-root</span>、<span class="text-primary"
       >ngx-gantt-bar</span
     >
@@ -7,7 +7,7 @@
     <br />
     下面示例实现了任务分组的展示，并且将每个分组下任务按时间维度打平展示。
   </div>
-  <div style="padding-right: 15px;">
+  <div style="padding-right: 15px">
     <a href="https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt-advanced" target="_blank">查看源码</a>
   </div>
 </div>
@@ -19,6 +19,7 @@
       [groups]="groups"
       [viewType]="options.viewType"
       [draggable]="options.draggable"
+      [restrictToBounds]="false"
       [styles]="options.styles"
     >
       <ng-template #group let-group="group">
