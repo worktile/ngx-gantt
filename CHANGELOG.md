@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [16.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/16.0.1...16.1.0-next.0) (2023-10-30)
+
+### Features
+
+- #INFR-10087 support drag-and-drop across bars that extend beyond the time span ([#424](https://github.com/worktile/ngx-gantt/issues/424)) ([5c1d19a](https://github.com/worktile/ngx-gantt/commit/5c1d19a1e03ab123ea6ac1011110ddaa4ece921e)), closes [#INFR-10087](https://github.com/worktile/ngx-gantt/issues/INFR-10087) [#INFR-10087](https://github.com/worktile/ngx-gantt/issues/INFR-10087) [#INFR-10087](https://github.com/worktile/ngx-gantt/issues/INFR-10087) [#INFR-10087](https://github.com/worktile/ngx-gantt/issues/INFR-10087) [#INFR-10087](https://github.com/worktile/ngx-gantt/issues/INFR-10087) [#INFR-10087](https://github.com/worktile/ngx-gantt/issues/INFR-10087)
+
 ## [16.0.1](https://github.com/worktile/ngx-gantt/compare/16.0.0...16.0.1) (2023-08-30)
 
 ### Features
