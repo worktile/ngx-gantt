@@ -68,6 +68,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @Input() showToolbar = false;
 
+    @Input() restrictToBounds = true;
+
     @Input() toolbarOptions: GanttToolbarOptions = {
         viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
     };
