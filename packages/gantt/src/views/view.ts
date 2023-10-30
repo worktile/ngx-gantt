@@ -193,7 +193,6 @@ export abstract class GanttView {
         } else {
             day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
             if (indexOfSecondaryDate > this.secondaryDatePoints.length - 1) {
-                // day = Math.floor(x / dayWidth) + 1;
                 day += (indexOfSecondaryDate - (this.secondaryDatePoints.length - 1)) * 30;
             }
             if (this.getCellWidth() / dayWidth === 7) {
