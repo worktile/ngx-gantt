@@ -173,14 +173,29 @@ export abstract class GanttView {
     }
 
     // 根据X坐标获取对应时间
-    getDateByXPoint(x: number) {
-        const indexOfSecondaryDate = Math.max(Math.floor(x / this.getCellWidth()), 0);
-        const matchDate = this.secondaryDatePoints[Math.min(this.secondaryDatePoints.length - 1, indexOfSecondaryDate)];
-        const dayWidth = this.getDayOccupancyWidth(matchDate?.start);
+    getDateByXPoint(x: number): GanttDate {
+        let indexOfSecondaryDate: number;
+        let matchDate: GanttDatePoint;
+        let dayWidth: number;
+        let day: number;
+        if (x >= 0) {
+            indexOfSecondaryDate = Math.floor(x / this.getCellWidth());
+            matchDate = this.secondaryDatePoints[Math.min(this.secondaryDatePoints.length - 1, indexOfSecondaryDate)];
+            dayWidth = this.getDayOccupancyWidth(matchDate?.start);
+        } else {
+            const datePointTemp = this.secondaryDatePoints[0];
+            dayWidth = this.getDayOccupancyWidth(datePointTemp?.start);
+            day = Math.floor(x / dayWidth);
+            return datePointTemp?.start.addDays(day);
+        }
         if (dayWidth === this.getCellWidth()) {
             return matchDate?.start;
         } else {
-            const day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
+            day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
+            if (indexOfSecondaryDate > this.secondaryDatePoints.length - 1) {
+                // day = Math.floor(x / dayWidth) + 1;
+                day += (indexOfSecondaryDate - (this.secondaryDatePoints.length - 1)) * 30;
+            }
             if (this.getCellWidth() / dayWidth === 7) {
                 return matchDate?.start.addDays(day);
             }

@@ -125,7 +125,7 @@ module.exports = [
                 name: 'restrictToBounds',
                 description: '设置是否限制拖拽边界，同时自定义拖拽到时间范围外时，需继承 `GanttView` 并重写其中的 `getDateByXPoint`',
                 type: 'boolean',
-                default: 'false'
+                default: 'true'
             },
             {
                 name: 'toolbarOptions',
