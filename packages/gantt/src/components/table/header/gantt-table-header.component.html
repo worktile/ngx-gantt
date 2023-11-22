@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="gantt-table-header-container">
   <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth">
     <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"> </ng-container>
     <ng-template #default>
