@@ -173,6 +173,9 @@
   position: relative;
   z-index: 3;
   border-right: 1px solid variables.$gantt-border-color;
+  .gantt-table-header-container {
+    display: flex;
+  }
 
   @include gantt-table-item();
 
