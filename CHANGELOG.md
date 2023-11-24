@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## <small>16.0.2 (2023-11-24)</small>
+
+- build: remove ngx-tethys from dependencies #INFR-10548 ([1685cf5](https://github.com/worktile/ngx-gantt/commit/1685cf5)), closes [#INFR-10548](https://github.com/worktile/ngx-gantt/issues/INFR-10548)
+- Merge pull request #420 from worktile/release-auto-v16.0.1 ([e8ec5ee](https://github.com/worktile/ngx-gantt/commit/e8ec5ee)), closes [#420](https://github.com/worktile/ngx-gantt/issues/420)
+
 ## [16.0.1](https://github.com/worktile/ngx-gantt/compare/16.0.0...16.0.1) (2023-08-30)
 
 ### Features
