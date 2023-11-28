@@ -117,13 +117,14 @@
   },
   "main": ".docgenirc.js",
   "directories": {
+    "doc": "docs",
     "example": "example"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/calibura/ngx-gantt.git"
+    "url": "git+https://github.com/worktile/ngx-gantt.git"
   },
-  "author": "calibura",
+  "author": "walkerkay001",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/worktile/ngx-gantt/issues"
