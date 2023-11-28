@@ -170,6 +170,11 @@ module.exports = [
                 type: 'EventEmitter<GanttSelectedEvent>'
             },
             {
+                name: 'dbClickChange',
+                description: `双击数据项事件`,
+                type: 'EventEmitter<GanttDoubleClickEvent>'
+            },
+            {
                 name: 'virtualScrolledIndexChange',
                 description: `虚拟滚动视口中可见的第一个元素的索引发生变化事件`,
                 type: 'EventEmitter<GanttVirtualScrolledIndexChangeEvent>'
@@ -241,6 +246,11 @@ module.exports = [
                 name: 'itemClick',
                 description: `选择整行数据项事件`,
                 type: 'EventEmitter<GanttSelectedEvent>'
+            },
+            {
+                name: 'itemDoubleClick',
+                description: `双击选择整行数据项事件`,
+                type: 'EventEmitter<GanttDoubleClickEvent>'
             },
             {
                 name: '#rowBeforeSlot',

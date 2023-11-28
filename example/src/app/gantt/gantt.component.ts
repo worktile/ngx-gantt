@@ -15,7 +15,8 @@ import {
     GanttTableDragEnterPredicateContext,
     GanttTableDragDroppedEvent,
     GanttTableDragStartedEvent,
-    GanttTableDragEndedEvent
+    GanttTableDragEndedEvent,
+    GanttDoubleClickEvent
 } from 'ngx-gantt';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -157,6 +158,17 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
             'Event: selectedChange',
             `当前选中的 item 的 id 为 ${(event.selectedValue as GanttItem[]).map((item) => item.id).join('、')}`
         );
+    }
+
+    dbClickItem(event: GanttDoubleClickEvent) {
+        if (event && event.clickedValue) {
+            const toTime =
+                (event.clickedValue.start ? event.clickedValue.start : event.clickedValue.end ? event.clickedValue.end : undefined) * 1000;
+            if (toTime) {
+                this.ganttComponent.scrollToDate(toTime);
+            }
+        }
+        console.log(event);
     }
 
     linkDragEnded(event: GanttLinkDragEvent) {

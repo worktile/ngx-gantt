@@ -80,6 +80,17 @@ export class GanttSelectedEvent<T = unknown> {
 }
 ```
 
+# GanttDoubleClickEvent
+
+双击表格数据时传递数据项信息，返回单个数据对象
+
+```ts
+export class GanttDoubleClickEvent<T = unknown> {
+  event: Event;
+  clickedValue: GanttItem<T>;
+}
+```
+
 # GanttTableDragDroppedEvent
 
 当在 Table 中把一个数据项拖动到另一个数据项时触发事件的 Event

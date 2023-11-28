@@ -18,6 +18,7 @@ import {
     GanttItemInternal,
     GanttGroupInternal,
     GanttSelectedEvent,
+    GanttDoubleClickEvent,
     GanttTableDropPosition,
     GanttTableDragEnterPredicateContext,
     GanttTableDragDroppedEvent,
@@ -75,6 +76,8 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     @Output() dragEnded = new EventEmitter<GanttTableDragEndedEvent>();
 
     @Output() itemClick = new EventEmitter<GanttSelectedEvent>();
+
+    @Output() itemDoubleClick = new EventEmitter<GanttDoubleClickEvent>();
 
     @HostBinding('class.gantt-table-body') ganttTableClass = true;
 

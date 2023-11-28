@@ -37,6 +37,7 @@
             (dragStarted)="table.dragStarted.emit($event)"
             (dragEnded)="table.dragEnded.emit($event)"
             (itemClick)="selectItem($event)"
+            (itemDoubleClick)="dbClickItem($event)"
           >
           </gantt-table-body>
         </div>

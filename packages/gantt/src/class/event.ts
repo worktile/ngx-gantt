@@ -38,6 +38,11 @@ export class GanttSelectedEvent<T = unknown> {
     selectedValue: GanttItem<T> | GanttItem<T>[];
 }
 
+export class GanttDoubleClickEvent<T = unknown> {
+    event: Event;
+    clickedValue: GanttItem<T>;
+}
+
 export class GanttTableDragDroppedEvent<T = unknown> {
     source: GanttItem<T>;
     sourceParent: GanttItem<T>;

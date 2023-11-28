@@ -29,6 +29,7 @@ import {
     GanttItemInternal,
     GanttItem,
     GanttSelectedEvent,
+    GanttDoubleClickEvent,
     GanttGroupInternal,
     GanttVirtualScrolledIndexChangeEvent
 } from './class';
@@ -91,6 +92,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
 
     @Output() selectedChange = new EventEmitter<GanttSelectedEvent>();
+
+    @Output() dbClickChange = new EventEmitter<GanttDoubleClickEvent>();
 
     @Output() virtualScrolledIndexChange = new EventEmitter<GanttVirtualScrolledIndexChangeEvent>();
 
@@ -302,6 +305,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             const _selectedValue = this.getGanttItem(selectedIds[0])?.origin;
             this.selectedChange.emit({ event, selectedValue: _selectedValue });
         }
+    }
+
+    dbClickItem(doubleClick: GanttDoubleClickEvent) {
+        const { event, clickedValue } = doubleClick;
+        this.dbClickChange.emit({ event, clickedValue: doubleClick.clickedValue });
     }
 
     scrollToToday() {
