@@ -1,7 +1,7 @@
 {
-  "name": "@worktile/gantt",
+  "name": "@calibura/gantt",
   "version": "16.0.2",
-  "schematics": "./schematics/collection.json",
+    "schematics": "./schematics/collection.json",
   "exports": {
     ".": {
       "sass": "./styles/index.scss"
