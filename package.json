@@ -1,6 +1,6 @@
 {
-  "name": "@worktile/gantt",
-  "version": "16.0.2",
+  "name": "@calibura/gantt",
+  "version": "16.0.2.1",
   "description": "A modern and powerful gantt chart component for Angular",
   "keywords": [
     "gantt",
@@ -117,14 +117,13 @@
   },
   "main": ".docgenirc.js",
   "directories": {
-    "doc": "docs",
     "example": "example"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/worktile/ngx-gantt.git"
+    "url": "git+https://github.com/calibura/ngx-gantt.git"
   },
-  "author": "walkerkay001",
+  "author": "calibura",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/worktile/ngx-gantt/issues"
