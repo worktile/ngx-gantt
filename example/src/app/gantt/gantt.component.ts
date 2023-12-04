@@ -15,6 +15,7 @@ import {
     GanttTableDragEnterPredicateContext,
     GanttTableDragDroppedEvent,
     GanttTableDragStartedEvent,
+    GanttTableDragEndedEvent,
     GanttDoubleClickEvent
 } from 'ngx-gantt';
 import { finalize, of } from 'rxjs';
