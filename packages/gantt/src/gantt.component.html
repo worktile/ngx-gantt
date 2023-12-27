@@ -34,8 +34,8 @@
             [draggable]="table.draggable"
             [dropEnterPredicate]="table.dropEnterPredicate"
             (dragDropped)="table.dragDropped.emit($event)"
-            (dragStarted)="table.dragStarted.emit($event)"
-            (dragEnded)="table.dragEnded.emit($event)"
+            (dragStarted)="dragItemStarted($event)"
+            (dragEnded)="dragItemEnded($event)"
             (itemClick)="selectItem($event)"
           >
           </gantt-table-body>
