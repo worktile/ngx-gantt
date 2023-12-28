@@ -34,7 +34,7 @@
             [draggable]="table.draggable"
             [dropEnterPredicate]="table.dropEnterPredicate"
             (dragDropped)="table.dragDropped.emit($event)"
-            (dragStarted)="ItemDragStarted($event)"
+            (dragStarted)="itemDragStarted($event)"
             (dragEnded)="itemDragEnded($event)"
             (itemClick)="selectItem($event)"
           >

@@ -361,7 +361,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.cdr.detectChanges();
     }
 
-    ItemDragStarted(event: GanttTableDragStartedEvent) {
+    itemDragStarted(event: GanttTableDragStartedEvent) {
         this.table.dragStarted.emit(event);
         this.draggingItem = event.source;
     }
