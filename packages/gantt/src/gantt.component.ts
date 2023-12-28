@@ -30,7 +30,9 @@ import {
     GanttItem,
     GanttSelectedEvent,
     GanttGroupInternal,
-    GanttVirtualScrolledIndexChangeEvent
+    GanttVirtualScrolledIndexChangeEvent,
+    GanttTableDragStartedEvent,
+    GanttTableDragEndedEvent
 } from './class';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
@@ -125,6 +127,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     private flatItemsMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
 
+    private draggingItem: GanttItem;
+
     constructor(
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
@@ -189,6 +193,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.rangeStart = range.start;
                 this.rangeEnd = range.end;
                 this.viewportItems = this.flatItems.slice(range.start, range.end);
+                this.appendDraggingItemToViewportItems();
                 this.computeTempDataRefs();
             });
         }
@@ -254,6 +259,22 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
         this.flatItems = [...this.flatItems];
         this.viewportItems = [...this.viewportItems];
+    }
+
+    private appendDraggingItemToViewportItems() {
+        if (this.draggingItem) {
+            let flatItem = this.viewportItems.find((item) => {
+                return item.id === this.draggingItem.id;
+            });
+            if (!flatItem) {
+                flatItem = this.flatItems.find((item) => {
+                    return item.id === this.draggingItem.id;
+                });
+                if (flatItem) {
+                    this.viewportItems.push(flatItem);
+                }
+            }
+        }
     }
 
     expandChildren(item: GanttItemInternal) {
@@ -338,5 +359,15 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.afterExpand();
         this.expandChange.emit();
         this.cdr.detectChanges();
+    }
+
+    itemDragStarted(event: GanttTableDragStartedEvent) {
+        this.table.dragStarted.emit(event);
+        this.draggingItem = event.source;
+    }
+
+    itemDragEnded(event: GanttTableDragEndedEvent) {
+        this.table.dragEnded.emit(event);
+        this.draggingItem = null;
     }
 }

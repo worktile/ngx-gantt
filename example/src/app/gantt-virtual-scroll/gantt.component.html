@@ -13,7 +13,13 @@
       (virtualScrolledIndexChange)="virtualScrolledIndexChange($event)"
       [loading]="loading"
     >
-      <ngx-gantt-table>
+      <ngx-gantt-table
+        [draggable]="true"
+        [dropEnterPredicate]="dropEnterPredicate"
+        (dragDropped)="onDragDropped($event)"
+        (dragStarted)="onDragStarted($event)"
+        (dragEnded)="onDragEnded($event)"
+      >
         <ngx-gantt-column name="标题" width="180px">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>

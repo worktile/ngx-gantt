@@ -1,5 +1,14 @@
 import { Component, OnInit, HostBinding, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { GanttItem, GanttPrintService, GanttVirtualScrolledIndexChangeEvent, NgxGanttComponent } from 'ngx-gantt';
+import {
+    GanttItem,
+    GanttPrintService,
+    GanttTableDragDroppedEvent,
+    GanttTableDragEndedEvent,
+    GanttTableDragEnterPredicateContext,
+    GanttTableDragStartedEvent,
+    GanttVirtualScrolledIndexChangeEvent,
+    NgxGanttComponent
+} from 'ngx-gantt';
 import { delay, of } from 'rxjs';
 import { randomItems, random } from '../helper';
 
@@ -16,6 +25,10 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;
 
     loading = false;
+
+    dropEnterPredicate = (event: GanttTableDragEnterPredicateContext) => {
+        return true;
+    };
 
     constructor(private cdr: ChangeDetectorRef) {}
 
@@ -49,5 +62,30 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
                     });
             }
         }
+    }
+
+    onDragDropped(event: GanttTableDragDroppedEvent) {
+        console.log('拖拽成功了', event);
+        const sourceItems = event.sourceParent?.children || this.items;
+        sourceItems.splice(sourceItems.indexOf(event.source), 1);
+        if (event.dropPosition === 'inside') {
+            event.target.children = [...(event.target.children || []), event.source];
+        } else {
+            const targetItems = event.targetParent?.children || this.items;
+            if (event.dropPosition === 'before') {
+                targetItems.splice(targetItems.indexOf(event.target), 0, event.source);
+            } else {
+                targetItems.splice(targetItems.indexOf(event.target) + 1, 0, event.source);
+            }
+        }
+        this.items = [...this.items];
+    }
+
+    onDragStarted(event: GanttTableDragStartedEvent) {
+        console.log('拖拽开始了', event);
+    }
+
+    onDragEnded(event: GanttTableDragEndedEvent) {
+        console.log('拖拽结束了', event);
     }
 }
