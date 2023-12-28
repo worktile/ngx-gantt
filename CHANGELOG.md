@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [16.1.0-next.1](https://github.com/worktile/ngx-gantt/compare/16.1.0-next.0...16.1.0-next.1) (2023-12-28)
+
+### Bug Fixes
+
+- append draggingItem to viewportItems when draggingItem not render ([#432](https://github.com/worktile/ngx-gantt/issues/432)) ([547b211](https://github.com/worktile/ngx-gantt/commit/547b211ddb9d64695b09ce7147b31b1c561d0a1e))
+
 # [16.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/16.0.1...16.1.0-next.0) (2023-10-30)
 
 ### Features
