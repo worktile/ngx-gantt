@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## <small>16.0.2 (2023-11-24)</small>
+## [16.0.3](https://github.com/worktile/ngx-gantt/compare/16.0.2...16.0.3) (2023-12-28)
 
-- build: remove ngx-tethys from dependencies #INFR-10548 ([1685cf5](https://github.com/worktile/ngx-gantt/commit/1685cf5)), closes [#INFR-10548](https://github.com/worktile/ngx-gantt/issues/INFR-10548)
-- Merge pull request #420 from worktile/release-auto-v16.0.1 ([e8ec5ee](https://github.com/worktile/ngx-gantt/commit/e8ec5ee)), closes [#420](https://github.com/worktile/ngx-gantt/issues/420)
+### Bug Fixes
+
+- append draggingItem to viewportItems when draggingItem not render ([#432](https://github.com/worktile/ngx-gantt/issues/432)) ([1043cc4](https://github.com/worktile/ngx-gantt/commit/1043cc456fae3ccb96e28ed7ea95cc035264993e))
 
 ## [16.0.1](https://github.com/worktile/ngx-gantt/compare/16.0.0...16.0.1) (2023-08-30)
 
