@@ -3,10 +3,13 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttBaselineItemInternal } from '../../class/baseline';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'ngx-gantt-baseline,gantt-baseline',
-    templateUrl: './baseline.component.html'
+    templateUrl: './baseline.component.html',
+    standalone: true,
+    imports: [NgIf, NgTemplateOutlet]
 })
 export class NgxGanttBaselineComponent implements OnInit {
     @Input() baselineItem: GanttBaselineItemInternal;

@@ -9,7 +9,8 @@ import {
 
 @Component({
     selector: 'ngx-gantt-table',
-    template: ''
+    template: '',
+    standalone: true
 })
 export class NgxGanttTableComponent {
     @Input() draggable = false;

@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
     templateUrl: `./drag-backdrop.component.html`,
     host: {
         class: 'gantt-drag-backdrop'
-    }
+    },
+    standalone: true
 })
 export class GanttDragBackdropComponent {}

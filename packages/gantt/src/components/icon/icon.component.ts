@@ -3,7 +3,8 @@ import { icons } from './icons';
 
 @Component({
     selector: 'gantt-icon',
-    template: ''
+    template: '',
+    standalone: true
 })
 export class GanttIconComponent {
     @HostBinding('class.gantt-icon') isIcon = true;

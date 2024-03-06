@@ -29,11 +29,15 @@ import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
 import { defaultColumnWidth } from '../header/gantt-table-header.component';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../../gantt-upper';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragMove, CdkDragStart, DragRef } from '@angular/cdk/drag-drop';
-import { DOCUMENT } from '@angular/common';
+import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragMove, CdkDragStart, DragRef, CdkDropList, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { DOCUMENT, NgIf, NgTemplateOutlet, NgFor, NgClass } from '@angular/common';
+import { IsGanttRangeItemPipe } from '../../../gantt.pipe';
+import { GanttIconComponent } from '../../icon/icon.component';
 @Component({
     selector: 'gantt-table-body',
-    templateUrl: './gantt-table-body.component.html'
+    templateUrl: './gantt-table-body.component.html',
+    standalone: true,
+    imports: [CdkDropList, NgIf, GanttIconComponent, NgTemplateOutlet, NgFor, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe]
 })
 export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit {
     private _viewportItems: (GanttGroupInternal | GanttItemInternal)[];

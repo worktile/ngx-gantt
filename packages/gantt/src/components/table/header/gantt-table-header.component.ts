@@ -11,11 +11,12 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
-import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDragEnd, CdkDragMove, CdkDragStart, CdkDrag } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
 import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
 import { Subject, takeUntil } from 'rxjs';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
@@ -27,7 +28,9 @@ interface DragFixedConfig {
 }
 @Component({
     selector: 'gantt-table-header',
-    templateUrl: './gantt-table-header.component.html'
+    templateUrl: './gantt-table-header.component.html',
+    standalone: true,
+    imports: [NgFor, NgIf, NgTemplateOutlet, CdkDrag]
 })
 export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     public dragStartLeft: number;

@@ -2,10 +2,13 @@ import { Component, HostBinding, Input, TemplateRef, Inject, SimpleChanges, OnCh
 import { ganttViews, GanttViewType } from '../../class';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
 import { keyBy } from '../../utils/helpers';
+import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'ngx-gantt-toolbar,gantt-toolbar',
-    templateUrl: './toolbar.component.html'
+    templateUrl: './toolbar.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, NgTemplateOutlet]
 })
 export class NgxGanttToolbarComponent {
     @Input() template: TemplateRef<any>;

@@ -21,6 +21,11 @@ import { GanttPrintService } from './gantt-print.service';
 import { passiveListenerOptions } from './utils/passive-listeners';
 import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
 import { GanttDate } from './utils/date';
+import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
+import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
+import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'ngx-gantt-root',
@@ -28,7 +33,17 @@ import { GanttDate } from './utils/date';
     providers: [GanttDomService, GanttDragContainer],
     host: {
         class: 'gantt'
-    }
+    },
+    standalone: true,
+    imports: [
+        NgIf,
+        CdkScrollable,
+        NgTemplateOutlet,
+        GanttCalendarHeaderComponent,
+        GanttCalendarGridComponent,
+        GanttDragBackdropComponent,
+        NgxGanttToolbarComponent
+    ]
 })
 export class NgxGanttRootComponent implements OnInit, OnDestroy {
     @Input() sideWidth: number;

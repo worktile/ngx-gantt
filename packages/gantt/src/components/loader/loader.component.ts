@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
     `,
     host: {
         class: 'gantt-loader gantt-loader-overlay'
-    }
+    },
+    standalone: true
 })
 export class GanttLoaderComponent {}

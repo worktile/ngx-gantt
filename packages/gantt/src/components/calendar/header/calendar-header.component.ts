@@ -7,10 +7,13 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Subject, merge } from 'rxjs';
 import { GanttDate } from '../../../utils/date';
 import { isNumber } from '../../../utils/helpers';
+import { NgFor, NgStyle } from '@angular/common';
 
 @Component({
     selector: 'gantt-calendar-header',
-    templateUrl: './calendar-header.component.html'
+    templateUrl: './calendar-header.component.html',
+    standalone: true,
+    imports: [NgFor, NgStyle]
 })
 export class GanttCalendarHeaderComponent implements OnInit {
     get view() {
