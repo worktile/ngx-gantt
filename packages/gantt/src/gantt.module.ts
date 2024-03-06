@@ -23,21 +23,10 @@ import { GanttTableBodyComponent } from './components/table/body/gantt-table-bod
 import { GanttLoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
-    imports: [CommonModule, DragDropModule, ScrollingModule],
-    exports: [
-        NgxGanttComponent,
-        NgxGanttTableComponent,
-        NgxGanttTableColumnComponent,
-        NgxGanttRootComponent,
-        NgxGanttBarComponent,
-        NgxGanttRangeComponent,
-        NgxGanttBaselineComponent,
-        NgxGanttToolbarComponent,
-        GanttCalendarHeaderComponent,
-        GanttCalendarGridComponent,
-        GanttDragBackdropComponent
-    ],
-    declarations: [
+    imports: [
+        CommonModule,
+        DragDropModule,
+        ScrollingModule,
         NgxGanttComponent,
         NgxGanttTableComponent,
         NgxGanttTableColumnComponent,
@@ -58,6 +47,19 @@ import { GanttLoaderComponent } from './components/loader/loader.component';
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe
+    ],
+    exports: [
+        NgxGanttComponent,
+        NgxGanttTableComponent,
+        NgxGanttTableColumnComponent,
+        NgxGanttRootComponent,
+        NgxGanttBarComponent,
+        NgxGanttRangeComponent,
+        NgxGanttBaselineComponent,
+        NgxGanttToolbarComponent,
+        GanttCalendarHeaderComponent,
+        GanttCalendarGridComponent,
+        GanttDragBackdropComponent
     ],
     providers: [
         CdkVirtualScrollViewport,

@@ -1,10 +1,30 @@
 import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
+import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from '../../gantt.pipe';
+import { NgxGanttBaselineComponent } from '../baseline/baseline.component';
+import { NgxGanttBarComponent } from '../bar/bar.component';
+import { NgxGanttRangeComponent } from '../range/range.component';
+import { NgFor, NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
+import { GanttLinksComponent } from '../links/links.component';
 
 @Component({
     selector: 'gantt-main',
-    templateUrl: './gantt-main.component.html'
+    templateUrl: './gantt-main.component.html',
+    standalone: true,
+    imports: [
+        GanttLinksComponent,
+        NgFor,
+        NgIf,
+        NgClass,
+        NgTemplateOutlet,
+        NgxGanttRangeComponent,
+        NgxGanttBarComponent,
+        NgxGanttBaselineComponent,
+        IsGanttRangeItemPipe,
+        IsGanttBarItemPipe,
+        IsGanttCustomItemPipe
+    ]
 })
 export class GanttMainComponent {
     @Input() viewportItems: (GanttGroupInternal | GanttItemInternal)[];

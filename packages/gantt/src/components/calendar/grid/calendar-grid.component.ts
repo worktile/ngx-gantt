@@ -8,12 +8,15 @@ import { isNumber } from '../../../utils/helpers';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from './../../../class/view-type';
 import { headerHeight, todayBorderRadius } from '../../../gantt.styles';
+import { NgIf, NgFor } from '@angular/common';
 
 const mainHeight = 5000;
 
 @Component({
     selector: 'gantt-calendar-grid',
-    templateUrl: './calendar-grid.component.html'
+    templateUrl: './calendar-grid.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor]
 })
 export class GanttCalendarGridComponent implements OnInit, OnDestroy {
     get view() {

@@ -22,10 +22,13 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
 import { GanttLinkLine } from './lines/line';
 import { createLineGenerator } from './lines/factory';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
     selector: 'gantt-links-overlay',
-    templateUrl: './links.component.html'
+    templateUrl: './links.component.html',
+    standalone: true,
+    imports: [NgFor, NgIf]
 })
 export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     // @Input() groups: GanttGroupInternal[] = [];

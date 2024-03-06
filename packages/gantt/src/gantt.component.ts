@@ -40,8 +40,16 @@ import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
 import { NgxGanttRootComponent } from './root.component';
 import { GanttDate } from './utils/date';
-import { CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ViewportRuler, CdkFixedSizeVirtualScroll, CdkVirtualForOf } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
+import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
+import { GanttMainComponent } from './components/main/gantt-main.component';
+import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
+import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
+import { GanttLoaderComponent } from './components/loader/loader.component';
+import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
+import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -55,6 +63,23 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
             provide: GANTT_ABSTRACT_TOKEN,
             useExisting: forwardRef(() => NgxGanttComponent)
         }
+    ],
+    standalone: true,
+    imports: [
+        NgxGanttRootComponent,
+        GanttTableHeaderComponent,
+        GanttCalendarHeaderComponent,
+        NgIf,
+        GanttLoaderComponent,
+        CdkVirtualScrollViewport,
+        CdkFixedSizeVirtualScroll,
+        NgClass,
+        CdkVirtualForOf,
+        GanttTableBodyComponent,
+        GanttCalendarGridComponent,
+        GanttMainComponent,
+        GanttDragBackdropComponent,
+        NgTemplateOutlet
     ]
 })
 export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit, AfterViewChecked {

@@ -24,6 +24,7 @@ import { barBackground } from '../../gantt.styles';
 import { GanttBarClickEvent } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttItemUpper } from '../../gantt-item-upper';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 function linearGradient(sideOrCorner: string, color: string, stop: string) {
     return `linear-gradient(${sideOrCorner},${color} 0%,${stop} 40%)`;
@@ -32,7 +33,9 @@ function linearGradient(sideOrCorner: string, color: string, stop: string) {
 @Component({
     selector: 'ngx-gantt-bar,gantt-bar',
     templateUrl: './bar.component.html',
-    providers: [GanttBarDrag]
+    providers: [GanttBarDrag],
+    standalone: true,
+    imports: [NgIf, NgTemplateOutlet]
 })
 export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();

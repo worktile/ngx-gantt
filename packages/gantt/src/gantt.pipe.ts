@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { GanttItemType } from './class';
 
 @Pipe({
-    name: 'isGanttRangeItem'
+    name: 'isGanttRangeItem',
+    standalone: true
 })
 export class IsGanttRangeItemPipe implements PipeTransform {
     transform(value: GanttItemType) {
@@ -10,9 +11,9 @@ export class IsGanttRangeItemPipe implements PipeTransform {
     }
 }
 
-
 @Pipe({
-    name: 'isGanttBarItem'
+    name: 'isGanttBarItem',
+    standalone: true
 })
 export class IsGanttBarItemPipe implements PipeTransform {
     transform(value: GanttItemType) {
@@ -20,9 +21,9 @@ export class IsGanttBarItemPipe implements PipeTransform {
     }
 }
 
-
 @Pipe({
-    name: 'isGanttCustomItem'
+    name: 'isGanttCustomItem',
+    standalone: true
 })
 export class IsGanttCustomItemPipe implements PipeTransform {
     transform(value: GanttItemType) {
