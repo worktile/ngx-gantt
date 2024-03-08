@@ -2,6 +2,8 @@
   "name": "@worktile/gantt",
   "version": "16.0.3",
   "schematics": "./schematics/collection.json",
+  "author": "walkerkay001",
+  "license": "MIT",
   "exports": {
     ".": {
       "sass": "./styles/index.scss"

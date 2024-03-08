@@ -1,6 +1,8 @@
 {
   "name": "@worktile/gantt",
   "version": "16.0.3",
+  "author": "walkerkay001",
+  "license": "MIT",
   "description": "A modern and powerful gantt chart component for Angular",
   "keywords": [
     "gantt",
@@ -124,8 +126,6 @@
     "type": "git",
     "url": "git+https://github.com/worktile/ngx-gantt.git"
   },
-  "author": "walkerkay001",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/worktile/ngx-gantt/issues"
   },
