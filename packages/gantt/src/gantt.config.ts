@@ -1,5 +1,6 @@
-import { GanttLinkType, GanttLinkOptions, GanttLinkLineType } from './class/link';
 import { InjectionToken } from '@angular/core';
+import { Locale } from 'date-fns';
+import { GanttLinkLineType, GanttLinkOptions, GanttLinkType } from './class/link';
 
 export interface GanttDateFormat {
     week?: string;
@@ -10,12 +11,18 @@ export interface GanttDateFormat {
     yearQuarter?: string;
 }
 
+export interface GanttDateOptions {
+    locale?: Locale;
+    weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+}
+
 export interface GanttGlobalConfig {
     dateFormat?: GanttDateFormat;
+    dateOptions?: GanttDateOptions;
     linkOptions?: GanttLinkOptions;
 }
 
-export const defaultConfig = {
+export const defaultConfig: GanttGlobalConfig = {
     dateFormat: {
         week: '第w周',
         month: 'M月',

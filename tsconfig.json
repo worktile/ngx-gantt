@@ -12,20 +12,11 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"],
     "paths": {
-      "ngx-gantt": [
-        "packages/gantt/src/public-api.ts"
-      ],
-      "ngx-gantt/*": [
-        "packages/gantt/src/*"
-      ]
+      "ngx-gantt": ["packages/gantt/src/public-api.ts"],
+      "ngx-gantt/*": ["packages/gantt/src/*"]
     },
     "useDefineForClassFields": false
   },

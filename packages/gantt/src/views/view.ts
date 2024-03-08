@@ -1,8 +1,9 @@
-import { GanttDate, differenceInDays, GanttDateUtil } from '../utils/date';
-import { GanttDatePoint } from '../class/date-point';
+import { differenceInCalendarDays } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
-import { defaultConfig, GanttDateFormat } from '../gantt.config';
 import { GanttViewType } from '../class';
+import { GanttDatePoint } from '../class/date-point';
+import { GanttDateFormat, defaultConfig } from '../gantt.config';
+import { GanttDate, GanttDateUtil } from '../utils/date';
 
 export const primaryDatePointTop = 18;
 
@@ -96,7 +97,7 @@ export abstract class GanttView {
 
     protected getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
-        const days = differenceInDays(end.value, start.value);
+        const days = differenceInCalendarDays(end.value, start.value);
         for (let i = 0; i < Math.abs(days); i++) {
             result += this.getDayOccupancyWidth(start.addDays(i));
         }

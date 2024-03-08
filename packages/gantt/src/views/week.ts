@@ -36,7 +36,7 @@ export class GanttViewWeek extends GanttView {
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
-        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value }, { weekStartsOn: 1 });
+        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < weeks.length; i++) {
             const weekStart = new GanttDate(weeks[i]);
@@ -53,7 +53,7 @@ export class GanttViewWeek extends GanttView {
     }
 
     getSecondaryDatePoints(): GanttDatePoint[] {
-        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.value });
+        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < weeks.length; i++) {
             const start = new GanttDate(weeks[i]);

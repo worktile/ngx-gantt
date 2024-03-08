@@ -8,8 +8,8 @@ describe('GanttViewWeek', () => {
     beforeEach(() => {
         ganttViewWeek = new GanttViewWeek(date.start, date.end, {
             cellWidth: 140,
-            start: today.startOfYear().startOfWeek({ weekStartsOn: 1 }),
-            end: today.endOfYear().endOfWeek({ weekStartsOn: 1 })
+            start: today.startOfYear().startOfWeek(),
+            end: today.endOfYear().endOfWeek()
         });
     });
 

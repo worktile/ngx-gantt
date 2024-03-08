@@ -62,8 +62,8 @@ describe('GanttView', () => {
     beforeEach(() => {
         ganttView = new GanttViewMock(date.start, date.end, {
             cellWidth: 20,
-            start: today.startOfYear().startOfWeek({ weekStartsOn: 1 }),
-            end: today.endOfYear().endOfWeek({ weekStartsOn: 1 })
+            start: today.startOfYear().startOfWeek(),
+            end: today.endOfYear().endOfWeek()
         });
     });
 
