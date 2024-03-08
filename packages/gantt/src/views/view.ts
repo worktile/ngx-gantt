@@ -1,9 +1,9 @@
-import { differenceInCalendarDays, differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns';
+import { differenceInCalendarDays, differenceInHours, differenceInMinutes } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDateFormat, defaultConfig } from '../gantt.config';
-import { GanttDate, GanttDateUtil } from '../utils/date';
+import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
 
 export const primaryDatePointTop = 18;
 
@@ -232,11 +232,8 @@ export abstract class GanttView {
         if (dayWidth === this.getCellWidth()) {
             return matchDate?.start;
         } else {
-            const day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
-            if (this.getCellWidth() / dayWidth === 7) {
-                return matchDate?.start.addDays(day);
-            }
-            return matchDate?.start.setDate(day);
+            const day = Math.floor((x % this.getCellWidth()) / dayWidth);
+            return matchDate?.start.addDays(day);
         }
     }
 

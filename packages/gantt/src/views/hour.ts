@@ -25,11 +25,11 @@ export class GanttViewHour extends GanttView {
     }
 
     viewStartOf(date: GanttDate) {
-        return date.startOfWeek({ weekStartsOn: 1 });
+        return date.startOfWeek();
     }
 
     viewEndOf(date: GanttDate) {
-        return date.endOfWeek({ weekStartsOn: 1 });
+        return date.endOfWeek();
     }
 
     getPrimaryWidth() {
