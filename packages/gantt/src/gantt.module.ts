@@ -73,8 +73,8 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
 export class NgxGanttModule {
     constructor(@Optional() @Inject(GANTT_GLOBAL_CONFIG) ganttGlobalConfig: GanttGlobalConfig) {
         setDefaultOptions({
-            locale: ganttGlobalConfig.dateOptions?.locale,
-            weekStartsOn: ganttGlobalConfig.dateOptions?.weekStartsOn || 1
+            locale: ganttGlobalConfig?.dateOptions?.locale,
+            weekStartsOn: ganttGlobalConfig?.dateOptions?.weekStartsOn || 1
         });
     }
 }
