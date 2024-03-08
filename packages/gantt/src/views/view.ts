@@ -1,4 +1,4 @@
-import { differenceInCalendarDays, differenceInHours, differenceInMinutes } from 'date-fns';
+import { differenceInCalendarDays, differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
@@ -148,7 +148,7 @@ export abstract class GanttView {
 
     getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
-        const days = differenceInCalendarDays(end.value, start.value);
+        const days = differenceInDays(end.value, start.value);
         for (let i = 0; i < Math.abs(days); i++) {
             result += this.getDayOccupancyWidth(start.addDays(i));
         }
