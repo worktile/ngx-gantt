@@ -1,26 +1,26 @@
-import { Component, OnInit, HostBinding, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import {
     GanttBarClickEvent,
-    GanttViewType,
+    GanttBaselineItem,
     GanttDragEvent,
+    GanttItem,
     GanttLineClickEvent,
     GanttLinkDragEvent,
-    GanttItem,
     GanttPrintService,
-    NgxGanttComponent,
     GanttSelectedEvent,
-    GanttBaselineItem,
-    GanttView,
-    GanttToolbarOptions,
-    GanttTableDragEnterPredicateContext,
     GanttTableDragDroppedEvent,
+    GanttTableDragEndedEvent,
+    GanttTableDragEnterPredicateContext,
     GanttTableDragStartedEvent,
-    GanttTableDragEndedEvent
+    GanttToolbarOptions,
+    GanttView,
+    GanttViewType,
+    NgxGanttComponent
 } from 'ngx-gantt';
+import { ThyNotifyService } from 'ngx-tethys/notify';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { ThyNotifyService } from 'ngx-tethys/notify';
-import { randomItems, random } from '../helper';
+import { random, randomItems } from '../helper';
 
 @Component({
     selector: 'app-gantt-example',

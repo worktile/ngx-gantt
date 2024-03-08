@@ -1,5 +1,6 @@
 ---
 title: 快速开始
+subtitle: Quick Start
 path: 'getting-started'
 order: 2
 ---

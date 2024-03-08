@@ -1,5 +1,6 @@
 ---
 title: 组件说明
+subtitle: Components
 path: 'components'
 order: 20
 ---
@@ -34,7 +35,6 @@ order: 20
 
 `ngx-gantt-root` 与 `ngx-gantt` 组件类似，参数也基本一致，基于 `ngx-gantt-root` 组件我们可以自定义左侧与右侧区域的内容，一般用于有自定义需求的甘特图基于此组件做二次封装。
 
-
 # ngx-gantt-bar
 
 `ngx-gantt-bar`组件指甘特图右侧水平的条形图，常用于表示项目下的任务。在无其他特殊需求，仅作为展示的情况下是用不到该组件的。该组件可在`ngx-gantt-root`组件内部使用，以满足一些自定义甘特图的场景。
@@ -42,7 +42,6 @@ order: 20
 # ngx-gantt-range
 
 `ngx-gantt-range`组件和`ngx-gantt-bar`是相似的，区别在于`ngx-gantt-bar`是条形图展示而`ngx-gantt-range`组件是范围区间展示，常用于表示时间范围区间。
-
 
 ```html
 <ngx-gantt-root>

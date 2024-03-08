@@ -1,5 +1,6 @@
 ---
 title: 事件类型
+subtitle: Event Type
 path: 'event'
 order: 40
 ---
