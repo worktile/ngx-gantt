@@ -41,8 +41,8 @@ export interface GanttItem<T = unknown> {
 export class GanttItemInternal {
     id: string;
     title: string;
-    start: GanttDate;
-    end: GanttDate;
+    start: GanttDate | null;
+    end: GanttDate | null;
     links: GanttLink[];
     color?: string;
     barStyle?: Partial<CSSStyleDeclaration>;
@@ -57,15 +57,15 @@ export class GanttItemInternal {
     type?: GanttItemType;
     progress?: number;
     viewType?: GanttViewType;
-    level?: number;
+    level: number;
 
     get refs() {
         return this.refs$.getValue();
     }
 
-    refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null);
+    refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null as any);
 
-    constructor(item: GanttItem, level?: number, private view?: GanttView) {
+    constructor(item: GanttItem, level: number, private view?: GanttView) {
         this.origin = item;
         this.id = this.origin.id;
         this.links = (this.origin.links || []).map((link) => {
@@ -103,7 +103,6 @@ export class GanttItemInternal {
             }
             if (!item.start && item.end) {
                 this.start = this.view.getDateByXPoint(this.view.getXPointByDate(new GanttDate(item.end)) - DEFAULT_FILL_INCREMENT_WIDTH);
-                console.log(this.start);
             }
         }
     }
