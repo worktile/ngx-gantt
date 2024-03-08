@@ -53,22 +53,17 @@
         (dragStarted)="onDragStarted($event)"
         (dragEnded)="onDragEnded($event)"
       >
-        <ngx-gantt-column name="Id" [class.start-time]="true" [width]="120">
-          <ng-template #cell let-item="item">
-            {{ item.id }}
-          </ng-template>
-        </ngx-gantt-column>
         <ngx-gantt-column name="标题" width="160px" [showExpandIcon]="true">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>
-        <ngx-gantt-column name="开始时间">
+        <ngx-gantt-column name="开始时间" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
+            {{ item.start * 1000 | date : 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
-        <ngx-gantt-column name="截止时间">
+        <ngx-gantt-column name="截止时间" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.end * 1000 | date : 'yyyy-MM-dd' }}
+            {{ item.end * 1000 | date : 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>

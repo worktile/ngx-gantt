@@ -1,26 +1,26 @@
-import { Component, OnInit, HostBinding, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import {
     GanttBarClickEvent,
-    GanttViewType,
+    GanttBaselineItem,
     GanttDragEvent,
+    GanttItem,
     GanttLineClickEvent,
     GanttLinkDragEvent,
-    GanttItem,
     GanttPrintService,
-    NgxGanttComponent,
     GanttSelectedEvent,
-    GanttBaselineItem,
-    GanttView,
-    GanttToolbarOptions,
-    GanttTableDragEnterPredicateContext,
     GanttTableDragDroppedEvent,
+    GanttTableDragEndedEvent,
+    GanttTableDragEnterPredicateContext,
     GanttTableDragStartedEvent,
-    GanttTableDragEndedEvent
+    GanttToolbarOptions,
+    GanttView,
+    GanttViewType,
+    NgxGanttComponent
 } from 'ngx-gantt';
+import { ThyNotifyService } from 'ngx-tethys/notify';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { ThyNotifyService } from 'ngx-tethys/notify';
-import { randomItems, random } from '../helper';
+import { random, randomItems } from '../helper';
 
 @Component({
     selector: 'app-gantt-example',
@@ -30,6 +30,10 @@ import { randomItems, random } from '../helper';
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     views = [
+        {
+            name: '小时',
+            value: GanttViewType.hour
+        },
         {
             name: '日',
             value: GanttViewType.day
@@ -63,7 +67,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     loading = false;
 
     items: GanttItem[] = [
-        { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197 },
+        { id: '000000', title: 'Task 0', start: 1627729997, end: 1627769997 },
         // { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'],  },
         { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'] },
         { id: '000002', title: 'Task 2', start: 1610536397, end: 1610622797, progress: 0.5 },
@@ -153,6 +157,8 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     }
 
     selectedChange(event: GanttSelectedEvent) {
+        event.current && this.ganttComponent.scrollToDate(event.current?.start);
+
         this.thyNotify.info(
             'Event: selectedChange',
             `当前选中的 item 的 id 为 ${(event.selectedValue as GanttItem[]).map((item) => item.id).join('、')}`

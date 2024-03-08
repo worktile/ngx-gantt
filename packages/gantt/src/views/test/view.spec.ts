@@ -1,6 +1,6 @@
+import { differenceInHours, differenceInMinutes } from 'date-fns';
 import { GanttDatePoint } from '../../class';
 import { GanttDate } from '../../utils/date';
-
 import { GanttView, GanttViewDate, GanttViewOptions } from '../view';
 import { date, today } from './mock';
 
@@ -9,11 +9,11 @@ class GanttViewMock extends GanttView {
         super(start, end, options);
     }
 
-    startOf(): GanttDate {
+    viewStartOf(): GanttDate {
         return new GanttDate('2020-01-01 00:00:00');
     }
 
-    endOf(): GanttDate {
+    viewEndOf(): GanttDate {
         return new GanttDate('2020-12-31 23:59:59');
     }
 
@@ -139,6 +139,27 @@ describe('GanttView', () => {
 
     it(`should get date range width`, () => {
         const width = ganttView.getDateRangeWidth(new GanttDate('2020-03-01 00:00:00'), new GanttDate('2020-05-01 00:00:00'));
-        expect(width).toEqual(610);
+        expect(width).toEqual(620);
+    });
+
+    it(`should get diff precision date`, () => {
+        let view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'hour' });
+        const dateWithTime = new GanttDate('2022-10-10 12:50:34');
+        expect(view.startOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.startOfHour().getUnixTime());
+        expect(view.endOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.endOfHour().getUnixTime());
+
+        view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'minute' });
+        expect(view.startOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.startOfMinute().getUnixTime());
+        expect(view.endOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.endOfMinute().getUnixTime());
+    });
+
+    it(`should date difference value by precision unit`, () => {
+        let view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'hour' });
+        const startDate = new GanttDate('2022-10-10 12:50:34');
+        const endDate = new GanttDate('2022-12-10 10:50:34');
+        expect(view.differenceByPrecisionUnit(endDate, startDate)).toEqual(differenceInHours(endDate.value, startDate.value));
+
+        view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'minute' });
+        expect(view.differenceByPrecisionUnit(endDate, startDate)).toEqual(differenceInMinutes(endDate.value, startDate.value));
     });
 });

@@ -29,6 +29,31 @@ export class AppGanttExampleComponent {
 }
 ```
 
+## 视图配置
+
+内置视图有一套默认的配置，如默认配置不满足需求时，可传入指定的 viewOptions 来进行自定义配置
+
+```
+<ngx-gantt #gantt [items]="items" [viewOptions]="viewOptions">
+  ...
+</ngx-gantt>
+```
+
+```javascript
+  class GanttViewOptions {
+        start?: GanttDate; // 视图开始时间
+        end?: GanttDate;   // 视图结束时间
+        min?: GanttDate;   // 视图最小时间
+        max?: GanttDate;   // 视图最大时间
+        cellWidth?: number;    // 视图最小单元宽度（小时视图，最小单元就是每小时的宽度，日视图，最新单元就是每日显示的宽度）
+        addAmount?: number;    // 横向滚动加载时，每次加载的量
+        addUnit?: GanttDateUtil; // 横向滚动加载时，每次加载的量的单位
+        dateFormat?: GanttDateFormat; // 设置视图日期格式，可用于多语言
+        datePrecisionUnit?: 'day' | 'hour' | 'minute'; // 日期精度单位，小时视图默认精度为分钟，其他视图默认精度为天
+        dragPreviewDateFormat?: string; // 拖拽预览日期格式设置
+  }
+```
+
 ## 如何设置分组
 
 分组模式下我们还需要传入一个 `groups` 的数组，并且保证我们传入的 `items` 数据中设置了每个数据项的 `group_id`

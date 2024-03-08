@@ -5,8 +5,10 @@ import { GanttViewQuarter } from './quarter';
 import { GanttViewDay } from './day';
 import { GanttViewWeek } from './week';
 import { GanttViewYear } from './year';
+import { GanttViewHour } from './hour';
 
 const ganttViewsMap = {
+    [GanttViewType.hour]: GanttViewHour,
     [GanttViewType.day]: GanttViewDay,
     [GanttViewType.week]: GanttViewWeek,
     [GanttViewType.month]: GanttViewMonth,

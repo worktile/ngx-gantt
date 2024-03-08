@@ -2,6 +2,16 @@ import { GanttLinkType } from 'ngx-gantt';
 import { GanttDate } from '../../utils/date';
 import { GanttItem, GanttItemInternal } from '../item';
 
+class FakeView {
+    getDateByXPoint() {
+        return new GanttDate();
+    }
+
+    getXPointByDate() {
+        return 0;
+    }
+}
+
 describe('GanttItemInternal', () => {
     let ganttItemInternal: GanttItemInternal;
     let ganttItem: GanttItem;
@@ -24,28 +34,40 @@ describe('GanttItemInternal', () => {
                 }
             ]
         };
-        ganttItemInternal = new GanttItemInternal(ganttItem);
+        ganttItemInternal = new GanttItemInternal(ganttItem, 0, new FakeView() as any);
     });
 
     it(`should has correct children`, () => {
         expect(ganttItemInternal.children.length).toBe(1);
     });
 
-    it(`should has correct end`, () => {
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-06-19 23:59:59').getUnixTime());
+    it(`should fill date when start or end date is nil`, () => {
+        const view = new FakeView();
+        const date = new GanttDate('2020-06-01 00:00:00');
+        spyOn(view, 'getDateByXPoint').and.returnValue(date);
 
-        ganttItemInternal = new GanttItemInternal(ganttItem, 0, { fillDays: 1 });
-        expect(ganttItemInternal.end.getUnixTime()).toBe(new GanttDate('2020-05-21 23:59:59').getUnixTime());
-    });
+        let ganttItemInternal = new GanttItemInternal(
+            {
+                ...ganttItem,
+                start: null,
+                end: new GanttDate('2020-06-19 00:00:00').getUnixTime()
+            },
+            0,
+            view as any
+        );
 
-    it(`should has correct start`, () => {
-        ganttItem.start = null;
-        ganttItem.end = new GanttDate('2020-05-21 12:34:35').getUnixTime();
-        ganttItemInternal = new GanttItemInternal(ganttItem);
-        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-04-22 00:00:00').getUnixTime());
+        expect(ganttItemInternal.start.getUnixTime()).toBe(date.getUnixTime());
 
-        ganttItemInternal = new GanttItemInternal(ganttItem, 0, { fillDays: 1 });
-        expect(ganttItemInternal.start.getUnixTime()).toBe(new GanttDate('2020-05-21 00:00:00').getUnixTime());
+        ganttItemInternal = new GanttItemInternal(
+            {
+                ...ganttItem,
+                start: new GanttDate('2020-05-19 00:00:00').getUnixTime(),
+                end: null
+            },
+            0,
+            view as any
+        );
+        expect(ganttItemInternal.end.getUnixTime()).toBe(date.getUnixTime());
     });
 
     it(`should update refs`, () => {
@@ -58,8 +80,8 @@ describe('GanttItemInternal', () => {
         const start = new GanttDate('2020-04-21 12:34:35');
         const end = new GanttDate('2020-09-21 12:34:35');
         ganttItemInternal.updateDate(start, end);
-        expect(ganttItemInternal.start.getUnixTime()).toBe(start.startOfDay().getUnixTime());
-        expect(ganttItemInternal.end.getUnixTime()).toBe(end.endOfDay().getUnixTime());
+        expect(ganttItemInternal.start.getUnixTime()).toBe(start.getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(end.getUnixTime());
     });
 
     it(`should add children`, () => {

@@ -14,12 +14,12 @@ describe('GanttViewMonth', () => {
     });
 
     it(`should has correct view start`, () => {
-        const startOfMonth = ganttViewMonth.startOf(date.start.date).getUnixTime();
+        const startOfMonth = ganttViewMonth.viewStartOf(date.start.date).getUnixTime();
         expect(startOfMonth).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
     });
 
     it(`should has correct view end`, () => {
-        const endOfMonth = ganttViewMonth.endOf(date.end.date).getUnixTime();
+        const endOfMonth = ganttViewMonth.viewEndOf(date.end.date).getUnixTime();
         expect(endOfMonth).toEqual(new GanttDate('2020-12-31 23:59:59').getUnixTime());
     });
 
