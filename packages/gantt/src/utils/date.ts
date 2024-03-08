@@ -25,7 +25,11 @@ import {
     startOfMonth,
     startOfQuarter,
     startOfWeek,
-    startOfYear
+    startOfYear,
+    startOfMinute,
+    startOfHour,
+    endOfHour,
+    endOfMinute
 } from 'date-fns';
 
 export {
@@ -61,7 +65,13 @@ export {
     startOfMonth,
     startOfQuarter,
     startOfWeek,
-    startOfYear
+    startOfYear,
+    startOfMinute,
+    startOfHour,
+    endOfMinute,
+    endOfHour,
+    differenceInMinutes,
+    eachHourOfInterval
 } from 'date-fns';
 
 export type GanttDateUtil = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
@@ -205,6 +215,14 @@ export class GanttDate {
         return new GanttDate(addYears(this.value, amount));
     }
 
+    startOfMinute(): GanttDate {
+        return new GanttDate(startOfMinute(this.value));
+    }
+
+    startOfHour(): GanttDate {
+        return new GanttDate(startOfHour(this.value));
+    }
+
     startOfDay(): GanttDate {
         return new GanttDate(startOfDay(this.value));
     }
@@ -223,6 +241,14 @@ export class GanttDate {
 
     startOfYear(): GanttDate {
         return new GanttDate(startOfYear(this.value));
+    }
+
+    endOfMinute(): GanttDate {
+        return new GanttDate(endOfMinute(this.value));
+    }
+
+    endOfHour(): GanttDate {
+        return new GanttDate(endOfHour(this.value));
     }
 
     endOfDay(): GanttDate {

@@ -1,55 +1,55 @@
+import { CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
-    Component,
-    OnInit,
-    ElementRef,
-    ChangeDetectionStrategy,
-    Input,
-    EventEmitter,
-    Output,
-    ChangeDetectorRef,
-    NgZone,
-    ContentChildren,
-    QueryList,
+    AfterViewChecked,
     AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
     ContentChild,
-    TemplateRef,
-    forwardRef,
+    ContentChildren,
+    ElementRef,
+    EventEmitter,
     Inject,
-    ViewChild,
+    Input,
+    NgZone,
     OnChanges,
+    OnInit,
+    Output,
+    QueryList,
     SimpleChanges,
-    AfterViewChecked
+    TemplateRef,
+    ViewChild,
+    forwardRef
 } from '@angular/core';
-import { takeUntil, take, finalize, skip } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
-import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
+import { finalize, skip, take, takeUntil } from 'rxjs/operators';
 import {
-    GanttLinkDragEvent,
-    GanttLineClickEvent,
-    GanttItemInternal,
-    GanttItem,
-    GanttSelectedEvent,
     GanttGroupInternal,
-    GanttVirtualScrolledIndexChangeEvent,
+    GanttItem,
+    GanttItemInternal,
+    GanttLineClickEvent,
+    GanttLinkDragEvent,
+    GanttSelectedEvent,
+    GanttTableDragEndedEvent,
     GanttTableDragStartedEvent,
-    GanttTableDragEndedEvent
+    GanttVirtualScrolledIndexChangeEvent
 } from './class';
+import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
+import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
+import { GanttLoaderComponent } from './components/loader/loader.component';
+import { GanttMainComponent } from './components/main/gantt-main.component';
+import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
+import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
+import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
+import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
+import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from './gantt.config';
+import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
-import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
-import { GanttGlobalConfig, GANTT_GLOBAL_CONFIG } from './gantt.config';
-import { NgxGanttRootComponent } from './root.component';
 import { GanttDate } from './utils/date';
-import { CdkVirtualScrollViewport, ViewportRuler, CdkFixedSizeVirtualScroll, CdkVirtualForOf } from '@angular/cdk/scrolling';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
-import { GanttMainComponent } from './components/main/gantt-main.component';
-import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
-import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
-import { GanttLoaderComponent } from './components/loader/loader.component';
-import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
-import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
-import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -343,10 +343,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         const selectedIds = this.selectionModel.selected;
         if (this.multiple) {
             const _selectedValue = this.getGanttItems(selectedIds).map((item) => item.origin);
-            this.selectedChange.emit({ event, selectedValue: _selectedValue });
+            this.selectedChange.emit({ event, current: selectedValue as GanttItem, selectedValue: _selectedValue });
         } else {
             const _selectedValue = this.getGanttItem(selectedIds[0])?.origin;
-            this.selectedChange.emit({ event, selectedValue: _selectedValue });
+            this.selectedChange.emit({ event, current: selectedValue as GanttItem, selectedValue: _selectedValue });
         }
     }
 

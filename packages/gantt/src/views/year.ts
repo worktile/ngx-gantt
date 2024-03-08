@@ -9,8 +9,7 @@ const viewOptions: GanttViewOptions = {
     start: new GanttDate().addYears(-2).startOfYear(),
     end: new GanttDate().addYears(2).endOfYear(),
     addAmount: 1,
-    addUnit: 'year',
-    fillDays: 30
+    addUnit: 'year'
 };
 
 export class GanttViewYear extends GanttView {
@@ -20,11 +19,11 @@ export class GanttViewYear extends GanttView {
         super(start, end, Object.assign({}, viewOptions, options));
     }
 
-    startOf(date: GanttDate) {
+    viewStartOf(date: GanttDate) {
         return date.startOfYear();
     }
 
-    endOf(date: GanttDate) {
+    viewEndOf(date: GanttDate) {
         return date.endOfYear();
     }
 

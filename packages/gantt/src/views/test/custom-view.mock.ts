@@ -29,11 +29,11 @@ export class GanttViewCustom extends GanttView {
         super(start, end, Object.assign({}, viewOptions, options));
     }
 
-    startOf(date: GanttDate) {
+    viewStartOf(date: GanttDate) {
         return date.startOfWeek();
     }
 
-    endOf(date: GanttDate) {
+    viewEndOf(date: GanttDate) {
         return date.endOfWeek();
     }
 

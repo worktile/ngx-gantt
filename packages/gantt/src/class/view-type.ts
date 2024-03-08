@@ -3,7 +3,8 @@ export enum GanttViewType {
     quarter = 'quarter',
     month = 'month',
     year = 'year',
-    week = 'week'
+    week = 'week',
+    hour = 'hour'
 }
 
 export const ganttViews = [

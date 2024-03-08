@@ -3,6 +3,8 @@ import { Locale } from 'date-fns';
 import { GanttLinkLineType, GanttLinkOptions, GanttLinkType } from './class/link';
 
 export interface GanttDateFormat {
+    hour?: string;
+    day?: string;
     week?: string;
     month?: string;
     quarter?: string;
@@ -24,6 +26,8 @@ export interface GanttGlobalConfig {
 
 export const defaultConfig: GanttGlobalConfig = {
     dateFormat: {
+        hour: 'HH:mm',
+        day: 'M月d日',
         week: '第w周',
         month: 'M月',
         quarter: 'QQQ',

@@ -8,8 +8,7 @@ const viewOptions: GanttViewOptions = {
     start: new GanttDate().startOfYear().startOfWeek({ weekStartsOn: 1 }),
     end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }),
     addAmount: 1,
-    addUnit: 'month',
-    fillDays: 1
+    addUnit: 'month'
 };
 
 export class GanttViewWeek extends GanttView {
@@ -19,11 +18,11 @@ export class GanttViewWeek extends GanttView {
         super(start, end, Object.assign({}, viewOptions, options));
     }
 
-    startOf(date: GanttDate) {
+    viewStartOf(date: GanttDate) {
         return date.startOfWeek({ weekStartsOn: 1 });
     }
 
-    endOf(date: GanttDate) {
+    viewEndOf(date: GanttDate) {
         return date.endOfWeek({ weekStartsOn: 1 });
     }
 

@@ -1,4 +1,4 @@
-import { differenceInCalendarDays } from 'date-fns';
+import { differenceInCalendarDays, differenceInHours, differenceInMinutes } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
@@ -23,8 +23,8 @@ export interface GanttViewOptions {
     addAmount?: number;
     addUnit?: GanttDateUtil;
     dateFormat?: GanttDateFormat;
-    // fill days when start or end is null
-    fillDays?: number;
+    datePrecisionUnit?: 'day' | 'hour' | 'minute';
+    dragPreviewDateFormat?: string;
     // custom key and value
     [key: string]: any;
 }
@@ -32,7 +32,9 @@ export interface GanttViewOptions {
 const viewOptions: GanttViewOptions = {
     min: new GanttDate().addYears(-1).startOfYear(),
     max: new GanttDate().addYears(1).endOfYear(),
-    dateFormat: defaultConfig.dateFormat
+    dateFormat: defaultConfig.dateFormat,
+    datePrecisionUnit: 'day',
+    dragPreviewDateFormat: 'MM-dd'
 };
 
 export abstract class GanttView {
@@ -69,19 +71,35 @@ export abstract class GanttView {
     constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions) {
         this.options = Object.assign({}, viewOptions, options);
         const startDate = start.isCustom
-            ? this.startOf(start.date)
-            : this.startOf(start.date.value < this.options.start.value ? start.date : this.options.start);
+            ? this.viewStartOf(start.date)
+            : this.viewStartOf(start.date.value < this.options.start.value ? start.date : this.options.start);
         const endDate = end.isCustom
-            ? this.endOf(end.date)
-            : this.endOf(end.date.value > this.options.end.value ? end.date : this.options.end);
+            ? this.viewEndOf(end.date)
+            : this.viewEndOf(end.date.value > this.options.end.value ? end.date : this.options.end);
         this.start$ = new BehaviorSubject<GanttDate>(startDate);
         this.end$ = new BehaviorSubject<GanttDate>(endDate);
         this.initialize();
     }
 
-    abstract startOf(date: GanttDate): GanttDate;
+    abstract viewStartOf(date: GanttDate): GanttDate;
 
-    abstract endOf(date: GanttDate): GanttDate;
+    abstract viewEndOf(date: GanttDate): GanttDate;
+
+    /**
+     * deprecated, please use viewStartOf()
+     * @deprecated
+     */
+    startOf(date: GanttDate): GanttDate {
+        return this.viewStartOf(date);
+    }
+
+    /**
+     * deprecated, please use viewEndOf()
+     * @deprecated
+     */
+    endOf(date: GanttDate): GanttDate {
+        return this.viewEndOf(date);
+    }
 
     // 获取一级时间网格合并后的宽度
     abstract getPrimaryWidth(): number;
@@ -95,7 +113,40 @@ export abstract class GanttView {
     // 获取二级时间点（坐标，显示名称）
     abstract getSecondaryDatePoints(): GanttDatePoint[];
 
-    protected getDateIntervalWidth(start: GanttDate, end: GanttDate) {
+    startOfPrecision(date: GanttDate) {
+        switch (this.options.datePrecisionUnit) {
+            case 'minute':
+                return date.startOfMinute();
+            case 'hour':
+                return date.startOfHour();
+            default:
+                return date.startOfDay();
+        }
+    }
+
+    endOfPrecision(date: GanttDate) {
+        switch (this.options.datePrecisionUnit) {
+            case 'minute':
+                return date.endOfMinute();
+            case 'hour':
+                return date.endOfHour();
+            default:
+                return date.endOfDay();
+        }
+    }
+
+    differenceByPrecisionUnit(dateLeft: GanttDate, dateRight: GanttDate) {
+        switch (this.options.datePrecisionUnit) {
+            case 'minute':
+                return differenceInMinutes(dateLeft.value, dateRight.value);
+            case 'hour':
+                return differenceInHours(dateLeft.value, dateRight.value);
+            default:
+                return differenceInCalendarDays(dateLeft.value, dateRight.value);
+        }
+    }
+
+    getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const days = differenceInCalendarDays(end.value, start.value);
         for (let i = 0; i < Math.abs(days); i++) {
@@ -114,7 +165,7 @@ export abstract class GanttView {
     }
 
     addStartDate() {
-        const start = this.startOf(this.start.add(this.options.addAmount * -1, this.options.addUnit));
+        const start = this.viewStartOf(this.start.add(this.options.addAmount * -1, this.options.addUnit));
         if (start.value >= this.options.min.value) {
             const origin = this.start;
             this.start$.next(start);
@@ -125,7 +176,7 @@ export abstract class GanttView {
     }
 
     addEndDate() {
-        const end = this.endOf(this.end.add(this.options.addAmount, this.options.addUnit));
+        const end = this.viewEndOf(this.end.add(this.options.addAmount, this.options.addUnit));
         if (end.value <= this.options.max.value) {
             const origin = this.end;
             this.end$.next(end);
@@ -136,8 +187,8 @@ export abstract class GanttView {
     }
 
     updateDate(start: GanttDate, end: GanttDate) {
-        start = this.startOf(start);
-        end = this.endOf(end);
+        start = this.viewStartOf(start);
+        end = this.viewEndOf(end);
         if (start.value < this.start.value) {
             this.start$.next(start);
         }
@@ -192,6 +243,18 @@ export abstract class GanttView {
     // 获取指定时间范围的宽度
     getDateRangeWidth(start: GanttDate, end: GanttDate) {
         // addSeconds(1) 是因为计算相差天会以一个整天来计算 end时间一般是59分59秒不是一个整天，所以需要加1
-        return this.getDateIntervalWidth(start, end.addSeconds(1));
+        return this.getDateIntervalWidth(this.startOfPrecision(start), this.endOfPrecision(end).addSeconds(1));
+    }
+
+    // 根据日期精度获取最小时间范围的宽度
+    getMinRangeWidthByPrecisionUnit(date: GanttDate) {
+        switch (this.options.datePrecisionUnit) {
+            case 'minute':
+                return this.getDayOccupancyWidth(date) / 24 / 60;
+            case 'hour':
+                return this.getDayOccupancyWidth(date) / 24;
+            default:
+                return this.getDayOccupancyWidth(date);
+        }
     }
 }

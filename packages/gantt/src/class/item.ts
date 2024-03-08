@@ -2,6 +2,9 @@ import { GanttDate } from '../utils/date';
 import { BehaviorSubject } from 'rxjs';
 import { GanttLink, GanttLinkType } from './link';
 import { GanttViewType } from './view-type';
+import { GanttView } from '../views/view';
+
+const DEFAULT_FILL_INCREMENT_WIDTH = 120;
 
 export interface GanttItemRefs {
     width: number;
@@ -38,8 +41,8 @@ export interface GanttItem<T = unknown> {
 export class GanttItemInternal {
     id: string;
     title: string;
-    start: GanttDate;
-    end: GanttDate;
+    start: GanttDate | null;
+    end: GanttDate | null;
     links: GanttLink[];
     color?: string;
     barStyle?: Partial<CSSStyleDeclaration>;
@@ -53,17 +56,16 @@ export class GanttItemInternal {
     children: GanttItemInternal[];
     type?: GanttItemType;
     progress?: number;
-    fillDays?: number;
     viewType?: GanttViewType;
-    level?: number;
+    level: number;
 
     get refs() {
         return this.refs$.getValue();
     }
 
-    refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null);
+    refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null as any);
 
-    constructor(item: GanttItem, level?: number, options?: { fillDays: number }) {
+    constructor(item: GanttItem, level: number, private view?: GanttView) {
         this.origin = item;
         this.id = this.origin.id;
         this.links = (this.origin.links || []).map((link) => {
@@ -86,25 +88,21 @@ export class GanttItemInternal {
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
         this.level = level;
-        //  默认填充 30 天
-        this.fillDays = options?.fillDays || 30;
         this.children = (item.children || []).map((subItem) => {
-            return new GanttItemInternal(subItem, level + 1, { fillDays: this.fillDays });
+            return new GanttItemInternal(subItem, level + 1, view);
         });
         this.type = this.origin.type || GanttItemType.bar;
         this.progress = this.origin.progress;
-        // fill days when start or end is null
-        this.fillItemStartOrEnd(item);
+        this.fillDateWhenStartOrEndIsNil(item);
     }
 
-    fillItemStartOrEnd(item: GanttItem) {
-        if (this.fillDays > 0) {
-            const fillDays = this.fillDays - 1;
+    private fillDateWhenStartOrEndIsNil(item: GanttItem) {
+        if (this.view) {
             if (item.start && !item.end) {
-                this.end = new GanttDate(item.start).addDays(fillDays).endOfDay();
+                this.end = this.view.getDateByXPoint(this.view.getXPointByDate(new GanttDate(item.start)) + DEFAULT_FILL_INCREMENT_WIDTH);
             }
             if (!item.start && item.end) {
-                this.start = new GanttDate(item.end).addDays(-fillDays).startOfDay();
+                this.start = this.view.getDateByXPoint(this.view.getXPointByDate(new GanttDate(item.end)) - DEFAULT_FILL_INCREMENT_WIDTH);
             }
         }
     }
@@ -114,8 +112,8 @@ export class GanttItemInternal {
     }
 
     updateDate(start: GanttDate, end: GanttDate) {
-        this.start = start.startOfDay();
-        this.end = end.endOfDay();
+        this.start = start;
+        this.end = end;
         this.origin.start = this.start.getUnixTime();
         this.origin.end = this.end.getUnixTime();
     }
@@ -127,7 +125,7 @@ export class GanttItemInternal {
     addChildren(items: GanttItem[]) {
         this.origin.children = items;
         this.children = (items || []).map((subItem) => {
-            return new GanttItemInternal(subItem, this.level + 1, { fillDays: this.fillDays });
+            return new GanttItemInternal(subItem, this.level + 1, this.view);
         });
     }
 

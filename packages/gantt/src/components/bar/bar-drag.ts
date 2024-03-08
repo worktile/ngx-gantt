@@ -1,20 +1,21 @@
-import { Injectable, ElementRef, OnDestroy, NgZone } from '@angular/core';
-import { DragRef, DragDrop } from '@angular/cdk/drag-drop';
+import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
+import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
+import { Subject, animationFrameScheduler, fromEvent, interval } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { GanttViewType } from '../../class';
+import { GanttItemInternal } from '../../class/item';
+import { GanttLinkType } from '../../class/link';
 import { GanttDomService } from '../../gantt-dom.service';
 import { GanttDragContainer, InBarPosition } from '../../gantt-drag-container';
-import { GanttItemInternal } from '../../class/item';
-import { GanttDate, differenceInCalendarDays, differenceInDays } from '../../utils/date';
-import { animationFrameScheduler, interval, Subject, fromEvent } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { GanttUpper } from '../../gantt-upper';
-import { GanttLinkType } from '../../class/link';
-import { passiveListenerOptions } from '../../utils/passive-listeners';
+import { GanttDate } from '../../utils/date';
 import {
     AutoScrollHorizontalDirection,
+    getAutoScrollSpeedRates,
     getHorizontalScrollDirection,
-    isPointerNearClientRect,
-    getAutoScrollSpeedRates
+    isPointerNearClientRect
 } from '../../utils/drag-scroll';
+import { passiveListenerOptions } from '../../utils/passive-listeners';
 
 /**
  * Proximity, as a ratio to width/height, at which a
@@ -88,7 +89,7 @@ export class GanttBarDrag implements OnDestroy {
     private _horizontalScrollDirection = AutoScrollHorizontalDirection.NONE;
 
     /** Record bar days when bar handle drag move. */
-    private barHandleDragMoveRecordDays: number;
+    private barHandleDragMoveRecordDiffs: number;
 
     /** Speed ratio for auto scroll */
     private autoScrollSpeedRates = 1;
@@ -179,7 +180,7 @@ export class GanttBarDrag implements OnDestroy {
             this.dragScrollDistance = 0;
             this.barDragMoveDistance = 0;
             this.item.updateRefs({
-                width: this.ganttUpper.view.getDateRangeWidth(this.item.start.startOfDay(), this.item.end.endOfDay()),
+                width: this.ganttUpper.view.getDateRangeWidth(this.item.start, this.item.end),
                 x: this.ganttUpper.view.getXPointByDate(this.item.start),
                 y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
             });
@@ -223,7 +224,7 @@ export class GanttBarDrag implements OnDestroy {
             });
 
             dragRef.moved.subscribe((event) => {
-                if (this.barHandleDragMoveRecordDays && this.barHandleDragMoveRecordDays > 0) {
+                if (this.barHandleDragMoveRecordDiffs && this.barHandleDragMoveRecordDiffs > 0) {
                     this.startScrollingIfNecessary(event.pointerPosition.x, event.pointerPosition.y);
                 }
                 this.barHandleDragMoveDistance = event.distance.x;
@@ -245,7 +246,7 @@ export class GanttBarDrag implements OnDestroy {
                 this.dragScrollDistance = 0;
                 this.barHandleDragMoveDistance = 0;
                 this.item.updateRefs({
-                    width: this.ganttUpper.view.getDateRangeWidth(this.item.start.startOfDay(), this.item.end.endOfDay()),
+                    width: this.ganttUpper.view.getDateRangeWidth(this.item.start, this.item.end),
                     x: this.ganttUpper.view.getXPointByDate(this.item.start),
                     y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
                 });
@@ -336,8 +337,8 @@ export class GanttBarDrag implements OnDestroy {
         dragMaskElement.style.display = 'block';
         dragBackdropElement.style.display = 'block';
         // This will invalidate the layout, but we won't need re-layout, because we set styles previously.
-        dragMaskElement.querySelector('.start').innerHTML = start.format('MM-dd');
-        dragMaskElement.querySelector('.end').innerHTML = end.format('MM-dd');
+        dragMaskElement.querySelector('.start').innerHTML = start.format(this.ganttUpper.view.options.dragPreviewDateFormat);
+        dragMaskElement.querySelector('.end').innerHTML = end.format(this.ganttUpper.view.options.dragPreviewDateFormat);
     }
 
     private closeDragBackdrop() {
@@ -359,15 +360,19 @@ export class GanttBarDrag implements OnDestroy {
         const currentX = this.item.refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-        const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
-        const diffDays = differenceInCalendarDays(this.item.end.value, this.item.start.value);
+
+        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(this.item.end, this.item.start);
 
         let start = currentDate;
-        let end = currentDate.addDays(diffDays);
+        let end = currentDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
 
-        if (currentX > currentStartX + dayWidth / 2) {
-            start = start.addDays(1);
-            end = end.addDays(1);
+        // 日视图特殊逻辑处理
+        if (this.ganttUpper.view.viewType === GanttViewType.day) {
+            const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
+            if (currentX > currentStartX + dayWidth / 2) {
+                start = start.addDays(1);
+                end = end.addDays(1);
+            }
         }
 
         if (this.dragScrolling) {
@@ -384,17 +389,16 @@ export class GanttBarDrag implements OnDestroy {
         if (!this.isStartOrEndInsideView(start, end)) {
             return;
         }
-
-        this.item.updateDate(start, end);
+        this.updateItemDate(start, end);
         this.dragContainer.dragMoved.emit({ item: this.item.origin });
     }
 
     private barBeforeHandleDragMove() {
-        const { x, start, oneDayWidth } = this.startOfBarHandle();
+        const { x, start, minRangeWidthWidth } = this.startOfBarHandle();
         const width = this.item.refs.width + this.barHandleDragMoveAndScrollDistance * -1;
-        const days = differenceInDays(this.item.end.value, start.value);
+        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(this.item.end, start);
 
-        if (width > dragMinWidth && days > 0) {
+        if (width > dragMinWidth && diffs > 0) {
             this.barElement.style.width = width + 'px';
             this.barElement.style.left = x + 'px';
             this.openDragBackdrop(this.barElement, start, this.item.end);
@@ -403,41 +407,41 @@ export class GanttBarDrag implements OnDestroy {
                 return;
             }
 
-            this.item.updateDate(start, this.item.end);
+            this.updateItemDate(start, this.item.end);
         } else {
-            if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
-                this.barElement.style.width = oneDayWidth + 'px';
+            if (this.barHandleDragMoveRecordDiffs > 0 && diffs <= 0) {
+                this.barElement.style.width = minRangeWidthWidth + 'px';
                 const x = this.ganttUpper.view.getXPointByDate(this.item.end);
                 this.barElement.style.left = x + 'px';
             }
-            this.openDragBackdrop(this.barElement, this.item.end.startOfDay(), this.item.end);
-            this.item.updateDate(this.item.end.startOfDay(), this.item.end);
+            this.openDragBackdrop(this.barElement, this.item.end, this.item.end);
+            this.updateItemDate(this.item.end, this.item.end);
         }
-        this.barHandleDragMoveRecordDays = days;
+        this.barHandleDragMoveRecordDiffs = diffs;
 
         this.dragContainer.dragMoved.emit({ item: this.item.origin });
     }
 
     private barAfterHandleDragMove() {
         const { width, end } = this.endOfBarHandle();
-        const days = differenceInDays(end.value, this.item.start.value);
+        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(end, this.item.start);
 
-        if (width > dragMinWidth && days > 0) {
+        if (width > dragMinWidth && diffs > 0) {
             this.barElement.style.width = width + 'px';
             this.openDragBackdrop(this.barElement, this.item.start, end);
             if (!this.isStartOrEndInsideView(this.item.start, end)) {
                 return;
             }
-            this.item.updateDate(this.item.start, end);
+            this.updateItemDate(this.item.start, end);
         } else {
-            if (this.barHandleDragMoveRecordDays > 0 && days <= 0) {
-                const oneDayWidth = this.ganttUpper.view.getDateRangeWidth(this.item.start, this.item.start.endOfDay());
-                this.barElement.style.width = oneDayWidth + 'px';
+            if (this.barHandleDragMoveRecordDiffs > 0 && diffs <= 0) {
+                const minRangeWidth = this.ganttUpper.view.getMinRangeWidthByPrecisionUnit(this.item.start);
+                this.barElement.style.width = minRangeWidth + 'px';
             }
-            this.openDragBackdrop(this.barElement, this.item.start, this.item.start.endOfDay());
-            this.item.updateDate(this.item.start, this.item.start.endOfDay());
+            this.openDragBackdrop(this.barElement, this.item.start, this.item.start);
+            this.updateItemDate(this.item.start, this.item.start);
         }
-        this.barHandleDragMoveRecordDays = days;
+        this.barHandleDragMoveRecordDiffs = diffs;
         this.dragContainer.dragMoved.emit({ item: this.item.origin });
     }
 
@@ -518,11 +522,11 @@ export class GanttBarDrag implements OnDestroy {
         const xThreshold = clientWidth * DROP_PROXIMITY_THRESHOLD;
 
         if (isBefore) {
-            const { start, oneDayWidth } = this.startOfBarHandle();
+            const { start, minRangeWidthWidth } = this.startOfBarHandle();
             const xPointerByEndDate = this.ganttUpper.view.getXPointByDate(this.item.end);
 
             isStartGreaterThanEnd = start.value > this.item.end.value;
-            isBarAppearsInView = xPointerByEndDate + oneDayWidth + xThreshold <= scrollLeft + clientWidth;
+            isBarAppearsInView = xPointerByEndDate + minRangeWidthWidth + xThreshold <= scrollLeft + clientWidth;
         } else {
             const { end } = this.endOfBarHandle();
             const xPointerByStartDate = this.ganttUpper.view.getXPointByDate(this.item.start);
@@ -540,7 +544,7 @@ export class GanttBarDrag implements OnDestroy {
         return {
             x,
             start: this.ganttUpper.view.getDateByXPoint(x),
-            oneDayWidth: this.ganttUpper.view.getDateRangeWidth(this.item.end.startOfDay(), this.item.end)
+            minRangeWidthWidth: this.ganttUpper.view.getMinRangeWidthByPrecisionUnit(this.item.end)
         };
     }
 
@@ -568,6 +572,10 @@ export class GanttBarDrag implements OnDestroy {
         } else {
             return true;
         }
+    }
+
+    private updateItemDate(start: GanttDate, end: GanttDate) {
+        this.item.updateDate(this.ganttUpper.view.startOfPrecision(start), this.ganttUpper.view.endOfPrecision(end));
     }
 
     createDrags(elementRef: ElementRef, item: GanttItemInternal, ganttUpper: GanttUpper) {

@@ -14,12 +14,12 @@ describe('GanttViewQuarter', () => {
     });
 
     it(`should has correct view start`, () => {
-        const startOfQuarter = ganttViewQuarter.startOf(date.start.date).getUnixTime();
+        const startOfQuarter = ganttViewQuarter.viewStartOf(date.start.date).getUnixTime();
         expect(startOfQuarter).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
     });
 
     it(`should has correct view end`, () => {
-        const endOfQuarter = ganttViewQuarter.endOf(date.end.date).getUnixTime();
+        const endOfQuarter = ganttViewQuarter.viewEndOf(date.end.date).getUnixTime();
         expect(endOfQuarter).toEqual(new GanttDate('2020-12-31 23:59:59').getUnixTime());
     });
 
