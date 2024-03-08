@@ -1,26 +1,27 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgxGanttComponent } from './gantt.component';
-import { NgxGanttTableComponent } from './table/gantt-table.component';
-import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
-import { NgxGanttBarComponent } from './components/bar/bar.component';
-import { GanttMainComponent } from './components/main/gantt-main.component';
-import { GanttIconComponent } from './components/icon/icon.component';
-import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
-import { GanttLinksComponent } from './components/links/links.component';
-import { NgxGanttRootComponent } from './root.component';
-import { NgxGanttRangeComponent } from './components/range/range.component';
-import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from './gantt.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { GANTT_GLOBAL_CONFIG, defaultConfig } from './gantt.config';
-import { NgxGanttBaselineComponent } from './components/baseline/baseline.component';
-import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
-import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
-import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+import { CommonModule } from '@angular/common';
+import { Inject, NgModule, Optional } from '@angular/core';
+import { setDefaultOptions } from 'date-fns';
+import { NgxGanttBarComponent } from './components/bar/bar.component';
+import { NgxGanttBaselineComponent } from './components/baseline/baseline.component';
 import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
-import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
+import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
+import { GanttIconComponent } from './components/icon/icon.component';
+import { GanttLinksComponent } from './components/links/links.component';
 import { GanttLoaderComponent } from './components/loader/loader.component';
+import { GanttMainComponent } from './components/main/gantt-main.component';
+import { NgxGanttRangeComponent } from './components/range/range.component';
+import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
+import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
+import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
+import { NgxGanttComponent } from './gantt.component';
+import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
+import { IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttRangeItemPipe } from './gantt.pipe';
+import { NgxGanttRootComponent } from './root.component';
+import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
+import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 @NgModule({
     imports: [
@@ -69,4 +70,11 @@ import { GanttLoaderComponent } from './components/loader/loader.component';
         }
     ]
 })
-export class NgxGanttModule {}
+export class NgxGanttModule {
+    constructor(@Optional() @Inject(GANTT_GLOBAL_CONFIG) ganttGlobalConfig: GanttGlobalConfig) {
+        setDefaultOptions({
+            locale: ganttGlobalConfig?.dateOptions?.locale,
+            weekStartsOn: ganttGlobalConfig?.dateOptions?.weekStartsOn || 1
+        });
+    }
+}

@@ -5,8 +5,8 @@ import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, second
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 35,
-    start: new GanttDate().startOfYear().startOfWeek({ weekStartsOn: 1 }),
-    end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }),
+    start: new GanttDate().startOfYear().startOfWeek(),
+    end: new GanttDate().endOfYear().endOfWeek(),
     addAmount: 1,
     addUnit: 'month'
 };
@@ -23,11 +23,11 @@ export class GanttViewDay extends GanttView {
     }
 
     viewStartOf(date: GanttDate) {
-        return date.startOfWeek({ weekStartsOn: 1 });
+        return date.startOfWeek();
     }
 
     viewEndOf(date: GanttDate) {
-        return date.endOfWeek({ weekStartsOn: 1 });
+        return date.endOfWeek();
     }
 
     getPrimaryWidth() {
@@ -39,7 +39,7 @@ export class GanttViewDay extends GanttView {
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
-        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value }, { weekStartsOn: 1 });
+        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < weeks.length; i++) {
             const weekStart = new GanttDate(weeks[i]);

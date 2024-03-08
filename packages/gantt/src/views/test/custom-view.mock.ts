@@ -1,19 +1,19 @@
 import {
-    GanttView,
-    GanttViewOptions,
-    primaryDatePointTop,
-    secondaryDatePointTop,
-    GanttViewDate,
     GanttDate,
-    eachDayOfInterval,
     GanttDatePoint,
-    GanttViewType
+    GanttView,
+    GanttViewDate,
+    GanttViewOptions,
+    GanttViewType,
+    eachDayOfInterval,
+    primaryDatePointTop,
+    secondaryDatePointTop
 } from 'ngx-gantt';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 50,
-    start: new GanttDate().startOfYear().startOfWeek({ weekStartsOn: 1 }),
-    end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }),
+    start: new GanttDate().startOfYear().startOfWeek(),
+    end: new GanttDate().endOfYear().endOfWeek(),
     addAmount: 1,
     addUnit: 'month'
 };
@@ -30,11 +30,11 @@ export class GanttViewCustom extends GanttView {
     }
 
     viewStartOf(date: GanttDate) {
-        return date.startOfWeek({ weekStartsOn: 1 });
+        return date.startOfWeek();
     }
 
     viewEndOf(date: GanttDate) {
-        return date.endOfWeek({ weekStartsOn: 1 });
+        return date.endOfWeek();
     }
 
     getPrimaryWidth() {

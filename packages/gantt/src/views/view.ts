@@ -232,11 +232,8 @@ export abstract class GanttView {
         if (dayWidth === this.getCellWidth()) {
             return matchDate?.start;
         } else {
-            const day = Math.floor((x % this.getCellWidth()) / dayWidth) + 1;
-            if (this.getCellWidth() / dayWidth === 7) {
-                return matchDate?.start.addDays(day);
-            }
-            return matchDate?.start.setDate(day);
+            const day = Math.floor((x % this.getCellWidth()) / dayWidth);
+            return matchDate?.start.addDays(day);
         }
     }
 

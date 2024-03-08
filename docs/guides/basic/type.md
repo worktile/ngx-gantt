@@ -1,5 +1,6 @@
 ---
 title: 数据类型
+subtitle: Input Date
 path: 'data-type'
 order: 30
 ---

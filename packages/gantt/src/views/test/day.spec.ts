@@ -1,5 +1,5 @@
-import { GanttViewDay } from '../day';
 import { GanttDate } from '../../utils/date';
+import { GanttViewDay } from '../day';
 import { date, today } from './mock';
 
 describe('GanttViewDay', () => {
@@ -8,8 +8,8 @@ describe('GanttViewDay', () => {
     beforeEach(() => {
         ganttViewDay = new GanttViewDay(date.start, date.end, {
             cellWidth: 20,
-            start: today.startOfYear().startOfWeek({ weekStartsOn: 1 }),
-            end: today.endOfYear().endOfWeek({ weekStartsOn: 1 })
+            start: today.startOfYear().startOfWeek(),
+            end: today.endOfYear().endOfWeek()
         });
     });
 
