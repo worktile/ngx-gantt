@@ -8,8 +8,7 @@ const viewOptions: GanttViewOptions = {
     end: new GanttDate().endOfQuarter().addQuarters(2),
     cellWidth: 280,
     addAmount: 1,
-    addUnit: 'quarter',
-    fillDays: 30
+    addUnit: 'quarter'
 };
 
 export class GanttViewMonth extends GanttView {
@@ -19,11 +18,11 @@ export class GanttViewMonth extends GanttView {
         super(start, end, Object.assign({}, viewOptions, options));
     }
 
-    startOf(date: GanttDate) {
+    viewStartOf(date: GanttDate) {
         return date.startOfQuarter();
     }
 
-    endOf(date: GanttDate) {
+    viewEndOf(date: GanttDate) {
         return date.endOfQuarter();
     }
 

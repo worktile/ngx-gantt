@@ -26,11 +26,10 @@ import {
     isWeekend,
     getWeek,
     isToday,
-    differenceInDays,
-    differenceInCalendarQuarters,
-    eachMonthOfInterval,
-    eachWeekOfInterval,
-    eachDayOfInterval
+    startOfHour,
+    startOfMinute,
+    endOfHour,
+    endOfMinute
 } from 'date-fns';
 
 export {
@@ -63,9 +62,11 @@ export {
     isToday,
     differenceInDays,
     differenceInCalendarQuarters,
+    differenceInMinutes,
     eachMonthOfInterval,
     eachWeekOfInterval,
-    eachDayOfInterval
+    eachDayOfInterval,
+    eachHourOfInterval
 } from 'date-fns';
 
 export type GanttDateUtil = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
@@ -209,6 +210,14 @@ export class GanttDate {
         return new GanttDate(addYears(this.value, amount));
     }
 
+    startOfMinute(): GanttDate {
+        return new GanttDate(startOfMinute(this.value));
+    }
+
+    startOfHour(): GanttDate {
+        return new GanttDate(startOfHour(this.value));
+    }
+
     startOfDay(): GanttDate {
         return new GanttDate(startOfDay(this.value));
     }
@@ -227,6 +236,14 @@ export class GanttDate {
 
     startOfYear(): GanttDate {
         return new GanttDate(startOfYear(this.value));
+    }
+
+    endOfMinute(): GanttDate {
+        return new GanttDate(endOfMinute(this.value));
+    }
+
+    endOfHour(): GanttDate {
+        return new GanttDate(endOfHour(this.value));
     }
 
     endOfDay(): GanttDate {

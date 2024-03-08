@@ -211,13 +211,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
             this.originItems.forEach((origin) => {
                 const group = this.groupsMap[origin.group_id];
                 if (group) {
-                    const item = new GanttItemInternal(origin, 0, { fillDays: this.view.options?.fillDays });
+                    const item = new GanttItemInternal(origin, 0, this.view);
                     group.items.push(item);
                 }
             });
         } else {
             this.originItems.forEach((origin) => {
-                const item = new GanttItemInternal(origin, 0, { fillDays: this.view.options?.fillDays });
+                const item = new GanttItemInternal(origin, 0, this.view);
                 this.items.push(item);
             });
         }
@@ -377,7 +377,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     computeItemsRefs(...items: GanttItemInternal[] | GanttBaselineItemInternal[]) {
         items.forEach((item) => {
             item.updateRefs({
-                width: item.start && item.end ? this.view.getDateRangeWidth(item.start.startOfDay(), item.end.endOfDay()) : 0,
+                width: item.start && item.end ? this.view.getDateRangeWidth(item.start, item.end) : 0,
                 x: item.start ? this.view.getXPointByDate(item.start) : 0,
                 y: (this.styles.lineHeight - this.styles.barHeight) / 2 - 1
             });

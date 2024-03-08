@@ -2,6 +2,8 @@ import { GanttLinkType, GanttLinkOptions, GanttLinkLineType } from './class/link
 import { InjectionToken } from '@angular/core';
 
 export interface GanttDateFormat {
+    hour?: string;
+    day?: string;
     week?: string;
     month?: string;
     quarter?: string;
@@ -17,6 +19,8 @@ export interface GanttGlobalConfig {
 
 export const defaultConfig = {
     dateFormat: {
+        hour: 'HH:mm',
+        day: 'M月d日',
         week: '第w周',
         month: 'M月',
         quarter: 'QQQ',

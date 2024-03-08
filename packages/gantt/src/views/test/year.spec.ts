@@ -14,12 +14,12 @@ describe('GanttViewYear', () => {
     });
 
     it(`should has correct view start`, () => {
-        const startOfDay = ganttViewYear.startOf(date.start.date).getUnixTime();
+        const startOfDay = ganttViewYear.viewStartOf(date.start.date).getUnixTime();
         expect(startOfDay).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
     });
 
     it(`should has correct view end`, () => {
-        const endOfDay = ganttViewYear.endOf(date.end.date).getUnixTime();
+        const endOfDay = ganttViewYear.viewEndOf(date.end.date).getUnixTime();
         expect(endOfDay).toEqual(new GanttDate('2020-12-31 23:59:59').getUnixTime());
     });
 

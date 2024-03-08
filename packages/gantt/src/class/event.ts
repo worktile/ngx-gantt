@@ -35,6 +35,7 @@ export class GanttBarClickEvent<T = unknown> {
 
 export class GanttSelectedEvent<T = unknown> {
     event: Event;
+    current?: GanttItem<T>;
     selectedValue: GanttItem<T> | GanttItem<T>[];
 }
 
