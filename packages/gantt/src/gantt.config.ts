@@ -1,6 +1,5 @@
 import { InjectionToken } from '@angular/core';
 import { Locale } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import { GanttLinkLineType, GanttLinkOptions, GanttLinkType } from './class/link';
 
 export interface GanttDateFormat {
@@ -24,9 +23,6 @@ export interface GanttGlobalConfig {
 }
 
 export const defaultConfig: GanttGlobalConfig = {
-    dateOptions: {
-        locale: fr
-    },
     dateFormat: {
         week: '第w周',
         month: 'M月',
