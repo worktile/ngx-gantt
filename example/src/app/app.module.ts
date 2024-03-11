@@ -8,7 +8,7 @@ import { ThyNotifyModule } from 'ngx-tethys/notify';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgxGanttModule } from 'ngx-gantt';
+import { GANTT_GLOBAL_CONFIG, NgxGanttModule } from 'ngx-gantt';
 import { AppComponent } from './app.component';
 import { AppGanttExampleComponent } from './gantt/gantt.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -55,7 +55,18 @@ import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/ga
         ThyDatePickerModule,
         ...EXAMPLE_MODULES
     ],
-    providers: [...DOCGENI_SITE_PROVIDERS],
+    providers: [
+        ...DOCGENI_SITE_PROVIDERS,
+        {
+            provide: GANTT_GLOBAL_CONFIG,
+            useValue: {
+                styleOptions: {
+                    lineHeight: 44,
+                    barHeight: 22
+                }
+            }
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

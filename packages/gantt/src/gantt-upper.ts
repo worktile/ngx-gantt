@@ -306,7 +306,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.styles = Object.assign({}, defaultStyles, this.styles);
+        this.styles = Object.assign({}, defaultConfig.styleOptions, this.config.styleOptions, this.styles);
         this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
         this.createView();
         this.setupGroups();

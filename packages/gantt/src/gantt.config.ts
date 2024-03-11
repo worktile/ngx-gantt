@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { Locale } from 'date-fns';
 import { GanttLinkLineType, GanttLinkOptions, GanttLinkType } from './class/link';
+import { GanttStyles, defaultStyles } from './gantt.styles';
 
 export interface GanttDateFormat {
     hour?: string;
@@ -22,6 +23,7 @@ export interface GanttGlobalConfig {
     dateFormat?: GanttDateFormat;
     dateOptions?: GanttDateOptions;
     linkOptions?: GanttLinkOptions;
+    styleOptions?: GanttStyles;
 }
 
 export const defaultConfig: GanttGlobalConfig = {
@@ -39,7 +41,8 @@ export const defaultConfig: GanttGlobalConfig = {
         dependencyTypes: [GanttLinkType.fs],
         showArrow: false,
         lineType: GanttLinkLineType.curve
-    }
+    },
+    styleOptions: defaultStyles
 };
 
 export const GANTT_GLOBAL_CONFIG = new InjectionToken<GanttGlobalConfig>('GANTT_GLOBAL_CONFIG');
