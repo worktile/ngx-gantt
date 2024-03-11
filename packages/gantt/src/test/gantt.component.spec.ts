@@ -511,7 +511,6 @@ describe('ngx-gantt', () => {
             const ganttTableItemElement = ganttDebugElement.query(By.css('.gantt-table-item')).nativeElement;
             const itemHeight = ganttItemElement.style.getPropertyValue('height');
             const tableItemHeight = ganttTableItemElement.style.getPropertyValue('height');
-            console.log(itemHeight);
             expect(itemHeight).toEqual(config.styleOptions.lineHeight + 'px');
             expect(tableItemHeight).toEqual(config.styleOptions.lineHeight + 'px');
         });
