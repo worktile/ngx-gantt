@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [17.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/16.0.3...17.0.0-next.0) (2024-03-11)
+
+### Bug Fixes
+
+- remove invalid drag drop style [#43](https://github.com/worktile/ngx-gantt/issues/43) 9 ([5ba4d10](https://github.com/worktile/ngx-gantt/commit/5ba4d10257f08d92586d1098dece138ec7cd2bbf))
+
+### Features
+
+- add date options for supported date locale and weekStartsOn [#436](https://github.com/worktile/ngx-gantt/issues/436) [#242](https://github.com/worktile/ngx-gantt/issues/242) ([#445](https://github.com/worktile/ngx-gantt/issues/445)) ([861499a](https://github.com/worktile/ngx-gantt/commit/861499ace113db1e7a19feb2297e5485207454ee))
+- support hour view [#375](https://github.com/worktile/ngx-gantt/issues/375) [#298](https://github.com/worktile/ngx-gantt/issues/298) #INFR-4223 ([#443](https://github.com/worktile/ngx-gantt/issues/443)) ([fad93c1](https://github.com/worktile/ngx-gantt/commit/fad93c16095f729b38ddc75bcabaf9196dfcd779)), closes [#INFR-4223](https://github.com/worktile/ngx-gantt/issues/INFR-4223)
+
 ## [16.0.3](https://github.com/worktile/ngx-gantt/compare/16.0.2...16.0.3) (2023-12-28)
 
 ### Bug Fixes
