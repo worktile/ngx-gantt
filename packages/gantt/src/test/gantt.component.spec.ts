@@ -36,6 +36,10 @@ const config = {
         year: 'yyyy',
         yearMonth: 'yyyy/MM',
         yearQuarter: 'yyyy/QQQ'
+    },
+    styleOptions: {
+        lineHeight: 60,
+        barHeight: 30
     }
 };
 
@@ -494,6 +498,22 @@ describe('ngx-gantt', () => {
             ganttComponentInstance.virtualScrollEnabled = false;
             fixture.detectChanges();
             expect(viewportElement.nativeElement.classList).toContain('gantt-normal-viewport');
+        });
+
+        it('should gantt bar has correct config style', () => {
+            const ganttBarElement = ganttDebugElement.query(By.css('.gantt-bar')).nativeElement;
+            const height = ganttBarElement.style.getPropertyValue('height');
+            expect(height).toEqual(config.styleOptions.barHeight + 'px');
+        });
+
+        it('should gantt item has correct config style', () => {
+            const ganttItemElement = ganttDebugElement.query(By.css('.gantt-item')).nativeElement;
+            const ganttTableItemElement = ganttDebugElement.query(By.css('.gantt-table-item')).nativeElement;
+            const itemHeight = ganttItemElement.style.getPropertyValue('height');
+            const tableItemHeight = ganttTableItemElement.style.getPropertyValue('height');
+            console.log(itemHeight);
+            expect(itemHeight).toEqual(config.styleOptions.lineHeight + 'px');
+            expect(tableItemHeight).toEqual(config.styleOptions.lineHeight + 'px');
         });
     });
 
