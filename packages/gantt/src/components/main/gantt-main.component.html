@@ -1,7 +1,7 @@
 <gantt-links-overlay [flatItems]="flatItems" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
 <div class="gantt-main-groups" [style.width.px]="ganttUpper.view.width">
   <ng-container *ngFor="let data of viewportItems; trackBy: trackBy">
-    <div class="gantt-group" [ngClass]="data.class" *ngIf="data.items">
+    <div class="gantt-group" [style.height.px]="ganttUpper.styles.lineHeight" [ngClass]="data.class" *ngIf="data.items">
       <ng-template [ngTemplateOutlet]="groupHeaderTemplate" [ngTemplateOutletContext]="{ group: data }"></ng-template>
     </div>
     <div

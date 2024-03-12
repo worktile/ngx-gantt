@@ -16,7 +16,7 @@
 
   <ng-container *ngIf="viewportItems && viewportItems.length > 0">
     <ng-container *ngFor="let item of viewportItems; trackBy: trackBy">
-      <div class="gantt-table-group" [ngClass]="item.class" *ngIf="item.items">
+      <div class="gantt-table-group" [style.height.px]="gantt.styles.lineHeight" [ngClass]="item.class" *ngIf="item.items">
         <div class="gantt-table-group-title" [class.expanded]="item.expanded" (click)="expandGroup(item)">
           <gantt-icon class="expand-icon" [iconName]="item.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
           <ng-container *ngIf="groupTemplate; else default">

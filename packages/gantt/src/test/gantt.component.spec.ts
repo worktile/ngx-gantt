@@ -318,6 +318,25 @@ function assertGroups<T extends TestGanttComponentBase>(fixture: ComponentFixtur
     });
 }
 
+function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugElement: DebugElement) {
+    const styleOptionsBindElement = {
+        lineHeight: ['.gantt-item', '.gantt-table-item', '.gantt-group', '.gantt-table-group'],
+        barHeight: ['.gantt-bar']
+    };
+    for (const key in styleOptionsBindElement) {
+        if (Object.prototype.hasOwnProperty.call(styleOptionsBindElement, key)) {
+            const bindElementsClass = styleOptionsBindElement[key];
+            bindElementsClass.forEach((elementClass) => {
+                const element = ganttDebugElement.query(By.css(elementClass));
+                if (element) {
+                    const height = element.nativeElement.style.getPropertyValue('height');
+                    expect(height).toEqual(ganttComponent.config.styleOptions[key] + 'px');
+                }
+            });
+        }
+    }
+}
+
 describe('ngx-gantt', () => {
     describe('#basic', () => {
         let fixture: ComponentFixture<TestGanttBasicComponent>;
@@ -500,19 +519,8 @@ describe('ngx-gantt', () => {
             expect(viewportElement.nativeElement.classList).toContain('gantt-normal-viewport');
         });
 
-        it('should gantt bar has correct config style', () => {
-            const ganttBarElement = ganttDebugElement.query(By.css('.gantt-bar')).nativeElement;
-            const height = ganttBarElement.style.getPropertyValue('height');
-            expect(height).toEqual(config.styleOptions.barHeight + 'px');
-        });
-
-        it('should gantt item has correct config style', () => {
-            const ganttItemElement = ganttDebugElement.query(By.css('.gantt-item')).nativeElement;
-            const ganttTableItemElement = ganttDebugElement.query(By.css('.gantt-table-item')).nativeElement;
-            const itemHeight = ganttItemElement.style.getPropertyValue('height');
-            const tableItemHeight = ganttTableItemElement.style.getPropertyValue('height');
-            expect(itemHeight).toEqual(config.styleOptions.lineHeight + 'px');
-            expect(tableItemHeight).toEqual(config.styleOptions.lineHeight + 'px');
+        it('should gantt basic has correct config style', () => {
+            assertConfigStyle(ganttComponentInstance.ganttComponent, ganttDebugElement);
         });
     });
 
@@ -583,6 +591,10 @@ describe('ngx-gantt', () => {
                 expect(group.expanded).toBe(false);
             });
             expect(afterCollapseItems.length).toEqual(0);
+        });
+
+        it('should gantt groups has correct config style', () => {
+            assertConfigStyle(ganttComponent, fixture.debugElement);
         });
     });
 
