@@ -148,6 +148,8 @@ $gantt-bar-link-drop-border: 5px;
     background: variables.$gantt-bar-background-color;
     overflow: hidden;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
 
     .gantt-bar-content-progress {
       position: absolute;
