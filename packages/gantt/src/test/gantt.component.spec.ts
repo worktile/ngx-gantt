@@ -38,6 +38,7 @@ const config = {
         yearQuarter: 'yyyy/QQQ'
     },
     styleOptions: {
+        headerHeight: 60,
         lineHeight: 60,
         barHeight: 30
     }
@@ -320,6 +321,7 @@ function assertGroups<T extends TestGanttComponentBase>(fixture: ComponentFixtur
 
 function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugElement: DebugElement) {
     const styleOptionsBindElement = {
+        headerHeight: ['.gantt-calendar-header', '.gantt-table-header'],
         lineHeight: ['.gantt-item', '.gantt-table-item', '.gantt-group', '.gantt-table-group'],
         barHeight: ['.gantt-bar']
     };
