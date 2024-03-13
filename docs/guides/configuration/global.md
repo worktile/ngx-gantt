@@ -58,7 +58,7 @@ export interface GanttGlobalConfig {
     showArrow?: boolean, // 连接线是否显示箭头
     lineType?: GanttLinkLineType // 连接线类型（曲线或直线）
   };
-  styleOptions?: GanttStyles; // { lineHeight: 44, barHeight: 22 }
+  styleOptions?: GanttStyles; // { headerHeight: 44, lineHeight: 44, barHeight: 22 }
 }
 ```
 

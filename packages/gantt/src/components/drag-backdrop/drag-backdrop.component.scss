@@ -13,7 +13,6 @@
 
 .gantt-drag-mask {
   position: absolute;
-  top: variables.$gantt-header-height;
   z-index: 1;
   height: 100%;
   display: none;

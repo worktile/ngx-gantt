@@ -11,7 +11,6 @@ order: 50
 @use '@worktile/gantt/styles/variables.scss' with (
   // basic
   $gantt-color: #333,
-  $gantt-header-height: 44px,
   $gantt-border-color: #eee,
   $gantt-bg-color: #fff,
   $gantt-side-shadow: 12px 0 16px -10px rgba(0, 0, 0, 0.15),

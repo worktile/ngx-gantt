@@ -17,7 +17,6 @@ import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abs
 import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
 import { Subject, takeUntil } from 'rxjs';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
 interface DragFixedConfig {
@@ -44,6 +43,16 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     @ViewChild('resizeLine', { static: true }) resizeLineElementRef: ElementRef<HTMLElement>;
 
     @HostBinding('class') className = `gantt-table-header `;
+
+    @HostBinding('style.height')
+    get height() {
+        return this.gantt.styles.headerHeight + 'px';
+    }
+
+    @HostBinding('style.line-height')
+    get lineHeight() {
+        return this.gantt.styles.headerHeight + 'px';
+    }
 
     constructor(
         private elementRef: ElementRef,

@@ -61,6 +61,7 @@ import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/ga
             provide: GANTT_GLOBAL_CONFIG,
             useValue: {
                 styleOptions: {
+                    headerHeight: 60,
                     lineHeight: 44,
                     barHeight: 22
                 }

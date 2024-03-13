@@ -14,6 +14,7 @@
       'gantt-scroll-container': virtualScrollEnabled,
       'with-footer': table?.tableFooterTemplate || footerTemplate
     }"
+    [style.top.px]="styles.headerHeight"
     [itemSize]="styles.lineHeight"
     [minBufferPx]="styles.lineHeight * 10"
     [maxBufferPx]="styles.lineHeight * 20"
