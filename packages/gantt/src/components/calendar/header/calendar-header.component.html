@@ -10,7 +10,7 @@
       [class.weekend]="point.additions?.isWeekend"
       *ngFor="let point of view.primaryDatePoints; trackBy: trackBy"
       [attr.x]="point.x"
-      [attr.y]="primaryDatePointTop"
+      [attr.y]="point.y"
     >
       {{ point.text }}
     </text>
@@ -21,7 +21,7 @@
         [class.today]="point.additions?.isToday"
         [class.weekend]="point.additions?.isWeekend"
         [attr.x]="point.x"
-        [attr.y]="secondaryDatePointTop"
+        [attr.y]="point.y"
       >
         {{ point.text }}
       </text>

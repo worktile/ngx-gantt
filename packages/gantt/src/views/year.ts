@@ -1,4 +1,4 @@
-import { GanttView, GanttViewOptions, primaryDatePointTop, GanttViewDate } from './view';
+import { GanttView, GanttViewOptions, GanttViewDate } from './view';
 import { GanttDate } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
@@ -40,7 +40,7 @@ export class GanttViewYear extends GanttView {
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < years.length; i++) {
             const start = new GanttDate(years[i]);
-            const point = new GanttDatePoint(start, ``, this.getCellWidth() / 2 + i * this.getCellWidth(), primaryDatePointTop);
+            const point = new GanttDatePoint(start, ``, this.getCellWidth() / 2 + i * this.getCellWidth(), this.primaryDatePointTop);
             points.push(point);
         }
         return points;
@@ -49,7 +49,8 @@ export class GanttViewYear extends GanttView {
     getSecondaryDatePoints(): GanttDatePoint[] {
         const years = differenceInCalendarYears(this.end.value, this.start.value);
         const points: GanttDatePoint[] = [];
-        const pointTop = 27;
+        // 二级标题向上移动 1/2 fontSize 以及 1/2 marginTop
+        const pointTop = this.secondaryDatePointTop - 14 / 2 - 2;
         for (let i = 0; i <= years; i++) {
             const start = this.start.addYears(i);
             const point = new GanttDatePoint(

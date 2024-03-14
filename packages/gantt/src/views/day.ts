@@ -1,7 +1,7 @@
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDate, eachDayOfInterval, eachWeekOfInterval } from '../utils/date';
-import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
+import { GanttView, GanttViewDate, GanttViewOptions } from './view';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 35,
@@ -48,7 +48,7 @@ export class GanttViewDay extends GanttView {
                 weekStart,
                 weekStart.addWeeks(increaseWeek).format(this.options.dateFormat.yearMonth),
                 (this.getCellWidth() * 7) / 2 + i * (this.getCellWidth() * 7),
-                primaryDatePointTop
+                this.primaryDatePointTop
             );
             points.push(point);
         }
@@ -64,7 +64,7 @@ export class GanttViewDay extends GanttView {
                 start,
                 start.getDate().toString(),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
-                secondaryDatePointTop,
+                this.secondaryDatePointTop,
                 {
                     isWeekend: start.isWeekend(),
                     isToday: start.isToday()

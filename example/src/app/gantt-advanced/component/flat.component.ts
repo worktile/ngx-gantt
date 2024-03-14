@@ -20,10 +20,6 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit {
 
     @HostBinding('class.gantt-flat') ganttFlatClass = true;
 
-    get headerHeight() {
-        return `calc(100% - ${this.styles.headerHeight}px)`;
-    }
-
     constructor(
         elementRef: ElementRef<HTMLElement>,
         cdr: ChangeDetectorRef,
