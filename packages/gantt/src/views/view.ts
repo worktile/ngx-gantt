@@ -3,12 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDateFormat, defaultConfig } from '../gantt.config';
-import { GanttStyles } from '../gantt.styles';
 import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
 
-export const primaryDatePointTop = 18;
+export const primaryDatePointTop = '41%';
 
-export const secondaryDatePointTop = 36;
+export const secondaryDatePointTop = '82%';
 
 export interface GanttViewDate {
     date: GanttDate;
@@ -26,7 +25,6 @@ export interface GanttViewOptions {
     dateFormat?: GanttDateFormat;
     datePrecisionUnit?: 'day' | 'hour' | 'minute';
     dragPreviewDateFormat?: string;
-    styleOptions?: GanttStyles;
     // custom key and value
     [key: string]: any;
 }
@@ -36,8 +34,7 @@ const viewOptions: GanttViewOptions = {
     max: new GanttDate().addYears(1).endOfYear(),
     dateFormat: defaultConfig.dateFormat,
     datePrecisionUnit: 'day',
-    dragPreviewDateFormat: 'MM-dd',
-    styleOptions: defaultConfig.styleOptions
+    dragPreviewDateFormat: 'MM-dd'
 };
 
 export abstract class GanttView {
@@ -57,11 +54,7 @@ export abstract class GanttView {
 
     primaryDatePoints: GanttDatePoint[];
 
-    primaryDatePointTop = 18;
-
     secondaryDatePoints: GanttDatePoint[];
-
-    secondaryDatePointTop = 36;
 
     width: number;
 
@@ -85,7 +78,6 @@ export abstract class GanttView {
             : this.viewEndOf(end.date.value > this.options.end.value ? end.date : this.options.end);
         this.start$ = new BehaviorSubject<GanttDate>(startDate);
         this.end$ = new BehaviorSubject<GanttDate>(endDate);
-        this.setDatePointTop();
         this.initialize();
     }
 
@@ -261,15 +253,5 @@ export abstract class GanttView {
             default:
                 return this.getDayOccupancyWidth(date);
         }
-    }
-
-    // 设置甘特图头部日期位置
-    setDatePointTop() {
-        const fontSize = 14;
-        const marginTop = 4;
-        const { headerHeight } = this.options.styleOptions;
-        const remainder = headerHeight - fontSize * 2 - marginTop;
-        this.primaryDatePointTop = fontSize + remainder / 2;
-        this.secondaryDatePointTop = this.primaryDatePointTop + fontSize + marginTop;
     }
 }

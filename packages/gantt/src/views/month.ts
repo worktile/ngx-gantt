@@ -1,4 +1,4 @@
-import { GanttView, GanttViewOptions, GanttViewDate } from './view';
+import { GanttView, GanttViewOptions, GanttViewDate, secondaryDatePointTop, primaryDatePointTop } from './view';
 import { GanttDate, differenceInCalendarQuarters, eachMonthOfInterval } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttViewType } from '../class';
@@ -43,7 +43,7 @@ export class GanttViewMonth extends GanttView {
                 start,
                 start.format(this.options.dateFormat.yearQuarter),
                 (this.getCellWidth() * 3) / 2 + i * (this.getCellWidth() * 3),
-                this.primaryDatePointTop
+                primaryDatePointTop
             );
             points.push(point);
         }
@@ -60,7 +60,7 @@ export class GanttViewMonth extends GanttView {
                 start,
                 start.format(this.options.dateFormat.month),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
-                this.secondaryDatePointTop
+                secondaryDatePointTop
             );
             points.push(point);
         }

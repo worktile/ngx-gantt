@@ -1,7 +1,7 @@
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDate, differenceInMinutes, eachDayOfInterval, eachHourOfInterval } from '../utils/date';
-import { GanttView, GanttViewDate, GanttViewOptions } from './view';
+import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 80,
@@ -53,7 +53,7 @@ export class GanttViewHour extends GanttView {
                 start,
                 start.format(this.options.dateFormat.day),
                 (this.getCellWidth() * 24) / 2 + i * (this.getCellWidth() * 24),
-                this.primaryDatePointTop
+                primaryDatePointTop
             );
             points.push(point);
         }
@@ -70,7 +70,7 @@ export class GanttViewHour extends GanttView {
                 start,
                 start.format(this.options.dateFormat.hour),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
-                this.secondaryDatePointTop,
+                secondaryDatePointTop,
                 {
                     isWeekend: start.isWeekend(),
                     isToday: start.isToday()
