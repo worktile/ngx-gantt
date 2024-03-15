@@ -33,10 +33,9 @@ import {
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
-import { GanttStyles, defaultStyles } from './gantt.styles';
 import { uniqBy, flatten, recursiveItems, getFlatItems, Dictionary, keyBy } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
-import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
+import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, GanttStyleOptions, defaultConfig } from './gantt.config';
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -64,7 +63,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @Input() draggable: boolean;
 
-    @Input() styles: GanttStyles;
+    @Input() styles: GanttStyleOptions;
 
     @Input() showToolbar = false;
 

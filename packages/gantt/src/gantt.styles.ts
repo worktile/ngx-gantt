@@ -1,11 +1,3 @@
-export const defaultStyles = {
-    headerHeight: 44,
-    lineHeight: 44,
-    barHeight: 22
-};
-
-export type GanttStyles = typeof defaultStyles;
-
 export const sideWidth = 400;
 
 export const sideMiddleWidth = 500;

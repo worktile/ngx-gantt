@@ -57,3 +57,7 @@ $gantt-loader-loading-color: $gantt-primary-color !default;
 
 // footer
 $gantt-footer-height: 44px !default;
+
+// @deprecated, please use global config `GANTT_GLOBAL_CONFIG` set custom height
+$gantt-item-height: none;
+$gantt-group-height: none;

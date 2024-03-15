@@ -150,6 +150,7 @@ $gantt-bar-link-drop-border: 5px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
+    white-space: nowrap;
 
     .gantt-bar-content-progress {
       position: absolute;

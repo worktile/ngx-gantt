@@ -1,11 +1,11 @@
 import { InjectionToken, ChangeDetectorRef } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal } from './class';
-import { GanttStyles } from './gantt.styles';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
+import { GanttStyleOptions } from './gantt.config';
 
 export interface GanttAbstractComponent {
     table: NgxGanttTableComponent;
-    styles: GanttStyles;
+    styles: GanttStyleOptions;
     maxLevel: number;
     async: boolean;
     cdr: ChangeDetectorRef;
