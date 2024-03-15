@@ -1,9 +1,8 @@
 export const defaultStyles = {
+    headerHeight: 44,
     lineHeight: 44,
     barHeight: 22
 };
-
-export const headerHeight = 44;
 
 export type GanttStyles = typeof defaultStyles;
 

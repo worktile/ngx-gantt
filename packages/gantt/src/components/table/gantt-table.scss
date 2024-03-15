@@ -167,8 +167,6 @@
 .gantt-table-header {
   text-align: center;
   background: #fff;
-  height: variables.$gantt-header-height;
-  line-height: variables.$gantt-header-height;
   box-shadow: variables.$gantt-side-shadow;
   position: relative;
   z-index: 3;
@@ -190,7 +188,6 @@
   display: block;
   .gantt-table-group {
     display: flex;
-    height: variables.$gantt-group-height;
     background: variables.$gantt-group-background-color;
     padding: 0 10px;
     align-items: center;

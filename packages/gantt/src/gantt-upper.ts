@@ -189,6 +189,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     private createView() {
         const viewDate = this.getViewDate();
+        this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
+        this.viewOptions.styleOptions = Object.assign(
+            {},
+            defaultConfig.styleOptions,
+            this.config.styleOptions,
+            this.viewOptions.styleOptions
+        );
         this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions);
     }
 
@@ -306,8 +313,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.styles = Object.assign({}, defaultStyles, this.styles);
-        this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
+        this.styles = Object.assign({}, defaultConfig.styleOptions, this.config.styleOptions, this.styles);
         this.createView();
         this.setupGroups();
         this.setupItems();

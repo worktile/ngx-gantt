@@ -8,7 +8,7 @@ import { ThyNotifyModule } from 'ngx-tethys/notify';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgxGanttModule } from 'ngx-gantt';
+import { GANTT_GLOBAL_CONFIG, NgxGanttModule } from 'ngx-gantt';
 import { AppComponent } from './app.component';
 import { AppGanttExampleComponent } from './gantt/gantt.component';
 import { AppRoutingModule } from './app-routing.module';

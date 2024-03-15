@@ -5,9 +5,9 @@ import { GanttDatePoint } from '../class/date-point';
 import { GanttDateFormat, defaultConfig } from '../gantt.config';
 import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
 
-export const primaryDatePointTop = 18;
+export const primaryDatePointTop = '41%';
 
-export const secondaryDatePointTop = 36;
+export const secondaryDatePointTop = '82%';
 
 export interface GanttViewDate {
     date: GanttDate;

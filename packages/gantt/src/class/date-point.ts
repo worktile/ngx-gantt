@@ -5,7 +5,7 @@ export class GanttDatePoint {
         public start: GanttDate,
         public text: string,
         public x: number,
-        public y: number,
+        public y: number | string,
         public additions?: {
             isWeekend: boolean;
             isToday: boolean;

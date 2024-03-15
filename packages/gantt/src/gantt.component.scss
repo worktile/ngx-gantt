@@ -22,7 +22,7 @@
 
     .gantt-side-header {
       box-sizing: border-box;
-      height: variables.$gantt-header-height;
+      //   height: variables.$gantt-header-height;
     }
 
     .gantt-side-container {
@@ -69,10 +69,8 @@
 
   .gantt-main-container {
     width: 100%;
-    height: calc(100% - #{variables.$gantt-header-height});
     flex: 1;
     position: absolute;
-    top: variables.$gantt-header-height;
     bottom: 0;
     left: 0;
     right: 0;
@@ -86,7 +84,6 @@
     }
 
     .gantt-group {
-      height: variables.$gantt-group-height;
       background: variables.$gantt-group-background-color;
       border-bottom: 1px solid variables.$gantt-border-color;
       box-sizing: border-box;
@@ -110,7 +107,6 @@
   .gantt-virtual-scroll-viewport {
     position: absolute;
     left: 0;
-    top: variables.$gantt-header-height;
     right: 0;
     bottom: 0;
     z-index: 2;

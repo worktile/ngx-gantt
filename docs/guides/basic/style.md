@@ -11,14 +11,13 @@ order: 50
 @use '@worktile/gantt/styles/variables.scss' with (
   // basic
   $gantt-color: #333,
+  // Deprecated: Please use global config style headerHeight Options instead
   $gantt-header-height: 44px,
   $gantt-border-color: #eee,
   $gantt-bg-color: #fff,
   $gantt-side-shadow: 12px 0 16px -10px rgba(0, 0, 0, 0.15),
   $gantt-container-background-color: #fafafa,
-  $gantt-item-height: 44px,
   $gantt-group-background-color: rgba($color: #f3f3f3, $alpha: 0.5),
-  $gantt-group-height: 44px,
   $gantt-table-td-padding: 0 15px,
 
   // calendar

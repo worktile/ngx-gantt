@@ -17,7 +17,13 @@ import { GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
       useValue: {
         dateFormat: {
           ...
-        }
+        },
+        linkOptions: {
+          ...
+        },
+        styleOptions: {
+          ...
+        },
       }
     },
     ...
@@ -52,11 +58,13 @@ export interface GanttGlobalConfig {
     showArrow?: boolean, // 连接线是否显示箭头
     lineType?: GanttLinkLineType // 连接线类型（曲线或直线）
   };
+  styleOptions?: GanttStyles; // { headerHeight: 44, lineHeight: 44, barHeight: 22 }
 }
 ```
 
-| Name        | Type               | Description                  |
-| ----------- | ------------------ | ---------------------------- |
-| dateFormat  | `GanttDateFormat`  | 日期格式                     |
-| dateOptions | `GanttDateOptions` | 日期配置，可用于配置全局时区 |
-| linkOptions | `GanttLinkOptions` | 关联关系配置                 |
+| Name         | Type               | Description                  |
+| ------------ | ------------------ | ---------------------------- |
+| dateFormat   | `GanttDateFormat`  | 日期格式                     |
+| dateOptions  | `GanttDateOptions` | 日期配置，可用于配置全局时区 |
+| linkOptions  | `GanttLinkOptions` | 关联关系配置                 |
+| styleOptions | `GanttStyles`      | 样式配置                     |

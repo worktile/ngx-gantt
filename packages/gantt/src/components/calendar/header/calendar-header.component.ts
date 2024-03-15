@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding, Inject, NgZone, ElementRef } from '@angular/core';
 import { GanttDatePoint } from '../../../class/date-point';
-import { headerHeight, todayHeight, todayWidth } from '../../../gantt.styles';
+import { todayHeight, todayWidth } from '../../../gantt.styles';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from '../../../class';
 import { take, takeUntil } from 'rxjs/operators';
@@ -22,11 +22,14 @@ export class GanttCalendarHeaderComponent implements OnInit {
 
     private unsubscribe$ = new Subject();
 
-    headerHeight = headerHeight;
-
     viewTypes = GanttViewType;
 
     @HostBinding('class') className = `gantt-calendar gantt-calendar-header`;
+
+    @HostBinding('style.height')
+    get height() {
+        return this.ganttUpper.styles.headerHeight + 'px';
+    }
 
     constructor(
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
@@ -35,6 +38,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        // 头部日期定位
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
             merge(this.ganttUpper.viewChange, this.ganttUpper.view.start$)
                 .pipe(takeUntil(this.unsubscribe$))
@@ -53,7 +57,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
         if (isNumber(x)) {
             if (rect) {
                 rect.style.left = `${x - todayWidth / 2}px`;
-                rect.style.top = `${headerHeight - todayHeight}px`;
+                rect.style.top = `${this.ganttUpper.styles.headerHeight - todayHeight}px`;
                 rect.innerHTML = today.toString();
             }
         } else {

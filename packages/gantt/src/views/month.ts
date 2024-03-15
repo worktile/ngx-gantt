@@ -1,4 +1,4 @@
-import { GanttView, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop, GanttViewDate } from './view';
+import { GanttView, GanttViewOptions, GanttViewDate, secondaryDatePointTop, primaryDatePointTop } from './view';
 import { GanttDate, differenceInCalendarQuarters, eachMonthOfInterval } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttViewType } from '../class';

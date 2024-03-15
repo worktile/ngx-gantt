@@ -1,7 +1,7 @@
 <div class="gantt-calendar-today-overlay" [style.width.px]="view.width">
   <span class="today-rect" [hidden]="ganttUpper.viewType !== viewTypes.day"> </span>
 </div>
-<svg [attr.width]="view.width" [attr.height]="headerHeight">
+<svg [attr.width]="view.width" [attr.height]="ganttUpper.styles.headerHeight">
   <g>
     <text
       class="primary-text"
@@ -33,13 +33,19 @@
         [attr.x1]="(i + 1) * view.primaryWidth"
         [attr.x2]="(i + 1) * view.primaryWidth"
         [attr.y1]="0"
-        [attr.y2]="headerHeight"
+        [attr.y2]="ganttUpper.styles.headerHeight"
         class="primary-line"
       ></line>
     </g>
 
     <g>
-      <line [attr.x1]="0" [attr.x2]="view.width" [attr.y1]="headerHeight" [attr.y2]="headerHeight" class="header-line"></line>
+      <line
+        [attr.x1]="0"
+        [attr.x2]="view.width"
+        [attr.y1]="ganttUpper.styles.headerHeight"
+        [attr.y2]="ganttUpper.styles.headerHeight"
+        class="header-line"
+      ></line>
     </g>
   </g>
 </svg>

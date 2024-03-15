@@ -36,6 +36,11 @@ const config = {
         year: 'yyyy',
         yearMonth: 'yyyy/MM',
         yearQuarter: 'yyyy/QQQ'
+    },
+    styleOptions: {
+        headerHeight: 60,
+        lineHeight: 60,
+        barHeight: 30
     }
 };
 
@@ -314,6 +319,26 @@ function assertGroups<T extends TestGanttComponentBase>(fixture: ComponentFixtur
     });
 }
 
+function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugElement: DebugElement) {
+    const styleOptionsBindElement = {
+        headerHeight: ['.gantt-calendar-header', '.gantt-table-header'],
+        lineHeight: ['.gantt-item', '.gantt-table-item', '.gantt-group', '.gantt-table-group'],
+        barHeight: ['.gantt-bar']
+    };
+    for (const key in styleOptionsBindElement) {
+        if (Object.prototype.hasOwnProperty.call(styleOptionsBindElement, key)) {
+            const bindElementsClass = styleOptionsBindElement[key];
+            bindElementsClass.forEach((elementClass) => {
+                const element = ganttDebugElement.query(By.css(elementClass));
+                if (element) {
+                    const height = element.nativeElement.style.getPropertyValue('height');
+                    expect(height).toEqual(ganttComponent.config.styleOptions[key] + 'px');
+                }
+            });
+        }
+    }
+}
+
 describe('ngx-gantt', () => {
     describe('#basic', () => {
         let fixture: ComponentFixture<TestGanttBasicComponent>;
@@ -495,6 +520,10 @@ describe('ngx-gantt', () => {
             fixture.detectChanges();
             expect(viewportElement.nativeElement.classList).toContain('gantt-normal-viewport');
         });
+
+        it('should gantt basic has correct config style', () => {
+            assertConfigStyle(ganttComponentInstance.ganttComponent, ganttDebugElement);
+        });
     });
 
     describe('#with groups', () => {
@@ -564,6 +593,10 @@ describe('ngx-gantt', () => {
                 expect(group.expanded).toBe(false);
             });
             expect(afterCollapseItems.length).toEqual(0);
+        });
+
+        it('should gantt groups has correct config style', () => {
+            assertConfigStyle(ganttComponent, fixture.debugElement);
         });
     });
 
