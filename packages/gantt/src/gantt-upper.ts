@@ -147,6 +147,10 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public items: GanttItemInternal[] = [];
 
+    public flatItems: (GanttGroupInternal | GanttItemInternal)[] = [];
+
+    public flatItemsMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
+
     public groups: GanttGroupInternal[] = [];
 
     public baselineItems: GanttBaselineItemInternal[] = [];
@@ -267,12 +271,14 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         let start = this.start;
         let end = this.end;
         if (!this.start || !this.end) {
-            this.originItems.forEach((item) => {
+            this.flatItems.forEach((item: GanttItemInternal) => {
                 if (item.start && !this.start) {
-                    start = start ? Math.min(start, item.start) : item.start;
+                    const itemStart: number = item.start.getTime ? item.start.getTime() : (item.start as unknown as number);
+                    start = start ? Math.min(start, itemStart) : itemStart;
                 }
                 if (item.end && !this.end) {
-                    end = end ? Math.max(end, item.end) : item.end;
+                    const itemEnd: number = item.end.getTime ? item.end.getTime() : (item.end as unknown as number);
+                    end = end ? Math.max(end, itemEnd) : itemEnd;
                 }
             });
         }
@@ -286,6 +292,24 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 isCustom: this.end ? true : false
             }
         };
+    }
+
+    protected buildFlatItems() {
+        const virtualData = [];
+        if (this.groups.length) {
+            this.groups.forEach((group) => {
+                virtualData.push(group);
+                if (group.expanded) {
+                    const items = recursiveItems(group.items);
+                    virtualData.push(...items);
+                }
+            });
+        }
+        if (this.items.length) {
+            virtualData.push(...recursiveItems(this.items));
+        }
+        this.flatItems = [...virtualData];
+        this.flatItemsMap = keyBy(this.flatItems, 'id');
     }
 
     computeRefs() {
@@ -313,9 +337,10 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     ngOnInit() {
         this.styles = Object.assign({}, defaultConfig.styleOptions, this.config.styleOptions, this.styles);
-        this.createView();
         this.setupGroups();
         this.setupItems();
+        this.buildFlatItems();
+        this.createView();
         this.computeRefs();
         this.setupBaselineItems();
         this.computeItemsRefs(...this.baselineItems);

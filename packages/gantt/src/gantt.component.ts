@@ -138,8 +138,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         return this._loading;
     }
 
-    public flatItems: (GanttGroupInternal | GanttItemInternal)[] = [];
-
     public viewportItems: (GanttGroupInternal | GanttItemInternal)[] = [];
 
     private _loading = false;
@@ -149,8 +147,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     private rangeStart = 0;
 
     private rangeEnd = 0;
-
-    private flatItemsMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
 
     private draggingItem: GanttItem;
 
@@ -238,23 +234,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         }
     }
 
-    private buildFlatItems() {
-        const virtualData = [];
-        if (this.groups.length) {
-            this.groups.forEach((group) => {
-                virtualData.push(group);
-                if (group.expanded) {
-                    const items = recursiveItems(group.items);
-                    virtualData.push(...items);
-                }
-            });
-        }
-
-        if (this.items.length) {
-            virtualData.push(...recursiveItems(this.items));
-        }
-        this.flatItems = [...virtualData];
-        this.flatItemsMap = keyBy(this.flatItems, 'id');
+    override buildFlatItems() {
+        super.buildFlatItems();
         if (!this.virtualScrollEnabled) {
             this.rangeStart = 0;
             this.rangeEnd = this.flatItems.length;
@@ -264,6 +245,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     private afterExpand() {
         this.buildFlatItems();
         this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
+        this.rerenderView();
     }
 
     private computeTempDataRefs() {
