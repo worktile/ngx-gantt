@@ -81,6 +81,16 @@ export class GanttViewHour extends GanttView {
         return points;
     }
 
+    override getTodayXPoint(): number {
+        const toady = new GanttDate().startOfMinute();
+        if (toady.value > this.start.value && toady.value < this.end.value) {
+            const x = this.getXPointByDate(toady);
+            return x;
+        } else {
+            return null;
+        }
+    }
+
     override getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const minutes = differenceInMinutes(end.value, start.value);
