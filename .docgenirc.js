@@ -5,6 +5,10 @@ module.exports = {
     outputDir: 'dist/site',
     logoUrl: 'https://cdn.pingcode.com/open-sources/gantt/logo.png',
     repoUrl: 'https://github.com/worktile/ngx-gantt',
+    locales: [
+        { key: 'en-us', name: 'English' },
+        { key: 'zh-cn', name: '中文' }
+    ],
     defaultLocale: 'zh-cn',
     navs: [
         null,
