@@ -1,9 +1,9 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { Component, ViewChild, DebugElement } from '@angular/core';
-import { NgxGanttModule } from 'ngx-gantt';
-import { getMockGroupItems, getMockGroups } from '../../test/mocks/data';
+import { Component, DebugElement, ViewChild } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NgxGanttModule } from 'ngx-gantt';
 import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
+import { getMockGroupItems, getMockGroups } from '../../test/mocks/data';
 
 @Component({
     selector: 'test-gantt-table',
@@ -34,7 +34,7 @@ describe('NgxGanttTableComponent', () => {
     let component: TestGanttTableComponent;
     let fixture: ComponentFixture<TestGanttTableComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [NgxGanttModule],
             declarations: [TestGanttTableComponent]
