@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [18.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/17.0.0-next.0...18.0.0-next.0) (2024-08-16)
+
+### Bug Fixes
+
+- fix today line position in hour view [#452](https://github.com/worktile/ngx-gantt/issues/452) ([4b7d61a](https://github.com/worktile/ngx-gantt/commit/4b7d61a18ce62d6fa58944855eb5d44b9633fc63))
+
+### Features
+
+- create english translation documentation ([404f185](https://github.com/worktile/ngx-gantt/commit/404f1852358ab8c2dee55072799a2c9fa18788f0))
+- support custom header and item height [#431](https://github.com/worktile/ngx-gantt/issues/431) ([#449](https://github.com/worktile/ngx-gantt/issues/449)) ([986ed80](https://github.com/worktile/ngx-gantt/commit/986ed8048c4ac0c0f0a42c661fe0f131a4750b48))
+
 # [17.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/16.0.3...17.0.0-next.0) (2024-03-11)
 
 ### Bug Fixes
