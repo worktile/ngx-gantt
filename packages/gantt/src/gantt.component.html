@@ -71,6 +71,7 @@
     class="gantt-scrollbar"
     [style.height.px]="ganttRoot.horizontalScrollbarHeight + 1"
     [style.right.px]="ganttRoot.verticalScrollbarWidth"
+    [ngClass]="{ 'gantt-scrollbar-bg': table?.tableFooterTemplate }"
   >
     <div
       [style.width.px]="tableHeader.tableWidth"
