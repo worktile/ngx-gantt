@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [18.0.1](https://github.com/worktile/ngx-gantt/compare/18.0.0...18.0.1) (2024-09-09)
+
+### Features
+
+- **gantt:** 优化甘特图底部横向滚动条展示在窗口可视区域 ([#482](https://github.com/worktile/ngx-gantt/issues/482)) ([fa55097](https://github.com/worktile/ngx-gantt/commit/fa550976c53e26ffd4fe8854d869b21d2d9b49b1))
+
 # [18.0.0](https://github.com/worktile/ngx-gantt/compare/18.0.0-next.0...18.0.0) (2024-08-22)
 
 # [18.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/17.0.0-next.0...18.0.0-next.0) (2024-08-16)
