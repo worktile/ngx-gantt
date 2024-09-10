@@ -10,9 +10,9 @@ import { NgxGanttRootComponent } from '../../root.component';
     standalone: true
 })
 export class GanttScrollbarComponent {
-    @Input() hasGanttFooter: boolean = false;
+    @Input() hasFooter: boolean = false;
 
-    @Input() ganttTableWidth: number;
+    @Input() tableWidth: number;
 
     @Input() ganttRoot: NgxGanttRootComponent;
 

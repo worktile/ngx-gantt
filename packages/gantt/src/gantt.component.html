@@ -69,8 +69,8 @@
 
   <gantt-scrollbar
     [ganttRoot]="ganttRoot"
-    [hasGanttFooter]="!!table?.tableFooterTemplate"
-    [ganttTableWidth]="tableHeader.tableWidth"
+    [hasFooter]="!!table?.tableFooterTemplate"
+    [tableWidth]="tableHeader.tableWidth"
   ></gantt-scrollbar>
 
   <div class="gantt-footer" [style.right.px]="ganttRoot.verticalScrollbarWidth" [style.bottom.px]="ganttRoot.horizontalScrollbarHeight">
