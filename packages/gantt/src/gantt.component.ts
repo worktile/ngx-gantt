@@ -50,6 +50,8 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate } from './utils/date';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
+import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
+
 @Component({
     selector: 'ngx-gantt',
     templateUrl: './gantt.component.html',
@@ -79,6 +81,7 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
         GanttCalendarGridComponent,
         GanttMainComponent,
         GanttDragBackdropComponent,
+        GanttScrollbarComponent,
         NgTemplateOutlet
     ]
 })
