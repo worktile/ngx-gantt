@@ -22,6 +22,7 @@ import { IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttRangeItemPipe } from 
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
+import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 
 @NgModule({
     imports: [
@@ -45,6 +46,7 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
         NgxGanttRootComponent,
         NgxGanttBaselineComponent,
         NgxGanttToolbarComponent,
+        GanttScrollbarComponent,
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe
@@ -60,7 +62,8 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
         NgxGanttToolbarComponent,
         GanttCalendarHeaderComponent,
         GanttCalendarGridComponent,
-        GanttDragBackdropComponent
+        GanttDragBackdropComponent,
+        GanttScrollbarComponent
     ],
     providers: [
         CdkVirtualScrollViewport,

@@ -67,21 +67,11 @@
 
   <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth + 1"></gantt-drag-backdrop>
 
-  <div
-    class="gantt-scrollbar"
-    [style.height.px]="ganttRoot.horizontalScrollbarHeight + 1"
-    [style.right.px]="ganttRoot.verticalScrollbarWidth"
-    [ngClass]="{ 'gantt-scrollbar-bg': table?.tableFooterTemplate }"
-  >
-    <div
-      [style.width.px]="tableHeader.tableWidth"
-      class="gantt-table-scrollbar"
-      [class.with-scrollbar]="ganttRoot.horizontalScrollbarHeight"
-    ></div>
-    <div class="gantt-main-scrollbar">
-      <div class="h-100" [style.width.px]="view.width"></div>
-    </div>
-  </div>
+  <gantt-scrollbar
+    [ganttRoot]="ganttRoot"
+    [hasFooter]="!!table?.tableFooterTemplate"
+    [tableWidth]="tableHeader.tableWidth"
+  ></gantt-scrollbar>
 
   <div class="gantt-footer" [style.right.px]="ganttRoot.verticalScrollbarWidth" [style.bottom.px]="ganttRoot.horizontalScrollbarHeight">
     <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1" *ngIf="table?.tableFooterTemplate">
