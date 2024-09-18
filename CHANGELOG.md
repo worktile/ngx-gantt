@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [18.0.2](https://github.com/worktile/ngx-gantt/compare/18.0.1...18.0.2) (2024-09-18)
+
+### Features
+
+- **gantt:** add scrollbar component(#TINFR-605) ([#484](https://github.com/worktile/ngx-gantt/issues/484)) ([f0e7128](https://github.com/worktile/ngx-gantt/commit/f0e71280fc9a63dd8278235adc0018a5ad956985)), closes [#TINFR-605](https://github.com/worktile/ngx-gantt/issues/TINFR-605) [#TINFR-605](https://github.com/worktile/ngx-gantt/issues/TINFR-605) [#TINFR-605](https://github.com/worktile/ngx-gantt/issues/TINFR-605)
+
 ## [18.0.1](https://github.com/worktile/ngx-gantt/compare/18.0.0...18.0.1) (2024-09-09)
 
 ### Features
