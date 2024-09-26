@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [18.0.3](https://github.com/worktile/ngx-gantt/compare/18.0.2...18.0.3) (2024-09-26)
+
+### Bug Fixes
+
+- **gantt:** handle footer container show when not exist #TINFR-725 [@luxiaobei](https://github.com/luxiaobei) (#TINFR-725) ([#486](https://github.com/worktile/ngx-gantt/issues/486)) ([3dfeb8e](https://github.com/worktile/ngx-gantt/commit/3dfeb8edeb230b9281bdd81405fdb1e5c4fcb68a)), closes [#TINFR-725](https://github.com/worktile/ngx-gantt/issues/TINFR-725) [#TINFR-725](https://github.com/worktile/ngx-gantt/issues/TINFR-725) [#TINFR-725](https://github.com/worktile/ngx-gantt/issues/TINFR-725)
+
 ## [18.0.2](https://github.com/worktile/ngx-gantt/compare/18.0.1...18.0.2) (2024-09-18)
 
 ### Features
