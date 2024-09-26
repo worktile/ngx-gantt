@@ -73,7 +73,12 @@
     [tableWidth]="tableHeader.tableWidth"
   ></gantt-scrollbar>
 
-  <div class="gantt-footer" [style.right.px]="ganttRoot.verticalScrollbarWidth" [style.bottom.px]="ganttRoot.horizontalScrollbarHeight">
+  <div
+    class="gantt-footer"
+    *ngIf="table?.tableFooterTemplate || footerTemplate"
+    [style.right.px]="ganttRoot.verticalScrollbarWidth"
+    [style.bottom.px]="ganttRoot.horizontalScrollbarHeight"
+  >
     <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1" *ngIf="table?.tableFooterTemplate">
       <ng-template [ngTemplateOutlet]="table?.tableFooterTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
     </div>
