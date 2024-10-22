@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [18.0.4](https://github.com/worktile/ngx-gantt/compare/18.0.3...18.0.4) (2024-10-22)
+
+
+### Bug Fixes
+
+* reset draggable or linkable when modify item.draggable or item.linkable #TINFR-806 ([f05e47f](https://github.com/worktile/ngx-gantt/commit/f05e47ff6a7e98cd97887f316ee2f13041ee5802)), closes [#TINFR-806](https://github.com/worktile/ngx-gantt/issues/TINFR-806)
+
+
+
 ## [18.0.3](https://github.com/worktile/ngx-gantt/compare/18.0.2...18.0.3) (2024-09-26)
 
 ### Bug Fixes
