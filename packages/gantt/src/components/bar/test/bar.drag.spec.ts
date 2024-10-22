@@ -36,6 +36,12 @@ const mockBarItems = [
     }
 ];
 
+const mockResetBarItems = [
+    { ...mockBarItems[0], draggable: false, linkable: false },
+    { ...mockBarItems[1], linkable: false },
+    { ...mockBarItems[2], draggable: false }
+];
+
 @Component({
     selector: 'test-gantt-bar',
     template: ` <ngx-gantt
@@ -63,7 +69,7 @@ export class TestGanttBarComponent {
 
     viewType = 'month';
 
-    items = mockBarItems;
+    items = [...mockBarItems];
 
     draggable = true;
 
@@ -158,6 +164,7 @@ describe('bar-drag', () => {
     });
 
     it('should active when mouse enter bar', () => {
+        fixture.detectChanges();
         const barElement = fixture.debugElement.query(By.directive(NgxGanttBarComponent)).nativeElement;
         dispatchMouseEvent(barElement, 'mouseenter');
         expect(barElement.classList).toContain(activeClass);
@@ -165,7 +172,25 @@ describe('bar-drag', () => {
         expect(barElement.classList).not.toContain(activeClass);
     });
 
+    it('should has correct style when reset draggable or linkable to false of item', async () => {
+        ganttComponentInstance.items = [...mockResetBarItems];
+        fixture.detectChanges();
+        const barElements = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
+        dispatchMouseEvent(barElements[0].nativeElement, 'mouseenter');
+        expect(barElements[0].nativeElement.classList).not.toContain(activeClass);
+        dispatchMouseEvent(barElements[1].nativeElement, 'mouseenter');
+        expect(barElements[1].nativeElement.classList).toContain(activeClass);
+        dispatchMouseEvent(barElements[2].nativeElement, 'mouseenter');
+        expect(barElements[2].nativeElement.classList).toContain(activeClass);
+
+        ganttComponentInstance.items = [...mockBarItems];
+        fixture.detectChanges();
+        dispatchMouseEvent(barElements[2].nativeElement, 'mouseenter');
+        expect(barElements[2].nativeElement.classList).toContain(activeClass);
+    });
+
     it('should bar drag', fakeAsync(() => {
+        fixture.detectChanges();
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[0];
         dragEvent(fixture, bar.nativeElement);
         tick(200);
@@ -173,7 +198,31 @@ describe('bar-drag', () => {
         expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-06-26 23:59:59').getUnixTime());
     }));
 
+    it('should reset dragRef.disable when reset items', async () => {
+        ganttComponentInstance.items = [...mockResetBarItems];
+        fixture.detectChanges();
+        let bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[0];
+        expect(bar.componentInstance.drag.barDragRef.disabled).toEqual(true);
+        bar.componentInstance.drag.barHandleDragRefs.forEach((dragRef) => {
+            expect(dragRef.disabled).toEqual(true);
+        });
+        bar.componentInstance.drag.linkDragRefs.forEach((dragRef) => {
+            expect(dragRef.disabled).toEqual(true);
+        });
+
+        ganttComponentInstance.items = [...mockBarItems];
+        fixture.detectChanges();
+        expect(bar.componentInstance.drag.barDragRef.disabled).toEqual(false);
+        bar.componentInstance.drag.barHandleDragRefs.forEach((dragRef) => {
+            expect(dragRef.disabled).toEqual(false);
+        });
+        bar.componentInstance.drag.linkDragRefs.forEach((dragRef) => {
+            expect(dragRef.disabled).toEqual(false);
+        });
+    });
+
     it('should first bar handle drag', fakeAsync(() => {
+        fixture.detectChanges();
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[1];
         const firstHandleElement = bar.queryAll(By.css('.drag-handles .handle'))[0].nativeElement;
         dragEvent(fixture, firstHandleElement, bar.nativeElement);
@@ -182,6 +231,7 @@ describe('bar-drag', () => {
     }));
 
     it('should last bar handles drag', fakeAsync(() => {
+        fixture.detectChanges();
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[1];
         const lastHandleElement = bar.queryAll(By.css('.drag-handles .handle'))[1].nativeElement;
         dragEvent(fixture, lastHandleElement, bar.nativeElement);
@@ -190,12 +240,14 @@ describe('bar-drag', () => {
     }));
 
     it('should first bar link handle drag', () => {
+        fixture.detectChanges();
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
         const firstHandleElement = bar.queryAll(By.css('.link-handles .handle'))[0].nativeElement;
         linkDragEvent(fixture, firstHandleElement);
     });
 
     it('should last bar link handles drag', () => {
+        fixture.detectChanges();
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[2];
         const lastHandleElement = bar.queryAll(By.css('.link-handles .handle'))[1].nativeElement;
         linkDragEvent(fixture, lastHandleElement);

@@ -91,7 +91,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
         this.ngZone.runOutsideAngular(() => {
             onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.drag.createDrags(this.elementRef, this.item, this.ganttUpper);
+                this.drag.initialize(this.elementRef, this.item, this.ganttUpper);
             });
         });
 
