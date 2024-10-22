@@ -67,10 +67,10 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     loading = false;
 
     items: GanttItem[] = [
-        { id: '000000', title: 'Task 0', start: 1627729997, end: 1627769997 },
+        { id: '000000', title: 'Task 0', start: 1627729997, end: 1627769997, draggable: false, linkable: false },
         // { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'],  },
-        { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'] },
-        { id: '000002', title: 'Task 2', start: 1610536397, end: 1610622797, progress: 0.5 },
+        { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'], draggable: false },
+        { id: '000002', title: 'Task 2', start: 1617361997, end: 1625483597, progress: 0.5, linkable: false },
         { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, itemDraggable: false },
         { id: '000004', title: 'Task 4', start: 1624705997 },
         { id: '000005', title: 'Task 5', start: 1628075597, end: 1629544397, color: '#709dc1' },
@@ -133,6 +133,13 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
                 item.children = randomItems(random(1, 5), item);
             }
         });
+
+        setTimeout(() => {
+            this.items[0] = { ...this.items[0], draggable: true, linkable: true };
+            this.items[1] = { ...this.items[1], draggable: true, linkable: false };
+            this.items[2] = { ...this.items[2], draggable: false, linkable: true };
+            this.items = [...this.items];
+        }, 5000);
 
         console.log(this.items);
     }
