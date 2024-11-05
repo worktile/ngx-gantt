@@ -12,6 +12,7 @@ import {
     GanttTableDragEndedEvent,
     GanttTableDragEnterPredicateContext,
     GanttTableDragStartedEvent,
+    GanttTableItemClickEvent,
     GanttToolbarOptions,
     GanttView,
     GanttViewType,
@@ -161,6 +162,10 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     dragEnded(event: GanttDragEvent) {
         this.thyNotify.info('Event: dragEnded', `修改了 [${event.item.title}] 的时间`);
         this.items = [...this.items];
+    }
+
+    itemClick(event: GanttTableItemClickEvent) {
+        console.log(`点击了数据行 ${event.current.id}`);
     }
 
     selectedChange(event: GanttSelectedEvent) {

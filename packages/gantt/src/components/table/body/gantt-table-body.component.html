@@ -33,7 +33,7 @@
 
       <div
         *ngIf="!item.items"
-        (click)="itemClick.emit({ event: $event, selectedValue: item.origin })"
+        (click)="itemClick.emit({ event: $event, current: item.origin, selectedValue: item.origin })"
         cdkDrag
         [cdkDragData]="item"
         [cdkDragDisabled]="(draggable && item.itemDraggable === false) || !draggable"

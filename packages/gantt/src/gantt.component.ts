@@ -337,6 +337,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     }
 
     selectItem(selectEvent: GanttSelectedEvent) {
+        this.table.itemClick.emit({
+            event: selectEvent.event,
+            current: selectEvent.current
+        });
+
         if (!this.selectable) {
             return;
         }

@@ -49,6 +49,7 @@
       <ngx-gantt-table
         [draggable]="true"
         [dropEnterPredicate]="dropEnterPredicate"
+        (itemClick)="itemClick($event)"
         (dragDropped)="onDragDropped($event)"
         (dragStarted)="onDragStarted($event)"
         (dragEnded)="onDragEnded($event)"
