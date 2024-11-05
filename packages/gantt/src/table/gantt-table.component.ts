@@ -1,10 +1,11 @@
-import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, input, Input, Output, TemplateRef } from '@angular/core';
 import {
     GanttTableDragEnterPredicateContext,
     GanttTableDragDroppedEvent,
     GanttTableEvent,
     GanttTableDragStartedEvent,
-    GanttTableDragEndedEvent
+    GanttTableDragEndedEvent,
+    GanttTableItemClickEvent
 } from '../class';
 
 @Component({
@@ -24,6 +25,8 @@ export class NgxGanttTableComponent {
     @Output() dragEnded = new EventEmitter<GanttTableDragEndedEvent>();
 
     @Output() columnChanges = new EventEmitter<GanttTableEvent>();
+
+    @Output() itemClick = new EventEmitter<GanttTableItemClickEvent>();
 
     @ContentChild('rowBeforeSlot', { static: true }) rowBeforeTemplate: TemplateRef<any>;
 
