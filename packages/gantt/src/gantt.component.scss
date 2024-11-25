@@ -110,6 +110,46 @@
         background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
       }
     }
+
+    .gantt-quick-time-focus-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      .gantt-quick-time-focus {
+        position: sticky;
+        left: 0;
+        width: 0px;
+        z-index: 3;
+        pointer-events: none;
+
+        &-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          &-arrow {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background-color: variables.$gantt-bar-bg;
+            border: 1px solid variables.$gantt-border-color;
+            border-radius: 4px;
+            box-shadow: 0 4px 7px 1px rgba(0, 0, 0, 0.05);
+            pointer-events: all;
+            .gantt-icon {
+              display: inline-block;
+              svg {
+                width: 14px;
+                height: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   .gantt-normal-viewport {
