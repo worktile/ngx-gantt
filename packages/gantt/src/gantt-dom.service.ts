@@ -173,6 +173,15 @@ export class GanttDomService implements OnDestroy {
         return isPlatformServer(this.platformId) ? EMPTY : fromEvent(window, 'resize').pipe(auditTime(150));
     }
 
+    getResizeByElement(element: Element) {
+        return new Observable((observer) => {
+            const resizeObserver = new ResizeObserver(() => {
+                observer.next();
+            });
+            resizeObserver.observe(element);
+        });
+    }
+
     scrollMainContainer(left: number) {
         if (isNumber(left)) {
             const scrollLeft = left - this.mainContainer.clientWidth / 2;
