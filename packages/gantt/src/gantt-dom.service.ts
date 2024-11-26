@@ -1,6 +1,6 @@
 import { isPlatformServer } from '@angular/common';
 import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone, WritableSignal, signal } from '@angular/core';
-import { fromEvent, Subject, merge, EMPTY, Observable, Subscription } from 'rxjs';
+import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
 import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 import { passiveListenerOptions } from './utils/passive-listeners';
