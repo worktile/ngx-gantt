@@ -1,4 +1,4 @@
-import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ElementRef, NgZone, OnInit } from '@angular/core';
+import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ElementRef, NgZone, AfterViewInit } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from '../../gantt.pipe';
@@ -31,7 +31,7 @@ import { Subject, takeUntil } from 'rxjs';
         GanttIconComponent
     ]
 })
-export class GanttMainComponent implements OnInit {
+export class GanttMainComponent implements AfterViewInit {
     @Input() viewportItems: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
@@ -65,13 +65,9 @@ export class GanttMainComponent implements OnInit {
         protected ngZone: NgZone
     ) {}
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         this.setupResize();
     }
-
-    setupViewScroll = () => {
-        return this.dom.getViewerScroll().pipe(takeUntil(this.unsubscribe$));
-    };
 
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
         return item.id || index;

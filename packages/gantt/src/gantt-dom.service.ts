@@ -40,8 +40,6 @@ export class GanttDomService implements OnDestroy {
 
     public linksOverlay: Element;
 
-    public isViewScrollSet = false;
-
     public visibleRangeX: WritableSignal<{ min: number; max: number }> = signal({ min: 0, max: 0 });
 
     private mainFooter: Element;
@@ -51,13 +49,6 @@ export class GanttDomService implements OnDestroy {
     private unsubscribe$ = new Subject<void>();
 
     constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
-
-    checkAndSetViewScroll = (viewerScroll: () => Observable<ScrollEvent>) => {
-        if (!this.isViewScrollSet) {
-            this.isViewScrollSet = true;
-            return viewerScroll();
-        }
-    };
 
     private monitorScrollChange() {
         const scrollObservers = [
