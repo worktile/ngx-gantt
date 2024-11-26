@@ -9,7 +9,7 @@ import { NgFor, NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
 import { GanttLinksComponent } from '../links/links.component';
 import { NgxGanttRootComponent } from 'ngx-gantt';
 import { GanttIconComponent } from '../icon/icon.component';
-import { GanttDomService } from 'ngx-gantt/gantt-dom.service';
+import { GanttDomService } from '../../gantt-dom.service';
 import { from, Subject, take, takeUntil } from 'rxjs';
 
 @Component({
