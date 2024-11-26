@@ -52,7 +52,7 @@ export class GanttDomService implements OnDestroy {
 
     constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
 
-    checkAndSetViewScroll = (viewerScroll: () => Subscription) => {
+    checkAndSetViewScroll = (viewerScroll: () => Observable<ScrollEvent>) => {
         if (!this.isViewScrollSet) {
             this.isViewScrollSet = true;
             return viewerScroll();

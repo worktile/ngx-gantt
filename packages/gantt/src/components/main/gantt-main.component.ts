@@ -71,13 +71,13 @@ export class GanttMainComponent implements OnInit {
         this.ngZone.runOutsideAngular(() => {
             onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
                 this.setupResize();
-                this.dom.checkAndSetViewScroll(this.setupViewScroll);
+                this.dom.checkAndSetViewScroll(this.setupViewScroll).subscribe();
             });
         });
     }
 
     setupViewScroll = () => {
-        return this.dom.getViewerScroll().pipe(takeUntil(this.unsubscribe$)).subscribe();
+        return this.dom.getViewerScroll().pipe(takeUntil(this.unsubscribe$));
     };
 
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
