@@ -1,4 +1,16 @@
-import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ElementRef, NgZone, AfterViewInit } from '@angular/core';
+import {
+    Component,
+    HostBinding,
+    Inject,
+    Input,
+    TemplateRef,
+    Output,
+    EventEmitter,
+    ElementRef,
+    NgZone,
+    AfterViewInit,
+    OnInit
+} from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from '../../gantt.pipe';
@@ -31,7 +43,7 @@ import { Subject, takeUntil } from 'rxjs';
         GanttIconComponent
     ]
 })
-export class GanttMainComponent implements AfterViewInit {
+export class GanttMainComponent implements OnInit {
     @Input() viewportItems: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
@@ -65,7 +77,7 @@ export class GanttMainComponent implements AfterViewInit {
         protected ngZone: NgZone
     ) {}
 
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
         this.setupResize();
     }
 
@@ -83,13 +95,7 @@ export class GanttMainComponent implements AfterViewInit {
     }
 
     quickTime(item: GanttItemInternal, type: 'left' | 'right') {
-        let date;
-        if (type === 'left') {
-            date = item.start ? item.start : item.end;
-        }
-        if (type === 'right') {
-            date = item.end ? item.end : item.start;
-        }
+        const date = type === 'left' ? item.start || item.end : item.end || item.start;
         this.ganttRoot.scrollToDate(date);
     }
 }
