@@ -126,6 +126,20 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          span {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2px;
+            pointer-events: all;
+            &:hover {
+              .gantt-quick-time-focus-item-arrow {
+                border: 1px solid rgba(variables.$gantt-primary-color, 1);
+              }
+            }
+          }
 
           &-arrow {
             width: 20px;
@@ -138,7 +152,6 @@
             border: 1px solid variables.$gantt-border-color;
             border-radius: 4px;
             box-shadow: 0 4px 7px 1px rgba(0, 0, 0, 0.05);
-            pointer-events: all;
             .gantt-icon {
               display: inline-block;
               svg {

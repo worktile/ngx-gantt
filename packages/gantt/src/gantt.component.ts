@@ -115,8 +115,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() loadingDelay = 0;
 
-    @Input() quickTimeFocus = false;
-
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
 
     @Output() override linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
