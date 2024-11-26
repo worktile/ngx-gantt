@@ -1,6 +1,6 @@
 import { isPlatformServer } from '@angular/common';
-import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone } from '@angular/core';
-import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
+import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone, WritableSignal, signal } from '@angular/core';
+import { fromEvent, Subject, merge, EMPTY, Observable, Subscription } from 'rxjs';
 import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 import { passiveListenerOptions } from './utils/passive-listeners';
@@ -40,6 +40,10 @@ export class GanttDomService implements OnDestroy {
 
     public linksOverlay: Element;
 
+    public isViewScrollSet = false;
+
+    public visibleRangeX: WritableSignal<{ min: number; max: number }> = signal({ min: 0, max: 0 });
+
     private mainFooter: Element;
 
     private mainScrollbar: Element;
@@ -47,6 +51,13 @@ export class GanttDomService implements OnDestroy {
     private unsubscribe$ = new Subject<void>();
 
     constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
+
+    checkAndSetViewScroll = (viewerScroll: () => Subscription) => {
+        if (!this.isViewScrollSet) {
+            this.isViewScrollSet = true;
+            return viewerScroll();
+        }
+    };
 
     private monitorScrollChange() {
         const scrollObservers = [
@@ -141,6 +152,7 @@ export class GanttDomService implements OnDestroy {
                         map(() => this.mainContainer.scrollLeft),
                         pairwise(),
                         map(([previous, current]) => {
+                            this.setVisibleRangeX();
                             const event: ScrollEvent = {
                                 target: this.mainContainer,
                                 direction: ScrollDirection.NONE
@@ -179,6 +191,13 @@ export class GanttDomService implements OnDestroy {
             this.mainScrollbar && (this.mainScrollbar.scrollLeft = this.mainContainer.scrollLeft);
             this.mainFooter && (this.mainFooter.scrollLeft = this.mainContainer.scrollLeft);
         }
+    }
+
+    setVisibleRangeX() {
+        this.visibleRangeX.set({
+            min: this.mainContainer.scrollLeft,
+            max: this.mainContainer.scrollLeft + this.mainContainer.clientWidth
+        });
     }
 
     ngOnDestroy() {

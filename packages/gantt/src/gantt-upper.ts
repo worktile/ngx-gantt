@@ -179,12 +179,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     private _linkOptions: GanttLinkOptions;
 
-    public scrollXRange: WritableSignal<{ min: number; max: number }> = signal({ min: 0, max: 0 });
-
-    private ganttMainElement: HTMLElement | null = null;
-
-    private resizeObserver: ResizeObserver | null = null;
-
     @HostBinding('class.gantt') ganttClass = true;
 
     constructor(
@@ -352,12 +346,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                     this.disabledLoadOnScroll = disabledLoadOnScroll;
                     this.dragEnded.emit(event);
                 });
-
-                this.ganttMainElement = document.querySelector('gantt-main');
-                this.updateXCoordinate();
-                this.ganttMainElement.addEventListener('scroll', this.updateXCoordinate);
-                this.resizeObserver = new ResizeObserver(() => this.updateXCoordinate());
-                this.resizeObserver.observe(this.ganttMainElement);
             });
         });
 
@@ -391,12 +379,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        if (this.ganttMainElement) {
-            this.ganttMainElement.removeEventListener('scroll', this.updateXCoordinate);
-        }
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
-        }
     }
 
     computeItemsRefs(...items: GanttItemInternal[] | GanttBaselineItemInternal[]) {
@@ -471,13 +453,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     rerenderView() {
         this.changeView(this.viewType);
     }
-
-    private updateXCoordinate = () => {
-        const { scrollLeft, clientWidth } = this.ganttMainElement!;
-        const min = scrollLeft;
-        const max = scrollLeft + clientWidth;
-        this.scrollXRange.set({ min, max });
-    };
 }
 
 export const GANTT_UPPER_TOKEN = new InjectionToken<GanttUpper>('GANTT_UPPER_TOKEN');

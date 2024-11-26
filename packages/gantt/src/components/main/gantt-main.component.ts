@@ -1,4 +1,4 @@
-import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, ElementRef, OnInit, NgZone } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from '../../gantt.pipe';
@@ -9,6 +9,8 @@ import { NgFor, NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
 import { GanttLinksComponent } from '../links/links.component';
 import { NgxGanttRootComponent } from 'ngx-gantt';
 import { GanttIconComponent } from '../icon/icon.component';
+import { GanttDomService } from 'ngx-gantt/gantt-dom.service';
+import { from, Subject, take, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'gantt-main',
@@ -29,7 +31,7 @@ import { GanttIconComponent } from '../icon/icon.component';
         GanttIconComponent
     ]
 })
-export class GanttMainComponent {
+export class GanttMainComponent implements OnInit {
     @Input() viewportItems: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
@@ -54,10 +56,41 @@ export class GanttMainComponent {
 
     @HostBinding('class.gantt-main-container') ganttMainClass = true;
 
-    constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper, public elementRef: ElementRef) {}
+    private unsubscribe$ = new Subject<void>();
+
+    constructor(
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
+        public elementRef: ElementRef,
+        public dom: GanttDomService,
+        protected ngZone: NgZone
+    ) {}
+
+    ngOnInit(): void {
+        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
+
+        this.ngZone.runOutsideAngular(() => {
+            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+                this.setupResize();
+                this.dom.checkAndSetViewScroll(this.setupViewScroll);
+            });
+        });
+    }
+
+    setupViewScroll = () => {
+        return this.dom.getViewerScroll().pipe(takeUntil(this.unsubscribe$)).subscribe();
+    };
 
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
         return item.id || index;
+    }
+
+    private setupResize() {
+        this.dom
+            .getResize()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+                this.dom.setVisibleRangeX();
+            });
     }
 
     quickTime(item: GanttItemInternal) {

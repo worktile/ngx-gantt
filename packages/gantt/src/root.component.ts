@@ -127,7 +127,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     }
 
     private setupViewScroll() {
-        if (this.ganttUpper.disabledLoadOnScroll) {
+        if (this.ganttUpper.disabledLoadOnScroll || this.dom.isViewScrollSet) {
             return;
         }
         this.dom
