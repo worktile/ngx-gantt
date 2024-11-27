@@ -35,3 +35,29 @@
     </div>
   </ng-container>
 </div>
+
+@if (quickTimeFocus) {
+<div class="gantt-quick-time-focus-container" [style.width.px]="ganttUpper.view.width">
+  <div class="gantt-quick-time-focus" [style.width.px]="dom.visibleRangeX().max - dom.visibleRangeX().min">
+    <ng-container *ngFor="let data of viewportItems; let i = index; trackBy: trackBy">
+      <div class="gantt-quick-time-focus-item" [style.height.px]="ganttUpper.styles.lineHeight">
+        <span class="ml-2">
+          @if ((data.refs.x < dom.visibleRangeX().min ) && data.refs.width ) {
+          <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(data.origin, 'left')">
+            <gantt-icon iconName="arrow-left"></gantt-icon>
+          </a>
+          }
+        </span>
+
+        <span class="mr-2">
+          @if((data.refs.x + data.refs.width > dom.visibleRangeX().max) && data.refs.width) {
+          <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(data.origin, 'right')">
+            <gantt-icon iconName="arrow-right"></gantt-icon>
+          </a>
+          }
+        </span>
+      </div>
+    </ng-container>
+  </div>
+</div>
+}

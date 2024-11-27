@@ -78,6 +78,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink"
 </svg>`;
 
 const dragIcon = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="aijaction/drag--" stroke-width="1" fill-rule="evenodd"><g id="aij拖动" transform="translate(5 1)" fill-rule="nonzero"><path d="M1 2a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM1 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" id="aij形状结合"></path></g></g></svg>`;
+const arrowLeftIcon = `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="adinavigation/arrow-left" stroke-width="1" fill-rule="evenodd"><path d="M7.4 4.15L4.438 7.315a.6.6 0 0 1-.876-.82l3.97-4.243a.598.598 0 0 1 .93-.057l3.97 4.323a.6.6 0 1 1-.885.812L8.6 4.118v9.149c0 .404-.269.733-.6.733-.332 0-.6-.329-.6-.733V4.15z" id="adi形状结合" transform="rotate(-90 7.995 8)"></path></g></svg>`;
+const arrowRightIcon = `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="adlnavigation/arrow-right" stroke-width="1" fill-rule="evenodd"><path d="M7.4 4.15L4.438 7.315a.6.6 0 0 1-.876-.82l3.97-4.243a.598.598 0 0 1 .93-.057l3.97 4.323a.6.6 0 1 1-.885.812L8.6 4.118v9.149c0 .404-.269.733-.6.733-.332 0-.6-.329-.6-.733V4.15z" id="adl形状结合" transform="rotate(90 7.995 8)"></path></g></svg>`;
 export const icons = {
     'angle-right': angleRight,
     'angle-down': angleDown,
@@ -85,5 +87,7 @@ export const icons = {
     'minus-square': minusSquare,
     loading: loadingIcon,
     empty: emptyIcon,
-    drag: dragIcon
+    drag: dragIcon,
+    'arrow-left': arrowLeftIcon,
+    'arrow-right': arrowRightIcon
 };

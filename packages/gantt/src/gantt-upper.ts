@@ -109,6 +109,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         return this._multiple;
     }
 
+    @Input() quickTimeFocus = false;
+
     @Output() loadOnScroll = new EventEmitter<GanttLoadOnScrollEvent>();
 
     @Output() dragStarted = new EventEmitter<GanttDragEvent>();
