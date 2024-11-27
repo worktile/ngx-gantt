@@ -1,6 +1,6 @@
 {
   "name": "@worktile/gantt",
-  "version": "18.0.4",
+  "version": "18.0.5",
   "schematics": "./schematics/collection.json",
   "author": "walkerkay001",
   "license": "MIT",
