@@ -2,14 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [18.0.4](https://github.com/worktile/ngx-gantt/compare/18.0.3...18.0.4) (2024-10-22)
-
+## [18.0.5](https://github.com/worktile/ngx-gantt/compare/18.0.4...18.0.5) (2024-11-27)
 
 ### Bug Fixes
 
-* reset draggable or linkable when modify item.draggable or item.linkable #TINFR-806 ([f05e47f](https://github.com/worktile/ngx-gantt/commit/f05e47ff6a7e98cd97887f316ee2f13041ee5802)), closes [#TINFR-806](https://github.com/worktile/ngx-gantt/issues/TINFR-806)
+- fix ngx-gantt-table itemClick event not work [#472](https://github.com/worktile/ngx-gantt/issues/472) ([4c0bdbb](https://github.com/worktile/ngx-gantt/commit/4c0bdbbc50829019bba48bb9af16d4508fe89344))
 
+### Features
 
+- **gantt:** support quick time focus #TINFR-1044 ([#494](https://github.com/worktile/ngx-gantt/issues/494)) ([df0f813](https://github.com/worktile/ngx-gantt/commit/df0f8136874f8ab908e93efb727ec24135f24f29)), closes [#TINFR-1044](https://github.com/worktile/ngx-gantt/issues/TINFR-1044)
+
+## [18.0.4](https://github.com/worktile/ngx-gantt/compare/18.0.3...18.0.4) (2024-10-22)
+
+### Bug Fixes
+
+- reset draggable or linkable when modify item.draggable or item.linkable #TINFR-806 ([f05e47f](https://github.com/worktile/ngx-gantt/commit/f05e47ff6a7e98cd97887f316ee2f13041ee5802)), closes [#TINFR-806](https://github.com/worktile/ngx-gantt/issues/TINFR-806)
 
 ## [18.0.3](https://github.com/worktile/ngx-gantt/compare/18.0.2...18.0.3) (2024-09-26)
 
