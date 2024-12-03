@@ -25,3 +25,4 @@ export * from './components/calendar/header/calendar-header.component';
 export * from './components/calendar/grid/calendar-grid.component';
 export * from './components/drag-backdrop/drag-backdrop.component';
 export * from './components/scrollbar/scrollbar.component';
+export * from './components/quick-time-focus/quick-time-focus.component';

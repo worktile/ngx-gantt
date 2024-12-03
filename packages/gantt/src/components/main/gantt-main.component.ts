@@ -7,8 +7,8 @@ import { NgxGanttBarComponent } from '../bar/bar.component';
 import { NgxGanttRangeComponent } from '../range/range.component';
 import { NgFor, NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
 import { GanttLinksComponent } from '../links/links.component';
-import { GanttIconComponent } from '../icon/icon.component';
 import { GanttDomService } from '../../gantt-dom.service';
+import { GanttQuickTimeFocusItemComponent } from '../quick-time-focus/quick-time-focus.component';
 
 @Component({
     selector: 'gantt-main',
@@ -26,7 +26,7 @@ import { GanttDomService } from '../../gantt-dom.service';
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe,
-        GanttIconComponent
+        GanttQuickTimeFocusItemComponent
     ]
 })
 export class GanttMainComponent {
@@ -56,10 +56,5 @@ export class GanttMainComponent {
 
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
         return item.id || index;
-    }
-
-    quickTime(item: GanttItemInternal, type: 'left' | 'right') {
-        const date = type === 'left' ? item.start || item.end : item.end || item.start;
-        this.ganttUpper.scrollToDate(date);
     }
 }
