@@ -48,7 +48,6 @@ import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from './gantt.config';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
-import { GanttDate } from './utils/date';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 
@@ -165,7 +164,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         private viewportRuler: ViewportRuler,
         @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
     ) {
-        super(elementRef, cdr, ngZone, config);
+        super(elementRef, cdr, ngZone, config, null);
         this.computeAllRefs = false;
     }
 
@@ -225,6 +224,9 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.appendDraggingItemToViewportItems();
                 this.computeTempDataRefs();
             });
+        }
+        if (this.ganttRoot && this.ganttRoot.dom) {
+            this.dom = this.ganttRoot.dom;
         }
     }
 
@@ -361,10 +363,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     scrollToToday() {
         this.ganttRoot.scrollToToday();
-    }
-
-    scrollToDate(date: number | GanttDate) {
-        this.ganttRoot.scrollToDate(date);
     }
 
     scrolledIndexChange(index: number) {

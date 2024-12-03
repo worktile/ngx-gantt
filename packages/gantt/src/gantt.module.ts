@@ -23,6 +23,7 @@ import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
+import { GanttQuickTimeFocusItemComponent } from './components/quick-time-focus/quick-time-focus.component';
 
 @NgModule({
     imports: [
@@ -47,6 +48,7 @@ import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.compon
         NgxGanttBaselineComponent,
         NgxGanttToolbarComponent,
         GanttScrollbarComponent,
+        GanttQuickTimeFocusItemComponent,
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe
@@ -63,7 +65,8 @@ import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.compon
         GanttCalendarHeaderComponent,
         GanttCalendarGridComponent,
         GanttDragBackdropComponent,
-        GanttScrollbarComponent
+        GanttScrollbarComponent,
+        GanttQuickTimeFocusItemComponent
     ],
     providers: [
         CdkVirtualScrollViewport,

@@ -1,0 +1,15 @@
+<span class="ml-2">
+  @if ((item.refs?.x < mainViewport().leftBoundary ) && item.refs?.width ) {
+  <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(item, 'left')">
+    <gantt-icon iconName="arrow-left"></gantt-icon>
+  </a>
+  }
+</span>
+
+<span class="mr-2">
+  @if((item.refs?.x + item.refs?.width > mainViewport().rightBoundary) && item.refs.width) {
+  <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(item, 'right')">
+    <gantt-icon iconName="arrow-right"></gantt-icon>
+  </a>
+  }
+</span>

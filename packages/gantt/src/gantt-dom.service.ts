@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
-import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone, WritableSignal, signal } from '@angular/core';
-import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
-import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
+import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone, WritableSignal, signal, InjectionToken } from '@angular/core';
+import { fromEvent, Subject, merge, EMPTY, Observable, combineLatest } from 'rxjs';
+import { pairwise, map, auditTime, takeUntil, startWith } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 import { passiveListenerOptions } from './utils/passive-listeners';
 
@@ -40,7 +40,7 @@ export class GanttDomService implements OnDestroy {
 
     public linksOverlay: Element;
 
-    public visibleRangeX: WritableSignal<{ min: number; max: number }> = signal({ min: 0, max: 0 });
+    public mainViewport: WritableSignal<{ clientWidth?: number; leftBoundary?: number; rightBoundary?: number }> = signal({});
 
     private mainFooter: Element;
 
@@ -125,6 +125,7 @@ export class GanttDomService implements OnDestroy {
 
         this.monitorScrollChange();
         this.disableBrowserWheelEvent();
+        this.monitorMainViewPortChange();
     }
 
     /**
@@ -143,7 +144,6 @@ export class GanttDomService implements OnDestroy {
                         map(() => this.mainContainer.scrollLeft),
                         pairwise(),
                         map(([previous, current]) => {
-                            this.setVisibleRangeX();
                             const event: ScrollEvent = {
                                 target: this.mainContainer,
                                 direction: ScrollDirection.NONE
@@ -193,10 +193,27 @@ export class GanttDomService implements OnDestroy {
         }
     }
 
-    setVisibleRangeX() {
-        this.visibleRangeX.set({
-            min: this.mainContainer.scrollLeft,
-            max: this.mainContainer.scrollLeft + this.mainContainer.clientWidth
+    monitorMainViewPortChange() {
+        combineLatest([
+            this.getResize().pipe(startWith(null)),
+            this.getResizeByElement(this.mainContainer),
+            this.setUpMainContainer(passiveListenerOptions)
+        ])
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+                this.setMainViewPort();
+            });
+    }
+
+    setUpMainContainer(options: AddEventListenerOptions) {
+        return fromEvent(this.mainContainer, 'scroll', options);
+    }
+
+    setMainViewPort() {
+        this.mainViewport.set({
+            clientWidth: this.mainContainer.clientWidth,
+            leftBoundary: this.mainContainer.scrollLeft,
+            rightBoundary: this.mainContainer.scrollLeft + this.mainContainer.clientWidth
         });
     }
 
