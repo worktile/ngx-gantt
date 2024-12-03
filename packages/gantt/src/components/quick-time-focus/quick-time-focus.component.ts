@@ -4,7 +4,7 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttIconComponent } from '../icon/icon.component';
 
 @Component({
-    selector: 'gantt-quick-time-focus-item',
+    selector: 'gantt-quick-time-focus',
     templateUrl: './quick-time-focus.component.html',
     standalone: true,
     imports: [GanttIconComponent]
