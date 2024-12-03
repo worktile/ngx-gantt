@@ -12,6 +12,11 @@ import { GanttIconComponent } from '../icon/icon.component';
 export class GanttQuickTimeFocusItemComponent {
     @HostBinding('class.gantt-quick-time-focus-item') class = true;
 
+    @HostBinding('style.height')
+    get height() {
+        return this.ganttUpper.styles.lineHeight + 'px';
+    }
+
     mainViewport: InputSignal<{ clientWidth?: number; leftBoundary?: number; rightBoundary?: number }> = input();
 
     @Input() item: GanttItemInternal;

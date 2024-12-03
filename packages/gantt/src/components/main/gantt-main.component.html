@@ -40,12 +40,7 @@
 <div class="gantt-quick-time-focus-container" [style.width.px]="ganttUpper.view.width">
   <div class="gantt-quick-time-focus" [style.width.px]="dom.mainViewport().clientWidth">
     <ng-container *ngFor="let data of viewportItems; let i = index; trackBy: trackBy">
-      <gantt-quick-time-focus-item
-        class="gantt-quick-time-focus-item"
-        [style.height.px]="ganttUpper.styles.lineHeight"
-        [mainViewport]="dom.mainViewport()"
-        [item]="data"
-      ></gantt-quick-time-focus-item>
+      <gantt-quick-time-focus-item [mainViewport]="dom.mainViewport()" [item]="data"></gantt-quick-time-focus-item>
     </ng-container>
   </div>
 </div>
