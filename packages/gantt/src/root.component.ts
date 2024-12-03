@@ -73,7 +73,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     constructor(
         private elementRef: ElementRef<HTMLElement>,
         private ngZone: NgZone,
-        private dom: GanttDomService,
+        public dom: GanttDomService,
         public dragContainer: GanttDragContainer,
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         @Optional() private printService: GanttPrintService
@@ -182,13 +182,6 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     }
 
     public scrollToDate(date: number | GanttDate) {
-        let x: number;
-        if (typeof date === 'number') {
-            x = this.view.getXPointByDate(new GanttDate(date));
-        } else {
-            x = this.view.getXPointByDate(date);
-        }
-
-        this.dom.scrollMainContainer(x);
+        this.ganttUpper.scrollToDate(date);
     }
 }

@@ -14,7 +14,8 @@ import {
     Inject,
     OnInit,
     OnDestroy,
-    OnChanges
+    OnChanges,
+    Optional
 } from '@angular/core';
 import { from, Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
@@ -41,6 +42,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
+import { GanttDomService } from './gantt-dom.service';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
@@ -185,7 +187,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         protected elementRef: ElementRef<HTMLElement>,
         protected cdr: ChangeDetectorRef,
         protected ngZone: NgZone,
-        @Inject(GANTT_GLOBAL_CONFIG) public config: GanttGlobalConfig
+        @Inject(GANTT_GLOBAL_CONFIG) public config: GanttGlobalConfig,
+        @Optional() public dom?: GanttDomService
     ) {}
 
     private createView() {
@@ -452,6 +455,17 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     rerenderView() {
         this.changeView(this.viewType);
+    }
+
+    scrollToDate(date: number | GanttDate) {
+        let x: number;
+        if (typeof date === 'number') {
+            x = this.view.getXPointByDate(new GanttDate(date));
+        } else {
+            x = this.view.getXPointByDate(date);
+        }
+
+        this.dom.scrollMainContainer(x);
     }
 }
 
