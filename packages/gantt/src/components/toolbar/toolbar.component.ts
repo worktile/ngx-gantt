@@ -1,8 +1,8 @@
-import { Component, HostBinding, Input, TemplateRef, Inject } from '@angular/core';
-import { ganttViews, GanttViewType } from '../../class';
+import { Component, HostBinding, Input, TemplateRef, Inject, inject } from '@angular/core';
+import { GanttViewType } from '../../class';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
-import { keyBy } from '../../utils/helpers';
 import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
+import { GanttConfigService } from '../../gantt.config';
 
 @Component({
     selector: 'ngx-gantt-toolbar,gantt-toolbar',
@@ -20,7 +20,7 @@ export class NgxGanttToolbarComponent {
         return this.ganttUpper.styles.headerHeight + 16 + 'px';
     }
 
-    ganttViewsMap = keyBy(ganttViews, 'value');
+    views = inject(GanttConfigService).getViewsLocale();
 
     constructor(@Inject(GANTT_UPPER_TOKEN) protected ganttUpper: GanttUpper) {}
 

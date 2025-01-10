@@ -11,10 +11,10 @@ import {
     SimpleChanges,
     InjectionToken,
     Directive,
-    Inject,
     OnInit,
     OnDestroy,
-    OnChanges
+    OnChanges,
+    inject
 } from '@angular/core';
 import { from, Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
@@ -35,7 +35,7 @@ import { createViewFactory } from './views/factory';
 import { GanttDate } from './utils/date';
 import { uniqBy, flatten, recursiveItems, getFlatItems, Dictionary, keyBy } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
-import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, GanttStyleOptions, defaultConfig } from './gantt.config';
+import { GanttConfigService, GanttGlobalConfig, GanttStyleOptions, defaultConfig } from './gantt.config';
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -78,7 +78,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     get linkOptions() {
-        return Object.assign({}, defaultConfig.linkOptions, this.config.linkOptions, this._linkOptions);
+        return Object.assign({}, this.configService.config.linkOptions, this._linkOptions);
     }
 
     @Input() disabledLoadOnScroll: boolean;
@@ -139,6 +139,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @ContentChild('toolbar', { static: true }) toolbarTemplate: TemplateRef<any>;
 
+    public configService = inject(GanttConfigService);
+
     public linkable: boolean;
 
     public computeAllRefs = true;
@@ -184,19 +186,17 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     constructor(
         protected elementRef: ElementRef<HTMLElement>,
         protected cdr: ChangeDetectorRef,
-        protected ngZone: NgZone,
-        @Inject(GANTT_GLOBAL_CONFIG) public config: GanttGlobalConfig
+        protected ngZone: NgZone, // @Inject(GANTT_GLOBAL_CONFIG) public config: GanttGlobalConfig
+        protected config: GanttGlobalConfig
     ) {}
 
     private createView() {
         const viewDate = this.getViewDate();
-        this.viewOptions.dateFormat = Object.assign({}, defaultConfig.dateFormat, this.config.dateFormat, this.viewOptions.dateFormat);
-        this.viewOptions.styleOptions = Object.assign(
-            {},
-            defaultConfig.styleOptions,
-            this.config.styleOptions,
-            this.viewOptions.styleOptions
-        );
+
+        this.styles = Object.assign({}, this.configService.config.styleOptions, this.styles);
+        this.viewOptions.dateFormat = Object.assign({}, this.configService.config.dateFormat, this.viewOptions.dateFormat);
+        this.viewOptions.styleOptions = Object.assign({}, this.configService.config.styleOptions, this.viewOptions.styleOptions);
+        this.viewOptions.dateDisplayFormats = this.configService.getViewsLocale()[this.viewType].dateFormats;
         this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions);
     }
 
@@ -314,7 +314,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.styles = Object.assign({}, defaultConfig.styleOptions, this.config.styleOptions, this.styles);
         this.createView();
         this.setupGroups();
         this.setupItems();

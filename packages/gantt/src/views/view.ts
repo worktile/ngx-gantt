@@ -2,8 +2,9 @@ import { differenceInCalendarDays, differenceInHours, differenceInMinutes } from
 import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
-import { GanttDateFormat, defaultConfig } from '../gantt.config';
+import { GanttDateFormat } from '../gantt.config';
 import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
+import { zhHansLocale } from '../i18n';
 
 export const primaryDatePointTop = '40%';
 
@@ -22,7 +23,9 @@ export interface GanttViewOptions {
     cellWidth?: number;
     addAmount?: number;
     addUnit?: GanttDateUtil;
+    /** @deprecated dateFormat is deprecated, please use dateDisplayFormats or setting i18n locale */
     dateFormat?: GanttDateFormat;
+    dateDisplayFormats?: { primary?: string; secondary?: string };
     datePrecisionUnit?: 'day' | 'hour' | 'minute';
     dragPreviewDateFormat?: string;
     // custom key and value
@@ -32,7 +35,6 @@ export interface GanttViewOptions {
 const viewOptions: GanttViewOptions = {
     min: new GanttDate().addYears(-1).startOfYear(),
     max: new GanttDate().addYears(1).endOfYear(),
-    dateFormat: defaultConfig.dateFormat,
     datePrecisionUnit: 'day',
     dragPreviewDateFormat: 'MM-dd'
 };
@@ -68,8 +70,14 @@ export abstract class GanttView {
 
     options: GanttViewOptions;
 
+    dateFormats: {
+        primary?: string;
+        secondary?: string;
+    } = {};
+
     constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions) {
         this.options = Object.assign({}, viewOptions, options);
+
         const startDate = start.isCustom
             ? this.viewStartOf(start.date)
             : this.viewStartOf(start.date.value < this.options.start.value ? start.date : this.options.start);
@@ -78,6 +86,7 @@ export abstract class GanttView {
             : this.viewEndOf(end.date.value > this.options.end.value ? end.date : this.options.end);
         this.start$ = new BehaviorSubject<GanttDate>(startDate);
         this.end$ = new BehaviorSubject<GanttDate>(endDate);
+
         this.initialize();
     }
 

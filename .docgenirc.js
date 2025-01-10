@@ -6,8 +6,8 @@ module.exports = {
     logoUrl: '/assets/imgs/logo.png',
     repoUrl: 'https://github.com/worktile/ngx-gantt',
     locales: [
-        { key: 'en-us', name: 'English' },
-        { key: 'zh-cn', name: '中文' }
+        { key: 'zh-cn', name: '中文' },
+        { key: 'en-us', name: 'English' }
     ],
     defaultLocale: 'zh-cn',
     navs: [

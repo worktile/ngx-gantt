@@ -111,11 +111,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         viewType: GanttViewType.day
     };
 
-    viewOptions = {
-        dateFormat: {
-            month: 'M月'
-        }
-    };
+    viewOptions = {};
 
     @HostBinding('class.gantt-example-component') class = true;
 

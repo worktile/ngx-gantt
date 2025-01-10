@@ -1,9 +1,14 @@
 <div class="toolbar-container">
   <ng-container *ngIf="!template">
     <div class="toolbar-views" *ngIf="this.ganttUpper.toolbarOptions?.viewTypes?.length">
-      <ng-container *ngFor="let view of this.ganttUpper.toolbarOptions?.viewTypes">
-        <div class="toolbar-view" *ngIf="ganttViewsMap[view]" [class.active]="view === this.ganttUpper.viewType" (click)="selectView(view)">
-          {{ ganttViewsMap[view].name }}
+      <ng-container *ngFor="let viewType of this.ganttUpper.toolbarOptions?.viewTypes">
+        <div
+          class="toolbar-view"
+          *ngIf="views[viewType]"
+          [class.active]="viewType === this.ganttUpper.viewType"
+          (click)="selectView(viewType)"
+        >
+          {{ views[viewType].label }}
         </div>
       </ng-container>
     </div>

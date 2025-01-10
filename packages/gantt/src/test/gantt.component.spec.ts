@@ -22,6 +22,7 @@ import { NgxGanttBaselineComponent } from '../components/baseline/baseline.compo
 import { GanttTableBodyComponent } from '../components/table/body/gantt-table-body.component';
 import { GanttLoaderComponent } from '../components/loader/loader.component';
 import { GanttCalendarHeaderComponent } from '../components/calendar/header/calendar-header.component';
+import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocale } from 'ngx-gantt';
 
 const mockItems = getMockItems();
 const mockGroupItems = getMockGroupItems();
@@ -29,18 +30,58 @@ const mockGroups = getMockGroups();
 const mockBaselineItems = getMockBaselineItems();
 
 const config = {
-    dateFormat: {
-        week: 'w',
-        month: 'MM',
-        quarter: 'Q',
-        year: 'yyyy',
-        yearMonth: 'yyyy/MM',
-        yearQuarter: 'yyyy/QQQ'
-    },
+    locale: GanttI18nLocale.zhHans,
     styleOptions: {
         headerHeight: 60,
         lineHeight: 60,
         barHeight: 30
+    }
+};
+
+const localeConfig = {
+    id: GanttI18nLocale.zhHans,
+    views: {
+        [GanttViewType.hour]: {
+            label: '小时',
+            dateFormats: {
+                primary: 'M月d日',
+                secondary: 'HH:mm'
+            }
+        },
+        [GanttViewType.day]: {
+            label: '天',
+            dateFormats: {
+                primary: 'yyyy-MM',
+                secondary: 'd'
+            }
+        },
+        [GanttViewType.week]: {
+            label: '周',
+            dateFormats: {
+                primary: 'yyyy',
+                secondary: 'w'
+            }
+        },
+        [GanttViewType.month]: {
+            label: '月',
+            dateFormats: {
+                primary: `yyyy/QQQ`,
+                secondary: 'MM'
+            }
+        },
+        [GanttViewType.quarter]: {
+            label: '季',
+            dateFormats: {
+                primary: 'yyyy',
+                secondary: `yyyy/QQQ`
+            }
+        },
+        [GanttViewType.year]: {
+            label: '年',
+            dateFormats: {
+                secondary: 'yyyy'
+            }
+        }
     }
 };
 
@@ -104,11 +145,7 @@ export class TestGanttBasicComponent {
 
     virtualScrollEnabled = true;
 
-    viewOptions = {
-        dateFormat: {
-            yearMonth: 'yyyy-MM'
-        }
-    };
+    viewOptions = {};
 
     showToolbar = true;
 
@@ -332,7 +369,7 @@ function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugElement:
                 const element = ganttDebugElement.query(By.css(elementClass));
                 if (element) {
                     const height = element.nativeElement.style.getPropertyValue('height');
-                    expect(height).toEqual(ganttComponent.config.styleOptions[key] + 'px');
+                    expect(height).toEqual(ganttComponent.configService.config.styleOptions[key] + 'px');
                 }
             });
         }
@@ -354,6 +391,11 @@ describe('ngx-gantt', () => {
                     {
                         provide: GANTT_GLOBAL_CONFIG,
                         useValue: config
+                    },
+                    {
+                        provide: GANTT_I18N_LOCALE_TOKEN,
+                        useValue: localeConfig,
+                        multi: true
                     }
                 ]
             }).compileComponents();
@@ -662,6 +704,11 @@ describe('ngx-gantt', () => {
                     {
                         provide: GANTT_GLOBAL_CONFIG,
                         useValue: config
+                    },
+                    {
+                        provide: GANTT_I18N_LOCALE_TOKEN,
+                        useValue: localeConfig,
+                        multi: true
                     }
                 ]
             }).compileComponents();

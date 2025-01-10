@@ -8,7 +8,7 @@ import { ThyNotifyModule } from 'ngx-tethys/notify';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GANTT_GLOBAL_CONFIG, NgxGanttModule } from 'ngx-gantt';
+import { GANTT_GLOBAL_CONFIG, GANTT_I18N_LOCALE_TOKEN, GanttViewType, NgxGanttModule } from 'ngx-gantt';
 import { AppComponent } from './app.component';
 import { AppGanttExampleComponent } from './gantt/gantt.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +25,7 @@ import { AppExampleComponentsComponent } from './components/components.component
 import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.component';
 import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.component';
 import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/gantt.component';
+import { ko } from 'date-fns/locale';
 
 @NgModule({
     declarations: [

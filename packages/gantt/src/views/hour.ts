@@ -1,3 +1,4 @@
+import { zhHantLocale } from '../i18n';
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDate, differenceInMinutes, eachDayOfInterval, eachHourOfInterval } from '../utils/date';
@@ -10,6 +11,7 @@ const viewOptions: GanttViewOptions = {
     datePrecisionUnit: 'minute',
     addAmount: 1,
     addUnit: 'week',
+    dateDisplayFormats: zhHantLocale.views.hour.dateFormats,
     dragPreviewDateFormat: 'HH:mm'
 };
 
@@ -51,7 +53,7 @@ export class GanttViewHour extends GanttView {
             const start = this.start.addDays(i);
             const point = new GanttDatePoint(
                 start,
-                start.format(this.options.dateFormat.day),
+                start.format(this.options.dateFormat?.day || this.options.dateDisplayFormats.primary),
                 (this.getCellWidth() * 24) / 2 + i * (this.getCellWidth() * 24),
                 primaryDatePointTop
             );
@@ -68,7 +70,7 @@ export class GanttViewHour extends GanttView {
             const start = new GanttDate(hours[i]);
             const point = new GanttDatePoint(
                 start,
-                start.format(this.options.dateFormat.hour),
+                start.format(this.options.dateFormat?.hour || this.options.dateDisplayFormats.secondary),
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 secondaryDatePointTop,
                 {

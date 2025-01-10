@@ -40,17 +40,8 @@ export class AppModule {
 
 ```javascript
 export interface GanttGlobalConfig {
-  // dateFormat 可用于设置视图的国际化，format 格式与 date-fns format 规则一致
-  dateFormat?: {
-    week?: string, // 第w周
-    month?: string, // M月
-    quarter?: string, // QQQ
-    year?: string, // yyyy年
-    yearMonth?: string, // yyyy年MM月
-    yearQuarter?: string // yyyy年QQQ
-  };
+  locale: GanttI18nLocale; // 默认 locale 可选语言：zh-hans, zh-hant ,en-us, de-de, ja-jp, ru-ru
   dateOptions: {
-    locale?: Locale, // 时区  import { fr } from 'date-fns/locale';
     weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 // 设置 week 起始值，默认为 1
   };
   linkOptions: {
@@ -63,12 +54,23 @@ export interface GanttGlobalConfig {
     lineHeight?: number, // 自定义行高
     barHeight?: number // 自定义 Bar 的高度
   };
+
+  /** @deprecated dateFormat 已废弃, 请通过国际化配置来设置日期格式. http://gantt.ngnice.com/guides/configuration/i18n */
+  dateFormat?: {
+    week?: string, // week w
+    month?: string, // month M
+    quarter?: string, // QQQ
+    year?: string, // year yyyy
+    yearMonth?: string, // yyyy年MM月
+    yearQuarter?: string // yyyy年QQQ
+  };
 }
 ```
 
-| Name         | Type               | Description                  |
-| ------------ | ------------------ | ---------------------------- |
-| dateFormat   | `GanttDateFormat`  | 日期格式                     |
-| dateOptions  | `GanttDateOptions` | 日期配置，可用于配置全局时区 |
-| linkOptions  | `GanttLinkOptions` | 关联关系配置                 |
-| styleOptions | `GanttStyles`      | 样式配置                     |
+| Name                     | Type                                                     | Description  |
+| ------------------------ | -------------------------------------------------------- | ------------ |
+| locale                   | `zh-hans`, `zh-hant` ,`en-us`, `de-de`, `ja-jp`, `ru-ru` | 默认语言配置 |
+| dateOptions              | `GanttDateOptions`                                       | 日期配置     |
+| linkOptions              | `GanttLinkOptions`                                       | 关联关系配置 |
+| styleOptions             | `GanttStyles`                                            | 样式配置     |
+| dateFormat `@deprecated` | `GanttDateFormat`                                        | 日期格式     |

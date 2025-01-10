@@ -23,32 +23,3 @@ new GanttDate(1617275597).format("yyyy年MM月");
 ```
 
 For more information, please refer to [GanttDate](https://github.com/worktile/ngx-gantt/blob/master/packages/gantt/src/utils/date.ts)
-
-## Set time zone
-
-Set the time zone through [global configuration](/guides/configuration/global), the configuration method is as follows:
-
-```javascript
-import { GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
-import { fr } from 'date-fns/locale';
-
-@NgModule({
-...
-providers: [
-{
-provide: GANTT_GLOBAL_CONFIG,
-useValue: {
-dateOptions: {
-locale: fr
-weekStartsOn: 1
-}
-}
-},
-...
-]
-...
-})
-export class AppModule {
-
-}
-```

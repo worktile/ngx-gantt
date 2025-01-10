@@ -2,13 +2,15 @@ import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { eachWeekOfInterval, GanttDate } from '../utils/date';
 import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
+import { zhHantLocale } from '../i18n';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 280,
     start: new GanttDate().startOfYear().startOfWeek(),
     end: new GanttDate().endOfYear().endOfWeek(),
     addAmount: 1,
-    addUnit: 'month'
+    addUnit: 'month',
+    dateDisplayFormats: zhHantLocale.views.week.dateFormats
 };
 
 export class GanttViewWeek extends GanttView {
@@ -42,7 +44,7 @@ export class GanttViewWeek extends GanttView {
             const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
             const point = new GanttDatePoint(
                 weekStart,
-                weekStart.addWeeks(increaseWeek).format(this.options.dateFormat.year),
+                weekStart.addWeeks(increaseWeek).format(this.options.dateFormat?.year || this.options.dateDisplayFormats.primary),
                 this.getCellWidth() / 2 + i * this.getCellWidth(),
                 primaryDatePointTop
             );
@@ -58,7 +60,7 @@ export class GanttViewWeek extends GanttView {
             const start = new GanttDate(weeks[i]);
             const point = new GanttDatePoint(
                 start,
-                `${start.format(this.options.dateFormat.week)}`,
+                `${start.format(this.options.dateFormat?.week || this.options.dateDisplayFormats.secondary)}`,
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 secondaryDatePointTop
             );

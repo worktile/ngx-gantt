@@ -24,32 +24,3 @@ order: 25
 ```
 
 更多请参考 [GanttDate](https://github.com/worktile/ngx-gantt/blob/master/packages/gantt/src/utils/date.ts)
-
-## 设置时区
-
-通过[全局配置](/guides/configuration/global) 设置时区，配置方式如下：
-
-```javascript
-import { GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
-import { fr } from 'date-fns/locale';
-
-@NgModule({
-  ...
-  providers: [
-    {
-      provide: GANTT_GLOBAL_CONFIG,
-      useValue: {
-        dateOptions: {
-             locale: fr
-             weekStartsOn: 1
-        }
-      }
-    },
-    ...
-  ]
-  ...
-})
-export class AppModule {
-
-}
-```
