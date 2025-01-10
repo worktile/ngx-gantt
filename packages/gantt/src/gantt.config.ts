@@ -34,7 +34,7 @@ export interface GanttStyleOptions {
 
 export interface GanttGlobalConfig {
     locale?: GanttI18nLocale | string;
-    /** @deprecated dateFormat is deprecated, use viewsOptions.locate instead */
+    /** @deprecated dateFormat is deprecated, please configure through i18n. http://gantt.ngnice.com/guides/configuration/i18n */
     dateFormat?: GanttDateFormat;
     dateOptions?: GanttDateOptions;
     linkOptions?: GanttLinkOptions;
