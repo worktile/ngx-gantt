@@ -44,6 +44,7 @@ Based on the above reasons, we decided to reinvent the wheel and make a Gantt ch
 
 - Components Dev Kit (Angular CDK)
 - date-fns
+- @date-fns/tz
 - html2canvas
 
 # Contribution
