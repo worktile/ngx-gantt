@@ -6,9 +6,9 @@ import { ThyCheckboxModule } from 'ngx-tethys/checkbox';
 import { ThySwitchModule } from 'ngx-tethys/switch';
 import { ThyNotifyModule } from 'ngx-tethys/notify';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GANTT_GLOBAL_CONFIG, NgxGanttModule } from 'ngx-gantt';
+import { GANTT_GLOBAL_CONFIG, GanttI18nLocale, NgxGanttModule } from 'ngx-gantt';
 import { AppComponent } from './app.component';
 import { AppGanttExampleComponent } from './gantt/gantt.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 import { AppGanttAdvancedExampleComponent } from './gantt-advanced/gantt-advanced.component';
 import { AppGanttRangeExampleComponent } from './gantt-range/gantt-range.component';
 import { DOCGENI_SITE_PROVIDERS } from './content/index';
-import { DocgeniTemplateModule } from '@docgeni/template';
+import { DocgeniTemplateModule, GlobalContext } from '@docgeni/template';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppGanttFlatComponent } from './gantt-advanced/component/flat.component';
@@ -59,10 +59,11 @@ import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/ga
         ...DOCGENI_SITE_PROVIDERS,
         {
             provide: GANTT_GLOBAL_CONFIG,
-            useValue: {
-                dateOptions: {
-                    timeZone: 'America/New_York'
-                }
+            useFactory: () => {
+                const docgeniGlobalContext = inject(GlobalContext);
+                return {
+                    locale: docgeniGlobalContext.locale === 'en-us' ? GanttI18nLocale.enUs : GanttI18nLocale.zhHans
+                };
             }
         }
     ],
