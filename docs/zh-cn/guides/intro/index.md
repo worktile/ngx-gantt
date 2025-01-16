@@ -45,6 +45,7 @@ order: 1
 
 - Components Dev Kit (Angular CDK)
 - date-fns
+- @date-fns/tz
 - html2canvas
 
 # 参与贡献
