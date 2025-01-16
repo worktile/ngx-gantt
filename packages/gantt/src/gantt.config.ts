@@ -43,7 +43,7 @@ export interface GanttGlobalConfig {
 }
 
 export const defaultConfig: GanttGlobalConfig = {
-    locale: GanttI18nLocale.zhHant,
+    locale: GanttI18nLocale.zhHans,
     linkOptions: {
         dependencyTypes: [GanttLinkType.fs],
         showArrow: false,

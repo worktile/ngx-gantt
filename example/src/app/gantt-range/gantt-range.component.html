@@ -45,20 +45,20 @@
     (loadOnScroll)="loadOnScroll($event)"
   >
     <ngx-gantt-table>
-      <ngx-gantt-column name="标题">
+      <ngx-gantt-column name="Title">
         <ng-template #cell let-item="item">
           {{ item.title }}
         </ng-template>
       </ngx-gantt-column>
       <ngx-gantt-column>
-        <ng-template #header> <span style="font-weight: bold;">开始时间</span> </ng-template>
+        <ng-template #header> <span style="font-weight: bold">Start Time</span> </ng-template>
         <ng-template #cell let-item="item">
-          {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
+          {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
         </ng-template>
       </ngx-gantt-column>
-      <ngx-gantt-column name="截止时间">
+      <ngx-gantt-column name="End Time">
         <ng-template #cell let-item="item">
-          {{ item.end * 1000 | date: 'yyyy-MM-dd' }}
+          {{ item.end * 1000 | date : 'yyyy-MM-dd' }}
         </ng-template>
       </ngx-gantt-column>
     </ngx-gantt-table>

@@ -1,15 +1,9 @@
 <thy-layout>
   <thy-header class="header-with-baseline">
     <ng-template #headerContent>
-      <thy-button-group thySize="sm" thyType="outline-default">
-        <button thyButton *ngFor="let view of views" [class.active]="view.value === selectedViewType" (click)="selectView(view.value)">
-          {{ view.name }}
-        </button>
-      </thy-button-group>
+      <thy-button thyType="primary" thySize="sm" (click)="scrollToToday()">今天</thy-button>
       &nbsp; &nbsp; &nbsp;
       <thy-button thyType="primary" thySize="sm" (click)="refresh()">刷新</thy-button>
-      &nbsp; &nbsp; &nbsp;
-      <thy-button thyType="primary" thySize="sm" (click)="scrollToToday()">今天</thy-button>
       &nbsp; &nbsp; &nbsp;
       <thy-button thyType="primary" thySize="sm" (click)="print('gantt-example')"> ↓ 导出为图片 </thy-button>
       &nbsp; &nbsp; &nbsp;
@@ -55,15 +49,15 @@
         (dragStarted)="onDragStarted($event)"
         (dragEnded)="onDragEnded($event)"
       >
-        <ngx-gantt-column name="标题" width="160px" [showExpandIcon]="true">
+        <ngx-gantt-column name="Title" width="160px" [showExpandIcon]="true">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>
-        <ngx-gantt-column name="开始时间" width="200px">
+        <ngx-gantt-column name="Start Time" width="200px">
           <ng-template #cell let-item="item">
             {{ item.start * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
-        <ngx-gantt-column name="截止时间" width="200px">
+        <ngx-gantt-column name="End Time" width="200px">
           <ng-template #cell let-item="item">
             {{ item.end * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
           </ng-template>
