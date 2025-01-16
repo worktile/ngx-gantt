@@ -23,6 +23,7 @@ export interface GanttDateOptions {
      * http://gantt.ngnice.com/guides/configuration/i18n
      */
     locale?: Locale;
+    timeZone?: string;
     weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
 }
 
@@ -42,7 +43,7 @@ export interface GanttGlobalConfig {
 }
 
 export const defaultConfig: GanttGlobalConfig = {
-    locale: GanttI18nLocale.zhHant,
+    locale: GanttI18nLocale.zhHans,
     linkOptions: {
         dependencyTypes: [GanttLinkType.fs],
         showArrow: false,

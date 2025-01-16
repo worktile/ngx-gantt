@@ -14,15 +14,12 @@ import { GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
     {
       provide: GANTT_GLOBAL_CONFIG,
       useValue: {
+        locale: 'zh-hans',
         dateFormat: {
-          ...
-        },
-        linkOptions: {
-          ...
-        },
-        styleOptions: {
-          ...
-        },
+           timeZone: 'Asia/Shanghai',
+           weekStartsOn: 1
+        }
+        ...
       }
     },
     ...
@@ -41,6 +38,7 @@ export class AppModule {
 export interface GanttGlobalConfig {
   locale: GanttI18nLocale; // i18n locale  zh-hans, zh-hant ,en-us, de-de, ja-jp, ru-ru
   dateOptions: {
+    timeZone: string, // set custom time zone, default is system's time zone
     weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 // set the week start value, the default is 1
   };
   linkOptions: {

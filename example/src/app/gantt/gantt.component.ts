@@ -30,32 +30,16 @@ import { random, randomItems } from '../helper';
     providers: [GanttPrintService]
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
-    views = [
-        {
-            name: '小时',
-            value: GanttViewType.hour
-        },
-        {
-            name: '日',
-            value: GanttViewType.day
-        },
-        {
-            name: '周',
-            value: GanttViewType.week
-        },
-        {
-            name: '月',
-            value: GanttViewType.month
-        },
-        {
-            name: '季',
-            value: GanttViewType.quarter
-        },
-        {
-            name: '年',
-            value: GanttViewType.year
-        }
-    ];
+    toolbarOptions: GanttToolbarOptions = {
+        viewTypes: [
+            GanttViewType.hour,
+            GanttViewType.day,
+            GanttViewType.week,
+            GanttViewType.month,
+            GanttViewType.quarter,
+            GanttViewType.year
+        ]
+    };
 
     viewType: GanttViewType = GanttViewType.month;
 
@@ -100,10 +84,6 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         { id: '0000028', title: 'Task 28', start: 1611400397, end: 1615547597 },
         { id: '0000029', title: 'Task 29', start: 1618053197, end: 1619176397 }
     ];
-
-    toolbarOptions: GanttToolbarOptions = {
-        viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
-    };
 
     baselineItems: GanttBaselineItem[] = [];
 
