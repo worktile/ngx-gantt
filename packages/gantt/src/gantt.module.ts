@@ -1,7 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { Inject, NgModule, Optional } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { setDefaultOptions } from 'date-fns';
 import { NgxGanttBarComponent } from './components/bar/bar.component';
 import { NgxGanttBaselineComponent } from './components/baseline/baseline.component';
@@ -17,12 +17,13 @@ import { GanttTableBodyComponent } from './components/table/body/gantt-table-bod
 import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
 import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
 import { NgxGanttComponent } from './gantt.component';
-import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig, defaultConfig } from './gantt.config';
+import { GANTT_GLOBAL_CONFIG, GanttConfigService, GanttGlobalConfig, defaultConfig } from './gantt.config';
 import { IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttRangeItemPipe } from './gantt.pipe';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
+import { i18nLocaleProvides } from './i18n';
 
 @NgModule({
     imports: [
@@ -70,14 +71,16 @@ import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.compon
         {
             provide: GANTT_GLOBAL_CONFIG,
             useValue: defaultConfig
-        }
+        },
+        ...i18nLocaleProvides
     ]
 })
 export class NgxGanttModule {
-    constructor(@Optional() @Inject(GANTT_GLOBAL_CONFIG) ganttGlobalConfig: GanttGlobalConfig) {
+    constructor() {
+        const configService = inject(GanttConfigService);
         setDefaultOptions({
-            locale: ganttGlobalConfig?.dateOptions?.locale,
-            weekStartsOn: ganttGlobalConfig?.dateOptions?.weekStartsOn || 1
+            locale: configService.getDateLocal(),
+            weekStartsOn: configService.config?.dateOptions?.weekStartsOn
         });
     }
 }

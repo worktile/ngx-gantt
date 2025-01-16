@@ -9,25 +9,25 @@ title: Global Config
 import { GANTT_GLOBAL_CONFIG } from 'ngx-gantt';
 
 @NgModule({
-...
-providers: [
-{
-provide: GANTT_GLOBAL_CONFIG,
-useValue: {
-dateFormat: {
-...
-},
-linkOptions: {
-...
-},
-styleOptions: {
-...
-},
-}
-},
-...
-]
-...
+  ...
+  providers: [
+    {
+      provide: GANTT_GLOBAL_CONFIG,
+      useValue: {
+        dateFormat: {
+          ...
+        },
+        linkOptions: {
+          ...
+        },
+        styleOptions: {
+          ...
+        },
+      }
+    },
+    ...
+  ]
+  ...
 })
 export class AppModule {
 
@@ -39,17 +39,8 @@ export class AppModule {
 
 ```javascript
 export interface GanttGlobalConfig {
-  // dateFormat can be used to set the internationalization of the view, the format format is consistent with the date-fns format rule
-  dateFormat?: {
-    week?: string, // week w
-    month?: string, // month M
-    quarter?: string, // QQQ
-    year?: string, // year yyyy
-    yearMonth?: string, // yyyy年MM月
-    yearQuarter?: string // yyyy年QQQ
-  };
+  locale: GanttI18nLocale; // i18n locale  zh-hans, zh-hant ,en-us, de-de, ja-jp, ru-ru
   dateOptions: {
-    locale?: Locale, // time zone import { fr } from 'date-fns/locale';
     weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6 // set the week start value, the default is 1
   };
   linkOptions: {
@@ -62,12 +53,23 @@ export interface GanttGlobalConfig {
     lineHeight?: number, // custom line height
     barHeight?: number // custom Bar height
   };
+
+  /** @deprecated dateFormat is deprecated, please configure through i18n. http://gantt.ngnice.com/guides/configuration/i18n */
+  dateFormat?: {
+    week?: string, // week w
+    month?: string, // month M
+    quarter?: string, // QQQ
+    year?: string, // year yyyy
+    yearMonth?: string, // yyyy年MM月
+    yearQuarter?: string // yyyy年QQQ
+  };
 }
 ```
 
-| Name         | Type               | Description                                                       |
-| ------------ | ------------------ | ----------------------------------------------------------------- |
-| dateFormat   | `GanttDateFormat`  | Date format                                                       |
-| dateOptions  | `GanttDateOptions` | Date configuration, can be used to configure the global time zone |
-| linkOptions  | `GanttLinkOptions` | Relationship configuration                                        |
-| styleOptions | `GanttStyles`      | Style configuration                                               |
+| Name                     | Type                                                     | Description                |
+| ------------------------ | -------------------------------------------------------- | -------------------------- |
+| locale                   | `zh-hans`, `zh-hant` ,`en-us`, `de-de`, `ja-jp`, `ru-ru` | global locale              |
+| dateOptions              | `GanttDateOptions`                                       | Date configuration         |
+| linkOptions              | `GanttLinkOptions`                                       | Relationship configuration |
+| styleOptions             | `GanttStyles`                                            | Style configuration        |
+| dateFormat `@deprecated` | `GanttDateFormat`                                        | Date format                |

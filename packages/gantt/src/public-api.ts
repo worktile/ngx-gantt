@@ -16,6 +16,17 @@ export * from './components/loader/loader.component';
 export * from './utils/date';
 export * from './class';
 export * from './views/view';
+export {
+    GanttI18nLocaleConfig,
+    GanttI18nLocale,
+    GANTT_I18N_LOCALE_TOKEN,
+    zhHansLocale,
+    zhHantLocale,
+    enUsLocale,
+    jaJpLocale,
+    deDeLocale,
+    ruRuLocale
+} from './i18n';
 export { registerView } from './views/factory';
 export * from './gantt-item-upper';
 export * from './gantt.pipe';

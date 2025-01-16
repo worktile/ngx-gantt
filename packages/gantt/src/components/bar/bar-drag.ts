@@ -125,8 +125,8 @@ export class GanttBarDrag implements OnDestroy {
         if (!this.hasMonitorMouseEvent && (!this.dragDisabled || !this.linkDragDisabled)) {
             this.hasMonitorMouseEvent = true;
             const dropClass =
-                this.ganttUpper.config.linkOptions?.dependencyTypes?.length === 1 &&
-                this.ganttUpper.config.linkOptions?.dependencyTypes[0] === GanttLinkType.fs
+                this.ganttUpper.linkOptions?.dependencyTypes?.length === 1 &&
+                this.ganttUpper.linkOptions?.dependencyTypes[0] === GanttLinkType.fs
                     ? singleDropActiveClass
                     : dropActiveClass;
 

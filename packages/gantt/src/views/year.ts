@@ -3,13 +3,15 @@ import { GanttDate } from '../utils/date';
 import { GanttDatePoint } from '../class/date-point';
 import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
 import { GanttViewType } from '../class';
+import { zhHantLocale } from '../i18n';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 480,
     start: new GanttDate().addYears(-2).startOfYear(),
     end: new GanttDate().addYears(2).endOfYear(),
     addAmount: 1,
-    addUnit: 'year'
+    addUnit: 'year',
+    dateDisplayFormats: zhHantLocale.views.year.dateFormats
 };
 
 export class GanttViewYear extends GanttView {
@@ -54,7 +56,9 @@ export class GanttViewYear extends GanttView {
             const start = this.start.addYears(i);
             const point = new GanttDatePoint(
                 start,
-                `${start.format(this.options.dateFormat.year)}`,
+                `${start.format(
+                    this.options.dateFormat?.year || this.options.dateDisplayFormats.secondary || this.options.dateDisplayFormats.primary
+                )}`,
                 i * this.getCellWidth() + this.getCellWidth() / 2,
                 pointTop
             );
