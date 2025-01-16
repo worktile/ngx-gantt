@@ -60,12 +60,12 @@
         </ngx-gantt-column>
         <ngx-gantt-column name="开始时间" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.start * 1000 | date : 'yyyy-MM-dd HH:mm' }}
+            {{ item.start * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="截止时间" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.end * 1000 | date : 'yyyy-MM-dd HH:mm' }}
+            {{ item.end * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>

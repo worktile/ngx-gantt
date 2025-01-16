@@ -18,12 +18,13 @@ import { GanttTableHeaderComponent } from './components/table/header/gantt-table
 import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
 import { NgxGanttComponent } from './gantt.component';
 import { GANTT_GLOBAL_CONFIG, GanttConfigService, GanttGlobalConfig, defaultConfig } from './gantt.config';
-import { IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttRangeItemPipe } from './gantt.pipe';
+import { GanttDateFormatPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttRangeItemPipe } from './gantt.pipe';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 import { i18nLocaleProvides } from './i18n';
+import { setDefaultTimeZone } from 'ngx-gantt';
 
 @NgModule({
     imports: [
@@ -50,7 +51,8 @@ import { i18nLocaleProvides } from './i18n';
         GanttScrollbarComponent,
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
-        IsGanttCustomItemPipe
+        IsGanttCustomItemPipe,
+        GanttDateFormatPipe
     ],
     exports: [
         NgxGanttComponent,
@@ -64,7 +66,8 @@ import { i18nLocaleProvides } from './i18n';
         GanttCalendarHeaderComponent,
         GanttCalendarGridComponent,
         GanttDragBackdropComponent,
-        GanttScrollbarComponent
+        GanttScrollbarComponent,
+        GanttDateFormatPipe
     ],
     providers: [
         CdkVirtualScrollViewport,
@@ -78,9 +81,14 @@ import { i18nLocaleProvides } from './i18n';
 export class NgxGanttModule {
     constructor() {
         const configService = inject(GanttConfigService);
+
         setDefaultOptions({
             locale: configService.getDateLocal(),
             weekStartsOn: configService.config?.dateOptions?.weekStartsOn
         });
+
+        if (configService.config.dateOptions?.timeZone) {
+            setDefaultTimeZone(configService.config.dateOptions.timeZone);
+        }
     }
 }

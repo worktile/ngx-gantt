@@ -29,8 +29,12 @@ import {
     startOfMinute,
     startOfHour,
     endOfHour,
-    endOfMinute
+    endOfMinute,
+    Locale,
+    FirstWeekContainsDate
 } from 'date-fns';
+
+import { TZDate } from '@date-fns/tz';
 
 export {
     Locale,
@@ -76,6 +80,12 @@ export {
 
 export type GanttDateUtil = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
 
+let timeZone: string;
+
+export function setDefaultTimeZone(zone: string) {
+    timeZone = zone ?? undefined;
+}
+
 export class GanttDate {
     value: Date;
 
@@ -85,9 +95,9 @@ export class GanttDate {
                 this.value = date;
             } else if (typeof date === 'string' || typeof date === 'number') {
                 if (date.toString().length < 13) {
-                    this.value = fromUnixTime(+date);
+                    this.value = new TZDate(fromUnixTime(+date), timeZone);
                 } else {
-                    this.value = new Date(date);
+                    this.value = new TZDate(date as any, timeZone);
                 }
             } else {
                 throw new Error(
@@ -96,7 +106,7 @@ export class GanttDate {
                 );
             }
         } else {
-            this.value = new Date();
+            this.value = new TZDate(new Date(), timeZone);
         }
     }
 
@@ -280,7 +290,7 @@ export class GanttDate {
         options?: {
             locale?: Locale;
             weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-            firstWeekContainsDate?: number;
+            firstWeekContainsDate?: FirstWeekContainsDate;
             useAdditionalWeekYearTokens?: boolean;
             useAdditionalDayOfYearTokens?: boolean;
         }

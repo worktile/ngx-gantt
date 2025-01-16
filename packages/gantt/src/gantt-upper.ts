@@ -196,7 +196,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.styles = Object.assign({}, this.configService.config.styleOptions, this.styles);
         this.viewOptions.dateFormat = Object.assign({}, this.configService.config.dateFormat, this.viewOptions.dateFormat);
         this.viewOptions.styleOptions = Object.assign({}, this.configService.config.styleOptions, this.viewOptions.styleOptions);
-        this.viewOptions.dateDisplayFormats = this.configService.getViewsLocale()[this.viewType].dateFormats;
+        this.viewOptions.dateDisplayFormats = this.configService.getViewsLocale()[this.viewType]?.dateFormats;
         this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions);
     }
 
