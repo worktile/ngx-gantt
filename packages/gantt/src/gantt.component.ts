@@ -363,7 +363,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         this.ganttRoot.scrollToToday();
     }
 
-    scrollToDate(date: number | GanttDate) {
+    scrollToDate(date: number | Date | GanttDate) {
         this.ganttRoot.scrollToDate(date);
     }
 
