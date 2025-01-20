@@ -271,10 +271,12 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         if (!this.start || !this.end) {
             this.originItems.forEach((item) => {
                 if (item.start && !this.start) {
-                    start = start ? Math.min(start, item.start) : item.start;
+                    const itemStart = item.start instanceof Date ? item.start.getTime() / 1000 : item.start;
+                    start = start ? Math.min(start, itemStart) : itemStart;
                 }
                 if (item.end && !this.end) {
-                    end = end ? Math.max(end, item.end) : item.end;
+                    const itemEnd = item.start instanceof Date ? item.start.getTime() / 1000 : item.start;
+                    end = end ? Math.max(end, itemEnd) : itemEnd;
                 }
             });
         }

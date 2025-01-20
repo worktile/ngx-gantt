@@ -181,9 +181,9 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
         this.dom.scrollMainContainer(x);
     }
 
-    public scrollToDate(date: number | GanttDate) {
+    public scrollToDate(date: number | Date | GanttDate) {
         let x: number;
-        if (typeof date === 'number') {
+        if (typeof date === 'number' || date instanceof Date) {
             x = this.view.getXPointByDate(new GanttDate(date));
         } else {
             x = this.view.getXPointByDate(date);

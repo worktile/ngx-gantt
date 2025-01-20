@@ -21,8 +21,8 @@ export enum GanttItemType {
 export interface GanttItem<T = unknown> {
     id: string;
     title: string;
-    start?: number;
-    end?: number;
+    start?: number | Date;
+    end?: number | Date;
     group_id?: string;
     links?: (GanttLink | string)[];
     draggable?: boolean;
