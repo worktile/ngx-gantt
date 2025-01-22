@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgxGanttComponent } from '../../../gantt.component';
-import { NgxGanttModule } from '../../../gantt.module';
-import { GanttDate } from '../../../utils/date';
+import { NgxGanttModule } from '../../gantt.module';
+import { GanttDate } from '../../utils/date';
 
 const mockBarItems = [
     {

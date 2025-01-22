@@ -1,5 +1,5 @@
 import { GanttDate } from '../../utils/date';
-import { GanttViewQuarter } from '../quarter';
+import { GanttViewQuarter } from '../../views/quarter';
 import { date, today } from './mock';
 
 describe('GanttViewQuarter', () => {

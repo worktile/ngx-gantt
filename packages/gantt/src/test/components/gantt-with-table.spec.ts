@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from 
 import { By } from '@angular/platform-browser';
 import { NgxGanttModule } from 'ngx-gantt';
 import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.component';
-import { getMockGroupItems, getMockGroups } from '../../../test/mocks/data';
-import { dispatchMouseEvent } from '../../../utils/testing';
-import { GanttTableBodyComponent } from '../body/gantt-table-body.component';
-import { GanttTableHeaderComponent } from '../header/gantt-table-header.component';
+import { getMockGroupItems, getMockGroups } from './mocks/data';
+import { dispatchMouseEvent } from '../../utils/testing';
+import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
+import { GanttTableHeaderComponent } from '../../components/table/header/gantt-table-header.component';
 @Component({
     selector: 'test-gantt-table',
     template: `
@@ -147,8 +147,8 @@ describe('GanttTable', () => {
 
     it('should active item when click item and selectable is true', fakeAsync(() => {
         const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
-        const items = component.items;
+        const { selectionModel } = ganttTable.componentInstance.ganttUpper;
+        const { items } = component;
 
         ganttTable.query(By.css('.gantt-table-item')).nativeNode.click();
         fixture.detectChanges();
@@ -171,8 +171,8 @@ describe('GanttTable', () => {
 
     it('should active two item when click two item and multiple is true', () => {
         const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
-        const items = component.items;
+        const { selectionModel } = ganttTable.componentInstance.ganttUpper;
+        const { items } = component;
         const itemNodes = ganttTable.queryAll(By.css('.gantt-table-item'));
 
         itemNodes[0].nativeNode.click();
@@ -194,8 +194,8 @@ describe('GanttTable', () => {
         fixture.componentInstance.multiple = false;
         fixture.detectChanges();
         const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
-        const items = component.items;
+        const { selectionModel } = ganttTable.componentInstance.ganttUpper;
+        const { items } = component;
         const itemNodes = ganttTable.queryAll(By.css('.gantt-table-item'));
         itemNodes[0].nativeNode.click();
         expect(selectionModel.selected.length).toEqual(1);
@@ -208,7 +208,7 @@ describe('GanttTable', () => {
         fixture.componentInstance.multiple = false;
         fixture.detectChanges();
         const ganttTable: DebugElement = fixture.debugElement.query(By.directive(GanttTableBodyComponent));
-        const selectionModel = ganttTable.componentInstance.ganttUpper.selectionModel;
+        const { selectionModel } = ganttTable.componentInstance.ganttUpper;
         const itemNode = ganttTable.query(By.css('.gantt-table-item')).nativeNode;
         itemNode.click();
         expect(selectionModel.selected.length).toEqual(1);
