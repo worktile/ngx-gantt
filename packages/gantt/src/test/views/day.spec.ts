@@ -1,5 +1,5 @@
 import { GanttDate } from '../../utils/date';
-import { GanttViewDay } from '../day';
+import { GanttViewDay } from '../../views/day';
 import { date, today } from './mock';
 
 describe('GanttViewDay', () => {

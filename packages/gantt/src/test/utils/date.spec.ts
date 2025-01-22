@@ -1,4 +1,4 @@
-import { GanttDate, GanttDateUtil } from '../date';
+import { GanttDate, setDefaultTimeZone } from '../../utils/date';
 
 describe('tiny-date', () => {
     const date = new GanttDate('2020-2-2 20:20:20');
@@ -100,6 +100,46 @@ describe('tiny-date', () => {
     });
 
     it('support format', () => {
-        expect(date.format('yyyy年QQQ')).toBe('2020年Q1');
+        expect(date.format(`yyyy年'Q'Q`)).toBe('2020年Q1');
+    });
+
+    describe('GanttDate TimeZone Operations', () => {
+        afterEach(() => {
+            setDefaultTimeZone(null);
+        });
+
+        it('should format date correctly in UTC timezone', () => {
+            setDefaultTimeZone('UTC');
+            const date = new GanttDate('2020-02-02T20:20:20Z'); // UTC time
+            expect(date.format('yyyy-MM-dd HH:mm:ss')).toBe('2020-02-02 20:20:20');
+        });
+
+        it('should format date correctly in America/New_York timezone', () => {
+            setDefaultTimeZone('America/New_York');
+            const date = new GanttDate('2020-02-02T20:20:20Z'); // UTC time
+            // New York is UTC-5 in February (no daylight saving)
+            expect(date.format('yyyy-MM-dd HH:mm:ss')).toBe('2020-02-02 15:20:20');
+        });
+
+        it('should format date correctly in Asia/Shanghai timezone', () => {
+            setDefaultTimeZone('Asia/Shanghai');
+            const date = new GanttDate('2020-02-02T20:20:20Z'); // UTC time
+            // Shanghai is UTC+8
+            expect(date.format('yyyy-MM-dd HH:mm:ss')).toBe('2020-02-03 04:20:20');
+        });
+
+        it('should handle daylight saving time in America/New_York timezone', () => {
+            setDefaultTimeZone('America/New_York');
+            const date = new GanttDate('2020-06-02T20:20:20Z'); // UTC time
+            // New York is UTC-4 in June (daylight saving time)
+            expect(date.format('yyyy-MM-dd HH:mm:ss')).toBe('2020-06-02 16:20:20');
+        });
+
+        it('should handle Unix timestamp with timezone correctly', () => {
+            setDefaultTimeZone('Asia/Tokyo');
+            const date = new GanttDate(1580674820); // Unix timestamp for 2020-02-02T20:20:20Z
+            // Tokyo is UTC+9
+            expect(date.format('yyyy-MM-dd HH:mm:ss')).toBe('2020-02-03 05:20:20');
+        });
     });
 });

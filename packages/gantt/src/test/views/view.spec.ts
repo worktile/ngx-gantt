@@ -1,7 +1,7 @@
 import { differenceInHours, differenceInMinutes } from 'date-fns';
 import { GanttDatePoint } from '../../class';
 import { GanttDate } from '../../utils/date';
-import { GanttView, GanttViewDate, GanttViewOptions } from '../view';
+import { GanttView, GanttViewDate, GanttViewOptions } from '../../views/view';
 import { date, today } from './mock';
 
 class GanttViewMock extends GanttView {

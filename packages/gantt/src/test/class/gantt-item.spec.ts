@@ -1,6 +1,6 @@
 import { GanttLinkType } from 'ngx-gantt';
 import { GanttDate } from '../../utils/date';
-import { GanttItem, GanttItemInternal } from '../item';
+import { GanttItem, GanttItemInternal } from '../../class/item';
 
 class FakeView {
     getDateByXPoint() {
@@ -110,13 +110,5 @@ describe('GanttItemInternal', () => {
     it(`should set expand`, () => {
         ganttItemInternal.setExpand(true);
         expect(ganttItemInternal.expanded).toBe(true);
-    });
-
-    it(`should add link`, () => {
-        ganttItemInternal.addLink({
-            link: '0102',
-            type: GanttLinkType.fs
-        });
-        // expect(ganttItemInternal.links).toContain('0102');
     });
 });

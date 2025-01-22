@@ -1,11 +1,11 @@
-import { GanttViewMonth } from '../month';
-import { GanttViewDay } from '../day';
-import { GanttViewQuarter } from '../quarter';
-import { createViewFactory, registerView } from '../factory';
+import { GanttViewMonth } from '../../views/month';
+import { GanttViewDay } from '../../views/day';
+import { GanttViewQuarter } from '../../views/quarter';
+import { createViewFactory, registerView } from '../../views/factory';
 import { GanttViewType } from '../../class';
 import { date } from './mock';
-import { GanttViewYear } from '../year';
-import { GanttViewWeek } from '../week';
+import { GanttViewYear } from '../../views/year';
+import { GanttViewWeek } from '../../views/week';
 import { GanttViewCustom } from './custom-view.mock';
 
 describe('CreateViewFactory', () => {

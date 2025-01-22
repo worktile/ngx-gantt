@@ -1,5 +1,5 @@
 import { eachDayOfInterval, eachHourOfInterval } from '../../utils/date';
-import { GanttViewHour } from '../hour';
+import { GanttViewHour } from '../../views/hour';
 import { date } from './mock';
 
 describe('GanttViewHour', () => {

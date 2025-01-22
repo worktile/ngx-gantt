@@ -1,5 +1,5 @@
 import { GanttItemInternal } from '../../class';
-import { isNumber, isString, isUndefined, hexToRgb, uniqBy, flatten, recursiveItems } from '../helpers';
+import { isNumber, isString, isUndefined, hexToRgb, uniqBy, flatten, recursiveItems } from '../../utils/helpers';
 
 describe('helpers', () => {
     it('isNumber', () => {

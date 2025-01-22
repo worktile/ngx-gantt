@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ApplicationRef, Component, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GanttDragEvent, GanttLinkDragEvent } from '../../../class';
-import { NgxGanttComponent } from '../../../gantt.component';
-import { NgxGanttModule } from '../../../gantt.module';
-import { NgxGanttRootComponent } from '../../../root.component';
-import { GanttDate } from '../../../utils/date';
-import { dispatchMouseEvent } from '../../../utils/testing';
-import { NgxGanttBarComponent } from '../bar.component';
+import { NgxGanttBarComponent } from 'ngx-gantt';
+import { GanttDragEvent, GanttLinkDragEvent } from '../../class';
+import { NgxGanttComponent } from '../../gantt.component';
+import { NgxGanttModule } from '../../gantt.module';
+import { NgxGanttRootComponent } from '../../root.component';
+import { GanttDate } from '../../utils/date';
+import { dispatchMouseEvent } from '../../utils/testing';
 
 const activeClass = 'gantt-bar-active';
 

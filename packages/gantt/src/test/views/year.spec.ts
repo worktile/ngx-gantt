@@ -1,4 +1,4 @@
-import { GanttViewYear } from '../year';
+import { GanttViewYear } from '../../views/year';
 import { GanttDate } from '../../utils/date';
 import { date, today } from './mock';
 
