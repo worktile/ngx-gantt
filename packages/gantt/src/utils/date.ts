@@ -80,10 +80,10 @@ export {
 
 export type GanttDateUtil = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';
 
-let timeZone: string;
+let timeZone: string = window['___NGX_GANTT_TIMEZONE___'];
 
 export function setDefaultTimeZone(zone: string) {
-    timeZone = zone ?? undefined;
+    timeZone = zone ?? timeZone ?? undefined;
 }
 
 export class GanttDate {
