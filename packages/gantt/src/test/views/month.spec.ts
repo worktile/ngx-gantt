@@ -1,4 +1,4 @@
-import { GanttViewMonth } from '../month';
+import { GanttViewMonth } from '../../views/month';
 import { GanttDate } from '../../utils/date';
 import { date, today } from './mock';
 

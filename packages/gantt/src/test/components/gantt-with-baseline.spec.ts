@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgxGanttModule } from '../../../gantt.module';
-import { GanttDate } from '../../../utils/date';
-import { NgxGanttBaselineComponent } from '../baseline.component';
+import { NgxGanttBaselineComponent } from '../../components/baseline/baseline.component';
+import { NgxGanttModule } from '../../gantt.module';
+import { GanttDate } from '../../utils/date';
+
 const mockBarItems = [
     {
         id: 'item-0101',

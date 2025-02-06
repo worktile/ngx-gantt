@@ -1,4 +1,4 @@
-import { GanttDate } from './../../utils/date';
+import { GanttDate } from '../../../utils/date';
 
 export function getMockItems() {
     return [

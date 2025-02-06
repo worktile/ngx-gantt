@@ -1,5 +1,4 @@
-import { GanttDate } from '../../utils/date';
-import { GanttGroup, GanttGroupInternal } from '../group';
+import { GanttGroup, GanttGroupInternal } from '../../class/group';
 
 const group: GanttGroup = {
     id: '00001',

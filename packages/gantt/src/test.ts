@@ -7,9 +7,7 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 import { setDefaultOptions } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
 
-setDefaultOptions({
-    locale: zhCN
-});
+console.log('Default timezone：' + Intl.DateTimeFormat().resolvedOptions().timeZone);
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {

@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgxGanttComponent } from '../../../gantt.component';
-import { NgxGanttModule } from '../../../gantt.module';
-import { GanttDate } from '../../../utils/date';
-import { NgxGanttRangeComponent } from '../range.component';
+import { NgxGanttRangeComponent } from '../../components/range/range.component';
+import { NgxGanttModule } from '../../gantt.module';
+import { GanttDate } from '../../utils/date';
 
 const mockRangeItems = [
     {
