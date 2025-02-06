@@ -154,9 +154,7 @@ describe('gantt-basic-component', () => {
                     provide: GANTT_GLOBAL_CONFIG,
                     useValue: {
                         locale: GanttI18nLocale.zhHans,
-                        dateOptions: {
-                            timeZone: 'Asia/Shanghai'
-                        },
+                        dateOptions: {},
                         styleOptions: {
                             headerHeight: 60,
                             lineHeight: 60,
