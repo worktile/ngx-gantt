@@ -86,6 +86,10 @@ export function setDefaultTimeZone(zone: string) {
     timeZone = zone ?? undefined;
 }
 
+export function getDefaultTimeZone() {
+    return timeZone;
+}
+
 export class GanttDate {
     value: Date;
 
