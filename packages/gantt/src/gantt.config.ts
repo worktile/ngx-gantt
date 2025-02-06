@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocaleConfig, GanttI18nLocale } from './i18n/i18n';
 import zhHans from './i18n/locales/zh-hans';
 import zhHant from './i18n/locales/zh-hant';
+import { setDefaultTimeZone } from './utils/date';
 
 export interface GanttDateFormat {
     hour?: string;
@@ -87,17 +88,25 @@ export class GanttConfigService {
                 ['zh-tw']: zhHant
             } as Record<GanttI18nLocale | string, GanttI18nLocaleConfig>
         );
+
+        if (this.config.dateOptions?.timeZone) {
+            setDefaultTimeZone(this.config.dateOptions.timeZone);
+        }
+    }
+
+    setLocale(locale: string) {
+        this.config.locale = locale;
     }
 
     private getLocaleConfig() {
         return this.i18nLocales[this.config.locale] ?? this.i18nLocales[this.config.locale.toLowerCase()] ?? zhHans;
     }
 
-    getViewsLocale() {
+    getViewsLocale(): GanttI18nLocaleConfig['views'] {
         return this.getLocaleConfig().views;
     }
 
-    getDateLocal() {
+    getDateLocale() {
         return this.config.dateOptions?.locale ?? this.getLocaleConfig().dateLocale;
     }
 }

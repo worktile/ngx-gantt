@@ -83,12 +83,8 @@ export class NgxGanttModule {
         const configService = inject(GanttConfigService);
 
         setDefaultOptions({
-            locale: configService.getDateLocal(),
+            locale: configService.getDateLocale(),
             weekStartsOn: configService.config?.dateOptions?.weekStartsOn
         });
-
-        if (configService.config.dateOptions?.timeZone) {
-            setDefaultTimeZone(configService.config.dateOptions.timeZone);
-        }
     }
 }
