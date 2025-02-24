@@ -24,7 +24,6 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 import { i18nLocaleProvides } from './i18n';
-import { setDefaultTimeZone } from 'ngx-gantt';
 
 @NgModule({
     imports: [
