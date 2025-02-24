@@ -1,5 +1,4 @@
 import { Component, OnInit, HostBinding, OnChanges, SimpleChanges, OnDestroy, NgZone, Inject, ElementRef } from '@angular/core';
-import { GanttDatePoint } from '../../../class/date-point';
 import { Subject, merge } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
@@ -8,15 +7,13 @@ import { isNumber } from '../../../utils/helpers';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from './../../../class/view-type';
 import { todayBorderRadius } from '../../../gantt.styles';
-import { NgIf, NgFor } from '@angular/common';
 
 const mainHeight = 5000;
 
 @Component({
     selector: 'gantt-calendar-grid',
     templateUrl: './calendar-grid.component.html',
-    standalone: true,
-    imports: [NgIf, NgFor]
+    standalone: true
 })
 export class GanttCalendarGridComponent implements OnInit, OnDestroy {
     get view() {
@@ -62,10 +59,6 @@ export class GanttCalendarGridComponent implements OnInit, OnDestroy {
                     this.setTodayPoint();
                 });
         });
-    }
-
-    trackBy(point: GanttDatePoint, index: number) {
-        return point.text || index;
     }
 
     ngOnDestroy() {

@@ -1,5 +1,4 @@
 import { Component, OnInit, HostBinding, Inject, NgZone, ElementRef } from '@angular/core';
-import { GanttDatePoint } from '../../../class/date-point';
 import { todayHeight, todayWidth } from '../../../gantt.styles';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from '../../../class';
@@ -7,13 +6,13 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Subject, merge } from 'rxjs';
 import { GanttDate } from '../../../utils/date';
 import { isNumber } from '../../../utils/helpers';
-import { NgFor, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 @Component({
     selector: 'gantt-calendar-header',
     templateUrl: './calendar-header.component.html',
     standalone: true,
-    imports: [NgFor, NgStyle]
+    imports: [NgStyle]
 })
 export class GanttCalendarHeaderComponent implements OnInit {
     get view() {
@@ -63,9 +62,5 @@ export class GanttCalendarHeaderComponent implements OnInit {
         } else {
             todayEle.style.display = 'none';
         }
-    }
-
-    trackBy(point: GanttDatePoint, index: number) {
-        return point.text || index;
     }
 }
