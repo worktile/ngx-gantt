@@ -32,7 +32,7 @@ import {
 } from './class';
 import { GanttView, GanttViewOptions } from './views/view';
 import { createViewFactory } from './views/factory';
-import { GanttDate } from './utils/date';
+import { GanttDate, getUnixTime } from './utils/date';
 import { uniqBy, flatten, recursiveItems, getFlatItems, Dictionary, keyBy } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
 import { GanttConfigService, GanttGlobalConfig, GanttStyleOptions, defaultConfig } from './gantt.config';
@@ -271,11 +271,11 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         if (!this.start || !this.end) {
             this.originItems.forEach((item) => {
                 if (item.start && !this.start) {
-                    const itemStart = item.start instanceof Date ? item.start.getTime() / 1000 : item.start;
+                    const itemStart = item.start instanceof Date ? getUnixTime(item.start) : item.start;
                     start = start ? Math.min(start, itemStart) : itemStart;
                 }
                 if (item.end && !this.end) {
-                    const itemEnd = item.start instanceof Date ? item.start.getTime() / 1000 : item.start;
+                    const itemEnd = item.start instanceof Date ? getUnixTime(item.start) : item.start;
                     end = end ? Math.max(end, itemEnd) : itemEnd;
                 }
             });
