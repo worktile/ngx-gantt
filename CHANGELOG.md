@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [18.1.0-next.1](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.0...18.1.0-next.1) (2025-03-07)
+
+### Bug Fixes
+
+- **calendar:** track by x-axis and migrate to the built-in control flow ([1d25923](https://github.com/worktile/ngx-gantt/commit/1d25923066341c536705d6c76db94ff2344c877b))
+- **gantt-upper:** use getUnixTime instead of manually dividing ([442a891](https://github.com/worktile/ngx-gantt/commit/442a8914b8aca68c7b59240e92e5b6f03d2a0ed3))
+- **gantt:** removed unused import ([6b18836](https://github.com/worktile/ngx-gantt/commit/6b188366f439088263b67722681c14b86bdd6f09))
+
+### Features
+
+- **config:** move time zone setting to config service and add default time zone getter ([563c346](https://github.com/worktile/ngx-gantt/commit/563c34681f1e1e4cccbd334ffb6ed479abd94fba))
+
 # [18.1.0-next.0](https://github.com/worktile/ngx-gantt/compare/18.0.5...18.1.0-next.0) (2025-02-06)
 
 ### Features
