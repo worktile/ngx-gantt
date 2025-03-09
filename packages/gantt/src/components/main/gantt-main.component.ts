@@ -7,7 +7,7 @@ import { NgxGanttBarComponent } from '../bar/bar.component';
 import { NgxGanttRangeComponent } from '../range/range.component';
 import { NgFor, NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
 import { GanttLinksComponent } from '../links/links.component';
-import { NgxGanttRootComponent } from 'ngx-gantt';
+import { NgxGanttRootComponent } from './../../root.component';
 import { GanttIconComponent } from '../icon/icon.component';
 import { GanttDomService } from '../../gantt-dom.service';
 import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
