@@ -1,0 +1,30 @@
+@use '../../styles/variables.scss';
+.gantt-toolbar {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  z-index: 1000;
+  .toolbar-views {
+    display: inline-flex;
+    .toolbar-view {
+      padding: 0 15px;
+      cursor: pointer;
+      flex: 0 1 auto;
+      border: 1px solid #ddd;
+      margin-left: -1px;
+      position: relative;
+      background-color: #ffffff;
+      &.active {
+        color: variables.$gantt-toolbar-view-active-color;
+        border-color: variables.$gantt-toolbar-view-active-color;
+        z-index: 1;
+      }
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+      }
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+}

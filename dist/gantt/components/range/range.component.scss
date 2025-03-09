@@ -1,0 +1,35 @@
+.gantt-range {
+  position: absolute;
+  z-index: 2;
+  .gantt-range-main {
+    height: 10px;
+    background: #dfdfdf;
+    border: 1px solid #888;
+    border-radius: 4px 4px 0 0;
+    box-sizing: border-box;
+    position: relative;
+    .gantt-range-main-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: #888;
+    }
+  }
+  .gantt-range-triangle {
+    width: 0;
+    height: 0;
+    border-top: 7px solid #888;
+    position: absolute;
+    top: 10px;
+
+    &.left {
+      border-right: 6px solid transparent;
+      left: 0;
+    }
+    &.right {
+      border-left: 6px solid transparent;
+      right: 0;
+    }
+  }
+}

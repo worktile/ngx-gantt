@@ -1,0 +1,10 @@
+import { GanttViewOptions, GanttViewDate, GanttView } from './view';
+import { GanttViewMonth } from './month';
+import { GanttViewType } from '../class/view-type';
+import { GanttViewQuarter } from './quarter';
+import { GanttViewDay } from './day';
+import { GanttViewWeek } from './week';
+import { GanttViewYear } from './year';
+import { GanttViewHour } from './hour';
+export declare function registerView<T extends typeof GanttView>(type: string, view: T): void;
+export declare function createViewFactory(type: GanttViewType, start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions): GanttViewMonth | GanttViewQuarter | GanttViewDay | GanttViewWeek | GanttViewYear | GanttViewHour;

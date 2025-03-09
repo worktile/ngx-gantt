@@ -1,0 +1,9 @@
+export declare const sideWidth = 400;
+export declare const sideMiddleWidth = 500;
+export declare const sideMaxWidth = 600;
+export declare const sideMinWidth = 400;
+export declare const barBackground = "#6698ff";
+export declare const rangeHeight = 17;
+export declare const todayHeight = 24;
+export declare const todayWidth = 35;
+export declare const todayBorderRadius = 4;

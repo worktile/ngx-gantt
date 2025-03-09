@@ -1,0 +1,90 @@
+@use '../../styles/variables.scss';
+
+.gantt-loader {
+  &-overlay {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 40px);
+    top: 40px;
+    left: 0;
+    background: rgba(255, 255, 255, 0.6);
+    z-index: 1001;
+  }
+
+  &-wrapper {
+    position: absolute;
+    padding-top: 20px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &-loading {
+    display: inline-block;
+    position: relative;
+    height: 8px;
+    border-radius: 4px;
+    transform: translateX(-18px);
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 8px;
+      width: 8px;
+      border-radius: 4px;
+    }
+
+    &:before {
+      animation: gantt-loader-loading-ellipsis-b 1s ease-in-out infinite;
+      background: variables.$gantt-loader-loading-color;
+      opacity: 0.4;
+    }
+
+    &:after {
+      animation: gantt-loader-loading-ellipsis-a 1s ease-in-out infinite;
+      background: variables.$gantt-loader-loading-color;
+      opacity: 0.8;
+    }
+
+    &-spot {
+      position: absolute;
+      left: 13px;
+      height: 8px;
+      width: 8px;
+      background: variables.$gantt-loader-loading-color;
+      border-radius: 4px;
+    }
+  }
+}
+
+@keyframes gantt-loader-loading-ellipsis-b {
+  0% {
+    left: 0;
+    transform: scale(1.1);
+  }
+  50% {
+    left: 25px;
+    transform: scale(1);
+  }
+  100% {
+    left: 0;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes gantt-loader-loading-ellipsis-a {
+  0% {
+    left: 25px;
+    transform: scale(1.1);
+  }
+  50% {
+    left: 0;
+    transform: scale(1);
+  }
+  100% {
+    left: 25px;
+    transform: scale(1.1);
+  }
+}

@@ -1,0 +1,90 @@
+@use '../../styles/variables';
+
+.gantt-calendar {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+
+  svg {
+    position: relative;
+    z-index: 2;
+    background-color: variables.$gantt-bg-color;
+    overflow: visible;
+  }
+  line {
+    shape-rendering: crispEdges;
+  }
+
+  .primary-line {
+    stroke: variables.$gantt-date-primary-border;
+  }
+
+  .gantt-calendar-today-overlay {
+    position: relative;
+    z-index: 1;
+    .today-rect {
+      width: 35px;
+      height: 24px;
+      position: absolute;
+      background: variables.$gantt-date-today-color;
+      color: variables.$gantt-date-today-text-color;
+      text-align: center;
+      border-radius: 4px;
+    }
+    .today-line {
+      position: absolute;
+      width: 3px;
+      background: variables.$gantt-date-today-color;
+      transform: scaleX(0.5);
+      transform-origin: 100% 0;
+      margin-left: -2px;
+    }
+  }
+}
+
+.gantt-calendar-header {
+  position: relative;
+  z-index: 2;
+  .gantt-calendar-today-overlay {
+    z-index: 2;
+  }
+  .header-line {
+    stroke: variables.$gantt-border-color;
+  }
+
+  .primary-text {
+    fill: variables.$gantt-date-primary-color;
+    font-size: variables.$gantt-date-primary-font-size;
+  }
+
+  .secondary-text {
+    fill: variables.$gantt-date-secondary-color;
+    font-size: variables.$gantt-date-secondary-font-size;
+
+    &-weekend {
+      fill: variables.$gantt-date-secondary-weekend-color;
+    }
+  }
+
+  .primary-text,
+  .secondary-text {
+    text-anchor: middle;
+  }
+}
+
+.gantt-calendar-grid {
+  position: absolute;
+  width: 100%;
+  .gantt-calendar-grid-main {
+    background-color: transparent;
+  }
+
+  .secondary-line {
+    stroke-dasharray: 2px 5px;
+    stroke: #cacaca;
+  }
+
+  .secondary-backdrop {
+    fill: variables.$gantt-date-week-backdrop-bg;
+  }
+}

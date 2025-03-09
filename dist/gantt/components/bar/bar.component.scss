@@ -1,0 +1,208 @@
+@use 'sass:math';
+@use '../../styles/variables';
+
+$gantt-bar-layer-append-width: 32px;
+$gantt-bar-layer-append-height: 42px;
+$gantt-bar-link-height: 16px;
+$gantt-bar-link-handle-size: 16px;
+$gantt-bar-link-drop-border: 5px;
+
+@mixin link-handles {
+  .link-handles {
+    .handle {
+      position: absolute;
+      display: inline-block;
+      cursor: pointer;
+      width: $gantt-bar-link-height;
+      height: $gantt-bar-link-height;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+
+      &:first-child {
+        left: 0;
+        top: 0;
+      }
+
+      &:last-child {
+        right: 0;
+        bottom: 0;
+      }
+
+      .point {
+        color: variables.$gantt-bar-link-handle-point;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: variables.$gantt-bar-link-handle-point;
+        transition: 0.3 ease;
+
+        &:hover {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+  }
+}
+
+@mixin drag-handles {
+  .drag-handles {
+    background: variables.$gantt-bar-layer-bg;
+    width: 100%;
+    height: calc(100% - #{$gantt-bar-link-height} * 2);
+    position: absolute;
+    border-radius: 4px;
+    top: $gantt-bar-link-height;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+
+    .handle {
+      width: 15px;
+      height: 100%;
+      position: absolute;
+      cursor: col-resize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:before,
+      &:after {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: variables.$gantt-bar-handle-height;
+        background: variables.$gantt-bar-handle-color;
+      }
+
+      &::before {
+        margin-right: 2px;
+      }
+
+      &:first-child {
+        left: 0;
+      }
+
+      &:last-child {
+        right: 0;
+      }
+    }
+  }
+}
+
+@mixin active-bar {
+  z-index: 1000;
+
+  .gantt-bar-layer {
+    display: block;
+    z-index: 1;
+  }
+
+  .gantt-bar-content {
+    z-index: 1;
+    box-shadow: none;
+  }
+
+  .cdk-drag {
+    transition: none;
+  }
+}
+
+.gantt-bar {
+  position: absolute;
+  border-radius: 4px;
+  z-index: 2;
+  background: variables.$gantt-bar-bg;
+
+  .gantt-bar-layer {
+    width: calc(100% + #{$gantt-bar-layer-append-width});
+    height: calc(100% + #{$gantt-bar-layer-append-height});
+    position: absolute;
+    border-radius: 4px;
+    left: math.div($gantt-bar-layer-append-width, 2) * -1;
+    top: math.div($gantt-bar-layer-append-height, 2) * -1;
+    display: none;
+    @include drag-handles();
+    @include link-handles();
+  }
+
+  .gantt-bar-border {
+    width: calc(100% + #{$gantt-bar-link-drop-border} * 2);
+    height: calc(100% + #{$gantt-bar-link-drop-border} * 2);
+    position: absolute;
+    border-radius: 4px;
+    left: $gantt-bar-link-drop-border * -1;
+    top: $gantt-bar-link-drop-border * -1;
+    display: none;
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .gantt-bar-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    background: variables.$gantt-bar-background-color;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
+    .gantt-bar-content-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+    }
+  }
+
+  &-active {
+    @include active-bar();
+  }
+
+  &-single-drop-active {
+    .gantt-bar-border {
+      display: block;
+    }
+
+    .gantt-bar-content {
+      box-shadow: none;
+    }
+  }
+
+  &-draggable-drag {
+    z-index: 1001;
+  }
+
+  &-drop-active {
+    @include active-bar();
+
+    .gantt-bar-layer {
+      .link-handles {
+        .handle {
+          width: $gantt-bar-link-handle-size + 10px;
+          height: 100%;
+
+          &:first-child {
+            left: -$gantt-bar-link-handle-size - 5px;
+          }
+
+          &:last-child {
+            right: -$gantt-bar-link-handle-size - 5px;
+          }
+
+          &:hover {
+            .point {
+              width: 12px;
+              height: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
