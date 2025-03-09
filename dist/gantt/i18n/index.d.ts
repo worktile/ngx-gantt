@@ -1,0 +1,10 @@
+import { default as zhHansLocale } from './locales/zh-hans';
+import { default as zhHantLocale } from './locales/zh-hant';
+import { default as enUsLocale } from './locales/en-us';
+import { default as jaJpLocale } from './locales/ja-jp';
+import { default as deDeLocale } from './locales/de-de';
+import { default as ruRuLocale } from './locales/ru-ru';
+import { Provider } from '@angular/core';
+export * from './i18n';
+export { zhHansLocale, zhHantLocale, enUsLocale, jaJpLocale, deDeLocale, ruRuLocale };
+export declare const i18nLocaleProvides: Provider[];

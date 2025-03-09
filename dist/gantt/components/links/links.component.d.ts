@@ -1,0 +1,37 @@
+import { OnInit, EventEmitter, ChangeDetectorRef, ElementRef, OnDestroy, OnChanges, NgZone } from '@angular/core';
+import { GanttGroupInternal } from '../../class/group';
+import { GanttItemInternal } from './../../class/item';
+import { GanttLineClickEvent } from '../../class/event';
+import { GanttDragContainer } from '../../gantt-drag-container';
+import { GanttUpper } from '../../gantt-upper';
+import { LinkInternal, GanttLinkType } from '../../class/link';
+import * as i0 from "@angular/core";
+export declare class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
+    ganttUpper: GanttUpper;
+    private cdr;
+    private elementRef;
+    private ganttDragContainer;
+    private ngZone;
+    flatItems: (GanttGroupInternal | GanttItemInternal)[];
+    lineClick: EventEmitter<GanttLineClickEvent<unknown>>;
+    links: LinkInternal[];
+    ganttLinkTypes: typeof GanttLinkType;
+    showArrow: boolean;
+    private linkItems;
+    private firstChange;
+    private linkLine;
+    private unsubscribe$;
+    ganttLinksOverlay: boolean;
+    constructor(ganttUpper: GanttUpper, cdr: ChangeDetectorRef, elementRef: ElementRef, ganttDragContainer: GanttDragContainer, ngZone: NgZone);
+    ngOnInit(): void;
+    ngOnChanges(): void;
+    private computeItemPosition;
+    buildLinks(): void;
+    trackBy(index: number): number;
+    onLineClick(event: MouseEvent, link: LinkInternal): void;
+    mouseEnterPath(link: LinkInternal, index: number): void;
+    mouseLeavePath(link: LinkInternal): void;
+    ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<GanttLinksComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<GanttLinksComponent, "gantt-links-overlay", never, { "flatItems": { "alias": "flatItems"; "required": false; }; }, { "lineClick": "lineClick"; }, never, never, true, never>;
+}

@@ -1,0 +1,27 @@
+import { Component, Inject, Input } from '@angular/core';
+import { GANTT_UPPER_TOKEN } from '../../gantt-upper';
+import { NgClass } from '@angular/common';
+import * as i0 from "@angular/core";
+import * as i1 from "../../gantt-upper";
+export class GanttScrollbarComponent {
+    constructor(ganttUpper) {
+        this.ganttUpper = ganttUpper;
+        this.hasFooter = false;
+    }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.0", ngImport: i0, type: GanttScrollbarComponent, deps: [{ token: GANTT_UPPER_TOKEN }], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "18.2.0", type: GanttScrollbarComponent, isStandalone: true, selector: "gantt-scrollbar", inputs: { hasFooter: "hasFooter", tableWidth: "tableWidth", ganttRoot: "ganttRoot" }, ngImport: i0, template: "<div\n  class=\"gantt-scrollbar\"\n  [ngClass]=\"{ 'gantt-scrollbar-bg': hasFooter }\"\n  [style.height.px]=\"ganttRoot?.horizontalScrollbarHeight + 1\"\n  [style.right.px]=\"ganttRoot?.verticalScrollbarWidth\"\n>\n  <div class=\"gantt-table-scrollbar\" [class.with-scrollbar]=\"ganttRoot?.horizontalScrollbarHeight\" [style.width.px]=\"tableWidth\"></div>\n  <div class=\"gantt-main-scrollbar\">\n    <div class=\"h-100\" [style.width.px]=\"ganttRoot['view']?.width\"></div>\n  </div>\n</div>\n", dependencies: [{ kind: "directive", type: NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }] }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.0", ngImport: i0, type: GanttScrollbarComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'gantt-scrollbar', imports: [NgClass], standalone: true, template: "<div\n  class=\"gantt-scrollbar\"\n  [ngClass]=\"{ 'gantt-scrollbar-bg': hasFooter }\"\n  [style.height.px]=\"ganttRoot?.horizontalScrollbarHeight + 1\"\n  [style.right.px]=\"ganttRoot?.verticalScrollbarWidth\"\n>\n  <div class=\"gantt-table-scrollbar\" [class.with-scrollbar]=\"ganttRoot?.horizontalScrollbarHeight\" [style.width.px]=\"tableWidth\"></div>\n  <div class=\"gantt-main-scrollbar\">\n    <div class=\"h-100\" [style.width.px]=\"ganttRoot['view']?.width\"></div>\n  </div>\n</div>\n" }]
+        }], ctorParameters: () => [{ type: i1.GanttUpper, decorators: [{
+                    type: Inject,
+                    args: [GANTT_UPPER_TOKEN]
+                }] }], propDecorators: { hasFooter: [{
+                type: Input
+            }], tableWidth: [{
+                type: Input
+            }], ganttRoot: [{
+                type: Input
+            }] } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2Nyb2xsYmFyLmNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3BhY2thZ2VzL2dhbnR0L3NyYy9jb21wb25lbnRzL3Njcm9sbGJhci9zY3JvbGxiYXIuY29tcG9uZW50LnRzIiwiLi4vLi4vLi4vLi4vLi4vcGFja2FnZXMvZ2FudHQvc3JjL2NvbXBvbmVudHMvc2Nyb2xsYmFyL3Njcm9sbGJhci5jb21wb25lbnQuaHRtbCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsU0FBUyxFQUFFLE1BQU0sRUFBRSxLQUFLLEVBQUUsTUFBTSxlQUFlLENBQUM7QUFDekQsT0FBTyxFQUFFLGlCQUFpQixFQUFjLE1BQU0sbUJBQW1CLENBQUM7QUFDbEUsT0FBTyxFQUFFLE9BQU8sRUFBRSxNQUFNLGlCQUFpQixDQUFDOzs7QUFTMUMsTUFBTSxPQUFPLHVCQUF1QjtJQU9oQyxZQUE4QyxVQUFzQjtRQUF0QixlQUFVLEdBQVYsVUFBVSxDQUFZO1FBTjNELGNBQVMsR0FBWSxLQUFLLENBQUM7SUFNbUMsQ0FBQzs4R0FQL0QsdUJBQXVCLGtCQU9aLGlCQUFpQjtrR0FQNUIsdUJBQXVCLGlLQ1hwQyxpZkFXQSw0Q0RIYyxPQUFPOzsyRkFHUix1QkFBdUI7a0JBTm5DLFNBQVM7K0JBQ0ksaUJBQWlCLFdBRWxCLENBQUMsT0FBTyxDQUFDLGNBQ04sSUFBSTs7MEJBU0gsTUFBTTsyQkFBQyxpQkFBaUI7eUNBTjVCLFNBQVM7c0JBQWpCLEtBQUs7Z0JBRUcsVUFBVTtzQkFBbEIsS0FBSztnQkFFRyxTQUFTO3NCQUFqQixLQUFLIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tcG9uZW50LCBJbmplY3QsIElucHV0IH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBHQU5UVF9VUFBFUl9UT0tFTiwgR2FudHRVcHBlciB9IGZyb20gJy4uLy4uL2dhbnR0LXVwcGVyJztcbmltcG9ydCB7IE5nQ2xhc3MgfSBmcm9tICdAYW5ndWxhci9jb21tb24nO1xuaW1wb3J0IHsgTmd4R2FudHRSb290Q29tcG9uZW50IH0gZnJvbSAnLi4vLi4vcm9vdC5jb21wb25lbnQnO1xuXG5AQ29tcG9uZW50KHtcbiAgICBzZWxlY3RvcjogJ2dhbnR0LXNjcm9sbGJhcicsXG4gICAgdGVtcGxhdGVVcmw6IGAuL3Njcm9sbGJhci5jb21wb25lbnQuaHRtbGAsXG4gICAgaW1wb3J0czogW05nQ2xhc3NdLFxuICAgIHN0YW5kYWxvbmU6IHRydWVcbn0pXG5leHBvcnQgY2xhc3MgR2FudHRTY3JvbGxiYXJDb21wb25lbnQge1xuICAgIEBJbnB1dCgpIGhhc0Zvb3RlcjogYm9vbGVhbiA9IGZhbHNlO1xuXG4gICAgQElucHV0KCkgdGFibGVXaWR0aDogbnVtYmVyO1xuXG4gICAgQElucHV0KCkgZ2FudHRSb290OiBOZ3hHYW50dFJvb3RDb21wb25lbnQ7XG5cbiAgICBjb25zdHJ1Y3RvcihASW5qZWN0KEdBTlRUX1VQUEVSX1RPS0VOKSBwdWJsaWMgZ2FudHRVcHBlcjogR2FudHRVcHBlcikge31cbn1cbiIsIjxkaXZcbiAgY2xhc3M9XCJnYW50dC1zY3JvbGxiYXJcIlxuICBbbmdDbGFzc109XCJ7ICdnYW50dC1zY3JvbGxiYXItYmcnOiBoYXNGb290ZXIgfVwiXG4gIFtzdHlsZS5oZWlnaHQucHhdPVwiZ2FudHRSb290Py5ob3Jpem9udGFsU2Nyb2xsYmFySGVpZ2h0ICsgMVwiXG4gIFtzdHlsZS5yaWdodC5weF09XCJnYW50dFJvb3Q/LnZlcnRpY2FsU2Nyb2xsYmFyV2lkdGhcIlxuPlxuICA8ZGl2IGNsYXNzPVwiZ2FudHQtdGFibGUtc2Nyb2xsYmFyXCIgW2NsYXNzLndpdGgtc2Nyb2xsYmFyXT1cImdhbnR0Um9vdD8uaG9yaXpvbnRhbFNjcm9sbGJhckhlaWdodFwiIFtzdHlsZS53aWR0aC5weF09XCJ0YWJsZVdpZHRoXCI+PC9kaXY+XG4gIDxkaXYgY2xhc3M9XCJnYW50dC1tYWluLXNjcm9sbGJhclwiPlxuICAgIDxkaXYgY2xhc3M9XCJoLTEwMFwiIFtzdHlsZS53aWR0aC5weF09XCJnYW50dFJvb3RbJ3ZpZXcnXT8ud2lkdGhcIj48L2Rpdj5cbiAgPC9kaXY+XG48L2Rpdj5cbiJdfQ==

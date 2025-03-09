@@ -1,0 +1,33 @@
+import { QueryList, OnInit, ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
+import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
+import { GanttAbstractComponent } from '../../../gantt-abstract';
+import * as i0 from "@angular/core";
+export declare const defaultColumnWidth = 100;
+export declare const minColumnWidth = 80;
+export declare class GanttTableHeaderComponent implements OnInit, OnDestroy {
+    private elementRef;
+    private gantt;
+    private cdr;
+    dragStartLeft: number;
+    tableWidth: number;
+    private unsubscribe$;
+    columns: QueryList<NgxGanttTableColumnComponent>;
+    resizeLineElementRef: ElementRef<HTMLElement>;
+    className: string;
+    get height(): string;
+    get lineHeight(): string;
+    constructor(elementRef: ElementRef, gantt: GanttAbstractComponent, cdr: ChangeDetectorRef);
+    ngOnInit(): void;
+    private columnsChange;
+    private dragFixed;
+    onResizeStarted(event: CdkDragStart): void;
+    onResizeMoved(event: CdkDragMove, column?: NgxGanttTableColumnComponent): void;
+    onResizeEnded(event: CdkDragEnd, column: NgxGanttTableColumnComponent): void;
+    onOverallResizeEnded(event: CdkDragEnd): void;
+    private showAuxiliaryLine;
+    private hideAuxiliaryLine;
+    ngOnDestroy(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<GanttTableHeaderComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<GanttTableHeaderComponent, "gantt-table-header", never, { "columns": { "alias": "columns"; "required": false; }; }, {}, never, never, true, never>;
+}
