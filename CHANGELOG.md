@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [18.1.0-next.2](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.1...18.1.0-next.2) (2025-03-10)
+
+### Bug Fixes
+
+- gantt root component reference from public api ([9699e45](https://github.com/worktile/ngx-gantt/commit/9699e459a16935f840c023fe8e8b61dba204b435))
+
 # [18.1.0-next.1](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.0...18.1.0-next.1) (2025-03-07)
 
 ### Bug Fixes
