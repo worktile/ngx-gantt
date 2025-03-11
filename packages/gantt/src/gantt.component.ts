@@ -1,5 +1,5 @@
 import { CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
     AfterViewChecked,
     AfterViewInit,
@@ -71,7 +71,6 @@ import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.compon
         NgxGanttRootComponent,
         GanttTableHeaderComponent,
         GanttCalendarHeaderComponent,
-        NgIf,
         GanttLoaderComponent,
         CdkVirtualScrollViewport,
         CdkFixedSizeVirtualScroll,
@@ -82,8 +81,7 @@ import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.compon
         GanttMainComponent,
         GanttDragBackdropComponent,
         GanttScrollbarComponent,
-        NgTemplateOutlet,
-        NgFor
+        NgTemplateOutlet
     ]
 })
 export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit, AfterViewChecked {

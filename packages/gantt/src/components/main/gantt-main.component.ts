@@ -5,7 +5,7 @@ import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from 
 import { NgxGanttBaselineComponent } from '../baseline/baseline.component';
 import { NgxGanttBarComponent } from '../bar/bar.component';
 import { NgxGanttRangeComponent } from '../range/range.component';
-import { NgFor, NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { GanttLinksComponent } from '../links/links.component';
 import { NgxGanttRootComponent } from './../../root.component';
 import { GanttIconComponent } from '../icon/icon.component';
@@ -18,8 +18,6 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
     standalone: true,
     imports: [
         GanttLinksComponent,
-        NgFor,
-        NgIf,
         NgClass,
         NgTemplateOutlet,
         NgxGanttRangeComponent,
@@ -58,7 +56,11 @@ export class GanttMainComponent implements OnInit {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper, public dom: GanttDomService, protected ngZone: NgZone) {}
+    constructor(
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
+        public dom: GanttDomService,
+        protected ngZone: NgZone
+    ) {}
 
     ngOnInit(): void {
         const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));

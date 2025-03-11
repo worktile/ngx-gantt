@@ -1,17 +1,21 @@
 <div class="gantt-bar-layer">
   <div class="drag-handles">
-    <ng-container *ngIf="item.draggable && ganttUpper.draggable">
+    @if (item.draggable && ganttUpper.draggable) {
       <span class="handle" #handle></span>
       <span class="handle" #handle></span>
-    </ng-container>
+    }
   </div>
-  <div *ngIf="item.linkable && ganttUpper.linkable" class="link-handles">
-    <span class="handle"><span class="point"></span></span>
-    <span class="handle"> <span class="point"></span></span>
-  </div>
+  @if (item.linkable && ganttUpper.linkable) {
+    <div class="link-handles">
+      <span class="handle"><span class="point"></span></span>
+      <span class="handle"> <span class="point"></span></span>
+    </div>
+  }
 </div>
 <div class="gantt-bar-border"></div>
 <div #content class="gantt-bar-content" (click)="onBarClick($event)">
-  <div class="gantt-bar-content-progress" *ngIf="item.progress >= 0" [style.width.%]="item.progress * 100"></div>
+  @if (item.progress >= 0) {
+    <div class="gantt-bar-content-progress" [style.width.%]="item.progress * 100"></div>
+  }
   <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"> </ng-template>
 </div>
