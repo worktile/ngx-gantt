@@ -30,14 +30,14 @@ import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abs
 import { defaultColumnWidth } from '../header/gantt-table-header.component';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../../gantt-upper';
 import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragMove, CdkDragStart, DragRef, CdkDropList, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { DOCUMENT, NgIf, NgTemplateOutlet, NgFor, NgClass } from '@angular/common';
-import { IsGanttRangeItemPipe } from '../../../gantt.pipe';
+import { DOCUMENT, NgTemplateOutlet, NgClass } from '@angular/common';
+import { IsGanttGroupPipe, IsGanttRangeItemPipe } from '../../../gantt.pipe';
 import { GanttIconComponent } from '../../icon/icon.component';
 @Component({
     selector: 'gantt-table-body',
     templateUrl: './gantt-table-body.component.html',
     standalone: true,
-    imports: [CdkDropList, NgIf, GanttIconComponent, NgTemplateOutlet, NgFor, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe]
+    imports: [CdkDropList, GanttIconComponent, NgTemplateOutlet, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe, IsGanttGroupPipe]
 })
 export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit {
     private _viewportItems: (GanttGroupInternal | GanttItemInternal)[];
@@ -46,7 +46,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         if (firstData && firstData.hasOwnProperty('items')) {
             this.hasGroup = true;
         }
-        this.ganttTableEmptyClass = data?.length ? false : true;
+        this.ganttTableEmptyClass = !data?.length;
         this._viewportItems = data;
     }
 

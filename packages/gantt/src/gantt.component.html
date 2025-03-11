@@ -5,7 +5,9 @@
       <gantt-calendar-header [style.padding-right.px]="ganttRoot.verticalScrollbarWidth"></gantt-calendar-header>
     </div>
   </div>
-  <gantt-loader *ngIf="loading"></gantt-loader>
+  @if (loading) {
+    <gantt-loader></gantt-loader>
+  }
 
   <cdk-virtual-scroll-viewport
     class="gantt-virtual-scroll-viewport"
@@ -75,17 +77,18 @@
     [tableWidth]="tableHeader.tableWidth"
   ></gantt-scrollbar>
 
-  <div
-    class="gantt-footer"
-    *ngIf="table?.tableFooterTemplate || footerTemplate"
-    [style.right.px]="ganttRoot.verticalScrollbarWidth"
-    [style.bottom.px]="ganttRoot.horizontalScrollbarHeight"
-  >
-    <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1" *ngIf="table?.tableFooterTemplate">
-      <ng-template [ngTemplateOutlet]="table?.tableFooterTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
+  @if (table?.tableFooterTemplate || footerTemplate) {
+    <div class="gantt-footer" [style.right.px]="ganttRoot.verticalScrollbarWidth" [style.bottom.px]="ganttRoot.horizontalScrollbarHeight">
+      @if (table?.tableFooterTemplate) {
+        <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1">
+          <ng-template [ngTemplateOutlet]="table?.tableFooterTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
+        </div>
+      }
+      @if (footerTemplate) {
+        <div class="gantt-container-footer">
+          <ng-template [ngTemplateOutlet]="footerTemplate"> </ng-template>
+        </div>
+      }
     </div>
-    <div class="gantt-container-footer" *ngIf="footerTemplate">
-      <ng-template [ngTemplateOutlet]="footerTemplate"> </ng-template>
-    </div>
-  </div>
+  }
 </ngx-gantt-root>

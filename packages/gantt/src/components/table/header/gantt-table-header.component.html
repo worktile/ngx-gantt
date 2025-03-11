@@ -1,19 +1,22 @@
 <div class="gantt-table-header-container">
-  <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth">
-    <ng-container *ngIf="column.headerTemplateRef; else default" [ngTemplateOutlet]="column.headerTemplateRef"> </ng-container>
-    <ng-template #default>
-      {{ column.name }}
-    </ng-template>
-    <div
-      class="column-resize-handle"
-      cdkDrag
-      cdkDragLockAxis="x"
-      cdkDragBoundary=".gantt"
-      (cdkDragMoved)="onResizeMoved($event, column)"
-      (cdkDragStarted)="onResizeStarted($event)"
-      (cdkDragEnded)="onResizeEnded($event, column)"
-    ></div>
-  </div>
+  @for (column of columns; track column; let i = $index) {
+    <div class="gantt-table-column" [style.width]="column.columnWidth">
+      @if (column.headerTemplateRef) {
+        <ng-container [ngTemplateOutlet]="column.headerTemplateRef"> </ng-container>
+      } @else {
+        {{ column.name }}
+      }
+      <div
+        class="column-resize-handle"
+        cdkDrag
+        cdkDragLockAxis="x"
+        cdkDragBoundary=".gantt"
+        (cdkDragMoved)="onResizeMoved($event, column)"
+        (cdkDragStarted)="onResizeStarted($event)"
+        (cdkDragEnded)="onResizeEnded($event, column)"
+      ></div>
+    </div>
+  }
 </div>
 
 <div

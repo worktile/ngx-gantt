@@ -1,8 +1,10 @@
-<ng-container *ngIf="item.start && item.end">
+@if (item.start && item.end) {
   <div class="gantt-range-main">
-    <div class="gantt-range-main-progress" *ngIf="item.progress >= 0" [style.width.%]="item.progress * 100"></div>
+    @if (item.progress >= 0) {
+      <div class="gantt-range-main-progress" [style.width.%]="item.progress * 100"></div>
+    }
   </div>
   <div class="gantt-range-triangle left"></div>
   <div class="gantt-range-triangle right"></div>
   <ng-template [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ item: item.origin, refs: item.refs }"></ng-template>
-</ng-container>
+}

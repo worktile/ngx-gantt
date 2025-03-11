@@ -1,11 +1,11 @@
 import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, OnInit, AfterViewInit, NgZone } from '@angular/core';
-import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
+import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent, GanttItem } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from '../../gantt.pipe';
+import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttGroupPipe } from '../../gantt.pipe';
 import { NgxGanttBaselineComponent } from '../baseline/baseline.component';
 import { NgxGanttBarComponent } from '../bar/bar.component';
 import { NgxGanttRangeComponent } from '../range/range.component';
-import { NgFor, NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { GanttLinksComponent } from '../links/links.component';
 import { NgxGanttRootComponent } from './../../root.component';
 import { GanttIconComponent } from '../icon/icon.component';
@@ -18,8 +18,6 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
     standalone: true,
     imports: [
         GanttLinksComponent,
-        NgFor,
-        NgIf,
         NgClass,
         NgTemplateOutlet,
         NgxGanttRangeComponent,
@@ -28,6 +26,7 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe,
+        IsGanttGroupPipe,
         GanttIconComponent
     ]
 })
@@ -58,7 +57,11 @@ export class GanttMainComponent implements OnInit {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper, public dom: GanttDomService, protected ngZone: NgZone) {}
+    constructor(
+        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
+        public dom: GanttDomService,
+        protected ngZone: NgZone
+    ) {}
 
     ngOnInit(): void {
         const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
@@ -67,6 +70,10 @@ export class GanttMainComponent implements OnInit {
                 this.setupResize();
             });
         });
+    }
+
+    toItemType(data: GanttItemInternal | GanttGroupInternal) {
+        return data as GanttItemInternal;
     }
 
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
@@ -81,7 +88,7 @@ export class GanttMainComponent implements OnInit {
             });
     }
 
-    quickTime(item: GanttItemInternal, type: 'left' | 'right') {
+    quickTime(item: GanttItem, type: 'left' | 'right') {
         const date = type === 'left' ? item.start || item.end : item.end || item.start;
         this.ganttRoot.scrollToDate(date);
     }

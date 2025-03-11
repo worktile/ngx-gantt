@@ -25,7 +25,7 @@ import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component
 import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
 import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'ngx-gantt-root',
@@ -36,7 +36,6 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
     },
     standalone: true,
     imports: [
-        NgIf,
         CdkScrollable,
         NgTemplateOutlet,
         GanttCalendarHeaderComponent,
