@@ -1,5 +1,5 @@
 <div class="gantt-table-header-container">
-  @for (column of columns; track column; let i = $index) {
+  @for (column of columns; track $index) {
     <div class="gantt-table-column" [style.width]="column.columnWidth">
       @if (column.headerTemplateRef) {
         <ng-container [ngTemplateOutlet]="column.headerTemplateRef"> </ng-container>
