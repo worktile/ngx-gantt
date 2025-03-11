@@ -18,7 +18,7 @@ import { GanttTableHeaderComponent } from './components/table/header/gantt-table
 import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
 import { NgxGanttComponent } from './gantt.component';
 import { GANTT_GLOBAL_CONFIG, GanttConfigService, GanttGlobalConfig, defaultConfig } from './gantt.config';
-import { GanttDateFormatPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttRangeItemPipe } from './gantt.pipe';
+import { GanttDateFormatPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttGroupPipe, IsGanttRangeItemPipe } from './gantt.pipe';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
@@ -51,6 +51,7 @@ import { i18nLocaleProvides } from './i18n';
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe,
+        IsGanttGroupPipe,
         GanttDateFormatPipe
     ],
     exports: [

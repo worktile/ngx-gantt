@@ -16,7 +16,7 @@
 
   @if (viewportItems && viewportItems.length > 0) {
     @for (item of viewportItems; track trackBy($index, item)) {
-      @if (item.items) {
+      @if (item | isGanttGroup) {
         <div class="gantt-table-group" [style.height.px]="gantt.styles.lineHeight" [ngClass]="item.class">
           <div class="gantt-table-group-title" [class.expanded]="item.expanded" (click)="expandGroup(item)">
             <gantt-icon class="expand-icon" [iconName]="item.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
@@ -31,7 +31,7 @@
           </div>
         </div>
       }
-      @if (!item.items) {
+      @if (!(item | isGanttGroup)) {
         <div
           (click)="itemClick.emit({ event: $event, current: item.origin, selectedValue: item.origin })"
           cdkDrag

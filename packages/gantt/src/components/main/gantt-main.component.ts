@@ -1,7 +1,7 @@
 import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, OnInit, AfterViewInit, NgZone } from '@angular/core';
-import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent } from '../../class';
+import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent, GanttItem } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe } from '../../gantt.pipe';
+import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttGroupPipe } from '../../gantt.pipe';
 import { NgxGanttBaselineComponent } from '../baseline/baseline.component';
 import { NgxGanttBarComponent } from '../bar/bar.component';
 import { NgxGanttRangeComponent } from '../range/range.component';
@@ -26,6 +26,7 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe,
+        IsGanttGroupPipe,
         GanttIconComponent
     ]
 })
@@ -71,6 +72,10 @@ export class GanttMainComponent implements OnInit {
         });
     }
 
+    toItemType(data: GanttItemInternal | GanttGroupInternal) {
+        return data as GanttItemInternal;
+    }
+
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {
         return item.id || index;
     }
@@ -83,7 +88,7 @@ export class GanttMainComponent implements OnInit {
             });
     }
 
-    quickTime(item: GanttItemInternal, type: 'left' | 'right') {
+    quickTime(item: GanttItem, type: 'left' | 'right') {
         const date = type === 'left' ? item.start || item.end : item.end || item.start;
         this.ganttRoot.scrollToDate(date);
     }

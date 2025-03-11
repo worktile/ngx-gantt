@@ -48,7 +48,6 @@
     "@angular/router": "^18.2.0",
     "@date-fns/tz": "^1.2.0",
     "date-fns": "^4.1.0",
-    "date-fns-tz": "^3.2.0",
     "html2canvas": "1.0.0-rc.7",
     "rxjs": "^7.5.5",
     "tslib": "^2.3.0",
@@ -91,7 +90,7 @@
     "lint-staged": "^12.3.7",
     "ng-packagr": "^18.2.0",
     "ngx-tethys": "^16.1.14",
-    "prettier": "^2.6.0",
+    "prettier": "^3.5.3",
     "scss-bundle": "^3.1.2",
     "standard-version": "^8.0.1",
     "typescript": "~5.5.4"

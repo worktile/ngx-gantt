@@ -1,5 +1,5 @@
 <svg [attr.width]="ganttUpper.view.width" class="gantt-links-overlay-main">
-  @for (link of links; track trackBy(i, link); let i = $index) {
+  @for (link of links; track trackBy(i); let i = $index) {
     <ng-container>
       <path
         [attr.d]="link.path"

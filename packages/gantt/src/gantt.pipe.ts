@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { GanttItemType } from './class';
+import { GanttGroupInternal, GanttItemInternal, GanttItemType } from './class';
 import { GanttDate } from './utils/date';
 
 @Pipe({
@@ -29,6 +29,16 @@ export class IsGanttBarItemPipe implements PipeTransform {
 export class IsGanttCustomItemPipe implements PipeTransform {
     transform(value: GanttItemType) {
         return value === GanttItemType.custom;
+    }
+}
+
+@Pipe({
+    name: 'isGanttGroup',
+    standalone: true
+})
+export class IsGanttGroupPipe implements PipeTransform {
+    transform(data: GanttItemInternal | GanttGroupInternal): data is GanttGroupInternal {
+        return !!(data as GanttGroupInternal).items;
     }
 }
 
