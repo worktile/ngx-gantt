@@ -17,7 +17,8 @@ import { delay } from 'rxjs/operators';
 @Component({
     selector: 'app-gantt-range-example',
     templateUrl: './gantt-range.component.html',
-    providers: [GanttPrintService]
+    providers: [GanttPrintService],
+    standalone: false
 })
 export class AppGanttRangeExampleComponent implements OnInit {
     items = mockItems;

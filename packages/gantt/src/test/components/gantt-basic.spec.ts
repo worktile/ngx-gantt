@@ -103,7 +103,8 @@ const localeConfig = {
                 </ng-template>
             </ngx-gantt-column>
         </ngx-gantt-table>
-    </ngx-gantt>`
+    </ngx-gantt>`,
+    standalone: false
 })
 export class TestGanttBasicComponent {
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;

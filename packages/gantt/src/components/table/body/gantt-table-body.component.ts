@@ -36,7 +36,6 @@ import { GanttIconComponent } from '../../icon/icon.component';
 @Component({
     selector: 'gantt-table-body',
     templateUrl: './gantt-table-body.component.html',
-    standalone: true,
     imports: [CdkDropList, GanttIconComponent, NgTemplateOutlet, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe, IsGanttGroupPipe]
 })
 export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit {

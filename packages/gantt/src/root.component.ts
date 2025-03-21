@@ -34,7 +34,6 @@ import { NgTemplateOutlet } from '@angular/common';
     host: {
         class: 'gantt'
     },
-    standalone: true,
     imports: [
         CdkScrollable,
         NgTemplateOutlet,

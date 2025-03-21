@@ -34,7 +34,8 @@ const mockBaselineItems = [
                 </ng-template>
             </ngx-gantt-column>
         </ngx-gantt-table>
-    </ngx-gantt>`
+    </ngx-gantt>`,
+    standalone: false
 })
 export class TestGanttBaselineComponent {
     constructor() {}
@@ -79,7 +80,8 @@ describe('ngx-gantt-baseline', () => {
         <ng-template #baseline>
             <div class="baseline-container"></div>
         </ng-template>
-    </ngx-gantt>`
+    </ngx-gantt>`,
+    standalone: false
 })
 export class TestGanttBaselineTemplateComponent {
     constructor() {}

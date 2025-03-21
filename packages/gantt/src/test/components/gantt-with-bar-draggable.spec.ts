@@ -62,7 +62,8 @@ const mockResetBarItems = [
                 </ng-template>
             </ngx-gantt-column>
         </ngx-gantt-table>
-    </ngx-gantt>`
+    </ngx-gantt>`,
+    standalone: false
 })
 export class TestGanttBarComponent {
     constructor() {}

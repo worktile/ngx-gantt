@@ -6,7 +6,6 @@ import { NgTemplateOutlet } from '@angular/common';
 @Component({
     selector: 'ngx-gantt-range,gantt-range',
     templateUrl: './range.component.html',
-    standalone: true,
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttRangeComponent extends GanttItemUpper {
