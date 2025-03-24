@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [19.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.2...19.0.0-next.0) (2025-03-24)
+
+### Bug Fixes
+
+- fix columns track by in [@for](https://github.com/for) loop ([e9534de](https://github.com/worktile/ngx-gantt/commit/e9534de998a8341fbd67607f1470df03afc7f220))
+
 # [18.1.0-next.2](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.1...18.1.0-next.2) (2025-03-10)
 
 ### Bug Fixes
