@@ -7,7 +7,8 @@ import { random, randomGroupsAndItems, randomItems } from '../helper';
 
 @Component({
     selector: 'app-gantt-groups-example',
-    templateUrl: './gantt-groups.component.html'
+    templateUrl: './gantt-groups.component.html',
+    standalone: false
 })
 export class AppGanttGroupsExampleComponent implements OnInit {
     views = [

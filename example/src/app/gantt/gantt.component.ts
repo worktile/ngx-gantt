@@ -27,7 +27,8 @@ import { random, randomItems } from '../helper';
     selector: 'app-gantt-example',
     templateUrl: './gantt.component.html',
     styleUrls: ['./gantt.scss'],
-    providers: [GanttPrintService]
+    providers: [GanttPrintService],
+    standalone: false
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     toolbarOptions: GanttToolbarOptions = {
@@ -101,7 +102,10 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         return true;
     };
 
-    constructor(private printService: GanttPrintService, private thyNotify: ThyNotifyService) {}
+    constructor(
+        private printService: GanttPrintService,
+        private thyNotify: ThyNotifyService
+    ) {}
 
     ngOnInit(): void {
         // init items children

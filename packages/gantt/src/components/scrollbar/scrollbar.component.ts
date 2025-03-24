@@ -6,8 +6,7 @@ import { NgxGanttRootComponent } from '../../root.component';
 @Component({
     selector: 'gantt-scrollbar',
     templateUrl: `./scrollbar.component.html`,
-    imports: [NgClass],
-    standalone: true
+    imports: [NgClass]
 })
 export class GanttScrollbarComponent {
     @Input() hasFooter: boolean = false;

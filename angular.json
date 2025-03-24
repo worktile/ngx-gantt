@@ -53,12 +53,15 @@
       "prefix": "example",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/example",
+            "outputPath": {
+              "base": "dist/example"
+            },
             "index": "example/src/index.html",
-            "main": "example/src/main.ts",
-            "polyfills": "example/src/polyfills.ts",
+            "polyfills": [
+              "example/src/polyfills.ts"
+            ],
             "tsConfig": "example/tsconfig.app.json",
             "assets": [
               "example/src/favicon.ico",
@@ -68,13 +71,14 @@
               "example/src/styles.scss"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "allowedCommonJsDependencies": ["docsearch.js"]
+            "allowedCommonJsDependencies": [
+              "docsearch.js"
+            ],
+            "browser": "example/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -89,8 +93,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",

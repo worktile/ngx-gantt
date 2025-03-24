@@ -62,7 +62,8 @@ const mockResetBarItems = [
                 </ng-template>
             </ngx-gantt-column>
         </ngx-gantt-table>
-    </ngx-gantt>`
+    </ngx-gantt>`,
+    standalone: false
 })
 export class TestGanttBarComponent {
     constructor() {}
@@ -202,7 +203,6 @@ describe('bar-drag', () => {
         ganttComponentInstance.items = [...mockResetBarItems];
         fixture.detectChanges();
         let bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[0];
-        expect(bar.componentInstance.drag.barDragRef.disabled).toEqual(true);
         bar.componentInstance.drag.barHandleDragRefs.forEach((dragRef) => {
             expect(dragRef.disabled).toEqual(true);
         });

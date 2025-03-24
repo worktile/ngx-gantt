@@ -11,7 +11,8 @@ import { startWith, takeUntil } from 'rxjs/operators';
             provide: GANTT_UPPER_TOKEN,
             useExisting: AppGanttFlatComponent
         }
-    ]
+    ],
+    standalone: false
 })
 export class AppGanttFlatComponent extends GanttUpper implements OnInit {
     mergeIntervalDays = 3;

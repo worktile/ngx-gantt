@@ -22,7 +22,8 @@ const mockItems = getMockItems();
                 </ng-template>
             </ngx-gantt-column>
         </ngx-gantt-table>
-    </ngx-gantt>`
+    </ngx-gantt>`,
+    standalone: false
 })
 export class TestGanttLoadChildrenComponent {
     @ViewChild('gantt') ganttComponent: NgxGanttComponent;

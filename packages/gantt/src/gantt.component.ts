@@ -66,7 +66,6 @@ import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.compon
             useExisting: forwardRef(() => NgxGanttComponent)
         }
     ],
-    standalone: true,
     imports: [
         NgxGanttRootComponent,
         GanttTableHeaderComponent,

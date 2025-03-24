@@ -21,7 +21,8 @@ registerView(customViewType, GanttViewCustom);
 
 @Component({
     selector: 'app-gantt-custom-view-example',
-    templateUrl: './gantt.component.html'
+    templateUrl: './gantt.component.html',
+    standalone: false
 })
 export class AppGanttCustomViewExampleComponent implements OnInit {
     viewType = customViewType;

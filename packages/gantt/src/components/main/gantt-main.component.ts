@@ -15,7 +15,6 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
 @Component({
     selector: 'gantt-main',
     templateUrl: './gantt-main.component.html',
-    standalone: true,
     imports: [
         GanttLinksComponent,
         NgClass,

@@ -8,7 +8,6 @@ import { NgTemplateOutlet } from '@angular/common';
 @Component({
     selector: 'ngx-gantt-baseline,gantt-baseline',
     templateUrl: './baseline.component.html',
-    standalone: true,
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttBaselineComponent implements OnInit {

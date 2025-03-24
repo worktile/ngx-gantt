@@ -28,7 +28,6 @@ interface DragFixedConfig {
 @Component({
     selector: 'gantt-table-header',
     templateUrl: './gantt-table-header.component.html',
-    standalone: true,
     imports: [NgTemplateOutlet, CdkDrag]
 })
 export class GanttTableHeaderComponent implements OnInit, OnDestroy {
