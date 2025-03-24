@@ -1,40 +1,28 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["rxjs"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true,
         "warnOnUnsupportedTypeScriptVersion": false
       },
-      "extends": [
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
+      "extends": ["plugin:@angular-eslint/recommended", "plugin:@angular-eslint/template/process-inline-templates"],
       "rules": {
         "rxjs/no-unsafe-takeuntil": "error",
         "rxjs/no-subject-unsubscribe": "error",
         "rxjs/no-unsafe-subject-next": "error",
-        "@angular-eslint/no-host-metadata-property": "off"
+        "@angular-eslint/no-host-metadata-property": "off",
+        "@angular-eslint/prefer-standalone": "off"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     }
   ]
