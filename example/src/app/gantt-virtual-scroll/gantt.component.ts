@@ -15,7 +15,8 @@ import { randomItems, random } from '../helper';
 @Component({
     selector: 'app-gantt-virtual-scroll-example',
     templateUrl: './gantt.component.html',
-    providers: [GanttPrintService]
+    providers: [GanttPrintService],
+    standalone: false
 })
 export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewInit {
     items: GanttItem[] = [];

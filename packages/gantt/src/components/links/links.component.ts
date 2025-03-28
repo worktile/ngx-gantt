@@ -26,7 +26,6 @@ import { createLineGenerator } from './lines/factory';
 @Component({
     selector: 'gantt-links-overlay',
     templateUrl: './links.component.html',
-    standalone: true,
     imports: []
 })
 export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {

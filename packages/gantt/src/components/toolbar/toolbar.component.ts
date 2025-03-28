@@ -7,7 +7,6 @@ import { GanttConfigService } from '../../gantt.config';
 @Component({
     selector: 'ngx-gantt-toolbar,gantt-toolbar',
     templateUrl: './toolbar.component.html',
-    standalone: true,
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttToolbarComponent {

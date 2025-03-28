@@ -11,7 +11,6 @@ import { NgStyle } from '@angular/common';
 @Component({
     selector: 'gantt-calendar-header',
     templateUrl: './calendar-header.component.html',
-    standalone: true,
     imports: [NgStyle]
 })
 export class GanttCalendarHeaderComponent implements OnInit {

@@ -22,7 +22,8 @@ const mockItems = getMockItems();
         <ng-template #toolbar>
             <span class="custom-toolbar"></span>
         </ng-template>
-    </ngx-gantt>`
+    </ngx-gantt>`,
+    standalone: false
 })
 export class TestGanttCustomToolbarComponent {
     items = mockItems;

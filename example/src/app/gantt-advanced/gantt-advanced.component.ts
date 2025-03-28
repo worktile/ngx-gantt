@@ -4,7 +4,8 @@ import { randomGroupsAndItems } from '../helper';
 
 @Component({
     selector: 'app-gantt-advanced-example',
-    templateUrl: './gantt-advanced.component.html'
+    templateUrl: './gantt-advanced.component.html',
+    standalone: false
 })
 export class AppGanttAdvancedExampleComponent implements OnInit {
     constructor() {}

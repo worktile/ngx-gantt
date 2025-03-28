@@ -14,7 +14,7 @@ import { GanttTableHeaderComponent } from '../../components/table/header/gantt-t
             <ngx-gantt-table>
                 <ngx-gantt-column name="开始时间" width="140px">
                     <ng-template #cell let-item="item">
-                        {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
+                        {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
                     </ng-template>
                 </ngx-gantt-column>
                 <ngx-gantt-column [width]="200" name="标题" [showExpandIcon]="showExpandIcon">
@@ -25,7 +25,8 @@ import { GanttTableHeaderComponent } from '../../components/table/header/gantt-t
             </ngx-gantt-table>
         </ngx-gantt>
     `,
-    providers: []
+    providers: [],
+    standalone: false
 })
 export class TestGanttTableBodyComponent {
     @ViewChild(GanttTableBodyComponent, { static: true }) GanttTableBodyComponent: GanttTableBodyComponent;
