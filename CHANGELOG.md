@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [19.0.0](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.2...19.0.0) (2025-03-28)
+
+### Bug Fixes
+
+- fix columns track by in [@for](https://github.com/for) loop ([e9534de](https://github.com/worktile/ngx-gantt/commit/e9534de998a8341fbd67607f1470df03afc7f220))
+- fix peerDependencies angular version ([e42f6db](https://github.com/worktile/ngx-gantt/commit/e42f6db4183d327cdb2c261070bb8e8e240e13e2))
+- move dateFormat pipe to example ([3a10168](https://github.com/worktile/ngx-gantt/commit/3a10168e9a3ce680213ed4767dfcb3680aab7ca2))
+
+### Features
+
+- merge v19.0.0-next ([#529](https://github.com/worktile/ngx-gantt/issues/529)) ([41fb094](https://github.com/worktile/ngx-gantt/commit/41fb0940746b18161e6f2fdc9aedd2cf65bc0192))
+
 # [19.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.2...19.0.0-next.0) (2025-03-24)
 
 ### Bug Fixes

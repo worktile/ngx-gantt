@@ -1,6 +1,6 @@
 {
   "name": "@worktile/gantt",
-  "version": "19.0.0-next.0",
+  "version": "19.0.0",
   "author": "walkerkay001",
   "license": "MIT",
   "description": "A modern and powerful gantt chart component for Angular",
