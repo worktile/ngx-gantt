@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttItemType } from './class';
-import { GanttDate } from './utils/date';
 
 @Pipe({
     name: 'isGanttRangeItem',
@@ -39,15 +38,5 @@ export class IsGanttCustomItemPipe implements PipeTransform {
 export class IsGanttGroupPipe implements PipeTransform {
     transform(data: GanttItemInternal | GanttGroupInternal): data is GanttGroupInternal {
         return !!(data as GanttGroupInternal).items;
-    }
-}
-
-@Pipe({
-    name: 'dateFormat',
-    standalone: true
-})
-export class GanttDateFormatPipe implements PipeTransform {
-    transform(value: number | string, format: string) {
-        return new GanttDate(value).format(format);
     }
 }

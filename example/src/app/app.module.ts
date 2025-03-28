@@ -25,6 +25,7 @@ import { AppExampleComponentsComponent } from './components/components.component
 import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.component';
 import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.component';
 import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/gantt.component';
+import { GanttDateFormatPipe } from './pipes/date-format.pipe';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/ga
         AppGanttVirtualScrollExampleComponent,
         AppGanttRangeExampleComponent,
         AppGanttCustomViewExampleComponent,
-        AppGanttFlatComponent
+        AppGanttFlatComponent,
+        GanttDateFormatPipe
     ],
     imports: [
         BrowserModule,
