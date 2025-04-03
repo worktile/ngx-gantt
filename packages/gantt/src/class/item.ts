@@ -99,10 +99,10 @@ export class GanttItemInternal {
     private fillDateWhenStartOrEndIsNil(item: GanttItem) {
         if (this.view) {
             if (item.start && !item.end) {
-                this.end = this.view.getDateByXPoint(this.view.getXPointByDate(new GanttDate(item.start)) + DEFAULT_FILL_INCREMENT_WIDTH);
+                this.end = new GanttDate(item.start).endOfDay();
             }
             if (!item.start && item.end) {
-                this.start = this.view.getDateByXPoint(this.view.getXPointByDate(new GanttDate(item.end)) - DEFAULT_FILL_INCREMENT_WIDTH);
+                this.start = new GanttDate(item.end).startOfDay();
             }
         }
     }
