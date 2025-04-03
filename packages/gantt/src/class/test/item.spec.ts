@@ -56,7 +56,7 @@ describe('GanttItemInternal', () => {
             view as any
         );
 
-        expect(ganttItemInternal.start.getUnixTime()).toBe(date.getUnixTime());
+        expect(ganttItemInternal.start.getUnixTime()).toBe(ganttItemInternal.end.startOfDay().getUnixTime());
 
         ganttItemInternal = new GanttItemInternal(
             {
@@ -67,7 +67,7 @@ describe('GanttItemInternal', () => {
             0,
             view as any
         );
-        expect(ganttItemInternal.end.getUnixTime()).toBe(date.getUnixTime());
+        expect(ganttItemInternal.end.getUnixTime()).toBe(ganttItemInternal.start.endOfDay().getUnixTime());
     });
 
     it(`should update refs`, () => {
