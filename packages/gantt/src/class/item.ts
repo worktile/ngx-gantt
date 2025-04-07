@@ -33,6 +33,7 @@ export interface GanttItem<T = unknown> {
     children?: GanttItem[];
     color?: string;
     barStyle?: Partial<CSSStyleDeclaration>;
+    cellStyle?: Partial<CSSStyleDeclaration>;
     origin?: T;
     type?: GanttItemType;
     progress?: number;
@@ -46,6 +47,7 @@ export class GanttItemInternal {
     links: GanttLink[];
     color?: string;
     barStyle?: Partial<CSSStyleDeclaration>;
+    cellStyle?: Partial<CSSStyleDeclaration>;
     draggable?: boolean;
     itemDraggable?: boolean;
     linkable?: boolean;
@@ -65,7 +67,11 @@ export class GanttItemInternal {
 
     refs$ = new BehaviorSubject<{ width: number; x: number; y: number }>(null as any);
 
-    constructor(item: GanttItem, level: number, private view?: GanttView) {
+    constructor(
+        item: GanttItem,
+        level: number,
+        private view?: GanttView
+    ) {
         this.origin = item;
         this.id = this.origin.id;
         this.links = (this.origin.links || []).map((link) => {
@@ -80,6 +86,7 @@ export class GanttItemInternal {
         });
         this.color = this.origin.color;
         this.barStyle = this.origin.barStyle;
+        this.cellStyle = this.origin.cellStyle;
         this.linkable = this.origin.linkable === undefined ? true : this.origin.linkable;
         this.draggable = this.origin.draggable === undefined ? true : this.origin.draggable;
         this.itemDraggable = this.origin.itemDraggable;

@@ -10,6 +10,7 @@
       <div
         class="gantt-item"
         [style.height.px]="ganttUpper.styles.lineHeight"
+        [style]="data.cellStyle"
         [class.gantt-main-item-active]="ganttUpper.isSelected(data.id)"
       >
         @if (data.type | isGanttCustomItem) {
