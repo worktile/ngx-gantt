@@ -43,7 +43,8 @@ export interface GanttItem<T = unknown> {
 | expanded   | `boolean`                      | `false` | Set whether to expand/collapse                               |
 | children   | `GanttItem[]`                  | `-`     | Set child data                                               |
 | color      | `string`                       | `-`     | Set color                                                    |
-| barStyle   | `Partial<CSSStyleDeclaration>` | `-`     | Set style                                                    |
+| barStyle   | `Partial<CSSStyleDeclaration>` | `-`     | Set style for the bar                                        |
+| cellStyle  | `Partial<CSSStyleDeclaration>` | `-`     | Set style for the cell (containing bar)                      |
 | origin     | `T`                            | `-`     | Set original data                                            |
 | type       | `GanttItemType`                | `-`     | Set data display mode (interval display and normal display)  |
 | progress   | `number`                       | `-`     | Set progress                                                 |
