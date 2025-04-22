@@ -7,6 +7,9 @@
       &nbsp; &nbsp; &nbsp;
       <thy-button thyType="primary" thySize="sm" (click)="print('gantt-example')"> ↓ 导出为图片 </thy-button>
       &nbsp; &nbsp; &nbsp;
+      <span>固定表格宽度</span>
+      <thy-switch class="baseline-switch" [(ngModel)]="isFixedTable"> </thy-switch>
+      &nbsp; &nbsp; &nbsp;
       <span>工具栏：</span>
       <thy-switch class="baseline-switch" [(ngModel)]="isShowToolbarChecked"> </thy-switch>
       &nbsp; &nbsp; &nbsp;
@@ -31,6 +34,7 @@
       [showToolbar]="isShowToolbarChecked"
       [toolbarOptions]="toolbarOptions"
       [loading]="loading"
+      [fixedTableWidth]="isFixedTable ? fixedTableWidth : null"
       [virtualScrollEnabled]="false"
       (barClick)="barClick($event)"
       (viewChange)="viewChange($event)"
@@ -54,14 +58,18 @@
         </ngx-gantt-column>
         <ngx-gantt-column name="Start Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.start * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
+            {{ item.start * 1000 | dateFormat: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="End Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.end * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
+            {{ item.end * 1000 | dateFormat: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
+
+        <ng-template #columnSetting>
+          <a class="link-secondary" href="javascript:;"> 设置 </a>
+        </ng-template>
       </ngx-gantt-table>
 
       <ng-template #bar let-item="item">

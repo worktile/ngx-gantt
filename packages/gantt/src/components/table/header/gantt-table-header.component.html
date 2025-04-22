@@ -1,6 +1,12 @@
-<div class="gantt-table-header-container">
+<div
+  #headerContainer
+  class="gantt-table-header-container"
+  [ngClass]="{ 'gantt-table-header-container-scroll': fixedTableWidth }"
+  [style.width.px]="fixedTableWidth ? fixedTableWidth : null"
+  cdkScrollable
+>
   @for (column of columns; track $index) {
-    <div class="gantt-table-column" [style.width]="column.columnWidth">
+    <div class="gantt-table-column" [style.minWidth]="column.columnWidth" [style.maxWidth]="column.columnWidth">
       @if (column.headerTemplateRef) {
         <ng-container [ngTemplateOutlet]="column.headerTemplateRef"> </ng-container>
       } @else {
@@ -15,6 +21,11 @@
         (cdkDragStarted)="onResizeStarted($event)"
         (cdkDragEnded)="onResizeEnded($event, column)"
       ></div>
+    </div>
+  }
+  @if (gantt?.table?.columnSettingTemplate) {
+    <div class="gantt-table-column-setting">
+      <ng-template [ngTemplateOutlet]="gantt?.table?.columnSettingTemplate"></ng-template>
     </div>
   }
 </div>

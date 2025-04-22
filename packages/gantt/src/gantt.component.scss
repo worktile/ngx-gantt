@@ -33,8 +33,15 @@
         height: 100%;
       }
 
-      &::-webkit-scrollbar {
-        display: none;
+      &.gantt-side-container-scroll {
+        overflow: auto;
+        width: 100%;
+        white-space: nowrap;
+        display: flex;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
     }
   }
@@ -252,6 +259,17 @@
     height: variables.$gantt-footer-height;
     border-right: 1px solid variables.$gantt-border-color;
     box-shadow: variables.$gantt-footer-shadow;
+
+    &.gantt-table-footer-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      width: 100%;
+      white-space: nowrap;
+      display: flex;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 
   .gantt-container-footer {

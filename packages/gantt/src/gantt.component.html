@@ -1,6 +1,6 @@
 <ngx-gantt-root #ganttRoot>
   <div class="gantt-header">
-    <gantt-table-header #tableHeader [columns]="columns"></gantt-table-header>
+    <gantt-table-header #tableHeader [columns]="columns" [fixedTableWidth]="fixedTableWidth"></gantt-table-header>
     <div class="gantt-container-header">
       <gantt-calendar-header [style.padding-right.px]="ganttRoot.verticalScrollbarWidth"></gantt-calendar-header>
     </div>
@@ -23,8 +23,18 @@
     (scrolledIndexChange)="scrolledIndexChange($event)"
   >
     <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>
-    <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1" [style.padding-bottom.px]="ganttRoot.horizontalScrollbarHeight">
-      <div class="gantt-side-container">
+    <div
+      class="gantt-side"
+      [style.width.px]="fixedTableWidth ? fixedTableWidth : tableHeader.tableWidth + 1"
+      [style.padding-bottom.px]="ganttRoot.horizontalScrollbarHeight"
+    >
+      <div
+        #mainContainer
+        class="gantt-side-container"
+        [ngClass]="{ 'gantt-side-container-scroll': fixedTableWidth }"
+        [style.width.px]="fixedTableWidth ? fixedTableWidth : tableHeader.tableWidth + 1"
+        cdkScrollable
+      >
         <div class="gantt-table">
           <gantt-table-body
             [flatItems]="flatItems"
@@ -69,7 +79,7 @@
     </div>
   </cdk-virtual-scroll-viewport>
 
-  <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth + 1"></gantt-drag-backdrop>
+  <gantt-drag-backdrop [style.left.px]="fixedTableWidth ? fixedTableWidth : tableHeader.tableWidth + 1"></gantt-drag-backdrop>
 
   <gantt-scrollbar
     [ganttRoot]="ganttRoot"
@@ -80,7 +90,13 @@
   @if (table?.tableFooterTemplate || footerTemplate) {
     <div class="gantt-footer" [style.right.px]="ganttRoot.verticalScrollbarWidth" [style.bottom.px]="ganttRoot.horizontalScrollbarHeight">
       @if (table?.tableFooterTemplate) {
-        <div class="gantt-table-footer" [style.width.px]="tableHeader.tableWidth + 1">
+        <div
+          #tableFooter
+          class="gantt-table-footer"
+          [ngClass]="{ 'gantt-table-footer-scroll': fixedTableWidth }"
+          [style.width.px]="fixedTableWidth ? fixedTableWidth : tableHeader.tableWidth + 1"
+          cdkScrollable
+        >
           <ng-template [ngTemplateOutlet]="table?.tableFooterTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
         </div>
       }

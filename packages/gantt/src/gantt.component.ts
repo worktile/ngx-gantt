@@ -22,7 +22,7 @@ import {
     ViewChild,
     forwardRef
 } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable, from, fromEvent } from 'rxjs';
 import { finalize, skip, take, takeUntil } from 'rxjs/operators';
 import {
     GanttGroupInternal,
@@ -40,6 +40,7 @@ import { GanttCalendarHeaderComponent } from './components/calendar/header/calen
 import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
 import { GanttLoaderComponent } from './components/loader/loader.component';
 import { GanttMainComponent } from './components/main/gantt-main.component';
+import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
 import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
@@ -50,7 +51,6 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate } from './utils/date';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 
 @Component({
     selector: 'ngx-gantt',
@@ -110,6 +110,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @Input() virtualScrollEnabled = true;
 
+    @Input() fixedTableWidth: number;
+
     @Input() loadingDelay = 0;
 
     @Output() linkDragStarted = new EventEmitter<GanttLinkDragEvent>();
@@ -154,6 +156,12 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     private flatItemsMap: Dictionary<GanttGroupInternal | GanttItemInternal>;
 
     private draggingItem: GanttItem;
+
+    @ViewChild(GanttTableHeaderComponent) tableHeader: GanttTableHeaderComponent;
+
+    @ViewChild('mainContainer', { read: ElementRef }) mainContainer: ElementRef<HTMLElement>;
+
+    @ViewChild('tableFooter', { read: ElementRef }) tableFooter: ElementRef<HTMLElement>;
 
     constructor(
         elementRef: ElementRef<HTMLElement>,
@@ -221,6 +229,25 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.viewportItems = this.flatItems.slice(range.start, range.end);
                 this.appendDraggingItemToViewportItems();
                 this.computeTempDataRefs();
+            });
+        }
+        this.syncHeaderScroll();
+    }
+
+    private syncHeaderScroll() {
+        if (this.tableHeader && this.mainContainer) {
+            this.ngZone.runOutsideAngular(() => {
+                fromEvent(this.mainContainer.nativeElement, 'scroll')
+                    .pipe(takeUntil(this.unsubscribe$))
+                    .subscribe((event: Event) => {
+                        const target = event.target as HTMLElement;
+                        if (this.tableHeader?.headerContainer?.nativeElement) {
+                            this.tableHeader.headerContainer.nativeElement['scrollLeft'] = target.scrollLeft;
+                        }
+                        if (this.tableFooter?.nativeElement) {
+                            this.tableFooter.nativeElement['scrollLeft'] = target.scrollLeft;
+                        }
+                    });
             });
         }
     }

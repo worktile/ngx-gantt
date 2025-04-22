@@ -1,22 +1,24 @@
-import {
-    Component,
-    HostBinding,
-    QueryList,
-    Input,
-    OnInit,
-    ViewChild,
-    ElementRef,
-    Inject,
-    OnDestroy,
-    ChangeDetectorRef
-} from '@angular/core';
-import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
-import { CdkDragEnd, CdkDragMove, CdkDragStart, CdkDrag } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
+import { CdkDrag, CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    HostBinding,
+    Inject,
+    Input,
+    NgZone,
+    OnDestroy,
+    OnInit,
+    QueryList,
+    ViewChild
+} from '@angular/core';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
+import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
+import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
-import { Subject, takeUntil } from 'rxjs';
-import { NgTemplateOutlet } from '@angular/common';
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
 interface DragFixedConfig {
@@ -28,9 +30,9 @@ interface DragFixedConfig {
 @Component({
     selector: 'gantt-table-header',
     templateUrl: './gantt-table-header.component.html',
-    imports: [NgTemplateOutlet, CdkDrag]
+    imports: [NgTemplateOutlet, CdkDrag, NgClass]
 })
-export class GanttTableHeaderComponent implements OnInit, OnDestroy {
+export class GanttTableHeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     public dragStartLeft: number;
 
     public tableWidth = 0;
@@ -38,6 +40,8 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     private unsubscribe$ = new Subject<void>();
 
     @Input() columns: QueryList<NgxGanttTableColumnComponent>;
+
+    @Input() fixedTableWidth;
 
     @ViewChild('resizeLine', { static: true }) resizeLineElementRef: ElementRef<HTMLElement>;
 
@@ -53,10 +57,13 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         return this.gantt.styles.headerHeight + 'px';
     }
 
+    @ViewChild('headerContainer', { read: ElementRef }) headerContainer: ElementRef<HTMLElement>;
+
     constructor(
         private elementRef: ElementRef,
-        @Inject(GANTT_ABSTRACT_TOKEN) private gantt: GanttAbstractComponent,
-        private cdr: ChangeDetectorRef
+        @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
+        private cdr: ChangeDetectorRef,
+        private ngZone: NgZone
     ) {}
 
     ngOnInit() {
@@ -65,6 +72,25 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
             this.columnsChange();
             this.gantt.cdr.detectChanges();
         });
+    }
+
+    ngAfterViewInit() {
+        this.syncTableScroll();
+    }
+
+    private syncTableScroll() {
+        if (this.headerContainer) {
+            this.ngZone.runOutsideAngular(() => {
+                fromEvent(this.headerContainer.nativeElement, 'scroll')
+                    .pipe(takeUntil(this.unsubscribe$))
+                    .subscribe((event: Event) => {
+                        const target = event.target as HTMLElement;
+                        if (this.gantt['mainContainer']) {
+                            this.gantt['mainContainer'].nativeElement['scrollLeft'] = target.scrollLeft;
+                        }
+                    });
+            });
+        }
     }
 
     private columnsChange() {

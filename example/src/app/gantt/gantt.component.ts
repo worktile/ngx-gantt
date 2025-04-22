@@ -50,6 +50,10 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
 
     isShowToolbarChecked = true;
 
+    isFixedTable = false;
+
+    fixedTableWidth = 300;
+
     loading = false;
 
     items: GanttItem[] = [
