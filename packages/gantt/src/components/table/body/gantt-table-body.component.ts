@@ -118,8 +118,14 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         return this.elementRef.nativeElement;
     }
 
+    /**
+     * 表头总宽度
+     */
     public totalWidth = signal(0);
 
+    /**
+     * 表格视图宽度
+     */
     public clientWidth = signal(0);
 
     public needFillColumn: Signal<boolean> = computed(() => {
