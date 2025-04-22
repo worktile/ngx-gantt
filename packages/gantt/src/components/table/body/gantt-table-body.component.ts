@@ -1,38 +1,46 @@
-import { auditTime, debounceTime, filter, startWith, Subject, takeUntil } from 'rxjs';
-import {
-    Component,
-    HostBinding,
-    TemplateRef,
-    QueryList,
-    Input,
-    OnInit,
-    Inject,
-    Output,
-    EventEmitter,
-    OnDestroy,
-    ChangeDetectorRef,
-    ViewChildren,
-    AfterViewInit
-} from '@angular/core';
-import {
-    GanttItemInternal,
-    GanttGroupInternal,
-    GanttSelectedEvent,
-    GanttTableDropPosition,
-    GanttTableDragEnterPredicateContext,
-    GanttTableDragDroppedEvent,
-    GanttTableDragStartedEvent,
-    GanttTableDragEndedEvent
-} from '../../../class';
-import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
-import { defaultColumnWidth } from '../header/gantt-table-header.component';
-import { GanttUpper, GANTT_UPPER_TOKEN } from '../../../gantt-upper';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragMove, CdkDragStart, DragRef, CdkDropList, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { DOCUMENT, NgTemplateOutlet, NgClass } from '@angular/common';
+import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragHandle, CdkDragMove, CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
+import { ViewportRuler } from '@angular/cdk/overlay';
+import { DOCUMENT, NgClass, NgTemplateOutlet } from '@angular/common';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    computed,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    Inject,
+    Input,
+    NgZone,
+    OnDestroy,
+    OnInit,
+    Output,
+    QueryList,
+    signal,
+    Signal,
+    TemplateRef,
+    ViewChildren
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { auditTime, filter, merge, startWith, Subject, takeUntil } from 'rxjs';
+import {
+    GanttGroupInternal,
+    GanttItemInternal,
+    GanttSelectedEvent,
+    GanttTableDragDroppedEvent,
+    GanttTableDragEndedEvent,
+    GanttTableDragEnterPredicateContext,
+    GanttTableDragStartedEvent,
+    GanttTableDropPosition
+} from '../../../class';
+import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { IsGanttGroupPipe, IsGanttRangeItemPipe } from '../../../gantt.pipe';
+import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { GanttIconComponent } from '../../icon/icon.component';
+import { defaultColumnWidth } from '../header/gantt-table-header.component';
+
 @Component({
     selector: 'gantt-table-body',
     templateUrl: './gantt-table-body.component.html',
@@ -52,6 +60,8 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     get viewportItems() {
         return this._viewportItems;
     }
+
+    @Input() fixedTableWidth: number;
 
     @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
 
@@ -104,10 +114,31 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     private destroy$ = new Subject<void>();
 
+    public get element() {
+        return this.elementRef.nativeElement;
+    }
+
+    public totalWidth = signal(0);
+
+    public clientWidth = signal(0);
+
+    public needFillColumn: Signal<boolean> = computed(() => {
+        return this.totalWidth() < this.clientWidth();
+    });
+
+    private resized$ = new Subject<void>();
+
+    private resizeObserver = new ResizeObserver(() => this.resized$.next());
+
+    private takeUntilDestroyed = takeUntilDestroyed();
+
     constructor(
         @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
+        protected elementRef: ElementRef<HTMLElement>,
+        private ngZone: NgZone,
+        private viewportRuler: ViewportRuler,
         @Inject(DOCUMENT) private document: Document
     ) {}
 
@@ -122,11 +153,16 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
                     this.hasExpandIcon = true;
                 }
             });
+            if (this.fixedTableWidth) {
+                this.resizeObserver.observe(this.element);
+            }
             this.cdr.detectChanges();
         });
     }
 
     ngAfterViewInit(): void {
+        this.clientWidth.set(this.element.clientWidth);
+        this.bindViewportOrResizeEvent();
         this.cdkDrags.changes
             .pipe(startWith(this.cdkDrags), takeUntil(this.destroy$))
             .subscribe((drags: QueryList<CdkDrag<GanttItemInternal>>) => {
@@ -275,6 +311,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     ngOnDestroy(): void {
+        this.resizeObserver.disconnect();
         this.destroy$.next();
         this.destroy$.complete();
     }
@@ -374,5 +411,29 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         this.document.querySelectorAll('.drop-position-before').forEach((element) => element.classList.remove('drop-position-before'));
         this.document.querySelectorAll('.drop-position-after').forEach((element) => element.classList.remove('drop-position-after'));
         this.document.querySelectorAll('.drop-position-inside').forEach((element) => element.classList.remove('drop-position-inside'));
+    }
+
+    // 监听窗口变化
+    private bindViewportOrResizeEvent() {
+        this.ngZone.runOutsideAngular(() => {
+            merge(this.resized$, this.viewportRuler.change())
+                .pipe(this.takeUntilDestroyed)
+                .subscribe(() => {
+                    this.initializeTableState(this.columns.toArray());
+                    this.cdr.detectChanges();
+                });
+        });
+    }
+
+    private initializeTableState(columns) {
+        if (columns?.length > 0) {
+            this.totalWidth.set(this.computeTotalWidth(columns));
+        }
+    }
+
+    private computeTotalWidth(columns) {
+        return columns.reduce((prev, cur) => {
+            return prev + parseInt(cur.columnWidth, 10);
+        }, 0);
     }
 }

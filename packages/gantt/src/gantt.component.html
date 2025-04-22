@@ -1,6 +1,11 @@
 <ngx-gantt-root #ganttRoot>
   <div class="gantt-header">
-    <gantt-table-header #tableHeader [columns]="columns" [fixedTableWidth]="fixedTableWidth"></gantt-table-header>
+    <gantt-table-header
+      #tableHeader
+      [columns]="columns"
+      [fixedTableWidth]="fixedTableWidth"
+      [needFillColumn]="tableBody?.needFillColumn()"
+    ></gantt-table-header>
     <div class="gantt-container-header">
       <gantt-calendar-header [style.padding-right.px]="ganttRoot.verticalScrollbarWidth"></gantt-calendar-header>
     </div>
@@ -37,10 +42,12 @@
       >
         <div class="gantt-table">
           <gantt-table-body
+            #tableBody
             [flatItems]="flatItems"
             [viewportItems]="viewportItems"
             [columns]="columns"
             [groupTemplate]="groupTemplate"
+            [fixedTableWidth]="fixedTableWidth"
             [emptyTemplate]="table.tableEmptyTemplate || tableEmptyTemplate"
             [rowBeforeTemplate]="table?.rowBeforeTemplate"
             [rowAfterTemplate]="table?.rowAfterTemplate"

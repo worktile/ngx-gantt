@@ -159,6 +159,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @ViewChild(GanttTableHeaderComponent) tableHeader: GanttTableHeaderComponent;
 
+    @ViewChild(GanttTableBodyComponent) tableBody: GanttTableBodyComponent;
+
     @ViewChild('mainContainer', { read: ElementRef }) mainContainer: ElementRef<HTMLElement>;
 
     @ViewChild('tableFooter', { read: ElementRef }) tableFooter: ElementRef<HTMLElement>;

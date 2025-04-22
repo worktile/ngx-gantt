@@ -52,7 +52,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
 
     isFixedTable = false;
 
-    fixedTableWidth = 300;
+    fixedTableWidth = 600;
 
     loading = false;
 

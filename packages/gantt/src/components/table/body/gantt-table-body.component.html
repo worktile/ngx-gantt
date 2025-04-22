@@ -89,6 +89,9 @@
               </div>
             </div>
           }
+          @if (fixedTableWidth && needFillColumn()) {
+            <div class="gantt-table-column gantt-table-fill-column"></div>
+          }
           <ng-template
             [ngTemplateOutlet]="rowAfterTemplate"
             [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"

@@ -183,6 +183,9 @@
       &::-webkit-scrollbar {
         display: none;
       }
+      .gantt-table-fill-column {
+        flex: 1;
+      }
     }
 
     .gantt-table-column-setting {

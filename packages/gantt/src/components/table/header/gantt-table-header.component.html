@@ -23,6 +23,9 @@
       ></div>
     </div>
   }
+  @if (fixedTableWidth && needFillColumn()) {
+    <div class="gantt-table-column gantt-table-fill-column"></div>
+  }
   @if (gantt?.table?.columnSettingTemplate) {
     <div class="gantt-table-column-setting">
       <ng-template [ngTemplateOutlet]="gantt?.table?.columnSettingTemplate"></ng-template>

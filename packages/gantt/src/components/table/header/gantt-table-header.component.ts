@@ -8,6 +8,7 @@ import {
     ElementRef,
     HostBinding,
     Inject,
+    input,
     Input,
     NgZone,
     OnDestroy,
@@ -15,6 +16,8 @@ import {
     QueryList,
     ViewChild
 } from '@angular/core';
+import { SafeAny } from 'ngx-tethys/types';
+import { coerceBooleanProperty } from 'ngx-tethys/util';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
@@ -42,6 +45,8 @@ export class GanttTableHeaderComponent implements OnInit, AfterViewInit, OnDestr
     @Input() columns: QueryList<NgxGanttTableColumnComponent>;
 
     @Input() fixedTableWidth;
+
+    needFillColumn = input(false, { transform: coerceBooleanProperty });
 
     @ViewChild('resizeLine', { static: true }) resizeLineElementRef: ElementRef<HTMLElement>;
 
@@ -160,6 +165,10 @@ export class GanttTableHeaderComponent implements OnInit, AfterViewInit, OnDestr
         this.tableWidth = this.tableWidth - beforeWidth + columnWidth;
         this.hideAuxiliaryLine();
         event.source.reset();
+        if (this.fixedTableWidth) {
+            const tableBody = (this.gantt as SafeAny)?.tableBody;
+            tableBody?.resizeObserver.observe(tableBody.element);
+        }
     }
 
     onOverallResizeEnded(event: CdkDragEnd) {
