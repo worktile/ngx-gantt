@@ -51,6 +51,7 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate } from './utils/date';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
+import { GanttViewType } from './class';
 
 @Component({
     selector: 'ngx-gantt',
@@ -373,6 +374,12 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             },
             count: this.flatItems.length
         });
+    }
+
+    override changeView(type: GanttViewType) {
+        super.changeView(type);
+        this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
+        this.computeTempDataRefs();
     }
 
     override expandGroups(expanded: boolean) {

@@ -46,7 +46,7 @@ export class GanttBarDrag implements OnDestroy {
     private hasMonitorMouseEvent: boolean;
 
     private get dragDisabled() {
-        return !this.item().draggable || !this.ganttUpper.draggable;
+        return !this.item()?.draggable || !this.ganttUpper.draggable;
     }
 
     private get linkDragDisabled() {

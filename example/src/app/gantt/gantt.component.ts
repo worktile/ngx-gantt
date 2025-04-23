@@ -114,15 +114,6 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
                 item.children = randomItems(random(1, 5), item);
             }
         });
-
-        setTimeout(() => {
-            this.items[0] = { ...this.items[0], draggable: true, linkable: true };
-            this.items[1] = { ...this.items[1], draggable: true, linkable: false };
-            this.items[2] = { ...this.items[2], draggable: false, linkable: true };
-            this.items = [...this.items];
-        }, 5000);
-
-        console.log(this.items);
     }
 
     ngAfterViewInit() {
