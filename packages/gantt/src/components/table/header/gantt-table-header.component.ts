@@ -62,7 +62,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.initTableWidth();
+        this.initializeTableWidth();
         // this.columnsChange();
         // this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
         //     this.columnsChange();
@@ -81,7 +81,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     //     this.tableWidth = tableWidth;
     // }
 
-    private initTableWidth() {
+    private initializeTableWidth() {
         let tableWidth = 0;
         this.columns.forEach((column) => {
             if (!column.columnWidth) {
@@ -90,6 +90,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
             tableWidth += Number(column.columnWidth.replace('px', ''));
         });
         this.tableWidth = tableWidth;
+        this.gantt.cdr.detectChanges();
     }
 
     private dragFixed(config: DragFixedConfig) {
