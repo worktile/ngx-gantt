@@ -425,20 +425,20 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
             merge(this.resized$, this.viewportRuler.change())
                 .pipe(this.takeUntilDestroyed)
                 .subscribe(() => {
-                    this.initializeTableState(this.columns.toArray());
+                    this.initializeTableState();
                     this.cdr.detectChanges();
                 });
         });
     }
 
-    private initializeTableState(columns) {
-        if (columns?.length > 0) {
-            this.totalWidth.set(this.computeTotalWidth(columns));
+    private initializeTableState() {
+        if (this.columns.toArray()?.length > 0) {
+            this.totalWidth.set(this.computeTotalWidth());
         }
     }
 
-    private computeTotalWidth(columns) {
-        return columns.reduce((prev, cur) => {
+    private computeTotalWidth() {
+        return this.columns.toArray().reduce((prev, cur) => {
             return prev + parseInt(cur.columnWidth, 10);
         }, 0);
     }
