@@ -45,7 +45,7 @@ export interface GanttItem<T = unknown> {
 | children   | `GanttItem[]`                  | `-`     | 设置子数据                             |
 | color      | `string`                       | `-`     | 设置颜色                               |
 | barStyle   | `Partial<CSSStyleDeclaration>` | `-`     | 设置样式                               |
-| cellStyle  | `Partial<CSSStyleDeclaration>` | `-`     | 设置容器样式                           |
+| laneStyle  | `Partial<CSSStyleDeclaration>` | `-`     | 设置容器样式                           |
 | origin     | `T`                            | `-`     | 设置原始数据                           |
 | type       | `GanttItemType`                | `-`     | 设置数据展示方式（区间展示和普通展示） |
 | progress   | `number`                       | `-`     | 设置进度                               |

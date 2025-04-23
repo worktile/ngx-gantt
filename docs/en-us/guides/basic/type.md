@@ -44,7 +44,7 @@ export interface GanttItem<T = unknown> {
 | children   | `GanttItem[]`                  | `-`     | Set child data                                               |
 | color      | `string`                       | `-`     | Set color                                                    |
 | barStyle   | `Partial<CSSStyleDeclaration>` | `-`     | Set style for the bar                                        |
-| cellStyle  | `Partial<CSSStyleDeclaration>` | `-`     | Set style for the cell (containing bar)                      |
+| laneStyle  | `Partial<CSSStyleDeclaration>` | `-`     | Set style for the cell (containing bar)                      |
 | origin     | `T`                            | `-`     | Set original data                                            |
 | type       | `GanttItemType`                | `-`     | Set data display mode (interval display and normal display)  |
 | progress   | `number`                       | `-`     | Set progress                                                 |
