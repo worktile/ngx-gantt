@@ -28,9 +28,11 @@
       height: 100%;
       background-color: variables.$gantt-bg-color;
       overflow-y: auto;
+      display: flex;
 
       .gantt-table {
         height: 100%;
+        flex: auto;
       }
 
       &::-webkit-scrollbar {
@@ -247,11 +249,17 @@
   background-color: white;
   border-top: 1px solid variables.$gantt-border-color;
   border-bottom: 1px solid variables.$gantt-border-color;
+  overflow: hidden;
 
   .gantt-table-footer {
     height: variables.$gantt-footer-height;
     border-right: 1px solid variables.$gantt-border-color;
     box-shadow: variables.$gantt-footer-shadow;
+    overflow-x: auto;
+    overflow-y: hidden;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .gantt-container-footer {

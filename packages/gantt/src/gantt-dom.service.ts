@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
-import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone, WritableSignal, signal } from '@angular/core';
-import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
-import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
+import { ElementRef, Inject, Injectable, NgZone, OnDestroy, PLATFORM_ID, WritableSignal, signal } from '@angular/core';
+import { EMPTY, Observable, Subject, fromEvent, merge } from 'rxjs';
+import { auditTime, map, pairwise, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 import { passiveListenerOptions } from './utils/passive-listeners';
 
@@ -28,6 +28,10 @@ export class GanttDomService implements OnDestroy {
 
     public sideContainer: Element;
 
+    public headerContainer: Element;
+
+    public footerContainer: Element;
+
     public mainContainer: Element;
 
     public verticalScrollContainer: Element;
@@ -48,12 +52,16 @@ export class GanttDomService implements OnDestroy {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
+    constructor(
+        private ngZone: NgZone,
+        @Inject(PLATFORM_ID) private platformId: string
+    ) {}
 
     private monitorScrollChange() {
         const scrollObservers = [
             fromEvent(this.mainContainer, 'scroll', passiveListenerOptions),
-            fromEvent(this.sideContainer, 'scroll', passiveListenerOptions)
+            fromEvent(this.sideContainer, 'scroll', passiveListenerOptions),
+            fromEvent(this.headerContainer, 'scroll', passiveListenerOptions)
         ];
 
         this.mainFooter && scrollObservers.push(fromEvent(this.mainFooter, 'scroll', passiveListenerOptions));
@@ -71,8 +79,10 @@ export class GanttDomService implements OnDestroy {
     private syncScroll(event: Event) {
         const target = event.currentTarget as HTMLElement;
         const classList = target.classList;
-
-        if (!classList.contains('gantt-side-container')) {
+        if (classList.contains('gantt-table-header-container')) {
+            this.sideContainer.scrollLeft = target.scrollLeft;
+            this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
+        } else if (!classList.contains('gantt-side-container')) {
             this.mainContainer.scrollLeft = target.scrollLeft;
             this.calendarHeader.scrollLeft = target.scrollLeft;
             this.calendarOverlay.scrollLeft = target.scrollLeft;
@@ -85,6 +95,8 @@ export class GanttDomService implements OnDestroy {
         } else {
             this.sideContainer.scrollTop = target.scrollTop;
             this.mainContainer.scrollTop = target.scrollTop;
+            this.headerContainer.scrollLeft = target.scrollLeft;
+            this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
         }
     }
 
@@ -122,6 +134,8 @@ export class GanttDomService implements OnDestroy {
         this.mainItems = mainItems || mainGroups;
         this.calendarHeader = this.root.getElementsByClassName('gantt-calendar-header')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-grid')[0];
+        this.headerContainer = this.root.getElementsByClassName('gantt-table-header-container')[0];
+        this.footerContainer = this.root.getElementsByClassName('gantt-table-footer')[0];
 
         this.monitorScrollChange();
         this.disableBrowserWheelEvent();

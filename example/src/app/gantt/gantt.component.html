@@ -26,6 +26,7 @@
       [draggable]="true"
       [linkable]="true"
       [selectable]="true"
+      [tableMaxWidth]="900"
       [multiple]="true"
       [viewOptions]="viewOptions"
       [showToolbar]="isShowToolbarChecked"
@@ -54,12 +55,12 @@
         </ngx-gantt-column>
         <ngx-gantt-column name="Start Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.start * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
+            {{ item.start * 1000 | dateFormat: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="End Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.end * 1000 | dateFormat : 'yyyy-MM-dd HH:mm' }}
+            {{ item.end * 1000 | dateFormat: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>

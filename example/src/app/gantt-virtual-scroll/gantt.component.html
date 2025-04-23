@@ -26,18 +26,23 @@
         </ngx-gantt-column>
         <ngx-gantt-column name="Start Time" [class.start-time]="true" [width]="140">
           <ng-template #cell let-item="item">
-            {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
+            {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
           </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="End Time">
           <ng-template #cell let-item="item">
-            {{ item.end * 1000 | date : 'yyyy-MM-dd' }}
+            {{ item.end * 1000 | date: 'yyyy-MM-dd' }}
           </ng-template>
         </ngx-gantt-column>
 
         <ng-template #tableFooter let-columns="columns">
           <div class="table-footer">
-            <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth">
+            <div
+              class="gantt-table-column"
+              *ngFor="let column of columns; let i = index"
+              [style.minWidth]="column.columnWidth"
+              [style.maxWidth]="column.columnWidth"
+            >
               {{ column.name }}
             </div>
           </div>
