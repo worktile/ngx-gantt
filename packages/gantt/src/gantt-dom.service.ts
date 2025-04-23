@@ -28,10 +28,6 @@ export class GanttDomService implements OnDestroy {
 
     public sideContainer: Element;
 
-    public headerContainer: Element;
-
-    public footerContainer: Element;
-
     public mainContainer: Element;
 
     public verticalScrollContainer: Element;
@@ -60,8 +56,7 @@ export class GanttDomService implements OnDestroy {
     private monitorScrollChange() {
         const scrollObservers = [
             fromEvent(this.mainContainer, 'scroll', passiveListenerOptions),
-            fromEvent(this.sideContainer, 'scroll', passiveListenerOptions),
-            fromEvent(this.headerContainer, 'scroll', passiveListenerOptions)
+            fromEvent(this.sideContainer, 'scroll', passiveListenerOptions)
         ];
 
         this.mainFooter && scrollObservers.push(fromEvent(this.mainFooter, 'scroll', passiveListenerOptions));
@@ -79,10 +74,8 @@ export class GanttDomService implements OnDestroy {
     private syncScroll(event: Event) {
         const target = event.currentTarget as HTMLElement;
         const classList = target.classList;
-        if (classList.contains('gantt-table-header-container')) {
-            this.sideContainer.scrollLeft = target.scrollLeft;
-            this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
-        } else if (!classList.contains('gantt-side-container')) {
+
+        if (!classList.contains('gantt-side-container')) {
             this.mainContainer.scrollLeft = target.scrollLeft;
             this.calendarHeader.scrollLeft = target.scrollLeft;
             this.calendarOverlay.scrollLeft = target.scrollLeft;
@@ -95,8 +88,6 @@ export class GanttDomService implements OnDestroy {
         } else {
             this.sideContainer.scrollTop = target.scrollTop;
             this.mainContainer.scrollTop = target.scrollTop;
-            this.headerContainer.scrollLeft = target.scrollLeft;
-            this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
         }
     }
 
@@ -134,8 +125,6 @@ export class GanttDomService implements OnDestroy {
         this.mainItems = mainItems || mainGroups;
         this.calendarHeader = this.root.getElementsByClassName('gantt-calendar-header')[0];
         this.calendarOverlay = this.root.getElementsByClassName('gantt-calendar-grid')[0];
-        this.headerContainer = this.root.getElementsByClassName('gantt-table-header-container')[0];
-        this.footerContainer = this.root.getElementsByClassName('gantt-table-footer')[0];
 
         this.monitorScrollChange();
         this.disableBrowserWheelEvent();

@@ -1,10 +1,10 @@
-import { Component, ContentChild, EventEmitter, input, Input, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import {
-    GanttTableDragEnterPredicateContext,
     GanttTableDragDroppedEvent,
-    GanttTableEvent,
-    GanttTableDragStartedEvent,
     GanttTableDragEndedEvent,
+    GanttTableDragEnterPredicateContext,
+    GanttTableDragStartedEvent,
+    GanttTableEvent,
     GanttTableItemClickEvent
 } from '../class';
 
@@ -15,6 +15,8 @@ import {
 })
 export class NgxGanttTableComponent {
     @Input() draggable = false;
+
+    @Input() maxWidth: number;
 
     @Input() dropEnterPredicate?: (context: GanttTableDragEnterPredicateContext) => boolean;
 

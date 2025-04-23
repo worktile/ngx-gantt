@@ -52,7 +52,7 @@
             [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"
           ></ng-template>
           @for (column of columns; track $index; let first = $first) {
-            <div [classList]="column.classList" [style.minWidth]="column.columnWidth" [style.maxWidth]="column.columnWidth">
+            <div [classList]="column.classList" [style.width]="column.columnWidth">
               <!-- drag icon -->
               @if (first && draggable) {
                 <gantt-icon
@@ -89,6 +89,7 @@
               </div>
             </div>
           }
+          <div class="gantt-table-column"></div>
           <ng-template
             [ngTemplateOutlet]="rowAfterTemplate"
             [ngTemplateOutletContext]="{ $implicit: item.origin, item: item.origin }"

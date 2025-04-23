@@ -39,8 +39,6 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     @Input() columns: QueryList<NgxGanttTableColumnComponent>;
 
-    @Input() tableMaxWidth: number;
-
     @ViewChild('resizeLine', { static: true }) resizeLineElementRef: ElementRef<HTMLElement>;
 
     @HostBinding('class') className = `gantt-table-header `;
@@ -136,7 +134,6 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     }
 
     onResizeEnded(event: CdkDragEnd, column: NgxGanttTableColumnComponent) {
-        const beforeWidth = parseInt(column.columnWidth, 10);
         const target = event.source.element.nativeElement;
         const left = target.getBoundingClientRect().left;
         const width = parseInt(column.columnWidth, 10) + (left - this.dragStartLeft);
@@ -145,7 +142,6 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         if (this.gantt.table) {
             this.gantt.table.columnChanges.emit({ columns: this.columns });
         }
-        // this.tableWidth = this.tableWidth - beforeWidth + columnWidth;
         this.hideAuxiliaryLine();
         event.source.reset();
     }
@@ -155,16 +151,10 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         const left = target.getBoundingClientRect().left;
         const tableWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
         const dragWidth = left - this.dragStartLeft;
-        // let tempWidth = 0;
-        // this.columns.forEach((column) => {
-        //     const lastColumnWidth = parseInt(column.columnWidth, 10);
-        //     const distributeWidth = parseInt(String(dragWidth * (lastColumnWidth / tableWidth)), 10);
-        //     const columnWidth = Math.max(lastColumnWidth + distributeWidth || 0, minColumnWidth);
-        //     column.columnWidth = coerceCssPixelValue(columnWidth);
-        //     tempWidth += columnWidth;
-        // });
         this.tableWidth =
-            parseInt(tableWidth + dragWidth, 10) > this.tableMaxWidth ? this.tableMaxWidth : parseInt(tableWidth + dragWidth, 10);
+            parseInt(tableWidth + dragWidth, 10) > this.gantt.table?.maxWidth
+                ? this.gantt.table?.maxWidth
+                : parseInt(tableWidth + dragWidth, 10);
         if (this.gantt.table) {
             this.gantt.table.columnChanges.emit({ columns: this.columns });
         }

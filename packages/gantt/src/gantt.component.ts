@@ -33,6 +33,7 @@ import {
     GanttSelectedEvent,
     GanttTableDragEndedEvent,
     GanttTableDragStartedEvent,
+    GanttViewType,
     GanttVirtualScrolledIndexChangeEvent
 } from './class';
 import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
@@ -91,8 +92,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     @Input() childrenResolve: (GanttItem) => Observable<GanttItem[]>;
 
     @Input() override linkable: boolean;
-
-    @Input() tableMaxWidth: number;
 
     @Input() set loading(loading: boolean) {
         if (loading) {
@@ -375,6 +374,12 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             },
             count: this.flatItems.length
         });
+    }
+
+    override changeView(type: GanttViewType) {
+        super.changeView(type);
+        this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
+        this.computeTempDataRefs();
     }
 
     override expandGroups(expanded: boolean) {

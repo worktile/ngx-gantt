@@ -26,7 +26,6 @@
       [draggable]="true"
       [linkable]="true"
       [selectable]="true"
-      [tableMaxWidth]="900"
       [multiple]="true"
       [viewOptions]="viewOptions"
       [showToolbar]="isShowToolbarChecked"
@@ -44,6 +43,7 @@
     >
       <ngx-gantt-table
         [draggable]="true"
+        [maxWidth]="800"
         [dropEnterPredicate]="dropEnterPredicate"
         (itemClick)="itemClick($event)"
         (dragDropped)="onDragDropped($event)"
