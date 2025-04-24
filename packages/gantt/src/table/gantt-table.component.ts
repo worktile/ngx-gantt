@@ -30,7 +30,7 @@ export class NgxGanttTableComponent {
 
     @Output() columnChanges = new EventEmitter<GanttTableEvent>();
 
-    @Output() resizeChanges = new EventEmitter<number>();
+    @Output() resizeChange = new EventEmitter<number>();
 
     @Output() itemClick = new EventEmitter<GanttTableItemClickEvent>();
 

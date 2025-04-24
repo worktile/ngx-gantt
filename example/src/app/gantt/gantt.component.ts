@@ -227,7 +227,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         console.log('拖拽结束了', event);
     }
 
-    resizeChanges(width: number) {
+    resizeChange(width: number) {
         this.width = width;
         localStorage.setItem(cacheKeys, JSON.stringify(width));
     }

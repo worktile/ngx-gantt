@@ -195,17 +195,6 @@
     }
   }
 
-  .gantt-table-setting-slot {
-    width: 42px;
-    height: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1;
-    border-left: 1px solid variables.$gantt-border-color;
-    background: variables.$gantt-bg-color;
-  }
-
   @include gantt-table-item();
 
   .gantt-table-column {

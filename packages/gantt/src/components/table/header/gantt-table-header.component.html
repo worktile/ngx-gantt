@@ -21,9 +21,7 @@
 </div>
 
 @if (gantt?.table?.settingsSlot) {
-  <div class="gantt-table-setting-slot">
-    <ng-template [ngTemplateOutlet]="gantt?.table?.settingsSlot"></ng-template>
-  </div>
+  <ng-template [ngTemplateOutlet]="gantt?.table?.settingsSlot"></ng-template>
 }
 
 <div

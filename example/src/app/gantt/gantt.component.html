@@ -50,24 +50,21 @@
         (dragDropped)="onDragDropped($event)"
         (dragStarted)="onDragStarted($event)"
         (dragEnded)="onDragEnded($event)"
-        (resizeChanges)="resizeChanges($event)"
+        (resizeChange)="resizeChange($event)"
       >
         <ngx-gantt-column name="Title" width="160px" [showExpandIcon]="true">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="Start Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.start * 1000 | dateFormat: 'yyyy-MM-dd HH:mm' }}
+            {{ item.start | dateFormat: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="End Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.end * 1000 | dateFormat: 'yyyy-MM-dd HH:mm' }}
+            {{ item.end | dateFormat: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
-        <ng-template #settingsSlot>
-          <div>设置</div>
-        </ng-template>
       </ngx-gantt-table>
 
       <ng-template #bar let-item="item">

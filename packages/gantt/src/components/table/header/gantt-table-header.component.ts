@@ -144,7 +144,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         const dragWidth = left - this.dragStartLeft;
         this.tableWidth = this.getTableWidth(parseInt(tableWidth + dragWidth, 10));
         if (this.gantt.table) {
-            this.gantt.table.resizeChanges.emit(this.tableWidth);
+            this.gantt.table.resizeChange.emit(this.tableWidth);
         }
         this.hideAuxiliaryLine();
         event.source.reset();
