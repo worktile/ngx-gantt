@@ -35,6 +35,8 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     public tableWidth = 0;
 
+    public customWidth: number;
+
     private unsubscribe$ = new Subject<void>();
 
     @Input() columns: QueryList<NgxGanttTableColumnComponent>;
@@ -62,7 +64,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.columnsChange();
         this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-            if (!this.gantt?.table?.width) {
+            if (!this.gantt?.table?.width || !this.customWidth) {
                 this.columnsChange();
             }
         });
@@ -76,7 +78,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
             }
             tableWidth += Number(column.columnWidth.replace('px', ''));
         });
-        this.tableWidth = this.gantt?.table?.width ?? this.getTableWidth(tableWidth);
+        this.tableWidth = this.gantt?.table?.width ?? this.customWidth ?? this.getCalcWidth(tableWidth);
         this.gantt.cdr.detectChanges();
     }
 
@@ -132,7 +134,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         if (this.gantt.table) {
             this.gantt.table.columnChanges.emit({ columns: this.columns });
         }
-        this.tableWidth = this.gantt?.table?.width ?? this.getTableWidth(this.tableWidth - beforeWidth + columnWidth);
+        this.tableWidth = this.gantt?.table?.width ?? this.customWidth ?? this.getCalcWidth(this.tableWidth - beforeWidth + columnWidth);
         this.hideAuxiliaryLine();
         event.source.reset();
     }
@@ -142,7 +144,8 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         const left = target.getBoundingClientRect().left;
         const tableWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
         const dragWidth = left - this.dragStartLeft;
-        this.tableWidth = this.getTableWidth(parseInt(tableWidth + dragWidth, 10));
+        this.tableWidth = this.getCalcWidth(parseInt(tableWidth + dragWidth, 10));
+        this.customWidth = this.tableWidth;
         if (this.gantt.table) {
             this.gantt.table.resizeChange.emit(this.tableWidth);
         }
@@ -162,7 +165,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         this.resizeLineElementRef.nativeElement.style.display = 'none';
     }
 
-    private getTableWidth(width: number): number {
+    private getCalcWidth(width: number): number {
         return this.gantt.table?.maxWidth && width > this.gantt.table?.maxWidth ? this.gantt.table?.maxWidth : width;
     }
 

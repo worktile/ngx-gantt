@@ -26,12 +26,12 @@
         </ngx-gantt-column>
         <ngx-gantt-column name="Start Time" [class.start-time]="true" [width]="140">
           <ng-template #cell let-item="item">
-            {{ item.start | date: 'yyyy-MM-dd' }}
+            {{ item.start * 1000 | date: 'yyyy-MM-dd' }}
           </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="End Time">
           <ng-template #cell let-item="item">
-            {{ item.end | date: 'yyyy-MM-dd' }}
+            {{ item.end * 1000 | date: 'yyyy-MM-dd' }}
           </ng-template>
         </ngx-gantt-column>
 

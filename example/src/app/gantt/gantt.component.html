@@ -44,7 +44,6 @@
       <ngx-gantt-table
         [draggable]="true"
         [maxWidth]="800"
-        [width]="width"
         [dropEnterPredicate]="dropEnterPredicate"
         (itemClick)="itemClick($event)"
         (dragDropped)="onDragDropped($event)"
@@ -57,12 +56,12 @@
         </ngx-gantt-column>
         <ngx-gantt-column name="Start Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.start | dateFormat: 'yyyy-MM-dd HH:mm' }}
+            {{ item.start * 1000 | date: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
         <ngx-gantt-column name="End Time" width="200px">
           <ng-template #cell let-item="item">
-            {{ item.end | dateFormat: 'yyyy-MM-dd HH:mm' }}
+            {{ item.end * 1000 | date: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>
