@@ -76,7 +76,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
             }
             tableWidth += Number(column.columnWidth.replace('px', ''));
         });
-        this.tableWidth = this.getTableWidth(tableWidth);
+        this.tableWidth = this.gantt?.table?.width ?? this.getTableWidth(tableWidth);
         this.gantt.cdr.detectChanges();
     }
 
