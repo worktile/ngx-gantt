@@ -18,6 +18,8 @@ export class NgxGanttTableComponent {
 
     @Input() maxWidth: number;
 
+    @Input() width: number;
+
     @Input() dropEnterPredicate?: (context: GanttTableDragEnterPredicateContext) => boolean;
 
     @Output() dragDropped = new EventEmitter<GanttTableDragDroppedEvent>();
@@ -28,6 +30,8 @@ export class NgxGanttTableComponent {
 
     @Output() columnChanges = new EventEmitter<GanttTableEvent>();
 
+    @Output() resizeChanges = new EventEmitter<number>();
+
     @Output() itemClick = new EventEmitter<GanttTableItemClickEvent>();
 
     @ContentChild('rowBeforeSlot', { static: true }) rowBeforeTemplate: TemplateRef<any>;
@@ -37,4 +41,6 @@ export class NgxGanttTableComponent {
     @ContentChild('tableEmpty', { static: true }) tableEmptyTemplate: TemplateRef<any>;
 
     @ContentChild('tableFooter', { static: true }) tableFooterTemplate: TemplateRef<any>;
+
+    @ContentChild('settingsSlot', { static: true }) settingsSlot: TemplateRef<any>;
 }

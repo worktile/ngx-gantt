@@ -13,7 +13,7 @@ import {
     QueryList,
     ViewChild
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
@@ -55,31 +55,20 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     constructor(
         private elementRef: ElementRef,
-        @Inject(GANTT_ABSTRACT_TOKEN) private gantt: GanttAbstractComponent,
+        @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
         private cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit() {
-        this.initializeTableWidth();
-        // this.columnsChange();
-        // this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-        //     this.columnsChange();
-        //     this.gantt.cdr.detectChanges();
-        // });
+        this.columnsChange();
+        this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+            if (!this.gantt?.table?.width) {
+                this.columnsChange();
+            }
+        });
     }
 
-    // private columnsChange() {
-    //     let tableWidth = 0;
-    //     this.columns.forEach((column) => {
-    //         if (!column.columnWidth) {
-    //             column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
-    //         }
-    //         tableWidth += Number(column.columnWidth.replace('px', ''));
-    //     });
-    //     this.tableWidth = tableWidth;
-    // }
-
-    private initializeTableWidth() {
+    private columnsChange() {
         let tableWidth = 0;
         this.columns.forEach((column) => {
             if (!column.columnWidth) {
@@ -87,7 +76,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
             }
             tableWidth += Number(column.columnWidth.replace('px', ''));
         });
-        this.tableWidth = tableWidth;
+        this.tableWidth = this.getTableWidth(tableWidth);
         this.gantt.cdr.detectChanges();
     }
 
@@ -134,6 +123,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     }
 
     onResizeEnded(event: CdkDragEnd, column: NgxGanttTableColumnComponent) {
+        const beforeWidth = parseInt(column.columnWidth, 10);
         const target = event.source.element.nativeElement;
         const left = target.getBoundingClientRect().left;
         const width = parseInt(column.columnWidth, 10) + (left - this.dragStartLeft);
@@ -142,6 +132,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         if (this.gantt.table) {
             this.gantt.table.columnChanges.emit({ columns: this.columns });
         }
+        this.tableWidth = this.gantt?.table?.width ?? this.getTableWidth(this.tableWidth - beforeWidth + columnWidth);
         this.hideAuxiliaryLine();
         event.source.reset();
     }
@@ -151,14 +142,10 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         const left = target.getBoundingClientRect().left;
         const tableWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
         const dragWidth = left - this.dragStartLeft;
-        this.tableWidth =
-            parseInt(tableWidth + dragWidth, 10) > this.gantt.table?.maxWidth
-                ? this.gantt.table?.maxWidth
-                : parseInt(tableWidth + dragWidth, 10);
+        this.tableWidth = this.getTableWidth(parseInt(tableWidth + dragWidth, 10));
         if (this.gantt.table) {
-            this.gantt.table.columnChanges.emit({ columns: this.columns });
+            this.gantt.table.resizeChanges.emit(this.tableWidth);
         }
-
         this.hideAuxiliaryLine();
         event.source.reset();
     }
@@ -173,6 +160,10 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     private hideAuxiliaryLine() {
         this.resizeLineElementRef.nativeElement.style.display = 'none';
+    }
+
+    private getTableWidth(width: number): number {
+        return this.gantt.table?.maxWidth && width > this.gantt.table?.maxWidth ? this.gantt.table?.maxWidth : width;
     }
 
     ngOnDestroy() {

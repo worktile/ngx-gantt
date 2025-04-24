@@ -37,12 +37,7 @@
 
         <ng-template #tableFooter let-columns="columns">
           <div class="table-footer">
-            <div
-              class="gantt-table-column"
-              *ngFor="let column of columns; let i = index"
-              [style.minWidth]="column.columnWidth"
-              [style.maxWidth]="column.columnWidth"
-            >
+            <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth">
               {{ column.name }}
             </div>
           </div>

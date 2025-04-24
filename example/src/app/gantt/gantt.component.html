@@ -44,11 +44,13 @@
       <ngx-gantt-table
         [draggable]="true"
         [maxWidth]="800"
+        [width]="width"
         [dropEnterPredicate]="dropEnterPredicate"
         (itemClick)="itemClick($event)"
         (dragDropped)="onDragDropped($event)"
         (dragStarted)="onDragStarted($event)"
         (dragEnded)="onDragEnded($event)"
+        (resizeChanges)="resizeChanges($event)"
       >
         <ngx-gantt-column name="Title" width="160px" [showExpandIcon]="true">
           <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
@@ -63,6 +65,9 @@
             {{ item.end * 1000 | dateFormat: 'yyyy-MM-dd HH:mm' }}
           </ng-template>
         </ngx-gantt-column>
+        <ng-template #settingsSlot>
+          <div>设置</div>
+        </ng-template>
       </ngx-gantt-table>
 
       <ng-template #bar let-item="item">
