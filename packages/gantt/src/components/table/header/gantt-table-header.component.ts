@@ -64,7 +64,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.columnsChange();
         this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-            if (!this.gantt?.table?.width || !this.customWidth) {
+            if (!this.gantt?.table?.width && !this.customWidth) {
                 this.columnsChange();
             }
         });
