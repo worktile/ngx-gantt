@@ -10,8 +10,15 @@
     border-right: 1px solid variables.$gantt-border-color;
     box-sizing: border-box;
     position: relative;
+    flex-shrink: 0;
+
+    &:nth-last-child(2) {
+      border-right: none;
+    }
 
     &:last-child {
+      padding: 0;
+      border: 1px solid variables.$gantt-border-color;
       border-right: none;
     }
   }
@@ -60,7 +67,12 @@
     display: flex;
     padding: variables.$gantt-table-td-padding;
 
+    &:nth-last-child(2) {
+      border-right: none;
+    }
     &:last-child {
+      padding: 0;
+      border: 1px solid variables.$gantt-border-color;
       border-right: none;
     }
   }
@@ -174,6 +186,13 @@
 
   .gantt-table-header-container {
     display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   @include gantt-table-item();
@@ -247,6 +266,7 @@
   bottom: 0;
   cursor: ew-resize;
   height: 5000px;
+  z-index: 2;
 
   &:hover {
     background: variables.$gantt-table-header-drag-line-color;
@@ -255,7 +275,7 @@
 
 .column-resize-handle {
   height: unset;
-  z-index: 1;
+  z-index: 2;
 }
 
 .table-resize-auxiliary-line {

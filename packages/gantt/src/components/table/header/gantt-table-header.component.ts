@@ -1,22 +1,22 @@
-import {
-    Component,
-    HostBinding,
-    QueryList,
-    Input,
-    OnInit,
-    ViewChild,
-    ElementRef,
-    Inject,
-    OnDestroy,
-    ChangeDetectorRef
-} from '@angular/core';
-import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
-import { CdkDragEnd, CdkDragMove, CdkDragStart, CdkDrag } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-import { GanttAbstractComponent, GANTT_ABSTRACT_TOKEN } from '../../../gantt-abstract';
-import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
-import { Subject, takeUntil } from 'rxjs';
+import { CdkDrag, CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { NgTemplateOutlet } from '@angular/common';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    HostBinding,
+    Inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    QueryList,
+    ViewChild
+} from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
+import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
+import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
 interface DragFixedConfig {
@@ -34,6 +34,8 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     public dragStartLeft: number;
 
     public tableWidth = 0;
+
+    public customWidth: number;
 
     private unsubscribe$ = new Subject<void>();
 
@@ -55,15 +57,16 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     constructor(
         private elementRef: ElementRef,
-        @Inject(GANTT_ABSTRACT_TOKEN) private gantt: GanttAbstractComponent,
+        @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
         private cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit() {
         this.columnsChange();
         this.columns.changes.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-            this.columnsChange();
-            this.gantt.cdr.detectChanges();
+            if (!this.gantt?.table?.width && !this.customWidth) {
+                this.columnsChange();
+            }
         });
     }
 
@@ -75,7 +78,8 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
             }
             tableWidth += Number(column.columnWidth.replace('px', ''));
         });
-        this.tableWidth = tableWidth;
+        this.tableWidth = this.gantt?.table?.width ?? this.customWidth ?? this.getCalcWidth(tableWidth);
+        this.gantt.cdr.detectChanges();
     }
 
     private dragFixed(config: DragFixedConfig) {
@@ -130,8 +134,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         if (this.gantt.table) {
             this.gantt.table.columnChanges.emit({ columns: this.columns });
         }
-
-        this.tableWidth = this.tableWidth - beforeWidth + columnWidth;
+        this.tableWidth = this.gantt?.table?.width ?? this.customWidth ?? this.getCalcWidth(this.tableWidth - beforeWidth + columnWidth);
         this.hideAuxiliaryLine();
         event.source.reset();
     }
@@ -141,19 +144,11 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         const left = target.getBoundingClientRect().left;
         const tableWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
         const dragWidth = left - this.dragStartLeft;
-        let tempWidth = 0;
-        this.columns.forEach((column) => {
-            const lastColumnWidth = parseInt(column.columnWidth, 10);
-            const distributeWidth = parseInt(String(dragWidth * (lastColumnWidth / tableWidth)), 10);
-            const columnWidth = Math.max(lastColumnWidth + distributeWidth || 0, minColumnWidth);
-            column.columnWidth = coerceCssPixelValue(columnWidth);
-            tempWidth += columnWidth;
-        });
-        this.tableWidth = tempWidth;
+        this.tableWidth = this.getCalcWidth(parseInt(tableWidth + dragWidth, 10));
+        this.customWidth = this.tableWidth;
         if (this.gantt.table) {
-            this.gantt.table.columnChanges.emit({ columns: this.columns });
+            this.gantt.table.resizeChange.emit(this.tableWidth);
         }
-
         this.hideAuxiliaryLine();
         event.source.reset();
     }
@@ -168,6 +163,10 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     private hideAuxiliaryLine() {
         this.resizeLineElementRef.nativeElement.style.display = 'none';
+    }
+
+    private getCalcWidth(width: number): number {
+        return this.gantt.table?.maxWidth && width > this.gantt.table?.maxWidth ? this.gantt.table?.maxWidth : width;
     }
 
     ngOnDestroy() {

@@ -1,4 +1,4 @@
-<div class="gantt-table-header-container">
+<div class="gantt-table-header-container" [style.width.px]="tableWidth" cdkScrollable>
   @for (column of columns; track $index) {
     <div class="gantt-table-column" [style.width]="column.columnWidth">
       @if (column.headerTemplateRef) {
@@ -17,7 +17,12 @@
       ></div>
     </div>
   }
+  <div class="gantt-table-column"></div>
 </div>
+
+@if (gantt?.table?.settingsSlot) {
+  <ng-template [ngTemplateOutlet]="gantt?.table?.settingsSlot"></ng-template>
+}
 
 <div
   class="table-resize-handle"

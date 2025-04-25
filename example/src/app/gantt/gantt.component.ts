@@ -23,6 +23,8 @@ import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { random, randomItems } from '../helper';
 
+const cacheKeys = 'GANTT_TABLE_KEYS';
+
 @Component({
     selector: 'app-gantt-example',
     templateUrl: './gantt.component.html',
@@ -93,6 +95,8 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     };
 
     viewOptions = {};
+
+    width = JSON.parse(localStorage.getItem(cacheKeys));
 
     @HostBinding('class.gantt-example-component') class = true;
 
@@ -221,5 +225,10 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
 
     onDragEnded(event: GanttTableDragEndedEvent) {
         console.log('拖拽结束了', event);
+    }
+
+    resizeChange(width: number) {
+        this.width = width;
+        localStorage.setItem(cacheKeys, JSON.stringify(width));
     }
 }

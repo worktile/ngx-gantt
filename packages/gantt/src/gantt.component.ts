@@ -33,6 +33,7 @@ import {
     GanttSelectedEvent,
     GanttTableDragEndedEvent,
     GanttTableDragStartedEvent,
+    GanttViewType,
     GanttVirtualScrolledIndexChangeEvent
 } from './class';
 import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
@@ -40,6 +41,7 @@ import { GanttCalendarHeaderComponent } from './components/calendar/header/calen
 import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
 import { GanttLoaderComponent } from './components/loader/loader.component';
 import { GanttMainComponent } from './components/main/gantt-main.component';
+import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
 import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
@@ -50,8 +52,6 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate } from './utils/date';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
-import { GanttViewType } from './class';
 
 @Component({
     selector: 'ngx-gantt',

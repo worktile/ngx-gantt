@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
-import { Injectable, ElementRef, OnDestroy, Inject, PLATFORM_ID, NgZone, WritableSignal, signal } from '@angular/core';
-import { fromEvent, Subject, merge, EMPTY, Observable } from 'rxjs';
-import { pairwise, map, auditTime, takeUntil } from 'rxjs/operators';
+import { ElementRef, Inject, Injectable, NgZone, OnDestroy, PLATFORM_ID, WritableSignal, signal } from '@angular/core';
+import { EMPTY, Observable, Subject, fromEvent, merge } from 'rxjs';
+import { auditTime, map, pairwise, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 import { passiveListenerOptions } from './utils/passive-listeners';
 
@@ -48,7 +48,10 @@ export class GanttDomService implements OnDestroy {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor(private ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: string) {}
+    constructor(
+        private ngZone: NgZone,
+        @Inject(PLATFORM_ID) private platformId: string
+    ) {}
 
     private monitorScrollChange() {
         const scrollObservers = [
