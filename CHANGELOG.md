@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.1](https://github.com/worktile/ngx-gantt/compare/19.0.0...19.0.1) (2025-04-25)
+
+### Bug Fixes
+
+- fix bar position not update when view type changed [#527](https://github.com/worktile/ngx-gantt/issues/527) ([57980ed](https://github.com/worktile/ngx-gantt/commit/57980ed4527b82fe85215d045b9153170857746d))
+
+### Features
+
+- **gantt:** support gantt table set max width ([#536](https://github.com/worktile/ngx-gantt/issues/536)) ([6e329d4](https://github.com/worktile/ngx-gantt/commit/6e329d43cf18d1b03d9c74e5f32b580bff72c900))
+
 # [19.0.0](https://github.com/worktile/ngx-gantt/compare/18.1.0-next.2...19.0.0) (2025-03-28)
 
 ### Bug Fixes
