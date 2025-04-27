@@ -47,14 +47,14 @@
         @let item = toItemType(data);
         <div class="gantt-quick-time-focus-item" [style.height.px]="ganttUpper.styles.lineHeight">
           <span class="ml-2">
-            @if (item.refs.x < dom.visibleRangeX().min && item.refs.width) {
+            @if (item.refs?.x < dom.visibleRangeX().min && item.refs?.width) {
               <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(item.origin, 'left')">
                 <gantt-icon iconName="arrow-left"></gantt-icon>
               </a>
             }
           </span>
           <span class="mr-2">
-            @if (item.refs.x + item.refs.width > dom.visibleRangeX().max && item.refs.width) {
+            @if (item.refs?.x + item.refs?.width > dom.visibleRangeX().max && item.refs?.width) {
               <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(item.origin, 'right')">
                 <gantt-icon iconName="arrow-right"></gantt-icon>
               </a>
