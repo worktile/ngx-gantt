@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.2](https://github.com/worktile/ngx-gantt/compare/19.0.1...19.0.2) (2025-05-09)
+
+### Bug Fixes
+
+- 更新 angular.json，添加 browser 输出路径 ([825b5af](https://github.com/worktile/ngx-gantt/commit/825b5afdcf03a404790114d3ba11cfb517226a04))
+- **gantt:** fix gantt main expand refs bug ([#539](https://github.com/worktile/ngx-gantt/issues/539)) ([04a4642](https://github.com/worktile/ngx-gantt/commit/04a46426645114796a7324d1b8ff91f680366624))
+
+### Features
+
+- **cellStyle:** added new property `cellStyle` ([10051cf](https://github.com/worktile/ngx-gantt/commit/10051cfa1915eb91b94b6b9cc2cda1337b1a8271))
+
 ## [19.0.1](https://github.com/worktile/ngx-gantt/compare/19.0.0...19.0.1) (2025-04-25)
 
 ### Bug Fixes
