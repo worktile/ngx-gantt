@@ -29,13 +29,10 @@
               <path [attr.fill]="link.color" [attr.stroke]="link.color" d="M 0 0 L 5 2 L 0 4 z" />
             </marker>
           } @else {
-            <ng-template [ngTemplateOutlet]="markerEnd"></ng-template>
-          }
-          <ng-template #markerEnd>
             <marker [id]="'triangle' + i" markerUnits="strokeWidth" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto">
               <path [attr.fill]="link.color" [attr.stroke]="link.color" d="M 0 0 L 5 2 L 0 4 z" />
             </marker>
-          </ng-template>
+          }
         </defs>
       }
     </ng-container>
