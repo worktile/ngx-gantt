@@ -174,11 +174,19 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
                         let defaultColor: string = LinkColors.default;
                         let activeColor: string = LinkColors.active;
 
-                        if (link.type === GanttLinkType.fs && source.end.getTime() > target.start.getTime()) {
+                        if (link.type === GanttLinkType.ff && source.end.getTime() > target.end.getTime()) {
                             defaultColor = LinkColors.blocked;
                             activeColor = LinkColors.blocked;
-                        }
-                        if (link.color) {
+                        } else if (link.type === GanttLinkType.fs && source.end.getTime() > target.start.getTime()) {
+                            defaultColor = LinkColors.blocked;
+                            activeColor = LinkColors.blocked;
+                        } else if (link.type === GanttLinkType.sf && source.start.getTime() > target.end.getTime()) {
+                            defaultColor = LinkColors.blocked;
+                            activeColor = LinkColors.blocked;
+                        } else if (link.type === GanttLinkType.ss && source.start.getTime() > target.start.getTime()) {
+                            defaultColor = LinkColors.blocked;
+                            activeColor = LinkColors.blocked;
+                        } else if (link.color) {
                             if (typeof link.color === 'string') {
                                 defaultColor = link.color;
                                 activeColor = link.color;
