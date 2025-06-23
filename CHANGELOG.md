@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.4](https://github.com/worktile/ngx-gantt/compare/19.0.3...19.0.4) (2025-06-23)
+
+### Bug Fixes
+
+- fix layout side scroll error in advanced use [#543](https://github.com/worktile/ngx-gantt/issues/543) ([2daa19f](https://github.com/worktile/ngx-gantt/commit/2daa19fc82fc1eb32399b4e4594a98c62fa94cb1))
+
 ## [19.0.3](https://github.com/worktile/ngx-gantt/compare/19.0.2...19.0.3) (2025-05-23)
 
 ## [19.0.2](https://github.com/worktile/ngx-gantt/compare/19.0.1...19.0.2) (2025-05-09)
