@@ -29,6 +29,7 @@
       background-color: variables.$gantt-bg-color;
       overflow-y: auto;
       display: flex;
+      flex-direction: column;
 
       .gantt-table {
         height: 100%;
@@ -83,6 +84,7 @@
 
   .gantt-main-container {
     width: 100%;
+    height: calc(100% - var(--gantt-header-height));
     flex: 1;
     position: absolute;
     bottom: 0;

@@ -1,12 +1,10 @@
 <ngx-gantt-root [sideWidth]="300">
   <ng-template #sideTemplate>
-    <div [style.flex]="'auto'">
-      <div class="gantt-flat-side-header">项目</div>
-      <div class="gantt-flat-side-body">
-        <div class="gantt-group" *ngFor="let group of groups; trackBy: trackBy">
-          <div class="gantt-group-content" [style.height.px]="group.mergedItems?.length * (styles.lineHeight + 10) - 10">
-            {{ group.title }}
-          </div>
+    <div class="gantt-flat-side-header">项目</div>
+    <div class="gantt-flat-side-body">
+      <div class="gantt-group" *ngFor="let group of groups; trackBy: trackBy">
+        <div class="gantt-group-content" [style.height.px]="group.mergedItems?.length * (styles.lineHeight + 10) - 10">
+          {{ group.title }}
         </div>
       </div>
     </div>

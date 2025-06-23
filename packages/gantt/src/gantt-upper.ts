@@ -38,7 +38,7 @@ import { GanttDragContainer } from './gantt-drag-container';
 import { GanttConfigService, GanttGlobalConfig, GanttStyleOptions, defaultConfig } from './gantt.config';
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { BooleanInput, coerceBooleanProperty, coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 
@@ -307,6 +307,12 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         return new SelectionModel(this.multiple, []);
     }
 
+    private initCssVariables() {
+        this.element.style.setProperty('--gantt-header-height', coerceCssPixelValue(this.styles.headerHeight));
+        this.element.style.setProperty('--gantt-line-height', coerceCssPixelValue(this.styles.lineHeight));
+        this.element.style.setProperty('--gantt-bar-height', coerceCssPixelValue(this.styles.barHeight));
+    }
+
     expandGroups(expanded: boolean) {
         this.groups.forEach((group) => {
             group.setExpand(expanded);
@@ -323,6 +329,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.setupBaselineItems();
         this.computeItemsRefs(...this.baselineItems);
         this.initSelectionModel();
+        this.initCssVariables();
         this.firstChange = false;
 
         // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
