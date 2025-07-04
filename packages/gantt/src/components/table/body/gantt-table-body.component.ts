@@ -5,6 +5,7 @@ import {
     AfterViewInit,
     ChangeDetectorRef,
     Component,
+    ElementRef,
     EventEmitter,
     HostBinding,
     Inject,
@@ -113,11 +114,14 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     public footerContainer: Element;
 
+    public tableScrollbarContainer: Element;
+
     constructor(
         @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
         @Inject(DOCUMENT) private document: Document,
+        protected elementRef: ElementRef<HTMLElement>,
         private ngZone: NgZone
     ) {}
 
@@ -166,27 +170,25 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         this.sideContainer = this.document.getElementsByClassName('gantt-side-container')[0];
         this.headerContainer = this.document.getElementsByClassName('gantt-table-header-container')[0];
         this.footerContainer = this.document.getElementsByClassName('gantt-table-footer')[0];
+        this.tableScrollbarContainer = this.document.getElementsByClassName('gantt-table-scrollbar')[0];
         this.monitorScrollChange();
     }
 
     private monitorScrollChange() {
         const scrollObservers = [
             fromEvent(this.sideContainer, 'scroll', passiveListenerOptions),
-            fromEvent(this.headerContainer, 'scroll', passiveListenerOptions)
+            fromEvent(this.headerContainer, 'scroll', passiveListenerOptions),
+            fromEvent(this.tableScrollbarContainer, 'scroll', passiveListenerOptions)
         ];
         this.ngZone.runOutsideAngular(() =>
             merge(...scrollObservers)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe((event) => {
                     const target = event.currentTarget as HTMLElement;
-                    const classList = target.classList;
-                    if (classList.contains('gantt-table-header-container')) {
-                        this.sideContainer && (this.sideContainer.scrollLeft = target.scrollLeft);
-                        this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
-                    } else {
-                        this.headerContainer && (this.headerContainer.scrollLeft = target.scrollLeft);
-                        this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
-                    }
+                    this.headerContainer && (this.headerContainer.scrollLeft = target.scrollLeft);
+                    this.sideContainer && (this.sideContainer.scrollLeft = target.scrollLeft);
+                    this.tableScrollbarContainer && (this.tableScrollbarContainer.scrollLeft = target.scrollLeft);
+                    this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
                 })
         );
     }

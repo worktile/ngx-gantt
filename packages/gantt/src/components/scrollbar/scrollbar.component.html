@@ -4,7 +4,9 @@
   [style.height.px]="ganttRoot?.horizontalScrollbarHeight + 1"
   [style.right.px]="ganttRoot?.verticalScrollbarWidth"
 >
-  <div class="gantt-table-scrollbar" [class.with-scrollbar]="ganttRoot?.horizontalScrollbarHeight" [style.width.px]="tableWidth"></div>
+  <div class="gantt-table-scrollbar" [class.with-scrollbar]="ganttRoot?.horizontalScrollbarHeight" [style.width.px]="tableWidth">
+    <div class="h-100" [style.width.px]="ganttRoot.ganttUpper['ganttTableBody']?.elementRef?.nativeElement?.offsetWidth - 1 || 0"></div>
+  </div>
   <div class="gantt-main-scrollbar">
     <div class="h-100" [style.width.px]="ganttRoot['view']?.width"></div>
   </div>
