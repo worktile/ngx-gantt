@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.5](https://github.com/worktile/ngx-gantt/compare/19.0.4...19.0.5) (2025-07-04)
+
+### Bug Fixes
+
+- **gantt:** 修复win系统，左侧表格横向滚轴按钮不生效，滚动条在可视窗口展示 ([#555](https://github.com/worktile/ngx-gantt/issues/555)) ([5108e2b](https://github.com/worktile/ngx-gantt/commit/5108e2b8449e1f8010e9076c42f39746a26f924f))
+
 ## [19.0.4](https://github.com/worktile/ngx-gantt/compare/19.0.3...19.0.4) (2025-06-23)
 
 ### Bug Fixes
