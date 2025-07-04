@@ -136,6 +136,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
+    @ViewChild('ganttTableBody', { static: true }) ganttTableBody: ElementRef<HTMLDivElement>;
+
     get loading() {
         return this._loading;
     }
