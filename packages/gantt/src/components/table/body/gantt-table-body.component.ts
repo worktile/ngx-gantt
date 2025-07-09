@@ -171,7 +171,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         this.headerContainer = this.document.getElementsByClassName('gantt-table-header-container')[0];
         this.footerContainer = this.document.getElementsByClassName('gantt-table-footer')[0];
         this.tableScrollbarContainer = this.document.getElementsByClassName('gantt-table-scrollbar')[0];
-        this.monitorScrollChange();
+        // this.monitorScrollChange();
     }
 
     private monitorScrollChange() {

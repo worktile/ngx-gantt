@@ -17,6 +17,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
+import { GanttSyncScrollDirective } from '../../../directives/sync-scroll.directive';
 export const defaultColumnWidth = 100;
 export const minColumnWidth = 80;
 interface DragFixedConfig {
@@ -28,7 +29,7 @@ interface DragFixedConfig {
 @Component({
     selector: 'gantt-table-header',
     templateUrl: './gantt-table-header.component.html',
-    imports: [NgTemplateOutlet, CdkDrag]
+    imports: [NgTemplateOutlet, CdkDrag, GanttSyncScrollDirective]
 })
 export class GanttTableHeaderComponent implements OnInit, OnDestroy {
     public dragStartLeft: number;

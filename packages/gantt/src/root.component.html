@@ -1,20 +1,26 @@
 @if (sideTemplate) {
   <div class="gantt-side" [style.width.px]="sideWidth" [style.padding-bottom.px]="horizontalScrollbarHeight">
-    <div class="gantt-side-container" cdkScrollable>
+    <div class="gantt-side-container" [syncScroll]="{ x: 'ganttTableXScroll', y: 'ganttMainYScroll' }" cdkScrollable>
       <ng-template [ngTemplateOutlet]="sideTemplate"></ng-template>
     </div>
   </div>
 }
 @if (mainTemplate) {
   <div class="gantt-container">
-    <gantt-calendar-header [style.padding-right.px]="verticalScrollbarWidth"></gantt-calendar-header>
+    <gantt-calendar-header
+      [syncScroll]="{ x: 'ganttMainXScroll' }"
+      [style.padding-right.px]="verticalScrollbarWidth"
+    ></gantt-calendar-header>
     <gantt-calendar-grid
+      [syncScroll]="{ x: 'ganttMainXScroll' }"
       [style.padding-right.px]="verticalScrollbarWidth"
       [style.padding-bottom.px]="horizontalScrollbarHeight"
     ></gantt-calendar-grid>
     <gantt-drag-backdrop></gantt-drag-backdrop>
     <div class="gantt-main">
-      <ng-template [ngTemplateOutlet]="mainTemplate"></ng-template>
+      <div class="gantt-main-container" [syncScroll]="{ x: 'ganttMainXScroll', y: 'ganttMainYScroll' }">
+        <ng-template [ngTemplateOutlet]="mainTemplate"></ng-template>
+      </div>
     </div>
   </div>
 }
