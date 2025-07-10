@@ -3,7 +3,7 @@
     <gantt-table-header #tableHeader [columns]="columns"></gantt-table-header>
     <div class="gantt-container-header">
       <gantt-calendar-header
-        [syncScroll]="{ x: 'ganttMainXScroll' }"
+        syncScrollX="ganttMainXScroll"
         [style.padding-right.px]="ganttRoot.verticalScrollbarWidth"
       ></gantt-calendar-header>
     </div>
@@ -27,7 +27,7 @@
   >
     <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>
     <div class="gantt-side" [style.width.px]="tableHeader.tableWidth + 1" [style.padding-bottom.px]="ganttRoot.horizontalScrollbarHeight">
-      <div class="gantt-side-container" [syncScroll]="{ x: 'ganttTableXScroll', y: 'ganttMainYScroll' }">
+      <div class="gantt-side-container" syncScrollX="ganttTableXScroll" syncScrollY="ganttMainYScroll">
         <div class="gantt-table">
           <gantt-table-body
             #ganttTableBody
@@ -51,13 +51,14 @@
     </div>
     <div class="gantt-container">
       <gantt-calendar-grid
-        [syncScroll]="{ x: 'ganttMainXScroll' }"
+        syncScrollX="ganttMainXScroll"
         [style.padding-right.px]="ganttRoot.verticalScrollbarWidth"
         [style.padding-bottom.px]="ganttRoot.horizontalScrollbarHeight"
       ></gantt-calendar-grid>
       <div class="gantt-main">
         <gantt-main
-          [syncScroll]="{ x: 'ganttMainXScroll', y: 'ganttMainYScroll' }"
+          syncScrollX="ganttMainXScroll"
+          syncScrollY="ganttMainYScroll"
           [ganttRoot]="ganttRoot"
           [flatItems]="flatItems"
           [viewportItems]="viewportItems"
@@ -91,12 +92,12 @@
       [style.bottom.px]="ganttRoot.horizontalScrollbarHeight"
     >
       @if (table?.tableFooterTemplate) {
-        <div class="gantt-table-footer" [syncScroll]="{ x: 'ganttTableXScroll' }" [style.width.px]="tableHeader.tableWidth + 1">
+        <div class="gantt-table-footer" syncScrollX="ganttTableXScroll" [style.width.px]="tableHeader.tableWidth + 1">
           <ng-template [ngTemplateOutlet]="table?.tableFooterTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
         </div>
       }
       @if (footerTemplate) {
-        <div class="gantt-container-footer" [syncScroll]="{ x: 'ganttMainXScroll' }">
+        <div class="gantt-container-footer" syncScrollX="ganttMainXScroll">
           <ng-template [ngTemplateOutlet]="footerTemplate"> </ng-template>
         </div>
       }

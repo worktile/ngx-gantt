@@ -6,13 +6,13 @@
 >
   <div
     class="gantt-table-scrollbar"
-    [syncScroll]="{ x: 'ganttTableXScroll' }"
+    syncScrollX="ganttTableXScroll"
     [class.with-scrollbar]="ganttRoot?.horizontalScrollbarHeight"
     [style.width.px]="tableWidth"
   >
     <div class="h-100" [style.width.px]="ganttRoot.ganttUpper['ganttTableBody']?.elementRef?.nativeElement?.offsetWidth - 1 || 0"></div>
   </div>
-  <div class="gantt-main-scrollbar" [syncScroll]="{ x: 'ganttMainXScroll' }">
+  <div class="gantt-main-scrollbar" syncScrollX="ganttMainXScroll">
     <div class="h-100" [style.width.px]="ganttRoot['view']?.width"></div>
   </div>
 </div>

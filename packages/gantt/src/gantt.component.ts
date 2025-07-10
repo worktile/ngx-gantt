@@ -52,7 +52,7 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate } from './utils/date';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-import { GanttSyncScrollDirective } from './directives/sync-scroll.directive';
+import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
 
 @Component({
     selector: 'ngx-gantt',
@@ -83,7 +83,8 @@ import { GanttSyncScrollDirective } from './directives/sync-scroll.directive';
         GanttDragBackdropComponent,
         GanttScrollbarComponent,
         NgTemplateOutlet,
-        GanttSyncScrollDirective
+        GanttSyncScrollXDirective,
+        GanttSyncScrollYDirective
     ]
 })
 export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit, AfterViewChecked {

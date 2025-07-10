@@ -1,65 +1,37 @@
-import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Directive, ElementRef, inject, input, NgZone, OnInit } from '@angular/core';
-import { fromEvent } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { passiveListenerOptions } from '../utils/passive-listeners';
-
+import { Directive, ElementRef, inject, input, OnInit } from '@angular/core';
+import { GanttSyncScrollService } from '../gantt-sync-scroll.service';
 @Directive({
-    selector: '[syncScroll]',
+    selector: '[syncScrollX]',
     standalone: true
 })
-export class GanttSyncScrollDirective implements OnInit {
-    readonly syncScroll = input<{ x: string; y: string }>();
-
-    private document = inject(DOCUMENT);
-
-    private destroyRef$ = inject(DestroyRef);
-
-    private element: HTMLElement;
+export class GanttSyncScrollXDirective implements OnInit {
+    readonly syncScrollX = input<string>();
 
     private elementRef = inject(ElementRef<HTMLElement>);
 
-    private ngZone = inject(NgZone);
+    private syncScrollService = inject(GanttSyncScrollService);
 
     constructor() {}
 
     ngOnInit() {
-        this.element = this.elementRef.nativeElement;
-        const { x, y } = this.syncScroll();
-        if (x) {
-            this.element.setAttribute('sync-scroll-x', x);
-        }
-        if (y) {
-            this.element.setAttribute('sync-scroll-y', y);
-        }
-        this.ngZone.runOutsideAngular(() =>
-            fromEvent(this.element, 'scroll', passiveListenerOptions)
-                .pipe(takeUntilDestroyed(this.destroyRef$))
-                .subscribe(() => this.onScroll())
-        );
+        this.syncScrollService.registerScrollEvent(this.syncScrollX(), this.elementRef.nativeElement, 'x');
     }
+}
 
-    private onScroll() {
-        const { x, y } = this.syncScroll();
+@Directive({
+    selector: '[syncScrollY]',
+    standalone: true
+})
+export class GanttSyncScrollYDirective implements OnInit {
+    readonly syncScrollY = input<string>();
 
-        // 横向同步处理
-        if (x) {
-            const xElements = this.document.querySelectorAll(`[sync-scroll-x="${x}"]`);
-            xElements.forEach((el) => {
-                if (el !== this.element) {
-                    el.scrollLeft = this.element.scrollLeft;
-                }
-            });
-        }
+    private syncScrollService = inject(GanttSyncScrollService);
 
-        // 纵向同步处理
-        if (y) {
-            const yElements = this.document.querySelectorAll(`[sync-scroll-y="${y}"]`);
-            yElements.forEach((el) => {
-                if (el !== this.element) {
-                    el.scrollTop = this.element.scrollTop;
-                }
-            });
-        }
+    private elementRef = inject(ElementRef<HTMLElement>);
+
+    constructor() {}
+
+    ngOnInit() {
+        this.syncScrollService.registerScrollEvent(this.syncScrollY(), this.elementRef.nativeElement, 'y');
     }
 }
