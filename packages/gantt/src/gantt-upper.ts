@@ -201,7 +201,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     private setupGroups() {
-        const collapsedIds = this.groups.filter((group) => group.expanded === false).map((group) => group.id);
+        const collapsedIds = this.originGroups.filter((group) => group.expanded === false).map((group) => group.id);
         this.groupsMap = {};
         this.groups = [];
         this.originGroups.forEach((origin) => {
