@@ -26,11 +26,13 @@ import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-
 import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
+import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
+import { GanttSyncScrollService } from './gantt-sync-scroll.service';
 
 @Component({
     selector: 'ngx-gantt-root',
     templateUrl: './root.component.html',
-    providers: [GanttDomService, GanttDragContainer],
+    providers: [GanttDomService, GanttDragContainer, GanttSyncScrollService],
     host: {
         class: 'gantt'
     },
@@ -40,7 +42,9 @@ import { NgTemplateOutlet } from '@angular/common';
         GanttCalendarHeaderComponent,
         GanttCalendarGridComponent,
         GanttDragBackdropComponent,
-        NgxGanttToolbarComponent
+        NgxGanttToolbarComponent,
+        GanttSyncScrollXDirective,
+        GanttSyncScrollYDirective
     ]
 })
 export class NgxGanttRootComponent implements OnInit, OnDestroy {
