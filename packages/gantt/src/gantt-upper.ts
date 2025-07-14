@@ -316,8 +316,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     expandGroups(expanded: boolean) {
         this.groups.forEach((group) => {
             group.setExpand(expanded);
-            this.expandChange.emit(group);
         });
+        this.expandChange.next(null);
         this.cdr.detectChanges();
     }
 
