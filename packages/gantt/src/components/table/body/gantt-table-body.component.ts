@@ -10,7 +10,6 @@ import {
     HostBinding,
     Inject,
     Input,
-    NgZone,
     OnDestroy,
     OnInit,
     Output,
@@ -18,7 +17,7 @@ import {
     TemplateRef,
     ViewChildren
 } from '@angular/core';
-import { auditTime, filter, fromEvent, merge, startWith, Subject, takeUntil } from 'rxjs';
+import { auditTime, filter, startWith, Subject, takeUntil } from 'rxjs';
 import {
     GanttGroupInternal,
     GanttItemInternal,
@@ -33,7 +32,6 @@ import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abs
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { IsGanttGroupPipe, IsGanttRangeItemPipe } from '../../../gantt.pipe';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
-import { passiveListenerOptions } from '../../../utils/passive-listeners';
 import { GanttIconComponent } from '../../icon/icon.component';
 import { defaultColumnWidth } from '../header/gantt-table-header.component';
 
@@ -108,21 +106,12 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     private destroy$ = new Subject<void>();
 
-    public sideContainer: Element;
-
-    public headerContainer: Element;
-
-    public footerContainer: Element;
-
-    public tableScrollbarContainer: Element;
-
     constructor(
         @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
         @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
         private cdr: ChangeDetectorRef,
         @Inject(DOCUMENT) private document: Document,
-        protected elementRef: ElementRef<HTMLElement>,
-        private ngZone: NgZone
+        protected elementRef: ElementRef<HTMLElement>
     ) {}
 
     ngOnInit() {
@@ -141,7 +130,6 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     ngAfterViewInit(): void {
-        this.initialize();
         this.cdkDrags.changes
             .pipe(startWith(this.cdkDrags), takeUntil(this.destroy$))
             .subscribe((drags: QueryList<CdkDrag<GanttItemInternal>>) => {
@@ -164,33 +152,6 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
             .subscribe((event) => {
                 this.onItemDragMoved(event);
             });
-    }
-
-    initialize() {
-        this.sideContainer = this.document.getElementsByClassName('gantt-side-container')[0];
-        this.headerContainer = this.document.getElementsByClassName('gantt-table-header-container')[0];
-        this.footerContainer = this.document.getElementsByClassName('gantt-table-footer')[0];
-        this.tableScrollbarContainer = this.document.getElementsByClassName('gantt-table-scrollbar')[0];
-        this.monitorScrollChange();
-    }
-
-    private monitorScrollChange() {
-        const scrollObservers = [
-            fromEvent(this.sideContainer, 'scroll', passiveListenerOptions),
-            fromEvent(this.headerContainer, 'scroll', passiveListenerOptions),
-            fromEvent(this.tableScrollbarContainer, 'scroll', passiveListenerOptions)
-        ];
-        this.ngZone.runOutsideAngular(() =>
-            merge(...scrollObservers)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe((event) => {
-                    const target = event.currentTarget as HTMLElement;
-                    this.headerContainer && (this.headerContainer.scrollLeft = target.scrollLeft);
-                    this.sideContainer && (this.sideContainer.scrollLeft = target.scrollLeft);
-                    this.tableScrollbarContainer && (this.tableScrollbarContainer.scrollLeft = target.scrollLeft);
-                    this.footerContainer && (this.footerContainer.scrollLeft = target.scrollLeft);
-                })
-        );
     }
 
     expandGroup(group: GanttGroupInternal) {
