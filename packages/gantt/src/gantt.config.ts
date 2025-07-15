@@ -1,5 +1,5 @@
 import { inject, Inject, InjectionToken } from '@angular/core';
-import { Locale } from 'date-fns';
+import { Locale, setDefaultOptions } from 'date-fns';
 import { GanttLinkLineType, GanttLinkOptions, GanttLinkType } from './class/link';
 import { Injectable } from '@angular/core';
 import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocaleConfig, GanttI18nLocale } from './i18n/i18n';
@@ -92,6 +92,11 @@ export class GanttConfigService {
         if (this.config.dateOptions?.timeZone) {
             setDefaultTimeZone(this.config.dateOptions.timeZone);
         }
+
+        setDefaultOptions({
+            locale: this.getDateLocale(),
+            weekStartsOn: this.config?.dateOptions?.weekStartsOn
+        });
     }
 
     setLocale(locale: string) {
