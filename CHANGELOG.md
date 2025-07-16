@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.6](https://github.com/worktile/ngx-gantt/compare/19.0.5...19.0.6) (2025-07-16)
+
+### Bug Fixes
+
+- expanded=false for groups ignored ([dee1741](https://github.com/worktile/ngx-gantt/commit/dee1741dc5a11bc2b7b9d6193e266bb69f6664d1))
+- move setDefaultOptions to GanttConfigService #TINFR-2397 ([1a17bc8](https://github.com/worktile/ngx-gantt/commit/1a17bc89883f3262f148053d60679d41a66776ef)), closes [#TINFR-2397](https://github.com/worktile/ngx-gantt/issues/TINFR-2397)
+
+### Features
+
+- add sync scroll directive #TINFR-2346 ([cbe67e4](https://github.com/worktile/ngx-gantt/commit/cbe67e4afd2b9d36d395101055dd18aa81aa09ac)), closes [#TINFR-2346](https://github.com/worktile/ngx-gantt/issues/TINFR-2346)
+
 ## [19.0.5](https://github.com/worktile/ngx-gantt/compare/19.0.4...19.0.5) (2025-07-04)
 
 ### Bug Fixes
