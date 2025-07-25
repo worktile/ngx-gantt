@@ -1,33 +1,42 @@
 <div class="gantt-calendar-today-overlay" [style.width.px]="view.width">
   @if (ganttUpper.showTodayLine) {
-  <span class="today-line"> </span>
+    <span class="today-line"> </span>
   }
 </div>
+<svg class="gantt-calendar-grid-fill" [attr.width]="view.width" [attr.height]="1">
+  <g>
+    @for (point of view.secondaryDatePoints; track point.x) {
+      @if (point.fill) {
+        <rect [attr.x]="$index * view.cellWidth" y="0" [attr.width]="view.cellWidth" [attr.height]="mainHeight" [attr.fill]="point.fill" />
+      }
+    }
+  </g>
+</svg>
 
 <svg class="gantt-calendar-grid-main" [attr.width]="view.width" [attr.height]="ganttUpper.styles.headerHeight - 1">
   <g>
     @if (view.showTimeline) {
-    <g>
-      @for (point of view.secondaryDatePoints; track point.x) {
-      <line
-        [attr.x1]="($index + 1) * view.cellWidth"
-        [attr.x2]="($index + 1) * view.cellWidth"
-        [attr.y1]="0"
-        [attr.y2]="mainHeight"
-        class="secondary-line"
-      ></line>
-      }
-    </g>
+      <g>
+        @for (point of view.secondaryDatePoints; track point.x) {
+          <line
+            [attr.x1]="($index + 1) * view.cellWidth"
+            [attr.x2]="($index + 1) * view.cellWidth"
+            [attr.y1]="0"
+            [attr.y2]="mainHeight"
+            class="secondary-line"
+          ></line>
+        }
+      </g>
     }
     <g>
       @for (point of view.primaryDatePoints; track point.x) {
-      <line
-        [attr.x1]="($index + 1) * view.primaryWidth"
-        [attr.x2]="($index + 1) * view.primaryWidth"
-        [attr.y1]="0"
-        [attr.y2]="mainHeight"
-        class="primary-line"
-      ></line>
+        <line
+          [attr.x1]="($index + 1) * view.primaryWidth"
+          [attr.x2]="($index + 1) * view.primaryWidth"
+          [attr.y1]="0"
+          [attr.y2]="mainHeight"
+          class="primary-line"
+        ></line>
       }
     </g>
   </g>

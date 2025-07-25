@@ -12,16 +12,14 @@ import {
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 50,
-    start: new GanttDate().startOfYear().startOfWeek({ weekStartsOn: 1 }),
-    end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }),
+    start: new GanttDate().startOfMonth().startOfWeek({ weekStartsOn: 1 }),
+    end: new GanttDate().endOfMonth().endOfWeek({ weekStartsOn: 1 }),
     addAmount: 1,
     addUnit: 'month',
     fillDays: 1
 };
 
 export class GanttViewCustom extends GanttView {
-    override showWeekBackdrop = true;
-
     override showTimeline = true;
 
     override viewType = GanttViewType.day;
@@ -80,6 +78,7 @@ export class GanttViewCustom extends GanttView {
             );
             if (isWeekend) {
                 point.style = { fill: '#ff9f73' };
+                point.fill = '#f5f5f5';
             }
             if (start.isToday()) {
                 point.style = { fill: '#ff9f73' };
@@ -115,6 +114,7 @@ export class GanttViewCustom extends GanttView {
             );
             if (isWeekend) {
                 point.style = { fill: '#ff9f73' };
+                point.fill = '#f5f5f5';
             }
             if (start.isToday()) {
                 point.style = { fill: '#ff9f73' };
