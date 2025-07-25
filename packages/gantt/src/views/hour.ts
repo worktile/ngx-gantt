@@ -16,8 +16,6 @@ const viewOptions: GanttViewOptions = {
 };
 
 export class GanttViewHour extends GanttView {
-    override showWeekBackdrop = true;
-
     override showTimeline = true;
 
     override viewType = GanttViewType.hour;
