@@ -76,6 +76,7 @@
     [ganttRoot]="ganttRoot"
     [hasFooter]="!!table?.tableFooterTemplate"
     [tableWidth]="tableHeader.tableWidth"
+    [tableScrollWidth]="tableScrollWidth()"
   ></gantt-scrollbar>
 
   @if (table?.tableFooterTemplate || footerTemplate) {
