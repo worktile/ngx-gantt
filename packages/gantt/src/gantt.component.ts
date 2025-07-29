@@ -20,7 +20,8 @@ import {
     SimpleChanges,
     TemplateRef,
     ViewChild,
-    forwardRef
+    forwardRef,
+    signal
 } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { finalize, skip, take, takeUntil } from 'rxjs/operators';
@@ -138,6 +139,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     @ViewChild('ganttTableBody', { static: true }) ganttTableBody: ElementRef<HTMLDivElement>;
 
+    public tableScrollWidth = signal<number>(0);
+
+    private resizeObserver: ResizeObserver;
+
     get loading() {
         return this._loading;
     }
@@ -226,6 +231,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.computeTempDataRefs();
             });
         }
+        this.initScrollContainerObserver();
     }
 
     ngAfterViewChecked() {
@@ -409,5 +415,28 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     itemDragEnded(event: GanttTableDragEndedEvent) {
         this.table.dragEnded.emit(event);
         this.draggingItem = null;
+    }
+
+    private initScrollContainerObserver() {
+        if (this.ganttTableBody && this.ganttTableBody['elementRef']?.nativeElement) {
+            this.tableScrollWidth.set(this.ganttTableBody['elementRef'].nativeElement.clientWidth);
+            if (typeof ResizeObserver !== 'undefined') {
+                this.resizeObserver = new ResizeObserver((entries) => {
+                    const newWidth = entries[0].target.clientWidth;
+                    if (this.tableScrollWidth() !== newWidth) {
+                        this.tableScrollWidth.set(newWidth);
+                        this.cdr.markForCheck();
+                    }
+                });
+                this.resizeObserver.observe(this.ganttTableBody['elementRef'].nativeElement);
+            }
+        }
+    }
+
+    override ngOnDestroy() {
+        super.ngOnDestroy();
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
     }
 }
