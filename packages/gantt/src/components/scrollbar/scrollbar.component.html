@@ -1,18 +1,18 @@
 <div
   class="gantt-scrollbar"
-  [ngClass]="{ 'gantt-scrollbar-bg': hasFooter }"
-  [style.height.px]="ganttRoot?.horizontalScrollbarHeight + 1"
-  [style.right.px]="ganttRoot?.verticalScrollbarWidth"
+  [ngClass]="{ 'gantt-scrollbar-bg': hasFooter() }"
+  [style.height.px]="ganttRoot()?.horizontalScrollbarHeight + 1"
+  [style.right.px]="ganttRoot()?.verticalScrollbarWidth"
 >
   <div
     class="gantt-table-scrollbar"
     syncScrollX="ganttTableXScroll"
-    [class.with-scrollbar]="ganttRoot?.horizontalScrollbarHeight"
-    [style.width.px]="tableWidth"
+    [class.with-scrollbar]="ganttRoot()?.horizontalScrollbarHeight"
+    [style.width.px]="tableWidth()"
   >
-    <div class="h-100" [style.width.px]="ganttRoot.ganttUpper['ganttTableBody']?.elementRef?.nativeElement?.offsetWidth - 1 || 0"></div>
+    <div class="h-100" [style.width.px]="tableScrollWidth() - 1"></div>
   </div>
   <div class="gantt-main-scrollbar" syncScrollX="ganttMainXScroll">
-    <div class="h-100" [style.width.px]="ganttRoot['view']?.width"></div>
+    <div class="h-100" [style.width.px]="ganttRoot()['view']?.width"></div>
   </div>
 </div>
