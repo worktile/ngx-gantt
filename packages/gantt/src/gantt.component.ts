@@ -20,7 +20,8 @@ import {
     SimpleChanges,
     TemplateRef,
     ViewChild,
-    forwardRef
+    forwardRef,
+    signal
 } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { finalize, skip, take, takeUntil } from 'rxjs/operators';
@@ -44,6 +45,7 @@ import { GanttMainComponent } from './components/main/gantt-main.component';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 import { GanttTableBodyComponent } from './components/table/body/gantt-table-body.component';
 import { GanttTableHeaderComponent } from './components/table/header/gantt-table-header.component';
+import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
 import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from './gantt.config';
@@ -52,7 +54,6 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate } from './utils/date';
 import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
 
 @Component({
     selector: 'ngx-gantt',
@@ -140,6 +141,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
     @ViewChild('ganttTableBody', { static: true }) ganttTableBody: ElementRef<HTMLDivElement>;
+
+    public tableScrollWidth = signal<number>(0);
+
+    private resizeObserver: ResizeObserver;
 
     get loading() {
         return this._loading;
@@ -229,6 +234,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.computeTempDataRefs();
             });
         }
+        this.initScrollContainerObserver();
     }
 
     ngAfterViewChecked() {
@@ -412,5 +418,28 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     itemDragEnded(event: GanttTableDragEndedEvent) {
         this.table.dragEnded.emit(event);
         this.draggingItem = null;
+    }
+
+    private initScrollContainerObserver() {
+        if (this.ganttTableBody && this.ganttTableBody['elementRef']?.nativeElement) {
+            this.tableScrollWidth.set(this.ganttTableBody['elementRef'].nativeElement.clientWidth);
+            if (typeof ResizeObserver !== 'undefined') {
+                this.resizeObserver = new ResizeObserver((entries) => {
+                    const newWidth = entries[0].target.clientWidth;
+                    if (this.tableScrollWidth() !== newWidth) {
+                        this.tableScrollWidth.set(newWidth);
+                        this.cdr.markForCheck();
+                    }
+                });
+                this.resizeObserver.observe(this.ganttTableBody['elementRef'].nativeElement);
+            }
+        }
+    }
+
+    override ngOnDestroy() {
+        super.ngOnDestroy();
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
     }
 }

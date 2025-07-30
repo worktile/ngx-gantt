@@ -1,6 +1,6 @@
-import { Component, Inject, Input } from '@angular/core';
-import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { NgClass } from '@angular/common';
+import { Component, Inject, input } from '@angular/core';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { NgxGanttRootComponent } from '../../root.component';
 import { GanttSyncScrollXDirective } from '../../directives/sync-scroll.directive';
 
@@ -10,11 +10,13 @@ import { GanttSyncScrollXDirective } from '../../directives/sync-scroll.directiv
     imports: [NgClass, GanttSyncScrollXDirective]
 })
 export class GanttScrollbarComponent {
-    @Input() hasFooter: boolean = false;
+    hasFooter = input<boolean>(false);
 
-    @Input() tableWidth: number;
+    tableWidth = input<number>();
 
-    @Input() ganttRoot: NgxGanttRootComponent;
+    ganttRoot = input<NgxGanttRootComponent>();
+
+    tableScrollWidth = input<number>(0);
 
     constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper) {}
 }
