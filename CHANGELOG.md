@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.6-0](https://github.com/worktile/ngx-gantt/compare/19.0.5...19.0.6-0) (2025-07-30)
+
+### Bug Fixes
+
+- **gantt:** 纵向滚动条往下拖动会弹回到拉动的位置 ([3f34aeb](https://github.com/worktile/ngx-gantt/commit/3f34aeb193051ebeda4ae10d16cbed56bab50e62))
+- **gantt:** 纵向滚动条往下拖动会弹回到拉动的位置 ([6176685](https://github.com/worktile/ngx-gantt/commit/6176685e8d0c4fd7446f387da34644863ab01c8b))
+
 ## [19.0.5](https://github.com/worktile/ngx-gantt/compare/19.0.4...19.0.5) (2025-07-04)
 
 ### Bug Fixes
