@@ -186,7 +186,9 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
                         } else if (link.type === GanttLinkType.ss && source.start.getTime() > target.start.getTime()) {
                             defaultColor = LinkColors.blocked;
                             activeColor = LinkColors.blocked;
-                        } else if (link.color) {
+                        }
+
+                        if (link.color) {
                             if (typeof link.color === 'string') {
                                 defaultColor = link.color;
                                 activeColor = link.color;
