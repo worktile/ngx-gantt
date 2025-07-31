@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.7](https://github.com/worktile/ngx-gantt/compare/19.0.6...19.0.7) (2025-07-31)
+
+### Bug Fixes
+
+- **gantt:** 纵向滚动条往下拖动会弹回到拉动的位置 ([#569](https://github.com/worktile/ngx-gantt/issues/569)) ([dcbdeff](https://github.com/worktile/ngx-gantt/commit/dcbdeff72d63b0c52f7529e2d74cf802f59514c1))
+
+### Features
+
+- custom view support fill color for date #TINFR-2600 ([b58c99d](https://github.com/worktile/ngx-gantt/commit/b58c99d38649c1aa361889833e656abfb2382e60)), closes [#TINFR-2600](https://github.com/worktile/ngx-gantt/issues/TINFR-2600)
+
 ## [19.0.6](https://github.com/worktile/ngx-gantt/compare/19.0.5...19.0.6) (2025-07-16)
 
 ### Bug Fixes
