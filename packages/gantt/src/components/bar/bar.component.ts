@@ -1,30 +1,31 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
+    AfterViewInit,
     Component,
-    OnInit,
-    HostBinding,
     ElementRef,
+    EventEmitter,
+    HostBinding,
+    Inject,
+    NgZone,
     OnChanges,
     OnDestroy,
-    Inject,
-    ViewChild,
+    OnInit,
     Output,
-    EventEmitter,
-    AfterViewInit,
-    ViewChildren,
     QueryList,
-    NgZone,
-    SimpleChanges
+    SimpleChanges,
+    ViewChild,
+    ViewChildren
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
-import { GanttBarDrag } from './bar-drag';
-import { hexToRgb } from '../../utils/helpers';
-import { GanttDragContainer } from '../../gantt-drag-container';
-import { barBackground } from '../../gantt.styles';
 import { GanttBarClickEvent } from '../../class';
-import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
+import { GanttDragContainer } from '../../gantt-drag-container';
 import { GanttItemUpper } from '../../gantt-item-upper';
-import { NgTemplateOutlet } from '@angular/common';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
+import { barBackground } from '../../gantt.styles';
+import { isDateInSecondaryDatePoints } from '../../utils/date-points';
+import { hexToRgb } from '../../utils/helpers';
+import { GanttBarDrag } from './bar-drag';
 
 function linearGradient(sideOrCorner: string, color: string, stop: string) {
     return `linear-gradient(${sideOrCorner},${color} 0%,${stop} 40%)`;
@@ -123,43 +124,84 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     }
 
     private setContentBackground() {
+        const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
+        const contentElement = this.contentElementRef.nativeElement;
+
         if (this.item.refs?.width) {
-            const contentElement = this.contentElementRef.nativeElement;
             const color = this.item.color || barBackground;
-            const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
             const barElement = this.elementRef.nativeElement;
-
-            if (this.item.origin.start && this.item.origin.end) {
-                style.background = color;
-                style.borderRadius = '';
-            }
-            if (this.item.origin.start && !this.item.origin.end) {
-                style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
-
-                const borderRadius = '4px 12.5px 12.5px 4px';
-                style.borderRadius = borderRadius;
-                barElement.style.borderRadius = borderRadius;
-            }
-            if (!this.item.origin.start && this.item.origin.end) {
-                style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
-
-                const borderRadius = '12.5px 4px 4px 12.5px';
-                style.borderRadius = borderRadius;
-                barElement.style.borderRadius = borderRadius;
-            }
-            if (this.item.progress >= 0) {
-                const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
-                style.background = hexToRgb(color, 0.3);
-                style.borderRadius = '';
-                contentProgressElement.style.background = color;
-            }
-
-            for (const key in style) {
-                if (style.hasOwnProperty(key)) {
-                    contentElement.style[key] = style[key];
-                }
+            this.setBarStyle(style, barElement, color, contentElement);
+        } else {
+            this.setBarHidden(style);
+        }
+        for (const key in style) {
+            if (style.hasOwnProperty(key)) {
+                contentElement.style[key] = style[key];
             }
         }
+    }
+
+    private isDateInPoints(date: Date | string | number): boolean {
+        if (!this.ganttUpper?.view?.secondaryDatePoints) {
+            return false;
+        }
+        return isDateInSecondaryDatePoints(date, this.ganttUpper.view.secondaryDatePoints, this.ganttUpper.viewType);
+    }
+
+    private setBarStyle(style: Partial<CSSStyleDeclaration>, barElement: HTMLElement, color: string, contentElement: HTMLDivElement) {
+        const { start, end } = this.item.origin;
+        const startInPoints = start ? this.isDateInPoints(start) : false;
+        const endInPoints = end ? this.isDateInPoints(end) : false;
+
+        if (start && end) {
+            if (startInPoints && endInPoints) {
+                style.background = color;
+                style.borderRadius = '';
+            } else if (startInPoints && !endInPoints) {
+                this.setLinearToLeft(style, color, barElement);
+            } else if (!startInPoints && endInPoints) {
+                this.setLinearToRight(style, color, barElement);
+            } else {
+                this.setBarHidden(style);
+            }
+        } else if (start && !end) {
+            if (startInPoints) {
+                this.setLinearToLeft(style, color, barElement);
+            } else {
+                this.setBarHidden(style);
+            }
+        } else if (!start && end) {
+            if (endInPoints) {
+                this.setLinearToRight(style, color, barElement);
+            } else {
+                this.setBarHidden(style);
+            }
+        }
+
+        if (this.item.progress >= 0) {
+            const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
+            style.background = hexToRgb(color, 0.3);
+            contentProgressElement.style.background = color;
+        }
+    }
+
+    setLinearToLeft(style: Partial<CSSStyleDeclaration>, color: string, barElement: HTMLElement) {
+        style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
+        const borderRadius = '4px 12.5px 12.5px 4px';
+        style.borderRadius = borderRadius;
+        barElement.style.borderRadius = borderRadius;
+    }
+
+    setLinearToRight(style: Partial<CSSStyleDeclaration>, color: string, barElement: HTMLElement) {
+        style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
+        const borderRadius = '12.5px 4px 4px 12.5px';
+        style.borderRadius = borderRadius;
+        barElement.style.borderRadius = borderRadius;
+    }
+
+    setBarHidden(style: Partial<CSSStyleDeclaration>) {
+        style.background = 'transparent';
+        style.border = 'none';
     }
 
     stopPropagation(event: Event) {
