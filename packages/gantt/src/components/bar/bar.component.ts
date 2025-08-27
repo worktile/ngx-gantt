@@ -132,7 +132,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             const barElement = this.elementRef.nativeElement;
             this.setBarStyle(style, barElement, color, contentElement);
         } else {
-            this.setBarHidden(style);
+            this.setBarHidden(style, this.elementRef.nativeElement);
         }
         for (const key in style) {
             if (style.hasOwnProperty(key)) {
@@ -162,19 +162,19 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             } else if (!startInPoints && endInPoints) {
                 this.setLinearToRight(style, color, barElement);
             } else {
-                this.setBarHidden(style);
+                this.setBarHidden(style, barElement);
             }
         } else if (start && !end) {
             if (startInPoints) {
                 this.setLinearToLeft(style, color, barElement);
             } else {
-                this.setBarHidden(style);
+                this.setBarHidden(style, barElement);
             }
         } else if (!start && end) {
             if (endInPoints) {
                 this.setLinearToRight(style, color, barElement);
             } else {
-                this.setBarHidden(style);
+                this.setBarHidden(style, barElement);
             }
         }
 
@@ -199,9 +199,11 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         barElement.style.borderRadius = borderRadius;
     }
 
-    setBarHidden(style: Partial<CSSStyleDeclaration>) {
+    setBarHidden(style: Partial<CSSStyleDeclaration>, barElement: HTMLElement) {
         style.background = 'transparent';
         style.border = 'none';
+        barElement.style.height = '0px';
+        barElement.style.width = '0px';
     }
 
     stopPropagation(event: Event) {
