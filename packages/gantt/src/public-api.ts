@@ -34,6 +34,5 @@ export * from './root.component';
 export * from './table/gantt-column.component';
 export * from './table/gantt-table.component';
 export * from './utils/date';
-export * from './utils/date-points';
 export { registerView } from './views/factory';
 export * from './views/view';

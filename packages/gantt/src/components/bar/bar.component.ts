@@ -23,7 +23,6 @@ import { GanttDragContainer } from '../../gantt-drag-container';
 import { GanttItemUpper } from '../../gantt-item-upper';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { barBackground } from '../../gantt.styles';
-import { isDateInSecondaryDatePoints } from '../../utils/date-points';
 import { hexToRgb } from '../../utils/helpers';
 import { GanttBarDrag } from './bar-drag';
 
@@ -124,87 +123,43 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     }
 
     private setContentBackground() {
-        const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
+        let style: Partial<CSSStyleDeclaration> = { ...(this.item.barStyle || {}) };
         const contentElement = this.contentElementRef.nativeElement;
-        const color = this.item.color || barBackground;
-        const barElement = this.elementRef.nativeElement;
+
         if (this.item.refs?.width) {
-            this.setBarStyle(style, barElement, color, contentElement);
-        } else {
-            this.setBarHidden(style, barElement);
+            const color = this.item.color || barBackground;
+            const barElement = this.elementRef.nativeElement;
+
+            if (this.item.origin.start && this.item.origin.end) {
+                style.background = color;
+                style.borderRadius = '';
+            }
+            if (this.item.origin.start && !this.item.origin.end) {
+                style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
+
+                const borderRadius = '4px 12.5px 12.5px 4px';
+                style.borderRadius = borderRadius;
+                barElement.style.borderRadius = borderRadius;
+            }
+            if (!this.item.origin.start && this.item.origin.end) {
+                style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
+
+                const borderRadius = '12.5px 4px 4px 12.5px';
+                style.borderRadius = borderRadius;
+                barElement.style.borderRadius = borderRadius;
+            }
+            if (this.item.progress >= 0) {
+                const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
+                style.background = hexToRgb(color, 0.3);
+                contentProgressElement.style.background = color;
+            }
         }
+        style = { ...style, ...(this.item.barStyle || {}) };
         for (const key in style) {
             if (style.hasOwnProperty(key)) {
                 contentElement.style[key] = style[key];
             }
         }
-    }
-
-    private isDateInPoints(date: Date | string | number): boolean {
-        if (!this.ganttUpper?.view?.secondaryDatePoints) {
-            return false;
-        }
-        return isDateInSecondaryDatePoints(date, this.ganttUpper.view.secondaryDatePoints, this.ganttUpper.viewType);
-    }
-
-    private setBarStyle(style: Partial<CSSStyleDeclaration>, barElement: HTMLElement, color: string, contentElement: HTMLDivElement) {
-        const { start, end } = this.item.origin;
-        const startInPoints = start ? this.isDateInPoints(start) : false;
-        const endInPoints = end ? this.isDateInPoints(end) : false;
-
-        if (start && end) {
-            if (startInPoints && endInPoints) {
-                style.background = color;
-                style.borderRadius = '';
-                barElement.style.visibility = 'visible';
-            } else if (startInPoints && !endInPoints) {
-                this.setLinearToLeft(style, color, barElement);
-            } else if (!startInPoints && endInPoints) {
-                this.setLinearToRight(style, color, barElement);
-            } else {
-                this.setBarHidden(style, barElement);
-            }
-        } else if (start && !end) {
-            if (startInPoints) {
-                this.setLinearToLeft(style, color, barElement);
-            } else {
-                this.setBarHidden(style, barElement);
-            }
-        } else if (!start && end) {
-            if (endInPoints) {
-                this.setLinearToRight(style, color, barElement);
-            } else {
-                this.setBarHidden(style, barElement);
-            }
-        }
-
-        if (this.item.progress >= 0) {
-            const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
-            style.background = hexToRgb(color, 0.3);
-            contentProgressElement.style.background = color;
-        }
-    }
-
-    setLinearToLeft(style: Partial<CSSStyleDeclaration>, color: string, barElement: HTMLElement) {
-        style.background = linearGradient('to left', hexToRgb(color, 0.55), hexToRgb(color, 1));
-        const borderRadius = '4px 12.5px 12.5px 4px';
-        style.borderRadius = borderRadius;
-        barElement.style.borderRadius = borderRadius;
-        barElement.style.visibility = 'visible';
-    }
-
-    setLinearToRight(style: Partial<CSSStyleDeclaration>, color: string, barElement: HTMLElement) {
-        style.background = linearGradient('to right', hexToRgb(color, 0.55), hexToRgb(color, 1));
-        const borderRadius = '12.5px 4px 4px 12.5px';
-        style.borderRadius = borderRadius;
-        barElement.style.borderRadius = borderRadius;
-        barElement.style.visibility = 'visible';
-    }
-
-    setBarHidden(style: Partial<CSSStyleDeclaration>, barElement: HTMLElement) {
-        style.background = 'transparent';
-        style.border = 'none';
-        barElement.style.visibility = 'hidden';
     }
 
     stopPropagation(event: Event) {

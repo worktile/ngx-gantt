@@ -1,4 +1,4 @@
-import { parse } from 'date-fns';
+import { differenceInDays, parse } from 'date-fns';
 import {
     GanttDate,
     GanttDatePoint,
@@ -90,8 +90,6 @@ const viewOptions: GanttViewOptions = {
 };
 
 export class GanttViewCustom extends GanttView {
-    showWeekBackdrop = true;
-
     override viewType = GanttViewType.day;
 
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
@@ -107,7 +105,7 @@ export class GanttViewCustom extends GanttView {
     }
 
     getPrimaryWidth() {
-        return 0;
+        return null;
     }
 
     getDayOccupancyWidth(date: GanttDate): number {
@@ -146,7 +144,7 @@ export class GanttViewCustom extends GanttView {
             const weekPosition = accumulatedWidth + weekWidth / 2;
             const point = new GanttDatePoint(
                 firstWorkingDay,
-                firstWorkingDay.format(this.options.dateFormat?.yearMonth || this.options.dateDisplayFormats.primary),
+                firstWorkingDay.format('yyyy-MM'),
                 weekPosition,
                 primaryDatePointTop,
                 undefined,
@@ -158,6 +156,7 @@ export class GanttViewCustom extends GanttView {
             points.push(point);
             accumulatedWidth += weekWidth;
         }
+
         return points;
     }
 
@@ -165,7 +164,6 @@ export class GanttViewCustom extends GanttView {
         const startDate = this.start.value;
         const endDate = this.end.addSeconds(1).value;
         const weeks = this.generateWeeks(startDate, endDate);
-
         const points: GanttDatePoint[] = [];
         let accumulatedWidth = 0;
 
@@ -177,6 +175,7 @@ export class GanttViewCustom extends GanttView {
                 if (currentDate.value > endDate) break;
 
                 if (this.options.hided(currentDate)) continue;
+
                 const dayPosition = accumulatedWidth + this.getCellWidth() / 2;
                 const point = new GanttDatePoint(
                     currentDate,
@@ -195,6 +194,7 @@ export class GanttViewCustom extends GanttView {
                 accumulatedWidth += this.getCellWidth();
             }
         }
+
         return points;
     }
 
@@ -226,7 +226,7 @@ export class GanttViewCustom extends GanttView {
     }
 
     override getXPointByDate(date: GanttDate): number {
-        if (date.value < this.start.value || date.value > this.end.value || this.options.hided(date)) {
+        if (date.value < this.start.value || date.value > this.end.value) {
             return 0;
         }
         const result = this.secondaryDatePoints
@@ -253,7 +253,7 @@ export class GanttViewCustom extends GanttView {
 
     override getTodayXPoint(): number {
         const today = new GanttDate().startOfDay();
-        if (today.value < this.start.value || today.value > this.end.value || this.options.hided(today)) {
+        if (today.value < this.start.value || today.value > this.end.value) {
             return 0;
         }
         const x = this.getXPointByDate(today);
@@ -266,5 +266,15 @@ export class GanttViewCustom extends GanttView {
         const startOfPrecision = this.startOfPrecision(start);
         const endOfPrecision = this.endOfPrecision(end).addSeconds(1);
         return this.getDateIntervalWidth(startOfPrecision, endOfPrecision);
+    }
+
+    override getDateIntervalWidth(start: GanttDate, end: GanttDate) {
+        let result = 0;
+        const days = differenceInDays(end.value, start.value);
+        for (let i = 0; i < Math.abs(days); i++) {
+            result += this.getDayOccupancyWidth(start.addDays(i));
+        }
+        result = days >= 0 ? result : -result;
+        return Number(result.toFixed(3));
     }
 }
