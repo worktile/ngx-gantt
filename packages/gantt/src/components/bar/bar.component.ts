@@ -126,13 +126,12 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     private setContentBackground() {
         const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
         const contentElement = this.contentElementRef.nativeElement;
-
+        const color = this.item.color || barBackground;
+        const barElement = this.elementRef.nativeElement;
         if (this.item.refs?.width) {
-            const color = this.item.color || barBackground;
-            const barElement = this.elementRef.nativeElement;
             this.setBarStyle(style, barElement, color, contentElement);
         } else {
-            this.setBarHidden(style, this.elementRef.nativeElement);
+            this.setBarHidden(style, barElement);
         }
         for (const key in style) {
             if (style.hasOwnProperty(key)) {
@@ -157,6 +156,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             if (startInPoints && endInPoints) {
                 style.background = color;
                 style.borderRadius = '';
+                barElement.style.visibility = 'visible';
             } else if (startInPoints && !endInPoints) {
                 this.setLinearToLeft(style, color, barElement);
             } else if (!startInPoints && endInPoints) {
@@ -190,6 +190,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         const borderRadius = '4px 12.5px 12.5px 4px';
         style.borderRadius = borderRadius;
         barElement.style.borderRadius = borderRadius;
+        barElement.style.visibility = 'visible';
     }
 
     setLinearToRight(style: Partial<CSSStyleDeclaration>, color: string, barElement: HTMLElement) {
@@ -197,13 +198,13 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         const borderRadius = '12.5px 4px 4px 12.5px';
         style.borderRadius = borderRadius;
         barElement.style.borderRadius = borderRadius;
+        barElement.style.visibility = 'visible';
     }
 
     setBarHidden(style: Partial<CSSStyleDeclaration>, barElement: HTMLElement) {
         style.background = 'transparent';
         style.border = 'none';
-        barElement.style.height = '0px';
-        barElement.style.width = '0px';
+        barElement.style.visibility = 'hidden';
     }
 
     stopPropagation(event: Event) {
