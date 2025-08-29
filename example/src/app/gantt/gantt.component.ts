@@ -16,14 +16,20 @@ import {
     GanttToolbarOptions,
     GanttView,
     GanttViewType,
-    NgxGanttComponent
+    NgxGanttComponent,
+    registerView
 } from 'ngx-gantt';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { random, randomItems } from '../helper';
+import { GanttViewCustom } from './custom-day-view';
 
 const cacheKeys = 'GANTT_TABLE_KEYS';
+
+const customViewType = GanttViewType.day;
+
+registerView(customViewType, GanttViewCustom);
 
 @Component({
     selector: 'app-gantt-example',
@@ -44,9 +50,9 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         ]
     };
 
-    viewType: GanttViewType = GanttViewType.month;
+    viewType: GanttViewType = GanttViewType.day;
 
-    selectedViewType: GanttViewType = GanttViewType.month;
+    selectedViewType: GanttViewType = GanttViewType.day;
 
     isBaselineChecked = false;
 

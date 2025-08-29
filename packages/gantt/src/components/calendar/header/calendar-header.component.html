@@ -40,13 +40,8 @@
 
     <g>
       @for (point of view.primaryDatePoints; track point.x) {
-        <line
-          [attr.x1]="($index + 1) * view.primaryWidth"
-          [attr.x2]="($index + 1) * view.primaryWidth"
-          [attr.y1]="0"
-          [attr.y2]="ganttUpper.styles.headerHeight"
-          class="primary-line"
-        ></line>
+        @let width = point.primaryPosition ?? ($index + 1) * view.primaryWidth;
+        <line [attr.x1]="width" [attr.x2]="width" [attr.y1]="0" [attr.y2]="ganttUpper.styles.headerHeight" class="primary-line"></line>
       }
     </g>
 
