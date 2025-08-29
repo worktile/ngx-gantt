@@ -389,6 +389,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     override changeView(type: GanttViewType) {
         super.changeView(type);
+        this.buildFlatItems();
         this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
         this.computeTempDataRefs();
     }
