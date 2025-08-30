@@ -399,14 +399,14 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         });
 
         this.afterExpand();
-        this.expandChange.next(null);
+        this.expandChange.emit(this.groups);
         this.cdr.detectChanges();
     }
 
     override expandGroup(group: GanttGroupInternal) {
         group.setExpand(!group.expanded);
         this.afterExpand();
-        this.expandChange.emit();
+        this.expandChange.emit(group);
         this.cdr.detectChanges();
     }
 
