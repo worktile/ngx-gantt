@@ -174,12 +174,10 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
         @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
     ) {
         super(elementRef, cdr, ngZone, config);
-        this.computeAllRefs = false;
     }
 
     override ngOnInit() {
         super.ngOnInit();
-        this.buildFlatItems();
         // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
         // the `onStable` will never emit any value.
         const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
@@ -197,29 +195,37 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             });
         });
 
-        this.view.start$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(() => {
-            this.computeTempDataRefs();
-        });
-
+        // 如果虚拟滚动未启用，初始化时需要手动填充 viewportItems
         if (!this.virtualScrollEnabled) {
             this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
-            this.computeTempDataRefs();
+            this.computeRefs();
         }
     }
 
-    override ngOnChanges(changes: SimpleChanges) {
-        super.ngOnChanges(changes);
-        if (!this.firstChange) {
-            if (changes.viewType && changes.viewType.currentValue) {
-                this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
-                this.computeTempDataRefs();
+    override computeRefs() {
+        const tempItemData = [];
+        this.viewportItems.forEach((data: GanttGroupInternal | GanttItemInternal) => {
+            if (!data.hasOwnProperty('items')) {
+                const item = data as GanttItemInternal;
+                if (item.links) {
+                    item.links.forEach((link) => {
+                        if (this.flatItemsMap[link.link]) {
+                            tempItemData.push(this.flatItemsMap[link.link]);
+                        }
+                    });
+                }
+                tempItemData.push(data);
             }
-            if (changes.originItems || changes.originGroups) {
-                this.buildFlatItems();
-                this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
-                this.computeTempDataRefs();
-            }
-        }
+        });
+        this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
+        this.flatItems = [...this.flatItems];
+        this.viewportItems = [...this.viewportItems];
+    }
+
+    override setupItems() {
+        super.setupItems();
+        this.buildFlatItems();
+        this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
     }
 
     ngAfterViewInit() {
@@ -231,7 +237,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.rangeEnd = range.end;
                 this.viewportItems = this.flatItems.slice(range.start, range.end);
                 this.appendDraggingItemToViewportItems();
-                this.computeTempDataRefs();
+                this.computeRefs();
             });
         }
         this.initScrollContainerObserver();
@@ -277,26 +283,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
     private afterExpand() {
         this.buildFlatItems();
         this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
-    }
-
-    private computeTempDataRefs() {
-        const tempItemData = [];
-        this.viewportItems.forEach((data: GanttGroupInternal | GanttItemInternal) => {
-            if (!data.hasOwnProperty('items')) {
-                const item = data as GanttItemInternal;
-                if (item.links) {
-                    item.links.forEach((link) => {
-                        if (this.flatItemsMap[link.link]) {
-                            tempItemData.push(this.flatItemsMap[link.link]);
-                        }
-                    });
-                }
-                tempItemData.push(data);
-            }
-        });
-        this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
-        this.flatItems = [...this.flatItems];
-        this.viewportItems = [...this.viewportItems];
     }
 
     private appendDraggingItemToViewportItems() {
@@ -385,12 +371,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
             },
             count: this.flatItems.length
         });
-    }
-
-    override changeView(type: GanttViewType) {
-        super.changeView(type);
-        this.viewportItems = this.flatItems.slice(this.rangeStart, this.rangeEnd);
-        this.computeTempDataRefs();
     }
 
     override expandGroups(expanded: boolean) {
