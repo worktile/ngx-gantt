@@ -15,7 +15,6 @@ export function randomItems(length: number, parent?: GanttItem, group?: string) 
             title: `${parent?.title || 'Task'}-${i}`,
             start: getUnixTime(start),
             end: getUnixTime(end),
-            laneStyle: { background: 'rgba(0, 0, 30, .05)' },
             group_id: group,
             expandable: true
         });
