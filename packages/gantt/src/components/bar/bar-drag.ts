@@ -1,6 +1,6 @@
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
 import { effect, ElementRef, Injectable, NgZone, OnDestroy, signal, WritableSignal } from '@angular/core';
-import { Subject, animationFrameScheduler, fromEvent, interval } from 'rxjs';
+import { animationFrameScheduler, fromEvent, interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttViewType } from '../../class';
 import { GanttItemInternal } from '../../class/item';
@@ -378,11 +378,9 @@ export class GanttBarDrag implements OnDestroy {
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-
-        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(this.item().end, this.item().start);
-
+        // 以拖拽的时间点为准
         let start = currentDate;
-        let end = currentDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
+        let end = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
 
         // 日视图特殊逻辑处理
         if (this.ganttUpper.view.viewType === GanttViewType.day) {
@@ -569,7 +567,6 @@ export class GanttBarDrag implements OnDestroy {
     // Some data information about dragging end of bar handle
     private endOfBarHandle() {
         const width = this.item().refs.width + this.barHandleDragMoveAndScrollDistance;
-
         return {
             width,
             end: this.ganttUpper.view.getDateByXPoint(this.item().refs.x + width)

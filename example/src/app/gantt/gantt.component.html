@@ -12,6 +12,9 @@
       &nbsp; &nbsp; &nbsp;
       <span>基线对比：</span>
       <thy-switch class="baseline-switch" [(ngModel)]="isBaselineChecked" (ngModelChange)="switchChange()">基线对比 </thy-switch>
+      &nbsp; &nbsp; &nbsp;
+      <span>隐藏假期：</span>
+      <thy-switch class="baseline-switch" [(ngModel)]="isHideHolidayChecked" (ngModelChange)="holidayChange()">隐藏假期 </thy-switch>
     </ng-template>
     <ng-template #headerOperation>
       <a href="https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt" target="_blank">查看源码</a>
@@ -28,6 +31,7 @@
       [selectable]="true"
       [multiple]="true"
       [viewOptions]="viewOptions"
+      [holidayOptions]="holidayOptions"
       [showToolbar]="isShowToolbarChecked"
       [toolbarOptions]="toolbarOptions"
       [loading]="loading"

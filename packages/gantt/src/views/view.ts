@@ -4,7 +4,6 @@ import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDateFormat } from '../gantt.config';
 import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
-import { zhHansLocale } from '../i18n';
 
 export const primaryDatePointTop = '40%';
 
@@ -13,6 +12,14 @@ export const secondaryDatePointTop = '80%';
 export interface GanttViewDate {
     date: GanttDate;
     isCustom?: boolean;
+}
+
+export interface GanttHolidayOptions {
+    isHoliday?: (date: GanttDate) => boolean;
+
+    hideHoliday?: boolean;
+
+    holidayStyle?: Partial<CSSStyleDeclaration>;
 }
 
 export interface GanttViewOptions {
@@ -73,8 +80,8 @@ export abstract class GanttView {
         secondary?: string;
     } = {};
 
-    constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions) {
-        this.options = Object.assign({}, viewOptions, options);
+    constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions, holidayOptions?: GanttHolidayOptions) {
+        this.options = Object.assign({}, viewOptions, options, holidayOptions);
 
         const startDate = start.isCustom
             ? this.viewStartOf(start.date)
@@ -119,6 +126,10 @@ export abstract class GanttView {
 
     // 获取二级时间点（坐标，显示名称）
     abstract getSecondaryDatePoints(): GanttDatePoint[];
+
+    protected isHoliday(date: GanttDate): boolean {
+        return this.options?.hideHoliday && this.options.isHoliday?.(date);
+    }
 
     startOfPrecision(date: GanttDate) {
         switch (this.options.datePrecisionUnit) {

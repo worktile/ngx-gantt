@@ -154,7 +154,8 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
                 contentProgressElement.style.background = color;
             }
         }
-        style = { ...style, ...(this.item.barStyle || {}) };
+        style = Object.assign({}, style, this.item.barStyle || {});
+
         for (const key in style) {
             if (style.hasOwnProperty(key)) {
                 contentElement.style[key] = style[key];

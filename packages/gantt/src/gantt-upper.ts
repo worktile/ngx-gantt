@@ -1,46 +1,46 @@
+import { BooleanInput, coerceBooleanProperty, coerceCssPixelValue } from '@angular/cdk/coercion';
+import { SelectionModel } from '@angular/cdk/collections';
 import {
-    Input,
-    TemplateRef,
-    Output,
-    EventEmitter,
-    ContentChild,
-    ElementRef,
-    HostBinding,
     ChangeDetectorRef,
-    NgZone,
-    SimpleChanges,
-    InjectionToken,
+    ContentChild,
     Directive,
-    OnInit,
-    OnDestroy,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    InjectionToken,
+    Input,
+    NgZone,
     OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    SimpleChanges,
+    TemplateRef,
     inject
 } from '@angular/core';
-import { from, Subject } from 'rxjs';
-import { takeUntil, take, skip } from 'rxjs/operators';
+import { Subject, from } from 'rxjs';
+import { skip, take, takeUntil } from 'rxjs/operators';
 import {
-    GanttItem,
-    GanttGroup,
-    GanttViewType,
-    GanttLoadOnScrollEvent,
-    GanttDragEvent,
-    GanttGroupInternal,
-    GanttItemInternal,
     GanttBarClickEvent,
+    GanttDragEvent,
+    GanttGroup,
+    GanttGroupInternal,
+    GanttItem,
+    GanttItemInternal,
     GanttLinkDragEvent,
-    GanttToolbarOptions
+    GanttLoadOnScrollEvent,
+    GanttToolbarOptions,
+    GanttViewType
 } from './class';
-import { GanttView, GanttViewOptions } from './views/view';
-import { createViewFactory } from './views/factory';
-import { GanttDate, getUnixTime } from './utils/date';
-import { uniqBy, flatten, recursiveItems, getFlatItems, Dictionary, keyBy } from './utils/helpers';
-import { GanttDragContainer } from './gantt-drag-container';
-import { GanttConfigService, GanttGlobalConfig, GanttStyleOptions, defaultConfig } from './gantt.config';
-import { GanttLinkOptions } from './class/link';
-import { SelectionModel } from '@angular/cdk/collections';
-import { BooleanInput, coerceBooleanProperty, coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
+import { GanttLinkOptions } from './class/link';
+import { GanttDragContainer } from './gantt-drag-container';
+import { GanttConfigService, GanttGlobalConfig, GanttStyleOptions } from './gantt.config';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
+import { GanttDate, getUnixTime } from './utils/date';
+import { Dictionary, flatten, getFlatItems, keyBy, recursiveItems, uniqBy } from './utils/helpers';
+import { createViewFactory } from './views/factory';
+import { GanttHolidayOptions, GanttView, GanttViewOptions } from './views/view';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
@@ -72,6 +72,8 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     };
 
     @Input() viewOptions: GanttViewOptions = {};
+
+    @Input() holidayOptions: GanttHolidayOptions = {};
 
     @Input() set linkOptions(options: GanttLinkOptions) {
         this._linkOptions = options;
@@ -197,7 +199,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.viewOptions.dateFormat = Object.assign({}, this.configService.config.dateFormat, this.viewOptions.dateFormat);
         this.viewOptions.styleOptions = Object.assign({}, this.configService.config.styleOptions, this.viewOptions.styleOptions);
         this.viewOptions.dateDisplayFormats = this.configService.getViewsLocale()[this.viewType]?.dateFormats;
-        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions);
+        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions, this.holidayOptions);
     }
 
     private setupGroups() {
@@ -368,6 +370,9 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 this.changeView(changes.viewType.currentValue);
             }
             if (changes.viewOptions) {
+                this.changeView(this.viewType);
+            }
+            if (changes.holidayOptions) {
                 this.changeView(this.viewType);
             }
             if (changes.originItems || changes.originGroups) {
