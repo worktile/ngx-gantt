@@ -28,6 +28,9 @@ export interface GanttViewOptions {
     dateDisplayFormats?: { primary?: string; secondary?: string };
     datePrecisionUnit?: 'day' | 'hour' | 'minute';
     dragPreviewDateFormat?: string;
+    hoilday?: {
+        isHoliday: (GanttDate) => boolean;
+    };
     // custom key and value
     [key: string]: any;
 }
@@ -164,10 +167,10 @@ export abstract class GanttView {
     }
 
     protected initialize() {
+        this.cellWidth = this.getCellWidth();
         this.primaryDatePoints = this.getPrimaryDatePoints();
         this.secondaryDatePoints = this.getSecondaryDatePoints();
         this.width = this.getWidth();
-        this.cellWidth = this.getCellWidth();
         this.primaryWidth = this.getPrimaryWidth();
     }
 

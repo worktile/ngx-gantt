@@ -10,7 +10,12 @@ const viewOptions: GanttViewOptions = {
     end: new GanttDate().endOfYear().endOfWeek(),
     addAmount: 1,
     addUnit: 'month',
-    dateDisplayFormats: zhHantLocale.views.day.dateFormats
+    dateDisplayFormats: zhHantLocale.views.day.dateFormats,
+    hoilday: {
+        isHoliday: (date: GanttDate) => {
+            return date.isWeekend();
+        }
+    }
 };
 
 export class GanttViewDay extends GanttView {
@@ -34,8 +39,12 @@ export class GanttViewDay extends GanttView {
         return this.getCellWidth() * 7;
     }
 
-    getDayOccupancyWidth(): number {
-        return this.cellWidth;
+    getDayOccupancyWidth(date: GanttDate): number {
+        if (this.options.hoilday?.isHoliday?.(date)) {
+            return 0;
+        } else {
+            return this.options.cellWidth;
+        }
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
@@ -43,20 +52,28 @@ export class GanttViewDay extends GanttView {
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < weeks.length; i++) {
             const weekStart = new GanttDate(weeks[i]);
+            const weekEnd = weekStart.addWeeks(1);
             const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
+            const pointWidth = this.getDateIntervalWidth(weekStart, weekEnd);
+            const lastPoint = points[points.length - 1];
             const point = new GanttDatePoint(
                 weekStart,
                 weekStart.addWeeks(increaseWeek).format(this.options.dateFormat?.yearMonth || this.options.dateDisplayFormats.primary),
-                (this.getCellWidth() * 7) / 2 + i * (this.getCellWidth() * 7),
+                pointWidth / 2 + (lastPoint?.rightX || 0),
                 primaryDatePointTop
             );
+
+            point.leftX = lastPoint?.rightX || 0;
+            point.rightX = point.leftX + pointWidth;
             points.push(point);
         }
         return points;
     }
 
     getSecondaryDatePoints(): GanttDatePoint[] {
-        const days = eachDayOfInterval({ start: this.start.value, end: this.end.value });
+        const days = eachDayOfInterval({ start: this.start.value, end: this.end.value }).filter(
+            (day) => !this.options.hoilday?.isHoliday?.(new GanttDate(day))
+        );
         const points: GanttDatePoint[] = [];
         for (let i = 0; i < days.length; i++) {
             const start = new GanttDate(days[i]);
