@@ -3,7 +3,7 @@ module.exports = {
     title: 'NgxGantt',
     siteProjectName: 'example',
     outputDir: 'dist/site',
-    logoUrl: '/assets/imgs/logo.png',
+    logoUrl: 'assets/imgs/logo.png',
     repoUrl: 'https://github.com/worktile/ngx-gantt',
     locales: [
         { key: 'zh-cn', name: '中文' },
