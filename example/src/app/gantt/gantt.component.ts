@@ -24,7 +24,6 @@ import { ThyNotifyService } from 'ngx-tethys/notify';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { random, randomItems } from '../helper';
-import { isHoliday } from './mock-holiday';
 
 const cacheKeys = 'GANTT_TABLE_KEYS';
 
@@ -101,7 +100,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
 
     viewOptions: GanttViewOptions = {
         hoilday: {
-            isHoliday: (date: GanttDate) => isHoliday(date),
+            isHoliday: (date: GanttDate) => date.isWeekend(),
             hideHoliday: false
         }
     };

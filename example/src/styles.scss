@@ -92,18 +92,3 @@ $primary: #6698ff;
     }
   }
 }
-
-.gantt-example-container {
-  .gantt-container-header {
-    .gantt-calendar-header {
-      svg {
-        background-color: #f0f0f0;
-      }
-    }
-  }
-  .gantt-calendar {
-    .secondary-line {
-      display: none;
-    }
-  }
-}

@@ -30,7 +30,6 @@ export interface GanttViewOptions {
     hoilday?: {
         isHoliday: (GanttDate) => boolean;
         hideHoliday: boolean;
-        [key: string]: any;
     };
     // custom key and value
     [key: string]: any;

@@ -378,9 +378,12 @@ export class GanttBarDrag implements OnDestroy {
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-        // 以拖拽位置时间点为准
+        const currentEndDate = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
+
+        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(currentEndDate, currentDate);
+
         let start = currentDate;
-        let end = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
+        let end = currentDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
 
         // 日视图特殊逻辑处理
         if (this.ganttUpper.view.viewType === GanttViewType.day) {
@@ -567,6 +570,7 @@ export class GanttBarDrag implements OnDestroy {
     // Some data information about dragging end of bar handle
     private endOfBarHandle() {
         const width = this.item().refs.width + this.barHandleDragMoveAndScrollDistance;
+
         return {
             width,
             end: this.ganttUpper.view.getDateByXPoint(this.item().refs.x + width)
