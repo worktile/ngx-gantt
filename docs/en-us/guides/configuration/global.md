@@ -52,7 +52,7 @@ export interface GanttGlobalConfig {
     barHeight?: number // custom Bar height
   };
 
-  /** @deprecated dateFormat is deprecated, please configure through i18n. http://gantt.ngnice.com/guides/configuration/i18n */
+  /** @deprecated dateFormat is deprecated, please configure through i18n. https://worktile.github.io/ngx-gantt/guides/configuration/i18n */
   dateFormat?: {
     week?: string, // week w
     month?: string, // month M

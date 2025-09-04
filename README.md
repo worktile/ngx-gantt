@@ -20,9 +20,9 @@ $ npm i @worktile/gantt html2canvas --save
 $ yarn add @worktile/gantt html2canvas
 ```
 
-## Demo
+## Documentation
 
-[Try out our live demo](http://gantt.ngnice.com/)
+📚 [View Documentation on GitHub Pages](https://worktile.github.io/ngx-gantt/)
 
 ## Usage
 
@@ -85,7 +85,7 @@ export class AppGanttExampleComponent {
 }
 ```
 
-See [Getting Started](http://gantt.ngnice.com/guides/getting-started) for more details.
+See [Getting Started](https://worktile.github.io/ngx-gantt/guides/getting-started) for more details.
 
 ## Development
 
