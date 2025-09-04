@@ -1,8 +1,8 @@
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { zhHantLocale } from '../i18n';
-import { GanttDate } from '../utils/date';
-import { GanttHolidayOptions, GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
+import { eachDayOfInterval, eachWeekOfInterval, GanttDate } from '../utils/date';
+import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
 
 const viewOptions: GanttViewOptions = {
     cellWidth: 35,
@@ -18,8 +18,8 @@ export class GanttViewDay extends GanttView {
 
     override viewType = GanttViewType.day;
 
-    constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions, holidayOptions?: GanttHolidayOptions) {
-        super(start, end, Object.assign({}, viewOptions, options, holidayOptions));
+    constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
+        super(start, end, Object.assign({}, viewOptions, options));
     }
 
     viewStartOf(date: GanttDate) {
@@ -35,111 +35,54 @@ export class GanttViewDay extends GanttView {
     }
 
     getDayOccupancyWidth(date: GanttDate): number {
-        if (this.isHoliday(date)) {
+        if (this.hideHoliday(date)) {
             return 0;
         }
         return this.cellWidth;
     }
 
     getPrimaryDatePoints(): GanttDatePoint[] {
-        const weeks = this.generateWeeks(this.start.value, this.end.addSeconds(1).value);
+        const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
         const points: GanttDatePoint[] = [];
-        let accumulatedWidth = 0;
-
-        for (const weekStart of weeks) {
-            const week = new GanttDate(weekStart);
-            const { workingDays, weekWidth, firstWorkingDay } = this.calculateWeekInfo(week);
-            if (workingDays === 0) {
-                continue;
-            }
-            const weekPosition = accumulatedWidth + weekWidth / 2;
+        for (let i = 0; i < weeks.length; i++) {
+            const weekStart = new GanttDate(weeks[i]);
+            const weekEnd = weekStart.addWeeks(1);
+            const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
+            const pointWidth = this.getDateIntervalWidth(weekStart, weekEnd);
+            const lastPoint = points[points.length - 1];
             const point = new GanttDatePoint(
-                firstWorkingDay,
-                firstWorkingDay.format(this.options.dateFormat?.yearMonth || this.options.dateDisplayFormats.primary),
-                weekPosition,
-                primaryDatePointTop,
-                undefined,
-                undefined,
-                undefined,
-                accumulatedWidth + weekWidth
+                weekStart,
+                weekStart.addWeeks(increaseWeek).format(this.options.dateFormat?.yearMonth || this.options.dateDisplayFormats.primary),
+                pointWidth / 2 + (lastPoint?.rightX || 0),
+                primaryDatePointTop
             );
 
+            point.leftX = lastPoint?.rightX || 0;
+            point.rightX = point.leftX + pointWidth;
             points.push(point);
-            accumulatedWidth += weekWidth;
         }
-
         return points;
     }
 
     getSecondaryDatePoints(): GanttDatePoint[] {
-        const endDate = this.end.addSeconds(1).value;
-        const weeks = this.generateWeeks(this.start.value, endDate);
+        const days = eachDayOfInterval({ start: this.start.value, end: this.end.value }).filter(
+            (day) => !this.hideHoliday(new GanttDate(day))
+        );
         const points: GanttDatePoint[] = [];
-        let accumulatedWidth = 0;
-
-        for (const weekStart of weeks) {
-            const week = new GanttDate(weekStart);
-
-            for (let j = 0; j < 7; j++) {
-                const currentDate = week.addDays(j);
-                if (currentDate.value > endDate) {
-                    break;
+        for (let i = 0; i < days.length; i++) {
+            const start = new GanttDate(days[i]);
+            const point = new GanttDatePoint(
+                start,
+                start.format(this.options.dateDisplayFormats.secondary) || start.getDate().toString(),
+                i * this.getCellWidth() + this.getCellWidth() / 2,
+                secondaryDatePointTop,
+                {
+                    isWeekend: start.isWeekend(),
+                    isToday: start.isToday()
                 }
-                if (this.isHoliday(currentDate)) {
-                    continue;
-                }
-                const dayPosition = accumulatedWidth + this.getCellWidth() / 2;
-                const point = new GanttDatePoint(
-                    currentDate,
-                    currentDate.format(this.options.dateDisplayFormats.secondary) || currentDate.getDate().toString(),
-                    dayPosition,
-                    secondaryDatePointTop,
-                    {
-                        isWeekend: currentDate.isWeekend(),
-                        isToday: currentDate.isToday()
-                    },
-                    undefined,
-                    undefined
-                );
-
-                points.push(point);
-                accumulatedWidth += this.getCellWidth();
-            }
+            );
+            points.push(point);
         }
-
         return points;
-    }
-
-    override getDateByXPoint(x: number): GanttDate | null {
-        if (x < 0 || x > this.getWidth()) return null;
-        let accumulatedWidth = 0;
-        const targetPoint = this.secondaryDatePoints.find((point) => {
-            const dayWidth = this.getDayOccupancyWidth(point.start);
-            if (accumulatedWidth + dayWidth > x) return true;
-            accumulatedWidth += dayWidth;
-            return false;
-        });
-        return targetPoint?.start ?? this.secondaryDatePoints[this.secondaryDatePoints.length - 1]?.start ?? null;
-    }
-
-    private calculateWeekInfo(weekStart: GanttDate) {
-        const workingDays = Array.from({ length: 7 }, (_, j) => weekStart.addDays(j)).filter((currentDate) => !this.isHoliday(currentDate));
-        return {
-            workingDays: workingDays.length,
-            weekWidth: workingDays.length * this.getCellWidth(),
-            firstWorkingDay: workingDays[0]!
-        };
-    }
-
-    private generateWeeks(startDate: Date, endDate: Date) {
-        const weeks: Date[] = [];
-        const weekMs = 7 * 24 * 60 * 60 * 1000;
-        let currentWeekStart = new GanttDate(startDate).startOfWeek({ weekStartsOn: 1 }).value;
-
-        while (currentWeekStart <= endDate) {
-            weeks.push(currentWeekStart);
-            currentWeekStart = new Date(currentWeekStart.getTime() + weekMs);
-        }
-        return weeks;
     }
 }

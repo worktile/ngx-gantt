@@ -40,7 +40,7 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate, getUnixTime } from './utils/date';
 import { Dictionary, flatten, getFlatItems, keyBy, recursiveItems, uniqBy } from './utils/helpers';
 import { createViewFactory } from './views/factory';
-import { GanttHolidayOptions, GanttView, GanttViewOptions } from './views/view';
+import { GanttView, GanttViewOptions } from './views/view';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
@@ -72,8 +72,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     };
 
     @Input() viewOptions: GanttViewOptions = {};
-
-    @Input() holidayOptions: GanttHolidayOptions = {};
 
     @Input() set linkOptions(options: GanttLinkOptions) {
         this._linkOptions = options;
@@ -199,7 +197,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         this.viewOptions.dateFormat = Object.assign({}, this.configService.config.dateFormat, this.viewOptions.dateFormat);
         this.viewOptions.styleOptions = Object.assign({}, this.configService.config.styleOptions, this.viewOptions.styleOptions);
         this.viewOptions.dateDisplayFormats = this.configService.getViewsLocale()[this.viewType]?.dateFormats;
-        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions, this.holidayOptions);
+        this.view = createViewFactory(this.viewType, viewDate.start, viewDate.end, this.viewOptions);
     }
 
     private setupGroups() {
@@ -370,9 +368,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
                 this.changeView(changes.viewType.currentValue);
             }
             if (changes.viewOptions) {
-                this.changeView(this.viewType);
-            }
-            if (changes.holidayOptions) {
                 this.changeView(this.viewType);
             }
             if (changes.originItems || changes.originGroups) {

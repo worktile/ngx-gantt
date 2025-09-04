@@ -1,6 +1,9 @@
 import { GanttDate } from '../utils/date';
 
 export class GanttDatePoint {
+    public leftX?: number;
+    public rightX?: number;
+
     constructor(
         public start: GanttDate,
         public text: string,
@@ -12,8 +15,6 @@ export class GanttDatePoint {
         },
         public style?: Partial<CSSStyleDeclaration>,
         // set fill color
-        public fill?: string,
-        // 一级网格当前位置
-        public primaryPosition?: number
+        public fill?: string
     ) {}
 }

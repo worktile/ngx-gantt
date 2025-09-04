@@ -3,7 +3,7 @@ import { GanttViewDay } from './day';
 import { GanttViewHour } from './hour';
 import { GanttViewMonth } from './month';
 import { GanttViewQuarter } from './quarter';
-import { GanttHolidayOptions, GanttView, GanttViewDate, GanttViewOptions } from './view';
+import { GanttView, GanttViewDate, GanttViewOptions } from './view';
 import { GanttViewWeek } from './week';
 import { GanttViewYear } from './year';
 
@@ -20,12 +20,6 @@ export function registerView<T extends typeof GanttView>(type: string, view: T) 
     ganttViewsMap[type] = view;
 }
 
-export function createViewFactory(
-    type: GanttViewType,
-    start: GanttViewDate,
-    end: GanttViewDate,
-    options?: GanttViewOptions,
-    holidayOptions?: GanttHolidayOptions
-) {
-    return new ganttViewsMap[type](start, end, options, holidayOptions);
+export function createViewFactory(type: GanttViewType, start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
+    return new ganttViewsMap[type](start, end, options);
 }

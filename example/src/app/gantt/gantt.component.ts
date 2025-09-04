@@ -16,6 +16,7 @@ import {
     GanttTableItemClickEvent,
     GanttToolbarOptions,
     GanttView,
+    GanttViewOptions,
     GanttViewType,
     NgxGanttComponent
 } from 'ngx-gantt';
@@ -98,12 +99,11 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         viewType: GanttViewType.day
     };
 
-    viewOptions = {};
-
-    holidayOptions = {
-        isHoliday: (date: GanttDate) => isHoliday(date),
-        hideHoliday: false,
-        holidayStyle: {}
+    viewOptions: GanttViewOptions = {
+        hoilday: {
+            isHoliday: (date: GanttDate) => isHoliday(date),
+            hideHoliday: false
+        }
     };
 
     width = JSON.parse(localStorage.getItem(cacheKeys));
@@ -189,11 +189,6 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         }
     }
 
-    holidayChange() {
-        this.holidayOptions.hideHoliday = this.isHideHolidayChecked;
-        this.ganttComponent.rerenderView();
-    }
-
     selectView(type: GanttViewType) {
         this.viewType = type;
         this.selectedViewType = type;
@@ -245,5 +240,10 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     resizeChange(width: number) {
         this.width = width;
         localStorage.setItem(cacheKeys, JSON.stringify(width));
+    }
+
+    holidayChange() {
+        this.viewOptions.hoilday.hideHoliday = this.isHideHolidayChecked;
+        this.ganttComponent.rerenderView();
     }
 }

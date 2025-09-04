@@ -29,9 +29,9 @@
       </g>
     }
     <g>
-      @for (point of view.primaryDatePoints; track point.x) {
-        @let width = point.primaryPosition ?? ($index + 1) * view.primaryWidth;
-        <line [attr.x1]="width" [attr.x2]="width" [attr.y1]="0" [attr.y2]="mainHeight" class="primary-line"></line>
+      @for (point of view.primaryDatePoints; track point?.x) {
+        @let rightX = point?.rightX ?? ($index + 1) * view.primaryWidth;
+        <line [attr.x1]="rightX" [attr.x2]="rightX" [attr.y1]="0" [attr.y2]="mainHeight" class="primary-line"></line>
       }
     </g>
   </g>

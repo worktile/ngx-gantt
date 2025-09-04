@@ -14,14 +14,6 @@ export interface GanttViewDate {
     isCustom?: boolean;
 }
 
-export interface GanttHolidayOptions {
-    isHoliday?: (date: GanttDate) => boolean;
-
-    hideHoliday?: boolean;
-
-    holidayStyle?: Partial<CSSStyleDeclaration>;
-}
-
 export interface GanttViewOptions {
     start?: GanttDate;
     end?: GanttDate;
@@ -35,6 +27,11 @@ export interface GanttViewOptions {
     dateDisplayFormats?: { primary?: string; secondary?: string };
     datePrecisionUnit?: 'day' | 'hour' | 'minute';
     dragPreviewDateFormat?: string;
+    hoilday?: {
+        isHoliday: (GanttDate) => boolean;
+        hideHoliday: boolean;
+        [key: string]: any;
+    };
     // custom key and value
     [key: string]: any;
 }
@@ -80,8 +77,8 @@ export abstract class GanttView {
         secondary?: string;
     } = {};
 
-    constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions, holidayOptions?: GanttHolidayOptions) {
-        this.options = Object.assign({}, viewOptions, options, holidayOptions);
+    constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions) {
+        this.options = Object.assign({}, viewOptions, options);
 
         const startDate = start.isCustom
             ? this.viewStartOf(start.date)
@@ -127,8 +124,8 @@ export abstract class GanttView {
     // 获取二级时间点（坐标，显示名称）
     abstract getSecondaryDatePoints(): GanttDatePoint[];
 
-    protected isHoliday(date: GanttDate): boolean {
-        return this.options?.hideHoliday && this.options.isHoliday?.(date);
+    protected hideHoliday(date: GanttDate): boolean {
+        return this.options.hoilday?.hideHoliday && this.options.hoilday?.isHoliday?.(date);
     }
 
     startOfPrecision(date: GanttDate) {
@@ -175,10 +172,10 @@ export abstract class GanttView {
     }
 
     protected initialize() {
+        this.cellWidth = this.getCellWidth();
         this.primaryDatePoints = this.getPrimaryDatePoints();
         this.secondaryDatePoints = this.getSecondaryDatePoints();
         this.width = this.getWidth();
-        this.cellWidth = this.getCellWidth();
         this.primaryWidth = this.getPrimaryWidth();
     }
 

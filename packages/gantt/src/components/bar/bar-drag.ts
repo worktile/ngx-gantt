@@ -378,7 +378,7 @@ export class GanttBarDrag implements OnDestroy {
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-        // 以拖拽的时间点为准
+        // 以拖拽位置时间点为准
         let start = currentDate;
         let end = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
 
