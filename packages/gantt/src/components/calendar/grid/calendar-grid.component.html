@@ -30,13 +30,7 @@
     }
     <g>
       @for (point of view.primaryDatePoints; track point.x) {
-        <line
-          [attr.x1]="($index + 1) * view.primaryWidth"
-          [attr.x2]="($index + 1) * view.primaryWidth"
-          [attr.y1]="0"
-          [attr.y2]="mainHeight"
-          class="primary-line"
-        ></line>
+        <line [attr.x1]="point.rightX" [attr.x2]="point.rightX" [attr.y1]="0" [attr.y2]="mainHeight" class="primary-line"></line>
       }
     </g>
   </g>

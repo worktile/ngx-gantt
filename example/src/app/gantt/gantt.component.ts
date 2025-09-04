@@ -44,9 +44,9 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         ]
     };
 
-    viewType: GanttViewType = GanttViewType.month;
+    viewType: GanttViewType = GanttViewType.day;
 
-    selectedViewType: GanttViewType = GanttViewType.month;
+    selectedViewType: GanttViewType = GanttViewType.day;
 
     isBaselineChecked = false;
 
