@@ -31,7 +31,7 @@ export class GanttViewDay extends GanttView {
     }
 
     getPrimaryWidth() {
-        return null;
+        return this.getCellWidth() * 7;
     }
 
     getDayOccupancyWidth(date: GanttDate): number {
