@@ -21,7 +21,7 @@ export interface GanttDateFormat {
 export interface GanttDateOptions {
     /**
      * @deprecated dateOptions is deprecated, use i18n locale setting instead
-     * http://gantt.ngnice.com/guides/configuration/i18n
+     * https://worktile.github.io/ngx-gantt/guides/configuration/i18n
      */
     locale?: Locale;
     timeZone?: string;
@@ -36,7 +36,7 @@ export interface GanttStyleOptions {
 
 export interface GanttGlobalConfig {
     locale?: GanttI18nLocale | string;
-    /** @deprecated dateFormat is deprecated, please configure through i18n. http://gantt.ngnice.com/guides/configuration/i18n */
+    /** @deprecated dateFormat is deprecated, please configure through i18n. https://worktile.github.io/ngx-gantt/guides/configuration/i18n */
     dateFormat?: GanttDateFormat;
     dateOptions?: GanttDateOptions;
     linkOptions?: GanttLinkOptions;
