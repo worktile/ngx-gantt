@@ -143,8 +143,6 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     public linkable: boolean;
 
-    public computeAllRefs = true;
-
     public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
 
     public view: GanttView;
@@ -212,7 +210,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    private setupItems() {
+    protected setupItems() {
         this.originItems = uniqBy(this.originItems, 'id');
         this.items = [];
         if (this.groups.length > 0) {
@@ -293,14 +291,12 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
     }
 
     computeRefs() {
-        if (this.computeAllRefs) {
-            this.groups.forEach((group) => {
-                const groupItems = recursiveItems(group.items);
-                this.computeItemsRefs(...groupItems);
-            });
-            const items = recursiveItems(this.items);
-            this.computeItemsRefs(...items);
-        }
+        this.groups.forEach((group) => {
+            const groupItems = recursiveItems(group.items);
+            this.computeItemsRefs(...groupItems);
+        });
+        const items = recursiveItems(this.items);
+        this.computeItemsRefs(...items);
     }
 
     private initSelectionModel() {
