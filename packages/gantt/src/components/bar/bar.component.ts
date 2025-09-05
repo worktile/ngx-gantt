@@ -1,30 +1,30 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
+    AfterViewInit,
     Component,
-    OnInit,
-    HostBinding,
     ElementRef,
+    EventEmitter,
+    HostBinding,
+    Inject,
+    NgZone,
     OnChanges,
     OnDestroy,
-    Inject,
-    ViewChild,
+    OnInit,
     Output,
-    EventEmitter,
-    AfterViewInit,
-    ViewChildren,
     QueryList,
-    NgZone,
-    SimpleChanges
+    SimpleChanges,
+    ViewChild,
+    ViewChildren
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
-import { GanttBarDrag } from './bar-drag';
-import { hexToRgb } from '../../utils/helpers';
-import { GanttDragContainer } from '../../gantt-drag-container';
-import { barBackground } from '../../gantt.styles';
 import { GanttBarClickEvent } from '../../class';
-import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
+import { GanttDragContainer } from '../../gantt-drag-container';
 import { GanttItemUpper } from '../../gantt-item-upper';
-import { NgTemplateOutlet } from '@angular/common';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
+import { barBackground } from '../../gantt.styles';
+import { hexToRgb } from '../../utils/helpers';
+import { GanttBarDrag } from './bar-drag';
 
 function linearGradient(sideOrCorner: string, color: string, stop: string) {
     return `linear-gradient(${sideOrCorner},${color} 0%,${stop} 40%)`;
@@ -123,10 +123,11 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     }
 
     private setContentBackground() {
+        let style: Partial<CSSStyleDeclaration> = { ...(this.item.barStyle || {}) };
+        const contentElement = this.contentElementRef.nativeElement;
+
         if (this.item.refs?.width) {
-            const contentElement = this.contentElementRef.nativeElement;
             const color = this.item.color || barBackground;
-            const style: Partial<CSSStyleDeclaration> = this.item.barStyle || {};
             const barElement = this.elementRef.nativeElement;
 
             if (this.item.origin.start && this.item.origin.end) {
@@ -150,14 +151,14 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             if (this.item.progress >= 0) {
                 const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
                 style.background = hexToRgb(color, 0.3);
-                style.borderRadius = '';
                 contentProgressElement.style.background = color;
             }
+        }
+        style = Object.assign({}, style, this.item.barStyle || {});
 
-            for (const key in style) {
-                if (style.hasOwnProperty(key)) {
-                    contentElement.style[key] = style[key];
-                }
+        for (const key in style) {
+            if (style.hasOwnProperty(key)) {
+                contentElement.style[key] = style[key];
             }
         }
     }

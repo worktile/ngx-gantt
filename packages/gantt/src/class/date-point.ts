@@ -1,6 +1,9 @@
 import { GanttDate } from '../utils/date';
 
 export class GanttDatePoint {
+    public leftX?: number;
+    public rightX?: number;
+
     constructor(
         public start: GanttDate,
         public text: string,

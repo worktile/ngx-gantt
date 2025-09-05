@@ -1,11 +1,11 @@
-import { GanttViewOptions, GanttViewDate, GanttView } from './view';
-import { GanttViewMonth } from './month';
 import { GanttViewType } from '../class/view-type';
-import { GanttViewQuarter } from './quarter';
 import { GanttViewDay } from './day';
+import { GanttViewHour } from './hour';
+import { GanttViewMonth } from './month';
+import { GanttViewQuarter } from './quarter';
+import { GanttView, GanttViewDate, GanttViewOptions } from './view';
 import { GanttViewWeek } from './week';
 import { GanttViewYear } from './year';
-import { GanttViewHour } from './hour';
 
 const ganttViewsMap = {
     [GanttViewType.hour]: GanttViewHour,

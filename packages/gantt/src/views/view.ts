@@ -4,7 +4,6 @@ import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDateFormat } from '../gantt.config';
 import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
-import { zhHansLocale } from '../i18n';
 
 export const primaryDatePointTop = '40%';
 
@@ -28,6 +27,10 @@ export interface GanttViewOptions {
     dateDisplayFormats?: { primary?: string; secondary?: string };
     datePrecisionUnit?: 'day' | 'hour' | 'minute';
     dragPreviewDateFormat?: string;
+    hoilday?: {
+        isHoliday: (GanttDate) => boolean;
+        hideHoliday: boolean;
+    };
     // custom key and value
     [key: string]: any;
 }
@@ -120,6 +123,10 @@ export abstract class GanttView {
     // 获取二级时间点（坐标，显示名称）
     abstract getSecondaryDatePoints(): GanttDatePoint[];
 
+    protected hideHoliday(date: GanttDate): boolean {
+        return this.options.hoilday?.hideHoliday && this.options.hoilday?.isHoliday?.(date);
+    }
+
     startOfPrecision(date: GanttDate) {
         switch (this.options.datePrecisionUnit) {
             case 'minute':
@@ -164,10 +171,10 @@ export abstract class GanttView {
     }
 
     protected initialize() {
+        this.cellWidth = this.getCellWidth();
         this.primaryDatePoints = this.getPrimaryDatePoints();
         this.secondaryDatePoints = this.getSecondaryDatePoints();
         this.width = this.getWidth();
-        this.cellWidth = this.getCellWidth();
         this.primaryWidth = this.getPrimaryWidth();
     }
 

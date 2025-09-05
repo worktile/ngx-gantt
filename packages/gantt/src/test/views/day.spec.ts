@@ -24,7 +24,7 @@ describe('GanttViewDay', () => {
     });
 
     it(`should has correct cell width`, () => {
-        const dayCellWidth = ganttViewDay.getDayOccupancyWidth();
+        const dayCellWidth = ganttViewDay.getDayOccupancyWidth(date.start.date);
         expect(dayCellWidth).toEqual(20);
     });
 

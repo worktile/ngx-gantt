@@ -2,6 +2,7 @@ import { AfterViewInit, Component, HostBinding, OnInit, ViewChild } from '@angul
 import {
     GanttBarClickEvent,
     GanttBaselineItem,
+    GanttDate,
     GanttDragEvent,
     GanttItem,
     GanttLineClickEvent,
@@ -15,6 +16,7 @@ import {
     GanttTableItemClickEvent,
     GanttToolbarOptions,
     GanttView,
+    GanttViewOptions,
     GanttViewType,
     NgxGanttComponent
 } from 'ngx-gantt';
@@ -44,15 +46,17 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         ]
     };
 
-    viewType: GanttViewType = GanttViewType.month;
+    viewType: GanttViewType = GanttViewType.day;
 
-    selectedViewType: GanttViewType = GanttViewType.month;
+    selectedViewType: GanttViewType = GanttViewType.day;
 
     isBaselineChecked = false;
 
     isShowToolbarChecked = true;
 
     loading = false;
+
+    isHideHolidayChecked = false;
 
     items: GanttItem[] = [
         { id: '000000', title: 'Task 0', start: 1627729997, end: 1627769997, draggable: false, linkable: false },
@@ -61,7 +65,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         { id: '000002', title: 'Task 2', start: 1617361997, end: 1625483597, progress: 0.5, linkable: false },
         { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, itemDraggable: false },
         { id: '000004', title: 'Task 4', start: 1624705997 },
-        { id: '000005', title: 'Task 5', start: 1628075597, end: 1629544397, color: '#709dc1' },
+        { id: '000005', title: 'Task 5', start: 1756628881, end: 1756801681, color: '#709dc1' },
         { id: '000006', title: 'Task 6', start: 1641121997, end: 1645528397 },
         { id: '000007', title: 'Task 7', start: 1639393997, end: 1640862797 },
         { id: '000008', title: 'Task 8', end: 1628783999, color: '#709dc1' },
@@ -94,7 +98,12 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         viewType: GanttViewType.day
     };
 
-    viewOptions = {};
+    viewOptions: GanttViewOptions = {
+        hoilday: {
+            isHoliday: (date: GanttDate) => date.isWeekend(),
+            hideHoliday: false
+        }
+    };
 
     width = JSON.parse(localStorage.getItem(cacheKeys));
 
@@ -230,5 +239,15 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     resizeChange(width: number) {
         this.width = width;
         localStorage.setItem(cacheKeys, JSON.stringify(width));
+    }
+
+    holidayChange() {
+        this.viewOptions = {
+            ...this.viewOptions,
+            hoilday: {
+                ...this.viewOptions.hoilday,
+                hideHoliday: this.isHideHolidayChecked
+            }
+        };
     }
 }
