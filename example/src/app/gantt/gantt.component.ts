@@ -242,7 +242,12 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     }
 
     holidayChange() {
-        this.viewOptions.hoilday.hideHoliday = this.isHideHolidayChecked;
-        this.ganttComponent.rerenderView();
+        this.viewOptions = {
+            ...this.viewOptions,
+            hoilday: {
+                ...this.viewOptions.hoilday,
+                hideHoliday: this.isHideHolidayChecked
+            }
+        };
     }
 }

@@ -378,9 +378,14 @@ export class GanttBarDrag implements OnDestroy {
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-        const currentEndDate = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
 
-        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(currentEndDate, currentDate);
+        let diffs;
+        if (this.ganttUpper.view?.options?.hoilday?.hideHoliday) {
+            const currentEndDate = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
+            diffs = this.ganttUpper.view.differenceByPrecisionUnit(currentEndDate, currentDate);
+        } else {
+            diffs = this.ganttUpper.view.differenceByPrecisionUnit(this.item().end, this.item().start);
+        }
 
         let start = currentDate;
         let end = currentDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
@@ -388,7 +393,14 @@ export class GanttBarDrag implements OnDestroy {
         // 日视图特殊逻辑处理
         if (this.ganttUpper.view.viewType === GanttViewType.day) {
             const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
-            if (currentX > currentStartX + dayWidth / 2) {
+            if (this.ganttUpper.view.options.hoilday?.hideHoliday && dayWidth === 0) {
+                let nextDate = currentDate.addDays(1);
+                while (this.ganttUpper.view.getDayOccupancyWidth(nextDate) === 0) {
+                    nextDate = nextDate.addDays(1);
+                }
+                start = nextDate;
+                end = nextDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
+            } else if (currentX > currentStartX + dayWidth / 2) {
                 start = start.addDays(1);
                 end = end.addDays(1);
             }
