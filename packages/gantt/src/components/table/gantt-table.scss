@@ -193,6 +193,8 @@
     &::-webkit-scrollbar {
       display: none;
     }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   @include gantt-table-item();

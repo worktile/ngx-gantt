@@ -1,6 +1,6 @@
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
-import { effect, ElementRef, Injectable, NgZone, OnDestroy, signal, WritableSignal, inject } from '@angular/core';
-import { Subject, animationFrameScheduler, fromEvent, interval } from 'rxjs';
+import { effect, ElementRef, inject, Injectable, NgZone, OnDestroy, signal, WritableSignal } from '@angular/core';
+import { animationFrameScheduler, fromEvent, interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttViewType } from '../../class';
 import { GanttItemInternal } from '../../class/item';
@@ -378,8 +378,9 @@ export class GanttBarDrag implements OnDestroy {
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
+        const currentEndDate = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
 
-        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(this.item().end, this.item().start);
+        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(currentEndDate, currentDate);
 
         let start = currentDate;
         let end = currentDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
