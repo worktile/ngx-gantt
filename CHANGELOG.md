@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.8-next.1](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.0...19.0.8-next.1) (2025-09-09)
+
+### Features
+
+- **gantt:** support barStyle set bar element visibilty ([#587](https://github.com/worktile/ngx-gantt/issues/587)) ([9dbc072](https://github.com/worktile/ngx-gantt/commit/9dbc0727d3c63c976840da93ef184f90535b5811))
+
 ## [19.0.8-next.0](https://github.com/worktile/ngx-gantt/compare/19.0.7...19.0.8-next.0) (2025-09-09)
 
 ### Bug Fixes
