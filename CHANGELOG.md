@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.8-0](https://github.com/worktile/ngx-gantt/compare/19.0.7...19.0.8-0) (2025-09-09)
+
+### Bug Fixes
+
+- add 404.html for GitHub Pages SPA routing support ([cc3e46e](https://github.com/worktile/ngx-gantt/commit/cc3e46eec9b87cc0974af5b14b3e1b7908ccf04c))
+- add enablement parameter to GitHub Pages deployment workflow ([30f85a5](https://github.com/worktile/ngx-gantt/commit/30f85a5e61bddb37836f6c08a102d33d88ee51fa))
+- ensure buildFlatItems is called on every items change [#568](https://github.com/worktile/ngx-gantt/issues/568) ([90fdff3](https://github.com/worktile/ngx-gantt/commit/90fdff36d48397cf11a677457fa4a39cc0e5bd22))
+- update expandChange event to emit groups instead of null ([c0f8360](https://github.com/worktile/ngx-gantt/commit/c0f8360dbb68629a1b9ba11497b54d524f5dd578))
+
 ## [19.0.7](https://github.com/worktile/ngx-gantt/compare/19.0.6...19.0.7) (2025-07-31)
 
 ### Bug Fixes
