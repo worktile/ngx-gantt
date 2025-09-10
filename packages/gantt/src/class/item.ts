@@ -1,8 +1,9 @@
-import { GanttDate } from '../utils/date';
+import { isUndefinedOrNull } from 'ngx-tethys/util';
 import { BehaviorSubject } from 'rxjs';
+import { GanttDate } from '../utils/date';
+import { GanttView } from '../views/view';
 import { GanttLink, GanttLinkType } from './link';
 import { GanttViewType } from './view-type';
-import { GanttView } from '../views/view';
 
 const DEFAULT_FILL_INCREMENT_WIDTH = 120;
 
@@ -37,6 +38,7 @@ export interface GanttItem<T = unknown> {
     origin?: T;
     type?: GanttItemType;
     progress?: number;
+    hideQuickTimeFocus?: boolean;
 }
 
 export class GanttItemInternal {
@@ -60,6 +62,7 @@ export class GanttItemInternal {
     progress?: number;
     viewType?: GanttViewType;
     level: number;
+    hideQuickTimeFocus: boolean;
 
     get refs() {
         return this.refs$.getValue();
@@ -95,6 +98,7 @@ export class GanttItemInternal {
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
         this.level = level;
+        this.hideQuickTimeFocus = isUndefinedOrNull(this.origin?.hideQuickTimeFocus) ? false : this.origin?.hideQuickTimeFocus;
         this.children = (item.children || []).map((subItem) => {
             return new GanttItemInternal(subItem, level + 1, view);
         });
