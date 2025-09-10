@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.8-next.2](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.1...19.0.8-next.2) (2025-09-10)
+
+### Features
+
+- **gantt:** 导出滚动策略相关功能 ([#589](https://github.com/worktile/ngx-gantt/issues/589)) ([ce2f1ea](https://github.com/worktile/ngx-gantt/commit/ce2f1eaccaa7d94b110bf566fe389c23f3d630e3))
+
+### Reverts
+
+- Revert "Revert "feat(gantt): 导出滚动策略相关功能 (#589)" (#590)" (#591) ([137ca3a](https://github.com/worktile/ngx-gantt/commit/137ca3a12316d3c3fd1351fdaf41e50bc2755677)), closes [#589](https://github.com/worktile/ngx-gantt/issues/589) [#590](https://github.com/worktile/ngx-gantt/issues/590) [#591](https://github.com/worktile/ngx-gantt/issues/591)
+- Revert "feat(gantt): 导出滚动策略相关功能 (#589)" (#590) ([be05df2](https://github.com/worktile/ngx-gantt/commit/be05df28efc92e67aa0e9742e446e6bc767ead38)), closes [#589](https://github.com/worktile/ngx-gantt/issues/589) [#590](https://github.com/worktile/ngx-gantt/issues/590)
+
 ## [19.0.8-next.1](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.0...19.0.8-next.1) (2025-09-09)
 
 ### Features
