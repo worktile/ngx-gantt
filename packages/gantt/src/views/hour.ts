@@ -1,6 +1,6 @@
-import { zhHantLocale } from '../i18n';
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
+import { zhHantLocale } from '../i18n';
 import { GanttDate, differenceInMinutes, eachDayOfInterval, eachHourOfInterval } from '../utils/date';
 import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
 
@@ -108,5 +108,9 @@ export class GanttViewHour extends GanttView {
         const minuteWidth = hourWidth / 60;
         const underOneHourMinutes = Math.floor((x % hourWidth) / minuteWidth);
         return matchDate?.start.addMinutes(underOneHourMinutes);
+    }
+
+    override getEndByStartAndWidth(start: GanttDate, width: number): GanttDate {
+        return this.getDateByXPoint(this.getXPointByDate(start) + width);
     }
 }

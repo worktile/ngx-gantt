@@ -196,8 +196,7 @@ describe('bar-drag', () => {
         dragEvent(fixture, bar.nativeElement);
         tick(200);
         expect(bar.componentInstance.item.start.getUnixTime()).toEqual(new GanttDate('2020-04-21 00:00:00').getUnixTime());
-        // TODO：拖拽时根据 X 坐标计算 end 时间，精度获取不一致需要修改测试
-        // expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-06-26 23:59:59').getUnixTime());
+        expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-06-26 23:59:59').getUnixTime());
     }));
 
     it('should reset dragRef.disable when reset items', async () => {

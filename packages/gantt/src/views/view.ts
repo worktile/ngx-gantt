@@ -268,4 +268,24 @@ export abstract class GanttView {
                 return this.getDayOccupancyWidth(date);
         }
     }
+
+    // 根据日期和宽度获取 end
+    getEndByStartAndWidth(start: GanttDate, width: number): GanttDate {
+        if (width <= 0) {
+            return start;
+        }
+        let currentDate = start;
+        let remainingWidth = width;
+        while (remainingWidth > 0) {
+            const dayWidth = this.getDayOccupancyWidth(currentDate);
+            if (dayWidth > 0) {
+                remainingWidth -= dayWidth;
+                if (remainingWidth <= 0) {
+                    break;
+                }
+            }
+            currentDate = currentDate.addDays(1);
+        }
+        return currentDate;
+    }
 }
