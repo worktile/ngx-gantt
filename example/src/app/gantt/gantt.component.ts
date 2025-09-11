@@ -63,7 +63,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         // { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '000000'],  },
         { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'], draggable: false },
         { id: '000002', title: 'Task 2', start: 1617361997, end: 1625483597, progress: 0.5, linkable: false },
-        { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, itemDraggable: false, hideQuickTimeFocus: true },
+        { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, itemDraggable: false },
         { id: '000004', title: 'Task 4', start: 1624705997 },
         { id: '000005', title: 'Task 5', start: 1756628881, end: 1756801681, color: '#709dc1' },
         { id: '000006', title: 'Task 6', start: 1641121997, end: 1645528397 },
