@@ -127,9 +127,6 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         const contentElement = this.contentElementRef.nativeElement;
         const barElement = this.elementRef.nativeElement;
 
-        if (this.item.barStyle && Object.prototype.hasOwnProperty.call(this.item.barStyle, 'visibility')) {
-            barElement.style.visibility = this.item.barStyle?.visibility as string;
-        }
         if (this.item.refs?.width) {
             const color = this.item.color || barBackground;
 

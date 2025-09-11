@@ -378,7 +378,7 @@ export class GanttBarDrag implements OnDestroy {
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-        const currentEndDate = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
+        const currentEndDate = this.ganttUpper.view.getEndByStartAndWidth(currentDate, this.item().refs.width);
 
         const diffs = this.ganttUpper.view.differenceByPrecisionUnit(currentEndDate, currentDate);
 
@@ -402,7 +402,7 @@ export class GanttBarDrag implements OnDestroy {
         this.openDragBackdrop(
             this.barElement,
             this.ganttUpper.view.getDateByXPoint(currentX),
-            this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width)
+            this.ganttUpper.view.getEndByStartAndWidth(currentDate, this.item().refs.width)
         );
 
         if (!this.isStartOrEndInsideView(start, end)) {

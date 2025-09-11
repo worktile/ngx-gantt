@@ -46,7 +46,11 @@
     <div class="gantt-quick-time-focus" [style.width.px]="dom.visibleRangeX().max - dom.visibleRangeX().min">
       @for (data of viewportItems; track trackBy(i, data); let i = $index) {
         @let item = toItemType(data);
-        <div class="gantt-quick-time-focus-item" [style.height.px]="ganttUpper.styles.lineHeight">
+        <div
+          class="gantt-quick-time-focus-item"
+          [ngClass]="{ 'gantt-quick-time-focus-item-hide': !item?.refs?.width }"
+          [style.height.px]="ganttUpper.styles.lineHeight"
+        >
           <span class="ml-2">
             @if (item.refs?.x < dom.visibleRangeX().min && item.refs?.width) {
               <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(item.origin, 'left')">
