@@ -112,16 +112,16 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     }
 
     itemClick(event: GanttTableItemClickEvent) {
-        console.log(`点击了数据行 ${event.current.id}`);
+       // console.log(`点击了数据行 ${event.current.id}`);
     }
 
     selectedChange(event: GanttSelectedEvent) {
-        event.current && this.ganttComponent.scrollToDate(event.current?.start);
+        // event.current && this.ganttComponent.scrollToDate(event.current?.start);
 
-        this.thyNotify.info(
-            'Event: selectedChange',
-            `当前选中的 item 的 id 为 ${(event.selectedValue as GanttItem[]).map((item) => item.id).join('、')}`
-        );
+        // this.thyNotify.info(
+        //     'Event: selectedChange',
+        //     `当前选中的 item 的 id 为 ${(event.selectedValue as GanttItem[]).map((item) => item.id).join('、')}`
+        // );
     }
 
     linkDragEnded(event: GanttLinkDragEvent) {
