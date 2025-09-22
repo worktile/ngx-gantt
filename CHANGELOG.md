@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.8-next.3](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.2...19.0.8-next.3) (2025-09-22)
+
+### Features
+
+- **gantt:** support hide item quickTimeFocus setting ([#593](https://github.com/worktile/ngx-gantt/issues/593)) ([085a3f4](https://github.com/worktile/ngx-gantt/commit/085a3f41dc686021d34c389a0884fd4116cc6d4d))
+- **gantt:** support hide quick time jump ([#597](https://github.com/worktile/ngx-gantt/issues/597)) ([9817c47](https://github.com/worktile/ngx-gantt/commit/9817c471c578c710a989aed25dc40847f7497a35))
+
+### Reverts
+
+- Revert "feat(gantt): support hide item quickTimeFocus setting (#593)" (#594) ([dfdee11](https://github.com/worktile/ngx-gantt/commit/dfdee11c31b31860e68f73ce51b54d09d15ab7e7)), closes [#593](https://github.com/worktile/ngx-gantt/issues/593) [#594](https://github.com/worktile/ngx-gantt/issues/594)
+
 ## [19.0.8-next.2](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.1...19.0.8-next.2) (2025-09-10)
 
 ### Features
