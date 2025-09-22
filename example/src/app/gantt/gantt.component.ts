@@ -116,6 +116,11 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     }
 
     selectedChange(event: GanttSelectedEvent) {
+
+        const x=null;
+
+        console.log((x as any).toString());
+
         // event.current && this.ganttComponent.scrollToDate(event.current?.start);
 
         // this.thyNotify.info(
