@@ -10,8 +10,6 @@ export class GanttDatePoint {
             isWeekend: boolean;
             isToday: boolean;
         },
-        public style?: Partial<CSSStyleDeclaration>,
-        // set fill color
-        public fill?: string
+        public style?: Partial<CSSStyleDeclaration>
     ) {}
 }

@@ -7,7 +7,9 @@
 
   svg {
     position: relative;
+    z-index: 2;
     background-color: variables.$gantt-bg-color;
+    overflow: visible;
   }
   line {
     shape-rendering: crispEdges;
@@ -73,15 +75,8 @@
 .gantt-calendar-grid {
   position: absolute;
   width: 100%;
-  svg {
-    background-color: transparent;
-  }
-  .gantt-calendar-grid-fill {
-    position: absolute;
-    top: 0;
-  }
   .gantt-calendar-grid-main {
-    z-index: 2;
+    background-color: transparent;
   }
 
   .secondary-line {

@@ -3,50 +3,39 @@
 </div>
 <svg [attr.width]="view.width" [attr.height]="ganttUpper.styles.headerHeight">
   <g>
-    @for (point of view.secondaryDatePoints; track point.x) {
-      @if (point.fill) {
-        <rect
-          [attr.x]="$index * view.cellWidth"
-          y="0"
-          [attr.width]="view.cellWidth"
-          [attr.height]="ganttUpper.styles.headerHeight"
-          [attr.fill]="point.fill"
-        />
-      }
-      <text
-        class="secondary-text"
-        [ngStyle]="point.style"
-        [class.today]="point.additions?.isToday"
-        [class.weekend]="point.additions?.isWeekend"
-        [attr.x]="point.x"
-        [attr.y]="point.y"
-      >
-        {{ point.text }}
-      </text>
-    }
-
     @for (point of view.primaryDatePoints; track point.x) {
-      <text
-        class="primary-text"
-        [ngStyle]="point.style"
-        [class.today]="point.additions?.isToday"
-        [class.weekend]="point.additions?.isWeekend"
-        [attr.x]="point.x"
-        [attr.y]="point.y"
-      >
-        {{ point.text }}
-      </text>
+    <text
+      class="primary-text"
+      [ngStyle]="point.style"
+      [class.today]="point.additions?.isToday"
+      [class.weekend]="point.additions?.isWeekend"
+      [attr.x]="point.x"
+      [attr.y]="point.y"
+    >
+      {{ point.text }}
+    </text>
+    } @for (point of view.secondaryDatePoints; track point.x) {
+    <text
+      class="secondary-text"
+      [ngStyle]="point.style"
+      [class.today]="point.additions?.isToday"
+      [class.weekend]="point.additions?.isWeekend"
+      [attr.x]="point.x"
+      [attr.y]="point.y"
+    >
+      {{ point.text }}
+    </text>
     }
 
     <g>
       @for (point of view.primaryDatePoints; track point.x) {
-        <line
-          [attr.x1]="($index + 1) * view.primaryWidth"
-          [attr.x2]="($index + 1) * view.primaryWidth"
-          [attr.y1]="0"
-          [attr.y2]="ganttUpper.styles.headerHeight"
-          class="primary-line"
-        ></line>
+      <line
+        [attr.x1]="($index + 1) * view.primaryWidth"
+        [attr.x2]="($index + 1) * view.primaryWidth"
+        [attr.y1]="0"
+        [attr.y2]="ganttUpper.styles.headerHeight"
+        class="primary-line"
+      ></line>
       }
     </g>
 
