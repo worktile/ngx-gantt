@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.8-next.4](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.3...19.0.8-next.4) (2025-10-22)
+
+### Bug Fixes
+
+- **gantt:** 整体拖动工作项时间，会自动增加一天 ([#602](https://github.com/worktile/ngx-gantt/issues/602)) ([adf4bcd](https://github.com/worktile/ngx-gantt/commit/adf4bcd6872bb67be9f4b79be7e73703d662aaf5))
+
 ## [19.0.8-next.3](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.2...19.0.8-next.3) (2025-09-22)
 
 ### Features
