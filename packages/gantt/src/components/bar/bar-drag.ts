@@ -2,7 +2,6 @@ import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
 import { effect, ElementRef, Injectable, NgZone, OnDestroy, signal, WritableSignal } from '@angular/core';
 import { animationFrameScheduler, fromEvent, interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { GanttViewType } from '../../class';
 import { GanttItemInternal } from '../../class/item';
 import { GanttLinkType } from '../../class/link';
 import { GanttDomService } from '../../gantt-dom.service';
@@ -376,35 +375,13 @@ export class GanttBarDrag implements OnDestroy {
 
     private barDragMove() {
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
-        const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
-        const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-        const currentEndDate = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
-
-        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(currentEndDate, currentDate);
-
-        let start = currentDate;
-        let end = currentDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
-
-        // 日视图特殊逻辑处理
-        if (this.ganttUpper.view.viewType === GanttViewType.day) {
-            const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
-            if (currentX > currentStartX + dayWidth / 2) {
-                start = start.addDays(1);
-                end = end.addDays(1);
-            }
-        }
-
+        const start = this.ganttUpper.view.getDateByXPoint(currentX);
+        const end = this.ganttUpper.view.getEndDateByWidth(start, this.item().refs.width);
         if (this.dragScrolling) {
             const left = currentX - this.barDragMoveDistance;
             this.barElement.style.left = left + 'px';
         }
-
-        this.openDragBackdrop(
-            this.barElement,
-            this.ganttUpper.view.getDateByXPoint(currentX),
-            this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width)
-        );
-
+        this.openDragBackdrop(this.barElement, start, end);
         if (!this.isStartOrEndInsideView(start, end)) {
             return;
         }

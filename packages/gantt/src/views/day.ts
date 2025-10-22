@@ -85,4 +85,30 @@ export class GanttViewDay extends GanttView {
         }
         return points;
     }
+
+    override getEndDateByWidth(start: GanttDate, width: number): GanttDate {
+        if (!this.options.hoilday?.hideHoliday) {
+            return super.getEndDateByWidth(start, width);
+        }
+        // 通过宽度计算包含多少个工作日（每个工作日的宽度是 cellWidth）
+        const workingDaysCount = Math.round(width / this.getCellWidth());
+        let end = start;
+        let addedWorkingDays = 0;
+        let attempts = 0;
+        const maxAttempts = 365;
+
+        while (addedWorkingDays < workingDaysCount && attempts < maxAttempts) {
+            if (this.getDayOccupancyWidth(end) > 0) {
+                addedWorkingDays++;
+                if (addedWorkingDays < workingDaysCount) {
+                    end = end.addDays(1);
+                }
+            } else {
+                end = end.addDays(1);
+            }
+            attempts++;
+        }
+
+        return end;
+    }
 }
