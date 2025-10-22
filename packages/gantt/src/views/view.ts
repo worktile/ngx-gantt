@@ -268,4 +268,17 @@ export abstract class GanttView {
                 return this.getDayOccupancyWidth(date);
         }
     }
+
+    /**
+     * 根据起始日期和宽度计算结束日期
+     * @param start 起始日期
+     * @param width 视觉宽度
+     * @returns 结束日期
+     */
+    getEndDateByWidth(start: GanttDate, width: number): GanttDate {
+        const startX = this.getXPointByDate(start);
+        // 减去偏移量避免因为 getDateRangeWidth 加了 1 秒而多算一天
+        const endX = startX + width - 0.1;
+        return this.getDateByXPoint(endX);
+    }
 }
