@@ -28,7 +28,7 @@
   "peerDependencies": {
     "@angular/common": ">=20.0.0",
     "@angular/core": ">=20.0.0",
-    "@angular/cdk": ">=20.0.0",
+    "@angular/cdk": ">=19.0.0",
     "rxjs": "^6.5.0 || ^7.0.0",
     "date-fns": ">=4.0.0",
     "@date-fns/tz": ">=1.0.0"
