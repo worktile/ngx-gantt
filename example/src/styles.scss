@@ -5,8 +5,8 @@
 $primary: #6698ff;
 
 @use '../../packages/gantt/src/styles/index.scss';
-@import '@docgeni/template/styles/index.scss';
-@import 'ngx-tethys/styles/index.scss';
+@use '@docgeni/template/styles/index.scss' as docgeni;
+@use 'ngx-tethys/styles/index.scss' as tethys;
 
 .gantt-demo {
   height: 100%;

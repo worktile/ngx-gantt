@@ -1,6 +1,6 @@
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragHandle, CdkDragMove, CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
-import { DOCUMENT, NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
     AfterViewInit,
     ChangeDetectorRef,
@@ -15,7 +15,8 @@ import {
     Output,
     QueryList,
     TemplateRef,
-    ViewChildren
+    ViewChildren,
+    DOCUMENT
 } from '@angular/core';
 import { auditTime, filter, startWith, Subject, takeUntil } from 'rxjs';
 import {
