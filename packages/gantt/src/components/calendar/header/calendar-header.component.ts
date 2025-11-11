@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Inject, NgZone, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, NgZone, ElementRef, inject } from '@angular/core';
 import { todayHeight, todayWidth } from '../../../gantt.styles';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from '../../../class';
@@ -14,6 +14,10 @@ import { NgStyle } from '@angular/common';
     imports: [NgStyle]
 })
 export class GanttCalendarHeaderComponent implements OnInit {
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    private ngZone = inject(NgZone);
+    private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     get view() {
         return this.ganttUpper.view;
     }
@@ -29,11 +33,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
         return this.ganttUpper.styles.headerHeight + 'px';
     }
 
-    constructor(
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        private ngZone: NgZone,
-        private elementRef: ElementRef<HTMLElement>
-    ) {}
+    constructor() {}
 
     ngOnInit() {
         // 头部日期定位

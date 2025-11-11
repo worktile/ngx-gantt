@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { ElementRef, Inject, Injectable, NgZone, OnDestroy, PLATFORM_ID, WritableSignal, signal } from '@angular/core';
+import { ElementRef, Injectable, NgZone, OnDestroy, PLATFORM_ID, WritableSignal, signal, inject } from '@angular/core';
 import { EMPTY, Observable, Subject, fromEvent, merge } from 'rxjs';
 import { auditTime, map, pairwise, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
@@ -19,6 +19,9 @@ export interface ScrollEvent {
 
 @Injectable()
 export class GanttDomService implements OnDestroy {
+    private ngZone = inject(NgZone);
+    private platformId = inject(PLATFORM_ID);
+
     public root: Element;
 
     public side: Element;
@@ -47,10 +50,7 @@ export class GanttDomService implements OnDestroy {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor(
-        private ngZone: NgZone,
-        @Inject(PLATFORM_ID) private platformId: string
-    ) {}
+    constructor() {}
 
     private disableBrowserWheelEvent() {
         const container = this.mainContainer as HTMLElement;

@@ -4,27 +4,25 @@ import {
     AfterViewChecked,
     AfterViewInit,
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
     Component,
     ContentChild,
     ContentChildren,
     ElementRef,
     EventEmitter,
-    Inject,
     Input,
     NgZone,
     OnChanges,
     OnInit,
     Output,
     QueryList,
-    SimpleChanges,
     TemplateRef,
     ViewChild,
     forwardRef,
-    signal
+    signal,
+    inject
 } from '@angular/core';
 import { Observable, from } from 'rxjs';
-import { finalize, skip, take, takeUntil } from 'rxjs/operators';
+import { finalize, take, takeUntil } from 'rxjs/operators';
 import {
     GanttGroupInternal,
     GanttItem,
@@ -89,6 +87,8 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
     ]
 })
 export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, AfterViewInit, AfterViewChecked {
+    private viewportRuler = inject(ViewportRuler);
+
     @Input() maxLevel = 2;
 
     @Input() async: boolean;
@@ -166,14 +166,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     private draggingItem: GanttItem;
 
-    constructor(
-        elementRef: ElementRef<HTMLElement>,
-        cdr: ChangeDetectorRef,
-        ngZone: NgZone,
-        private viewportRuler: ViewportRuler,
-        @Inject(GANTT_GLOBAL_CONFIG) config: GanttGlobalConfig
-    ) {
-        super(elementRef, cdr, ngZone, config);
+    constructor() {
+        super();
     }
 
     override ngOnInit() {

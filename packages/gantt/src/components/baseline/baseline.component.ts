@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, OnInit, TemplateRef, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttBaselineItemInternal } from '../../class/baseline';
@@ -11,6 +11,9 @@ import { NgTemplateOutlet } from '@angular/common';
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttBaselineComponent implements OnInit {
+    private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     @Input() baselineItem: GanttBaselineItemInternal;
 
     @Input() template: TemplateRef<any>;
@@ -19,10 +22,7 @@ export class NgxGanttBaselineComponent implements OnInit {
 
     @HostBinding('class.gantt-baseline') ganttBaselineClass = true;
 
-    constructor(
-        private elementRef: ElementRef<HTMLElement>,
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper
-    ) {}
+    constructor() {}
 
     ngOnInit() {
         this.baselineItem.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {

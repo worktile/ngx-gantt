@@ -8,7 +8,6 @@ import {
     ElementRef,
     EventEmitter,
     HostBinding,
-    Inject,
     Input,
     OnDestroy,
     OnInit,
@@ -16,7 +15,8 @@ import {
     QueryList,
     TemplateRef,
     ViewChildren,
-    DOCUMENT
+    DOCUMENT,
+    inject
 } from '@angular/core';
 import { auditTime, filter, startWith, Subject, takeUntil } from 'rxjs';
 import {
@@ -42,6 +42,12 @@ import { defaultColumnWidth } from '../header/gantt-table-header.component';
     imports: [CdkDropList, GanttIconComponent, NgTemplateOutlet, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe, IsGanttGroupPipe]
 })
 export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit {
+    gantt = inject<GanttAbstractComponent>(GANTT_ABSTRACT_TOKEN);
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    private cdr = inject(ChangeDetectorRef);
+    private document = inject<Document>(DOCUMENT);
+    protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     private _viewportItems: (GanttGroupInternal | GanttItemInternal)[];
     @Input() set viewportItems(data: (GanttGroupInternal | GanttItemInternal)[]) {
         const firstData = data[0];
@@ -107,13 +113,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     private destroy$ = new Subject<void>();
 
-    constructor(
-        @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        private cdr: ChangeDetectorRef,
-        @Inject(DOCUMENT) private document: Document,
-        protected elementRef: ElementRef<HTMLElement>
-    ) {}
+    constructor() {}
 
     ngOnInit() {
         this.columns.changes.pipe(startWith(this.columns), takeUntil(this.destroy$)).subscribe(() => {

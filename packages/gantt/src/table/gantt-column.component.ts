@@ -1,4 +1,4 @@
-import { Component, ContentChild, TemplateRef, Input, Inject, ElementRef } from '@angular/core';
+import { Component, ContentChild, TemplateRef, Input, ElementRef, inject } from '@angular/core';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 @Component({
@@ -10,6 +10,9 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
     standalone: true
 })
 export class NgxGanttTableColumnComponent {
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    private elementRef = inject(ElementRef);
+
     public columnWidth: string;
 
     @Input()
@@ -25,7 +28,7 @@ export class NgxGanttTableColumnComponent {
 
     @ContentChild('header', { static: true }) headerTemplateRef: TemplateRef<any>;
 
-    constructor(@Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper, private elementRef: ElementRef) {}
+    constructor() {}
 
     get classList(): DOMTokenList {
         return this.elementRef.nativeElement.classList;

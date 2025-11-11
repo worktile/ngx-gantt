@@ -3,14 +3,13 @@ import {
     OnInit,
     NgZone,
     ElementRef,
-    Inject,
     ContentChild,
     TemplateRef,
     Input,
-    Optional,
     OnDestroy,
     ViewChild,
-    HostListener
+    HostListener,
+    inject
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
@@ -48,6 +47,13 @@ import { GanttSyncScrollService } from './gantt-sync-scroll.service';
     ]
 })
 export class NgxGanttRootComponent implements OnInit, OnDestroy {
+    private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    private ngZone = inject(NgZone);
+    private dom = inject(GanttDomService);
+    dragContainer = inject(GanttDragContainer);
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    private printService = inject(GanttPrintService, { optional: true })!;
+
     @Input() sideWidth: number;
 
     @ContentChild('sideTemplate', { static: true }) sideTemplate: TemplateRef<any>;
@@ -72,14 +78,9 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
         this.computeScrollBarOffset();
     }
 
-    constructor(
-        private elementRef: ElementRef<HTMLElement>,
-        private ngZone: NgZone,
-        private dom: GanttDomService,
-        public dragContainer: GanttDragContainer,
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        @Optional() private printService: GanttPrintService
-    ) {
+    constructor() {
+        const dragContainer = this.dragContainer;
+
         this.ganttUpper.dragContainer = dragContainer;
     }
 

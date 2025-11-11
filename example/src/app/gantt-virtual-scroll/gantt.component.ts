@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, AfterViewInit, ChangeDetectorRef, inject } from '@angular/core';
 import {
     GanttItem,
     GanttPrintService,
@@ -19,6 +19,8 @@ import { randomItems, random } from '../helper';
     standalone: false
 })
 export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewInit {
+    private cdr = inject(ChangeDetectorRef);
+
     items: GanttItem[] = [];
 
     @HostBinding('class.gantt-example-component') class = true;
@@ -31,7 +33,7 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
         return true;
     };
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor() {}
 
     ngOnInit(): void {
         // init items children

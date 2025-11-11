@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, inject } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttDragEvent,
@@ -25,6 +25,8 @@ registerView(customViewType, GanttViewCustom);
     standalone: false
 })
 export class AppGanttCustomViewExampleComponent implements OnInit {
+    private thyNotify = inject(ThyNotifyService);
+
     viewType = customViewType;
 
     showWeekend = true;
@@ -75,7 +77,7 @@ export class AppGanttCustomViewExampleComponent implements OnInit {
         return of(children).pipe(delay(1000));
     };
 
-    constructor(private thyNotify: ThyNotifyService) {}
+    constructor() {}
 
     ngOnInit(): void {}
 

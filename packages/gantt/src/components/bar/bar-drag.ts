@@ -1,5 +1,5 @@
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
-import { effect, ElementRef, Injectable, NgZone, OnDestroy, signal, WritableSignal } from '@angular/core';
+import { effect, ElementRef, Injectable, NgZone, OnDestroy, signal, WritableSignal, inject } from '@angular/core';
 import { Subject, animationFrameScheduler, fromEvent, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttViewType } from '../../class';
@@ -37,6 +37,11 @@ function createSvgElement(qualifiedName: string, className: string) {
 
 @Injectable()
 export class GanttBarDrag implements OnDestroy {
+    private dragDrop = inject(DragDrop);
+    private dom = inject(GanttDomService);
+    private dragContainer = inject(GanttDragContainer);
+    private _ngZone = inject(NgZone);
+
     private ganttUpper: GanttUpper;
 
     private barElement: HTMLElement;
@@ -98,12 +103,7 @@ export class GanttBarDrag implements OnDestroy {
     /** Speed ratio for auto scroll */
     private autoScrollSpeedRates = 1;
 
-    constructor(
-        private dragDrop: DragDrop,
-        private dom: GanttDomService,
-        private dragContainer: GanttDragContainer,
-        private _ngZone: NgZone
-    ) {
+    constructor() {
         effect(() => {
             const item: GanttItemInternal = this.item();
             if (item) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnChanges, SimpleChanges, OnDestroy, NgZone, Inject, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, NgZone, ElementRef, inject } from '@angular/core';
 import { Subject, merge } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
@@ -16,6 +16,10 @@ const mainHeight = 5000;
     standalone: true
 })
 export class GanttCalendarGridComponent implements OnInit, OnDestroy {
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    private ngZone = inject(NgZone);
+    private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     get view() {
         return this.ganttUpper.view;
     }
@@ -29,11 +33,7 @@ export class GanttCalendarGridComponent implements OnInit, OnDestroy {
 
     @HostBinding('class') className = `gantt-calendar gantt-calendar-grid`;
 
-    constructor(
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        private ngZone: NgZone,
-        private elementRef: ElementRef<HTMLElement>
-    ) {}
+    constructor() {}
 
     setTodayPoint() {
         const x = this.view.getTodayXPoint();

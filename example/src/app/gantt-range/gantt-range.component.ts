@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, inject } from '@angular/core';
 import { mockItems } from './mocks';
 import {
     GanttBarClickEvent,
@@ -21,6 +21,8 @@ import { delay } from 'rxjs/operators';
     standalone: false
 })
 export class AppGanttRangeExampleComponent implements OnInit {
+    private printService = inject(GanttPrintService);
+
     items = mockItems;
 
     options = {
@@ -37,7 +39,7 @@ export class AppGanttRangeExampleComponent implements OnInit {
 
     @HostBinding('class.gantt-demo') class = true;
 
-    constructor(private printService: GanttPrintService) {}
+    constructor() {}
 
     ngOnInit(): void {}
 
