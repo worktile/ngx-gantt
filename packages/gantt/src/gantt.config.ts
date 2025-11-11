@@ -1,4 +1,4 @@
-import { inject, Inject, InjectionToken } from '@angular/core';
+import { inject, InjectionToken } from '@angular/core';
 import { Locale, setDefaultOptions } from 'date-fns';
 import { GanttLinkLineType, GanttLinkOptions, GanttLinkType } from './class/link';
 import { Injectable } from '@angular/core';
@@ -68,7 +68,9 @@ export class GanttConfigService {
 
     private i18nLocales: Record<GanttI18nLocale, GanttI18nLocaleConfig>;
 
-    constructor(@Inject(GANTT_GLOBAL_CONFIG) globalConfig: GanttGlobalConfig) {
+    constructor() {
+        const globalConfig = inject<GanttGlobalConfig>(GANTT_GLOBAL_CONFIG);
+
         const localeId = globalConfig.locale || defaultConfig.locale;
         this.config = {
             locale: localeId,

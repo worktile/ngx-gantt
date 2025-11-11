@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, OnInit, ViewChild, inject } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttBaselineItem,
@@ -33,6 +33,9 @@ const cacheKeys = 'GANTT_TABLE_KEYS';
     standalone: false
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
+    private printService = inject(GanttPrintService);
+    private thyNotify = inject(ThyNotifyService);
+
     toolbarOptions: GanttToolbarOptions = {
         viewTypes: [
             GanttViewType.hour,
@@ -106,10 +109,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         return true;
     };
 
-    constructor(
-        private printService: GanttPrintService,
-        private thyNotify: ThyNotifyService
-    ) {}
+    constructor() {}
 
     ngOnInit(): void {
         // init items children

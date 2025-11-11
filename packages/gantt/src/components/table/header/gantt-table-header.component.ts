@@ -6,12 +6,12 @@ import {
     Component,
     ElementRef,
     HostBinding,
-    Inject,
     Input,
     OnDestroy,
     OnInit,
     QueryList,
-    ViewChild
+    ViewChild,
+    inject
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
@@ -32,6 +32,10 @@ interface DragFixedConfig {
     imports: [NgTemplateOutlet, CdkDrag, GanttSyncScrollXDirective]
 })
 export class GanttTableHeaderComponent implements OnInit, OnDestroy {
+    private elementRef = inject(ElementRef);
+    gantt = inject<GanttAbstractComponent>(GANTT_ABSTRACT_TOKEN);
+    private cdr = inject(ChangeDetectorRef);
+
     public dragStartLeft: number;
 
     public tableWidth = 0;
@@ -56,11 +60,7 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
         return this.gantt.styles.headerHeight + 'px';
     }
 
-    constructor(
-        private elementRef: ElementRef,
-        @Inject(GANTT_ABSTRACT_TOKEN) public gantt: GanttAbstractComponent,
-        private cdr: ChangeDetectorRef
-    ) {}
+    constructor() {}
 
     ngOnInit() {
         this.columnsChange();

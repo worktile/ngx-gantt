@@ -35,7 +35,7 @@ import { createViewFactory } from './views/factory';
 import { GanttDate, getUnixTime } from './utils/date';
 import { uniqBy, flatten, recursiveItems, getFlatItems, Dictionary, keyBy } from './utils/helpers';
 import { GanttDragContainer } from './gantt-drag-container';
-import { GanttConfigService, GanttGlobalConfig, GanttStyleOptions, defaultConfig } from './gantt.config';
+import { GANTT_GLOBAL_CONFIG, GanttConfigService, GanttGlobalConfig, GanttStyleOptions } from './gantt.config';
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BooleanInput, coerceBooleanProperty, coerceCssPixelValue } from '@angular/cdk/coercion';
@@ -44,6 +44,11 @@ import { NgxGanttTableComponent } from './table/gantt-table.component';
 
 @Directive()
 export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
+    protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    protected cdr = inject(ChangeDetectorRef);
+    protected ngZone = inject(NgZone);
+    protected config = inject<GanttGlobalConfig>(GANTT_GLOBAL_CONFIG);
+
     // eslint-disable-next-line @angular-eslint/no-input-rename
     @Input('items') originItems: GanttItem[] = [];
 
@@ -181,12 +186,7 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @HostBinding('class.gantt') ganttClass = true;
 
-    constructor(
-        protected elementRef: ElementRef<HTMLElement>,
-        protected cdr: ChangeDetectorRef,
-        protected ngZone: NgZone, // @Inject(GANTT_GLOBAL_CONFIG) public config: GanttGlobalConfig
-        protected config: GanttGlobalConfig
-    ) {}
+    constructor() {}
 
     private createView() {
         const viewDate = this.getViewDate();

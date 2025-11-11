@@ -5,14 +5,14 @@ import {
     Output,
     EventEmitter,
     HostBinding,
-    Inject,
     ChangeDetectorRef,
     ElementRef,
     OnDestroy,
     OnChanges,
-    NgZone
+    NgZone,
+    inject
 } from '@angular/core';
-import { empty, EMPTY, merge, NEVER, of, Subject, timer } from 'rxjs';
+import { EMPTY, merge, Subject } from 'rxjs';
 import { takeUntil, skip, debounceTime, switchMap, take } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal } from './../../class/item';
@@ -29,6 +29,12 @@ import { createLineGenerator } from './lines/factory';
     imports: []
 })
 export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    private cdr = inject(ChangeDetectorRef);
+    private elementRef = inject(ElementRef);
+    private ganttDragContainer = inject(GanttDragContainer);
+    private ngZone = inject(NgZone);
+
     // @Input() groups: GanttGroupInternal[] = [];
 
     // @Input() items: GanttItemInternal[] = [];
@@ -53,13 +59,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     @HostBinding('class.gantt-links-overlay') ganttLinksOverlay = true;
 
-    constructor(
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        private cdr: ChangeDetectorRef,
-        private elementRef: ElementRef,
-        private ganttDragContainer: GanttDragContainer,
-        private ngZone: NgZone
-    ) {}
+    constructor() {}
 
     ngOnInit() {
         this.linkLine = createLineGenerator(this.ganttUpper.linkOptions.lineType, this.ganttUpper);

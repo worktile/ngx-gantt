@@ -1,4 +1,4 @@
-import { Component, HostBinding, Inject, Input, TemplateRef, Output, EventEmitter, OnInit, AfterViewInit, NgZone } from '@angular/core';
+import { Component, HostBinding, Input, TemplateRef, Output, EventEmitter, OnInit, NgZone, inject } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent, GanttItem } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttGroupPipe } from '../../gantt.pipe';
@@ -30,6 +30,10 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
     ]
 })
 export class GanttMainComponent implements OnInit {
+    ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    dom = inject(GanttDomService);
+    protected ngZone = inject(NgZone);
+
     @Input() viewportItems: (GanttGroupInternal | GanttItemInternal)[];
 
     @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
@@ -56,11 +60,7 @@ export class GanttMainComponent implements OnInit {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor(
-        @Inject(GANTT_UPPER_TOKEN) public ganttUpper: GanttUpper,
-        public dom: GanttDomService,
-        protected ngZone: NgZone
-    ) {}
+    constructor() {}
 
     ngOnInit(): void {
         const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));

@@ -1,4 +1,4 @@
-import { Input, ElementRef, Inject, TemplateRef, Directive, OnInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Input, ElementRef, TemplateRef, Directive, OnInit, OnChanges, OnDestroy, SimpleChanges, inject } from '@angular/core';
 import { GanttItemInternal, GanttItemType } from './class';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -7,6 +7,9 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
 
 @Directive()
 export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
+    protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    protected ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     @Input() template: TemplateRef<any>;
 
     @Input() item: GanttItemInternal;
@@ -17,7 +20,7 @@ export abstract class GanttItemUpper implements OnChanges, OnInit, OnDestroy {
 
     public refsUnsubscribe$ = new Subject<void>();
 
-    constructor(protected elementRef: ElementRef<HTMLElement>, @Inject(GANTT_UPPER_TOKEN) protected ganttUpper: GanttUpper) {}
+    constructor() {}
 
     ngOnInit() {
         this.firstChange = false;

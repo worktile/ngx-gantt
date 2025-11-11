@@ -5,7 +5,6 @@ import {
     ElementRef,
     OnChanges,
     OnDestroy,
-    Inject,
     ViewChild,
     Output,
     EventEmitter,
@@ -13,7 +12,8 @@ import {
     ViewChildren,
     QueryList,
     NgZone,
-    SimpleChanges
+    SimpleChanges,
+    inject
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -37,6 +37,11 @@ function linearGradient(sideOrCorner: string, color: string, stop: string) {
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+    private dragContainer = inject(GanttDragContainer);
+    private drag = inject(GanttBarDrag);
+    override ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+    private ngZone = inject(NgZone);
+
     @Output() barClick = new EventEmitter<GanttBarClickEvent>();
 
     @ViewChild('content') contentElementRef: ElementRef<HTMLDivElement>;
@@ -45,14 +50,8 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     @ViewChildren('handle') handles: QueryList<ElementRef<HTMLElement>>;
 
-    constructor(
-        private dragContainer: GanttDragContainer,
-        private drag: GanttBarDrag,
-        elementRef: ElementRef<HTMLDivElement>,
-        @Inject(GANTT_UPPER_TOKEN) public override ganttUpper: GanttUpper,
-        private ngZone: NgZone
-    ) {
-        super(elementRef, ganttUpper);
+    constructor() {
+        super();
     }
 
     override ngOnInit() {
