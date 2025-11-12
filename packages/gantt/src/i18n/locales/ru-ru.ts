@@ -1,10 +1,11 @@
 import { ru } from 'date-fns/locale';
+import type { Locale as DateFnsLocale } from 'date-fns';
 import { GanttViewType } from '../../class';
 import { GanttI18nLocale } from '../i18n';
 
 export default {
     id: GanttI18nLocale.ruRu,
-    dateLocale: ru,
+    dateLocale: ru as DateFnsLocale,
     views: {
         [GanttViewType.hour]: {
             label: 'Ежечасно',
