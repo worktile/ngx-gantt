@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [20.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/19.0.7...20.0.0-next.0) (2025-11-18)
+
+### Bug Fixes
+
+- add 404.html for GitHub Pages SPA routing support ([cc3e46e](https://github.com/worktile/ngx-gantt/commit/cc3e46eec9b87cc0974af5b14b3e1b7908ccf04c))
+- add enablement parameter to GitHub Pages deployment workflow ([30f85a5](https://github.com/worktile/ngx-gantt/commit/30f85a5e61bddb37836f6c08a102d33d88ee51fa))
+- ensure buildFlatItems is called on every items change [#568](https://github.com/worktile/ngx-gantt/issues/568) ([90fdff3](https://github.com/worktile/ngx-gantt/commit/90fdff36d48397cf11a677457fa4a39cc0e5bd22))
+- fix github ci ([f0b8797](https://github.com/worktile/ngx-gantt/commit/f0b87975b8e51e70f46e038ceaff12463aa42114))
+- fix lint ([56179b0](https://github.com/worktile/ngx-gantt/commit/56179b07d10d3aae6a4c1b80cd0ab535a6f26553))
+- fix node version ([7f61599](https://github.com/worktile/ngx-gantt/commit/7f61599fecc837f3dfc4bb889a59a871334ce581))
+- fix node version ([e139dd9](https://github.com/worktile/ngx-gantt/commit/e139dd9e2e36f759eb09e8daf9ba4d4f819f6fa4))
+- fix peerDependencies ([25cfc9f](https://github.com/worktile/ngx-gantt/commit/25cfc9fb0cf04bf06dc8a3ec5b9b2d96405405cc))
+- peerDependencies cdk version ([f11c5ca](https://github.com/worktile/ngx-gantt/commit/f11c5ca59b0ad28da990d5e026c4ab7cda648403))
+- peerDependencies version ([519e8c6](https://github.com/worktile/ngx-gantt/commit/519e8c6d175292cc9bacb6b708315c8b9a3a5cea))
+- update expandChange event to emit groups instead of null ([c0f8360](https://github.com/worktile/ngx-gantt/commit/c0f8360dbb68629a1b9ba11497b54d524f5dd578))
+
 ## [19.0.7](https://github.com/worktile/ngx-gantt/compare/19.0.6...19.0.7) (2025-07-31)
 
 ### Bug Fixes
