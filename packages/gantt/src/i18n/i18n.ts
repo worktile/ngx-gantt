@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { Locale as DateFnsLocale } from 'date-fns';
+import type { Locale as DateFnsLocale } from 'date-fns';
 import { GanttViewType } from '../class';
 
 export enum GanttI18nLocale {
