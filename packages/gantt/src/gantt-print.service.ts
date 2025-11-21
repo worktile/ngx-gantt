@@ -44,7 +44,7 @@ export class GanttPrintService {
         this.mainContainer = this.root.getElementsByClassName('gantt-main-container')[0] as HTMLElement;
     }
 
-    async print(name: string = 'download', ignoreElementClass?: string) {
+    async html2canvas(ignoreElementClass?: string) {
         const root = this.root as HTMLElement;
 
         const mainContainer = this.mainContainer as HTMLElement;
@@ -56,7 +56,7 @@ export class GanttPrintService {
 
         const html2canvas = (await import(/* webpackChunkName: 'html2canvas' */ 'html2canvas')).default;
 
-        html2canvas(root, {
+        return html2canvas(root, {
             logging: false,
             allowTaint: true,
             useCORS: true,
@@ -94,7 +94,11 @@ export class GanttPrintService {
                 // setInlineStyles for svg
                 this.setInlineStyles(cloneGanttDom);
             }
-        }).then((canvas: HTMLCanvasElement) => {
+        });
+    }
+
+    async print(name: string = 'download', ignoreElementClass?: string) {
+        this.html2canvas(ignoreElementClass).then((canvas: HTMLCanvasElement) => {
             const link = document.createElement('a');
             const dataUrl = canvas.toDataURL('image/png');
             link.download = `${name}.png`;
