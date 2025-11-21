@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [19.0.8-next.5](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.4...19.0.8-next.5) (2025-11-21)
+
+### Features
+
+- support html2canvas in printService ([d1ba7c4](https://github.com/worktile/ngx-gantt/commit/d1ba7c4ddb7c9087c9457d3cf65c802e330a1146))
+
 ## [19.0.8-next.4](https://github.com/worktile/ngx-gantt/compare/19.0.8-next.3...19.0.8-next.4) (2025-10-22)
 
 ### Bug Fixes
