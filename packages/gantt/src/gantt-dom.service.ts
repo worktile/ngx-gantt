@@ -139,7 +139,7 @@ export class GanttDomService implements OnDestroy {
     getResizeByElement(element: Element) {
         return new Observable((observer) => {
             const resizeObserver = new ResizeObserver(() => {
-                observer.next();
+                observer.next(null);
             });
             resizeObserver.observe(element);
         });
