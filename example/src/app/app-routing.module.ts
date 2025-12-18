@@ -7,6 +7,7 @@ import { AppExampleComponentsComponent } from './components/components.component
 import { AppGanttGroupsExampleComponent } from './gantt-groups/gantt-groups.component';
 import { AppGanttCustomViewExampleComponent } from './gantt-custom-view/gantt.component';
 import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/gantt.component';
+import { AppGanttChildrenRowExampleComponent } from './gantt-children-row/gantt-children-row.component';
 
 const routes: Routes = [
     {
@@ -16,6 +17,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'basic', pathMatch: 'full' },
             { path: 'basic', component: AppGanttExampleComponent },
             { path: 'groups', component: AppGanttGroupsExampleComponent },
+            { path: 'children-row', component: AppGanttChildrenRowExampleComponent },
             { path: 'virtual-scroll', component: AppGanttVirtualScrollExampleComponent },
             { path: 'custom-view', component: AppGanttCustomViewExampleComponent },
             { path: 'advanced', component: AppGanttAdvancedExampleComponent }

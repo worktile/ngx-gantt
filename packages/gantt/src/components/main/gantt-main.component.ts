@@ -11,6 +11,7 @@ import { NgxGanttRootComponent } from './../../root.component';
 import { GanttIconComponent } from '../icon/icon.component';
 import { GanttDomService } from '../../gantt-dom.service';
 import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
+import { recursiveItems } from '../../utils/helpers';
 
 @Component({
     selector: 'gantt-main',
@@ -73,6 +74,18 @@ export class GanttMainComponent implements OnInit {
 
     toItemType(data: GanttItemInternal | GanttGroupInternal) {
         return data as GanttItemInternal;
+    }
+
+    /**
+     * Get all tasks that should be rendered within a single visual row.
+     * In 'tasks' row mode, this returns the `tasks` collection defined on the row item.
+     * In 'single' row mode, this returns only the row item itself.
+     */
+    getRowTasks(data: GanttItemInternal): GanttItemInternal[] {
+        if (this.ganttUpper.rowMode === 'tasks') {
+            return data.tasks || [];
+        }
+        return [data];
     }
 
     trackBy(index: number, item: GanttGroupInternal | GanttItemInternal) {

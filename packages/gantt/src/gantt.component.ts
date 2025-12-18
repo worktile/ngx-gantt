@@ -198,19 +198,30 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
 
     override computeRefs() {
         const tempItemData = [];
+
         this.viewportItems.forEach((data: GanttGroupInternal | GanttItemInternal) => {
             if (!data.hasOwnProperty('items')) {
                 const item = data as GanttItemInternal;
-                if (item.links) {
+
+                // Always include the row item itself.
+                tempItemData.push(item);
+
+                // In children row mode, also compute refs for all tasks attached to this row.
+                if (this.rowMode === 'tasks' && item.tasks && item.tasks.length) {
+                    tempItemData.push(...item.tasks);
+                }
+
+                // Keep link targets visible as before.
+                if (item.links && this.flatItemsMap) {
                     item.links.forEach((link) => {
                         if (this.flatItemsMap[link.link]) {
                             tempItemData.push(this.flatItemsMap[link.link]);
                         }
                     });
                 }
-                tempItemData.push(data);
             }
         });
+
         this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
         this.flatItems = [...this.flatItems];
         this.viewportItems = [...this.viewportItems];
@@ -401,8 +412,11 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, OnChanges, 
                 this.resizeObserver = new ResizeObserver((entries) => {
                     const newWidth = entries[0].target.clientWidth;
                     if (this.tableScrollWidth() !== newWidth) {
-                        this.tableScrollWidth.set(newWidth);
-                        this.cdr.markForCheck();
+                        // Run outside Angular to avoid the NG0600 error
+                        this.ngZone.runOutsideAngular(() => {
+                            this.tableScrollWidth.set(newWidth);
+                            this.cdr.markForCheck();
+                        });
                     }
                 });
                 this.resizeObserver.observe(this.ganttTableBody['elementRef'].nativeElement);

@@ -21,6 +21,12 @@ export class AppExampleComponentsComponent implements OnInit {
             path: 'groups'
         },
         {
+            id: 'children-row',
+            title: '行内任务（children 模式）',
+            subtitle: 'Row children mode',
+            path: 'children-row'
+        },
+        {
             id: 'virtual-scroll',
             title: '虚拟滚动',
             subtitle: 'Virtual Scroll',

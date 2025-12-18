@@ -78,6 +78,13 @@ export abstract class GanttUpper implements OnChanges, OnInit, OnDestroy {
 
     @Input() viewOptions: GanttViewOptions = {};
 
+    /**
+     * Define how tasks are displayed in each row.
+     * - 'single': current behaviour, one item (bar/range/custom) per row.
+     * - 'children': use the item's children as the tasks for that row.
+     */
+    @Input() rowMode: 'single' | 'tasks' = 'single';
+
     @Input() set linkOptions(options: GanttLinkOptions) {
         this._linkOptions = options;
     }

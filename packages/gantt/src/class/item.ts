@@ -30,7 +30,15 @@ export interface GanttItem<T = unknown> {
     linkable?: boolean;
     expandable?: boolean;
     expanded?: boolean;
+    /**
+     * Hierarchical child rows for tree display in the table and main area.
+     */
     children?: GanttItem[];
+    /**
+     * Optional tasks rendered within the same visual row (used when rowMode === 'tasks').
+     * This allows keeping `children` for nested rows while still showing multiple bars in a row.
+     */
+    tasks?: GanttItem[];
     color?: string;
     barStyle?: Partial<CSSStyleDeclaration>;
     laneStyle?: Partial<CSSStyleDeclaration>;
@@ -56,6 +64,7 @@ export class GanttItemInternal {
     expanded?: boolean;
     loading: boolean;
     children: GanttItemInternal[];
+    tasks: GanttItemInternal[] = [];
     type?: GanttItemType;
     progress?: number;
     viewType?: GanttViewType;
@@ -95,9 +104,8 @@ export class GanttItemInternal {
         this.start = item.start ? new GanttDate(item.start) : null;
         this.end = item.end ? new GanttDate(item.end) : null;
         this.level = level;
-        this.children = (item.children || []).map((subItem) => {
-            return new GanttItemInternal(subItem, level + 1, view);
-        });
+        this.children = (item.children || []).map((subItem) => new GanttItemInternal(subItem, level + 1, view));
+        this.tasks = (item.tasks || []).map((task) => new GanttItemInternal(task, level + 1, view));
         this.type = this.origin.type || GanttItemType.bar;
         this.progress = this.origin.progress;
         this.fillDateWhenStartOrEndIsNil(item);

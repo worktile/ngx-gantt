@@ -1,0 +1,39 @@
+<thy-layout>
+  <thy-header>
+    <ng-template #headerContent>
+      <thy-button-group thySize="sm" thyType="outline-default">
+        <button
+          thyButton
+          *ngFor="let view of [GanttViewType.day, GanttViewType.week, GanttViewType.month]"
+          [class.active]="view === viewType"
+          (click)="viewType = view"
+        >
+          {{ view }}
+        </button>
+      </thy-button-group>
+      &nbsp;&nbsp;&nbsp;
+      <thy-button thySize="sm" (click)="toggleRowMode()"> Row Mode: {{ rowMode }} </thy-button>
+    </ng-template>
+    <ng-template #headerOperation>
+      <a href="https://github.com/worktile/ngx-gantt" target="_blank">View Docs</a>
+    </ng-template>
+  </thy-header>
+  <thy-content>
+    <ngx-gantt [items]="items" [viewType]="viewType" [rowMode]="rowMode" [draggable]="true">
+      <ngx-gantt-table>
+        <ngx-gantt-column name="Row" width="200px">
+          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+        </ngx-gantt-column>
+        <ngx-gantt-column name="Tasks in row" width="140px">
+          <ng-template #cell let-item="item"> {{ item.tasks?.length || 0 }} </ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
+
+      <ng-template #bar let-item="item">
+        <div class="text-white d-flex align-items-center h-100 px-2">
+          {{ item.title }}
+        </div>
+      </ng-template>
+    </ngx-gantt>
+  </thy-content>
+</thy-layout>

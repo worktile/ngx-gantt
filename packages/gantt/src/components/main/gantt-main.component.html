@@ -26,14 +26,29 @@
           </ng-template>
         }
         @if ((data.type | isGanttRangeItem) || (data.type | isGanttBarItem)) {
-          @if (data.type | isGanttRangeItem) {
-            <gantt-range [template]="rangeTemplate" [item]="data"></gantt-range>
+          @if (ganttUpper.rowMode === 'tasks') {
+            @for (task of getRowTasks(data); track trackBy($index, task)) {
+              @if (task.type | isGanttRangeItem) {
+                <gantt-range [template]="rangeTemplate" [item]="task"></gantt-range>
+              }
+              @if (task.type | isGanttBarItem) {
+                <gantt-bar [item]="task" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
+              }
+              @if (ganttUpper.baselineItemsMap[task.id]) {
+                <gantt-baseline [baselineItem]="ganttUpper.baselineItemsMap[task.id]" [template]="baselineTemplate"></gantt-baseline>
+              }
+            }
           }
-          @if (data.type | isGanttBarItem) {
-            <gantt-bar [item]="data" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
-          }
-          @if (ganttUpper.baselineItemsMap[data.id]) {
-            <gantt-baseline [baselineItem]="ganttUpper.baselineItemsMap[data.id]" [template]="baselineTemplate"></gantt-baseline>
+          @if (ganttUpper.rowMode === 'single') {
+            @if (data.type | isGanttRangeItem) {
+              <gantt-range [template]="rangeTemplate" [item]="data"></gantt-range>
+            }
+            @if (data.type | isGanttBarItem) {
+              <gantt-bar [item]="data" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
+            }
+            @if (ganttUpper.baselineItemsMap[data.id]) {
+              <gantt-baseline [baselineItem]="ganttUpper.baselineItemsMap[data.id]" [template]="baselineTemplate"></gantt-baseline>
+            }
           }
         }
       </div>
