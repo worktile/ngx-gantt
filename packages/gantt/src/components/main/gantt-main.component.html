@@ -25,7 +25,7 @@
           >
           </ng-template>
         }
-        @if ((data.type | isGanttRangeItem) || (data.type | isGanttBarItem)) {
+        @if ((data.type | isGanttRangeItem) || (data.type | isGanttBarItem) || (ganttUpper.rowMode === 'tasks' && data.tasks?.length)) {
           @if (ganttUpper.rowMode === 'tasks') {
             @for (task of getRowTasks(data); track trackBy($index, task)) {
               @if (task.type | isGanttRangeItem) {

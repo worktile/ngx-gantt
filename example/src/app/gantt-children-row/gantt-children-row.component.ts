@@ -47,23 +47,14 @@ export class AppGanttChildrenRowExampleComponent implements OnInit {
                 expanded: true,
                 children: [
                     {
-                        id: 'frontend-0',
-                        title: 'Frontend 0 !',
-                        expandable: true,
-                        expanded: true,
-                        children: [
-                            {
-                                id: 'frontend-0-0',
-                                title: 'Frontend 0 ! 0 !',
-                                expandable: true,
-                                expanded: true
-                            }
-                        ],
-                        tasks: [
-                            makeTask('fe-design', 'Design', -12, 8),
-                            makeTask('fe-build', 'Build', -4, 18),
-                            makeTask('fe-qa', 'QA & fixes', 10, 8)
-                        ]
+                        id: 'frontend-design',
+                        title: 'Design Phase',
+                        tasks: [makeTask('fe-design-1', 'UI Design', -14, 8), makeTask('fe-design-2', 'UX Review', -6, 4)]
+                    },
+                    {
+                        id: 'frontend-dev',
+                        title: 'Development',
+                        tasks: [makeTask('fe-dev-1', 'Components', -4, 12), makeTask('fe-dev-2', 'Integration', 8, 8)]
                     }
                 ],
                 tasks: [
