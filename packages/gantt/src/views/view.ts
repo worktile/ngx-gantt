@@ -149,17 +149,6 @@ export abstract class GanttView {
         }
     }
 
-    differenceByPrecisionUnit(dateLeft: GanttDate, dateRight: GanttDate) {
-        switch (this.options.datePrecisionUnit) {
-            case 'minute':
-                return differenceInMinutes(dateLeft.value, dateRight.value);
-            case 'hour':
-                return differenceInHours(dateLeft.value, dateRight.value);
-            default:
-                return differenceInCalendarDays(dateLeft.value, dateRight.value);
-        }
-    }
-
     getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const days = differenceInDays(end.value, start.value);
@@ -267,5 +256,22 @@ export abstract class GanttView {
             default:
                 return this.getDayOccupancyWidth(date);
         }
+    }
+
+    // 获取两个日期在当前可见时间轴上的索引差值
+    getVisibleDateIndexOffset(start: GanttDate, end: GanttDate): number {
+        switch (this.options.datePrecisionUnit) {
+            case 'minute':
+                return differenceInMinutes(end.value, start.value);
+            case 'hour':
+                return differenceInHours(end.value, start.value);
+            default:
+                return differenceInCalendarDays(end.value, start.value);
+        }
+    }
+
+    // 根据基准日期和索引偏移量，获取新的日期
+    getDateByIndexOffset(baseDate: GanttDate, indexOffset: number): GanttDate {
+        return baseDate.add(indexOffset, this.options.datePrecisionUnit);
     }
 }

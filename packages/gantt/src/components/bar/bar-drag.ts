@@ -168,6 +168,10 @@ export class GanttBarDrag implements OnDestroy {
         dragRef.withBoundaryElement(this.dom.mainItems as HTMLElement);
         dragRef.started.subscribe(() => {
             this.setDraggingStyles();
+            dragRef.data = {
+                start: this.item().start,
+                end: this.item().end
+            };
             this.containerScrollLeft = this.dom.mainContainer.scrollLeft;
             this.createDragScrollEvent(dragRef).subscribe(() => {
                 if (dragRef.isDragging()) {
@@ -192,6 +196,7 @@ export class GanttBarDrag implements OnDestroy {
             this.clearDraggingStyles();
             this.closeDragBackdrop();
             event.source.reset();
+            event.source.data = null;
             this.stopScrolling();
             this.dragScrolling = false;
             this.dragScrollDistance = 0;
@@ -375,22 +380,25 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private barDragMove() {
+        const { start: originStart, end: originEnd } = this.barDragRef.data;
+
+        // 获取原始开始和结束日期在当前可见时间轴上的索引差值,用于计算新的结束日期
+        const indexOffset = this.ganttUpper.view.getVisibleDateIndexOffset(originStart, originEnd);
+
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
         const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
         const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
-        const currentEndDate = this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width);
-
-        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(currentEndDate, currentDate);
 
         let start = currentDate;
-        let end = currentDate.add(diffs, this.ganttUpper.view?.options?.datePrecisionUnit);
+        // 根据索引差值计算新的结束日期
+        let end = this.ganttUpper.view.getDateByIndexOffset(currentDate, indexOffset);
 
         // 日视图特殊逻辑处理
         if (this.ganttUpper.view.viewType === GanttViewType.day) {
             const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
             if (currentX > currentStartX + dayWidth / 2) {
-                start = start.addDays(1);
-                end = end.addDays(1);
+                start = this.ganttUpper.view.getDateByIndexOffset(start, 1);
+                end = this.ganttUpper.view.getDateByIndexOffset(end, 1);
             }
         }
 
@@ -399,11 +407,7 @@ export class GanttBarDrag implements OnDestroy {
             this.barElement.style.left = left + 'px';
         }
 
-        this.openDragBackdrop(
-            this.barElement,
-            this.ganttUpper.view.getDateByXPoint(currentX),
-            this.ganttUpper.view.getDateByXPoint(currentX + this.item().refs.width)
-        );
+        this.openDragBackdrop(this.barElement, start, end);
 
         if (!this.isStartOrEndInsideView(start, end)) {
             return;
@@ -415,7 +419,7 @@ export class GanttBarDrag implements OnDestroy {
     private barBeforeHandleDragMove() {
         const { x, start, minRangeWidthWidth } = this.startOfBarHandle();
         const width = this.item().refs.width + this.barHandleDragMoveAndScrollDistance * -1;
-        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(this.item().end, start);
+        const diffs = this.ganttUpper.view.getVisibleDateIndexOffset(start, this.item().end);
 
         if (width > dragMinWidth && diffs > 0) {
             this.barElement.style.width = width + 'px';
@@ -443,9 +447,9 @@ export class GanttBarDrag implements OnDestroy {
 
     private barAfterHandleDragMove() {
         const { width, end } = this.endOfBarHandle();
-        const diffs = this.ganttUpper.view.differenceByPrecisionUnit(end, this.item().start);
+        const offset = this.ganttUpper.view.getVisibleDateIndexOffset(this.item().start, end);
 
-        if (width > dragMinWidth && diffs > 0) {
+        if (width > dragMinWidth && offset > 0) {
             this.barElement.style.width = width + 'px';
             this.openDragBackdrop(this.barElement, this.item().start, end);
             if (!this.isStartOrEndInsideView(this.item().start, end)) {
@@ -453,14 +457,14 @@ export class GanttBarDrag implements OnDestroy {
             }
             this.updateItemDate(this.item().start, end);
         } else {
-            if (this.barHandleDragMoveRecordDiffs > 0 && diffs <= 0) {
+            if (this.barHandleDragMoveRecordDiffs > 0 && offset <= 0) {
                 const minRangeWidth = this.ganttUpper.view.getMinRangeWidthByPrecisionUnit(this.item().start);
                 this.barElement.style.width = minRangeWidth + 'px';
             }
             this.openDragBackdrop(this.barElement, this.item().start, this.item().start);
             this.updateItemDate(this.item().start, this.item().start);
         }
-        this.barHandleDragMoveRecordDiffs = diffs;
+        this.barHandleDragMoveRecordDiffs = offset;
         this.dragContainer.dragMoved.emit({ item: this.item().origin });
     }
 

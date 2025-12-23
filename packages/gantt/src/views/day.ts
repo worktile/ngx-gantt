@@ -1,7 +1,7 @@
 import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { zhHantLocale } from '../i18n';
-import { eachDayOfInterval, eachWeekOfInterval, GanttDate } from '../utils/date';
+import { differenceInCalendarDays, eachDayOfInterval, eachWeekOfInterval, GanttDate } from '../utils/date';
 import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
 
 const viewOptions: GanttViewOptions = {
@@ -84,5 +84,31 @@ export class GanttViewDay extends GanttView {
             points.push(point);
         }
         return points;
+    }
+
+    // 获取两个日期在当前可见时间轴上的索引差值
+    override getVisibleDateIndexOffset(start: GanttDate, end: GanttDate): number {
+        const startTime = this.startOfPrecision(start).value;
+        const endTime = this.startOfPrecision(end).value;
+
+        const startIndex = this.secondaryDatePoints.findIndex((p) => p.start.value >= startTime);
+        const endIndex = this.secondaryDatePoints.findIndex((p) => p.start.value >= endTime);
+
+        if (startIndex !== -1 && endIndex !== -1) {
+            return endIndex - startIndex;
+        }
+        return differenceInCalendarDays(endTime, startTime);
+    }
+
+    // 根据基准日期和索引偏移量，获取新的日期
+    override getDateByIndexOffset(baseDate: GanttDate, indexOffset: number): GanttDate {
+        const baseTime = this.startOfPrecision(baseDate).value;
+        const baseIndex = this.secondaryDatePoints.findIndex((p) => p.start.value >= baseTime);
+        if (baseIndex !== -1) {
+            const targetIndex = baseIndex + indexOffset;
+            const safeIndex = Math.max(0, Math.min(targetIndex, this.secondaryDatePoints.length - 1));
+            return this.secondaryDatePoints[safeIndex].start;
+        }
+        return baseDate.addDays(indexOffset);
     }
 }
