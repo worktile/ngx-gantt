@@ -4,7 +4,6 @@ import { GanttViewType } from '../class';
 import { GanttDatePoint } from '../class/date-point';
 import { GanttDateFormat } from '../gantt.config';
 import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
-import { zhHansLocale } from '../i18n';
 
 export const primaryDatePointTop = '40%';
 
@@ -28,6 +27,10 @@ export interface GanttViewOptions {
     dateDisplayFormats?: { primary?: string; secondary?: string };
     datePrecisionUnit?: 'day' | 'hour' | 'minute';
     dragPreviewDateFormat?: string;
+    hoilday?: {
+        isHoliday: (GanttDate) => boolean;
+        hideHoliday: boolean;
+    };
     // custom key and value
     [key: string]: any;
 }
@@ -120,6 +123,10 @@ export abstract class GanttView {
     // 获取二级时间点（坐标，显示名称）
     abstract getSecondaryDatePoints(): GanttDatePoint[];
 
+    protected hideHoliday(date: GanttDate): boolean {
+        return this.options.hoilday?.hideHoliday && this.options.hoilday?.isHoliday?.(date);
+    }
+
     startOfPrecision(date: GanttDate) {
         switch (this.options.datePrecisionUnit) {
             case 'minute':
@@ -142,17 +149,6 @@ export abstract class GanttView {
         }
     }
 
-    differenceByPrecisionUnit(dateLeft: GanttDate, dateRight: GanttDate) {
-        switch (this.options.datePrecisionUnit) {
-            case 'minute':
-                return differenceInMinutes(dateLeft.value, dateRight.value);
-            case 'hour':
-                return differenceInHours(dateLeft.value, dateRight.value);
-            default:
-                return differenceInCalendarDays(dateLeft.value, dateRight.value);
-        }
-    }
-
     getDateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const days = differenceInDays(end.value, start.value);
@@ -164,10 +160,10 @@ export abstract class GanttView {
     }
 
     protected initialize() {
+        this.cellWidth = this.getCellWidth();
         this.primaryDatePoints = this.getPrimaryDatePoints();
         this.secondaryDatePoints = this.getSecondaryDatePoints();
         this.width = this.getWidth();
-        this.cellWidth = this.getCellWidth();
         this.primaryWidth = this.getPrimaryWidth();
     }
 
@@ -260,5 +256,22 @@ export abstract class GanttView {
             default:
                 return this.getDayOccupancyWidth(date);
         }
+    }
+
+    // 获取两个日期在当前可见时间轴上的索引差值
+    getVisibleDateIndexOffset(start: GanttDate, end: GanttDate): number {
+        switch (this.options.datePrecisionUnit) {
+            case 'minute':
+                return differenceInMinutes(end.value, start.value);
+            case 'hour':
+                return differenceInHours(end.value, start.value);
+            default:
+                return differenceInCalendarDays(end.value, start.value);
+        }
+    }
+
+    // 根据基准日期和索引偏移量，获取新的日期
+    getDateByIndexOffset(baseDate: GanttDate, indexOffset: number): GanttDate {
+        return baseDate.add(indexOffset, this.options.datePrecisionUnit);
     }
 }
