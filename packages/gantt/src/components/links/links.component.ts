@@ -145,7 +145,7 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
         this.flatItems.forEach((item, itemIndex) => {
             if (!item.hasOwnProperty('items')) {
                 const ganttItem = item as GanttItemInternal;
-                if (ganttItem.refs) {
+                if (ganttItem.refs && ganttItem.refs.width > 0) {
                     const y = itemIndex * lineHeight + ganttItem.refs.y + barHeight / 2;
                     this.linkItems.push({
                         ...ganttItem,
