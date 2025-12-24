@@ -1,24 +1,6 @@
 {
-  "compileOnSave": false,
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "declaration": false,
-    "noImplicitOverride": true,
-    "experimentalDecorators": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "importHelpers": true,
-    "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
     "paths": {
       "ngx-gantt": [
         "packages/gantt/src/public-api.ts"
@@ -26,12 +8,6 @@
       "ngx-gantt/*": [
         "packages/gantt/src/*"
       ]
-    },
-    "useDefineForClassFields": false
-  },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true,
-    "skipLibCheck": true
+    }
   }
 }
