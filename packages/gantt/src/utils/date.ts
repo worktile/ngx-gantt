@@ -32,7 +32,7 @@ import {
     endOfMinute,
     Locale
 } from 'date-fns';
-import type { FirstWeekContainsDate } from 'date-fns/types';
+import type { FirstWeekContainsDate } from 'date-fns';
 import { TZDate } from '@date-fns/tz';
 
 export {
