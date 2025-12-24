@@ -1,5 +1,5 @@
 <div class="gantt-calendar-today-overlay" [style.width.px]="view.width">
-  @if (ganttUpper.showTodayLine) {
+  @if (ganttUpper.showTodayLine()) {
     <span class="today-line"> </span>
   }
 </div>
@@ -13,7 +13,7 @@
   </g>
 </svg>
 
-<svg class="gantt-calendar-grid-main" [attr.width]="view.width" [attr.height]="ganttUpper.styles.headerHeight - 1">
+<svg class="gantt-calendar-grid-main" [attr.width]="view.width" [attr.height]="ganttUpper.fullStyles().headerHeight - 1">
   <g>
     @if (view.showTimeline) {
       <g>

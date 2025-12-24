@@ -3,12 +3,12 @@ import {
     OnInit,
     NgZone,
     ElementRef,
-    ContentChild,
     TemplateRef,
-    Input,
     OnDestroy,
-    ViewChild,
     HostListener,
+    input,
+    contentChild,
+    viewChild,
     inject
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
@@ -27,6 +27,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
 import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
 import { GanttSyncScrollService } from './gantt-sync-scroll.service';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'ngx-gantt-root',
@@ -48,20 +49,25 @@ import { GanttSyncScrollService } from './gantt-sync-scroll.service';
 })
 export class NgxGanttRootComponent implements OnInit, OnDestroy {
     private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     private ngZone = inject(NgZone);
+
     private dom = inject(GanttDomService);
+
     dragContainer = inject(GanttDragContainer);
+
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     private printService = inject(GanttPrintService, { optional: true })!;
 
-    @Input() sideWidth: number;
+    readonly sideWidth = input<number>(undefined);
 
-    @ContentChild('sideTemplate', { static: true }) sideTemplate: TemplateRef<any>;
+    readonly sideTemplate = contentChild<TemplateRef<any>>('sideTemplate');
 
-    @ContentChild('mainTemplate', { static: true }) mainTemplate: TemplateRef<any>;
+    readonly mainTemplate = contentChild<TemplateRef<any>>('mainTemplate');
 
     /** The native `<gantt-drag-backdrop></gantt-drag-backdrop>` element. */
-    @ViewChild(GanttDragBackdropComponent, { static: true, read: ElementRef }) backdrop: ElementRef<HTMLElement>;
+    readonly backdrop = viewChild(GanttDragBackdropComponent, { read: ElementRef });
 
     verticalScrollbarWidth = 0;
 
@@ -80,7 +86,6 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
 
     constructor() {
         const dragContainer = this.dragContainer;
-
         this.ganttUpper.dragContainer = dragContainer;
     }
 
@@ -102,9 +107,11 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
                 this.setupViewScroll();
                 // 优化初始化时Scroll滚动体验问题，通过透明度解决，默认透明度为0，滚动结束后恢复
                 this.elementRef.nativeElement.style.opacity = '1';
-                this.ganttUpper.viewChange.pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$)).subscribe(() => {
-                    this.scrollToToday();
-                });
+                outputToObservable(this.ganttUpper.viewChange)
+                    .pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$))
+                    .subscribe(() => {
+                        this.scrollToToday();
+                    });
                 this.computeScrollBarOffset();
             });
         });
@@ -130,7 +137,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     }
 
     private setupViewScroll() {
-        if (this.ganttUpper.disabledLoadOnScroll && !this.ganttUpper.quickTimeFocus) {
+        if (this.ganttUpper.disableLoadOnScroll() && !this.ganttUpper.quickTimeFocus()) {
             return;
         }
         this.dom

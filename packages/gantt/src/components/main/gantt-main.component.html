@@ -1,21 +1,21 @@
-<gantt-links-overlay [flatItems]="flatItems" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
+<gantt-links-overlay [flatItems]="flatItems()" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
 <div class="gantt-main-groups" [style.width.px]="ganttUpper.view.width">
-  @for (data of viewportItems; track trackBy($index, data)) {
+  @for (data of viewportItems(); track trackBy($index, data)) {
     @if (data | isGanttGroup) {
-      <div class="gantt-group" [style.height.px]="ganttUpper.styles.lineHeight" [ngClass]="data.class">
-        <ng-template [ngTemplateOutlet]="groupHeaderTemplate" [ngTemplateOutletContext]="{ group: data }"></ng-template>
+      <div class="gantt-group" [style.height.px]="ganttUpper.fullStyles().lineHeight" [ngClass]="data.class">
+        <ng-template [ngTemplateOutlet]="groupHeaderTemplate()" [ngTemplateOutletContext]="{ group: data }"></ng-template>
       </div>
     }
     @if (!(data | isGanttGroup)) {
       <div
         class="gantt-item"
-        [style.height.px]="ganttUpper.styles.lineHeight"
+        [style.height.px]="ganttUpper.fullStyles().lineHeight"
         [style]="data.laneStyle"
         [class.gantt-main-item-active]="ganttUpper.isSelected(data.id)"
       >
         @if (data.type | isGanttCustomItem) {
           <ng-template
-            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutlet]="itemTemplate()"
             [ngTemplateOutletContext]="{
               item: data.origin,
               refs: data.refs,
@@ -27,13 +27,13 @@
         }
         @if ((data.type | isGanttRangeItem) || (data.type | isGanttBarItem)) {
           @if (data.type | isGanttRangeItem) {
-            <gantt-range [template]="rangeTemplate" [item]="data"></gantt-range>
+            <gantt-range [template]="rangeTemplate()" [item]="data"></gantt-range>
           }
           @if (data.type | isGanttBarItem) {
-            <gantt-bar [item]="data" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
+            <gantt-bar [item]="data" [template]="barTemplate()" (barClick)="barClick.emit($event)"></gantt-bar>
           }
           @if (ganttUpper.baselineItemsMap[data.id]) {
-            <gantt-baseline [baselineItem]="ganttUpper.baselineItemsMap[data.id]" [template]="baselineTemplate"></gantt-baseline>
+            <gantt-baseline [baselineItem]="ganttUpper.baselineItemsMap[data.id]" [template]="baselineTemplate()"></gantt-baseline>
           }
         }
       </div>
@@ -41,12 +41,12 @@
   }
 </div>
 
-@if (quickTimeFocus) {
+@if (quickTimeFocus()) {
   <div class="gantt-quick-time-focus-container" [style.width.px]="ganttUpper.view.width">
     <div class="gantt-quick-time-focus" [style.width.px]="dom.visibleRangeX().max - dom.visibleRangeX().min">
-      @for (data of viewportItems; track trackBy(i, data); let i = $index) {
+      @for (data of viewportItems(); track trackBy(i, data); let i = $index) {
         @let item = toItemType(data);
-        <div class="gantt-quick-time-focus-item" [style.height.px]="ganttUpper.styles.lineHeight">
+        <div class="gantt-quick-time-focus-item" [style.height.px]="ganttUpper.fullStyles().lineHeight">
           <span class="ml-2">
             @if (item.refs?.x < dom.visibleRangeX().min && item.refs?.width) {
               <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(item.origin, 'left')">

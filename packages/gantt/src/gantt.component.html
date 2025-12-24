@@ -1,6 +1,6 @@
 <ngx-gantt-root #ganttRoot>
   <div class="gantt-header">
-    <gantt-table-header #tableHeader [columns]="columns"></gantt-table-header>
+    <gantt-table-header #tableHeader [columns]="columns()"></gantt-table-header>
     <div class="gantt-container-header">
       <gantt-calendar-header
         syncScrollX="ganttMainXScroll"
@@ -8,21 +8,21 @@
       ></gantt-calendar-header>
     </div>
   </div>
-  @if (loading) {
+  @if (realLoading) {
     <gantt-loader></gantt-loader>
   }
 
   <cdk-virtual-scroll-viewport
     class="gantt-virtual-scroll-viewport"
     [ngClass]="{
-      'gantt-normal-viewport': !virtualScrollEnabled,
-      'gantt-scroll-container': virtualScrollEnabled,
-      'with-footer': table?.tableFooterTemplate || footerTemplate
+      'gantt-normal-viewport': !virtualScrollEnabled(),
+      'gantt-scroll-container': virtualScrollEnabled(),
+      'with-footer': table()?.tableFooterTemplate() || footerTemplate()
     }"
-    [style.top.px]="styles.headerHeight"
-    [itemSize]="styles.lineHeight"
-    [minBufferPx]="styles.lineHeight * 10"
-    [maxBufferPx]="styles.lineHeight * 20"
+    [style.top.px]="fullStyles().headerHeight"
+    [itemSize]="fullStyles().lineHeight"
+    [minBufferPx]="fullStyles().lineHeight * 10"
+    [maxBufferPx]="fullStyles().lineHeight * 20"
     (scrolledIndexChange)="scrolledIndexChange($event)"
   >
     <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>
@@ -33,14 +33,14 @@
             #ganttTableBody
             [flatItems]="flatItems"
             [viewportItems]="viewportItems"
-            [columns]="columns"
-            [groupTemplate]="groupTemplate"
-            [emptyTemplate]="table.tableEmptyTemplate || tableEmptyTemplate"
-            [rowBeforeTemplate]="table?.rowBeforeTemplate"
-            [rowAfterTemplate]="table?.rowAfterTemplate"
-            [draggable]="table.draggable"
-            [dropEnterPredicate]="table.dropEnterPredicate"
-            (dragDropped)="table.dragDropped.emit($event)"
+            [columns]="columns()"
+            [groupTemplate]="groupTemplate()"
+            [emptyTemplate]="table().tableEmptyTemplate() || tableEmptyTemplate()"
+            [rowBeforeTemplate]="table()?.rowBeforeTemplate()"
+            [rowAfterTemplate]="table()?.rowAfterTemplate()"
+            [draggable]="table().draggable()"
+            [dropEnterPredicate]="table().dropEnterPredicate()"
+            (dragDropped)="table().dragDropped.emit($event)"
             (dragStarted)="itemDragStarted($event)"
             (dragEnded)="itemDragEnded($event)"
             (itemClick)="selectItem($event)"
@@ -62,12 +62,12 @@
           [ganttRoot]="ganttRoot"
           [flatItems]="flatItems"
           [viewportItems]="viewportItems"
-          [groupHeaderTemplate]="groupHeaderTemplate"
-          [itemTemplate]="itemTemplate"
-          [barTemplate]="barTemplate"
-          [rangeTemplate]="rangeTemplate"
-          [baselineTemplate]="baselineTemplate"
-          [quickTimeFocus]="quickTimeFocus"
+          [groupHeaderTemplate]="groupHeaderTemplate()"
+          [itemTemplate]="itemTemplate()"
+          [barTemplate]="barTemplate()"
+          [rangeTemplate]="rangeTemplate()"
+          [baselineTemplate]="baselineTemplate()"
+          [quickTimeFocus]="quickTimeFocus()"
           (barClick)="barClick.emit($event)"
           (lineClick)="lineClick.emit($event)"
         >
@@ -80,26 +80,27 @@
 
   <gantt-scrollbar
     [ganttRoot]="ganttRoot"
-    [hasFooter]="!!table?.tableFooterTemplate"
+    [hasFooter]="!!table()?.tableFooterTemplate()"
     [tableWidth]="tableHeader.tableWidth"
     [tableScrollWidth]="tableScrollWidth()"
   ></gantt-scrollbar>
 
-  @if (table?.tableFooterTemplate || footerTemplate) {
+  @if (table()?.tableFooterTemplate() || footerTemplate()) {
     <div
       class="gantt-footer"
       cdkScrollable
       [style.right.px]="ganttRoot.verticalScrollbarWidth"
       [style.bottom.px]="ganttRoot.horizontalScrollbarHeight"
     >
-      @if (table?.tableFooterTemplate) {
+      @if (table()?.tableFooterTemplate()) {
         <div class="gantt-table-footer" syncScrollX="ganttTableXScroll" [style.width.px]="tableHeader.tableWidth + 1">
-          <ng-template [ngTemplateOutlet]="table?.tableFooterTemplate" [ngTemplateOutletContext]="{ columns: columns }"> </ng-template>
+          <ng-template [ngTemplateOutlet]="table()?.tableFooterTemplate()" [ngTemplateOutletContext]="{ columns: columns() }">
+          </ng-template>
         </div>
       }
-      @if (footerTemplate) {
+      @if (footerTemplate()) {
         <div class="gantt-container-footer" syncScrollX="ganttMainXScroll">
-          <ng-template [ngTemplateOutlet]="footerTemplate"> </ng-template>
+          <ng-template [ngTemplateOutlet]="footerTemplate()"> </ng-template>
         </div>
       }
     </div>

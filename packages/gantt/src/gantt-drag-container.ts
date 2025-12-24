@@ -79,7 +79,7 @@ export class GanttDragContainer {
     emitLinkDragEnded(to?: LinkDragPosition) {
         if (to) {
             this.linkDragPath.to = to;
-            const dependencyType = getDependencyType(this.linkDragPath, this.ganttUpper.linkOptions?.dependencyTypes);
+            const dependencyType = getDependencyType(this.linkDragPath, this.ganttUpper.fullLinkOptions()?.dependencyTypes);
             this.linkDragPath.from.item.addLink({
                 link: this.linkDragPath.to.item.id,
                 type: dependencyType

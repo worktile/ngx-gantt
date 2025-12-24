@@ -1,4 +1,4 @@
-import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, TemplateRef, contentChild, input, output } from '@angular/core';
 import {
     GanttTableDragDroppedEvent,
     GanttTableDragEndedEvent,
@@ -14,33 +14,33 @@ import {
     standalone: true
 })
 export class NgxGanttTableComponent {
-    @Input() draggable = false;
+    readonly draggable = input(false);
 
-    @Input() maxWidth: number;
+    readonly maxWidth = input<number>(undefined);
 
-    @Input() width: number;
+    readonly width = input<number>(undefined);
 
-    @Input() dropEnterPredicate?: (context: GanttTableDragEnterPredicateContext) => boolean;
+    readonly dropEnterPredicate = input<(context: GanttTableDragEnterPredicateContext) => boolean>(undefined);
 
-    @Output() dragDropped = new EventEmitter<GanttTableDragDroppedEvent>();
+    readonly dragDropped = output<GanttTableDragDroppedEvent>();
 
-    @Output() dragStarted = new EventEmitter<GanttTableDragStartedEvent>();
+    readonly dragStarted = output<GanttTableDragStartedEvent>();
 
-    @Output() dragEnded = new EventEmitter<GanttTableDragEndedEvent>();
+    readonly dragEnded = output<GanttTableDragEndedEvent>();
 
-    @Output() columnChanges = new EventEmitter<GanttTableEvent>();
+    readonly columnChanges = output<GanttTableEvent>();
 
-    @Output() resizeChange = new EventEmitter<number>();
+    readonly resizeChange = output<number>();
 
-    @Output() itemClick = new EventEmitter<GanttTableItemClickEvent>();
+    readonly itemClick = output<GanttTableItemClickEvent>();
 
-    @ContentChild('rowBeforeSlot', { static: true }) rowBeforeTemplate: TemplateRef<any>;
+    readonly rowBeforeTemplate = contentChild<TemplateRef<any>>('rowBeforeSlot');
 
-    @ContentChild('rowAfterSlot', { static: true }) rowAfterTemplate: TemplateRef<any>;
+    readonly rowAfterTemplate = contentChild<TemplateRef<any>>('rowAfterSlot');
 
-    @ContentChild('tableEmpty', { static: true }) tableEmptyTemplate: TemplateRef<any>;
+    readonly tableEmptyTemplate = contentChild<TemplateRef<any>>('tableEmpty');
 
-    @ContentChild('tableFooter', { static: true }) tableFooterTemplate: TemplateRef<any>;
+    readonly tableFooterTemplate = contentChild<TemplateRef<any>>('tableFooter');
 
-    @ContentChild('settingsSlot', { static: true }) settingsSlot: TemplateRef<any>;
+    readonly settingsSlot = contentChild<TemplateRef<any>>('settingsSlot');
 }

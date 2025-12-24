@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal } from 'ngx-gantt';
 import { startWith, takeUntil } from 'rxjs/operators';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-gantt-flat',
@@ -49,13 +50,14 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit {
 
     override ngOnInit() {
         super.ngOnInit();
-        this.dragEnded.pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$)).subscribe(() => {
-            this.buildGroupItems();
-        });
+        outputToObservable(this.dragEnded)
+            .pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+                this.buildGroupItems();
+            });
     }
 
     private buildGroupItems() {
-        console.log(this.groups);
         this.groups.forEach((group) => {
             group.mergedItems = this.buildGroupMergedItems(group.items);
             // 如果没有数据，默认填充两行空行

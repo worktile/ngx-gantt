@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -26,7 +26,7 @@ const mockItems = getMockItems();
     standalone: false
 })
 export class TestGanttLoadChildrenComponent {
-    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+    readonly ganttComponent = viewChild<NgxGanttComponent>('gantt');
 
     constructor() {}
 
@@ -66,7 +66,7 @@ describe('#load children', () => {
         fixture.detectChanges();
         await fixture.whenStable();
         ganttComponentInstance = fixture.componentInstance;
-        ganttComponent = ganttComponentInstance.ganttComponent;
+        ganttComponent = ganttComponentInstance.ganttComponent();
         await fixture.whenStable();
         fixture.detectChanges();
     });

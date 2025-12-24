@@ -1,4 +1,17 @@
-import { Component, ContentChild, TemplateRef, Input, ElementRef, inject } from '@angular/core';
+import {
+    Component,
+    TemplateRef,
+    Input,
+    ElementRef,
+    input,
+    contentChild,
+    inject,
+    computed,
+    WritableSignal,
+    Signal,
+    effect,
+    signal
+} from '@angular/core';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 @Component({
@@ -11,24 +24,26 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 })
 export class NgxGanttTableColumnComponent {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     private elementRef = inject(ElementRef);
 
-    public columnWidth: string;
+    readonly width = input<number | string>();
 
-    @Input()
-    set width(width: number | string) {
-        this.columnWidth = coerceCssPixelValue(width);
+    readonly columnWidth: WritableSignal<string> = signal('');
+
+    readonly name = input<string>();
+
+    readonly showExpandIcon = input<boolean>();
+
+    readonly templateRef = contentChild<TemplateRef<any>>('cell');
+
+    readonly headerTemplateRef = contentChild<TemplateRef<any>>('header');
+
+    constructor() {
+        effect(() => {
+            this.columnWidth.set(coerceCssPixelValue(this.width()));
+        });
     }
-
-    @Input() name: string;
-
-    @Input() showExpandIcon: boolean;
-
-    @ContentChild('cell', { static: true }) templateRef: TemplateRef<any>;
-
-    @ContentChild('header', { static: true }) headerTemplateRef: TemplateRef<any>;
-
-    constructor() {}
 
     get classList(): DOMTokenList {
         return this.elementRef.nativeElement.classList;

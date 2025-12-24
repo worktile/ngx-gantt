@@ -1,10 +1,10 @@
 <div class="toolbar-container">
-  @if (!template) {
-    @if (this.ganttUpper.toolbarOptions?.viewTypes?.length) {
+  @if (!template()) {
+    @if (this.ganttUpper.toolbarOptions()?.viewTypes?.length) {
       <div class="toolbar-views">
-        @for (viewType of this.ganttUpper.toolbarOptions?.viewTypes; track viewType) {
+        @for (viewType of this.ganttUpper.toolbarOptions()?.viewTypes; track viewType) {
           @if (views[viewType]) {
-            <div class="toolbar-view" [class.active]="viewType === this.ganttUpper.viewType" (click)="selectView(viewType)">
+            <div class="toolbar-view" [class.active]="viewType === this.ganttUpper.viewType()" (click)="selectView(viewType)">
               {{ views[viewType].label }}
             </div>
           }
@@ -12,5 +12,5 @@
       </div>
     }
   }
-  <ng-template [ngTemplateOutlet]="template"></ng-template>
+  <ng-template [ngTemplateOutlet]="template()"></ng-template>
 </div>
