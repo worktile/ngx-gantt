@@ -6,17 +6,18 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter,
     HostBinding,
     Input,
     OnDestroy,
     OnInit,
-    Output,
     QueryList,
     TemplateRef,
     ViewChildren,
     DOCUMENT,
-    inject
+    inject,
+    input,
+    output,
+    computed
 } from '@angular/core';
 import { auditTime, filter, startWith, Subject, takeUntil } from 'rxjs';
 import {
@@ -39,64 +40,59 @@ import { defaultColumnWidth } from '../header/gantt-table-header.component';
 @Component({
     selector: 'gantt-table-body',
     templateUrl: './gantt-table-body.component.html',
+    host: {
+        class: 'gantt-table-body',
+        '[class.gantt-table-empty]': 'ganttTableEmptyClass()',
+        '[class.gantt-table-dragging]': 'ganttTableDragging',
+        '[class.gantt-table-draggable]': 'draggable()'
+    },
     imports: [CdkDropList, GanttIconComponent, NgTemplateOutlet, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe, IsGanttGroupPipe]
 })
 export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit {
     gantt = inject<GanttAbstractComponent>(GANTT_ABSTRACT_TOKEN);
+
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     private cdr = inject(ChangeDetectorRef);
+
     private document = inject<Document>(DOCUMENT);
+
     protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-    private _viewportItems: (GanttGroupInternal | GanttItemInternal)[];
-    @Input() set viewportItems(data: (GanttGroupInternal | GanttItemInternal)[]) {
-        const firstData = data[0];
-        if (firstData && firstData.hasOwnProperty('items')) {
-            this.hasGroup = true;
-        }
-        this.ganttTableEmptyClass = !data?.length;
-        this._viewportItems = data;
-    }
+    readonly viewportItems = input<(GanttGroupInternal | GanttItemInternal)[]>();
 
-    get viewportItems() {
-        return this._viewportItems;
-    }
+    readonly hasGroup = computed(() => {
+        const firstData = this.viewportItems()[0];
+        return firstData && firstData.hasOwnProperty('items');
+    });
 
-    @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
+    readonly ganttTableEmptyClass = computed(() => !this.viewportItems()?.length);
 
-    @Input() columns: QueryList<NgxGanttTableColumnComponent>;
+    readonly flatItems = input<(GanttGroupInternal | GanttItemInternal)[]>();
 
-    @Input() groupTemplate: TemplateRef<any>;
+    readonly columns = input<QueryList<NgxGanttTableColumnComponent>>();
 
-    @Input() emptyTemplate: TemplateRef<any>;
+    readonly groupTemplate = input<TemplateRef<any>>();
 
-    @Input() rowBeforeTemplate: TemplateRef<any>;
+    readonly emptyTemplate = input<TemplateRef<any>>();
 
-    @Input() rowAfterTemplate: TemplateRef<any>;
+    readonly rowBeforeTemplate = input<TemplateRef<any>>();
 
-    @HostBinding('class.gantt-table-draggable')
-    @Input()
-    draggable = false;
+    readonly rowAfterTemplate = input<TemplateRef<any>>();
 
-    @Input() dropEnterPredicate?: (context: GanttTableDragEnterPredicateContext) => boolean;
+    readonly draggable = input(false);
 
-    @Output() dragDropped = new EventEmitter<GanttTableDragDroppedEvent>();
+    readonly dropEnterPredicate = input<(context: GanttTableDragEnterPredicateContext) => boolean>(undefined);
 
-    @Output() dragStarted = new EventEmitter<GanttTableDragStartedEvent>();
+    readonly dragDropped = output<GanttTableDragDroppedEvent>();
 
-    @Output() dragEnded = new EventEmitter<GanttTableDragEndedEvent>();
+    readonly dragStarted = output<GanttTableDragStartedEvent>();
 
-    @Output() itemClick = new EventEmitter<GanttSelectedEvent>();
+    readonly dragEnded = output<GanttTableDragEndedEvent>();
 
-    @HostBinding('class.gantt-table-body') ganttTableClass = true;
-
-    @HostBinding('class.gantt-table-empty') ganttTableEmptyClass = false;
-
-    @HostBinding('class.gantt-table-dragging') ganttTableDragging = false;
+    readonly itemClick = output<GanttSelectedEvent>();
 
     @ViewChildren(CdkDrag<string>) cdkDrags: QueryList<CdkDrag<GanttItemInternal>>;
-
-    public hasGroup: boolean;
 
     public hasExpandIcon = false;
 
@@ -113,21 +109,26 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     private destroy$ = new Subject<void>();
 
+    ganttTableDragging = false;
+
     constructor() {}
 
     ngOnInit() {
-        this.columns.changes.pipe(startWith(this.columns), takeUntil(this.destroy$)).subscribe(() => {
-            this.hasExpandIcon = false;
-            this.columns.forEach((column) => {
-                if (!column.columnWidth) {
-                    column.columnWidth = coerceCssPixelValue(defaultColumnWidth);
-                }
-                if (column.showExpandIcon) {
-                    this.hasExpandIcon = true;
-                }
+        this.columns()
+            ?.changes?.pipe(startWith(this.columns()), takeUntil(this.destroy$))
+            .subscribe(() => {
+                this.hasExpandIcon = false;
+                this.columns().forEach((column) => {
+                    if (!column.columnWidth()) {
+                        column.columnWidth.set(coerceCssPixelValue(defaultColumnWidth));
+                    }
+                    if (column.showExpandIcon()) {
+                        this.hasExpandIcon = true;
+                        console.log(11);
+                    }
+                });
+                this.cdr.detectChanges();
             });
-            this.cdr.detectChanges();
-        });
     }
 
     ngAfterViewInit(): void {
@@ -203,10 +204,11 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         };
 
         // 执行外部传入的 dropEnterPredicate 判断是否允许拖入目标项
-        if (this.dropEnterPredicate) {
+        const dropEnterPredicate = this.dropEnterPredicate();
+        if (dropEnterPredicate) {
             const targetDragRef = this.itemDragsMap.get(targetElement);
             if (
-                this.dropEnterPredicate({
+                dropEnterPredicate({
                     source: event.source.data.origin,
                     target: targetDragRef.data.origin,
                     dropPosition: this.itemDropTarget.position
@@ -284,8 +286,8 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     private removeItem(item: GanttItemInternal, children: GanttItemInternal[]) {
-        this.viewportItems.splice(this.viewportItems.indexOf(item), 1 + children.length);
-        this.flatItems.splice(this.flatItems.indexOf(item), 1 + children.length);
+        this.viewportItems().splice(this.viewportItems().indexOf(item), 1 + children.length);
+        this.flatItems().splice(this.flatItems().indexOf(item), 1 + children.length);
     }
 
     private insertItem(
@@ -295,8 +297,8 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
         position: 'before' | 'after'
     ) {
         if (position === 'before') {
-            this.viewportItems.splice(this.viewportItems.indexOf(target), 0, inserted, ...children);
-            this.flatItems.splice(this.flatItems.indexOf(target), 0, inserted, ...children);
+            this.viewportItems().splice(this.viewportItems().indexOf(target), 0, inserted, ...children);
+            this.flatItems().splice(this.flatItems().indexOf(target), 0, inserted, ...children);
         } else {
             const dragRef = this.cdkDrags.find((drag) => drag.data === target);
             // 如果目标项是展开的，插入的 index 位置需要考虑子项的数量
@@ -304,21 +306,21 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
             if (target.expanded) {
                 childrenCount = this.getChildrenElementsByElement(dragRef.element.nativeElement)?.length || 0;
             }
-            this.viewportItems.splice(this.viewportItems.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
-            this.flatItems.splice(this.flatItems.indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
+            this.viewportItems().splice(this.viewportItems().indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
+            this.flatItems().splice(this.flatItems().indexOf(target) + 1 + childrenCount, 0, inserted, ...children);
         }
     }
 
     private insertChildrenItem(target: GanttItemInternal, inserted: GanttItemInternal, children: GanttItemInternal[]) {
         if (target.expanded) {
-            this.viewportItems.splice(this.viewportItems.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
-            this.flatItems.splice(this.flatItems.indexOf(target) + target.children.length + 1, 0, inserted, ...children);
+            this.viewportItems().splice(this.viewportItems().indexOf(target) + target.children.length + 1, 0, inserted, ...children);
+            this.flatItems().splice(this.flatItems().indexOf(target) + target.children.length + 1, 0, inserted, ...children);
         }
         target.children.push(inserted);
     }
 
     private getParentByItem(item: GanttItemInternal) {
-        return (this.flatItems || []).find((n: GanttItemInternal) => {
+        return (this.flatItems() || []).find((n: GanttItemInternal) => {
             return n.children?.includes(item);
         });
     }

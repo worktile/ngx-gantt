@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttGroupInternal } from '../../class';
@@ -18,7 +18,7 @@ const mockGroupItems = getMockGroupItems();
     selector: 'test-gantt-with-groups',
     template: ` <button class="expand" (click)="gantt.expandAll()">全部展开</button>
         <button class="collapse" (click)="gantt.collapseAll()">全部收起</button>
-        <ngx-gantt #gantt [groups]="groups" [items]="items" [viewType]="viewType" [disabledLoadOnScroll]="true">
+        <ngx-gantt #gantt [groups]="groups" [items]="items" [viewType]="viewType">
             <ng-template #groupHeader let-group="group">
                 <div class="test-gantt-with-groups-group-header"></div>
             </ng-template>
@@ -36,7 +36,7 @@ const mockGroupItems = getMockGroupItems();
     standalone: false
 })
 export class TestGanttWithGroupsComponent {
-    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+    readonly ganttComponent = viewChild<NgxGanttComponent>('gantt');
 
     constructor() {}
 
@@ -62,7 +62,7 @@ describe('gantt-with-groups-component', () => {
         fixture.detectChanges();
         await fixture.whenStable();
         ganttComponentInstance = fixture.componentInstance;
-        ganttComponent = ganttComponentInstance.ganttComponent;
+        ganttComponent = ganttComponentInstance.ganttComponent();
         await fixture.whenStable();
         fixture.detectChanges();
     });

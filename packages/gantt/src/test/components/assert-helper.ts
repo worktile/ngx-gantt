@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Signal } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -14,7 +14,7 @@ import {
 } from 'ngx-gantt';
 
 interface TestGanttComponentBase {
-    ganttComponent: NgxGanttComponent;
+    ganttComponent: Signal<NgxGanttComponent>;
 }
 
 export function assertGanttView<T extends TestGanttComponentBase>(
@@ -29,8 +29,8 @@ export function assertGanttView<T extends TestGanttComponentBase>(
     const calendarElement = fixture.debugElement.query(By.directive(GanttCalendarHeaderComponent));
     const primaryElements = calendarElement.queryAll(By.css('.primary-text'));
     const secondaryElements = calendarElement.queryAll(By.css('.secondary-text'));
-    expect(primaryElements.length).toEqual(fixture.componentInstance.ganttComponent.view.primaryDatePoints.length);
-    expect(secondaryElements.length).toEqual(fixture.componentInstance.ganttComponent.view.secondaryDatePoints.length);
+    expect(primaryElements.length).toEqual(fixture.componentInstance.ganttComponent().view.primaryDatePoints.length);
+    expect(secondaryElements.length).toEqual(fixture.componentInstance.ganttComponent().view.secondaryDatePoints.length);
     expect(primaryElements[0].nativeElement.textContent).toContain(expected.firstPrimaryDataPointText);
     expect(primaryElements[primaryElements.length - 1].nativeElement.textContent).toContain(expected.lastPrimaryDataPointText);
     expect(secondaryElements[0].nativeElement.textContent).toContain(expected.firstSecondaryDataPointText);
@@ -58,8 +58,8 @@ export function assertItems<T extends TestGanttComponentBase>(fixture: Component
     const items = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
     expect(items.length).toEqual(expectedItems.length);
     items.forEach((item: DebugElement, index: number) => {
-        expect(ganttComponent.items[index].id).toEqual(expectedItems[index].id);
-        assertItem(item, ganttComponent.items[index]);
+        expect(ganttComponent().items[index].id).toEqual(expectedItems[index].id);
+        assertItem(item, ganttComponent().items[index]);
     });
 }
 
@@ -68,8 +68,8 @@ export function assertBaselineItems<T extends TestGanttComponentBase>(fixture: C
     const items = fixture.debugElement.queryAll(By.directive(NgxGanttBaselineComponent));
     expect(items.length).toEqual(expectedItems.length);
     items.forEach((item: DebugElement, index: number) => {
-        expect(ganttComponent.baselineItems[index].id).toEqual(expectedItems[index].id);
-        assertItem(item, ganttComponent.baselineItems[index]);
+        expect(ganttComponent().baselineItems[index].id).toEqual(expectedItems[index].id);
+        assertItem(item, ganttComponent().baselineItems[index]);
     });
 }
 
@@ -77,10 +77,10 @@ export function assertGroups<T extends TestGanttComponentBase>(fixture: Componen
     const { ganttComponent } = fixture.componentInstance;
     const groups = fixture.debugElement.queryAll(By.css('.gantt-group'));
     groups.forEach((group: DebugElement, groupIndex: number) => {
-        expect(ganttComponent.groups[groupIndex].id).toEqual(expectedGroups[groupIndex].id);
+        expect(ganttComponent().groups[groupIndex].id).toEqual(expectedGroups[groupIndex].id);
         const items = group.queryAll(By.directive(NgxGanttBarComponent));
         items.forEach((item: DebugElement, itemIndex: number) => {
-            assertItem(item, ganttComponent.groups[groupIndex].items[itemIndex]);
+            assertItem(item, ganttComponent().groups[groupIndex].items[itemIndex]);
         });
     });
 }

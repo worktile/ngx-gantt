@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, HostBinding, inject } from '@angular/core';
+import { Component, Input, ElementRef, HostBinding, inject, input, effect } from '@angular/core';
 import { icons } from './icons';
 
 @Component({
@@ -11,11 +11,13 @@ export class GanttIconComponent {
 
     @HostBinding('class.gantt-icon') isIcon = true;
 
-    @Input() set iconName(name: string) {
-        this.setSvg(name);
-    }
+    readonly iconName = input<string>();
 
-    constructor() {}
+    constructor() {
+        effect(() => {
+            this.setSvg(this.iconName());
+        });
+    }
 
     setSvg(name: string) {
         const iconSvg = icons[name];

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Input, OnInit, TemplateRef, inject } from '@angular/core';
+import { Component, ElementRef, HostBinding, OnInit, TemplateRef, inject, input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttBaselineItemInternal } from '../../class/baseline';
@@ -12,11 +12,12 @@ import { NgTemplateOutlet } from '@angular/common';
 })
 export class NgxGanttBaselineComponent implements OnInit {
     private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
 
-    @Input() baselineItem: GanttBaselineItemInternal;
+    readonly baselineItem = input<GanttBaselineItemInternal>(undefined);
 
-    @Input() template: TemplateRef<any>;
+    readonly template = input<TemplateRef<any>>(undefined);
 
     public unsubscribe$ = new Subject<void>();
 
@@ -25,15 +26,17 @@ export class NgxGanttBaselineComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
-        this.baselineItem.refs$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-            this.setPositions();
-        });
+        this.baselineItem()
+            .refs$.pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+                this.setPositions();
+            });
     }
 
     private setPositions() {
         const itemElement = this.elementRef.nativeElement;
-        itemElement.style.left = this.baselineItem.refs.x + 'px';
+        itemElement.style.left = this.baselineItem().refs.x + 'px';
         itemElement.style.bottom = '2px';
-        itemElement.style.width = this.baselineItem.refs.width + 'px';
+        itemElement.style.width = this.baselineItem().refs.width + 'px';
     }
 }

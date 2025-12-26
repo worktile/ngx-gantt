@@ -58,7 +58,6 @@ export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewI
                 of(items)
                     .pipe(delay(1000))
                     .subscribe(() => {
-                        console.log('loadDone');
                         this.loading = false;
                         this.items = [...this.items, ...items];
                         this.cdr.detectChanges();

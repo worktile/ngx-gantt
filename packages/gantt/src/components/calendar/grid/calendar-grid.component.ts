@@ -1,13 +1,11 @@
 import { Component, OnInit, HostBinding, OnDestroy, NgZone, ElementRef, inject } from '@angular/core';
 import { Subject, merge } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-
 import { isNumber } from '../../../utils/helpers';
-
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from './../../../class/view-type';
 import { todayBorderRadius } from '../../../gantt.styles';
-
+import { outputToObservable } from '@angular/core/rxjs-interop';
 const mainHeight = 5000;
 
 @Component({
@@ -53,7 +51,7 @@ export class GanttCalendarGridComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            merge(this.ganttUpper.viewChange, this.ganttUpper.view.start$)
+            merge(outputToObservable(this.ganttUpper.viewChange), this.ganttUpper.view.start$)
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe(() => {
                     this.setTodayPoint();

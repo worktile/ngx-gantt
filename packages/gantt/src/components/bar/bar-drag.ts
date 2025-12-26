@@ -51,11 +51,11 @@ export class GanttBarDrag implements OnDestroy {
     private hasMonitorMouseEvent: boolean;
 
     private get dragDisabled() {
-        return !this.item()?.draggable || !this.ganttUpper.draggable;
+        return !this.item()?.draggable || !this.ganttUpper.draggable();
     }
 
     private get linkDragDisabled() {
-        return !this.item().linkable || !this.ganttUpper.linkable;
+        return !this.item().linkable || !this.ganttUpper.linkable();
     }
 
     private get barHandleDragMoveAndScrollDistance() {
@@ -124,9 +124,9 @@ export class GanttBarDrag implements OnDestroy {
     private createMouseEvents() {
         if (!this.hasMonitorMouseEvent && (!this.dragDisabled || !this.linkDragDisabled)) {
             this.hasMonitorMouseEvent = true;
+            const linkOptions = this.ganttUpper.linkOptions();
             const dropClass =
-                this.ganttUpper.linkOptions?.dependencyTypes?.length === 1 &&
-                this.ganttUpper.linkOptions?.dependencyTypes[0] === GanttLinkType.fs
+                linkOptions?.dependencyTypes?.length === 1 && linkOptions?.dependencyTypes[0] === GanttLinkType.fs
                     ? singleDropActiveClass
                     : dropActiveClass;
 
@@ -204,7 +204,7 @@ export class GanttBarDrag implements OnDestroy {
             this.item().updateRefs({
                 width: this.ganttUpper.view.getDateRangeWidth(this.item().start, this.item().end),
                 x: this.ganttUpper.view.getXPointByDate(this.item().start),
-                y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
+                y: (this.ganttUpper.styles().lineHeight - this.ganttUpper.styles().barHeight) / 2 - 1
             });
             this.dragContainer.dragEnded.emit({ item: this.item().origin });
         });
@@ -270,7 +270,7 @@ export class GanttBarDrag implements OnDestroy {
                 this.item().updateRefs({
                     width: this.ganttUpper.view.getDateRangeWidth(this.item().start, this.item().end),
                     x: this.ganttUpper.view.getXPointByDate(this.item().start),
-                    y: (this.ganttUpper.styles.lineHeight - this.ganttUpper.styles.barHeight) / 2 - 1
+                    y: (this.ganttUpper.styles().lineHeight - this.ganttUpper.styles().barHeight) / 2 - 1
                 });
                 this.dragContainer.dragEnded.emit({ item: this.item().origin });
             });

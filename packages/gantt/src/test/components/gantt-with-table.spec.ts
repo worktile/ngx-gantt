@@ -1,4 +1,4 @@
-import { Component, DebugElement, ViewChild } from '@angular/core';
+import { Component, DebugElement, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttModule } from 'ngx-gantt';
@@ -29,9 +29,9 @@ import { GanttTableHeaderComponent } from '../../components/table/header/gantt-t
     standalone: false
 })
 export class TestGanttTableBodyComponent {
-    @ViewChild(GanttTableBodyComponent, { static: true }) GanttTableBodyComponent: GanttTableBodyComponent;
+    readonly GanttTableBodyComponent = viewChild(GanttTableBodyComponent);
 
-    @ViewChild(GanttMainComponent, { static: true }) ganttMainComponent: GanttMainComponent;
+    readonly ganttMainComponent = viewChild(GanttMainComponent);
 
     items = getMockGroupItems();
 
