@@ -30,10 +30,9 @@ import {
     startOfHour,
     endOfHour,
     endOfMinute,
-    Locale,
-    FirstWeekContainsDate
+    Locale
 } from 'date-fns';
-
+import type { FirstWeekContainsDate } from 'date-fns';
 import { TZDate } from '@date-fns/tz';
 
 export {

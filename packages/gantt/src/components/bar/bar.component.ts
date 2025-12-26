@@ -1,10 +1,9 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
+    AfterViewInit,
     Component,
-    OnInit,
-    HostBinding,
     ElementRef,
     OnDestroy,
-    AfterViewInit,
     output,
     viewChild,
     ViewChildren,
@@ -13,7 +12,9 @@ import {
     NgZone,
     effect,
     linkedSignal,
-    Signal
+    Signal,
+    HostBinding,
+    OnInit
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -24,7 +25,6 @@ import { barBackground } from '../../gantt.styles';
 import { GanttBarClickEvent, GanttItemInternal } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttItemUpper } from '../../gantt-item-upper';
-import { NgTemplateOutlet } from '@angular/common';
 
 function linearGradient(sideOrCorner: string, color: string, stop: string) {
     return `linear-gradient(${sideOrCorner},${color} 0%,${stop} 40%)`;
@@ -127,11 +127,12 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     private setContentBackground() {
         const item = this.item();
+        let style: Partial<CSSStyleDeclaration> = { ...(item.barStyle || {}) };
+        const contentElement = this.contentElementRef().nativeElement;
+        const barElement = this.elementRef.nativeElement;
+
         if (item.refs?.width) {
-            const contentElement = this.contentElementRef().nativeElement;
             const color = item.color || barBackground;
-            const style: Partial<CSSStyleDeclaration> = item.barStyle || {};
-            const barElement = this.elementRef.nativeElement;
 
             if (item.origin.start && item.origin.end) {
                 style.background = color;
@@ -154,14 +155,14 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             if (item.progress >= 0) {
                 const contentProgressElement = contentElement.querySelector('.gantt-bar-content-progress') as HTMLDivElement;
                 style.background = hexToRgb(color, 0.3);
-                style.borderRadius = '';
                 contentProgressElement.style.background = color;
             }
+        }
+        style = Object.assign({}, style, item.barStyle || {});
 
-            for (const key in style) {
-                if (style.hasOwnProperty(key)) {
-                    contentElement.style[key] = style[key];
-                }
+        for (const key in style) {
+            if (style.hasOwnProperty(key)) {
+                contentElement.style[key] = style[key];
             }
         }
     }

@@ -39,14 +39,9 @@
     }
 
     <g>
-      @for (point of view.primaryDatePoints; track point.x) {
-        <line
-          [attr.x1]="($index + 1) * view.primaryWidth"
-          [attr.x2]="($index + 1) * view.primaryWidth"
-          [attr.y1]="0"
-          [attr.y2]="ganttUpper.styles().headerHeight"
-          class="primary-line"
-        ></line>
+      @for (point of view.primaryDatePoints; track point?.x) {
+        @let rightX = point?.rightX ?? ($index + 1) * view.primaryWidth;
+        <line [attr.x1]="rightX" [attr.x2]="rightX" [attr.y1]="0" [attr.y2]="ganttUpper.styles().headerHeight" class="primary-line"></line>
       }
     </g>
 

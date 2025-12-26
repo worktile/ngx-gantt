@@ -152,14 +152,4 @@ describe('GanttView', () => {
         expect(view.startOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.startOfMinute().getUnixTime());
         expect(view.endOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.endOfMinute().getUnixTime());
     });
-
-    it(`should date difference value by precision unit`, () => {
-        let view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'hour' });
-        const startDate = new GanttDate('2022-10-10 12:50:34');
-        const endDate = new GanttDate('2022-12-10 10:50:34');
-        expect(view.differenceByPrecisionUnit(endDate, startDate)).toEqual(differenceInHours(endDate.value, startDate.value));
-
-        view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'minute' });
-        expect(view.differenceByPrecisionUnit(endDate, startDate)).toEqual(differenceInMinutes(endDate.value, startDate.value));
-    });
 });

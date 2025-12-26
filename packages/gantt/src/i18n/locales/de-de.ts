@@ -1,10 +1,11 @@
 import { de } from 'date-fns/locale';
+import type { Locale as DateFnsLocale } from 'date-fns';
 import { GanttViewType } from '../../class';
 import { GanttI18nLocale } from '../i18n';
 
 export default {
     id: GanttI18nLocale.deDe,
-    dateLocale: de,
+    dateLocale: de as DateFnsLocale,
     views: {
         [GanttViewType.hour]: {
             label: 'Stündlich',
