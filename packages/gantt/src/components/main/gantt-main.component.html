@@ -2,14 +2,14 @@
 <div class="gantt-main-groups" [style.width.px]="ganttUpper.view.width">
   @for (data of viewportItems(); track trackBy($index, data)) {
     @if (data | isGanttGroup) {
-      <div class="gantt-group" [style.height.px]="ganttUpper.fullStyles().lineHeight" [ngClass]="data.class">
+      <div class="gantt-group" [style.height.px]="ganttUpper.styles().lineHeight" [ngClass]="data.class">
         <ng-template [ngTemplateOutlet]="groupHeaderTemplate()" [ngTemplateOutletContext]="{ group: data }"></ng-template>
       </div>
     }
     @if (!(data | isGanttGroup)) {
       <div
         class="gantt-item"
-        [style.height.px]="ganttUpper.fullStyles().lineHeight"
+        [style.height.px]="ganttUpper.styles().lineHeight"
         [style]="data.laneStyle"
         [class.gantt-main-item-active]="ganttUpper.isSelected(data.id)"
       >
@@ -46,7 +46,7 @@
     <div class="gantt-quick-time-focus" [style.width.px]="dom.visibleRangeX().max - dom.visibleRangeX().min">
       @for (data of viewportItems(); track trackBy(i, data); let i = $index) {
         @let item = toItemType(data);
-        <div class="gantt-quick-time-focus-item" [style.height.px]="ganttUpper.fullStyles().lineHeight">
+        <div class="gantt-quick-time-focus-item" [style.height.px]="ganttUpper.styles().lineHeight">
           <span class="ml-2">
             @if (item.refs?.x < dom.visibleRangeX().min && item.refs?.width) {
               <a class="gantt-quick-time-focus-item-arrow link-secondary" href="javascript:;" (click)="quickTime(item.origin, 'left')">

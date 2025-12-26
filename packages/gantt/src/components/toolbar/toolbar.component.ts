@@ -18,7 +18,7 @@ export class NgxGanttToolbarComponent {
 
     @HostBinding('style.top')
     get top() {
-        return this.ganttUpper.fullStyles().headerHeight + 16 + 'px';
+        return this.ganttUpper.styles().headerHeight + 16 + 'px';
     }
 
     views = inject(GanttConfigService).getViewsLocale();

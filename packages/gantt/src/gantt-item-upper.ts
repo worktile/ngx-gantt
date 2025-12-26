@@ -27,13 +27,22 @@ export abstract class GanttItemUpper implements OnDestroy {
     }
 
     private itemChange() {
-        this.refsUnsubscribe$.next();
-        this.refsUnsubscribe$.complete();
-        this.item()
-            .refs$.pipe(takeUntil(this.refsUnsubscribe$))
-            .subscribe(() => {
-                this.setPositions();
-            });
+        if (this.firstChange) {
+            this.firstChange = false;
+            this.item()
+                .refs$.pipe(takeUntil(this.refsUnsubscribe$))
+                .subscribe(() => {
+                    this.setPositions();
+                });
+        } else {
+            this.refsUnsubscribe$.next();
+            this.refsUnsubscribe$.complete();
+            this.item()
+                .refs$.pipe(takeUntil(this.refsUnsubscribe$))
+                .subscribe(() => {
+                    this.setPositions();
+                });
+        }
     }
 
     private setPositions() {
@@ -43,7 +52,7 @@ export abstract class GanttItemUpper implements OnDestroy {
         itemElement.style.top = item.refs?.y + 'px';
         itemElement.style.width = item.refs?.width + 'px';
         if (item.type === GanttItemType.bar) {
-            itemElement.style.height = this.ganttUpper.fullStyles().barHeight + 'px';
+            itemElement.style.height = this.ganttUpper.styles().barHeight + 'px';
         } else if (item.type === GanttItemType.range) {
             itemElement.style.height = rangeHeight + 'px';
         }

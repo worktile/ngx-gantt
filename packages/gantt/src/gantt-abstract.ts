@@ -5,7 +5,7 @@ import { GanttStyleOptions } from './gantt.config';
 
 export interface GanttAbstractComponent {
     table: Signal<NgxGanttTableComponent>;
-    fullStyles: Signal<GanttStyleOptions>;
+    styles: Signal<GanttStyleOptions>;
     maxLevel: Signal<number>;
     async: Signal<boolean>;
     cdr: ChangeDetectorRef;

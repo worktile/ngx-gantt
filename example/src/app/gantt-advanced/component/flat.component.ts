@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, effect } from '@angular/core';
 import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal } from 'ngx-gantt';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { outputToObservable } from '@angular/core/rxjs-interop';
@@ -24,6 +24,15 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit {
 
     constructor() {
         super();
+        effect(() => {
+            if (this.isEffectFinished()) {
+                outputToObservable(this.dragEnded)
+                    .pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$))
+                    .subscribe(() => {
+                        this.buildGroupItems();
+                    });
+            }
+        });
     }
 
     private buildGroupMergedItems(items: GanttItemInternal[]) {
@@ -50,11 +59,6 @@ export class AppGanttFlatComponent extends GanttUpper implements OnInit {
 
     override ngOnInit() {
         super.ngOnInit();
-        outputToObservable(this.dragEnded)
-            .pipe(startWith<null, null>(null), takeUntil(this.unsubscribe$))
-            .subscribe(() => {
-                this.buildGroupItems();
-            });
     }
 
     private buildGroupItems() {

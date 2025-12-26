@@ -29,7 +29,5 @@ export class AppGanttAdvancedExampleComponent implements OnInit {
         const { groups, items } = randomGroupsAndItems(10);
         this.groups = groups;
         this.items = items;
-
-        console.log(this.groups, this.items);
     }
 }

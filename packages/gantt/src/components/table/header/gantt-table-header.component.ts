@@ -41,12 +41,12 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     @HostBinding('style.height')
     get height() {
-        return this.gantt.fullStyles().headerHeight + 'px';
+        return this.gantt.styles().headerHeight + 'px';
     }
 
     @HostBinding('style.line-height')
     get lineHeight() {
-        return this.gantt.fullStyles().headerHeight + 'px';
+        return this.gantt.styles().headerHeight + 'px';
     }
 
     constructor() {}

@@ -17,7 +17,7 @@
   @if (viewportItems() && viewportItems().length > 0) {
     @for (item of viewportItems(); track trackBy($index, item)) {
       @if (item | isGanttGroup) {
-        <div class="gantt-table-group" [style.height.px]="ganttUpper.fullStyles().lineHeight" [ngClass]="item.class">
+        <div class="gantt-table-group" [style.height.px]="ganttUpper.styles().lineHeight" [ngClass]="item.class">
           <div class="gantt-table-group-title" [class.expanded]="item.expanded" (click)="expandGroup(item)">
             <gantt-icon class="expand-icon" [iconName]="item.expanded ? 'angle-down' : 'angle-right'"></gantt-icon>
             @if (groupTemplate()) {
@@ -43,8 +43,8 @@
           class="gantt-table-item"
           [class.gantt-table-item-with-group]="hasGroup()"
           [class.gantt-table-item-first-level-group]="item.level === 0 && (item.type | isGanttRangeItem)"
-          [style.height.px]="ganttUpper.fullStyles().lineHeight"
-          [style.lineHeight.px]="ganttUpper.fullStyles().lineHeight"
+          [style.height.px]="ganttUpper.styles().lineHeight"
+          [style.lineHeight.px]="ganttUpper.styles().lineHeight"
           [class.gantt-table-item-active]="ganttUpper.isSelected(item.id)"
         >
           <ng-template

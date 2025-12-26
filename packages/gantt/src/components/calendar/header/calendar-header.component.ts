@@ -31,7 +31,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
 
     @HostBinding('style.height')
     get height() {
-        return this.ganttUpper.fullStyles().headerHeight + 'px';
+        return this.ganttUpper.styles().headerHeight + 'px';
     }
 
     constructor() {}
@@ -56,7 +56,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
         if (isNumber(x)) {
             if (rect) {
                 rect.style.left = `${x - todayWidth / 2}px`;
-                rect.style.top = `${this.ganttUpper.fullStyles().headerHeight - todayHeight}px`;
+                rect.style.top = `${this.ganttUpper.styles().headerHeight - todayHeight}px`;
                 rect.innerHTML = today.toString();
             }
         } else {

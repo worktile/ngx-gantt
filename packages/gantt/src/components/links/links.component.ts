@@ -5,11 +5,11 @@ import {
     ChangeDetectorRef,
     ElementRef,
     OnDestroy,
-    OnChanges,
     NgZone,
     inject,
     input,
-    output
+    output,
+    effect
 } from '@angular/core';
 import { EMPTY, merge, Subject } from 'rxjs';
 import { takeUntil, skip, debounceTime, switchMap, take } from 'rxjs/operators';
@@ -28,7 +28,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
     templateUrl: './links.component.html',
     imports: []
 })
-export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
+export class GanttLinksComponent implements OnInit, OnDestroy {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
 
     private cdr = inject(ChangeDetectorRef);
@@ -38,10 +38,6 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
     private ganttDragContainer = inject(GanttDragContainer);
 
     private ngZone = inject(NgZone);
-
-    // @Input() groups: GanttGroupInternal[] = [];
-
-    // @Input() items: GanttItemInternal[] = [];
 
     readonly flatItems = input<(GanttGroupInternal | GanttItemInternal)[]>([]);
 
@@ -55,25 +51,23 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     private linkItems: GanttLinkItem[] = [];
 
-    private firstChange = true;
-
     private linkLine: GanttLinkLine;
 
     private unsubscribe$ = new Subject<void>();
 
     @HostBinding('class.gantt-links-overlay') ganttLinksOverlay = true;
 
-    constructor() {}
+    constructor() {
+        effect(() => {
+            this.buildLinks();
+        });
+    }
 
     ngOnInit() {
-        const linkOptions = this.ganttUpper.fullLinkOptions();
+        const linkOptions = this.ganttUpper.linkOptions();
         this.linkLine = createLineGenerator(linkOptions.lineType, this.ganttUpper);
 
         this.showArrow = linkOptions.showArrow;
-        // this.buildLinks();
-        this.firstChange = false;
-
-        this.buildLinks();
 
         this.ganttDragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.visibility = 'hidden';
@@ -95,57 +89,10 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             });
     }
 
-    ngOnChanges() {
-        if (!this.firstChange) {
-            this.buildLinks();
-        }
-    }
-
     private computeItemPosition() {
-        const lineHeight = this.ganttUpper.fullStyles().lineHeight;
-        const barHeight = this.ganttUpper.fullStyles().barHeight;
+        const lineHeight = this.ganttUpper.styles().lineHeight;
+        const barHeight = this.ganttUpper.styles().barHeight;
         this.linkItems = [];
-        // if (this.groups.length > 0) {
-        //     let itemNum = 0;
-        //     let groupNum = 0;
-        //     this.groups.forEach((group) => {
-        //         groupNum++;
-        //         if (group.expanded) {
-        //             const items = recursiveItems(group.items);
-        //             items.forEach((item, itemIndex) => {
-        //                 const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
-        //                 this.linkItems.push({
-        //                     ...item,
-        //                     before: {
-        //                         x: item.refs.x,
-        //                         y
-        //                     },
-        //                     after: {
-        //                         x: item.refs.x + item.refs.width,
-        //                         y
-        //                     }
-        //                 });
-        //             });
-        //             itemNum += items.length;
-        //         }
-        //     });
-        // } else {
-        //     const items = recursiveItems(this.items);
-        //     items.forEach((item, itemIndex) => {
-        //         const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
-        //         this.linkItems.push({
-        //             ...item,
-        //             before: {
-        //                 x: item.refs.x,
-        //                 y
-        //             },
-        //             after: {
-        //                 x: item.refs.x + item.refs.width,
-        //                 y
-        //             }
-        //         });
-        //     });
-        // }
 
         this.flatItems().forEach((item, itemIndex) => {
             if (!item.hasOwnProperty('items')) {

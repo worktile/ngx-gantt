@@ -3,16 +3,17 @@ import {
     OnInit,
     HostBinding,
     ElementRef,
-    OnChanges,
     OnDestroy,
     AfterViewInit,
-    SimpleChanges,
     output,
     viewChild,
     ViewChildren,
     QueryList,
     inject,
-    NgZone
+    NgZone,
+    effect,
+    linkedSignal,
+    Signal
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -20,7 +21,7 @@ import { GanttBarDrag } from './bar-drag';
 import { hexToRgb } from '../../utils/helpers';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { barBackground } from '../../gantt.styles';
-import { GanttBarClickEvent } from '../../class';
+import { GanttBarClickEvent, GanttItemInternal } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttItemUpper } from '../../gantt-item-upper';
 import { NgTemplateOutlet } from '@angular/common';
@@ -35,7 +36,7 @@ function linearGradient(sideOrCorner: string, color: string, stop: string) {
     providers: [GanttBarDrag],
     imports: [NgTemplateOutlet]
 })
-export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, AfterViewInit, OnDestroy {
     private dragContainer = inject(GanttDragContainer);
 
     private drag = inject(GanttBarDrag);
@@ -48,16 +49,35 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     readonly contentElementRef = viewChild<ElementRef<HTMLDivElement>>('content');
 
+    readonly previousItem: Signal<GanttItemInternal> = linkedSignal({
+        source: () => this.item(),
+        computation: (source, previous) => previous?.source
+    });
+
     @HostBinding('class.gantt-bar') ganttItemClass = true;
 
     @ViewChildren('handle') handles: QueryList<ElementRef<HTMLElement>>;
 
     constructor() {
         super();
+        effect(() => {
+            const item = this.item();
+            const previousItem = this.previousItem();
+            if (item && previousItem && item !== previousItem) {
+                this.drag.updateItem(item);
+                if (
+                    item.refs?.width !== previousItem.refs?.width ||
+                    item.color !== previousItem.color ||
+                    item.start?.value !== previousItem.start?.value ||
+                    item.end?.value !== previousItem.end?.value
+                ) {
+                    this.setContentBackground();
+                }
+            }
+        });
     }
 
     ngOnInit() {
-        // super.ngOnInit();
         this.dragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.pointerEvents = 'none';
         });
@@ -65,22 +85,6 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
             this.elementRef.nativeElement.style.pointerEvents = '';
             this.setContentBackground();
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        // super.ngOnChanges(changes);
-        if (!this.firstChange) {
-            this.drag.updateItem(this.item());
-
-            if (
-                changes.item.currentValue.refs?.width !== changes.item.previousValue.refs?.width ||
-                changes.item.currentValue.color !== changes.item.previousValue.color ||
-                changes.item.currentValue.start?.value !== changes.item.previousValue.start?.value ||
-                changes.item.currentValue.end?.value !== changes.item.previousValue.end?.value
-            ) {
-                this.setContentBackground();
-            }
-        }
     }
 
     ngAfterViewInit() {

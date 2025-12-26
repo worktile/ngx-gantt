@@ -19,7 +19,8 @@ import {
     linkedSignal,
     model,
     Signal,
-    OutputEmitterRef
+    OutputEmitterRef,
+    signal
 } from '@angular/core';
 import { from, Subject } from 'rxjs';
 import { takeUntil, take, skip } from 'rxjs/operators';
@@ -43,7 +44,7 @@ import { GanttDragContainer } from './gantt-drag-container';
 import { GANTT_GLOBAL_CONFIG, GanttConfigService, GanttGlobalConfig, GanttStyleOptions } from './gantt.config';
 import { GanttLinkOptions } from './class/link';
 import { SelectionModel } from '@angular/cdk/collections';
-import { BooleanInput, coerceBooleanProperty, coerceCssPixelValue } from '@angular/cdk/coercion';
+import { coerceBooleanProperty, coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttBaselineItem, GanttBaselineItemInternal } from './class/baseline';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 
@@ -78,10 +79,11 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     readonly draggable = input<boolean>();
 
-    readonly styles = input<GanttStyleOptions>();
+    // eslint-disable-next-line @angular-eslint/no-input-rename
+    readonly originStyles = input<GanttStyleOptions>({}, { alias: 'styles' });
 
-    readonly fullStyles = computed(() => {
-        return Object.assign({}, this.configService.config.styleOptions, this.styles());
+    readonly styles = computed(() => {
+        return Object.assign({}, this.configService.config.styleOptions, this.originStyles());
     });
 
     readonly showToolbar = input(false);
@@ -92,10 +94,11 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     readonly viewOptions = input<GanttViewOptions>({});
 
-    readonly linkOptions = input<GanttLinkOptions>();
+    // eslint-disable-next-line @angular-eslint/no-input-rename
+    readonly originLinkOptions = input<GanttLinkOptions>({}, { alias: 'linkOptions' });
 
-    readonly fullLinkOptions = computed(() => {
-        return Object.assign({}, this.configService.config.linkOptions, this.linkOptions());
+    readonly linkOptions = computed(() => {
+        return Object.assign({}, this.configService.config.linkOptions, this.originLinkOptions());
     });
 
     readonly disabledLoadOnScroll = input<boolean>(true);
@@ -141,11 +144,14 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
         computation: (source, previous) => previous?.source
     });
 
+    readonly previousViewOptions = linkedSignal({
+        source: () => this.viewOptions(),
+        computation: (source, previous) => previous?.source
+    });
+
     public configService = inject(GanttConfigService);
 
-    public linkable: Signal<boolean>;
-
-    // public linkDragEnded = new EventEmitter<GanttLinkDragEvent>();
+    public linkable: Signal<boolean> = signal(false);
 
     public linkDragEnded: OutputEmitterRef<GanttLinkDragEvent>;
 
@@ -173,6 +179,8 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     private groupsMap: { [key: string]: GanttGroupInternal };
 
+    protected isEffectFinished = signal(false);
+
     @HostBinding('class.gantt') ganttClass = true;
 
     constructor() {
@@ -184,7 +192,11 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
             const viewType = this.viewType();
             const previousViewType = this.previousViewType();
             const viewOptions = this.viewOptions();
-            if ((viewType && previousViewType && viewType !== previousViewType) || viewOptions) {
+            const previousViewOptions = this.previousViewOptions();
+            if (
+                (viewType && previousViewType && viewType !== previousViewType) ||
+                (viewOptions && previousViewOptions && viewOptions !== previousViewOptions)
+            ) {
                 this.changeView();
             }
         });
@@ -195,6 +207,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
                 this.setupGroups();
                 this.setupItems();
                 this.computeRefs();
+                this.isEffectFinished.set(true);
             }
         });
 
@@ -208,7 +221,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     private createView() {
         const viewDate = this.getViewDate();
-        const viewOptions = this.viewOptions();
+        const viewOptions = { ...this.viewOptions() };
         viewOptions.dateFormat = Object.assign({}, this.configService.config.dateFormat, viewOptions.dateFormat);
         viewOptions.styleOptions = Object.assign({}, this.configService.config.styleOptions, viewOptions.styleOptions);
         viewOptions.dateDisplayFormats = this.configService.getViewsLocale()[this.viewType()]?.dateFormats;
@@ -331,7 +344,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     }
 
     private initCssVariables() {
-        const styles = this.fullStyles();
+        const styles = this.styles();
         this.element.style.setProperty('--gantt-header-height', coerceCssPixelValue(styles.headerHeight));
         this.element.style.setProperty('--gantt-line-height', coerceCssPixelValue(styles.lineHeight));
         this.element.style.setProperty('--gantt-bar-height', coerceCssPixelValue(styles.barHeight));
@@ -347,12 +360,6 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.createView();
-        this.setupGroups();
-        this.setupItems();
-        this.computeRefs();
-        this.setupBaselineItems();
-        this.computeItemsRefs(...this.baselineItems);
-        this.initSelectionModel();
         this.initCssVariables();
 
         // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
@@ -394,7 +401,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
             item.updateRefs({
                 width: item.start && item.end ? this.view.getDateRangeWidth(item.start, item.end) : 0,
                 x: item.start ? this.view.getXPointByDate(item.start) : 0,
-                y: (this.fullStyles().lineHeight - this.fullStyles().barHeight) / 2 - 1
+                y: (this.styles().lineHeight - this.styles().barHeight) / 2 - 1
             });
         });
     }
@@ -449,11 +456,13 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     changeView() {
         this.createView();
-        this.setupGroups();
-        this.setupItems();
-        this.computeRefs();
-        this.setupBaselineItems();
-        this.computeItemsRefs(...this.baselineItems);
+        if (this.previousViewType()) {
+            this.setupGroups();
+            this.setupItems();
+            this.computeRefs();
+            this.setupBaselineItems();
+            this.computeItemsRefs(...this.baselineItems);
+        }
         this.viewChange.emit(this.view);
     }
 

@@ -1,7 +1,7 @@
 <div class="gantt-calendar-today-overlay" [style.width.px]="view.width">
   <span class="today-rect" [hidden]="ganttUpper.viewType() !== viewTypes.day"> </span>
 </div>
-<svg [attr.width]="view.width" [attr.height]="ganttUpper.fullStyles().headerHeight">
+<svg [attr.width]="view.width" [attr.height]="ganttUpper.styles().headerHeight">
   <g>
     @for (point of view.secondaryDatePoints; track point.x) {
       @if (point.fill) {
@@ -9,7 +9,7 @@
           [attr.x]="$index * view.cellWidth"
           y="0"
           [attr.width]="view.cellWidth"
-          [attr.height]="ganttUpper.fullStyles().headerHeight"
+          [attr.height]="ganttUpper.styles().headerHeight"
           [attr.fill]="point.fill"
         />
       }
@@ -44,7 +44,7 @@
           [attr.x1]="($index + 1) * view.primaryWidth"
           [attr.x2]="($index + 1) * view.primaryWidth"
           [attr.y1]="0"
-          [attr.y2]="ganttUpper.fullStyles().headerHeight"
+          [attr.y2]="ganttUpper.styles().headerHeight"
           class="primary-line"
         ></line>
       }
@@ -54,8 +54,8 @@
       <line
         [attr.x1]="0"
         [attr.x2]="view.width"
-        [attr.y1]="ganttUpper.fullStyles().headerHeight"
-        [attr.y2]="ganttUpper.fullStyles().headerHeight"
+        [attr.y1]="ganttUpper.styles().headerHeight"
+        [attr.y2]="ganttUpper.styles().headerHeight"
         class="header-line"
       ></line>
     </g>
