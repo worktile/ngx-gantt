@@ -1,4 +1,4 @@
-import { Component, DebugElement, ViewChild } from '@angular/core';
+import { Component, DebugElement, viewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttBarClickEvent, GanttToolbarOptions } from '../../class';
@@ -107,7 +107,7 @@ const localeConfig = {
     standalone: false
 })
 export class TestGanttBasicComponent {
-    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+    readonly ganttComponent = viewChild<NgxGanttComponent>('gantt');
 
     constructor() {}
 
@@ -342,7 +342,7 @@ describe('gantt-basic-component', () => {
 
     describe('#global-config', () => {
         it('should apply global style configuration correctly to the gantt component', () => {
-            assertConfigStyle(ganttComponentInstance.ganttComponent, ganttDebugElement);
+            assertConfigStyle(ganttComponentInstance.ganttComponent(), ganttDebugElement);
         });
     });
 

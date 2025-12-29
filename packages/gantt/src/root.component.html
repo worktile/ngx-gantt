@@ -1,11 +1,11 @@
-@if (sideTemplate) {
-  <div class="gantt-side" [style.width.px]="sideWidth" [style.padding-bottom.px]="horizontalScrollbarHeight">
+@if (sideTemplate()) {
+  <div class="gantt-side" [style.width.px]="sideWidth()" [style.padding-bottom.px]="horizontalScrollbarHeight">
     <div class="gantt-side-container" syncScrollX="ganttTableXScroll" syncScrollY="ganttMainYScroll" cdkScrollable>
-      <ng-template [ngTemplateOutlet]="sideTemplate"></ng-template>
+      <ng-template [ngTemplateOutlet]="sideTemplate()"></ng-template>
     </div>
   </div>
 }
-@if (mainTemplate) {
+@if (mainTemplate()) {
   <div class="gantt-container">
     <gantt-calendar-header syncScrollX="ganttMainXScroll" [style.padding-right.px]="verticalScrollbarWidth"></gantt-calendar-header>
     <gantt-calendar-grid
@@ -16,12 +16,12 @@
     <gantt-drag-backdrop></gantt-drag-backdrop>
     <div class="gantt-main">
       <div class="gantt-main-container" syncScrollX="ganttMainXScroll" syncScrollY="ganttMainYScroll">
-        <ng-template [ngTemplateOutlet]="mainTemplate"></ng-template>
+        <ng-template [ngTemplateOutlet]="mainTemplate()"></ng-template>
       </div>
     </div>
   </div>
 }
 <ng-content></ng-content>
-@if (ganttUpper.showToolbar || ganttUpper.toolbarTemplate) {
-  <gantt-toolbar [template]="ganttUpper.toolbarTemplate"> </gantt-toolbar>
+@if (ganttUpper.showToolbar() || ganttUpper.toolbarTemplate()) {
+  <gantt-toolbar [template]="ganttUpper.toolbarTemplate()"> </gantt-toolbar>
 }

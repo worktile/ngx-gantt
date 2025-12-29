@@ -177,6 +177,7 @@ describe('bar-drag', () => {
         ganttComponentInstance.items = [...mockResetBarItems];
         fixture.detectChanges();
         const barElements = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
+        console.log(barElements[0].componentInstance);
         dispatchMouseEvent(barElements[0].nativeElement, 'mouseenter');
         expect(barElements[0].nativeElement.classList).not.toContain(activeClass);
         dispatchMouseEvent(barElements[1].nativeElement, 'mouseenter');
@@ -195,9 +196,9 @@ describe('bar-drag', () => {
         const bar = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent))[0];
         dragEvent(fixture, bar.nativeElement);
         tick(200);
-        expect(bar.componentInstance.item.start.getUnixTime()).toEqual(new GanttDate('2020-04-21 00:00:00').getUnixTime());
+        expect(bar.componentInstance.item().start.getUnixTime()).toEqual(new GanttDate('2020-04-21 00:00:00').getUnixTime());
         // TODO：拖拽时根据 X 坐标计算 end 时间，精度获取不一致需要修改测试
-        // expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-06-26 23:59:59').getUnixTime());
+        // expect(bar.componentInstance.item().end.getUnixTime()).toEqual(new GanttDate('2020-06-26 23:59:59').getUnixTime());
     }));
 
     it('should reset dragRef.disable when reset items', async () => {
@@ -228,7 +229,7 @@ describe('bar-drag', () => {
         const firstHandleElement = bar.queryAll(By.css('.drag-handles .handle'))[0].nativeElement;
         dragEvent(fixture, firstHandleElement, bar.nativeElement);
         tick(200);
-        expect(bar.componentInstance.item.start.getUnixTime()).toEqual(new GanttDate('2020-05-14 00:00:00').getUnixTime());
+        expect(bar.componentInstance.item().start.getUnixTime()).toEqual(new GanttDate('2020-05-14 00:00:00').getUnixTime());
     }));
 
     it('should last bar handles drag', fakeAsync(() => {
@@ -237,7 +238,7 @@ describe('bar-drag', () => {
         const lastHandleElement = bar.queryAll(By.css('.drag-handles .handle'))[1].nativeElement;
         dragEvent(fixture, lastHandleElement, bar.nativeElement);
         tick(200);
-        expect(bar.componentInstance.item.end.getUnixTime()).toEqual(new GanttDate('2020-07-15 23:59:59').getUnixTime());
+        expect(bar.componentInstance.item().end.getUnixTime()).toEqual(new GanttDate('2020-07-15 23:59:59').getUnixTime());
     }));
 
     it('should first bar link handle drag', () => {

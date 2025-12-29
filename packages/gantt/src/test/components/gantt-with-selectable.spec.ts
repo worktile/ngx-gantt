@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttSelectedEvent } from '../../class';
@@ -24,7 +24,7 @@ const mockItems = getMockItems();
     standalone: false
 })
 export class TestGanttSelectableComponent {
-    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+    readonly ganttComponent = viewChild<NgxGanttComponent>('gantt');
 
     constructor() {}
 
@@ -54,7 +54,7 @@ describe('#selectable', () => {
         fixture.detectChanges();
         await fixture.whenStable();
         ganttComponentInstance = fixture.componentInstance;
-        ganttComponent = ganttComponentInstance.ganttComponent;
+        ganttComponent = ganttComponentInstance.ganttComponent();
         await fixture.whenStable();
         fixture.detectChanges();
     });

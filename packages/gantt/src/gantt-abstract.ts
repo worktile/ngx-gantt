@@ -1,13 +1,13 @@
-import { InjectionToken, ChangeDetectorRef } from '@angular/core';
+import { InjectionToken, ChangeDetectorRef, Signal } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal } from './class';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttStyleOptions } from './gantt.config';
 
 export interface GanttAbstractComponent {
-    table: NgxGanttTableComponent;
-    styles: GanttStyleOptions;
-    maxLevel: number;
-    async: boolean;
+    table: Signal<NgxGanttTableComponent>;
+    styles: Signal<GanttStyleOptions>;
+    maxLevel: Signal<number>;
+    async: Signal<boolean>;
     cdr: ChangeDetectorRef;
     expandGroup(group: GanttGroupInternal): void;
     expandChildren(item: GanttItemInternal): void;

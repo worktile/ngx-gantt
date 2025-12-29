@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement, ViewChild } from '@angular/core';
+import { Component, DebugElement, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttComponent } from '../../gantt.component';
@@ -28,7 +28,7 @@ const mockItems = getMockItems();
 export class TestGanttCustomToolbarComponent {
     items = mockItems;
 
-    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+    readonly ganttComponent = viewChild<NgxGanttComponent>('gantt');
 
     constructor() {}
 }
@@ -50,7 +50,7 @@ describe('#custom-toolbar', () => {
         await fixture.whenStable();
         ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
         ganttComponentInstance = fixture.componentInstance;
-        ganttComponent = ganttComponentInstance.ganttComponent;
+        ganttComponent = ganttComponentInstance.ganttComponent();
         await fixture.whenStable();
         fixture.detectChanges();
     });
