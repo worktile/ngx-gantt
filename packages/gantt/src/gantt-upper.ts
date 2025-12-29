@@ -61,8 +61,6 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     // eslint-disable-next-line @angular-eslint/no-input-rename
     readonly originItems = input<GanttItem[]>([], { alias: 'items' });
 
-    // @Input('groups') originGroups: GanttGroup[] = [];
-
     // eslint-disable-next-line @angular-eslint/no-input-rename
     readonly originGroups = input<GanttGroup[]>([], { alias: 'groups' });
 

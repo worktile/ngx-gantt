@@ -124,7 +124,6 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
                     }
                     if (column.showExpandIcon()) {
                         this.hasExpandIcon = true;
-                        console.log(11);
                     }
                 });
                 this.cdr.detectChanges();
