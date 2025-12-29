@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [20.0.1](https://github.com/worktile/ngx-gantt/compare/20.0.0...20.0.1) (2025-12-29)
+
+### Bug Fixes
+
+- **links:** ensure links are only drawn for valid items with positive width ([#616](https://github.com/worktile/ngx-gantt/issues/616)) ([7ab21ca](https://github.com/worktile/ngx-gantt/commit/7ab21cad7f1e9d048003925bba10d480c1404e67))
+- **types:** align i18n and date utils with date-fns@4 type exports ([a609f20](https://github.com/worktile/ngx-gantt/commit/a609f20a5c6ab227690cac7519afd258234954a6))
+
+### Features
+
+- add holiday options and toggle visibility in day view ([#615](https://github.com/worktile/ngx-gantt/issues/615)) ([bd912ad](https://github.com/worktile/ngx-gantt/commit/bd912adc4e7505635a2d0dbe409e0b5f332a4f38))
+
 # [20.0.0](https://github.com/worktile/ngx-gantt/compare/20.0.0-next.1...20.0.0) (2025-11-26)
 
 # [20.0.0-next.1](https://github.com/worktile/ngx-gantt/compare/20.0.0-next.0...20.0.0-next.1) (2025-11-24)
