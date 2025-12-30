@@ -37,6 +37,7 @@ export abstract class GanttItemUpper implements OnDestroy {
         } else {
             this.refsUnsubscribe$.next();
             this.refsUnsubscribe$.complete();
+            this.refsUnsubscribe$ = new Subject<void>();
             this.item()
                 .refs$.pipe(takeUntil(this.refsUnsubscribe$))
                 .subscribe(() => {
