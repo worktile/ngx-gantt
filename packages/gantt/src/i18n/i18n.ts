@@ -18,9 +18,9 @@ export type GanttI18nLocaleConfig = {
         GanttViewType,
         {
             label: string;
-            dateFormats: {
-                primary?: string;
-                secondary?: string;
+            tickFormats: {
+                period?: string;
+                unit?: string;
             };
         }
     >;

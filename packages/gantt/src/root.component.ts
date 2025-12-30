@@ -147,7 +147,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
                 if (event.direction === ScrollDirection.LEFT) {
                     const dates = this.view.addStartDate();
                     if (dates) {
-                        event.target.scrollLeft += this.view.getDateRangeWidth(dates.start, dates.end);
+                        event.target.scrollLeft += this.view.calculateRangeWidth(dates.start, dates.end);
                         if (this.ganttUpper.loadOnScroll.observers) {
                             this.ngZone.run(() =>
                                 this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
@@ -187,16 +187,16 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     }
 
     public scrollToToday() {
-        const x = this.view.getTodayXPoint();
+        const x = this.view.getNowX();
         this.dom.scrollMainContainer(x);
     }
 
     public scrollToDate(date: number | Date | GanttDate) {
         let x: number;
         if (typeof date === 'number' || date instanceof Date) {
-            x = this.view.getXPointByDate(new GanttDate(date));
+            x = this.view.getXAtDate(new GanttDate(date));
         } else {
-            x = this.view.getXPointByDate(date);
+            x = this.view.getXAtDate(date);
         }
 
         this.dom.scrollMainContainer(x);

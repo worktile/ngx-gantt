@@ -3,44 +3,44 @@
 </div>
 <svg [attr.width]="view.width" [attr.height]="ganttUpper.styles().headerHeight">
   <g>
-    @for (point of view.secondaryDatePoints; track point.x) {
-      @if (point.fill) {
+    @for (tick of view.unitTicks; track tick.x) {
+      @if (tick.fill) {
         <rect
-          [attr.x]="$index * view.cellWidth"
+          [attr.x]="$index * view.unitWidth"
           y="0"
-          [attr.width]="view.cellWidth"
+          [attr.width]="view.unitWidth"
           [attr.height]="ganttUpper.styles().headerHeight"
-          [attr.fill]="point.fill"
+          [attr.fill]="tick.fill"
         />
       }
       <text
         class="secondary-text"
-        [ngStyle]="point.style"
-        [class.today]="point.additions?.isToday"
-        [class.weekend]="point.additions?.isWeekend"
-        [attr.x]="point.x"
-        [attr.y]="point.y"
+        [ngStyle]="tick.style"
+        [class.today]="tick.additions?.isToday"
+        [class.weekend]="tick.additions?.isWeekend"
+        [attr.x]="tick.x"
+        [attr.y]="tick.y"
       >
-        {{ point.text }}
+        {{ tick.text }}
       </text>
     }
 
-    @for (point of view.primaryDatePoints; track point.x) {
+    @for (tick of view.periodTicks; track tick.x) {
       <text
         class="primary-text"
-        [ngStyle]="point.style"
-        [class.today]="point.additions?.isToday"
-        [class.weekend]="point.additions?.isWeekend"
-        [attr.x]="point.x"
-        [attr.y]="point.y"
+        [ngStyle]="tick.style"
+        [class.today]="tick.additions?.isToday"
+        [class.weekend]="tick.additions?.isWeekend"
+        [attr.x]="tick.x"
+        [attr.y]="tick.y"
       >
-        {{ point.text }}
+        {{ tick.text }}
       </text>
     }
 
     <g>
-      @for (point of view.primaryDatePoints; track point?.x) {
-        @let rightX = point?.rightX ?? ($index + 1) * view.primaryWidth;
+      @for (tick of view.periodTicks; track tick?.x) {
+        @let rightX = tick?.rightX ?? ($index + 1) * view.periodWidth;
         <line [attr.x1]="rightX" [attr.x2]="rightX" [attr.y1]="0" [attr.y2]="ganttUpper.styles().headerHeight" class="primary-line"></line>
       }
     </g>

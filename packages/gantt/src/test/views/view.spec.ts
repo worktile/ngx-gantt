@@ -1,5 +1,5 @@
 import { differenceInHours, differenceInMinutes } from 'date-fns';
-import { GanttDatePoint } from '../../class';
+import { GanttViewTick } from '../../class';
 import { GanttDate } from '../../utils/date';
 import { GanttView, GanttViewDate, GanttViewOptions } from '../../views/view';
 import { date, today } from './mock';
@@ -9,23 +9,23 @@ class GanttViewMock extends GanttView {
         super(start, end, options);
     }
 
-    viewStartOf(): GanttDate {
+    rangeStartOf(): GanttDate {
         return new GanttDate('2020-01-01 00:00:00');
     }
 
-    viewEndOf(): GanttDate {
+    rangeEndOf(): GanttDate {
         return new GanttDate('2020-12-31 23:59:59');
     }
 
-    getPrimaryWidth(): number {
+    getPeriodWidth(): number {
         return 3640;
     }
 
-    getDayOccupancyWidth(): number {
+    getDayWidth(): number {
         return 10;
     }
 
-    getPrimaryDatePoints(): GanttDatePoint[] {
+    getPeriodTicks(): GanttViewTick[] {
         return [
             {
                 text: '2020年',
@@ -36,7 +36,7 @@ class GanttViewMock extends GanttView {
         ];
     }
 
-    getSecondaryDatePoints(): GanttDatePoint[] {
+    getUnitTicks(): GanttViewTick[] {
         return [
             {
                 text: 'Q1',
@@ -61,7 +61,7 @@ describe('GanttView', () => {
 
     beforeEach(() => {
         ganttView = new GanttViewMock(date.start, date.end, {
-            cellWidth: 20,
+            unitWidth: 20,
             start: today.startOfYear().startOfWeek(),
             end: today.endOfYear().endOfWeek()
         });
@@ -69,17 +69,17 @@ describe('GanttView', () => {
 
     it(`should has correct view options`, () => {
         const options = ganttView.options;
-        const cellWidth = options.cellWidth;
+        const unitWidth = options.unitWidth;
         const start = options.start.getUnixTime();
         const end = options.end.getUnixTime();
-        const max = options.max.getUnixTime();
-        const min = options.min.getUnixTime();
+        const maxBoundary = options.maxBoundary.getUnixTime();
+        const minBoundary = options.minBoundary.getUnixTime();
 
-        expect(cellWidth).toEqual(20);
+        expect(unitWidth).toEqual(20);
         expect(start).toEqual(new GanttDate('2019-12-30 00:00:00').getUnixTime());
         expect(end).toEqual(new GanttDate('2021-01-03 23:59:59').getUnixTime());
-        expect(max).toEqual(new GanttDate().addYears(1).endOfYear().getUnixTime());
-        expect(min).toEqual(new GanttDate().addYears(-1).startOfYear().getUnixTime());
+        expect(maxBoundary).toEqual(new GanttDate().addYears(1).endOfYear().getUnixTime());
+        expect(minBoundary).toEqual(new GanttDate().addYears(-1).startOfYear().getUnixTime());
     });
 
     it(`should has correct start and end`, () => {
@@ -91,7 +91,7 @@ describe('GanttView', () => {
 
     it(`should add start date`, () => {
         const newDate = ganttView.addStartDate();
-        if (ganttView.options.min.value > new GanttDate('2020-01-01 00:00:00').value) {
+        if (ganttView.options.minBoundary.value > new GanttDate('2020-01-01 00:00:00').value) {
             expect(newDate).toBe(null);
         } else {
             expect(newDate.start.getUnixTime()).toEqual(new GanttDate('2020-01-01 00:00:00').getUnixTime());
@@ -117,39 +117,39 @@ describe('GanttView', () => {
     });
 
     it(`should get cell width`, () => {
-        const cellWidth = ganttView.getCellWidth();
-        expect(cellWidth).toEqual(20);
+        const unitWidth = ganttView.getUnitWidth();
+        expect(unitWidth).toEqual(20);
     });
 
     it(`should get today x point`, () => {
-        const xPoint = ganttView.getTodayXPoint();
+        const xPoint = ganttView.getNowX();
         expect(xPoint).toEqual(null);
     });
 
     it(`should get x point by date`, () => {
-        const xPoint = ganttView.getXPointByDate(new GanttDate('2020-02-01 00:00:00'));
+        const xPoint = ganttView.getXAtDate(new GanttDate('2020-02-01 00:00:00'));
         expect(xPoint).toEqual(310);
     });
 
     it(`should get date by x point`, () => {
-        ganttView.getSecondaryDatePoints();
-        const pointDate = ganttView.getDateByXPoint(60);
-        expect(pointDate.getUnixTime()).toEqual(new GanttDate('2020-10-01 00:00:00').getUnixTime());
+        ganttView.getUnitTicks();
+        const tickDate = ganttView.getDateAtX(60);
+        expect(tickDate.getUnixTime()).toEqual(new GanttDate('2020-10-01 00:00:00').getUnixTime());
     });
 
     it(`should get date range width`, () => {
-        const width = ganttView.getDateRangeWidth(new GanttDate('2020-03-01 00:00:00'), new GanttDate('2020-05-01 00:00:00'));
+        const width = ganttView.calculateRangeWidth(new GanttDate('2020-03-01 00:00:00'), new GanttDate('2020-05-01 00:00:00'));
         expect(width).toEqual(620);
     });
 
     it(`should get diff precision date`, () => {
-        let view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'hour' });
+        let view = new GanttViewMock(date.start, date.end, { precisionUnit: 'hour' });
         const dateWithTime = new GanttDate('2022-10-10 12:50:34');
-        expect(view.startOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.startOfHour().getUnixTime());
-        expect(view.endOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.endOfHour().getUnixTime());
+        expect(view.alignToPrecisionStart(dateWithTime).getUnixTime()).toEqual(dateWithTime.startOfHour().getUnixTime());
+        expect(view.alignToPrecisionEnd(dateWithTime).getUnixTime()).toEqual(dateWithTime.endOfHour().getUnixTime());
 
-        view = new GanttViewMock(date.start, date.end, { datePrecisionUnit: 'minute' });
-        expect(view.startOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.startOfMinute().getUnixTime());
-        expect(view.endOfPrecision(dateWithTime).getUnixTime()).toEqual(dateWithTime.endOfMinute().getUnixTime());
+        view = new GanttViewMock(date.start, date.end, { precisionUnit: 'minute' });
+        expect(view.alignToPrecisionStart(dateWithTime).getUnixTime()).toEqual(dateWithTime.startOfMinute().getUnixTime());
+        expect(view.alignToPrecisionEnd(dateWithTime).getUnixTime()).toEqual(dateWithTime.endOfMinute().getUnixTime());
     });
 });

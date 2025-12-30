@@ -1,69 +1,70 @@
-import { GanttView, GanttViewOptions, GanttViewDate, primaryDatePointTop, secondaryDatePointTop } from './view';
+import { GanttView, GanttViewOptions, GanttViewDate, PERIOD_TICK_TOP, UNIT_TICK_TOP } from './view';
 import { GanttDate } from '../utils/date';
-import { GanttDatePoint } from '../class/date-point';
+import { GanttViewTick } from '../class/view-tick';
 import { eachYearOfInterval, differenceInCalendarYears } from 'date-fns';
 import { GanttViewType } from '../class';
 import { zhHantLocale } from '../i18n';
 
-const viewOptions: GanttViewOptions = {
-    cellWidth: 480,
+const defaultViewOptions: GanttViewOptions = {
+    unitWidth: 480,
     start: new GanttDate().addYears(-2).startOfYear(),
     end: new GanttDate().addYears(2).endOfYear(),
     addAmount: 1,
     addUnit: 'year',
-    dateDisplayFormats: zhHantLocale.views.year.dateFormats
+    tickFormats: {
+        period: zhHantLocale.views.year.tickFormats.unit || '',
+        unit: zhHantLocale.views.year.tickFormats.unit || ''
+    }
 };
 
 export class GanttViewYear extends GanttView {
     override viewType = GanttViewType.year;
 
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-        super(start, end, Object.assign({}, viewOptions, options));
+        super(start, end, Object.assign({}, defaultViewOptions, options));
     }
 
-    viewStartOf(date: GanttDate) {
+    rangeStartOf(date: GanttDate) {
         return date.startOfYear();
     }
 
-    viewEndOf(date: GanttDate) {
+    rangeEndOf(date: GanttDate) {
         return date.endOfYear();
     }
 
-    getPrimaryWidth() {
-        return this.getCellWidth();
+    getPeriodWidth() {
+        return this.getUnitWidth();
     }
 
-    getDayOccupancyWidth(date: GanttDate): number {
-        return this.cellWidth / date.getDaysInYear();
+    getDayWidth(date: GanttDate): number {
+        return this.unitWidth / date.getDaysInYear();
     }
 
-    getPrimaryDatePoints(): GanttDatePoint[] {
+    getPeriodTicks(): GanttViewTick[] {
         const years = eachYearOfInterval({ start: this.start.value, end: this.end.value });
-        const points: GanttDatePoint[] = [];
+        const ticks: GanttViewTick[] = [];
         for (let i = 0; i < years.length; i++) {
             const start = new GanttDate(years[i]);
-            const point = new GanttDatePoint(start, ``, this.getCellWidth() / 2 + i * this.getCellWidth(), primaryDatePointTop);
-            points.push(point);
+            const tick = new GanttViewTick(start, ``, this.getUnitWidth() / 2 + i * this.getUnitWidth(), PERIOD_TICK_TOP);
+            ticks.push(tick);
         }
-        return points;
+        return ticks;
     }
 
-    getSecondaryDatePoints(): GanttDatePoint[] {
+    getUnitTicks(): GanttViewTick[] {
         const years = differenceInCalendarYears(this.end.value, this.start.value);
-        const points: GanttDatePoint[] = [];
-        const pointTop = '60%';
+        const ticks: GanttViewTick[] = [];
+        const tickTop = '60%';
         for (let i = 0; i <= years; i++) {
             const start = this.start.addYears(i);
-            const point = new GanttDatePoint(
+            const tick = new GanttViewTick(
                 start,
-                `${start.format(
-                    this.options.dateFormat?.year || this.options.dateDisplayFormats.secondary || this.options.dateDisplayFormats.primary
-                )}`,
-                i * this.getCellWidth() + this.getCellWidth() / 2,
-                pointTop
+                `${start.format(this.options.tickFormats?.unit || this.options.tickFormats?.period)}`,
+                i * this.getUnitWidth() + this.getUnitWidth() / 2,
+                tickTop
             );
-            points.push(point);
+            ticks.push(tick);
         }
-        return points;
+        return ticks;
     }
 }

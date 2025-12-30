@@ -25,43 +25,43 @@ const localeConfig = {
     views: {
         [GanttViewType.hour]: {
             label: '小时',
-            dateFormats: {
-                primary: 'M月d日',
-                secondary: 'HH:mm'
+            tickFormats: {
+                period: 'M月d日',
+                unit: 'HH:mm'
             }
         },
         [GanttViewType.day]: {
             label: '天',
-            dateFormats: {
-                primary: 'yyyy-MM',
-                secondary: 'd'
+            tickFormats: {
+                period: 'yyyy-MM',
+                unit: 'd'
             }
         },
         [GanttViewType.week]: {
             label: '周',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: 'w'
+            tickFormats: {
+                period: 'yyyy',
+                unit: 'w'
             }
         },
         [GanttViewType.month]: {
             label: '月',
-            dateFormats: {
-                primary: `yyyy/QQQ`,
-                secondary: 'MM'
+            tickFormats: {
+                period: `yyyy/QQQ`,
+                unit: 'MM'
             }
         },
         [GanttViewType.quarter]: {
             label: '季',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: `yyyy/QQQ`
+            tickFormats: {
+                period: 'yyyy',
+                unit: `yyyy/QQQ`
             }
         },
         [GanttViewType.year]: {
             label: '年',
-            dateFormats: {
-                secondary: 'yyyy'
+            tickFormats: {
+                unit: 'yyyy'
             }
         }
     }

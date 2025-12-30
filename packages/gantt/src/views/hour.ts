@@ -1,97 +1,100 @@
 import { zhHantLocale } from '../i18n';
 import { GanttViewType } from '../class';
-import { GanttDatePoint } from '../class/date-point';
+import { GanttViewTick } from '../class/view-tick';
 import { GanttDate, differenceInMinutes, eachDayOfInterval, eachHourOfInterval } from '../utils/date';
-import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
+import { GanttView, GanttViewDate, GanttViewOptions, PERIOD_TICK_TOP, UNIT_TICK_TOP } from './view';
 
-const viewOptions: GanttViewOptions = {
-    cellWidth: 80,
+const defaultViewOptions: GanttViewOptions = {
+    unitWidth: 80,
     start: new GanttDate().startOfMonth(),
     end: new GanttDate().endOfMonth(),
-    datePrecisionUnit: 'minute',
+    precisionUnit: 'minute',
     addAmount: 1,
     addUnit: 'week',
-    dateDisplayFormats: zhHantLocale.views.hour.dateFormats,
-    dragPreviewDateFormat: 'HH:mm'
+    tickFormats: {
+        period: zhHantLocale.views.hour.tickFormats.period,
+        unit: zhHantLocale.views.hour.tickFormats.unit
+    },
+    dragTooltipFormat: 'HH:mm'
 };
 
 export class GanttViewHour extends GanttView {
-    override showTimeline = true;
+    override showNowIndicator = true;
 
     override viewType = GanttViewType.hour;
 
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-        super(start, end, Object.assign({}, viewOptions, options));
+        super(start, end, Object.assign({}, defaultViewOptions, options));
     }
 
-    viewStartOf(date: GanttDate) {
+    rangeStartOf(date: GanttDate) {
         return date.startOfWeek();
     }
 
-    viewEndOf(date: GanttDate) {
+    rangeEndOf(date: GanttDate) {
         return date.endOfWeek();
     }
 
-    getPrimaryWidth() {
-        return this.getCellWidth() * 24;
+    getPeriodWidth() {
+        return this.getUnitWidth() * 24;
     }
 
-    getDayOccupancyWidth(): number {
-        return this.cellWidth * 60;
+    getDayWidth(): number {
+        return this.unitWidth * 60;
     }
 
     private getHourOccupancyWidth() {
-        return this.getDayOccupancyWidth() / 60;
+        return this.getDayWidth() / 60;
     }
 
-    getPrimaryDatePoints(): GanttDatePoint[] {
+    getPeriodTicks(): GanttViewTick[] {
         const days = eachDayOfInterval({ start: this.start.value, end: this.end.value });
-        const points: GanttDatePoint[] = [];
+        const ticks: GanttViewTick[] = [];
         for (let i = 0; i < days.length; i++) {
             const start = this.start.addDays(i);
-            const point = new GanttDatePoint(
+            const tick = new GanttViewTick(
                 start,
-                start.format(this.options.dateFormat?.day || this.options.dateDisplayFormats.primary),
-                (this.getCellWidth() * 24) / 2 + i * (this.getCellWidth() * 24),
-                primaryDatePointTop
+                start.format(this.options.tickFormats?.period),
+                (this.getUnitWidth() * 24) / 2 + i * (this.getUnitWidth() * 24),
+                PERIOD_TICK_TOP
             );
-            points.push(point);
+            ticks.push(tick);
         }
 
-        return points;
+        return ticks;
     }
 
-    getSecondaryDatePoints(): GanttDatePoint[] {
+    getUnitTicks(): GanttViewTick[] {
         const hours = eachHourOfInterval({ start: this.start.value, end: this.end.value });
-        const points: GanttDatePoint[] = [];
+        const ticks: GanttViewTick[] = [];
         for (let i = 0; i < hours.length; i++) {
             const start = new GanttDate(hours[i]);
-            const point = new GanttDatePoint(
+            const tick = new GanttViewTick(
                 start,
-                start.format(this.options.dateFormat?.hour || this.options.dateDisplayFormats.secondary),
-                i * this.getCellWidth() + this.getCellWidth() / 2,
-                secondaryDatePointTop,
+                start.format(this.options.tickFormats?.unit),
+                i * this.getUnitWidth() + this.getUnitWidth() / 2,
+                UNIT_TICK_TOP,
                 {
                     isWeekend: start.isWeekend(),
                     isToday: start.isToday()
                 }
             );
-            points.push(point);
+            ticks.push(tick);
         }
-        return points;
+        return ticks;
     }
 
-    override getTodayXPoint(): number {
-        const toady = new GanttDate().startOfMinute();
-        if (toady.value > this.start.value && toady.value < this.end.value) {
-            const x = this.getXPointByDate(toady);
+    override getNowX(): number {
+        const today = new GanttDate().startOfMinute();
+        if (today.value > this.start.value && today.value < this.end.value) {
+            const x = this.getXAtDate(today);
             return x;
         } else {
             return null;
         }
     }
 
-    override getDateIntervalWidth(start: GanttDate, end: GanttDate) {
+    override calculateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const minutes = differenceInMinutes(end.value, start.value);
         for (let i = 0; i < minutes; i++) {
@@ -101,10 +104,10 @@ export class GanttViewHour extends GanttView {
         return Number(result.toFixed(3));
     }
 
-    override getDateByXPoint(x: number) {
+    override getDateAtX(x: number) {
         const hourWidth = this.getHourOccupancyWidth();
         const indexOfSecondaryDate = Math.max(Math.floor(x / hourWidth), 0);
-        const matchDate = this.secondaryDatePoints[Math.min(this.secondaryDatePoints.length - 1, indexOfSecondaryDate)];
+        const matchDate = this.unitTicks[Math.min(this.unitTicks.length - 1, indexOfSecondaryDate)];
         const minuteWidth = hourWidth / 60;
         const underOneHourMinutes = Math.floor((x % hourWidth) / minuteWidth);
         return matchDate?.start.addMinutes(underOneHourMinutes);

@@ -38,3 +38,4 @@ export * from './table/gantt-table.component';
 export * from './utils/date';
 export { registerView } from './views/factory';
 export * from './views/view';
+export { PERIOD_TICK_TOP as PRIMARY_TICK_TOP, UNIT_TICK_TOP as SECONDARY_TICK_TOP } from './views/view';

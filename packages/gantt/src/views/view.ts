@@ -1,13 +1,12 @@
 import { differenceInCalendarDays, differenceInHours, differenceInMinutes } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
 import { GanttViewType } from '../class';
-import { GanttDatePoint } from '../class/date-point';
-import { GanttDateFormat } from '../gantt.config';
+import { GanttViewTick } from '../class/view-tick';
 import { GanttDate, GanttDateUtil, differenceInDays } from '../utils/date';
 
-export const primaryDatePointTop = '40%';
+export const PERIOD_TICK_TOP = '40%';
 
-export const secondaryDatePointTop = '80%';
+export const UNIT_TICK_TOP = '80%';
 
 export interface GanttViewDate {
     date: GanttDate;
@@ -17,17 +16,15 @@ export interface GanttViewDate {
 export interface GanttViewOptions {
     start?: GanttDate;
     end?: GanttDate;
-    min?: GanttDate;
-    max?: GanttDate;
-    cellWidth?: number;
+    minBoundary?: GanttDate;
+    maxBoundary?: GanttDate;
+    unitWidth?: number;
     addAmount?: number;
     addUnit?: GanttDateUtil;
-    /** @deprecated dateFormat is deprecated, please use dateDisplayFormats or setting i18n locale */
-    dateFormat?: GanttDateFormat;
-    dateDisplayFormats?: { primary?: string; secondary?: string };
-    datePrecisionUnit?: 'day' | 'hour' | 'minute';
-    dragPreviewDateFormat?: string;
-    hoilday?: {
+    tickFormats?: { period: string; unit: string };
+    precisionUnit?: 'day' | 'hour' | 'minute';
+    dragTooltipFormat?: string;
+    holiday?: {
         isHoliday: (GanttDate) => boolean;
         hideHoliday: boolean;
     };
@@ -35,11 +32,11 @@ export interface GanttViewOptions {
     [key: string]: any;
 }
 
-const viewOptions: GanttViewOptions = {
-    min: new GanttDate().addYears(-1).startOfYear(),
-    max: new GanttDate().addYears(1).endOfYear(),
-    datePrecisionUnit: 'day',
-    dragPreviewDateFormat: 'MM-dd'
+const defaultViewOptions: GanttViewOptions = {
+    minBoundary: new GanttDate().addYears(-1).startOfYear(),
+    maxBoundary: new GanttDate().addYears(1).endOfYear(),
+    precisionUnit: 'day',
+    dragTooltipFormat: 'MM-dd'
 };
 
 export abstract class GanttView {
@@ -57,78 +54,57 @@ export abstract class GanttView {
         return this.end$.getValue();
     }
 
-    primaryDatePoints: GanttDatePoint[];
+    periodTicks: GanttViewTick[];
 
-    secondaryDatePoints: GanttDatePoint[];
+    unitTicks: GanttViewTick[];
 
     width: number;
 
-    cellWidth: number;
+    unitWidth: number;
 
-    primaryWidth: number;
+    periodWidth: number;
 
-    showTimeline = true;
+    showNowIndicator = true;
 
     options: GanttViewOptions;
 
-    dateFormats: {
-        primary?: string;
-        secondary?: string;
-    } = {};
-
     constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions) {
-        this.options = Object.assign({}, viewOptions, options);
+        this.options = Object.assign({}, defaultViewOptions, options);
 
         const startDate = start.isCustom
-            ? this.viewStartOf(start.date)
-            : this.viewStartOf(start.date.value < this.options.start.value ? start.date : this.options.start);
+            ? this.rangeStartOf(start.date)
+            : this.rangeStartOf(start.date.value < this.options.start.value ? start.date : this.options.start);
         const endDate = end.isCustom
-            ? this.viewEndOf(end.date)
-            : this.viewEndOf(end.date.value > this.options.end.value ? end.date : this.options.end);
+            ? this.rangeEndOf(end.date)
+            : this.rangeEndOf(end.date.value > this.options.end.value ? end.date : this.options.end);
         this.start$ = new BehaviorSubject<GanttDate>(startDate);
         this.end$ = new BehaviorSubject<GanttDate>(endDate);
 
-        this.initialize();
+        this.recomputeLayout();
     }
 
-    abstract viewStartOf(date: GanttDate): GanttDate;
+    abstract rangeStartOf(date: GanttDate): GanttDate;
 
-    abstract viewEndOf(date: GanttDate): GanttDate;
+    abstract rangeEndOf(date: GanttDate): GanttDate;
 
-    /**
-     * deprecated, please use viewStartOf()
-     * @deprecated
-     */
-    startOf(date: GanttDate): GanttDate {
-        return this.viewStartOf(date);
-    }
-
-    /**
-     * deprecated, please use viewEndOf()
-     * @deprecated
-     */
-    endOf(date: GanttDate): GanttDate {
-        return this.viewEndOf(date);
-    }
-
-    // 获取一级时间网格合并后的宽度
-    abstract getPrimaryWidth(): number;
+    // 获取周期刻度合并后的宽度
+    abstract getPeriodWidth(): number;
 
     // 获取当前视图下每一天占用的宽度
-    abstract getDayOccupancyWidth(date: GanttDate): number;
+    abstract getDayWidth(date: GanttDate): number;
 
-    // 获取一级时间点（坐标，显示名称）
-    abstract getPrimaryDatePoints(): GanttDatePoint[];
+    // 获取一级时间刻度（坐标，显示名称）
+    abstract getPeriodTicks(): GanttViewTick[];
 
-    // 获取二级时间点（坐标，显示名称）
-    abstract getSecondaryDatePoints(): GanttDatePoint[];
+    // 获取二级时间刻度（坐标，显示名称）
+    abstract getUnitTicks(): GanttViewTick[];
 
     protected hideHoliday(date: GanttDate): boolean {
-        return this.options.hoilday?.hideHoliday && this.options.hoilday?.isHoliday?.(date);
+        return this.options.holiday?.hideHoliday && this.options.holiday?.isHoliday?.(date);
     }
 
-    startOfPrecision(date: GanttDate) {
-        switch (this.options.datePrecisionUnit) {
+    alignToPrecisionStart(date: GanttDate) {
+        switch (this.options.precisionUnit) {
             case 'minute':
                 return date.startOfMinute();
             case 'hour':
@@ -138,8 +114,8 @@ export abstract class GanttView {
         }
     }
 
-    endOfPrecision(date: GanttDate) {
-        switch (this.options.datePrecisionUnit) {
+    alignToPrecisionEnd(date: GanttDate) {
+        switch (this.options.precisionUnit) {
             case 'minute':
                 return date.endOfMinute();
             case 'hour':
@@ -149,73 +125,73 @@ export abstract class GanttView {
         }
     }
 
-    getDateIntervalWidth(start: GanttDate, end: GanttDate) {
+    calculateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const days = differenceInDays(end.value, start.value);
         for (let i = 0; i < Math.abs(days); i++) {
-            result += this.getDayOccupancyWidth(start.addDays(i));
+            result += this.getDayWidth(start.addDays(i));
         }
         result = days >= 0 ? result : -result;
         return Number(result.toFixed(3));
     }
 
-    protected initialize() {
-        this.cellWidth = this.getCellWidth();
-        this.primaryDatePoints = this.getPrimaryDatePoints();
-        this.secondaryDatePoints = this.getSecondaryDatePoints();
+    protected recomputeLayout() {
+        this.unitWidth = this.getUnitWidth();
+        this.periodTicks = this.getPeriodTicks();
+        this.unitTicks = this.getUnitTicks();
         this.width = this.getWidth();
-        this.primaryWidth = this.getPrimaryWidth();
+        this.periodWidth = this.getPeriodWidth();
     }
 
     addStartDate() {
-        const start = this.viewStartOf(this.start.add(this.options.addAmount * -1, this.options.addUnit));
-        if (start.value >= this.options.min.value) {
+        const start = this.rangeStartOf(this.start.add(this.options.addAmount * -1, this.options.addUnit));
+        if (start.value >= this.options.minBoundary.value) {
             const origin = this.start;
             this.start$.next(start);
-            this.initialize();
+            this.recomputeLayout();
             return { start: this.start, end: origin };
         }
         return null;
     }
 
     addEndDate() {
-        const end = this.viewEndOf(this.end.add(this.options.addAmount, this.options.addUnit));
-        if (end.value <= this.options.max.value) {
+        const end = this.rangeEndOf(this.end.add(this.options.addAmount, this.options.addUnit));
+        if (end.value <= this.options.maxBoundary.value) {
             const origin = this.end;
             this.end$.next(end);
-            this.initialize();
+            this.recomputeLayout();
             return { start: origin, end: this.end };
         }
         return null;
     }
 
     updateDate(start: GanttDate, end: GanttDate) {
-        start = this.viewStartOf(start);
-        end = this.viewEndOf(end);
+        start = this.rangeStartOf(start);
+        end = this.rangeEndOf(end);
         if (start.value < this.start.value) {
             this.start$.next(start);
         }
         if (end.value > this.end.value) {
             this.end$.next(end);
         }
-        this.initialize();
+        this.recomputeLayout();
     }
 
     // 获取View的宽度
     getWidth() {
-        return this.getCellWidth() * this.secondaryDatePoints.length;
+        return this.getUnitWidth() * this.unitTicks.length;
     }
 
     // 获取单个网格的宽度
-    getCellWidth() {
-        return this.options.cellWidth;
+    getUnitWidth() {
+        return this.options.unitWidth;
     }
 
     // 获取当前时间的X坐标
-    getTodayXPoint(): number {
-        const toady = new GanttDate().startOfDay();
-        if (toady.value > this.start.value && toady.value < this.end.value) {
-            const x = this.getXPointByDate(toady) + this.getDayOccupancyWidth(toady) / 2;
+    getNowX(): number {
+        const today = new GanttDate().startOfDay();
+        if (today.value > this.start.value && today.value < this.end.value) {
+            const x = this.getXAtDate(today) + this.getDayWidth(today) / 2;
             return x;
         } else {
             return null;
@@ -223,44 +199,44 @@ export abstract class GanttView {
     }
 
     // 获取指定时间的X坐标
-    getXPointByDate(date: GanttDate) {
-        return this.getDateIntervalWidth(this.start, date);
+    getXAtDate(date: GanttDate) {
+        return this.calculateIntervalWidth(this.start, date);
     }
 
     // 根据X坐标获取对应时间
-    getDateByXPoint(x: number) {
-        const indexOfSecondaryDate = Math.max(Math.floor(x / this.getCellWidth()), 0);
-        const matchDate = this.secondaryDatePoints[Math.min(this.secondaryDatePoints.length - 1, indexOfSecondaryDate)];
-        const dayWidth = this.getDayOccupancyWidth(matchDate?.start);
-        if (dayWidth === this.getCellWidth()) {
+    getDateAtX(x: number) {
+        const indexOfSecondaryDate = Math.max(Math.floor(x / this.getUnitWidth()), 0);
+        const matchDate = this.unitTicks[Math.min(this.unitTicks.length - 1, indexOfSecondaryDate)];
+        const dayWidth = this.getDayWidth(matchDate?.start);
+        if (dayWidth === this.getUnitWidth()) {
             return matchDate?.start;
         } else {
-            const day = Math.floor((x % this.getCellWidth()) / dayWidth);
+            const day = Math.floor((x % this.getUnitWidth()) / dayWidth);
             return matchDate?.start.addDays(day);
         }
     }
 
     // 获取指定时间范围的宽度
-    getDateRangeWidth(start: GanttDate, end: GanttDate) {
+    calculateRangeWidth(start: GanttDate, end: GanttDate) {
         // addSeconds(1) 是因为计算相差天会以一个整天来计算 end时间一般是59分59秒不是一个整天，所以需要加1
-        return this.getDateIntervalWidth(this.startOfPrecision(start), this.endOfPrecision(end).addSeconds(1));
+        return this.calculateIntervalWidth(this.alignToPrecisionStart(start), this.alignToPrecisionEnd(end).addSeconds(1));
     }
 
     // 根据日期精度获取最小时间范围的宽度
-    getMinRangeWidthByPrecisionUnit(date: GanttDate) {
-        switch (this.options.datePrecisionUnit) {
+    getPrecisionUnitWidth(date: GanttDate) {
+        switch (this.options.precisionUnit) {
             case 'minute':
-                return this.getDayOccupancyWidth(date) / 24 / 60;
+                return this.getDayWidth(date) / 24 / 60;
             case 'hour':
-                return this.getDayOccupancyWidth(date) / 24;
+                return this.getDayWidth(date) / 24;
             default:
-                return this.getDayOccupancyWidth(date);
+                return this.getDayWidth(date);
         }
     }
 
     // 获取两个日期在当前可见时间轴上的索引差值
     getVisibleDateIndexOffset(start: GanttDate, end: GanttDate): number {
-        switch (this.options.datePrecisionUnit) {
+        switch (this.options.precisionUnit) {
             case 'minute':
                 return differenceInMinutes(end.value, start.value);
             case 'hour':
@@ -272,6 +248,6 @@ export abstract class GanttView {
 
     // 根据基准日期和索引偏移量，获取新的日期
     getDateByIndexOffset(baseDate: GanttDate, indexOffset: number): GanttDate {
-        return baseDate.add(indexOffset, this.options.datePrecisionUnit);
+        return baseDate.add(indexOffset, this.options.precisionUnit);
     }
 }

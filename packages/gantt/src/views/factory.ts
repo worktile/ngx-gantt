@@ -7,7 +7,7 @@ import { GanttView, GanttViewDate, GanttViewOptions } from './view';
 import { GanttViewWeek } from './week';
 import { GanttViewYear } from './year';
 
-const ganttViewsMap = {
+const viewRegistry = {
     [GanttViewType.hour]: GanttViewHour,
     [GanttViewType.day]: GanttViewDay,
     [GanttViewType.week]: GanttViewWeek,
@@ -17,9 +17,9 @@ const ganttViewsMap = {
 };
 
 export function registerView<T extends typeof GanttView>(type: string, view: T) {
-    ganttViewsMap[type] = view;
+    viewRegistry[type] = view;
 }
 
-export function createViewFactory(type: GanttViewType, start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-    return new ganttViewsMap[type](start, end, options);
+export function createView(type: GanttViewType, start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
+    return new viewRegistry[type](start, end, options);
 }

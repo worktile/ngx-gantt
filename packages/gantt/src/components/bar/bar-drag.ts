@@ -202,8 +202,8 @@ export class GanttBarDrag implements OnDestroy {
             this.dragScrollDistance = 0;
             this.barDragMoveDistance = 0;
             this.item().updateRefs({
-                width: this.ganttUpper.view.getDateRangeWidth(this.item().start, this.item().end),
-                x: this.ganttUpper.view.getXPointByDate(this.item().start),
+                width: this.ganttUpper.view.calculateRangeWidth(this.item().start, this.item().end),
+                x: this.ganttUpper.view.getXAtDate(this.item().start),
                 y: (this.ganttUpper.styles().lineHeight - this.ganttUpper.styles().barHeight) / 2 - 1
             });
             this.dragContainer.dragEnded.emit({ item: this.item().origin });
@@ -268,8 +268,8 @@ export class GanttBarDrag implements OnDestroy {
                 this.dragScrollDistance = 0;
                 this.barHandleDragMoveDistance = 0;
                 this.item().updateRefs({
-                    width: this.ganttUpper.view.getDateRangeWidth(this.item().start, this.item().end),
-                    x: this.ganttUpper.view.getXPointByDate(this.item().start),
+                    width: this.ganttUpper.view.calculateRangeWidth(this.item().start, this.item().end),
+                    x: this.ganttUpper.view.getXAtDate(this.item().start),
                     y: (this.ganttUpper.styles().lineHeight - this.ganttUpper.styles().barHeight) / 2 - 1
                 });
                 this.dragContainer.dragEnded.emit({ item: this.item().origin });
@@ -360,8 +360,8 @@ export class GanttBarDrag implements OnDestroy {
         dragMaskElement.style.display = 'block';
         dragBackdropElement.style.display = 'block';
         // This will invalidate the layout, but we won't need re-layout, because we set styles previously.
-        dragMaskElement.querySelector('.start').innerHTML = start.format(this.ganttUpper.view.options.dragPreviewDateFormat);
-        dragMaskElement.querySelector('.end').innerHTML = end.format(this.ganttUpper.view.options.dragPreviewDateFormat);
+        dragMaskElement.querySelector('.start').innerHTML = start.format(this.ganttUpper.view.options.dragTooltipFormat);
+        dragMaskElement.querySelector('.end').innerHTML = end.format(this.ganttUpper.view.options.dragTooltipFormat);
     }
 
     private closeDragBackdrop() {
@@ -386,8 +386,8 @@ export class GanttBarDrag implements OnDestroy {
         const indexOffset = this.ganttUpper.view.getVisibleDateIndexOffset(originStart, originEnd);
 
         const currentX = this.item().refs.x + this.barDragMoveDistance + this.dragScrollDistance;
-        const currentDate = this.ganttUpper.view.getDateByXPoint(currentX);
-        const currentStartX = this.ganttUpper.view.getXPointByDate(currentDate);
+        const currentDate = this.ganttUpper.view.getDateAtX(currentX);
+        const currentStartX = this.ganttUpper.view.getXAtDate(currentDate);
 
         let start = currentDate;
         // 根据索引差值计算新的结束日期
@@ -395,7 +395,7 @@ export class GanttBarDrag implements OnDestroy {
 
         // 日视图特殊逻辑处理
         if (this.ganttUpper.view.viewType === GanttViewType.day) {
-            const dayWidth = this.ganttUpper.view.getDayOccupancyWidth(currentDate);
+            const dayWidth = this.ganttUpper.view.getDayWidth(currentDate);
             if (currentX > currentStartX + dayWidth / 2) {
                 start = this.ganttUpper.view.getDateByIndexOffset(start, 1);
                 end = this.ganttUpper.view.getDateByIndexOffset(end, 1);
@@ -434,7 +434,7 @@ export class GanttBarDrag implements OnDestroy {
         } else {
             if (this.barHandleDragMoveRecordDiffs > 0 && diffs <= 0) {
                 this.barElement.style.width = minRangeWidthWidth + 'px';
-                const x = this.ganttUpper.view.getXPointByDate(this.item().end);
+                const x = this.ganttUpper.view.getXAtDate(this.item().end);
                 this.barElement.style.left = x + 'px';
             }
             this.openDragBackdrop(this.barElement, this.item().end, this.item().end);
@@ -458,7 +458,7 @@ export class GanttBarDrag implements OnDestroy {
             this.updateItemDate(this.item().start, end);
         } else {
             if (this.barHandleDragMoveRecordDiffs > 0 && offset <= 0) {
-                const minRangeWidth = this.ganttUpper.view.getMinRangeWidthByPrecisionUnit(this.item().start);
+                const minRangeWidth = this.ganttUpper.view.getPrecisionUnitWidth(this.item().start);
                 this.barElement.style.width = minRangeWidth + 'px';
             }
             this.openDragBackdrop(this.barElement, this.item().start, this.item().start);
@@ -546,13 +546,13 @@ export class GanttBarDrag implements OnDestroy {
 
         if (isBefore) {
             const { start, minRangeWidthWidth } = this.startOfBarHandle();
-            const xPointerByEndDate = this.ganttUpper.view.getXPointByDate(this.item().end);
+            const xPointerByEndDate = this.ganttUpper.view.getXAtDate(this.item().end);
 
             isStartGreaterThanEnd = start.value > this.item().end.value;
             isBarAppearsInView = xPointerByEndDate + minRangeWidthWidth + xThreshold <= scrollLeft + clientWidth;
         } else {
             const { end } = this.endOfBarHandle();
-            const xPointerByStartDate = this.ganttUpper.view.getXPointByDate(this.item().start);
+            const xPointerByStartDate = this.ganttUpper.view.getXAtDate(this.item().start);
 
             isStartGreaterThanEnd = end.value < this.item().start.value;
             isBarAppearsInView = scrollLeft + xThreshold <= xPointerByStartDate;
@@ -566,8 +566,8 @@ export class GanttBarDrag implements OnDestroy {
         const x = this.item().refs.x + this.barHandleDragMoveAndScrollDistance;
         return {
             x,
-            start: this.ganttUpper.view.getDateByXPoint(x),
-            minRangeWidthWidth: this.ganttUpper.view.getMinRangeWidthByPrecisionUnit(this.item().end)
+            start: this.ganttUpper.view.getDateAtX(x),
+            minRangeWidthWidth: this.ganttUpper.view.getPrecisionUnitWidth(this.item().end)
         };
     }
 
@@ -577,7 +577,7 @@ export class GanttBarDrag implements OnDestroy {
 
         return {
             width,
-            end: this.ganttUpper.view.getDateByXPoint(this.item().refs.x + width)
+            end: this.ganttUpper.view.getDateAtX(this.item().refs.x + width)
         };
     }
 
@@ -598,7 +598,7 @@ export class GanttBarDrag implements OnDestroy {
     }
 
     private updateItemDate(start: GanttDate, end: GanttDate) {
-        this.item().updateDate(this.ganttUpper.view.startOfPrecision(start), this.ganttUpper.view.endOfPrecision(end));
+        this.item().updateDate(this.ganttUpper.view.alignToPrecisionStart(start), this.ganttUpper.view.alignToPrecisionEnd(end));
     }
 
     initialize(elementRef: ElementRef, item: GanttItemInternal, ganttUpper: GanttUpper) {

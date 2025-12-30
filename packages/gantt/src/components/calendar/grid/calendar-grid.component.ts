@@ -34,7 +34,7 @@ export class GanttCalendarGridComponent implements OnInit, OnDestroy {
     constructor() {}
 
     setTodayPoint() {
-        const x = this.view.getTodayXPoint();
+        const x = this.view.getNowX();
         const todayEle = this.elementRef.nativeElement.getElementsByClassName('gantt-calendar-today-overlay')[0] as HTMLElement;
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0] as HTMLElement;
 

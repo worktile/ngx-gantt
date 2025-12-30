@@ -1,6 +1,6 @@
 import { GanttDate } from '../utils/date';
 
-export class GanttDatePoint {
+export class GanttViewTick {
     public leftX?: number;
     public rightX?: number;
 
