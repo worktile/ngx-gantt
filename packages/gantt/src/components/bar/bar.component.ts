@@ -51,7 +51,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     readonly previousItem: Signal<GanttItemInternal> = linkedSignal({
         source: () => this.item(),
-        computation: (source, previous) => previous?.source
+        computation: (source, previous) => previous?.value
     });
 
     @HostBinding('class.gantt-bar') ganttItemClass = true;

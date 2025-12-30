@@ -39,7 +39,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
     ngOnInit() {
         // 头部日期定位
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            merge(outputToObservable(this.ganttUpper.viewChange), outputToObservable(this.ganttUpper.view.start$))
+            merge(outputToObservable(this.ganttUpper.viewChange), this.ganttUpper.view.start$)
                 .pipe(takeUntil(this.unsubscribe$))
                 .subscribe(() => {
                     if (this.ganttUpper.viewType() === GanttViewType.day) this.setTodayPoint();

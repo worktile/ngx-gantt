@@ -177,7 +177,6 @@ describe('bar-drag', () => {
         ganttComponentInstance.items = [...mockResetBarItems];
         fixture.detectChanges();
         const barElements = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
-        console.log(barElements[0].componentInstance);
         dispatchMouseEvent(barElements[0].nativeElement, 'mouseenter');
         expect(barElements[0].nativeElement.classList).not.toContain(activeClass);
         dispatchMouseEvent(barElements[1].nativeElement, 'mouseenter');

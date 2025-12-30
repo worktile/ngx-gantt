@@ -151,7 +151,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     public linkable: Signal<boolean> = signal(false);
 
-    public linkDragEnded: OutputEmitterRef<GanttLinkDragEvent>;
+    public linkDragEnded?: OutputEmitterRef<GanttLinkDragEvent>;
 
     public view: GanttView;
 
@@ -305,7 +305,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
                     start = start ? Math.min(start, itemStart) : itemStart;
                 }
                 if (item.end && !this.end()) {
-                    const itemEnd = item.start instanceof Date ? getUnixTime(item.start) : item.start;
+                    const itemEnd = item.end instanceof Date ? getUnixTime(item.end) : item.end;
                     end = end ? Math.max(end, itemEnd) : itemEnd;
                 }
             });
@@ -443,7 +443,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     }
 
     isSelected(id: string) {
-        if (!this.selectable) {
+        if (!this.selectable()) {
             return false;
         }
         if (!this.selectionModel?.hasValue()) {
