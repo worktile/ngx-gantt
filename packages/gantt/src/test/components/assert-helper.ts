@@ -29,8 +29,8 @@ export function assertGanttView<T extends TestGanttComponentBase>(
     const calendarElement = fixture.debugElement.query(By.directive(GanttCalendarHeaderComponent));
     const primaryElements = calendarElement.queryAll(By.css('.primary-text'));
     const secondaryElements = calendarElement.queryAll(By.css('.secondary-text'));
-    expect(primaryElements.length).toEqual(fixture.componentInstance.ganttComponent().view.primaryDatePoints.length);
-    expect(secondaryElements.length).toEqual(fixture.componentInstance.ganttComponent().view.secondaryDatePoints.length);
+    expect(primaryElements.length).toEqual(fixture.componentInstance.ganttComponent().view.periodTicks.length);
+    expect(secondaryElements.length).toEqual(fixture.componentInstance.ganttComponent().view.unitTicks.length);
     expect(primaryElements[0].nativeElement.textContent).toContain(expected.firstPrimaryDataPointText);
     expect(primaryElements[primaryElements.length - 1].nativeElement.textContent).toContain(expected.lastPrimaryDataPointText);
     expect(secondaryElements[0].nativeElement.textContent).toContain(expected.firstSecondaryDataPointText);

@@ -82,9 +82,9 @@ describe('#GanttConfigService', () => {
                 ...zhHansLocale.views,
                 [GanttViewType.day]: {
                     label: 'Day',
-                    dateFormats: {
-                        primary: 'yyyy MM',
-                        secondary: 'd天'
+                    tickFormats: {
+                        period: 'yyyy MM',
+                        unit: 'd天'
                     }
                 }
             }
@@ -97,9 +97,9 @@ describe('#GanttConfigService', () => {
                 ...zhHansLocale.views,
                 [GanttViewType.day]: {
                     label: 'Custom',
-                    dateFormats: {
-                        primary: 'yyyy MM',
-                        secondary: 'd'
+                    tickFormats: {
+                        period: 'yyyy MM',
+                        unit: 'd'
                     }
                 }
             }
@@ -133,8 +133,8 @@ describe('#GanttConfigService', () => {
 
         it('should override built in locale correctly', () => {
             expect(service.getViewsLocale().day.label).toBe(localeConfig.views.day.label);
-            expect(service.getViewsLocale().day.dateFormats.primary).toBe(localeConfig.views.day.dateFormats.primary);
-            expect(service.getViewsLocale().day.dateFormats.secondary).toBe(localeConfig.views.day.dateFormats.secondary);
+            expect(service.getViewsLocale().day.tickFormats.period).toBe(localeConfig.views.day.tickFormats.period);
+            expect(service.getViewsLocale().day.tickFormats.unit).toBe(localeConfig.views.day.tickFormats.unit);
         });
 
         it('should get new local config correctly', () => {

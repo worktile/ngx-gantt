@@ -1,4 +1,4 @@
-export * from './date-point';
+export * from './view-tick';
 export * from './event';
 export * from './item';
 export * from './group';

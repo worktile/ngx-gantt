@@ -102,7 +102,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     };
 
     viewOptions: GanttViewOptions = {
-        hoilday: {
+        holiday: {
             isHoliday: (date: GanttDate) => date.isWeekend(),
             hideHoliday: false
         }
@@ -238,8 +238,8 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     holidayChange() {
         this.viewOptions = {
             ...this.viewOptions,
-            hoilday: {
-                ...this.viewOptions.hoilday,
+            holiday: {
+                ...this.viewOptions.holiday,
                 hideHoliday: this.isHideHolidayChecked
             }
         };

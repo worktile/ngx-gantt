@@ -48,7 +48,7 @@ export class GanttCalendarHeaderComponent implements OnInit {
     }
 
     setTodayPoint() {
-        const x = this.view.getTodayXPoint();
+        const x = this.view.getNowX();
         const today = new GanttDate().getDate();
         const todayEle = this.elementRef.nativeElement.getElementsByClassName('gantt-calendar-today-overlay')[0] as HTMLElement;
         const rect = this.elementRef.nativeElement.getElementsByClassName('today-rect')[0] as HTMLElement;

@@ -7,17 +7,6 @@ import zhHans from './i18n/locales/zh-hans';
 import zhHant from './i18n/locales/zh-hant';
 import { setDefaultTimeZone } from './utils/date';
 
-export interface GanttDateFormat {
-    hour?: string;
-    day?: string;
-    week?: string;
-    month?: string;
-    quarter?: string;
-    year?: string;
-    yearMonth?: string;
-    yearQuarter?: string;
-}
-
 export interface GanttDateOptions {
     /**
      * @deprecated dateOptions is deprecated, use i18n locale setting instead
@@ -36,8 +25,6 @@ export interface GanttStyleOptions {
 
 export interface GanttGlobalConfig {
     locale?: GanttI18nLocale | string;
-    /** @deprecated dateFormat is deprecated, please configure through i18n. https://worktile.github.io/ngx-gantt/guides/configuration/i18n */
-    dateFormat?: GanttDateFormat;
     dateOptions?: GanttDateOptions;
     linkOptions?: GanttLinkOptions;
     styleOptions?: GanttStyleOptions;
@@ -74,7 +61,6 @@ export class GanttConfigService {
         const localeId = globalConfig.locale || defaultConfig.locale;
         this.config = {
             locale: localeId,
-            dateFormat: Object.assign({}, defaultConfig.dateFormat, globalConfig.dateFormat),
             styleOptions: Object.assign({}, defaultConfig.styleOptions, globalConfig.styleOptions),
             linkOptions: Object.assign({}, defaultConfig.linkOptions, globalConfig.linkOptions),
             dateOptions: Object.assign({}, defaultConfig.dateOptions, globalConfig.dateOptions)

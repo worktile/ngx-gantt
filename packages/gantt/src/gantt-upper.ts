@@ -45,7 +45,7 @@ import { GANTT_GLOBAL_CONFIG, GanttConfigService, GanttGlobalConfig, GanttStyleO
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttDate, getUnixTime } from './utils/date';
 import { Dictionary, flatten, getFlatItems, keyBy, recursiveItems, uniqBy } from './utils/helpers';
-import { createViewFactory } from './views/factory';
+import { createView } from './views/factory';
 import { GanttView, GanttViewOptions } from './views/view';
 
 @Directive()
@@ -220,10 +220,15 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     private createView() {
         const viewDate = this.getViewDate();
         const viewOptions = { ...this.viewOptions() };
-        viewOptions.dateFormat = Object.assign({}, this.configService.config.dateFormat, viewOptions.dateFormat);
         viewOptions.styleOptions = Object.assign({}, this.configService.config.styleOptions, viewOptions.styleOptions);
-        viewOptions.dateDisplayFormats = this.configService.getViewsLocale()[this.viewType()]?.dateFormats;
-        this.view = createViewFactory(this.viewType(), viewDate.start, viewDate.end, viewOptions);
+        const localeFormats = this.configService.getViewsLocale()[this.viewType()]?.tickFormats;
+        if (localeFormats) {
+            viewOptions.tickFormats = {
+                period: localeFormats.period,
+                unit: localeFormats.unit
+            };
+        }
+        this.view = createView(this.viewType(), viewDate.start, viewDate.end, viewOptions);
     }
 
     private setupGroups() {
@@ -397,8 +402,8 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     computeItemsRefs(...items: GanttItemInternal[] | GanttBaselineItemInternal[]) {
         items.forEach((item) => {
             item.updateRefs({
-                width: item.start && item.end ? this.view.getDateRangeWidth(item.start, item.end) : 0,
-                x: item.start ? this.view.getXPointByDate(item.start) : 0,
+                width: item.start && item.end ? this.view.calculateRangeWidth(item.start, item.end) : 0,
+                x: item.start ? this.view.getXAtDate(item.start) : 0,
                 y: (this.styles().lineHeight - this.styles().barHeight) / 2 - 1
             });
         });

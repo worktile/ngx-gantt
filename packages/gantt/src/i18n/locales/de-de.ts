@@ -9,43 +9,43 @@ export default {
     views: {
         [GanttViewType.hour]: {
             label: 'Stündlich',
-            dateFormats: {
-                primary: 'dd. MMM',
-                secondary: 'HH:mm'
+            tickFormats: {
+                period: 'dd. MMM',
+                unit: 'HH:mm'
             }
         },
         [GanttViewType.day]: {
             label: 'Täglich',
-            dateFormats: {
-                primary: 'MMM yyyy',
-                secondary: 'd'
+            tickFormats: {
+                period: 'MMM yyyy',
+                unit: 'd'
             }
         },
         [GanttViewType.week]: {
             label: 'Wöchentlich',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: `w. 'Woche'`
+            tickFormats: {
+                period: 'yyyy',
+                unit: `w. 'Woche'`
             }
         },
         [GanttViewType.month]: {
             label: 'Monatlich',
-            dateFormats: {
-                primary: 'MMM yyyy',
-                secondary: 'MMM'
+            tickFormats: {
+                period: 'MMM yyyy',
+                unit: 'MMM'
             }
         },
         [GanttViewType.quarter]: {
             label: 'Vierteljährlich',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: `Q. 'Quartal' yyyy`
+            tickFormats: {
+                period: 'yyyy',
+                unit: `Q. 'Quartal' yyyy`
             }
         },
         [GanttViewType.year]: {
             label: 'Jährlich',
-            dateFormats: {
-                secondary: 'yyyy'
+            tickFormats: {
+                unit: 'yyyy'
             }
         }
     }

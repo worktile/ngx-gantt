@@ -6,43 +6,43 @@ export default {
     views: {
         [GanttViewType.hour]: {
             label: 'Hourly',
-            dateFormats: {
-                primary: 'MMM d',
-                secondary: 'HH:mm'
+            tickFormats: {
+                period: 'MMM d',
+                unit: 'HH:mm'
             }
         },
         [GanttViewType.day]: {
             label: 'Daily',
-            dateFormats: {
-                primary: 'MMM yyyy',
-                secondary: 'd'
+            tickFormats: {
+                period: 'MMM yyyy',
+                unit: 'd'
             }
         },
         [GanttViewType.week]: {
             label: 'Weekly',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: 'wo'
+            tickFormats: {
+                period: 'yyyy',
+                unit: 'wo'
             }
         },
         [GanttViewType.month]: {
             label: 'Monthly',
-            dateFormats: {
-                primary: "yyyy 'Q'Q",
-                secondary: 'MMM'
+            tickFormats: {
+                period: "yyyy 'Q'Q",
+                unit: 'MMM'
             }
         },
         [GanttViewType.quarter]: {
             label: 'Quarterly',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: "yyyy 'Q'Q"
+            tickFormats: {
+                period: 'yyyy',
+                unit: "yyyy 'Q'Q"
             }
         },
         [GanttViewType.year]: {
             label: 'Yearly',
-            dateFormats: {
-                secondary: 'yyyy'
+            tickFormats: {
+                unit: 'yyyy'
             }
         }
     }

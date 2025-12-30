@@ -1,98 +1,101 @@
 import { GanttViewType } from '../class';
-import { GanttDatePoint } from '../class/date-point';
+import { GanttViewTick } from '../class/view-tick';
 import { zhHantLocale } from '../i18n';
 import { differenceInCalendarDays, eachDayOfInterval, eachWeekOfInterval, GanttDate } from '../utils/date';
-import { GanttView, GanttViewDate, GanttViewOptions, primaryDatePointTop, secondaryDatePointTop } from './view';
+import { GanttView, GanttViewDate, GanttViewOptions, PERIOD_TICK_TOP, UNIT_TICK_TOP } from './view';
 
-const viewOptions: GanttViewOptions = {
-    cellWidth: 35,
+const defaultViewOptions: GanttViewOptions = {
+    unitWidth: 35,
     start: new GanttDate().startOfYear().startOfWeek(),
     end: new GanttDate().endOfYear().endOfWeek(),
     addAmount: 1,
     addUnit: 'month',
-    dateDisplayFormats: zhHantLocale.views.day.dateFormats
+    tickFormats: {
+        period: zhHantLocale.views.day.tickFormats.period,
+        unit: zhHantLocale.views.day.tickFormats.unit
+    }
 };
 
 export class GanttViewDay extends GanttView {
-    override showTimeline = false;
+    override showNowIndicator = false;
 
     override viewType = GanttViewType.day;
 
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-        super(start, end, Object.assign({}, viewOptions, options));
+        super(start, end, Object.assign({}, defaultViewOptions, options));
     }
 
-    viewStartOf(date: GanttDate) {
+    rangeStartOf(date: GanttDate) {
         return date.startOfWeek();
     }
 
-    viewEndOf(date: GanttDate) {
+    rangeEndOf(date: GanttDate) {
         return date.endOfWeek();
     }
 
-    getPrimaryWidth() {
-        return this.getCellWidth() * 7;
+    getPeriodWidth() {
+        return this.getUnitWidth() * 7;
     }
 
-    getDayOccupancyWidth(date: GanttDate): number {
+    getDayWidth(date: GanttDate): number {
         if (this.hideHoliday(date)) {
             return 0;
         }
-        return this.cellWidth;
+        return this.unitWidth;
     }
 
-    getPrimaryDatePoints(): GanttDatePoint[] {
+    getPeriodTicks(): GanttViewTick[] {
         const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
-        const points: GanttDatePoint[] = [];
+        const ticks: GanttViewTick[] = [];
         for (let i = 0; i < weeks.length; i++) {
             const weekStart = new GanttDate(weeks[i]);
             const weekEnd = weekStart.addWeeks(1);
             const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
-            const pointWidth = this.getDateIntervalWidth(weekStart, weekEnd);
-            const lastPoint = points[points.length - 1];
-            const point = new GanttDatePoint(
+            const tickWidth = this.calculateIntervalWidth(weekStart, weekEnd);
+            const lastTick = ticks[ticks.length - 1];
+            const tick = new GanttViewTick(
                 weekStart,
-                weekStart.addWeeks(increaseWeek).format(this.options.dateFormat?.yearMonth || this.options.dateDisplayFormats.primary),
-                pointWidth / 2 + (lastPoint?.rightX || 0),
-                primaryDatePointTop
+                weekStart.addWeeks(increaseWeek).format(this.options.tickFormats?.period),
+                tickWidth / 2 + (lastTick?.rightX || 0),
+                PERIOD_TICK_TOP
             );
 
-            point.leftX = lastPoint?.rightX || 0;
-            point.rightX = point.leftX + pointWidth;
-            points.push(point);
+            tick.leftX = lastTick?.rightX || 0;
+            tick.rightX = tick.leftX + tickWidth;
+            ticks.push(tick);
         }
-        return points;
+        return ticks;
     }
 
-    getSecondaryDatePoints(): GanttDatePoint[] {
+    getUnitTicks(): GanttViewTick[] {
         const days = eachDayOfInterval({ start: this.start.value, end: this.end.value }).filter(
             (day) => !this.hideHoliday(new GanttDate(day))
         );
-        const points: GanttDatePoint[] = [];
+        const ticks: GanttViewTick[] = [];
         for (let i = 0; i < days.length; i++) {
             const start = new GanttDate(days[i]);
-            const point = new GanttDatePoint(
+            const tick = new GanttViewTick(
                 start,
-                start.format(this.options.dateDisplayFormats.secondary) || start.getDate().toString(),
-                i * this.getCellWidth() + this.getCellWidth() / 2,
-                secondaryDatePointTop,
+                start.format(this.options.tickFormats?.unit) || start.getDate().toString(),
+                i * this.getUnitWidth() + this.getUnitWidth() / 2,
+                UNIT_TICK_TOP,
                 {
                     isWeekend: start.isWeekend(),
                     isToday: start.isToday()
                 }
             );
-            points.push(point);
+            ticks.push(tick);
         }
-        return points;
+        return ticks;
     }
 
     // 获取两个日期在当前可见时间轴上的索引差值
     override getVisibleDateIndexOffset(start: GanttDate, end: GanttDate): number {
-        const startTime = this.startOfPrecision(start).value;
-        const endTime = this.startOfPrecision(end).value;
+        const startTime = this.alignToPrecisionStart(start).value;
+        const endTime = this.alignToPrecisionStart(end).value;
 
-        const startIndex = this.secondaryDatePoints.findIndex((p) => p.start.value >= startTime);
-        const endIndex = this.secondaryDatePoints.findIndex((p) => p.start.value >= endTime);
+        const startIndex = this.unitTicks.findIndex((tick) => tick.start.value >= startTime);
+        const endIndex = this.unitTicks.findIndex((tick) => tick.start.value >= endTime);
 
         if (startIndex !== -1 && endIndex !== -1) {
             return endIndex - startIndex;
@@ -102,12 +105,12 @@ export class GanttViewDay extends GanttView {
 
     // 根据基准日期和索引偏移量，获取新的日期
     override getDateByIndexOffset(baseDate: GanttDate, indexOffset: number): GanttDate {
-        const baseTime = this.startOfPrecision(baseDate).value;
-        const baseIndex = this.secondaryDatePoints.findIndex((p) => p.start.value >= baseTime);
+        const baseTime = this.alignToPrecisionStart(baseDate).value;
+        const baseIndex = this.unitTicks.findIndex((tick) => tick.start.value >= baseTime);
         if (baseIndex !== -1) {
             const targetIndex = baseIndex + indexOffset;
-            const safeIndex = Math.max(0, Math.min(targetIndex, this.secondaryDatePoints.length - 1));
-            return this.secondaryDatePoints[safeIndex].start;
+            const safeIndex = Math.max(0, Math.min(targetIndex, this.unitTicks.length - 1));
+            return this.unitTicks[safeIndex].start;
         }
         return baseDate.addDays(indexOffset);
     }
