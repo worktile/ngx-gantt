@@ -43,9 +43,22 @@ export class GanttViewYear extends GanttView {
     getPeriodTicks(): GanttViewTick[] {
         const years = eachYearOfInterval({ start: this.start.value, end: this.end.value });
         const ticks: GanttViewTick[] = [];
+        const periodWidth = this.getPeriodWidth();
         for (let i = 0; i < years.length; i++) {
             const start = new GanttDate(years[i]);
-            const tick = new GanttViewTick(start, ``, this.getUnitWidth() / 2 + i * this.getUnitWidth(), PERIOD_TICK_TOP);
+            const rectX = i * periodWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: periodWidth
+                },
+                label: {
+                    text: ``,
+                    y: PERIOD_TICK_TOP,
+                    x: rectX + periodWidth / 2
+                }
+            });
             ticks.push(tick);
         }
         return ticks;
@@ -55,14 +68,22 @@ export class GanttViewYear extends GanttView {
         const years = differenceInCalendarYears(this.end.value, this.start.value);
         const ticks: GanttViewTick[] = [];
         const tickTop = '60%';
+        const unitWidth = this.getUnitWidth();
         for (let i = 0; i <= years; i++) {
             const start = this.start.addYears(i);
-            const tick = new GanttViewTick(
-                start,
-                `${start.format(this.options.tickFormats?.unit || this.options.tickFormats?.period)}`,
-                i * this.getUnitWidth() + this.getUnitWidth() / 2,
-                tickTop
-            );
+            const rectX = i * unitWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: unitWidth
+                },
+                label: {
+                    text: `${start.format(this.options.tickFormats?.unit || this.options.tickFormats?.period)}`,
+                    y: tickTop,
+                    x: rectX + unitWidth / 2
+                }
+            });
             ticks.push(tick);
         }
         return ticks;

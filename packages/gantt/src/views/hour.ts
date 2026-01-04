@@ -50,14 +50,22 @@ export class GanttViewHour extends GanttView {
     getPeriodTicks(): GanttViewTick[] {
         const days = eachDayOfInterval({ start: this.start.value, end: this.end.value });
         const ticks: GanttViewTick[] = [];
+        const periodWidth = this.getPeriodWidth();
         for (let i = 0; i < days.length; i++) {
             const start = this.start.addDays(i);
-            const tick = new GanttViewTick(
-                start,
-                start.format(this.options.tickFormats?.period),
-                (this.getUnitWidth() * 24) / 2 + i * (this.getUnitWidth() * 24),
-                PERIOD_TICK_TOP
-            );
+            const rectX = i * periodWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: periodWidth
+                },
+                label: {
+                    text: start.format(this.options.tickFormats?.period),
+                    y: PERIOD_TICK_TOP,
+                    x: rectX + periodWidth / 2
+                }
+            });
             ticks.push(tick);
         }
 
@@ -67,18 +75,26 @@ export class GanttViewHour extends GanttView {
     getUnitTicks(): GanttViewTick[] {
         const hours = eachHourOfInterval({ start: this.start.value, end: this.end.value });
         const ticks: GanttViewTick[] = [];
+        const unitWidth = this.getUnitWidth();
         for (let i = 0; i < hours.length; i++) {
             const start = new GanttDate(hours[i]);
-            const tick = new GanttViewTick(
-                start,
-                start.format(this.options.tickFormats?.unit),
-                i * this.getUnitWidth() + this.getUnitWidth() / 2,
-                UNIT_TICK_TOP,
-                {
+            const rectX = i * unitWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: unitWidth
+                },
+                label: {
+                    text: start.format(this.options.tickFormats?.unit),
+                    y: UNIT_TICK_TOP,
+                    x: rectX + unitWidth / 2
+                },
+                metadata: {
                     isWeekend: start.isWeekend(),
                     isToday: start.isToday()
                 }
-            );
+            });
             ticks.push(tick);
         }
         return ticks;
@@ -110,6 +126,6 @@ export class GanttViewHour extends GanttView {
         const matchDate = this.unitTicks[Math.min(this.unitTicks.length - 1, indexOfSecondaryDate)];
         const minuteWidth = hourWidth / 60;
         const underOneHourMinutes = Math.floor((x % hourWidth) / minuteWidth);
-        return matchDate?.start.addMinutes(underOneHourMinutes);
+        return matchDate?.date.addMinutes(underOneHourMinutes);
     }
 }

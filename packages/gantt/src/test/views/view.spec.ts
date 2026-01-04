@@ -27,31 +27,71 @@ class GanttViewMock extends GanttView {
 
     getPeriodTicks(): GanttViewTick[] {
         return [
-            {
-                text: '2020年',
-                x: 1820,
-                y: 18,
-                start: new GanttDate('2020-01-01 00:00:00')
-            }
+            new GanttViewTick({
+                date: new GanttDate('2020-01-01 00:00:00'),
+                rect: {
+                    x: 0,
+                    width: 3640
+                },
+                label: {
+                    text: '2020年',
+                    x: 1820,
+                    y: 18
+                }
+            })
         ];
     }
 
     getUnitTicks(): GanttViewTick[] {
         return [
-            {
-                text: 'Q1',
-                x: 455,
-                y: 36,
-                start: new GanttDate('2020-01-01 00:00:00')
-            },
-            {
-                text: 'Q2',
-                x: 1365,
-                y: 36,
-                start: new GanttDate('2020-04-01 00:00:00')
-            },
-            { text: 'Q3', x: 2275, y: 36, start: new GanttDate('2020-07-01 00:00:00') },
-            { text: 'Q4', x: 3185, y: 36, start: new GanttDate('2020-10-01 00:00:00') }
+            new GanttViewTick({
+                date: new GanttDate('2020-01-01 00:00:00'),
+                rect: {
+                    x: 0,
+                    width: 910
+                },
+                label: {
+                    text: 'Q1',
+                    x: 455,
+                    y: 36
+                }
+            }),
+            new GanttViewTick({
+                date: new GanttDate('2020-04-01 00:00:00'),
+                rect: {
+                    x: 910,
+                    width: 910
+                },
+                label: {
+                    text: 'Q2',
+                    x: 1365,
+                    y: 36
+                }
+            }),
+            new GanttViewTick({
+                date: new GanttDate('2020-07-01 00:00:00'),
+                rect: {
+                    x: 1820,
+                    width: 910
+                },
+                label: {
+                    text: 'Q3',
+                    x: 2275,
+                    y: 36
+                }
+            }),
+            new GanttViewTick({
+                date: new GanttDate('2020-10-01 00:00:00'),
+                rect: {
+                    x: 2730,
+                    width: 910
+                },
+                label: {
+                    text: 'Q4',
+                    x: 3185,
+                    y: 36
+                }
+            })
         ];
     }
 }

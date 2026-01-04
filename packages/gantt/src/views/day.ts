@@ -53,15 +53,19 @@ export class GanttViewDay extends GanttView {
             const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
             const tickWidth = this.calculateIntervalWidth(weekStart, weekEnd);
             const lastTick = ticks[ticks.length - 1];
-            const tick = new GanttViewTick(
-                weekStart,
-                weekStart.addWeeks(increaseWeek).format(this.options.tickFormats?.period),
-                tickWidth / 2 + (lastTick?.rightX || 0),
-                PERIOD_TICK_TOP
-            );
-
-            tick.leftX = lastTick?.rightX || 0;
-            tick.rightX = tick.leftX + tickWidth;
+            const rectX = lastTick ? lastTick.rect.x + lastTick.rect.width : 0;
+            const tick = new GanttViewTick({
+                date: weekStart,
+                rect: {
+                    x: rectX,
+                    width: tickWidth
+                },
+                label: {
+                    text: weekStart.addWeeks(increaseWeek).format(this.options.tickFormats?.period),
+                    y: PERIOD_TICK_TOP,
+                    x: rectX + tickWidth / 2
+                }
+            });
             ticks.push(tick);
         }
         return ticks;
@@ -72,18 +76,26 @@ export class GanttViewDay extends GanttView {
             (day) => !this.hideHoliday(new GanttDate(day))
         );
         const ticks: GanttViewTick[] = [];
+        const unitWidth = this.getUnitWidth();
         for (let i = 0; i < days.length; i++) {
             const start = new GanttDate(days[i]);
-            const tick = new GanttViewTick(
-                start,
-                start.format(this.options.tickFormats?.unit) || start.getDate().toString(),
-                i * this.getUnitWidth() + this.getUnitWidth() / 2,
-                UNIT_TICK_TOP,
-                {
+            const rectX = i * unitWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: unitWidth
+                },
+                label: {
+                    text: start.format(this.options.tickFormats?.unit) || start.getDate().toString(),
+                    y: UNIT_TICK_TOP,
+                    x: rectX + unitWidth / 2
+                },
+                metadata: {
                     isWeekend: start.isWeekend(),
                     isToday: start.isToday()
                 }
-            );
+            });
             ticks.push(tick);
         }
         return ticks;
@@ -94,8 +106,8 @@ export class GanttViewDay extends GanttView {
         const startTime = this.alignToPrecisionStart(start).value;
         const endTime = this.alignToPrecisionStart(end).value;
 
-        const startIndex = this.unitTicks.findIndex((tick) => tick.start.value >= startTime);
-        const endIndex = this.unitTicks.findIndex((tick) => tick.start.value >= endTime);
+        const startIndex = this.unitTicks.findIndex((tick) => tick.date.value >= startTime);
+        const endIndex = this.unitTicks.findIndex((tick) => tick.date.value >= endTime);
 
         if (startIndex !== -1 && endIndex !== -1) {
             return endIndex - startIndex;
@@ -106,11 +118,11 @@ export class GanttViewDay extends GanttView {
     // 根据基准日期和索引偏移量，获取新的日期
     override getDateByIndexOffset(baseDate: GanttDate, indexOffset: number): GanttDate {
         const baseTime = this.alignToPrecisionStart(baseDate).value;
-        const baseIndex = this.unitTicks.findIndex((tick) => tick.start.value >= baseTime);
+        const baseIndex = this.unitTicks.findIndex((tick) => tick.date.value >= baseTime);
         if (baseIndex !== -1) {
             const targetIndex = baseIndex + indexOffset;
             const safeIndex = Math.max(0, Math.min(targetIndex, this.unitTicks.length - 1));
-            return this.unitTicks[safeIndex].start;
+            return this.unitTicks[safeIndex].date;
         }
         return baseDate.addDays(indexOffset);
     }

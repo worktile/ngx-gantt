@@ -42,14 +42,22 @@ export class GanttViewMonth extends GanttView {
     getPeriodTicks(): GanttViewTick[] {
         const quarters = differenceInCalendarQuarters(this.end.addSeconds(1).value, this.start.value);
         const ticks: GanttViewTick[] = [];
+        const periodWidth = this.getPeriodWidth();
         for (let i = 0; i < quarters; i++) {
             const start = this.start.addQuarters(i);
-            const tick = new GanttViewTick(
-                start,
-                start.format(this.options.tickFormats?.period),
-                (this.getUnitWidth() * 3) / 2 + i * (this.getUnitWidth() * 3),
-                PERIOD_TICK_TOP
-            );
+            const rectX = i * periodWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: periodWidth
+                },
+                label: {
+                    text: start.format(this.options.tickFormats?.period),
+                    y: PERIOD_TICK_TOP,
+                    x: rectX + periodWidth / 2
+                }
+            });
             ticks.push(tick);
         }
 
@@ -59,14 +67,22 @@ export class GanttViewMonth extends GanttView {
     getUnitTicks(): GanttViewTick[] {
         const months = eachMonthOfInterval({ start: this.start.value, end: this.end.value });
         const ticks: GanttViewTick[] = [];
+        const unitWidth = this.getUnitWidth();
         for (let i = 0; i < months.length; i++) {
             const start = new GanttDate(months[i]);
-            const tick = new GanttViewTick(
-                start,
-                start.format(this.options.tickFormats?.unit),
-                i * this.getUnitWidth() + this.getUnitWidth() / 2,
-                UNIT_TICK_TOP
-            );
+            const rectX = i * unitWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: unitWidth
+                },
+                label: {
+                    text: start.format(this.options.tickFormats?.unit),
+                    y: UNIT_TICK_TOP,
+                    x: rectX + unitWidth / 2
+                }
+            });
             ticks.push(tick);
         }
         return ticks;

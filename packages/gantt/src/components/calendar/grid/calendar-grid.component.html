@@ -5,9 +5,9 @@
 </div>
 <svg class="gantt-calendar-grid-fill" [attr.width]="view.width" [attr.height]="1">
   <g>
-    @for (tick of view.unitTicks; track tick.x) {
-      @if (tick.fill) {
-        <rect [attr.x]="$index * view.unitWidth" y="0" [attr.width]="view.unitWidth" [attr.height]="mainHeight" [attr.fill]="tick.fill" />
+    @for (tick of view.unitTicks; track tick.rect.x) {
+      @if (tick.rect.background) {
+        <rect [attr.x]="tick.rect.x" y="0" [attr.width]="tick.rect.width" [attr.height]="mainHeight" [attr.fill]="tick.rect.background" />
       }
     }
   </g>
@@ -17,10 +17,10 @@
   <g>
     @if (view.showNowIndicator) {
       <g>
-        @for (tick of view.unitTicks; track tick.x) {
+        @for (tick of view.unitTicks; track tick.rect.x) {
           <line
-            [attr.x1]="($index + 1) * view.unitWidth"
-            [attr.x2]="($index + 1) * view.unitWidth"
+            [attr.x1]="tick.rect.x + tick.rect.width"
+            [attr.x2]="tick.rect.x + tick.rect.width"
             [attr.y1]="0"
             [attr.y2]="mainHeight"
             class="secondary-line"
@@ -29,8 +29,8 @@
       </g>
     }
     <g>
-      @for (tick of view.periodTicks; track tick?.x) {
-        @let rightX = tick?.rightX ?? ($index + 1) * view.periodWidth;
+      @for (tick of view.periodTicks; track tick.rect.x) {
+        @let rightX = tick.rect.x + tick.rect.width;
         <line [attr.x1]="rightX" [attr.x2]="rightX" [attr.y1]="0" [attr.y2]="mainHeight" class="primary-line"></line>
       }
     </g>

@@ -3,44 +3,48 @@
 </div>
 <svg [attr.width]="view.width" [attr.height]="ganttUpper.styles().headerHeight">
   <g>
-    @for (tick of view.unitTicks; track tick.x) {
-      @if (tick.fill) {
+    @for (tick of view.unitTicks; track tick.rect.x) {
+      @if (tick.rect.background) {
         <rect
-          [attr.x]="$index * view.unitWidth"
+          [attr.x]="tick.rect.x"
           y="0"
-          [attr.width]="view.unitWidth"
+          [attr.width]="tick.rect.width"
           [attr.height]="ganttUpper.styles().headerHeight"
-          [attr.fill]="tick.fill"
+          [attr.fill]="tick.rect.background"
         />
       }
       <text
         class="secondary-text"
-        [ngStyle]="tick.style"
-        [class.today]="tick.additions?.isToday"
-        [class.weekend]="tick.additions?.isWeekend"
-        [attr.x]="tick.x"
-        [attr.y]="tick.y"
+        [ngStyle]="{
+          fill: tick.label.style?.color,
+          fontSize: tick.label.style?.fontSize,
+          fontWeight: tick.label.style?.fontWeight
+        }"
+        [class.today]="tick.metadata?.isToday"
+        [class.weekend]="tick.metadata?.isWeekend"
+        [attr.x]="tick.label.x"
+        [attr.y]="tick.label.y"
       >
-        {{ tick.text }}
+        {{ tick.label.text }}
       </text>
     }
 
-    @for (tick of view.periodTicks; track tick.x) {
+    @for (tick of view.periodTicks; track tick.rect.x) {
       <text
         class="primary-text"
-        [ngStyle]="tick.style"
-        [class.today]="tick.additions?.isToday"
-        [class.weekend]="tick.additions?.isWeekend"
-        [attr.x]="tick.x"
-        [attr.y]="tick.y"
+        [ngStyle]="tick.label.style"
+        [class.today]="tick.metadata?.isToday"
+        [class.weekend]="tick.metadata?.isWeekend"
+        [attr.x]="tick.label.x"
+        [attr.y]="tick.label.y"
       >
-        {{ tick.text }}
+        {{ tick.label.text }}
       </text>
     }
 
     <g>
-      @for (tick of view.periodTicks; track tick?.x) {
-        @let rightX = tick?.rightX ?? ($index + 1) * view.periodWidth;
+      @for (tick of view.periodTicks; track tick.rect.x) {
+        @let rightX = tick.rect.x + tick.rect.width;
         <line [attr.x1]="rightX" [attr.x2]="rightX" [attr.y1]="0" [attr.y2]="ganttUpper.styles().headerHeight" class="primary-line"></line>
       }
     </g>
