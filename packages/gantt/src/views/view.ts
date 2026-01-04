@@ -207,12 +207,12 @@ export abstract class GanttView {
     getDateAtX(x: number) {
         const indexOfSecondaryDate = Math.max(Math.floor(x / this.getUnitWidth()), 0);
         const matchDate = this.unitTicks[Math.min(this.unitTicks.length - 1, indexOfSecondaryDate)];
-        const dayWidth = this.getDayWidth(matchDate?.start);
+        const dayWidth = this.getDayWidth(matchDate?.date);
         if (dayWidth === this.getUnitWidth()) {
-            return matchDate?.start;
+            return matchDate?.date;
         } else {
             const day = Math.floor((x % this.getUnitWidth()) / dayWidth);
-            return matchDate?.start.addDays(day);
+            return matchDate?.date.addDays(day);
         }
     }
 

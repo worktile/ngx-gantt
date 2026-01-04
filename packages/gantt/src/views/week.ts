@@ -42,15 +42,23 @@ export class GanttViewWeek extends GanttView {
     getPeriodTicks(): GanttViewTick[] {
         const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
         const ticks: GanttViewTick[] = [];
+        const periodWidth = this.getPeriodWidth();
         for (let i = 0; i < weeks.length; i++) {
             const weekStart = new GanttDate(weeks[i]);
             const increaseWeek = weekStart.getDaysInMonth() - weekStart.getDate() >= 3 ? 0 : 1;
-            const tick = new GanttViewTick(
-                weekStart,
-                weekStart.addWeeks(increaseWeek).format(this.options.tickFormats?.period),
-                this.getUnitWidth() / 2 + i * this.getUnitWidth(),
-                PERIOD_TICK_TOP
-            );
+            const rectX = i * periodWidth;
+            const tick = new GanttViewTick({
+                date: weekStart,
+                rect: {
+                    x: rectX,
+                    width: periodWidth
+                },
+                label: {
+                    text: weekStart.addWeeks(increaseWeek).format(this.options.tickFormats?.period),
+                    y: PERIOD_TICK_TOP,
+                    x: rectX + periodWidth / 2
+                }
+            });
             ticks.push(tick);
         }
         return ticks;
@@ -59,14 +67,22 @@ export class GanttViewWeek extends GanttView {
     getUnitTicks(): GanttViewTick[] {
         const weeks = eachWeekOfInterval({ start: this.start.value, end: this.end.addSeconds(1).value });
         const ticks: GanttViewTick[] = [];
+        const unitWidth = this.getUnitWidth();
         for (let i = 0; i < weeks.length; i++) {
             const start = new GanttDate(weeks[i]);
-            const tick = new GanttViewTick(
-                start,
-                `${start.format(this.options.tickFormats?.unit)}`,
-                i * this.getUnitWidth() + this.getUnitWidth() / 2,
-                UNIT_TICK_TOP
-            );
+            const rectX = i * unitWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: unitWidth
+                },
+                label: {
+                    text: `${start.format(this.options.tickFormats?.unit)}`,
+                    y: UNIT_TICK_TOP,
+                    x: rectX + unitWidth / 2
+                }
+            });
             ticks.push(tick);
         }
         return ticks;
