@@ -78,13 +78,6 @@
 
   <gantt-drag-backdrop [style.left.px]="tableHeader.tableWidth + 1"></gantt-drag-backdrop>
 
-  <gantt-scrollbar
-    [ganttRoot]="ganttRoot"
-    [hasFooter]="!!table()?.tableFooterTemplate()"
-    [tableWidth]="tableHeader.tableWidth"
-    [tableScrollWidth]="tableScrollWidth()"
-  ></gantt-scrollbar>
-
   @if (table()?.tableFooterTemplate() || footerTemplate()) {
     <div
       class="gantt-footer"
@@ -105,4 +98,11 @@
       }
     </div>
   }
+
+  <gantt-scrollbar
+    [ganttRoot]="ganttRoot"
+    [hasFooter]="!!table()?.tableFooterTemplate()"
+    [tableWidth]="tableHeader.tableWidth"
+    [tableScrollWidth]="tableScrollWidth()"
+  ></gantt-scrollbar>
 </ngx-gantt-root>

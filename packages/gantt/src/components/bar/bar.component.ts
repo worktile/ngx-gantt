@@ -14,7 +14,8 @@ import {
     linkedSignal,
     Signal,
     HostBinding,
-    OnInit
+    OnInit,
+    afterNextRender
 } from '@angular/core';
 import { from, fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -60,6 +61,11 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
 
     constructor() {
         super();
+        afterNextRender(() => {
+            this.ngZone.runOutsideAngular(() => {
+                this.drag.initialize(this.elementRef, this.item(), this.ganttUpper);
+            });
+        });
         effect(() => {
             const item = this.item();
             const previousItem = this.previousItem();
@@ -88,19 +94,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
     }
 
     ngAfterViewInit() {
-        // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
-        // the `onStable` will never emit any value.
-        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-        // Normally this isn't in the zone, but it can cause performance regressions for apps
-        // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
-        this.ngZone.runOutsideAngular(() => {
-            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.drag.initialize(this.elementRef, this.item(), this.ganttUpper);
-            });
-        });
-
         this.setContentBackground();
-
         this.handles.changes
             .pipe(
                 startWith(this.handles),

@@ -158,6 +158,7 @@ export abstract class GanttView {
         const end = this.rangeEndOf(this.end.add(this.options.addAmount, this.options.addUnit));
         if (end.value <= this.options.maxBoundary.value) {
             const origin = this.end;
+
             this.end$.next(end);
             this.recomputeLayout();
             return { start: origin, end: this.end };

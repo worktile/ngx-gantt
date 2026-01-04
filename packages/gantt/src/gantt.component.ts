@@ -1,12 +1,10 @@
 import { CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport, ViewportRuler } from '@angular/cdk/scrolling';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
-    AfterViewChecked,
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     ElementRef,
-    Input,
     OnInit,
     TemplateRef,
     forwardRef,
@@ -18,9 +16,10 @@ import {
     contentChildren,
     viewChild,
     effect,
-    computed
+    untracked,
+    afterEveryRender
 } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { finalize, take, takeUntil } from 'rxjs/operators';
 import {
     GanttGroupInternal,
@@ -31,7 +30,6 @@ import {
     GanttSelectedEvent,
     GanttTableDragEndedEvent,
     GanttTableDragStartedEvent,
-    GanttViewType,
     GanttVirtualScrolledIndexChangeEvent
 } from './class';
 import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
@@ -85,7 +83,7 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
         GanttSyncScrollYDirective
     ]
 })
-export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewInit, AfterViewChecked {
+export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewInit {
     private viewportRuler = inject(ViewportRuler);
 
     readonly maxLevel = input(2);
@@ -149,17 +147,28 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     constructor() {
         super();
+        afterEveryRender(() => {
+            if (this.virtualScrollEnabled() && this.viewportRuler && this.virtualScroll().getRenderedRange().end > 0) {
+                const ganttRoot = this.ganttRoot();
+                if (!ganttRoot.verticalScrollbarWidth) {
+                    ganttRoot.computeScrollBarOffset();
+                }
+            }
+        });
+
         effect(() => {
             const loading = this.loading();
             if (loading) {
-                if (this.loadingDelay() > 0) {
-                    this.loadingTimer = setTimeout(() => {
+                untracked(() => {
+                    if (this.loadingDelay() > 0) {
+                        this.loadingTimer = setTimeout(() => {
+                            this.realLoading = loading;
+                            this.cdr.markForCheck();
+                        }, this.loadingDelay());
+                    } else {
                         this.realLoading = loading;
-                        this.cdr.markForCheck();
-                    }, this.loadingDelay());
-                } else {
-                    this.realLoading = loading;
-                }
+                    }
+                });
             } else {
                 clearTimeout(this.loadingTimer);
                 this.realLoading = loading;
@@ -169,20 +178,13 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     override ngOnInit() {
         super.ngOnInit();
-        // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
-        // the `onStable` will never emit any value.
-        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-        // Normally this isn't in the zone, but it can cause performance regressions for apps
-        // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
         this.ngZone.runOutsideAngular(() => {
-            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.dragContainer.linkDragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
-                    this.linkDragStarted.emit(event);
-                });
+            this.dragContainer.linkDragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
+                this.linkDragStarted.emit(event);
+            });
 
-                this.dragContainer.linkDragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
-                    this.linkDragEnded.emit(event);
-                });
+            this.dragContainer.linkDragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event: GanttLinkDragEvent) => {
+                this.linkDragEnded.emit(event);
             });
         });
 
@@ -234,21 +236,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
                 });
         }
         this.initScrollContainerObserver();
-    }
-
-    ngAfterViewChecked() {
-        if (this.virtualScrollEnabled() && this.viewportRuler && this.virtualScroll().getRenderedRange().end > 0) {
-            const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-            this.ngZone.runOutsideAngular(() => {
-                onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                    const ganttRoot = this.ganttRoot();
-                    if (!ganttRoot.verticalScrollbarWidth) {
-                        ganttRoot.computeScrollBarOffset();
-                        this.cdr.markForCheck();
-                    }
-                });
-            });
-        }
     }
 
     private buildFlatItems() {

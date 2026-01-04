@@ -79,7 +79,7 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
             this.ganttUpper.view.start$,
             outputToObservable(this.ganttUpper.dragEnded),
             this.ganttUpper.linkDragEnded ? outputToObservable(this.ganttUpper.linkDragEnded) : EMPTY,
-            this.ngZone.onStable.pipe(take(1)).pipe(switchMap(() => outputToObservable(this.ganttUpper.table()?.dragDropped) || EMPTY))
+            outputToObservable(this.ganttUpper.table()?.dragDropped) || EMPTY
         )
             .pipe(skip(1), debounceTime(0), takeUntil(this.unsubscribe$))
             .subscribe(() => {

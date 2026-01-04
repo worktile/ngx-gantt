@@ -22,7 +22,8 @@ import {
     linkedSignal,
     model,
     output,
-    signal
+    signal,
+    untracked
 } from '@angular/core';
 import { Subject, from } from 'rxjs';
 import { skip, take, takeUntil } from 'rxjs/operators';
@@ -195,7 +196,9 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
                 (viewType && previousViewType && viewType !== previousViewType) ||
                 (viewOptions && previousViewOptions && viewOptions !== previousViewOptions)
             ) {
-                this.changeView();
+                untracked(() => {
+                    this.changeView();
+                });
             }
         });
 
@@ -211,8 +214,10 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
         effect(() => {
             if (this.originBaselineItems()) {
-                this.setupBaselineItems();
-                this.computeItemsRefs(...this.baselineItems);
+                untracked(() => {
+                    this.setupBaselineItems();
+                    this.computeItemsRefs(...this.baselineItems);
+                });
             }
         });
     }
@@ -301,9 +306,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     private getViewDate() {
         let start = this.start();
         let end = this.end();
-        const startValue = this.start();
-        const endValue = this.end();
-        if (!startValue || !endValue) {
+        if (!start || !end) {
             this.originItems().forEach((item) => {
                 if (item.start && !this.start()) {
                     const itemStart = item.start instanceof Date ? getUnixTime(item.start) : item.start;
@@ -318,11 +321,11 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
         return {
             start: {
                 date: new GanttDate(start),
-                isCustom: startValue ? true : false
+                isCustom: this.start() ? true : false
             },
             end: {
                 date: new GanttDate(end),
-                isCustom: endValue ? true : false
+                isCustom: this.end() ? true : false
             }
         };
     }
@@ -365,27 +368,20 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
         this.createView();
         this.initCssVariables();
 
-        // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
-        // the `onStable` will never emit any value.
-        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-        // Normally this isn't in the zone, but it can cause performance regressions for apps
-        // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
         this.ngZone.runOutsideAngular(() => {
-            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-                this.element.style.opacity = '1';
-                this.dragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-                    this.disableLoadOnScroll.set(true);
-                    this.dragStarted.emit(event);
-                });
+            this.element.style.opacity = '1';
+            this.dragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+                this.disableLoadOnScroll.set(true);
+                this.dragStarted.emit(event);
+            });
 
-                this.dragContainer.dragMoved.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-                    this.dragMoved.emit(event);
-                });
+            this.dragContainer.dragMoved.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+                this.dragMoved.emit(event);
+            });
 
-                this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-                    this.disableLoadOnScroll.set(this.disabledLoadOnScroll());
-                    this.dragEnded.emit(event);
-                });
+            this.dragContainer.dragEnded.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+                this.disableLoadOnScroll.set(this.disabledLoadOnScroll());
+                this.dragEnded.emit(event);
             });
         });
 

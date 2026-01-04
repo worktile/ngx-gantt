@@ -1,6 +1,5 @@
 import {
     Component,
-    OnInit,
     NgZone,
     ElementRef,
     TemplateRef,
@@ -9,12 +8,14 @@ import {
     input,
     contentChild,
     viewChild,
-    inject
+    inject,
+    afterNextRender,
+    ChangeDetectorRef
 } from '@angular/core';
 import { GanttDomService, ScrollDirection } from './gantt-dom.service';
 import { GanttDragContainer } from './gantt-drag-container';
-import { take, takeUntil, startWith } from 'rxjs/operators';
-import { from, Subject } from 'rxjs';
+import { takeUntil, startWith } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
 import { GanttPrintService } from './gantt-print.service';
 import { passiveListenerOptions } from './utils/passive-listeners';
@@ -47,7 +48,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
         GanttSyncScrollYDirective
     ]
 })
-export class NgxGanttRootComponent implements OnInit, OnDestroy {
+export class NgxGanttRootComponent implements OnDestroy {
     private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
     private ngZone = inject(NgZone);
@@ -59,6 +60,8 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
 
     private printService = inject(GanttPrintService, { optional: true })!;
+
+    private cdr = inject(ChangeDetectorRef);
 
     readonly sideWidth = input<number>(undefined);
 
@@ -87,16 +90,9 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     constructor() {
         const dragContainer = this.dragContainer;
         this.ganttUpper.dragContainer = dragContainer;
-    }
 
-    ngOnInit() {
-        // Note: the zone may be nooped through `BootstrapOptions` when bootstrapping the root module. This means
-        // the `onStable` will never emit any value.
-        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-        // Normally this isn't in the zone, but it can cause performance regressions for apps
-        // using `zone-patch-rxjs` because it'll trigger a change detection when it unsubscribes.
-        this.ngZone.runOutsideAngular(() => {
-            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+        afterNextRender(() => {
+            this.ngZone.runOutsideAngular(() => {
                 this.dom.initialize(this.elementRef);
 
                 if (this.printService) {
@@ -120,7 +116,6 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
     computeScrollBarOffset() {
         const ganttMainContainer = this.dom.mainContainer as HTMLElement;
         const ganttVerticalScrollContainer = this.dom.verticalScrollContainer as HTMLElement;
-
         let verticalScrollbarWidth = 0;
         if (ganttVerticalScrollContainer) {
             verticalScrollbarWidth = ganttVerticalScrollContainer.offsetWidth - ganttVerticalScrollContainer.clientWidth;
@@ -130,6 +125,7 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
         const horizontalScrollbarHeight = ganttMainContainer?.offsetHeight - ganttMainContainer?.clientHeight;
         this.verticalScrollbarWidth = verticalScrollbarWidth;
         this.horizontalScrollbarHeight = horizontalScrollbarHeight;
+        this.cdr.markForCheck();
     }
 
     ngOnDestroy(): void {
@@ -145,9 +141,10 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((event) => {
                 if (event.direction === ScrollDirection.LEFT) {
-                    const dates = this.view.addStartDate();
+                    const dates = this.ganttUpper.view.addStartDate();
+                    this.cdr.markForCheck();
                     if (dates) {
-                        event.target.scrollLeft += this.view.calculateRangeWidth(dates.start, dates.end);
+                        event.target.scrollLeft += this.ganttUpper.view.calculateRangeWidth(dates.start, dates.end);
                         if (this.ganttUpper.loadOnScroll.observers) {
                             this.ngZone.run(() =>
                                 this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
@@ -156,7 +153,8 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
                     }
                 }
                 if (event.direction === ScrollDirection.RIGHT) {
-                    const dates = this.view.addEndDate();
+                    const dates = this.ganttUpper.view.addEndDate();
+                    this.cdr.markForCheck();
                     if (dates && this.ganttUpper.loadOnScroll.observers) {
                         this.ngZone.run(() =>
                             this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
@@ -198,7 +196,6 @@ export class NgxGanttRootComponent implements OnInit, OnDestroy {
         } else {
             x = this.view.getXAtDate(date);
         }
-
         this.dom.scrollMainContainer(x);
     }
 }

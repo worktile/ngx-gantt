@@ -46,7 +46,7 @@ export class AppGanttExampleComponent {
         end?: GanttDate;   // 视图结束时间
         min?: GanttDate;   // 视图最小时间
         max?: GanttDate;   // 视图最大时间
-        cellWidth?: number;    // 视图最小单元宽度（小时视图，最小单元就是每小时的宽度，日视图，最新单元就是每日显示的宽度）
+        unitWidth?: number;    // 视图最小单元宽度（小时视图，最小单元就是每小时的宽度，日视图，最新单元就是每日显示的宽度）
         addAmount?: number;    // 横向滚动加载时，每次加载的量
         addUnit?: GanttDateUtil; // 横向滚动加载时，每次加载的量的单位
         dateFormat?: GanttDateFormat; // 设置视图日期格式，可用于多语言
