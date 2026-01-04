@@ -76,7 +76,6 @@ export function assertBaselineItems<T extends TestGanttComponentBase>(fixture: C
 export function assertGroups<T extends TestGanttComponentBase>(fixture: ComponentFixture<T>, expectedGroups: GanttGroup[]) {
     const { ganttComponent } = fixture.componentInstance;
     const groups = fixture.debugElement.queryAll(By.css('.gantt-group'));
-    console.log(groups);
     groups.forEach((group: DebugElement, groupIndex: number) => {
         expect(ganttComponent().groups[groupIndex].id).toEqual(expectedGroups[groupIndex].id);
         const items = group.queryAll(By.directive(NgxGanttBarComponent));
