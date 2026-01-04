@@ -1,4 +1,4 @@
-import { Component, HostBinding, TemplateRef, OnInit, NgZone, inject, input, output } from '@angular/core';
+import { Component, HostBinding, TemplateRef, OnInit, NgZone, inject, input, output, afterNextRender } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent, GanttItem } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttGroupPipe } from '../../gantt.pipe';
@@ -29,7 +29,7 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
         GanttIconComponent
     ]
 })
-export class GanttMainComponent implements OnInit {
+export class GanttMainComponent {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
     dom = inject(GanttDomService);
     protected ngZone = inject(NgZone);
@@ -60,12 +60,9 @@ export class GanttMainComponent implements OnInit {
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor() {}
-
-    ngOnInit(): void {
-        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-        this.ngZone.runOutsideAngular(() => {
-            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+    constructor() {
+        afterNextRender(() => {
+            this.ngZone.runOutsideAngular(() => {
                 this.setupResize();
             });
         });

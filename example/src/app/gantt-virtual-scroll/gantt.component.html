@@ -52,9 +52,9 @@
         <div class="footer-container" [style.width.px]="gantt?.view.width">
           <div
             class="footer-item"
-            *ngFor="let day of gantt?.view.secondaryDatePoints"
-            [style.left.px]="day.x - gantt?.view.options.cellWidth / 2"
-            [style.width.px]="gantt?.view.options.cellWidth"
+            *ngFor="let day of gantt?.view.unitTicks"
+            [style.left.px]="day.x - gantt?.view.options.unitWidth / 2"
+            [style.width.px]="gantt?.view.options.unitWidth"
           >
             <ng-container *ngIf="false; else empty">
               <div class="stat stat-fill"></div>

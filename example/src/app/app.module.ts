@@ -6,7 +6,7 @@ import { ThyCheckboxModule } from 'ngx-tethys/checkbox';
 import { ThySwitchModule } from 'ngx-tethys/switch';
 import { ThyNotifyModule } from 'ngx-tethys/notify';
 import { ThyDatePickerModule } from 'ngx-tethys/date-picker';
-import { inject, NgModule } from '@angular/core';
+import { inject, NgModule, provideZonelessChangeDetection } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { GANTT_GLOBAL_CONFIG, GanttI18nLocale, NgxGanttModule } from 'ngx-gantt';
 import { AppComponent } from './app.component';
@@ -67,7 +67,8 @@ import { GanttDateFormatPipe } from './pipes/date-format.pipe';
                     locale: docgeniGlobalContext.locale === 'en-us' ? GanttI18nLocale.enUs : GanttI18nLocale.zhHans
                 };
             }
-        }
+        },
+        provideZonelessChangeDetection()
     ],
     bootstrap: [AppComponent]
 })

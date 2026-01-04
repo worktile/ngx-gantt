@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild, inject } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttBaselineItem,
@@ -37,6 +37,8 @@ const cacheKeys = 'GANTT_TABLE_KEYS';
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     private printService = inject(GanttPrintService);
     private thyNotify = inject(ThyNotifyService);
+
+    private cdr = inject(ChangeDetectorRef);
 
     toolbarOptions: GanttToolbarOptions = {
         viewTypes: [
@@ -199,6 +201,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
                 delay(2000),
                 finalize(() => {
                     this.loading = false;
+                    this.cdr.markForCheck();
                 })
             )
             .subscribe((res) => {

@@ -46,7 +46,7 @@ start?: GanttDate; // View start time
 end?: GanttDate; // View end time
 min?: GanttDate; // View minimum time
 max?: GanttDate; // View maximum time
-cellWidth?: number; // View minimum unit width (hourly view, the minimum unit is the width of each hour, daily view, the latest unit is the width of the daily display)
+unitWidth?: number; // View minimum unit width (hourly view, the minimum unit is the width of each hour, daily view, the latest unit is the width of the daily display)
 addAmount?: number; // Horizontal scroll loading, the amount loaded each time
 addUnit?: GanttDateUtil; // The unit of the amount loaded each time when scrolling horizontally
 dateFormat?: GanttDateFormat; // Set the view date format, which can be used in multiple languages
