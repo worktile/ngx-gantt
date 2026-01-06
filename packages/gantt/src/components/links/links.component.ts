@@ -65,7 +65,7 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const linkOptions = this.ganttUpper.linkOptions();
-        this.linkLine = createLineGenerator(linkOptions.lineType, this.ganttUpper);
+        this.linkLine = createLineGenerator(linkOptions.lineType);
 
         this.showArrow = linkOptions.showArrow;
 

@@ -1,12 +1,11 @@
 import { GanttLinkLineType } from '../../../class/link';
-import { GanttUpper } from '../../../gantt-upper';
 import { GanttLinkLineCurve } from './curve';
 import { GanttLinkLineStraight } from './straight';
 
-export function createLineGenerator(type: GanttLinkLineType, ganttUpper?: GanttUpper) {
+export function createLineGenerator(type: GanttLinkLineType) {
     switch (type) {
         case GanttLinkLineType.curve:
-            return new GanttLinkLineCurve(ganttUpper);
+            return new GanttLinkLineCurve();
         case GanttLinkLineType.straight:
             return new GanttLinkLineStraight();
         default:

@@ -24,6 +24,12 @@ import { ThyNotifyService } from 'ngx-tethys/notify';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { random, randomItems } from '../helper';
+import { ThyContent, ThyHeader, ThyLayout } from 'ngx-tethys/layout';
+import { ThyButton } from 'ngx-tethys/button';
+import { ThySwitch } from 'ngx-tethys/switch';
+import { FormsModule } from '@angular/forms';
+import { NgxGanttTableColumnComponent, NgxGanttTableComponent } from '../../../../dist/gantt';
+import { GanttDateFormatPipe } from '../pipes/date-format.pipe';
 
 const cacheKeys = 'GANTT_TABLE_KEYS';
 
@@ -32,7 +38,18 @@ const cacheKeys = 'GANTT_TABLE_KEYS';
     templateUrl: './gantt.component.html',
     styleUrls: ['./gantt.scss'],
     providers: [GanttPrintService],
-    standalone: false
+    imports: [
+        ThyLayout,
+        ThyContent,
+        ThyHeader,
+        ThyButton,
+        ThySwitch,
+        FormsModule,
+        NgxGanttComponent,
+        NgxGanttTableComponent,
+        NgxGanttTableColumnComponent,
+        GanttDateFormatPipe
+    ]
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     private printService = inject(GanttPrintService);
