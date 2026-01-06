@@ -9,8 +9,10 @@ const defaultViewOptions: GanttViewOptions = {
     start: new GanttDate().startOfMonth(),
     end: new GanttDate().endOfMonth(),
     precisionUnit: 'minute',
-    addAmount: 1,
-    addUnit: 'week',
+    loadDuration: {
+        amount: 1,
+        unit: 'week'
+    },
     tickFormats: {
         period: zhHantLocale.views.hour.tickFormats.period,
         unit: zhHantLocale.views.hour.tickFormats.unit

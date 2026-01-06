@@ -103,7 +103,11 @@ describe('GanttView', () => {
         ganttView = new GanttViewMock(date.start, date.end, {
             unitWidth: 20,
             start: today.startOfYear().startOfWeek(),
-            end: today.endOfYear().endOfWeek()
+            end: today.endOfYear().endOfWeek(),
+            loadDuration: {
+                amount: 1,
+                unit: 'month'
+            }
         });
     });
 
@@ -130,7 +134,7 @@ describe('GanttView', () => {
     });
 
     it(`should add start date`, () => {
-        const newDate = ganttView.addStartDate();
+        const newDate = ganttView.extendStart();
         if (ganttView.options.minBoundary.value > new GanttDate('2020-01-01 00:00:00').value) {
             expect(newDate).toBe(null);
         } else {
@@ -140,7 +144,7 @@ describe('GanttView', () => {
     });
 
     it(`should add end date`, () => {
-        const newDate = ganttView.addEndDate();
+        const newDate = ganttView.extendEnd();
         expect(newDate.start.getUnixTime()).toEqual(new GanttDate('2020-12-31 23:59:59').getUnixTime());
         expect(newDate.end.getUnixTime()).toEqual(new GanttDate('2020-12-31 23:59:59').getUnixTime());
     });

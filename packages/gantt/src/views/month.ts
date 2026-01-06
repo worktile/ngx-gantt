@@ -8,8 +8,10 @@ const defaultViewOptions: GanttViewOptions = {
     start: new GanttDate().startOfQuarter().addQuarters(-1),
     end: new GanttDate().endOfQuarter().addQuarters(2),
     unitWidth: 280,
-    addAmount: 1,
-    addUnit: 'quarter',
+    loadDuration: {
+        amount: 1,
+        unit: 'quarter'
+    },
     tickFormats: {
         period: zhHantLocale.views.month.tickFormats.period,
         unit: zhHantLocale.views.month.tickFormats.unit

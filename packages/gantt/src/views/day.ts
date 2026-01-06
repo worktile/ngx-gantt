@@ -8,8 +8,10 @@ const defaultViewOptions: GanttViewOptions = {
     unitWidth: 35,
     start: new GanttDate().startOfYear().startOfWeek(),
     end: new GanttDate().endOfYear().endOfWeek(),
-    addAmount: 1,
-    addUnit: 'month',
+    loadDuration: {
+        amount: 1,
+        unit: 'month'
+    },
     tickFormats: {
         period: zhHantLocale.views.day.tickFormats.period,
         unit: zhHantLocale.views.day.tickFormats.unit
