@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
 import { ElementRef, Injectable, NgZone, OnDestroy, PLATFORM_ID, WritableSignal, signal, inject } from '@angular/core';
 import { EMPTY, Observable, Subject, fromEvent, merge } from 'rxjs';
-import { auditTime, map, pairwise, takeUntil } from 'rxjs/operators';
+import { auditTime, filter, map, pairwise, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
 
 const scrollThreshold = 50;
@@ -107,25 +107,24 @@ export class GanttDomService implements OnDestroy {
                         pairwise(),
                         map(([previous, current]) => {
                             this.setVisibleRangeX();
-                            const event: ScrollEvent = {
-                                target: this.mainContainer,
-                                direction: ScrollDirection.NONE
-                            };
-                            if (current - previous < 0) {
-                                if (this.mainContainer.scrollLeft < scrollThreshold && this.mainContainer.scrollLeft > 0) {
-                                    event.direction = ScrollDirection.LEFT;
-                                }
-                            }
-                            if (current - previous > 0) {
-                                if (
-                                    this.mainContainer.scrollWidth - this.mainContainer.clientWidth - this.mainContainer.scrollLeft <
+                            // 向左滚动且接近起点 => 左侧扩展；向右滚动且接近末尾 => 右侧扩展
+                            let direction = ScrollDirection.NONE;
+                            if (current < previous && this.mainContainer.scrollLeft <= scrollThreshold) {
+                                direction = ScrollDirection.LEFT;
+                            } else if (
+                                current > previous &&
+                                this.mainContainer.scrollWidth - this.mainContainer.clientWidth - this.mainContainer.scrollLeft <=
                                     scrollThreshold
-                                ) {
-                                    event.direction = ScrollDirection.RIGHT;
-                                }
+                            ) {
+                                direction = ScrollDirection.RIGHT;
                             }
-                            return event;
-                        })
+
+                            return {
+                                target: this.mainContainer,
+                                direction
+                            };
+                        }),
+                        filter((event) => event.direction !== ScrollDirection.NONE)
                     )
                     .subscribe(subscriber)
             )
@@ -154,6 +153,16 @@ export class GanttDomService implements OnDestroy {
             this.mainScrollbar && (this.mainScrollbar.scrollLeft = this.mainContainer.scrollLeft);
             this.mainFooter && (this.mainFooter.scrollLeft = this.mainContainer.scrollLeft);
         }
+    }
+
+    syncHorizontalScroll(left: number) {
+        const nextLeft = Math.max(left, 0);
+        this.mainContainer.scrollLeft = nextLeft;
+        this.calendarHeader.scrollLeft = nextLeft;
+        this.calendarOverlay.scrollLeft = nextLeft;
+        this.mainScrollbar && (this.mainScrollbar.scrollLeft = nextLeft);
+        this.mainFooter && (this.mainFooter.scrollLeft = nextLeft);
+        this.setVisibleRangeX();
     }
 
     setVisibleRangeX() {
