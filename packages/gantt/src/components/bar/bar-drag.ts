@@ -496,22 +496,13 @@ export class GanttBarDrag implements OnDestroy {
         }
     }
 
-    /**
-     * 清理 link drag 状态
-     * @param handle 拖拽手柄元素
-     * @param event ended 事件（如果正常结束），null 表示 fallback 清理
-     * @param isBegin 是否是开始位置的手柄
-     */
     private cleanupLinkDrag(handle: HTMLElement, event: any, isBegin: boolean) {
-        // 恢复指针事件
         handle.style.pointerEvents = '';
 
-        // 恢复 bar drag
         if (this.barDragRef) {
             this.barDragRef.disabled = false;
         }
 
-        // 处理拖拽结果（仅在正常结束时）
         if (event?.source) {
             // 计算line拖动的落点位于目标Bar的值，如果值大于Bar宽度的一半，说明是拖动到Begin位置，否则则为拖动到End位置
             if (this.dragContainer.linkDragPath.to) {
@@ -528,11 +519,9 @@ export class GanttBarDrag implements OnDestroy {
             }
             event.source.reset();
         } else {
-            // Fallback 清理：只清理状态，不处理拖拽结果
             this.dragContainer.emitLinkDragEnded();
         }
 
-        // 清理 UI 状态
         this.barElement.classList.remove(activeClass);
         this.destroyLinkDraggingLine();
     }
