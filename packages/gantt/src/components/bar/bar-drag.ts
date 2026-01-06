@@ -1,6 +1,6 @@
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
 import { effect, ElementRef, inject, Injectable, NgZone, OnDestroy, signal, WritableSignal } from '@angular/core';
-import { animationFrameScheduler, fromEvent, interval, Subject } from 'rxjs';
+import { animationFrameScheduler, fromEvent, interval, merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttViewType } from '../../class';
 import { GanttItemInternal } from '../../class/item';
@@ -287,7 +287,11 @@ export class GanttBarDrag implements OnDestroy {
             const dragRef = this.dragDrop.createDrag(handle);
             dragRef.disabled = this.linkDragDisabled;
             dragRef.withBoundaryElement(this.dom.root as HTMLElement);
+
+            let needsCleanup = false;
+
             dragRef.beforeStarted.subscribe(() => {
+                needsCleanup = true;
                 handle.style.pointerEvents = 'none';
                 if (this.barDragRef) {
                     this.barDragRef.disabled = true;
@@ -298,6 +302,21 @@ export class GanttBarDrag implements OnDestroy {
                     item: this.item(),
                     pos: isBegin ? InBarPosition.start : InBarPosition.finish
                 });
+
+                // Fallback: 如果 beforeStarted 触发但 ended 未触发（只点击未移动），通过 mouseup 清理
+                const subscription = fromEvent(document, 'mouseup', passiveListenerOptions)
+                    .pipe(takeUntil(this.destroy$), takeUntil(dragRef.started), takeUntil(dragRef.ended))
+                    .subscribe(() => {
+                        if (needsCleanup) {
+                            needsCleanup = false;
+                            this.cleanupLinkDrag(handle, null, isBegin);
+                        }
+                        subscription.unsubscribe();
+                    });
+            });
+
+            dragRef.started.subscribe(() => {
+                needsCleanup = false;
             });
 
             dragRef.moved.subscribe(() => {
@@ -309,29 +328,8 @@ export class GanttBarDrag implements OnDestroy {
             });
 
             dragRef.ended.subscribe((event) => {
-                handle.style.pointerEvents = '';
-                if (this.barDragRef) {
-                    this.barDragRef.disabled = false;
-                }
-                // 计算line拖动的落点位于目标Bar的值，如果值大于Bar宽度的一半，说明是拖动到Begin位置，否则则为拖动到End位置
-                if (this.dragContainer.linkDragPath.to) {
-                    const placePointX =
-                        event.source.getRootElement().getBoundingClientRect().x -
-                        this.dragContainer.linkDragPath.to.element.getBoundingClientRect().x;
-
-                    this.dragContainer.emitLinkDragEnded({
-                        ...this.dragContainer.linkDragPath.to,
-                        pos:
-                            placePointX < this.dragContainer.linkDragPath.to.item.refs.width / 2
-                                ? InBarPosition.start
-                                : InBarPosition.finish
-                    });
-                } else {
-                    this.dragContainer.emitLinkDragEnded();
-                }
-                event.source.reset();
-                this.barElement.classList.remove(activeClass);
-                this.destroyLinkDraggingLine();
+                needsCleanup = false;
+                this.cleanupLinkDrag(handle, event, isBegin);
             });
 
             dragRefs.push(dragRef);
@@ -496,6 +494,47 @@ export class GanttBarDrag implements OnDestroy {
             this.linkDraggingLine.parentElement.remove();
             this.linkDraggingLine = null;
         }
+    }
+
+    /**
+     * 清理 link drag 状态
+     * @param handle 拖拽手柄元素
+     * @param event ended 事件（如果正常结束），null 表示 fallback 清理
+     * @param isBegin 是否是开始位置的手柄
+     */
+    private cleanupLinkDrag(handle: HTMLElement, event: any, isBegin: boolean) {
+        // 恢复指针事件
+        handle.style.pointerEvents = '';
+
+        // 恢复 bar drag
+        if (this.barDragRef) {
+            this.barDragRef.disabled = false;
+        }
+
+        // 处理拖拽结果（仅在正常结束时）
+        if (event?.source) {
+            // 计算line拖动的落点位于目标Bar的值，如果值大于Bar宽度的一半，说明是拖动到Begin位置，否则则为拖动到End位置
+            if (this.dragContainer.linkDragPath.to) {
+                const placePointX =
+                    event.source.getRootElement().getBoundingClientRect().x -
+                    this.dragContainer.linkDragPath.to.element.getBoundingClientRect().x;
+
+                this.dragContainer.emitLinkDragEnded({
+                    ...this.dragContainer.linkDragPath.to,
+                    pos: placePointX < this.dragContainer.linkDragPath.to.item.refs.width / 2 ? InBarPosition.start : InBarPosition.finish
+                });
+            } else {
+                this.dragContainer.emitLinkDragEnded();
+            }
+            event.source.reset();
+        } else {
+            // Fallback 清理：只清理状态，不处理拖拽结果
+            this.dragContainer.emitLinkDragEnded();
+        }
+
+        // 清理 UI 状态
+        this.barElement.classList.remove(activeClass);
+        this.destroyLinkDraggingLine();
     }
 
     private startScrollInterval = () => {
