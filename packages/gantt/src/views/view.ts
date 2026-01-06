@@ -19,8 +19,10 @@ export interface GanttViewOptions {
     minBoundary?: GanttDate;
     maxBoundary?: GanttDate;
     unitWidth?: number;
-    addAmount?: number;
-    addUnit?: GanttDateUtil;
+    loadDuration?: {
+        amount: number;
+        unit: GanttDateUtil;
+    };
     tickFormats?: { period: string; unit: string };
     precisionUnit?: 'day' | 'hour' | 'minute';
     dragTooltipFormat?: string;
@@ -103,6 +105,14 @@ export abstract class GanttView {
         return this.options.holiday?.hideHoliday && this.options.holiday?.isHoliday?.(date);
     }
 
+    protected recomputeLayout() {
+        this.unitWidth = this.getUnitWidth();
+        this.periodTicks = this.getPeriodTicks();
+        this.unitTicks = this.getUnitTicks();
+        this.width = this.getWidth();
+        this.periodWidth = this.getPeriodWidth();
+    }
+
     alignToPrecisionStart(date: GanttDate) {
         switch (this.options.precisionUnit) {
             case 'minute':
@@ -135,35 +145,37 @@ export abstract class GanttView {
         return Number(result.toFixed(3));
     }
 
-    protected recomputeLayout() {
-        this.unitWidth = this.getUnitWidth();
-        this.periodTicks = this.getPeriodTicks();
-        this.unitTicks = this.getUnitTicks();
-        this.width = this.getWidth();
-        this.periodWidth = this.getPeriodWidth();
-    }
+    extendStart(): { start: GanttDate; end: GanttDate } | null {
+        const duration = this.getLoadDuration();
+        const start = this.rangeStartOf(this.start.add(duration.amount * -1, duration.unit));
 
-    addStartDate() {
-        const start = this.rangeStartOf(this.start.add(this.options.addAmount * -1, this.options.addUnit));
         if (start.value >= this.options.minBoundary.value) {
-            const origin = this.start;
+            const originalStart = this.start;
             this.start$.next(start);
             this.recomputeLayout();
-            return { start: this.start, end: origin };
+            return { start: this.start, end: originalStart };
         }
         return null;
     }
 
-    addEndDate() {
-        const end = this.rangeEndOf(this.end.add(this.options.addAmount, this.options.addUnit));
-        if (end.value <= this.options.maxBoundary.value) {
-            const origin = this.end;
+    extendEnd(): { start: GanttDate; end: GanttDate } | null {
+        const duration = this.getLoadDuration();
+        const end = this.rangeEndOf(this.end.add(duration.amount, duration.unit));
 
+        if (end.value <= this.options.maxBoundary.value) {
+            const originalEnd = this.end;
             this.end$.next(end);
             this.recomputeLayout();
-            return { start: origin, end: this.end };
+            return { start: originalEnd, end: this.end };
         }
         return null;
+    }
+
+    /**
+     * 获取横向滚动加载的时间跨度配置
+     */
+    private getLoadDuration(): { amount: number; unit: GanttDateUtil } {
+        return this.options.loadDuration!;
     }
 
     updateDate(start: GanttDate, end: GanttDate) {

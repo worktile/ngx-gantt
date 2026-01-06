@@ -135,7 +135,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     public viewportItems: (GanttGroupInternal | GanttItemInternal)[] = [];
 
-    private loadingTimer;
+    private loadingTimer: ReturnType<typeof setTimeout> | null = null;
 
     private rangeStart = 0;
 

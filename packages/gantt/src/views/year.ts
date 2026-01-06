@@ -9,8 +9,10 @@ const defaultViewOptions: GanttViewOptions = {
     unitWidth: 480,
     start: new GanttDate().addYears(-2).startOfYear(),
     end: new GanttDate().addYears(2).endOfYear(),
-    addAmount: 1,
-    addUnit: 'year',
+    loadDuration: {
+        amount: 1,
+        unit: 'year'
+    },
     tickFormats: {
         period: zhHantLocale.views.year.tickFormats.unit || '',
         unit: zhHantLocale.views.year.tickFormats.unit || ''

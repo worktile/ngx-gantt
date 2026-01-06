@@ -14,8 +14,10 @@ const defaultViewOptions: GanttViewOptions = {
     unitWidth: 50,
     start: new GanttDate().startOfMonth().startOfWeek({ weekStartsOn: 1 }),
     end: new GanttDate().endOfMonth().endOfWeek({ weekStartsOn: 1 }),
-    addAmount: 1,
-    addUnit: 'month',
+    loadDuration: {
+        amount: 1,
+        unit: 'month'
+    },
     fillDays: 1
 };
 
