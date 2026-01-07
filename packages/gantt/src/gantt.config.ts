@@ -8,11 +8,6 @@ import zhHant from './i18n/locales/zh-hant';
 import { setDefaultTimeZone } from './utils/date';
 
 export interface GanttDateOptions {
-    /**
-     * @deprecated dateOptions is deprecated, use i18n locale setting instead
-     * https://worktile.github.io/ngx-gantt/guides/configuration/i18n
-     */
-    locale?: Locale;
     timeZone?: string;
     weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
 }
