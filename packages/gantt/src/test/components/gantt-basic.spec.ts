@@ -1,5 +1,5 @@
 import { Component, DebugElement, viewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, DeferBlockState, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttBarClickEvent, GanttToolbarOptions } from '../../class';
 import { GanttViewType } from '../../class/view-type';
@@ -15,7 +15,7 @@ import { GANTT_GLOBAL_CONFIG } from '../../gantt.config';
 import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
 import { GanttLoaderComponent } from '../../components/loader/loader.component';
 import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocale } from 'ngx-gantt';
-import { assertBaselineItems, assertConfigStyle, assertGanttView, assertItems } from './assert-helper';
+import { assertBaselineItems, assertConfigStyle, assertGanttView, assertItems, complectDeferBlock } from './assert-helper';
 
 const mockItems = getMockItems();
 const mockBaselineItems = getMockBaselineItems();
@@ -177,6 +177,11 @@ describe('gantt-basic-component', () => {
         ganttComponentInstance = fixture.componentInstance;
         await fixture.whenStable();
         fixture.detectChanges();
+        const blocks = await fixture.getDeferBlocks();
+        for (const block of blocks) {
+            await block.render(DeferBlockState.Complete);
+        }
+        fixture.detectChanges();
     });
 
     describe('#component-created', () => {
@@ -329,6 +334,7 @@ describe('gantt-basic-component', () => {
     });
 
     describe('#event', () => {
+        beforeEach;
         it('should bar click called', fakeAsync(() => {
             const barClickSpy = spyOn(ganttComponentInstance, 'barClick').and.callFake((event: GanttBarClickEvent) => {
                 expect(event.event.type).toEqual('click');

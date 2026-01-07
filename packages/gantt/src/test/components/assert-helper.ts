@@ -1,5 +1,5 @@
 import { DebugElement, Signal } from '@angular/core';
-import { ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, DeferBlockState } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
     GanttBaselineItem,
@@ -52,9 +52,9 @@ export function assertItem(item: DebugElement, ganttItem: GanttItemInternal | Ga
     expect(left).toEqual(ganttItem.refs.x + 'px');
     expect(width).toEqual(ganttItem.refs.width + 'px');
 }
-
 export function assertItems<T extends TestGanttComponentBase>(fixture: ComponentFixture<T>, expectedItems: GanttItem[]) {
     const { ganttComponent } = fixture.componentInstance;
+    fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
     expect(items.length).toEqual(expectedItems.length);
     items.forEach((item: DebugElement, index: number) => {
@@ -102,5 +102,11 @@ export function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugE
                 }
             });
         }
+    }
+}
+export async function complectDeferBlock(fixture: ComponentFixture<unknown>) {
+    const blocks = await fixture.getDeferBlocks();
+    for (const block of blocks) {
+        await block.render(DeferBlockState.Complete);
     }
 }
