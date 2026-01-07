@@ -113,6 +113,12 @@
       &.gantt-main-item-active {
         background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
       }
+      .gantt-placeholder {
+        position: absolute;
+        &-range {
+          height: 10px;
+        }
+      }
     }
 
     .gantt-quick-time-focus-container {

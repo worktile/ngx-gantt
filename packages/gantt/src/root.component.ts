@@ -148,7 +148,7 @@ export class NgxGanttRootComponent implements OnDestroy {
                         // 扩展左侧时间后，补偿滚动位置并同步到所有水平容器
                         this.dom.syncHorizontalScroll(currentLeft + offsetWidth);
                         this.cdr.markForCheck();
-                        if (this.ganttUpper.loadOnScroll.observed) {
+                        if (this.ganttUpper.loadOnScroll) {
                             this.ngZone.run(() =>
                                 this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
                             );
@@ -158,7 +158,7 @@ export class NgxGanttRootComponent implements OnDestroy {
                 if (event.direction === ScrollDirection.RIGHT) {
                     const dates = this.ganttUpper.view.extendEnd();
                     this.cdr.markForCheck();
-                    if (dates && this.ganttUpper.loadOnScroll.observed) {
+                    if (dates && this.ganttUpper.loadOnScroll) {
                         this.ngZone.run(() =>
                             this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
                         );
