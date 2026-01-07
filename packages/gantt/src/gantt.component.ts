@@ -114,9 +114,6 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     readonly columns = contentChildren(NgxGanttTableColumnComponent, { descendants: true });
 
-    // 此模版已挪到 table 组件下，为了兼容此处暂时保留
-    readonly tableEmptyTemplate = contentChild<TemplateRef<any>>('tableEmpty');
-
     readonly ganttRoot = viewChild<NgxGanttRootComponent>('ganttRoot');
 
     readonly footerTemplate = contentChild<TemplateRef<any>>('footer');
