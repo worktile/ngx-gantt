@@ -95,6 +95,6 @@ export class GanttConfigService {
     }
 
     getDateLocale() {
-        return this.config.dateOptions?.locale ?? this.getLocaleConfig().dateLocale;
+        return this.getLocaleConfig().dateLocale;
     }
 }
