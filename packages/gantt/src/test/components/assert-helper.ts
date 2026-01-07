@@ -1,5 +1,5 @@
 import { DebugElement, Signal } from '@angular/core';
-import { ComponentFixture, DeferBlockState } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
     GanttBaselineItem,
@@ -102,11 +102,5 @@ export function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugE
                 }
             });
         }
-    }
-}
-export async function complectDeferBlock(fixture: ComponentFixture<unknown>) {
-    const blocks = await fixture.getDeferBlocks();
-    for (const block of blocks) {
-        await block.render(DeferBlockState.Complete);
     }
 }
