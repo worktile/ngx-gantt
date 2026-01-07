@@ -15,7 +15,7 @@ import { GANTT_GLOBAL_CONFIG } from '../../gantt.config';
 import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
 import { GanttLoaderComponent } from '../../components/loader/loader.component';
 import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocale } from 'ngx-gantt';
-import { assertBaselineItems, assertConfigStyle, assertGanttView, assertItems, complectDeferBlock } from './assert-helper';
+import { assertBaselineItems, assertConfigStyle, assertGanttView, assertItems } from './assert-helper';
 
 const mockItems = getMockItems();
 const mockBaselineItems = getMockBaselineItems();

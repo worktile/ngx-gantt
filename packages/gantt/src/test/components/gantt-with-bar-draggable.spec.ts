@@ -9,7 +9,6 @@ import { NgxGanttModule } from '../../gantt.module';
 import { NgxGanttRootComponent } from '../../root.component';
 import { GanttDate } from '../../utils/date';
 import { dispatchMouseEvent } from '../../utils/testing';
-import { complectDeferBlock } from './assert-helper';
 
 const activeClass = 'gantt-bar-active';
 
