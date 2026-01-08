@@ -65,11 +65,11 @@ export class GanttLinkLineCurve extends GanttLinkLine {
         const centerX = (x1 + x4) / 2;
         const centerY = (y1 + y4) / 2;
 
-        let controlX = this.ganttUpper.styles().lineHeight / 2;
-        const controlY = this.ganttUpper.styles().lineHeight / 2;
+        let controlX = this.ganttUpper.styles().rowHeight / 2;
+        const controlY = this.ganttUpper.styles().rowHeight / 2;
 
         if (x1 >= x4) {
-            if (Math.abs(y4 - y1) <= this.ganttUpper.styles().lineHeight) {
+            if (Math.abs(y4 - y1) <= this.ganttUpper.styles().rowHeight) {
                 return `M ${x1} ${y1}
                     C ${x1 + controlX} ${y1} ${x1 + controlX} ${y4 > y1 ? y1 + controlX : y1 - controlX} ${x1} ${
                         y4 > y1 ? y1 + controlY : y1 - controlY
@@ -78,7 +78,7 @@ export class GanttLinkLineCurve extends GanttLinkLine {
                     C ${x4 - controlY} ${y4 > y1 ? y4 - controlY : y4 + controlY}  ${x4 - controlX} ${y4} ${x4} ${y4}
                     `;
             } else {
-                controlX = this.ganttUpper.styles().lineHeight;
+                controlX = this.ganttUpper.styles().rowHeight;
                 return `M ${x1} ${y1}
                     C ${x1 + controlX} ${y1} ${x1 + controlX} ${y4 > y1 ? y1 + controlX : y1 - controlX} ${centerX} ${centerY}
                     C ${x4 - controlX} ${y4 > y1 ? y4 - controlX : y4 + controlX} ${x4 - controlX} ${y4} ${x4} ${y4}

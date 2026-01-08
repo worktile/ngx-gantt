@@ -1,7 +1,7 @@
 @use '../../styles/variables.scss';
 .gantt-toolbar {
   position: absolute;
-  top: 60px;
+  top: calc(#{variables.$gantt-header-height} + 16px);
   right: 20px;
   z-index: 1000;
   .toolbar-views {

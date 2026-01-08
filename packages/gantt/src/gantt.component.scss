@@ -85,7 +85,7 @@
 
   .gantt-main-container {
     width: 100%;
-    height: calc(100% - var(--gantt-header-height));
+    height: calc(100% - #{variables.$gantt-header-height});
     flex: 1;
     position: absolute;
     bottom: 0;
@@ -103,12 +103,14 @@
       background: variables.$gantt-group-background-color;
       border-bottom: 1px solid variables.$gantt-border-color;
       box-sizing: border-box;
+      height: variables.$gantt-row-height;
     }
 
     .gantt-item {
       border-bottom: 1px solid variables.$gantt-border-color;
       box-sizing: border-box;
       position: relative;
+      height: variables.$gantt-row-height;
 
       &.gantt-main-item-active {
         background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
@@ -130,6 +132,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          height: variables.$gantt-row-height;
           span {
             width: 24px;
             height: 24px;
@@ -182,6 +185,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    top: variables.$gantt-header-height;
     z-index: 2;
     overflow: auto;
 

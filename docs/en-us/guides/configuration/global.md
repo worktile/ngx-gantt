@@ -48,7 +48,7 @@ export interface GanttGlobalConfig {
   };
   styleOptions?: {
     headerHeight?: number, // custom header height
-    lineHeight?: number, // custom line height
+    rowHeight?: number, // custom row height
     barHeight?: number // custom Bar height
   };
 

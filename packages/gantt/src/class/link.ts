@@ -13,12 +13,6 @@ export enum GanttLinkLineType {
     straight = 'straight'
 }
 
-export enum LinkColors {
-    default = '#cacaca',
-    blocked = '#FF7575',
-    active = '#6698ff'
-}
-
 export interface GanttLink {
     type: GanttLinkType;
     link: string;
@@ -49,4 +43,9 @@ export interface GanttLinkOptions {
     dependencyTypes?: GanttLinkType[];
     showArrow?: boolean;
     lineType?: GanttLinkLineType;
+    colors?: {
+        default?: string;
+        blocked?: string;
+        active?: string;
+    };
 }

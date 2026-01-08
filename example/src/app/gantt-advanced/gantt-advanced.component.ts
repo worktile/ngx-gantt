@@ -19,7 +19,7 @@ export class AppGanttAdvancedExampleComponent implements OnInit {
         draggable: true,
         mergeIntervalDays: 3,
         styles: {
-            lineHeight: 50
+            rowHeight: 50
         }
     };
 

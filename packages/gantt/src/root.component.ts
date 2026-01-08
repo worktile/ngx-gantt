@@ -34,9 +34,6 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
     selector: 'ngx-gantt-root',
     templateUrl: './root.component.html',
     providers: [GanttDomService, GanttDragContainer, GanttSyncScrollService],
-    host: {
-        class: 'gantt'
-    },
     imports: [
         CdkScrollable,
         NgTemplateOutlet,

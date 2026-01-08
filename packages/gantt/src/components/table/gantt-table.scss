@@ -177,6 +177,8 @@
 }
 
 .gantt-table-header {
+  height: variables.$gantt-header-height;
+  line-height: variables.$gantt-header-height;
   text-align: center;
   background: #fff;
   box-shadow: variables.$gantt-side-shadow;
@@ -210,6 +212,7 @@
   flex: 1;
   .gantt-table-group {
     display: flex;
+    height: variables.$gantt-row-height;
     background: variables.$gantt-group-background-color;
     padding: 0 10px;
     align-items: center;
@@ -228,6 +231,8 @@
   }
 
   .gantt-table-item {
+    height: variables.$gantt-row-height;
+    line-height: variables.$gantt-row-height;
     @include gantt-table-item();
   }
 

@@ -1,24 +1,12 @@
-import {
-    Component,
-    OnInit,
-    HostBinding,
-    ChangeDetectorRef,
-    ElementRef,
-    OnDestroy,
-    NgZone,
-    inject,
-    input,
-    output,
-    effect
-} from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectorRef, ElementRef, OnDestroy, inject, input, output, effect } from '@angular/core';
 import { EMPTY, merge, Subject } from 'rxjs';
-import { takeUntil, skip, debounceTime, switchMap, take } from 'rxjs/operators';
+import { takeUntil, skip, debounceTime } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
+import { GanttLinkItem, LinkInternal, GanttLinkType } from '../../class/link';
 import { GanttLinkLine } from './lines/line';
 import { createLineGenerator } from './lines/factory';
 import { outputToObservable } from '@angular/core/rxjs-interop';
@@ -36,8 +24,6 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
     private elementRef = inject(ElementRef);
 
     private ganttDragContainer = inject(GanttDragContainer);
-
-    private ngZone = inject(NgZone);
 
     readonly flatItems = input<(GanttGroupInternal | GanttItemInternal)[]>([]);
 
@@ -90,7 +76,7 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
     }
 
     private computeItemPosition() {
-        const lineHeight = this.ganttUpper.styles().lineHeight;
+        const rowHeight = this.ganttUpper.styles().rowHeight;
         const barHeight = this.ganttUpper.styles().barHeight;
         this.linkItems = [];
 
@@ -98,7 +84,7 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
             if (!item.hasOwnProperty('items')) {
                 const ganttItem = item as GanttItemInternal;
                 if (ganttItem.refs && ganttItem.refs.width > 0) {
-                    const y = itemIndex * lineHeight + ganttItem.refs.y + barHeight / 2;
+                    const y = itemIndex * rowHeight + ganttItem.refs.y + barHeight / 2;
                     this.linkItems.push({
                         ...ganttItem,
                         before: {
@@ -123,21 +109,22 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
                 source.links.forEach((link) => {
                     const target = this.linkItems.find((item) => item.id === link.link);
                     if (target && (target.origin.start || target.origin.end)) {
-                        let defaultColor: string = LinkColors.default;
-                        let activeColor: string = LinkColors.active;
+                        const linkColors = this.ganttUpper.linkOptions().colors;
+                        let defaultColor: string = linkColors.default;
+                        let activeColor: string = linkColors.active;
 
                         if (link.type === GanttLinkType.ff && source.end.getTime() > target.end.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         } else if (link.type === GanttLinkType.fs && source.end.getTime() > target.start.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         } else if (link.type === GanttLinkType.sf && source.start.getTime() > target.end.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         } else if (link.type === GanttLinkType.ss && source.start.getTime() > target.start.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         }
 
                         if (link.color) {

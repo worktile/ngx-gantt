@@ -88,7 +88,7 @@ export function assertGroups<T extends TestGanttComponentBase>(fixture: Componen
 export function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugElement: DebugElement) {
     const styleOptionsBindElement = {
         headerHeight: ['.gantt-calendar-header', '.gantt-table-header'],
-        lineHeight: ['.gantt-item', '.gantt-table-item', '.gantt-group', '.gantt-table-group'],
+        rowHeight: ['.gantt-item', '.gantt-table-item', '.gantt-group', '.gantt-table-group'],
         barHeight: ['.gantt-bar']
     };
     for (const key in styleOptionsBindElement) {
@@ -97,8 +97,9 @@ export function assertConfigStyle(ganttComponent: NgxGanttComponent, ganttDebugE
             bindElementsClass.forEach((elementClass) => {
                 const element = ganttDebugElement.query(By.css(elementClass));
                 if (element) {
-                    const height = element.nativeElement.style.getPropertyValue('height');
-                    expect(height).toEqual(ganttComponent.configService.config.styleOptions[key] + 'px');
+                    const computedStyle = getComputedStyle(element.nativeElement);
+                    const height = computedStyle.getPropertyValue('height');
+                    expect(parseFloat(height)).toEqual(ganttComponent.configService.config.styleOptions[key]);
                 }
             });
         }

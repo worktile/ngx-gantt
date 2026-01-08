@@ -17,6 +17,7 @@
   height: 100%;
   display: none;
   background: rgba($color: variables.$gantt-item-drag-mask-color, $alpha: 0.05);
+  top: variables.$gantt-header-height;
 
   .date-range {
     width: 100%;

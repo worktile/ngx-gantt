@@ -39,16 +39,6 @@ export class GanttTableHeaderComponent implements OnInit, OnDestroy {
 
     @HostBinding('class') className = `gantt-table-header `;
 
-    @HostBinding('style.height')
-    get height() {
-        return this.gantt.styles().headerHeight + 'px';
-    }
-
-    @HostBinding('style.line-height')
-    get lineHeight() {
-        return this.gantt.styles().headerHeight + 'px';
-    }
-
     constructor() {}
 
     ngOnInit() {

@@ -49,7 +49,7 @@ export interface GanttGlobalConfig {
   };
   styleOptions?: {
     headerHeight?: number, // 自定义 header 高度
-    lineHeight?: number, // 自定义行高
+    rowHeight?: number, // 自定义行高
     barHeight?: number // 自定义 Bar 的高度
   };
 

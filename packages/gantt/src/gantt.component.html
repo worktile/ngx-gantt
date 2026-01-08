@@ -19,10 +19,9 @@
       'gantt-scroll-container': virtualScrollEnabled(),
       'with-footer': table()?.tableFooterTemplate() || footerTemplate()
     }"
-    [style.top.px]="styles().headerHeight"
-    [itemSize]="styles().lineHeight"
-    [minBufferPx]="styles().lineHeight * 10"
-    [maxBufferPx]="styles().lineHeight * 20"
+    [itemSize]="styles().rowHeight"
+    [minBufferPx]="styles().rowHeight * 10"
+    [maxBufferPx]="styles().rowHeight * 20"
     (scrolledIndexChange)="scrolledIndexChange($event)"
   >
     <ng-container *cdkVirtualFor="let item of flatItems; trackBy: trackBy"></ng-container>

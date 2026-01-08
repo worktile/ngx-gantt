@@ -17,12 +17,11 @@ import {
     OnInit,
     afterNextRender
 } from '@angular/core';
-import { from, fromEvent, merge, Observable } from 'rxjs';
-import { startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import { fromEvent, merge, Observable } from 'rxjs';
+import { startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { GanttBarDrag } from './bar-drag';
 import { hexToRgb } from '../../utils/helpers';
 import { GanttDragContainer } from '../../gantt-drag-container';
-import { barBackground } from '../../gantt.styles';
 import { GanttBarClickEvent, GanttItemInternal } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { GanttItemUpper } from '../../gantt-item-upper';
@@ -126,7 +125,7 @@ export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, Afte
         const barElement = this.elementRef.nativeElement;
 
         if (item.refs?.width) {
-            const color = item.color || barBackground;
+            const color = item.color || this.ganttUpper.styles().barBackgroundColor;
 
             if (item.origin.start && item.origin.end) {
                 style.background = color;
