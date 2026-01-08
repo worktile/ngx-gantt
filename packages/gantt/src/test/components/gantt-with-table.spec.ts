@@ -1,12 +1,12 @@
-import { Component, DebugElement, viewChild } from '@angular/core';
+import { Component, DebugElement, provideZoneChangeDetection, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttModule } from 'ngx-gantt';
 import { GanttMainComponent } from 'ngx-gantt/components/main/gantt-main.component';
-import { getMockGroupItems, getMockGroups } from './mocks/data';
-import { dispatchMouseEvent } from '../../utils/testing';
 import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
 import { GanttTableHeaderComponent } from '../../components/table/header/gantt-table-header.component';
+import { dispatchMouseEvent } from '../../utils/testing';
+import { getMockGroupItems, getMockGroups } from './mocks/data';
 @Component({
     selector: 'test-gantt-table',
     template: `
@@ -53,7 +53,8 @@ describe('GanttTable', () => {
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [NgxGanttModule],
-            declarations: [TestGanttTableBodyComponent]
+            declarations: [TestGanttTableBodyComponent],
+            providers: [provideZoneChangeDetection()]
         }).compileComponents();
     }));
 
