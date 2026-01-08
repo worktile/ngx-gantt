@@ -3,7 +3,6 @@ import { GanttDate } from 'ngx-gantt';
 
 @Pipe({
     name: 'dateFormat'
-    // standalone: false
 })
 export class GanttDateFormatPipe implements PipeTransform {
     transform(value: number | string, format: string) {

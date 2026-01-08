@@ -56,7 +56,7 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
     providers: [
         {
             provide: GANTT_UPPER_TOKEN,
-            useExisting: NgxGanttComponent
+            useExisting: forwardRef(() => NgxGanttComponent)
         },
         {
             provide: GANTT_ABSTRACT_TOKEN,

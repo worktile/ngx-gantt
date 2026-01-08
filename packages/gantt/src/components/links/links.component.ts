@@ -1,16 +1,4 @@
-import {
-    Component,
-    OnInit,
-    HostBinding,
-    ChangeDetectorRef,
-    ElementRef,
-    OnDestroy,
-    NgZone,
-    inject,
-    input,
-    output,
-    effect
-} from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectorRef, ElementRef, OnDestroy, inject, input, output, effect } from '@angular/core';
 import { EMPTY, merge, Subject } from 'rxjs';
 import { takeUntil, skip, debounceTime, switchMap, take } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
@@ -36,8 +24,6 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
     private elementRef = inject(ElementRef);
 
     private ganttDragContainer = inject(GanttDragContainer);
-
-    private ngZone = inject(NgZone);
 
     readonly flatItems = input<(GanttGroupInternal | GanttItemInternal)[]>([]);
 
@@ -65,7 +51,7 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const linkOptions = this.ganttUpper.linkOptions();
-        this.linkLine = createLineGenerator(linkOptions.lineType);
+        this.linkLine = createLineGenerator(linkOptions.lineType, this.ganttUpper);
 
         this.showArrow = linkOptions.showArrow;
 

@@ -2,27 +2,31 @@
   <ng-template #sideTemplate>
     <div class="gantt-flat-side-header">项目</div>
     <div class="gantt-flat-side-body">
-      <div class="gantt-group" *ngFor="let group of groups; trackBy: trackBy">
-        <div class="gantt-group-content" [style.height.px]="group.mergedItems?.length * (styles().lineHeight + 10) - 10">
-          {{ group.title }}
+      @for (group of groups; track trackBy($index, group)) {
+        <div class="gantt-group">
+          <div class="gantt-group-content" [style.height.px]="group.mergedItems?.length * (styles().lineHeight + 10) - 10">
+            {{ group.title }}
+          </div>
         </div>
-      </div>
+      }
     </div>
   </ng-template>
   <ng-template #mainTemplate>
     <!-- groups -->
-    <div class="gantt-main-groups" *ngIf="groups && groups.length > 0" [style.width.px]="view.width">
-      <ng-container *ngFor="let group of groups; trackBy: trackBy">
-        <div class="gantt-main-group" [style.height.px]="group.mergedItems?.length * (styles().lineHeight + 10) - 10">
-          <ng-container *ngFor="let items of group.mergedItems">
-            <div class="gantt-flat-items" [style.height.px]="styles().lineHeight">
-              <ng-container *ngFor="let item of items; trackBy: trackBy">
-                <ngx-gantt-bar [item]="item" [template]="barTemplate()" (barClick)="barClick.emit($event)"></ngx-gantt-bar>
-              </ng-container>
-            </div>
-          </ng-container>
-        </div>
-      </ng-container>
-    </div>
+    @if (groups && groups.length > 0) {
+      <div class="gantt-main-groups" [style.width.px]="view.width">
+        @for (group of groups; track trackBy($index, group)) {
+          <div class="gantt-main-group" [style.height.px]="group.mergedItems?.length * (styles().lineHeight + 10) - 10">
+            @for (items of group.mergedItems; track $index) {
+              <div class="gantt-flat-items" [style.height.px]="styles().lineHeight">
+                @for (item of items; track trackBy($index, item)) {
+                  <ngx-gantt-bar [item]="item" [template]="barTemplate()" (barClick)="barClick.emit($event)"></ngx-gantt-bar>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
   </ng-template>
 </ngx-gantt-root>

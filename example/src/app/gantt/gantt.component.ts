@@ -18,7 +18,9 @@ import {
     GanttView,
     GanttViewOptions,
     GanttViewType,
-    NgxGanttComponent
+    NgxGanttComponent,
+    NgxGanttTableComponent,
+    NgxGanttTableColumnComponent
 } from 'ngx-gantt';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { finalize, of } from 'rxjs';
@@ -28,7 +30,6 @@ import { ThyContent, ThyHeader, ThyLayout } from 'ngx-tethys/layout';
 import { ThyButton } from 'ngx-tethys/button';
 import { ThySwitch } from 'ngx-tethys/switch';
 import { FormsModule } from '@angular/forms';
-import { NgxGanttTableColumnComponent, NgxGanttTableComponent } from '../../../../dist/gantt';
 import { GanttDateFormatPipe } from '../pipes/date-format.pipe';
 
 const cacheKeys = 'GANTT_TABLE_KEYS';
@@ -45,10 +46,10 @@ const cacheKeys = 'GANTT_TABLE_KEYS';
         ThyButton,
         ThySwitch,
         FormsModule,
+        GanttDateFormatPipe,
         NgxGanttComponent,
         NgxGanttTableComponent,
-        NgxGanttTableColumnComponent,
-        GanttDateFormatPipe
+        NgxGanttTableColumnComponent
     ]
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {

@@ -1,12 +1,10 @@
-import { inject } from '@angular/core';
+import { Inject } from '@angular/core';
 import { GanttLinkItem, GanttLinkType } from '../../../class/link';
-import { GanttUpper, GANTT_UPPER_TOKEN } from '../../../gantt-upper';
+import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttLinkLine } from './line';
 
 export class GanttLinkLineCurve extends GanttLinkLine {
-    private ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
-
-    constructor() {
+    constructor(@Inject(GANTT_UPPER_TOKEN) private ganttUpper: GanttUpper) {
         super();
     }
 

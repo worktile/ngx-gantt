@@ -1,9 +1,14 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, HostBinding, effect } from '@angular/core';
-import { GANTT_UPPER_TOKEN, GanttUpper, GanttItemInternal, GanttGroupInternal, NgxGanttRootComponent } from 'ngx-gantt';
+import {
+    GANTT_UPPER_TOKEN,
+    GanttUpper,
+    GanttItemInternal,
+    GanttGroupInternal,
+    NgxGanttRootComponent,
+    NgxGanttBarComponent
+} from 'ngx-gantt';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { NgxGanttBarComponent } from '../../../../../dist/gantt';
 
 @Component({
     selector: 'app-gantt-flat',
@@ -15,7 +20,7 @@ import { NgxGanttBarComponent } from '../../../../../dist/gantt';
             useExisting: AppGanttFlatComponent
         }
     ],
-    imports: [NgxGanttRootComponent, NgxGanttBarComponent, NgFor, NgIf]
+    imports: [NgxGanttRootComponent, NgxGanttBarComponent]
 })
 export class AppGanttFlatComponent extends GanttUpper implements OnInit {
     mergeIntervalDays = 3;
