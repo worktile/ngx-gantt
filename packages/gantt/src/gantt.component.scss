@@ -113,7 +113,7 @@
       &.gantt-main-item-active {
         background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
       }
-      .gantt-placeholder {
+      .gantt-bar-placeholder {
         position: absolute;
         background-color: variables.$gantt-placeholder-background-color;
         border-radius: 4px;

@@ -10,8 +10,8 @@ import { GanttLinksComponent } from '../links/links.component';
 import { NgxGanttRootComponent } from './../../root.component';
 import { GanttIconComponent } from '../icon/icon.component';
 import { GanttDomService } from '../../gantt-dom.service';
-import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
-import { GanttPlaceholderComponent } from '../placeholder/placeholder.component';
+import { combineLatest, Subject, takeUntil } from 'rxjs';
+import { NgxGanttPlaceholderComponent } from '../bar/placeholder.component';
 
 @Component({
     selector: 'gantt-main',
@@ -28,7 +28,7 @@ import { GanttPlaceholderComponent } from '../placeholder/placeholder.component'
         IsGanttCustomItemPipe,
         IsGanttGroupPipe,
         GanttIconComponent,
-        GanttPlaceholderComponent
+        NgxGanttPlaceholderComponent
     ]
 })
 export class GanttMainComponent {

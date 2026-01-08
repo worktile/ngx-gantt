@@ -30,14 +30,14 @@
             @defer (on viewport) {
               <gantt-range [template]="rangeTemplate()" [item]="data"></gantt-range>
             } @placeholder {
-              <gantt-placeholder class="gantt-placeholder-range" [item]="data"></gantt-placeholder>
+              <gantt-bar-placeholder class="gantt-bar-placeholder-range" [item]="data"></gantt-bar-placeholder>
             }
           }
           @if (data.type | isGanttBarItem) {
             @defer (on viewport) {
               <gantt-bar [item]="data" [template]="barTemplate()" (barClick)="barClick.emit($event)"></gantt-bar>
             } @placeholder {
-              <gantt-placeholder [item]="data" [style.height.px]="ganttUpper.styles().lineHeight"></gantt-placeholder>
+              <gantt-bar-placeholder [item]="data" [style.height.px]="ganttUpper.styles().lineHeight"></gantt-bar-placeholder>
             }
           }
           @if (ganttUpper.baselineItemsMap[data.id]) {

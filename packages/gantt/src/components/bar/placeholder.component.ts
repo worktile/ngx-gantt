@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { GanttItemUpper } from '../../gantt-item-upper';
 
 @Component({
-    selector: 'gantt-placeholder',
+    selector: 'ngx-gantt-bar-placeholder,gantt-bar-placeholder',
     template: '',
     host: {
-        class: 'gantt-placeholder'
+        class: 'gantt-bar-placeholder'
     }
 })
-export class GanttPlaceholderComponent extends GanttItemUpper {
+export class NgxGanttPlaceholderComponent extends GanttItemUpper {
     constructor() {
         super();
     }
