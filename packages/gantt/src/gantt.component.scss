@@ -115,8 +115,11 @@
       }
       .gantt-placeholder {
         position: absolute;
+        background-color: variables.$gantt-placeholder-background-color;
+        border-radius: 4px;
         &-range {
           height: 10px;
+          border-radius: 2px;
         }
       }
     }
