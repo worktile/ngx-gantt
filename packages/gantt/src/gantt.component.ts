@@ -43,7 +43,6 @@ import { GanttTableHeaderComponent } from './components/table/header/gantt-table
 import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
 import { GANTT_ABSTRACT_TOKEN } from './gantt-abstract';
 import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
-import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from './gantt.config';
 import { NgxGanttRootComponent } from './root.component';
 import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
@@ -57,7 +56,7 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
     providers: [
         {
             provide: GANTT_UPPER_TOKEN,
-            useExisting: NgxGanttComponent
+            useExisting: forwardRef(() => NgxGanttComponent)
         },
         {
             provide: GANTT_ABSTRACT_TOKEN,

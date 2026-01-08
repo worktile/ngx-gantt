@@ -7,16 +7,20 @@ import {
     GanttTableDragEnterPredicateContext,
     GanttTableDragStartedEvent,
     GanttVirtualScrolledIndexChangeEvent,
-    NgxGanttComponent
+    NgxGanttComponent,
+    NgxGanttTableColumnComponent,
+    NgxGanttTableComponent
 } from 'ngx-gantt';
 import { delay, of } from 'rxjs';
 import { randomItems, random } from '../helper';
+import { ThyContent, ThyHeader, ThyLayout } from 'ngx-tethys/layout';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-gantt-virtual-scroll-example',
     templateUrl: './gantt.component.html',
     providers: [GanttPrintService],
-    standalone: false
+    imports: [ThyLayout, ThyContent, ThyHeader, NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent, DatePipe]
 })
 export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewInit {
     private cdr = inject(ChangeDetectorRef);
