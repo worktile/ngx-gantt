@@ -26,9 +26,9 @@
     "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
   },
   "peerDependencies": {
-    "@angular/common": ">=21.0.6",
-    "@angular/core": ">=21.0.6",
-    "@angular/cdk": ">=21.0.6",
+    "@angular/common": ">=21.0.0",
+    "@angular/core": ">=21.0.0",
+    "@angular/cdk": ">=21.0.0",
     "rxjs": "^6.5.0 || ^7.0.0",
     "date-fns": ">=4.0.0",
     "@date-fns/tz": ">=1.0.0"
