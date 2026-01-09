@@ -1,66 +1,105 @@
-// basic
-$gantt-color: #333 !default;
-$gantt-primary-color: #6698ff !default;
-$gantt-header-height: 44px !default;
-$gantt-border-color: #eee !default;
-$gantt-bg-color: #fff !default;
-$gantt-side-shadow: 12px 0 16px -10px rgba(0, 0, 0, 0.15) !default;
-$gantt-container-background-color: #fafafa !default;
-$gantt-group-background-color: rgba(
-  $color: #f3f3f3,
-  $alpha: 0.5
-) !default;
-$gantt-table-td-padding: 0 15px !default;
+// ============================================
+// Foundation - 主题色变量
+// ============================================
+$color-primary: var(--gantt-color-primary, #6698ff) !default;
+$color-danger: var(--gantt-color-danger, #ff7575) !default;
+$color-highlight: var(--gantt-color-highlight, #ff9f73) !default;
+$color-background: var(--gantt-color-background, #ffffff) !default;
 
-// calendar
-$gantt-date-primary-color: #888 !default;
+$color-text-main: var(--gantt-color-text-main, #333333) !default;
+$color-text-muted: var(--gantt-color-text-muted, #888888) !default;
+$color-text-light: var(--gantt-color-text-light, #aaaaaa) !default;
+$color-text-inverse: var(--gantt-color-text-inverse, #ffffff) !default;
+
+$color-gray-100: var(--gantt-color-gray-100, #fafafa) !default;
+$color-gray-200: var(--gantt-color-gray-200, #f5f5f5) !default;
+$color-gray-300: var(--gantt-color-gray-300, #f3f3f3) !default;
+$color-gray-400: var(--gantt-color-gray-400, #eeeeee) !default;
+$color-gray-500: var(--gantt-color-gray-500, #dddddd) !default;
+$color-gray-600: var(--gantt-color-gray-600, #cacaca) !default;
+
+$color-shadow: rgba(0, 0, 0, 0.15) !default;
+
+// ============================================
+// Foundation - 基础变量
+// ============================================
+
+$gantt-primary-color: $color-primary !default; // #6698ff
+$gantt-header-height: var(--gantt-header-height, 44px) !default;
+$gantt-row-height: var(--gantt-row-height, 44px) !default;
+$gantt-bar-height: var(--gantt-bar-height, 22px) !default;
+$gantt-bar-background-color: $gantt-primary-color !default; // 跟随主色
+
+$gantt-color: $color-text-main !default; // #333
+$gantt-bg-color: $color-background !default; // #fff
+$gantt-border-color: $color-gray-400 !default; // #eee
+$gantt-container-background-color: $color-gray-100 !default; // #fafafa
+
+// ============================================
+// Layout - 布局变量
+// ============================================
+$gantt-footer-height: 44px !default;
+$gantt-side-shadow: 12px 0 16px -10px $color-shadow !default; // rgba(0, 0, 0, 0.15)
+$gantt-footer-shadow: 16px 0 14px -10px $color-shadow !default;
+$gantt-scrollbar-shadow: 10px 0px 10px -3px $color-shadow !default;
+
+// ============================================
+// Group - 分组
+// ============================================
+$gantt-group-background-color: rgba($color-gray-300, 0.5) !default; // #f3f3f3
+
+// ============================================
+// Calendar - 日历
+// ============================================
+$gantt-date-primary-color: $color-text-muted !default; // #888
 $gantt-date-primary-font-size: 14px !default;
-$gantt-date-primary-border: #ddd !default;
-$gantt-date-secondary-color: #333 !default;
+$gantt-date-primary-border: $color-gray-500 !default; // #ddd
+$gantt-date-secondary-color: $color-text-main !default; // #333
 $gantt-date-secondary-font-size: 14px !default;
-$gantt-date-secondary-weekend-color: #aaa !default;
-$gantt-date-week-backdrop-bg: rgba(
-  $color: #f3f3f3,
-  $alpha: 0.5
-) !default;
-$gantt-date-today-color: #ff9f73 !default;
-$gantt-date-today-text-color: #fff !default;
+$gantt-date-secondary-weekend-color: $color-text-light !default; // #aaa
+$gantt-date-week-backdrop-bg: rgba($color-gray-300, 0.5) !default; // #f3f3f3
+$gantt-date-today-color: $color-highlight !default; // #ff9f73
+$gantt-date-today-text-color: $color-background !default; // #fff
 
-// bar
-$gantt-bar-bg: #fff !default;
-$gantt-bar-layer-bg: #fff !default;
-$gantt-bar-handle-color: #cacaca !default;
+// ============================================
+// Bar - 甘特条
+// ============================================
+$gantt-bar-bg: $color-background !default; // #fff
+$gantt-bar-layer-bg: $color-background !default; // #fff
+$gantt-bar-handle-color: $color-gray-600 !default; // #cacaca
 $gantt-bar-handle-height: 12px !default;
 $gantt-bar-link-handle-point: $gantt-primary-color !default;
-$gantt-bar-background-color: $gantt-primary-color !default;
 
-// drag
+// ============================================
+// Drag - 拖拽
+// ============================================
 $gantt-item-drag-mask-color: $gantt-primary-color !default;
 $gantt-link-dragging-line-color: $gantt-primary-color !default;
 
-// link
+// ============================================
+// Link - 关联线
+// ============================================
 $gantt-link-line-color: $gantt-primary-color !default;
 
-// table
+// ============================================
+// Table - 表格
+// ============================================
+$gantt-table-td-padding: 0 15px !default;
 $gantt-table-header-drag-line-width: 3px !default;
 $gantt-table-header-drag-line-color: $gantt-primary-color !default;
-$gantt-table-items-drop-background-color: #f5f5f5 !default;
+$gantt-table-items-drop-background-color: $color-gray-200 !default; // #f5f5f5
 
-// baseline
-$gantt-baseline-background-color: #cacaca !default;
+// ============================================
+// Baseline - 基线
+// ============================================
+$gantt-baseline-background-color: $color-gray-600 !default; // #cacaca
 
-// toolbar
+// ============================================
+// Toolbar - 工具栏
+// ============================================
 $gantt-toolbar-view-active-color: $gantt-primary-color !default;
 
-// loader
+// ============================================
+// Loader - 加载器
+// ============================================
 $gantt-loader-loading-color: $gantt-primary-color !default;
-
-// footer
-$gantt-footer-height: 44px !default;
-$gantt-footer-shadow: 16px 0 14px -10px rgba(0, 0, 0, 0.15) !default;
-
-// scrollbar
-$gantt-scrollbar-shadow: 10px 0px 10px -3px rgba(0, 0, 0, 0.15) !default;
-
-// placeholder
-$gantt-placeholder-background-color: #fdfdfd;

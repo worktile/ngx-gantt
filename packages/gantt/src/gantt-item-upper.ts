@@ -53,9 +53,7 @@ export abstract class GanttItemUpper implements OnDestroy {
         itemElement.style.left = item.refs?.x + 'px';
         itemElement.style.top = item.refs?.y + 'px';
         itemElement.style.width = item.refs?.width + 'px';
-        if (item.type === GanttItemType.bar) {
-            itemElement.style.height = this.ganttUpper.styles().barHeight + 'px';
-        } else if (item.type === GanttItemType.range) {
+        if (item.type === GanttItemType.range) {
             itemElement.style.height = rangeHeight + 'px';
         }
     }

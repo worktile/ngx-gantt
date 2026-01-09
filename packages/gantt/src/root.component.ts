@@ -34,9 +34,6 @@ import { passiveListenerOptions } from './utils/passive-listeners';
     selector: 'ngx-gantt-root',
     templateUrl: './root.component.html',
     providers: [GanttDomService, GanttDragContainer, GanttSyncScrollService],
-    host: {
-        class: 'gantt'
-    },
     imports: [
         CdkScrollable,
         NgTemplateOutlet,
@@ -109,6 +106,8 @@ export class NgxGanttRootComponent implements OnDestroy {
                         this.scrollToToday();
                     });
                 this.computeScrollBarOffset();
+
+                this.dom.applyCssVariables(this.elementRef.nativeElement, this.ganttUpper.styles());
             });
         });
     }

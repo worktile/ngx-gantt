@@ -14,6 +14,7 @@ import {
     OutputEmitterRef,
     Signal,
     TemplateRef,
+    afterNextRender,
     computed,
     contentChild,
     effect,
@@ -25,8 +26,8 @@ import {
     signal,
     untracked
 } from '@angular/core';
-import { Subject, from } from 'rxjs';
-import { skip, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { skip, takeUntil } from 'rxjs/operators';
 import {
     GanttBarClickEvent,
     GanttDragEvent,
@@ -82,7 +83,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     readonly originStyles = input<GanttStyleOptions>({}, { alias: 'styles' });
 
     readonly styles = computed(() => {
-        return Object.assign({}, this.configService.config.styleOptions, this.originStyles());
+        return this.configService.mergeStyleOptions(this.originStyles());
     });
 
     readonly showToolbar = input(false);
@@ -94,10 +95,10 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     readonly viewOptions = input<GanttViewOptions>({});
 
     // eslint-disable-next-line @angular-eslint/no-input-rename
-    readonly originLinkOptions = input<GanttLinkOptions>({}, { alias: 'linkOptions' });
+    readonly inputLinkOptions = input<GanttLinkOptions>({}, { alias: 'linkOptions' });
 
     readonly linkOptions = computed(() => {
-        return Object.assign({}, this.configService.config.linkOptions, this.originLinkOptions());
+        return Object.assign({}, this.configService.config.linkOptions, this.inputLinkOptions());
     });
 
     readonly disabledLoadOnScroll = input<boolean>(true);
@@ -180,6 +181,11 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     protected isEffectFinished = signal(false);
 
+    public colors = computed(() => {
+        const styles = this.styles();
+        return styles.themes[styles.defaultTheme] ?? styles.themes.default;
+    });
+
     @HostBinding('class.gantt') ganttClass = true;
 
     constructor() {
@@ -225,7 +231,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
     private createView() {
         const viewDate = this.getViewDate();
         const viewOptions = { ...this.viewOptions() };
-        viewOptions.styleOptions = Object.assign({}, this.configService.config.styleOptions, viewOptions.styleOptions);
+        viewOptions.styleOptions = this.configService.mergeStyleOptions(viewOptions.styleOptions);
         const localeFormats = this.configService.getViewsLocale()[this.viewType()]?.tickFormats;
         if (localeFormats) {
             viewOptions.tickFormats = {
@@ -349,13 +355,6 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
         }
     }
 
-    private initCssVariables() {
-        const styles = this.styles();
-        this.element.style.setProperty('--gantt-header-height', coerceCssPixelValue(styles.headerHeight));
-        this.element.style.setProperty('--gantt-line-height', coerceCssPixelValue(styles.lineHeight));
-        this.element.style.setProperty('--gantt-bar-height', coerceCssPixelValue(styles.barHeight));
-    }
-
     expandGroups(expanded: boolean) {
         this.groups.forEach((group) => {
             group.setExpand(expanded);
@@ -366,7 +365,6 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.createView();
-        this.initCssVariables();
 
         this.ngZone.runOutsideAngular(() => {
             this.element.style.opacity = '1';
@@ -400,7 +398,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
             item.updateRefs({
                 width: item.start && item.end ? this.view.calculateRangeWidth(item.start, item.end) : 0,
                 x: item.start ? this.view.getXAtDate(item.start) : 0,
-                y: (this.styles().lineHeight - this.styles().barHeight) / 2 - 1
+                y: (this.styles().rowHeight - this.styles().barHeight) / 2 - 1
             });
         });
     }

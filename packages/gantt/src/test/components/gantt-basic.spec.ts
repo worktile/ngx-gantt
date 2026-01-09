@@ -159,7 +159,7 @@ describe('gantt-basic-component', () => {
                         dateOptions: {},
                         styleOptions: {
                             headerHeight: 60,
-                            lineHeight: 60,
+                            rowHeight: 60,
                             barHeight: 30
                         }
                     }

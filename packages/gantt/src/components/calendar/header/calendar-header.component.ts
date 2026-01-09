@@ -29,11 +29,6 @@ export class GanttCalendarHeaderComponent implements OnInit {
 
     @HostBinding('class') className = `gantt-calendar gantt-calendar-header`;
 
-    @HostBinding('style.height')
-    get height() {
-        return this.ganttUpper.styles().headerHeight + 'px';
-    }
-
     constructor() {}
 
     ngOnInit() {

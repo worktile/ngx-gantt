@@ -223,7 +223,7 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
                 .renderedRangeStream.pipe(takeUntil(this.unsubscribe$))
                 .subscribe((range) => {
                     const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
-                    linksElement.style.top = `${-(this.styles().lineHeight * range.start)}px`;
+                    linksElement.style.top = `${-(this.styles().rowHeight * range.start)}px`;
                     this.rangeStart = range.start;
                     this.rangeEnd = range.end;
                     this.viewportItems = this.flatItems.slice(range.start, range.end);

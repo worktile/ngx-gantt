@@ -16,11 +16,6 @@ export class NgxGanttToolbarComponent {
 
     @HostBinding('class.gantt-toolbar') ganttItemClass = true;
 
-    @HostBinding('style.top')
-    get top() {
-        return this.ganttUpper.styles().headerHeight + 16 + 'px';
-    }
-
     views = inject(GanttConfigService).getViewsLocale();
 
     constructor() {}

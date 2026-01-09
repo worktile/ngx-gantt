@@ -204,7 +204,7 @@ export class GanttBarDrag implements OnDestroy {
             this.item().updateRefs({
                 width: this.ganttUpper.view.calculateRangeWidth(this.item().start, this.item().end),
                 x: this.ganttUpper.view.getXAtDate(this.item().start),
-                y: (this.ganttUpper.styles().lineHeight - this.ganttUpper.styles().barHeight) / 2 - 1
+                y: (this.ganttUpper.styles().rowHeight - this.ganttUpper.styles().barHeight) / 2 - 1
             });
             this.dragContainer.dragEnded.emit({ item: this.item().origin });
         });
@@ -270,7 +270,7 @@ export class GanttBarDrag implements OnDestroy {
                 this.item().updateRefs({
                     width: this.ganttUpper.view.calculateRangeWidth(this.item().start, this.item().end),
                     x: this.ganttUpper.view.getXAtDate(this.item().start),
-                    y: (this.ganttUpper.styles().lineHeight - this.ganttUpper.styles().barHeight) / 2 - 1
+                    y: (this.ganttUpper.styles().rowHeight - this.ganttUpper.styles().barHeight) / 2 - 1
                 });
                 this.dragContainer.dragEnded.emit({ item: this.item().origin });
             });

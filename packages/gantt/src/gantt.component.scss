@@ -85,7 +85,7 @@
 
   .gantt-main-container {
     width: 100%;
-    height: calc(100% - var(--gantt-header-height));
+    height: calc(100% - #{variables.$gantt-header-height});
     flex: 1;
     position: absolute;
     bottom: 0;
@@ -103,19 +103,22 @@
       background: variables.$gantt-group-background-color;
       border-bottom: 1px solid variables.$gantt-border-color;
       box-sizing: border-box;
+      height: variables.$gantt-row-height;
     }
 
     .gantt-item {
       border-bottom: 1px solid variables.$gantt-border-color;
       box-sizing: border-box;
       position: relative;
+      height: variables.$gantt-row-height;
 
       &.gantt-main-item-active {
         background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
       }
       .gantt-bar-placeholder {
         position: absolute;
-        background-color: variables.$gantt-placeholder-background-color;
+        background-color: variables.$color-primary;
+        opacity: 0.1;
         border-radius: 4px;
         &-range {
           height: 10px;
@@ -139,6 +142,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          height: variables.$gantt-row-height;
           span {
             width: 24px;
             height: 24px;
@@ -161,10 +165,16 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            color: variables.$color-text-light;
             background-color: variables.$gantt-bar-bg;
             border: 1px solid variables.$gantt-border-color;
             border-radius: 4px;
             box-shadow: 0 4px 7px 1px rgba(0, 0, 0, 0.05);
+
+            &:hover {
+              color: variables.$color-primary;
+            }
+
             .gantt-icon {
               display: inline-block;
               svg {
@@ -191,6 +201,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    top: variables.$gantt-header-height;
     z-index: 2;
     overflow: auto;
 
@@ -250,7 +261,7 @@
   .gantt-container-header {
     flex: 1;
     overflow: hidden;
-    background-color: #fafafa;
+    background-color: variables.$gantt-container-background-color;
   }
 }
 
@@ -261,7 +272,7 @@
   right: 0;
   bottom: 0;
   z-index: 3;
-  background-color: white;
+  background-color: variables.$color-background;
   border-top: 1px solid variables.$gantt-border-color;
   border-bottom: 1px solid variables.$gantt-border-color;
   overflow: hidden;
