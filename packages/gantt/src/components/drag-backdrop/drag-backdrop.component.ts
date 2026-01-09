@@ -5,8 +5,7 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
     templateUrl: `./drag-backdrop.component.html`,
     host: {
         class: 'gantt-drag-backdrop'
-    },
-    standalone: true
+    }
 })
 export class GanttDragBackdropComponent {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);

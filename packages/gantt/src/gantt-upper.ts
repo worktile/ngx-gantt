@@ -109,7 +109,7 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     readonly quickTimeFocus = input(false);
 
-    @Output() loadOnScroll = new EventEmitter<GanttLoadOnScrollEvent>();
+    readonly loadOnScroll = output<GanttLoadOnScrollEvent>();
 
     readonly dragStarted = output<GanttDragEvent>();
 

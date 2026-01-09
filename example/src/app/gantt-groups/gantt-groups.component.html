@@ -2,9 +2,11 @@
   <thy-header>
     <ng-template #headerContent>
       <thy-button-group thySize="sm" thyType="outline-default">
-        <button thyButton *ngFor="let view of views" [class.active]="view.value === viewType" (click)="viewType = view.value">
-          {{ view.name }}
-        </button>
+        @for (view of views; track $index) {
+          <button thyButton [class.active]="view.value === viewType" (click)="viewType = view.value">
+            {{ view.name }}
+          </button>
+        }
       </thy-button-group>
 
       &nbsp; &nbsp; &nbsp;

@@ -37,9 +37,11 @@
 
         <ng-template #tableFooter let-columns="columns">
           <div class="table-footer">
-            <div class="gantt-table-column" *ngFor="let column of columns; let i = index" [style.width]="column.columnWidth()">
-              {{ column.name() }}
-            </div>
+            @for (column of columns; track $index) {
+              <div class="gantt-table-column" [style.width]="column.columnWidth()">
+                {{ column.name() }}
+              </div>
+            }
           </div>
         </ng-template>
       </ngx-gantt-table>
@@ -50,19 +52,19 @@
 
       <ng-template #footer>
         <div class="footer-container" [style.width.px]="gantt?.view.width">
-          <div
-            class="footer-item"
-            *ngFor="let day of gantt?.view.unitTicks"
-            [style.left.px]="day.x - gantt?.view.options.unitWidth / 2"
-            [style.width.px]="gantt?.view.options.unitWidth"
-          >
-            <ng-container *ngIf="false; else empty">
-              <div class="stat stat-fill"></div>
-            </ng-container>
-            <ng-template #empty>
-              <div class="stat stat-empty">0</div>
-            </ng-template>
-          </div>
+          @for (day of gantt?.view.unitTicks; track $index) {
+            <div
+              class="footer-item"
+              [style.left.px]="day.x - gantt?.view.options.unitWidth / 2"
+              [style.width.px]="gantt?.view.options.unitWidth"
+            >
+              @if (false) {
+                <div class="stat stat-fill"></div>
+              } @else {
+                <div class="stat stat-empty">0</div>
+              }
+            </div>
+          }
         </div>
       </ng-template>
     </ngx-gantt>

@@ -8,6 +8,7 @@ import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
 @Directive()
 export abstract class GanttItemUpper implements OnDestroy {
     protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     protected ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
 
     readonly template = input<TemplateRef<any>>();

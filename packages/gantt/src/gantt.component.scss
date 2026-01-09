@@ -115,6 +115,16 @@
       &.gantt-main-item-active {
         background-color: rgba($color: variables.$gantt-table-header-drag-line-color, $alpha: 0.1);
       }
+      .gantt-bar-placeholder {
+        position: absolute;
+        background-color: variables.$color-primary;
+        opacity: 0.1;
+        border-radius: 4px;
+        &-range {
+          height: 10px;
+          border-radius: 2px;
+        }
+      }
     }
 
     .gantt-quick-time-focus-container {

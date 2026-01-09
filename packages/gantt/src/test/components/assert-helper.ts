@@ -52,9 +52,9 @@ export function assertItem(item: DebugElement, ganttItem: GanttItemInternal | Ga
     expect(left).toEqual(ganttItem.refs.x + 'px');
     expect(width).toEqual(ganttItem.refs.width + 'px');
 }
-
 export function assertItems<T extends TestGanttComponentBase>(fixture: ComponentFixture<T>, expectedItems: GanttItem[]) {
     const { ganttComponent } = fixture.componentInstance;
+    fixture.detectChanges();
     const items = fixture.debugElement.queryAll(By.directive(NgxGanttBarComponent));
     expect(items.length).toEqual(expectedItems.length);
     items.forEach((item: DebugElement, index: number) => {

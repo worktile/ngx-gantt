@@ -7,17 +7,17 @@ import {
     ElementRef,
     OnInit,
     TemplateRef,
+    afterEveryRender,
+    contentChild,
+    contentChildren,
+    effect,
     forwardRef,
-    signal,
     inject,
     input,
     output,
-    contentChild,
-    contentChildren,
-    viewChild,
-    effect,
+    signal,
     untracked,
-    afterEveryRender
+    viewChild
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize, take, takeUntil } from 'rxjs/operators';
@@ -56,7 +56,7 @@ import { Dictionary, keyBy, recursiveItems, uniqBy } from './utils/helpers';
     providers: [
         {
             provide: GANTT_UPPER_TOKEN,
-            useExisting: NgxGanttComponent
+            useExisting: forwardRef(() => NgxGanttComponent)
         },
         {
             provide: GANTT_ABSTRACT_TOKEN,

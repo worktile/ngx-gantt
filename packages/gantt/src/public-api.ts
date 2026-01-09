@@ -4,6 +4,7 @@
 
 export * from './class';
 export * from './components/bar/bar.component';
+export * from './components/bar/placeholder.component';
 export * from './components/baseline/baseline.component';
 export * from './components/calendar/grid/calendar-grid.component';
 export * from './components/calendar/header/calendar-header.component';

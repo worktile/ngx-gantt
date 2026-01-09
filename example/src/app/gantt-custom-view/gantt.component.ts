@@ -7,13 +7,19 @@ import {
     GanttItem,
     NgxGanttComponent,
     GanttSelectedEvent,
-    registerView
+    registerView,
+    NgxGanttTableComponent,
+    NgxGanttTableColumnComponent
 } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { randomItems, random } from '../helper';
 import { GanttViewCustom } from './custom-day-view';
+import { ThyContent, ThyHeader, ThyLayout } from 'ngx-tethys/layout';
+import { ThyButton } from 'ngx-tethys/button';
+import { ThySwitch } from 'ngx-tethys/switch';
+import { FormsModule } from '@angular/forms';
 
 const customViewType = 'custom';
 
@@ -22,7 +28,17 @@ registerView(customViewType, GanttViewCustom);
 @Component({
     selector: 'app-gantt-custom-view-example',
     templateUrl: './gantt.component.html',
-    standalone: false
+    imports: [
+        ThyLayout,
+        ThyContent,
+        ThyHeader,
+        ThyButton,
+        ThySwitch,
+        FormsModule,
+        NgxGanttComponent,
+        NgxGanttTableComponent,
+        NgxGanttTableColumnComponent
+    ]
 })
 export class AppGanttCustomViewExampleComponent implements OnInit {
     private thyNotify = inject(ThyNotifyService);

@@ -10,7 +10,8 @@ import { GanttLinksComponent } from '../links/links.component';
 import { NgxGanttRootComponent } from './../../root.component';
 import { GanttIconComponent } from '../icon/icon.component';
 import { GanttDomService } from '../../gantt-dom.service';
-import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
+import { combineLatest, Subject, takeUntil } from 'rxjs';
+import { NgxGanttPlaceholderComponent } from '../bar/placeholder.component';
 
 @Component({
     selector: 'gantt-main',
@@ -26,12 +27,15 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe,
         IsGanttGroupPipe,
-        GanttIconComponent
+        GanttIconComponent,
+        NgxGanttPlaceholderComponent
     ]
 })
 export class GanttMainComponent {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     dom = inject(GanttDomService);
+
     protected ngZone = inject(NgZone);
 
     readonly viewportItems = input<(GanttGroupInternal | GanttItemInternal)[]>(undefined);

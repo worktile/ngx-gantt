@@ -10,8 +10,7 @@ const mainHeight = 5000;
 
 @Component({
     selector: 'gantt-calendar-grid',
-    templateUrl: './calendar-grid.component.html',
-    standalone: true
+    templateUrl: './calendar-grid.component.html'
 })
 export class GanttCalendarGridComponent implements OnInit, OnDestroy {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);

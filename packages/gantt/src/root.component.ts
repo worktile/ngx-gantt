@@ -1,34 +1,34 @@
-import {
-    Component,
-    NgZone,
-    ElementRef,
-    TemplateRef,
-    OnDestroy,
-    HostListener,
-    input,
-    contentChild,
-    viewChild,
-    inject,
-    afterNextRender,
-    ChangeDetectorRef
-} from '@angular/core';
-import { GanttDomService, ScrollDirection } from './gantt-dom.service';
-import { GanttDragContainer } from './gantt-drag-container';
-import { takeUntil, startWith } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { GanttUpper, GANTT_UPPER_TOKEN } from './gantt-upper';
-import { GanttPrintService } from './gantt-print.service';
-import { passiveListenerOptions } from './utils/passive-listeners';
-import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
-import { GanttDate } from './utils/date';
-import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
-import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
-import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
-import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
-import { GanttSyncScrollService } from './gantt-sync-scroll.service';
+import {
+    afterNextRender,
+    ChangeDetectorRef,
+    Component,
+    contentChild,
+    ElementRef,
+    HostListener,
+    inject,
+    input,
+    NgZone,
+    OnDestroy,
+    TemplateRef,
+    viewChild
+} from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
+import { Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { GanttCalendarGridComponent } from './components/calendar/grid/calendar-grid.component';
+import { GanttCalendarHeaderComponent } from './components/calendar/header/calendar-header.component';
+import { GanttDragBackdropComponent } from './components/drag-backdrop/drag-backdrop.component';
+import { NgxGanttToolbarComponent } from './components/toolbar/toolbar.component';
+import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from './directives/sync-scroll.directive';
+import { GanttDomService, ScrollDirection } from './gantt-dom.service';
+import { GanttDragContainer } from './gantt-drag-container';
+import { GanttPrintService } from './gantt-print.service';
+import { GanttSyncScrollService } from './gantt-sync-scroll.service';
+import { GANTT_UPPER_TOKEN, GanttUpper } from './gantt-upper';
+import { GanttDate } from './utils/date';
+import { passiveListenerOptions } from './utils/passive-listeners';
 
 @Component({
     selector: 'ngx-gantt-root',
@@ -122,9 +122,12 @@ export class NgxGanttRootComponent implements OnDestroy {
             verticalScrollbarWidth = ganttMainContainer?.offsetWidth - ganttMainContainer?.clientWidth;
         }
         const horizontalScrollbarHeight = ganttMainContainer?.offsetHeight - ganttMainContainer?.clientHeight;
-        this.verticalScrollbarWidth = verticalScrollbarWidth;
-        this.horizontalScrollbarHeight = horizontalScrollbarHeight;
-        this.cdr.markForCheck();
+        // 只在值真正改变时才触发变更检测，避免无限循环
+        if (this.verticalScrollbarWidth !== verticalScrollbarWidth || this.horizontalScrollbarHeight !== horizontalScrollbarHeight) {
+            this.verticalScrollbarWidth = verticalScrollbarWidth;
+            this.horizontalScrollbarHeight = horizontalScrollbarHeight;
+            this.cdr.markForCheck();
+        }
     }
 
     ngOnDestroy(): void {
@@ -147,7 +150,7 @@ export class NgxGanttRootComponent implements OnDestroy {
                         // 扩展左侧时间后，补偿滚动位置并同步到所有水平容器
                         this.dom.syncHorizontalScroll(currentLeft + offsetWidth);
                         this.cdr.markForCheck();
-                        if (this.ganttUpper.loadOnScroll.observed) {
+                        if (this.ganttUpper.loadOnScroll) {
                             this.ngZone.run(() =>
                                 this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
                             );
@@ -157,7 +160,7 @@ export class NgxGanttRootComponent implements OnDestroy {
                 if (event.direction === ScrollDirection.RIGHT) {
                     const dates = this.ganttUpper.view.extendEnd();
                     this.cdr.markForCheck();
-                    if (dates && this.ganttUpper.loadOnScroll.observed) {
+                    if (dates && this.ganttUpper.loadOnScroll) {
                         this.ngZone.run(() =>
                             this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
                         );
