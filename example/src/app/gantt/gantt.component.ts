@@ -105,7 +105,9 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         hoilday: {
             isHoliday: (date: GanttDate) => date.isWeekend(),
             hideHoliday: false
-        }
+        },
+        min: new GanttDate().addYears(-10).startOfYear(),
+        max: new GanttDate().addYears(10).endOfYear()
     };
 
     width = JSON.parse(localStorage.getItem(cacheKeys));
