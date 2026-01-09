@@ -23,6 +23,7 @@ import { NgxGanttTableColumnComponent } from './table/gantt-column.component';
 import { NgxGanttTableComponent } from './table/gantt-table.component';
 import { GanttScrollbarComponent } from './components/scrollbar/scrollbar.component';
 import { i18nLocaleProvides } from './i18n';
+import { NgxGanttPlaceholderComponent } from './components/bar/placeholder.component';
 
 @NgModule({
     imports: [
@@ -47,6 +48,7 @@ import { i18nLocaleProvides } from './i18n';
         NgxGanttBaselineComponent,
         NgxGanttToolbarComponent,
         GanttScrollbarComponent,
+        NgxGanttPlaceholderComponent,
         IsGanttRangeItemPipe,
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe,
@@ -61,6 +63,7 @@ import { i18nLocaleProvides } from './i18n';
         NgxGanttRangeComponent,
         NgxGanttBaselineComponent,
         NgxGanttToolbarComponent,
+        NgxGanttPlaceholderComponent,
         GanttCalendarHeaderComponent,
         GanttCalendarGridComponent,
         GanttDragBackdropComponent,

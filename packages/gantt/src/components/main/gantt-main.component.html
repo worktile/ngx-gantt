@@ -27,10 +27,18 @@
         }
         @if ((data.type | isGanttRangeItem) || (data.type | isGanttBarItem)) {
           @if (data.type | isGanttRangeItem) {
-            <gantt-range [template]="rangeTemplate()" [item]="data"></gantt-range>
+            @defer (on viewport) {
+              <gantt-range [template]="rangeTemplate()" [item]="data"></gantt-range>
+            } @placeholder {
+              <gantt-bar-placeholder class="gantt-bar-placeholder-range" [item]="data"></gantt-bar-placeholder>
+            }
           }
           @if (data.type | isGanttBarItem) {
-            <gantt-bar [item]="data" [template]="barTemplate()" (barClick)="barClick.emit($event)"></gantt-bar>
+            @defer (on viewport) {
+              <gantt-bar [item]="data" [template]="barTemplate()" (barClick)="barClick.emit($event)"></gantt-bar>
+            } @placeholder {
+              <gantt-bar-placeholder [item]="data" [style.height.px]="ganttUpper.styles().lineHeight"></gantt-bar-placeholder>
+            }
           }
           @if (ganttUpper.baselineItemsMap[data.id]) {
             <gantt-baseline [baselineItem]="ganttUpper.baselineItemsMap[data.id]" [template]="baselineTemplate()"></gantt-baseline>
