@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ApplicationRef, Component, DebugElement, provideZoneChangeDetection } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ApplicationRef, Component, DebugElement } from '@angular/core';
+import { ComponentFixture, DeferBlockState, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttBarComponent } from 'ngx-gantt';
 import { GanttDragEvent, GanttLinkDragEvent } from '../../class';
@@ -163,6 +163,10 @@ describe('bar-drag', () => {
         ganttComponentInstance = fixture.componentInstance;
         await fixture.whenStable();
         fixture.detectChanges();
+        const blocks = await fixture.getDeferBlocks();
+        for (const block of blocks) {
+            await block.render(DeferBlockState.Complete);
+        }
     });
 
     it('should active when mouse enter bar', () => {

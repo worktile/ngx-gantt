@@ -144,11 +144,14 @@ export class NgxGanttRootComponent implements OnDestroy {
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((event) => {
                 if (event.direction === ScrollDirection.LEFT) {
-                    const dates = this.ganttUpper.view.addStartDate();
-                    this.cdr.markForCheck();
+                    const dates = this.ganttUpper.view.extendStart();
                     if (dates) {
-                        event.target.scrollLeft += this.ganttUpper.view.calculateRangeWidth(dates.start, dates.end);
-                        if (this.ganttUpper.loadOnScroll.observers) {
+                        const offsetWidth = this.ganttUpper.view.calculateRangeWidth(dates.start, dates.end);
+                        const currentLeft = (this.dom.mainContainer as HTMLElement).scrollLeft;
+                        // 扩展左侧时间后，补偿滚动位置并同步到所有水平容器
+                        this.dom.syncHorizontalScroll(currentLeft + offsetWidth);
+                        this.cdr.markForCheck();
+                        if (this.ganttUpper.loadOnScroll) {
                             this.ngZone.run(() =>
                                 this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
                             );
@@ -156,9 +159,9 @@ export class NgxGanttRootComponent implements OnDestroy {
                     }
                 }
                 if (event.direction === ScrollDirection.RIGHT) {
-                    const dates = this.ganttUpper.view.addEndDate();
+                    const dates = this.ganttUpper.view.extendEnd();
                     this.cdr.markForCheck();
-                    if (dates && this.ganttUpper.loadOnScroll.observers) {
+                    if (dates && this.ganttUpper.loadOnScroll) {
                         this.ngZone.run(() =>
                             this.ganttUpper.loadOnScroll.emit({ start: dates.start.getUnixTime(), end: dates.end.getUnixTime() })
                         );

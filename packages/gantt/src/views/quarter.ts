@@ -11,8 +11,10 @@ const defaultViewOptions: GanttViewOptions = {
     minBoundary: new GanttDate().addYears(-2).startOfYear(),
     maxBoundary: new GanttDate().addYears(2).endOfYear(),
     unitWidth: 500,
-    addAmount: 1,
-    addUnit: 'year',
+    loadDuration: {
+        amount: 1,
+        unit: 'year'
+    },
     tickFormats: {
         period: zhHantLocale.views.quarter.tickFormats.period,
         unit: zhHantLocale.views.quarter.tickFormats.unit

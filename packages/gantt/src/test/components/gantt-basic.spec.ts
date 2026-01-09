@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, DebugElement, provideZoneChangeDetection, viewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Component, DebugElement, viewChild } from '@angular/core';
+import { ComponentFixture, DeferBlockState, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocale } from 'ngx-gantt';
 import { GanttBarClickEvent, GanttToolbarOptions } from '../../class';
@@ -178,6 +177,11 @@ describe('gantt-basic-component', () => {
         ganttComponentInstance = fixture.componentInstance;
         await fixture.whenStable();
         fixture.detectChanges();
+        const blocks = await fixture.getDeferBlocks();
+        for (const block of blocks) {
+            await block.render(DeferBlockState.Complete);
+        }
+        fixture.detectChanges();
     });
 
     describe('#component-created', () => {
@@ -330,6 +334,7 @@ describe('gantt-basic-component', () => {
     });
 
     describe('#event', () => {
+        beforeEach;
         it('should bar click called', fakeAsync(() => {
             const barClickSpy = spyOn(ganttComponentInstance, 'barClick').and.callFake((event: GanttBarClickEvent) => {
                 expect(event.event.type).toEqual('click');

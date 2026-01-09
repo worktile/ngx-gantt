@@ -47,8 +47,7 @@ export class AppGanttExampleComponent {
         min?: GanttDate;   // 视图最小时间
         max?: GanttDate;   // 视图最大时间
         unitWidth?: number;    // 视图最小单元宽度（小时视图，最小单元就是每小时的宽度，日视图，最新单元就是每日显示的宽度）
-        addAmount?: number;    // 横向滚动加载时，每次加载的量
-        addUnit?: GanttDateUtil; // 横向滚动加载时，每次加载的量的单位
+        loadDuration?: { amount: number; unit: GanttDateUtil }; // 横向滚动加载的时间跨度配置
         dateFormat?: GanttDateFormat; // 设置视图日期格式，可用于多语言
         datePrecisionUnit?: 'day' | 'hour' | 'minute'; // 日期精度单位，小时视图默认精度为分钟，其他视图默认精度为天
         dragPreviewDateFormat?: string; // 拖拽预览日期格式设置

@@ -19,8 +19,7 @@ import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
     template: '',
     host: {
         class: 'gantt-table-column'
-    },
-    standalone: true
+    }
 })
 export class NgxGanttTableColumnComponent {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);

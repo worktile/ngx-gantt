@@ -3,8 +3,7 @@ import { icons } from './icons';
 
 @Component({
     selector: 'gantt-icon',
-    template: '',
-    standalone: true
+    template: ''
 })
 export class GanttIconComponent {
     private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

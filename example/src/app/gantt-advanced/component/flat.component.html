@@ -17,7 +17,7 @@
       <div class="gantt-main-groups" [style.width.px]="view.width">
         @for (group of groups; track trackBy($index, group)) {
           <div class="gantt-main-group" [style.height.px]="group.mergedItems?.length * (styles().lineHeight + 10) - 10">
-            @for (items of group.mergedItems; track items) {
+            @for (items of group.mergedItems; track $index) {
               <div class="gantt-flat-items" [style.height.px]="styles().lineHeight">
                 @for (item of items; track trackBy($index, item)) {
                   <ngx-gantt-bar [item]="item" [template]="barTemplate()" (barClick)="barClick.emit($event)"></ngx-gantt-bar>
