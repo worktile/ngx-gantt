@@ -207,11 +207,8 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
             }
         });
         this.computeItemsRefs(...uniqBy(tempItemData, 'id'));
-        // 只在虚拟滚动未启用时才重新创建数组引用，避免触发无限变更检测
-        // if (!this.virtualScrollEnabled()) {
         this.flatItems = [...this.flatItems];
         this.viewportItems = [...this.viewportItems];
-        // }
     }
 
     override setupItems() {
@@ -222,37 +219,9 @@ export class NgxGanttComponent extends GanttUpper implements OnInit, AfterViewIn
 
     ngAfterViewInit() {
         if (this.virtualScrollEnabled()) {
-            let lastRangeStart = -1;
-            let lastRangeEnd = -1;
             this.virtualScroll()
                 .renderedRangeStream.pipe(takeUntil(this.unsubscribe$))
                 .subscribe((range) => {
-                    // 只在 range 真正改变时才更新，避免不必要的变更检测
-                    // if (lastRangeStart === range.start && lastRangeEnd === range.end) {
-                    //     return;
-                    // }
-                    // lastRangeStart = range.start;
-                    // lastRangeEnd = range.end;
-
-                    // this.ngZone.runOutsideAngular(() => {
-                    //     const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
-                    //     if (linksElement) {
-                    //         linksElement.style.top = `${-(this.styles().lineHeight * range.start)}px`;
-                    //     }
-                    //     this.rangeStart = range.start;
-                    //     this.rangeEnd = range.end;
-                    //     this.viewportItems = this.flatItems.slice(range.start, range.end);
-                    //     this.appendDraggingItemToViewportItems();
-                    //     this.computeRefs();
-                    // });
-
-                    // // 使用 setTimeout 延迟到下一个事件循环，确保不在同一个变更检测周期内触发
-                    // // 这样可以避免无限变更检测循环
-                    // setTimeout(() => {
-                    //     this.ngZone.run(() => {
-                    //         this.cdr.markForCheck();
-                    //     });
-                    // }, 0);
                     const linksElement = this.elementRef.nativeElement.querySelector('.gantt-links-overlay') as HTMLDivElement;
                     linksElement.style.top = `${-(this.styles().lineHeight * range.start)}px`;
                     this.rangeStart = range.start;
