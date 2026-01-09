@@ -181,6 +181,11 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
 
     protected isEffectFinished = signal(false);
 
+    public colors = computed(() => {
+        const styles = this.styles();
+        return styles.themes[styles.defaultTheme] ?? styles.themes.default;
+    });
+
     @HostBinding('class.gantt') ganttClass = true;
 
     constructor() {
@@ -220,10 +225,6 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
                     this.computeItemsRefs(...this.baselineItems);
                 });
             }
-        });
-
-        afterNextRender(() => {
-            this.setCssVariables();
         });
     }
 
@@ -351,26 +352,6 @@ export abstract class GanttUpper implements OnInit, OnDestroy {
             this.selectionModel = new SelectionModel(multiple, []);
         } else {
             this.selectionModel?.clear();
-        }
-    }
-
-    private setCssVariables() {
-        const styles = this.styles();
-        if (styles.primaryColor) {
-            this.element.style.setProperty('--gantt-primary-color', styles.primaryColor);
-            this.element.style.setProperty('--gantt-bar-background-color', styles.primaryColor);
-        }
-        if (styles.rowHeight) {
-            this.element.style.setProperty('--gantt-row-height', coerceCssPixelValue(styles.rowHeight));
-        }
-        if (styles.headerHeight) {
-            this.element.style.setProperty('--gantt-header-height', coerceCssPixelValue(styles.headerHeight));
-        }
-        if (styles.barHeight) {
-            this.element.style.setProperty('--gantt-bar-height', coerceCssPixelValue(styles.barHeight));
-        }
-        if (styles.barBackgroundColor) {
-            this.element.style.setProperty('--gantt-bar-background-color', styles.barBackgroundColor);
         }
     }
 

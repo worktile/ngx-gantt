@@ -106,6 +106,8 @@ export class NgxGanttRootComponent implements OnDestroy {
                         this.scrollToToday();
                     });
                 this.computeScrollBarOffset();
+
+                this.dom.applyCssVariables(this.elementRef.nativeElement, this.ganttUpper.styles());
             });
         });
     }

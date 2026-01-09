@@ -10,10 +10,10 @@
       padding: 0 15px;
       cursor: pointer;
       flex: 0 1 auto;
-      border: 1px solid #ddd;
+      border: 1px solid variables.$color-gray-500;
       margin-left: -1px;
       position: relative;
-      background-color: #ffffff;
+      background-color: variables.$color-background;
       &.active {
         color: variables.$gantt-toolbar-view-active-color;
         border-color: variables.$gantt-toolbar-view-active-color;

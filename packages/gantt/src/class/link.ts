@@ -43,9 +43,4 @@ export interface GanttLinkOptions {
     dependencyTypes?: GanttLinkType[];
     showArrow?: boolean;
     lineType?: GanttLinkLineType;
-    colors?: {
-        default?: string;
-        blocked?: string;
-        active?: string;
-    };
 }

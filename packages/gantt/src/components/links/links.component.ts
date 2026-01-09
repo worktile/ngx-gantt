@@ -109,7 +109,12 @@ export class GanttLinksComponent implements OnInit, OnDestroy {
                 source.links.forEach((link) => {
                     const target = this.linkItems.find((item) => item.id === link.link);
                     if (target && (target.origin.start || target.origin.end)) {
-                        const linkColors = this.ganttUpper.linkOptions().colors;
+                        const linkColors = {
+                            default: this.ganttUpper.colors().gray[600],
+                            active: this.ganttUpper.colors().primary,
+                            blocked: this.ganttUpper.colors().danger
+                        };
+
                         let defaultColor: string = linkColors.default;
                         let activeColor: string = linkColors.active;
 

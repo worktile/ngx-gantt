@@ -14,12 +14,35 @@ export interface GanttDateOptions {
 
 export interface GanttStyleOptions {
     primaryColor?: string;
-    barBackgroundColor?: string;
     headerHeight?: number;
     /** @deprecated use rowHeight instead */
     lineHeight?: number;
     rowHeight?: number;
     barHeight?: number;
+    defaultTheme?: string;
+    themes?: Record<
+        string,
+        {
+            primary?: string;
+            danger?: string;
+            highlight?: string;
+            background?: string;
+            text?: {
+                main?: string;
+                muted?: string;
+                light?: string;
+                inverse?: string;
+            };
+            gray?: {
+                100?: string;
+                200?: string;
+                300?: string;
+                400?: string;
+                500?: string;
+                600?: string;
+            };
+        }
+    >;
 }
 
 export interface GanttGlobalConfig {
@@ -34,18 +57,36 @@ export const defaultConfig: GanttGlobalConfig = {
     linkOptions: {
         dependencyTypes: [GanttLinkType.fs],
         showArrow: false,
-        lineType: GanttLinkLineType.curve,
-        colors: {
-            default: '#cacaca',
-            blocked: '#FF7575',
-            active: '#6698ff'
-        }
+        lineType: GanttLinkLineType.curve
     },
     styleOptions: {
         primaryColor: '#6698ff',
         headerHeight: 44,
         rowHeight: 44,
-        barHeight: 22
+        barHeight: 22,
+        defaultTheme: 'default',
+        themes: {
+            default: {
+                primary: '#6698ff',
+                danger: '#FF7575',
+                highlight: '#ff9f73',
+                background: '#ffffff',
+                text: {
+                    main: '#333333',
+                    muted: '#888888',
+                    light: '#aaaaaa',
+                    inverse: '#ffffff'
+                },
+                gray: {
+                    100: '#fafafa',
+                    200: '#f5f5f5',
+                    300: '#f3f3f3',
+                    400: '#eeeeee',
+                    500: '#dddddd',
+                    600: '#cacaca'
+                }
+            }
+        }
     },
     dateOptions: {
         weekStartsOn: 1
@@ -64,6 +105,7 @@ export class GanttConfigService {
         const globalConfig = inject<GanttGlobalConfig>(GANTT_GLOBAL_CONFIG, { optional: true }) || {};
 
         const localeId = globalConfig.locale || defaultConfig.locale;
+
         this.config = {
             locale: localeId,
             styleOptions: this.mergeStyleOptions(globalConfig.styleOptions),
@@ -93,11 +135,44 @@ export class GanttConfigService {
     }
 
     mergeStyleOptions(options: GanttStyleOptions): GanttStyleOptions {
-        const styleOptions = Object.assign({}, defaultConfig.styleOptions, this.config?.styleOptions, options);
+        const baseThemes = this.config?.styleOptions?.themes || defaultConfig.styleOptions.themes;
+        const customThemes = options?.themes;
+
+        const mergedThemes: GanttStyleOptions['themes'] = Object.assign({}, baseThemes);
+
+        if (customThemes) {
+            Object.keys(customThemes).forEach((name) => {
+                mergedThemes[name] = {
+                    ...mergedThemes[name],
+                    ...customThemes[name],
+                    text: { ...mergedThemes[name]?.text, ...customThemes[name]?.text },
+                    gray: { ...mergedThemes[name]?.gray, ...customThemes[name]?.gray }
+                };
+            });
+        }
+
+        const styleOptions: GanttStyleOptions = {
+            ...defaultConfig.styleOptions,
+            ...this.config?.styleOptions,
+            ...options,
+            themes: mergedThemes
+        };
+
+        if (!mergedThemes[styleOptions.defaultTheme]) {
+            console.warn(`[ngx-gantt] theme ${styleOptions.defaultTheme} is not found, use default theme instead`);
+            styleOptions.defaultTheme = 'default';
+        }
+
+        // 如果传了 primaryColor,则更新默认主题的 primary
+        if (options?.primaryColor) {
+            mergedThemes[styleOptions.defaultTheme].primary = options.primaryColor;
+        }
+
         if (styleOptions.lineHeight && !styleOptions.rowHeight) {
             styleOptions.rowHeight = styleOptions.lineHeight;
             console.warn('[ngx-gantt] lineHeight is deprecated, use rowHeight instead');
         }
+
         return styleOptions;
     }
 

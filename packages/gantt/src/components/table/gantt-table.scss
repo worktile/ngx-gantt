@@ -88,7 +88,7 @@
   .gantt-expand-icon {
     display: inline-block;
     width: 20px;
-    color: #aaa;
+    color: variables.$color-text-light;
   }
 
   .gantt-drag-handle {
@@ -180,7 +180,7 @@
   height: variables.$gantt-header-height;
   line-height: variables.$gantt-header-height;
   text-align: center;
-  background: #fff;
+  background: variables.$color-background;
   box-shadow: variables.$gantt-side-shadow;
   position: relative;
   z-index: 3;
@@ -224,7 +224,7 @@
       cursor: pointer;
 
       .expand-icon {
-        color: #aaa;
+        color: variables.$color-text-light;
         margin-right: 6px;
       }
     }
@@ -239,7 +239,7 @@
   .gantt-expand-icon {
     display: inline-block;
     width: 20px;
-    color: #aaa;
+    color: variables.$color-text-light;
   }
 }
 
@@ -260,7 +260,7 @@
       }
     }
     .empty-text {
-      color: #cacaca;
+      color: variables.$color-gray-600;
     }
   }
 }

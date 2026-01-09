@@ -135,7 +135,7 @@ $gantt-bar-link-drop-border: 5px;
     left: $gantt-bar-link-drop-border * -1;
     top: $gantt-bar-link-drop-border * -1;
     display: none;
-    background: #fff;
+    background: variables.$color-background;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   }
 

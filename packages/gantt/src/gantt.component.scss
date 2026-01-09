@@ -155,10 +155,16 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            color: variables.$color-text-light;
             background-color: variables.$gantt-bar-bg;
             border: 1px solid variables.$gantt-border-color;
             border-radius: 4px;
             box-shadow: 0 4px 7px 1px rgba(0, 0, 0, 0.05);
+
+            &:hover {
+              color: variables.$color-primary;
+            }
+
             .gantt-icon {
               display: inline-block;
               svg {
@@ -245,7 +251,7 @@
   .gantt-container-header {
     flex: 1;
     overflow: hidden;
-    background-color: #fafafa;
+    background-color: variables.$gantt-container-background-color;
   }
 }
 
@@ -256,7 +262,7 @@
   right: 0;
   bottom: 0;
   z-index: 3;
-  background-color: white;
+  background-color: variables.$color-background;
   border-top: 1px solid variables.$gantt-border-color;
   border-bottom: 1px solid variables.$gantt-border-color;
   overflow: hidden;
