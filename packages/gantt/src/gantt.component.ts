@@ -7,17 +7,17 @@ import {
     ElementRef,
     OnInit,
     TemplateRef,
+    afterEveryRender,
+    contentChild,
+    contentChildren,
+    effect,
     forwardRef,
-    signal,
     inject,
     input,
     output,
-    contentChild,
-    contentChildren,
-    viewChild,
-    effect,
+    signal,
     untracked,
-    afterEveryRender
+    viewChild
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize, take, takeUntil } from 'rxjs/operators';

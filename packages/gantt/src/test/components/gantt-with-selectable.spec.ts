@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, viewChild } from '@angular/core';
+import { Component, provideZoneChangeDetection, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttSelectedEvent } from '../../class';
@@ -48,7 +48,7 @@ describe('#selectable', () => {
         TestBed.configureTestingModule({
             imports: [CommonModule, NgxGanttModule],
             declarations: [TestGanttSelectableComponent],
-            providers: []
+            providers: [provideZoneChangeDetection()]
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttSelectableComponent);
         fixture.detectChanges();

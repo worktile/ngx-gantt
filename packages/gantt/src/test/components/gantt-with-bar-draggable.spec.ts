@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ApplicationRef, Component, DebugElement } from '@angular/core';
+import { ApplicationRef, Component, DebugElement, provideZoneChangeDetection } from '@angular/core';
 import { ComponentFixture, DeferBlockState, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttBarComponent } from 'ngx-gantt';
@@ -153,7 +153,8 @@ describe('bar-drag', () => {
     beforeEach(async () => {
         TestBed.configureTestingModule({
             imports: [CommonModule, NgxGanttModule],
-            declarations: [TestGanttBarComponent]
+            declarations: [TestGanttBarComponent],
+            providers: [provideZoneChangeDetection()]
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttBarComponent);
         fixture.detectChanges();

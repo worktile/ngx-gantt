@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, viewChild } from '@angular/core';
+import { Component, provideZoneChangeDetection, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttGroupInternal } from '../../class';
@@ -7,8 +7,8 @@ import { GanttViewType } from '../../class/view-type';
 import { NgxGanttBarComponent } from '../../components/bar/bar.component';
 import { NgxGanttComponent } from '../../gantt.component';
 import { NgxGanttModule } from '../../gantt.module';
-import { getMockGroupItems, getMockGroups, getMockItems } from './mocks/data';
 import { assertConfigStyle, assertGroups } from './assert-helper';
+import { getMockGroupItems, getMockGroups, getMockItems } from './mocks/data';
 
 const mockItems = getMockItems();
 const mockGroups = getMockGroups();
@@ -56,7 +56,7 @@ describe('gantt-with-groups-component', () => {
         TestBed.configureTestingModule({
             imports: [CommonModule, NgxGanttModule],
             declarations: [TestGanttWithGroupsComponent],
-            providers: []
+            providers: [provideZoneChangeDetection()]
         }).compileComponents();
         fixture = TestBed.createComponent(TestGanttWithGroupsComponent);
         fixture.detectChanges();
