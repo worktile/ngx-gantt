@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["example/src/app/gantt-advanced/component/flat.scss"],
+  "sourcesContent": [":host {\n  .gantt-flat-side-header {\n    text-align: center;\n    position: sticky;\n    top: 0;\n    background: #fff;\n    height: 44px;\n    line-height: 44px;\n    z-index: 1;\n    border-bottom: 1px solid #eee;\n    box-sizing: border-box;\n  }\n\n  .gantt-group {\n    .gantt-group-content {\n      border-bottom: 1px solid #eee;\n      display: flex;\n      align-items: center;\n      padding: 15px;\n    }\n  }\n\n  .gantt-main-group {\n    border-bottom: 1px solid #eee;\n    padding: 15px 0;\n\n    .gantt-flat-items {\n      position: relative;\n    }\n  }\n}\n"],
+  "mappings": ";AACE,MAAA,CAAA;AACE,cAAA;AACA,YAAA;AACA,OAAA;AACA,cAAA;AACA,UAAA;AACA,eAAA;AACA,WAAA;AACA,iBAAA,IAAA,MAAA;AACA,cAAA;;AAIA,MAAA,CAAA,YAAA,CAAA;AACE,iBAAA,IAAA,MAAA;AACA,WAAA;AACA,eAAA;AACA,WAAA;;AAIJ,MAAA,CAAA;AACE,iBAAA,IAAA,MAAA;AACA,WAAA,KAAA;;AAEA,MAAA,CAJF,iBAIE,CAAA;AACE,YAAA;;",
+  "names": []
+}

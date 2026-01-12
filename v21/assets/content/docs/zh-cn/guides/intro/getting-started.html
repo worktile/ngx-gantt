@@ -1,0 +1,69 @@
+
+        <h1 id="%E5%AE%89%E8%A3%85" class="docs-header-link">
+          <span header-link="%E5%AE%89%E8%A3%85"></span>
+          安装
+        </h1>
+      <pre class="language-bash"><code class="language-bash"><div>$ <span class="token function">npm</span> i @worktile/gantt --save
+<span class="token comment" spellcheck="true"># or</span>
+$ yarn add @worktile/gantt</div></code></pre>
+
+        <h1 id="%E4%BD%BF%E7%94%A8" class="docs-header-link">
+          <span header-link="%E4%BD%BF%E7%94%A8"></span>
+          使用
+        </h1>
+      
+        <h3 id="%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97" class="docs-header-link">
+          <span header-link="%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97"></span>
+          导入模块
+        </h3>
+      <pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span> NgxGanttModule<span class="token punctuation">,</span> <span class="token operator">...</span> <span class="token punctuation">]</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></div></code></pre>
+<br/>
+
+
+        <h3 id="%E5%BC%95%E5%85%A5%E6%A0%B7%E5%BC%8F" class="docs-header-link">
+          <span header-link="%E5%BC%95%E5%85%A5%E6%A0%B7%E5%BC%8F"></span>
+          引入样式
+        </h3>
+      <p>在 angular.json 中引入</p>
+<pre class="language-json"><code class="language-json"><div><span class="token punctuation">{</span>
+  <span class="token property">"styles"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"node_modules/@worktile/gantt/styles/index.scss"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></div></code></pre>
+<p>在 style.scss 中引入预构建样式文件</p>
+<pre><code><div><span class="token variable">@use</span> <span class="token string">"@worktile/gantt/styles/index.scss"</span><span class="token comment" spellcheck="true">;</span></div></code></pre>
+        <h3 id="%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8" class="docs-header-link">
+          <span header-link="%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8"></span>
+          组件中使用
+        </h3>
+      <pre class="language-html"><code class="language-html"><div><span class="token comment" spellcheck="true">&lt;!-- component.html --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">#gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>标题<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> {{ item.title }} <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+<pre class="language-javascript"><code class="language-javascript"><div><span class="token comment" spellcheck="true">// component.ts</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-example'</span><span class="token punctuation">,</span>
+  templateUrl<span class="token punctuation">:</span> <span class="token string">'./gantt.component.html'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppGanttExampleComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000000'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 0'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span><span class="token punctuation">,</span> expandable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000001'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1617361997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1625483597</span><span class="token punctuation">,</span> links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'000003'</span><span class="token punctuation">,</span> <span class="token string">'000004'</span><span class="token punctuation">,</span> <span class="token string">'000000'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> expandable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000002'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1610536397</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1610622797</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000003'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 3'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span><span class="token punctuation">,</span> expandable<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>

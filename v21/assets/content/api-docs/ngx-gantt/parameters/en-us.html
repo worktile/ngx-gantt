@@ -1,0 +1,1052 @@
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          items
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttItem[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set data items. If you set items separately, they will be displayed in a list. If you need to display them in groups, you need to set the property groupId to correspond to the grouped data</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          groups
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttGroup[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set grouped data</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          baselineItems
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttBaselineItem[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set baseline comparison data</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewType
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">day | month | quarter</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">month</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set view type</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          start
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the start time of the Gantt chart in the format of a 10-digit timestamp</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          end
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the end time of the Gantt chart in the format of a 10-digit timestamp</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          draggable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether it can be dragged</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          virtualScrollEnabled
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">true</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether to use the virtual scrolling function</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether the association relationship can be connected</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loading
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to display the loader</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loadingDelay
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">0</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the number of <code>milliseconds</code> to ignore the loader display</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          maxLevel
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">2</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the maximum display level</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          async
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether to start asynchronous</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          childrenResolve
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">Function</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the asynchronous data source return function, the return value is Observable data stream</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          styles
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttStyles</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Configure built-in style options</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttViewOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Configure view options</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          disabledLoadOnScroll
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether to disable scroll loading</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          selectable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether to enable selection of the entire row</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          multiple
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether to select the entire row in multiple selection mode</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          showToolbar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether to display the toolbar</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          toolbarOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttToolbarOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">{
+                viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
+                }</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Toolbar configuration items</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loadOnScroll
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLoadOnScrollEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Scroll loading event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragStarted
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Drag start event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragEnded
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Event after drag ends</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkDragStarted
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLinkDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Event after the relationship drag starts</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkDragEnded
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLinkDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Event after the relationship drag ends</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          barClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttBarClickEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Right time bar click event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          lineClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLinkDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Relationship line click time</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          selectedChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttSelectedEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Select data item event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          virtualScrolledIndexChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttVirtualScrolledIndexChangeEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>The index of the first element visible in the virtual scroll viewport has changed</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #group
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set group display template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #bar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set time bar display template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #groupHeader
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set group header display template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #toolbar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Toolbar custom template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #tableFooter
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the bottom template</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt-table</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Gantt chart left table</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          draggable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set whether the table data items support dragging up and down sorting</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dropEnterPredicate
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">(context: GanttTableDragEnterPredicateContext&lt;T&gt;) &#x3D;&gt; boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>This function is used to determine whether a data item is allowed to be dragged to other items</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragDropped
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttTableDragDroppedEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>When a data item is dragged to another data item, it will be triggered</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragStarted
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttTableDragStartedEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Drag starts after the event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragEnded
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttTableDragEndedEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Drag ends after the event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          columnChanges
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttTableEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Column width change event set</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          itemClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttSelectedEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Select the entire row of data items event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #rowBeforeSlot
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the front custom rendering template for each row in the table</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #rowAfterSlot
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the back custom rendering template for each row in the table</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #tableEmpty
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the empty table template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #tableFooter
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the table bottom template</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt-column</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Gantt chart left column</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          name
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">string</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set column name</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          width
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">string ｜ number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set column width</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #header
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set each column header template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #cell
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set each column content template</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt-bar</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Data item bar chart display component</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          template
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set time bar display template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          item
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttItemInternal</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set time bar display data</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          barClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttBarClickEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Data item bar chart click event</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt-range</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Data item range display component</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          template
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set range display template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          item
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttItemInternal</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set range display data</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt-toolbar</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Toolbar component</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          template
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Custom toolbar template</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt-baseline</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Baseline display component</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          baselineItem
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttBaselineItemInternal</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set baseline display data</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt-root</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Gantt chart root component</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          sideWidth
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the width of the left content of the Gantt chart</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          sideTemplate
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the content template on the left side of the Gantt chart</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          mainTemplate
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Set the main content template on the right side of the Gantt chart</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>

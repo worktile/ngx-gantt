@@ -1,0 +1,87 @@
+<div class="dg-paragraph"><code>ngx-gantt</code> 提供了可注入的全局配置 <code>GANTT_GLOBAL_CONFIG</code> ，使用者可以在 <code>Module</code> 或 <code>Component</code> 注入自定义的符合格式的配置来修改全局配置。</div>
+<pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        locale<span class="token punctuation">:</span> <span class="token string">'zh-hans'</span><span class="token punctuation">,</span>
+        dateFormat<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+           timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span><span class="token punctuation">,</span>
+           weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span>
+        <span class="token operator">...</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>
+  <span class="token punctuation">]</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+</div></code></pre>
+<div class="dg-paragraph"><code>GANTT_GLOBAL_CONFIG</code> 参数说明：</div>
+<pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">GanttGlobalConfig</span> <span class="token punctuation">{</span>
+  locale<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 默认 locale 可选语言：zh-hans, zh-hant ,en-us, de-de, ja-jp, ru-ru</span>
+  dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    timeZone<span class="token punctuation">:</span> string<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 设置自定义时区，默认为系统默认时区</span>
+    weekStartsOn<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span> <span class="token operator">|</span> <span class="token number">2</span> <span class="token operator">|</span> <span class="token number">3</span> <span class="token operator">|</span> <span class="token number">4</span> <span class="token operator">|</span> <span class="token number">5</span> <span class="token operator">|</span> <span class="token number">6</span> <span class="token comment" spellcheck="true">// 设置 week 起始值，默认为 1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    dependencyTypes<span class="token operator">?</span><span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// fs | ff | ss | sf</span>
+    showArrow<span class="token operator">?</span><span class="token punctuation">:</span> boolean<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 连接线是否显示箭头</span>
+    lineType<span class="token operator">?</span><span class="token punctuation">:</span> GanttLinkLineType <span class="token comment" spellcheck="true">// 连接线类型（曲线或直线）</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  styleOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    headerHeight<span class="token operator">?</span><span class="token punctuation">:</span> number<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 自定义 header 高度</span>
+    rowHeight<span class="token operator">?</span><span class="token punctuation">:</span> number<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 自定义行高</span>
+    barHeight<span class="token operator">?</span><span class="token punctuation">:</span> number <span class="token comment" spellcheck="true">// 自定义 Bar 的高度</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">/** @deprecated dateFormat 已废弃, 请通过国际化配置来设置日期格式. https://worktile.github.io/ngx-gantt/guides/configuration/i18n */</span>
+  dateFormat<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    week<span class="token operator">?</span><span class="token punctuation">:</span> string<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// week w</span>
+    month<span class="token operator">?</span><span class="token punctuation">:</span> string<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// month M</span>
+    quarter<span class="token operator">?</span><span class="token punctuation">:</span> string<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// QQQ</span>
+    year<span class="token operator">?</span><span class="token punctuation">:</span> string<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// year yyyy</span>
+    yearMonth<span class="token operator">?</span><span class="token punctuation">:</span> string<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// yyyy年MM月</span>
+    yearQuarter<span class="token operator">?</span><span class="token punctuation">:</span> string <span class="token comment" spellcheck="true">// yyyy年QQQ</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>locale</td>
+<td><code>zh-hans</code>, <code>zh-hant</code> ,<code>en-us</code>, <code>de-de</code>, <code>ja-jp</code>, <code>ru-ru</code></td>
+<td>默认语言配置</td>
+</tr>
+<tr>
+<td>dateOptions</td>
+<td><code>GanttDateOptions</code></td>
+<td>日期配置</td>
+</tr>
+<tr>
+<td>linkOptions</td>
+<td><code>GanttLinkOptions</code></td>
+<td>关联关系配置</td>
+</tr>
+<tr>
+<td>styleOptions</td>
+<td><code>GanttStyles</code></td>
+<td>样式配置</td>
+</tr>
+<tr>
+<td>dateFormat <code>@deprecated</code></td>
+<td><code>GanttDateFormat</code></td>
+<td>日期格式</td>
+</tr>
+</tbody></table>
