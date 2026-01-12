@@ -17,6 +17,7 @@
     "start": "docgeni serve",
     "build:docs": "docgeni build",
     "build:docs:gh-pages": "docgeni build --base-href /ngx-gantt/ && echo '' > dist/example/.nojekyll && npm run create-404-page",
+    "build:next-docs:gh-pages": "docgeni build --base-href /ngx-gantt/v21/ && echo '' > dist/example/.nojekyll && npm run create-404-page",
     "create-404-page": "cp dist/example/index.html dist/example/404.html",
     "build": "npm run build:lib && npm run build:styles",
     "build:lib": "ng build gantt --configuration production",
