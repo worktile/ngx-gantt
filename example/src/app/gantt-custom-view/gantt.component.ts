@@ -17,7 +17,6 @@ import { ThyNotifyService } from 'ngx-tethys/notify';
 import { randomItems, random } from '../helper';
 import { GanttViewCustom } from './custom-day-view';
 import { ThyContent, ThyHeader, ThyLayout } from 'ngx-tethys/layout';
-import { ThyButton } from 'ngx-tethys/button';
 import { ThySwitch } from 'ngx-tethys/switch';
 import { FormsModule } from '@angular/forms';
 
@@ -32,7 +31,6 @@ registerView(customViewType, GanttViewCustom);
         ThyLayout,
         ThyContent,
         ThyHeader,
-        ThyButton,
         ThySwitch,
         FormsModule,
         NgxGanttComponent,
