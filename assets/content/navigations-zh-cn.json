@@ -1,0 +1,923 @@
+{
+  "navs": [
+    {
+      "id": "guides",
+      "path": "guides",
+      "channelPath": "guides",
+      "title": "指南",
+      "items": [
+        {
+          "id": "guides/intro",
+          "path": "guides/intro",
+          "channelPath": "guides",
+          "title": "介绍",
+          "subtitle": "Intro",
+          "items": [
+            {
+              "id": "index",
+              "path": "intro",
+              "channelPath": "guides",
+              "title": "介绍",
+              "subtitle": "Intro",
+              "order": 1,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E4%B8%80%E5%8F%A5%E8%AF%9D%E4%BB%8B%E7%BB%8D",
+                  "name": "一句话介绍",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "%E7%89%B9%E6%80%A7",
+                  "name": "特性",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "%E5%8A%A8%E6%9C%BA",
+                  "name": "动机",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC",
+                  "name": "当前版本",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%94%AF%E6%8C%81-angular-%E7%89%88%E6%9C%AC",
+                  "name": "支持 Angular 版本",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93",
+                  "name": "依赖第三方库",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%8F%82%E4%B8%8E%E8%B4%A1%E7%8C%AE",
+                  "name": "参与贡献",
+                  "level": 1,
+                  "type": "h1"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/intro/index.html",
+              "originPath": "docs/zh-cn/guides/intro/index.md"
+            },
+            {
+              "id": "getting-started",
+              "path": "intro/getting-started",
+              "channelPath": "guides",
+              "title": "快速开始",
+              "subtitle": "Quick Start",
+              "order": 2,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%AE%89%E8%A3%85",
+                  "name": "安装",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8",
+                  "name": "使用",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97",
+                  "name": "导入模块",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%BC%95%E5%85%A5%E6%A0%B7%E5%BC%8F",
+                  "name": "引入样式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8",
+                  "name": "组件中使用",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/intro/getting-started.html",
+              "originPath": "docs/zh-cn/guides/intro/getting-started.md"
+            }
+          ],
+          "order": 1
+        },
+        {
+          "id": "guides/basic",
+          "path": "guides/basic",
+          "channelPath": "guides",
+          "title": "基本用法",
+          "items": [
+            {
+              "id": "usage",
+              "path": "basic/usage",
+              "channelPath": "guides",
+              "title": "如何使用",
+              "subtitle": "Usage",
+              "order": 10,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8",
+                  "name": "基本使用",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE",
+                  "name": "视图配置",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%88%86%E7%BB%84",
+                  "name": "如何设置分组",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E5%B1%95%E7%A4%BA",
+                  "name": "树形结构展示",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BE%9D%E8%B5%96",
+                  "name": "依赖",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD",
+                  "name": "滚动加载",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD",
+                  "name": "拖拽",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E9%80%89%E6%8B%A9%E6%95%B4%E8%A1%8C",
+                  "name": "选择整行",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%AF%BC%E5%87%BA%E4%B8%BA%E5%9B%BE%E7%89%87",
+                  "name": "导出为图片",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/basic/usage.html",
+              "originPath": "docs/zh-cn/guides/basic/usage.md"
+            },
+            {
+              "id": "components",
+              "path": "basic/components",
+              "channelPath": "guides",
+              "title": "组件说明",
+              "subtitle": "Components",
+              "order": 20,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6",
+                  "name": "基础组件",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ngx-gantt",
+                  "name": "ngx-gantt",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ngx-gantt-table",
+                  "name": "ngx-gantt-table",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ngx-gantt-column",
+                  "name": "ngx-gantt-column",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%89%A9%E5%B1%95%E9%AB%98%E7%BA%A7%E7%BB%84%E4%BB%B6",
+                  "name": "扩展高级组件",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ngx-gantt-root",
+                  "name": "ngx-gantt-root",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ngx-gantt-bar",
+                  "name": "ngx-gantt-bar",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ngx-gantt-range",
+                  "name": "ngx-gantt-range",
+                  "level": 1,
+                  "type": "h1"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/basic/components.html",
+              "originPath": "docs/zh-cn/guides/basic/components.md"
+            },
+            {
+              "id": "date",
+              "path": "basic/date",
+              "channelPath": "guides",
+              "title": "时间说明",
+              "subtitle": "Date",
+              "order": 25,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F",
+                  "name": "时间格式",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ganttdate",
+                  "name": "GanttDate",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/basic/date.html",
+              "originPath": "docs/zh-cn/guides/basic/date.md"
+            },
+            {
+              "id": "type",
+              "path": "basic/data-type",
+              "channelPath": "guides",
+              "title": "数据类型",
+              "subtitle": "Input Date",
+              "order": 30,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "ganttitem",
+                  "name": "GanttItem",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttgroup",
+                  "name": "GanttGroup",
+                  "level": 1,
+                  "type": "h1"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/basic/type.html",
+              "originPath": "docs/zh-cn/guides/basic/type.md"
+            },
+            {
+              "id": "event",
+              "path": "basic/event",
+              "channelPath": "guides",
+              "title": "事件类型",
+              "subtitle": "Event Type",
+              "order": 40,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "ganttdragevent",
+                  "name": "GanttDragEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "gantttableevent",
+                  "name": "GanttTableEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttlinkdragevent",
+                  "name": "GanttLinkDragEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttloadonscrollevent",
+                  "name": "GanttLoadOnScrollEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttlineclickevent",
+                  "name": "GanttLineClickEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttbarclickevent",
+                  "name": "GanttBarClickEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttselectedevent",
+                  "name": "GanttSelectedEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "gantttabledragdroppedevent",
+                  "name": "GanttTableDragDroppedEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "gantttabledragstartedevent",
+                  "name": "GanttTableDragStartedEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "gantttabledragendedevent",
+                  "name": "GanttTableDragEndedEvent",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttvirtualscrolledindexchangeevent",
+                  "name": "GanttVirtualScrolledIndexChangeEvent",
+                  "level": 1,
+                  "type": "h1"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/basic/event.html",
+              "originPath": "docs/zh-cn/guides/basic/event.md"
+            },
+            {
+              "id": "style",
+              "path": "basic/style",
+              "channelPath": "guides",
+              "title": "样式重写",
+              "subtitle": "Style Variables",
+              "order": 50,
+              "toc": "content",
+              "headings": [],
+              "contentPath": "docs/zh-cn/guides/basic/style.html",
+              "originPath": "docs/zh-cn/guides/basic/style.md"
+            }
+          ],
+          "order": 20
+        },
+        {
+          "id": "guides/configuration",
+          "path": "guides/configuration",
+          "channelPath": "guides",
+          "title": "配置",
+          "items": [
+            {
+              "id": "global",
+              "path": "configuration/global",
+              "channelPath": "guides",
+              "title": "全局配置",
+              "subtitle": "Global Config",
+              "order": 9007199254740991,
+              "toc": "content",
+              "headings": [],
+              "contentPath": "docs/zh-cn/guides/configuration/global.html",
+              "originPath": "docs/zh-cn/guides/configuration/global.md"
+            },
+            {
+              "id": "i18n",
+              "path": "configuration/i18n",
+              "channelPath": "guides",
+              "title": "国际化",
+              "subtitle": "i18n",
+              "order": 9007199254740991,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80",
+                  "name": "使用内置语言",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80",
+                  "name": "配置自定义语言",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%97%B6%E5%8C%BA",
+                  "name": "时区",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/configuration/i18n.html",
+              "originPath": "docs/zh-cn/guides/configuration/i18n.md"
+            }
+          ],
+          "order": 30
+        }
+      ],
+      "order": 1
+    },
+    {
+      "title": "组件",
+      "path": "components"
+    },
+    {
+      "title": "参数",
+      "path": "configuration",
+      "lib": "ngx-gantt",
+      "items": [
+        {
+          "id": "config",
+          "title": "配置",
+          "items": [
+            {
+              "id": "parameters",
+              "title": "参数",
+              "subtitle": "Parameters",
+              "path": "parameters",
+              "importSpecifier": "ngx-gantt/parameters",
+              "examples": [],
+              "overview": false,
+              "api": true,
+              "order": 1,
+              "category": "config",
+              "originPath": "example/src/app/configuration/parameters/doc/zh-cn.md",
+              "toc": "content",
+              "headings": [],
+              "channelPath": "configuration"
+            }
+          ],
+          "order": 0
+        }
+      ]
+    },
+    {
+      "title": "GitHub",
+      "path": "https://github.com/worktile/ngx-gantt",
+      "isExternal": true
+    },
+    {
+      "title": "更新日志",
+      "path": "https://github.com/worktile/ngx-gantt/blob/master/CHANGELOG.md",
+      "isExternal": true
+    }
+  ],
+  "docs": [
+    {
+      "id": "components",
+      "path": "basic/components",
+      "channelPath": "guides",
+      "title": "组件说明",
+      "subtitle": "Components",
+      "order": 20,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6",
+          "name": "基础组件",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ngx-gantt",
+          "name": "ngx-gantt",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "ngx-gantt-table",
+          "name": "ngx-gantt-table",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "ngx-gantt-column",
+          "name": "ngx-gantt-column",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%89%A9%E5%B1%95%E9%AB%98%E7%BA%A7%E7%BB%84%E4%BB%B6",
+          "name": "扩展高级组件",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ngx-gantt-root",
+          "name": "ngx-gantt-root",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "ngx-gantt-bar",
+          "name": "ngx-gantt-bar",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ngx-gantt-range",
+          "name": "ngx-gantt-range",
+          "level": 1,
+          "type": "h1"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/basic/components.html",
+      "originPath": "docs/zh-cn/guides/basic/components.md"
+    },
+    {
+      "id": "date",
+      "path": "basic/date",
+      "channelPath": "guides",
+      "title": "时间说明",
+      "subtitle": "Date",
+      "order": 25,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F",
+          "name": "时间格式",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "ganttdate",
+          "name": "GanttDate",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/basic/date.html",
+      "originPath": "docs/zh-cn/guides/basic/date.md"
+    },
+    {
+      "id": "event",
+      "path": "basic/event",
+      "channelPath": "guides",
+      "title": "事件类型",
+      "subtitle": "Event Type",
+      "order": 40,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "ganttdragevent",
+          "name": "GanttDragEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "gantttableevent",
+          "name": "GanttTableEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttlinkdragevent",
+          "name": "GanttLinkDragEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttloadonscrollevent",
+          "name": "GanttLoadOnScrollEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttlineclickevent",
+          "name": "GanttLineClickEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttbarclickevent",
+          "name": "GanttBarClickEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttselectedevent",
+          "name": "GanttSelectedEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "gantttabledragdroppedevent",
+          "name": "GanttTableDragDroppedEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "gantttabledragstartedevent",
+          "name": "GanttTableDragStartedEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "gantttabledragendedevent",
+          "name": "GanttTableDragEndedEvent",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttvirtualscrolledindexchangeevent",
+          "name": "GanttVirtualScrolledIndexChangeEvent",
+          "level": 1,
+          "type": "h1"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/basic/event.html",
+      "originPath": "docs/zh-cn/guides/basic/event.md"
+    },
+    {
+      "id": "style",
+      "path": "basic/style",
+      "channelPath": "guides",
+      "title": "样式重写",
+      "subtitle": "Style Variables",
+      "order": 50,
+      "toc": "content",
+      "headings": [],
+      "contentPath": "docs/zh-cn/guides/basic/style.html",
+      "originPath": "docs/zh-cn/guides/basic/style.md"
+    },
+    {
+      "id": "type",
+      "path": "basic/data-type",
+      "channelPath": "guides",
+      "title": "数据类型",
+      "subtitle": "Input Date",
+      "order": 30,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "ganttitem",
+          "name": "GanttItem",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttgroup",
+          "name": "GanttGroup",
+          "level": 1,
+          "type": "h1"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/basic/type.html",
+      "originPath": "docs/zh-cn/guides/basic/type.md"
+    },
+    {
+      "id": "usage",
+      "path": "basic/usage",
+      "channelPath": "guides",
+      "title": "如何使用",
+      "subtitle": "Usage",
+      "order": 10,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8",
+          "name": "基本使用",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE",
+          "name": "视图配置",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%88%86%E7%BB%84",
+          "name": "如何设置分组",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E5%B1%95%E7%A4%BA",
+          "name": "树形结构展示",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E4%BE%9D%E8%B5%96",
+          "name": "依赖",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD",
+          "name": "滚动加载",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD",
+          "name": "拖拽",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E9%80%89%E6%8B%A9%E6%95%B4%E8%A1%8C",
+          "name": "选择整行",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%AF%BC%E5%87%BA%E4%B8%BA%E5%9B%BE%E7%89%87",
+          "name": "导出为图片",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/basic/usage.html",
+      "originPath": "docs/zh-cn/guides/basic/usage.md"
+    },
+    {
+      "id": "global",
+      "path": "configuration/global",
+      "channelPath": "guides",
+      "title": "全局配置",
+      "subtitle": "Global Config",
+      "order": 9007199254740991,
+      "toc": "content",
+      "headings": [],
+      "contentPath": "docs/zh-cn/guides/configuration/global.html",
+      "originPath": "docs/zh-cn/guides/configuration/global.md"
+    },
+    {
+      "id": "i18n",
+      "path": "configuration/i18n",
+      "channelPath": "guides",
+      "title": "国际化",
+      "subtitle": "i18n",
+      "order": 9007199254740991,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80",
+          "name": "使用内置语言",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80",
+          "name": "配置自定义语言",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%97%B6%E5%8C%BA",
+          "name": "时区",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/configuration/i18n.html",
+      "originPath": "docs/zh-cn/guides/configuration/i18n.md"
+    },
+    {
+      "id": "getting-started",
+      "path": "intro/getting-started",
+      "channelPath": "guides",
+      "title": "快速开始",
+      "subtitle": "Quick Start",
+      "order": 2,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%AE%89%E8%A3%85",
+          "name": "安装",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "%E4%BD%BF%E7%94%A8",
+          "name": "使用",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97",
+          "name": "导入模块",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%BC%95%E5%85%A5%E6%A0%B7%E5%BC%8F",
+          "name": "引入样式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8",
+          "name": "组件中使用",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/intro/getting-started.html",
+      "originPath": "docs/zh-cn/guides/intro/getting-started.md"
+    },
+    {
+      "id": "index",
+      "path": "intro",
+      "channelPath": "guides",
+      "title": "介绍",
+      "subtitle": "Intro",
+      "order": 1,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E4%B8%80%E5%8F%A5%E8%AF%9D%E4%BB%8B%E7%BB%8D",
+          "name": "一句话介绍",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "%E7%89%B9%E6%80%A7",
+          "name": "特性",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "%E5%8A%A8%E6%9C%BA",
+          "name": "动机",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC",
+          "name": "当前版本",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%94%AF%E6%8C%81-angular-%E7%89%88%E6%9C%AC",
+          "name": "支持 Angular 版本",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93",
+          "name": "依赖第三方库",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%8F%82%E4%B8%8E%E8%B4%A1%E7%8C%AE",
+          "name": "参与贡献",
+          "level": 1,
+          "type": "h1"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/intro/index.html",
+      "originPath": "docs/zh-cn/guides/intro/index.md"
+    },
+    {
+      "id": "parameters",
+      "title": "参数",
+      "subtitle": "Parameters",
+      "path": "parameters",
+      "importSpecifier": "ngx-gantt/parameters",
+      "examples": [],
+      "overview": false,
+      "api": true,
+      "order": 1,
+      "category": "config",
+      "originPath": "example/src/app/configuration/parameters/doc/zh-cn.md",
+      "toc": "content",
+      "headings": [],
+      "channelPath": "configuration"
+    }
+  ]
+}

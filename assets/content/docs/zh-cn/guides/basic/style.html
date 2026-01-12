@@ -1,0 +1,41 @@
+<div class="dg-paragraph"><code>ngx-gantt</code> 使用了 <code>css</code> 预处理器 <code>scss</code>，支持重写组件的大部分的色值和部分 layout 样式。示例如下：</div>
+<pre class="language-scss"><code class="language-scss"><div>@use <span class="token string">'@worktile/gantt/styles/variables.scss'</span> with <span class="token punctuation">(</span>
+  <span class="token comment" spellcheck="true">// basic</span>
+  <span class="token property"><span class="token variable">$gantt-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#333</span>,
+  <span class="token property"><span class="token variable">$gantt-border-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#eee</span>,
+  <span class="token property"><span class="token variable">$gantt-bg-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span>,
+  <span class="token property"><span class="token variable">$gantt-side-shadow</span></span><span class="token punctuation">:</span> <span class="token number">12</span>px <span class="token number">0</span> <span class="token number">16</span>px -<span class="token number">10</span>px <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0.15</span><span class="token punctuation">)</span>,
+  <span class="token property"><span class="token variable">$gantt-container-background-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#fafafa</span>,
+  <span class="token property"><span class="token variable">$gantt-group-background-color</span></span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token property"><span class="token variable">$color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#f3f3f3</span>, <span class="token property"><span class="token variable">$alpha</span></span><span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">)</span>,
+  <span class="token property"><span class="token variable">$gantt-table-td-padding</span></span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">15</span>px,
+
+  <span class="token comment" spellcheck="true">// calendar</span>
+  <span class="token property"><span class="token variable">$gantt-date-primary-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#888</span>,
+  <span class="token property"><span class="token variable">$gantt-date-primary-font-size</span></span><span class="token punctuation">:</span> <span class="token number">14</span>px,
+  <span class="token property"><span class="token variable">$gantt-date-primary-border</span></span><span class="token punctuation">:</span> <span class="token hexcode">#ddd</span>,
+  <span class="token property"><span class="token variable">$gantt-date-secondary-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#333</span>,
+  <span class="token property"><span class="token variable">$gantt-date-secondary-font-size</span></span><span class="token punctuation">:</span> <span class="token number">14</span>px,
+  <span class="token property"><span class="token variable">$gantt-date-secondary-weekend-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#aaa</span>,
+  <span class="token property"><span class="token variable">$gantt-date-week-backdrop-bg</span></span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token property"><span class="token variable">$color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#f3f3f3</span>, <span class="token property"><span class="token variable">$alpha</span></span><span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">)</span>,
+  <span class="token property"><span class="token variable">$gantt-date-today-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#ff9f73</span>,
+  <span class="token property"><span class="token variable">$gantt-date-today-text-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span>,
+
+  <span class="token comment" spellcheck="true">// bar</span>
+  <span class="token property"><span class="token variable">$gantt-bar-bg</span></span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span>,
+  <span class="token property"><span class="token variable">$gantt-bar-layer-bg</span></span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span>,
+  <span class="token property"><span class="token variable">$gantt-bar-handle-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#cacaca</span>,
+  <span class="token property"><span class="token variable">$gantt-bar-handle-height</span></span><span class="token punctuation">:</span> <span class="token number">12</span>px,
+  <span class="token property"><span class="token variable">$gantt-bar-background-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span>,
+
+  <span class="token comment" spellcheck="true">// drag</span>
+  <span class="token property"><span class="token variable">$gantt-item-drag-mask-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span>,
+  <span class="token property"><span class="token variable">$gantt-link-dragging-line-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span>,
+
+  <span class="token comment" spellcheck="true">// link</span>
+  <span class="token property"><span class="token variable">$gantt-link-line-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span>,
+
+  <span class="token comment" spellcheck="true">// table</span>
+  <span class="token property"><span class="token variable">$gantt-table-header-drag-line-width</span></span><span class="token punctuation">:</span> <span class="token number">3</span>px,
+  <span class="token property"><span class="token variable">$gantt-table-header-drag-line-color</span></span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+<div class="dg-paragraph"><code>$gantt-header-height</code> <code>$gantt-group-height</code> 在 v17.0.0 版本已废弃，请通过 GANTT_GLOBAL_CONFIG 来自定义</div>

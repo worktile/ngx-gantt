@@ -1,0 +1,21 @@
+
+        <h2 id="time-format" class="docs-header-link">
+          <span header-link="time-format"></span>
+          Time format
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt</code> uniformly uses the 10-digit UnixTime format. The user needs to ensure that the date value passed in is UnixTime</div>
+
+        <h2 id="ganttdate" class="docs-header-link">
+          <span header-link="ganttdate"></span>
+          GanttDate
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt</code> provides the <code>GanttDate</code> class to handle time. The example is as follows:</div>
+<pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">'2022-01-01 12:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//</span>
+<span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1617275597</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1617275597</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addHours</span><span class="token punctuation">(</span><span class="token number">24</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1617275597</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"yyyy年MM月"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">...</span>
+</div></code></pre>
+<p>For more information, please refer to <a target="_blank" href="https://github.com/worktile/ngx-gantt/blob/master/packages/gantt/src/utils/date.ts">GanttDate</a></p>

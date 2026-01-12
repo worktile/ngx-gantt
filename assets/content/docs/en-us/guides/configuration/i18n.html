@@ -1,0 +1,103 @@
+<div class="dg-paragraph"><code>ngx-gantt</code> has 6 built-in languages, namely Simplified 简体中文（zh-hans）,繁體中文（zh-hant）,English（en-us）,日本語（ja-jp）,Deutsch（de-de）,Русский язык（ru-ru）. It also supports custom languages.</div>
+
+        <h3 id="using-built-in-languages" class="docs-header-link">
+          <span header-link="using-built-in-languages"></span>
+          Using Built-in Languages
+        </h3>
+      <pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          locale<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>enUs<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>
+  <span class="token punctuation">]</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+
+</div></code></pre>
+
+        <h3 id="configuring-custom-languages" class="docs-header-link">
+          <span header-link="configuring-custom-languages"></span>
+          Configuring Custom Languages
+        </h3>
+      <p>The built-in languages support override configuration. Just specify the ID of the language that needs to be overridden for the configuration content. If the specified ID doesn&#39;t exist, a new language will be created.</p>
+<p>The dateFormats formats follow the <a target="_blank" href="https://date-fns.org">date-fns</a> format and support a variety of formats.</p>
+<pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+            provide<span class="token punctuation">:</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span>
+            useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                id<span class="token punctuation">:</span> <span class="token string">'ko-kr'</span><span class="token punctuation">,</span>
+                dateLocale<span class="token punctuation">:</span> ko<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Specify the date-fns format locale.If not provided, the default is the en-us locale.</span>
+                views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>hour<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                        label<span class="token punctuation">:</span> <span class="token string">'매시간'</span><span class="token punctuation">,</span>
+                        dateFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                            primary<span class="token punctuation">:</span> <span class="token string">'M월 d일'</span><span class="token punctuation">,</span>
+                            secondary<span class="token punctuation">:</span> <span class="token string">'HH:mm'</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                        label<span class="token punctuation">:</span> <span class="token string">'매일'</span><span class="token punctuation">,</span>
+                        dateFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                            primary<span class="token punctuation">:</span> <span class="token string">'yyyy년 M월 d일'</span><span class="token punctuation">,</span>
+                            secondary<span class="token punctuation">:</span> <span class="token string">'d'</span>
+                        <span class="token punctuation">}</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                    <span class="token operator">...</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            multi<span class="token punctuation">:</span> <span class="token boolean">true</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+            provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+            useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                locale<span class="token punctuation">:</span> <span class="token string">'ko-kr'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+</div></code></pre>
+
+        <h3 id="configuring-timezone" class="docs-header-link">
+          <span header-link="configuring-timezone"></span>
+          Configuring TimeZone
+        </h3>
+      <div class="dg-paragraph"><code>ngx-gantt</code> defaults to using the system timezone, but users can set a custom timezone through the global configuration <code>GANTT_GLOBAL_CONFIG</code> by specifying dateOptions.timeZone.</div>
+<pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+             timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span>
+          <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>
+  <span class="token punctuation">]</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+</div></code></pre>

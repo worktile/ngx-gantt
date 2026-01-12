@@ -1,0 +1,116 @@
+
+        <h1 id="ganttdragevent" class="docs-header-link">
+          <span header-link="ganttdragevent"></span>
+          GanttDragEvent
+        </h1>
+      <p>Data item drag event class, used to pass data items after dragging starts or ends</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttDragEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  item<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttableevent" class="docs-header-link">
+          <span header-link="gantttableevent"></span>
+          GanttTableEvent
+        </h1>
+      <p>Transmits information about all current columns when the number of columns in the left table or the width of the column is changed by dragging</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableEvent</span> <span class="token punctuation">{</span>
+  columns<span class="token punctuation">:</span> QueryList<span class="token operator">&lt;</span>NgxGanttTableColumnComponent<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttlinkdragevent" class="docs-header-link">
+          <span header-link="ganttlinkdragevent"></span>
+          GanttLinkDragEvent
+        </h1>
+      <p>Transmits information about the current data item and the target data item when dragging a data item to establish an association with other data items</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLinkDragEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+  target<span class="token operator">?</span><span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttloadonscrollevent" class="docs-header-link">
+          <span header-link="ganttloadonscrollevent"></span>
+          GanttLoadOnScrollEvent
+        </h1>
+      <p>When scrolling left or right, the time interval after scrolling is transmitted, which is convenient for users to load data</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLoadOnScrollEvent</span> <span class="token punctuation">{</span>
+  start<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  end<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttlineclickevent" class="docs-header-link">
+          <span header-link="ganttlineclickevent"></span>
+          GanttLineClickEvent
+        </h1>
+      <p>When clicking the association line of two data items that establish an association relationship, the mouse event and two data items are transmitted</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLineClickEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">:</span> MouseEvent<span class="token punctuation">;</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+  target<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttbarclickevent" class="docs-header-link">
+          <span header-link="ganttbarclickevent"></span>
+          GanttBarClickEvent
+        </h1>
+      <p>When clicking a data item, the data item information is transmitted</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttBarClickEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">:</span> Event<span class="token punctuation">;</span>
+  item<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttselectedevent" class="docs-header-link">
+          <span header-link="ganttselectedevent"></span>
+          GanttSelectedEvent
+        </h1>
+      <p>When selecting table data, data item information is passed. In single-selection mode, a single data object is returned, and in multi-selection mode, an array of data items is returned.</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttSelectedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">:</span> Event<span class="token punctuation">;</span>
+  selectedValue<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token operator">|</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttabledragdroppedevent" class="docs-header-link">
+          <span header-link="gantttabledragdroppedevent"></span>
+          GanttTableDragDroppedEvent
+        </h1>
+      <p>The event that triggers the event when a data item is dragged to another data item in the Table</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableDragDroppedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag start data item</span>
+  sourceParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag start data item parent ID</span>
+  target<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag target data item</span>
+  targetParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag target data item parent ID</span>
+  dropPosition<span class="token punctuation">:</span> GanttTableDropPosition<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag drop position 'before' | 'inside' | 'after'</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttabledragstartedevent" class="docs-header-link">
+          <span header-link="gantttabledragstartedevent"></span>
+          GanttTableDragStartedEvent
+        </h1>
+      <p>Event after the drag of the Table component starts</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableDragStartedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag start data item</span>
+  sourceParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag start data item parent</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttabledragendedevent" class="docs-header-link">
+          <span header-link="gantttabledragendedevent"></span>
+          GanttTableDragEndedEvent
+        </h1>
+      <p>Event after the drag of the Table component ends</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableDragEndedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag start data item</span>
+  sourceParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Drag start data item parent</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttvirtualscrolledindexchangeevent" class="docs-header-link">
+          <span header-link="ganttvirtualscrolledindexchangeevent"></span>
+          GanttVirtualScrolledIndexChangeEvent
+        </h1>
+      <p>Triggered when the index of the first visible element in the virtual scroll viewport of the Gantt component changes</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttVirtualScrolledIndexChangeEvent</span> <span class="token punctuation">{</span>
+  index<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// index of the first element in the viewport</span>
+  renderedRange<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    start<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    end<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// range of currently rendered items</span>
+  count<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// total number of items</span>
+<span class="token punctuation">}</span></div></code></pre>

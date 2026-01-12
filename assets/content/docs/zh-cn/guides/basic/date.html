@@ -1,0 +1,21 @@
+
+        <h2 id="%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F" class="docs-header-link">
+          <span header-link="%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F"></span>
+          时间格式
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt</code> 统一使用 10 位的 UnixTime 格式，使用方需要确保传入的日期值为 UnixTime</div>
+
+        <h2 id="ganttdate" class="docs-header-link">
+          <span header-link="ganttdate"></span>
+          GanttDate
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt</code> 提供 <code>GanttDate</code> 类来处理时间，示例如下：</div>
+<pre class="language-javascript"><code class="language-javascript"><div> <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+
+ <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">'2022-01-01 12:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//</span>
+ <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1617275597</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1617275597</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addHours</span><span class="token punctuation">(</span><span class="token number">24</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1617275597</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"yyyy年MM月"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">...</span>
+</div></code></pre>
+<p>更多请参考 <a target="_blank" href="https://github.com/worktile/ngx-gantt/blob/master/packages/gantt/src/utils/date.ts">GanttDate</a></p>

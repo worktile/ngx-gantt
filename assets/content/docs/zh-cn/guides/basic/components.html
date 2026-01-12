@@ -1,0 +1,58 @@
+<div class="dg-paragraph"><code>NgxGanttModule</code> 导出了多个组件，基础的组件有 <code>ngx-gantt</code>、<code>ngx-gantt-table</code>、<code>ngx-gantt-column</code>，同时还导出了一些适用于自定义扩展的高级组件 <code>ngx-gantt-root</code>、<code>ngx-gantt-bar</code>、 <code>ngx-gantt-range</code>。</div>
+
+        <h1 id="%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6"></span>
+          基础组件
+        </h1>
+      
+        <h2 id="ngx-gantt" class="docs-header-link">
+          <span header-link="ngx-gantt"></span>
+          ngx-gantt
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt</code> 甘特图的根组件。</div>
+
+        <h2 id="ngx-gantt-table" class="docs-header-link">
+          <span header-link="ngx-gantt-table"></span>
+          ngx-gantt-table
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-table</code>组件是指甘特图左侧的表格，该组件在<code>ngx-gantt</code>组件内部使用。</div>
+
+        <h2 id="ngx-gantt-column" class="docs-header-link">
+          <span header-link="ngx-gantt-column"></span>
+          ngx-gantt-column
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-column</code>组件指甘特图左侧的表格中的列，该组件在<code>ngx-gantt-table</code>组件内部使用。</div>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span><span class="token punctuation">></span></span> ... <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h1 id="%E6%89%A9%E5%B1%95%E9%AB%98%E7%BA%A7%E7%BB%84%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E6%89%A9%E5%B1%95%E9%AB%98%E7%BA%A7%E7%BB%84%E4%BB%B6"></span>
+          扩展高级组件
+        </h1>
+      
+        <h2 id="ngx-gantt-root" class="docs-header-link">
+          <span header-link="ngx-gantt-root"></span>
+          ngx-gantt-root
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-root</code> 与 <code>ngx-gantt</code> 组件类似，参数也基本一致，基于 <code>ngx-gantt-root</code> 组件我们可以自定义左侧与右侧区域的内容，一般用于有自定义需求的甘特图基于此组件做二次封装。</div>
+
+        <h1 id="ngx-gantt-bar" class="docs-header-link">
+          <span header-link="ngx-gantt-bar"></span>
+          ngx-gantt-bar
+        </h1>
+      <div class="dg-paragraph"><code>ngx-gantt-bar</code>组件指甘特图右侧水平的条形图，常用于表示项目下的任务。在无其他特殊需求，仅作为展示的情况下是用不到该组件的。该组件可在<code>ngx-gantt-root</code>组件内部使用，以满足一些自定义甘特图的场景。</div>
+
+        <h1 id="ngx-gantt-range" class="docs-header-link">
+          <span header-link="ngx-gantt-range"></span>
+          ngx-gantt-range
+        </h1>
+      <div class="dg-paragraph"><code>ngx-gantt-range</code>组件和<code>ngx-gantt-bar</code>是相似的，区别在于<code>ngx-gantt-bar</code>是条形图展示而<code>ngx-gantt-range</code>组件是范围区间展示，常用于表示时间范围区间。</div>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-root</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#sideTemplate</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#mainTemplate</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-bar</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-bar</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-root</span><span class="token punctuation">></span></span></div></code></pre>

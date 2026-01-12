@@ -1,0 +1,58 @@
+<div class="dg-paragraph"><code>NgxGanttModule</code> exports multiple components, including <code>ngx-gantt</code>, <code>ngx-gantt-table</code>, and <code>ngx-gantt-column</code>. It also exports some advanced components suitable for custom extensions, including <code>ngx-gantt-root</code>, <code>ngx-gantt-bar</code>, and <code>ngx-gantt-range</code>.</div>
+
+        <h1 id="basic-components" class="docs-header-link">
+          <span header-link="basic-components"></span>
+          Basic components
+        </h1>
+      
+        <h2 id="ngx-gantt" class="docs-header-link">
+          <span header-link="ngx-gantt"></span>
+          ngx-gantt
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt</code> is the root component of the Gantt chart.</div>
+
+        <h2 id="ngx-gantt-table" class="docs-header-link">
+          <span header-link="ngx-gantt-table"></span>
+          ngx-gantt-table
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-table</code> is the table on the left side of the Gantt chart. It is used inside the <code>ngx-gantt</code> component.</div>
+
+        <h2 id="ngx-gantt-column" class="docs-header-link">
+          <span header-link="ngx-gantt-column"></span>
+          ngx-gantt-column
+        </h2>
+      <p>The <code>ngx-gantt-column</code> component refers to the column in the table on the left side of the Gantt chart. This component is used inside the <code>ngx-gantt-table</code> component.</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span><span class="token punctuation">></span></span> ... <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h1 id="extended-advanced-components" class="docs-header-link">
+          <span header-link="extended-advanced-components"></span>
+          Extended advanced components
+        </h1>
+      
+        <h2 id="ngx-gantt-root" class="docs-header-link">
+          <span header-link="ngx-gantt-root"></span>
+          ngx-gantt-root
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-root</code> is similar to the <code>ngx-gantt</code> component, and the parameters are basically the same. Based on the <code>ngx-gantt-root</code> component, we can customize the content of the left and right areas. It is generally used for Gantt charts with customized requirements to do secondary packaging based on this component.</div>
+
+        <h1 id="ngx-gantt-bar" class="docs-header-link">
+          <span header-link="ngx-gantt-bar"></span>
+          ngx-gantt-bar
+        </h1>
+      <p>The <code>ngx-gantt-bar</code> component refers to the horizontal bar chart on the right side of the Gantt chart, which is often used to represent the tasks under the project. This component is not used if there is no other special requirement and it is only used for display. This component can be used inside the <code>ngx-gantt-root</code> component to meet some custom Gantt chart scenarios.</p>
+
+        <h1 id="ngx-gantt-range" class="docs-header-link">
+          <span header-link="ngx-gantt-range"></span>
+          ngx-gantt-range
+        </h1>
+      <p>The <code>ngx-gantt-range</code> component is similar to the <code>ngx-gantt-bar</code> component, the difference is that the <code>ngx-gantt-bar</code> component is a bar chart display while the <code>ngx-gantt-range</code> component is a range interval display, which is often used to represent the time range interval.</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-root</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#sideTemplate</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#mainTemplate</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-bar</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-bar</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-root</span><span class="token punctuation">></span></span></div></code></pre>

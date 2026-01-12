@@ -1,0 +1,116 @@
+
+        <h1 id="ganttdragevent" class="docs-header-link">
+          <span header-link="ganttdragevent"></span>
+          GanttDragEvent
+        </h1>
+      <p>数据项拖拽事件类，用于拖拽开始后或结束后传递数据项</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttDragEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  item<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttableevent" class="docs-header-link">
+          <span header-link="gantttableevent"></span>
+          GanttTableEvent
+        </h1>
+      <p>左侧表格列数或拖拽改变列宽时传递当前所有列的信息</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableEvent</span> <span class="token punctuation">{</span>
+  columns<span class="token punctuation">:</span> QueryList<span class="token operator">&lt;</span>NgxGanttTableColumnComponent<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttlinkdragevent" class="docs-header-link">
+          <span header-link="ganttlinkdragevent"></span>
+          GanttLinkDragEvent
+        </h1>
+      <p>拖拽数据项与其他数据项建立关联关系时传递当前数据项与目标数据项信息</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLinkDragEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+  target<span class="token operator">?</span><span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttloadonscrollevent" class="docs-header-link">
+          <span header-link="ganttloadonscrollevent"></span>
+          GanttLoadOnScrollEvent
+        </h1>
+      <p>左右滚动时传递滚动后的时间区间，便于使用方加载数据</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLoadOnScrollEvent</span> <span class="token punctuation">{</span>
+  start<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  end<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttlineclickevent" class="docs-header-link">
+          <span header-link="ganttlineclickevent"></span>
+          GanttLineClickEvent
+        </h1>
+      <p>点击两个建立关联关系的数据项的关联线时传递鼠标事件和两个数据项</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLineClickEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">:</span> MouseEvent<span class="token punctuation">;</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+  target<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttbarclickevent" class="docs-header-link">
+          <span header-link="ganttbarclickevent"></span>
+          GanttBarClickEvent
+        </h1>
+      <p>点击数据项时传递数据项信息</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttBarClickEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">:</span> Event<span class="token punctuation">;</span>
+  item<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttselectedevent" class="docs-header-link">
+          <span header-link="ganttselectedevent"></span>
+          GanttSelectedEvent
+        </h1>
+      <p>选择表格数据时传递数据项信息，在单选模式下返回单个数据对象，多选模式下返回数据项数组</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttSelectedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  event<span class="token punctuation">:</span> Event<span class="token punctuation">;</span>
+  selectedValue<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token operator">|</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttabledragdroppedevent" class="docs-header-link">
+          <span header-link="gantttabledragdroppedevent"></span>
+          GanttTableDragDroppedEvent
+        </h1>
+      <p>当在 Table 中把一个数据项拖动到另一个数据项时触发事件的 Event</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableDragDroppedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动开始数据项</span>
+  sourceParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动开始数据项父 ID</span>
+  target<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动目标数据项</span>
+  targetParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动目标数据项父 ID</span>
+  dropPosition<span class="token punctuation">:</span> GanttTableDropPosition<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动放下的位置  'before' | 'inside' | 'after'</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttabledragstartedevent" class="docs-header-link">
+          <span header-link="gantttabledragstartedevent"></span>
+          GanttTableDragStartedEvent
+        </h1>
+      <p>Table 组件拖拽开始后事件</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableDragStartedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动开始数据项</span>
+  sourceParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动开始数据项父</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="gantttabledragendedevent" class="docs-header-link">
+          <span header-link="gantttabledragendedevent"></span>
+          GanttTableDragEndedEvent
+        </h1>
+      <p>Table 组件拖拽结束后事件</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableDragEndedEvent</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动开始数据项</span>
+  sourceParent<span class="token punctuation">:</span> GanttItem<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 拖动开始数据项父</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h1 id="ganttvirtualscrolledindexchangeevent" class="docs-header-link">
+          <span header-link="ganttvirtualscrolledindexchangeevent"></span>
+          GanttVirtualScrolledIndexChangeEvent
+        </h1>
+      <p>Gantt 组件虚拟滚动视口中可见的第一个元素的索引发生变化时触发</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttVirtualScrolledIndexChangeEvent</span> <span class="token punctuation">{</span>
+  index<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 视口第一个元素 index</span>
+  renderedRange<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    start<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+    end<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 当前渲染的条目范围</span>
+  count<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 总条目数量</span>
+<span class="token punctuation">}</span></div></code></pre>

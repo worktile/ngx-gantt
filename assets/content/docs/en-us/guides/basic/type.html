@@ -1,0 +1,188 @@
+<p>The <code>ngx-gantt</code> component accepts two data input types: <code>GanttItem</code> and <code>GanttGroup</code>. <code>GanttItem</code> refers to the Gantt chart data item format, <code>GanttGroup</code> refers to the group data format, and the specific type definitions are as follows:</p>
+
+        <h1 id="ganttitem" class="docs-header-link">
+          <span header-link="ganttitem"></span>
+          GanttItem
+        </h1>
+      <pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">GanttItem</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  title<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  start<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  end<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+  group_id<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  links<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  draggable<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  linkable<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  expandable<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  expanded<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  children<span class="token operator">?</span><span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  color<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  barStyle<span class="token operator">?</span><span class="token punctuation">:</span> Partial<span class="token operator">&lt;</span>CSSStyleDeclaration<span class="token operator">></span><span class="token punctuation">;</span>
+  origin<span class="token operator">?</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
+  type<span class="token operator">?</span><span class="token punctuation">:</span> GanttItemType<span class="token punctuation">;</span>
+  progress<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td><code>string</code></td>
+<td><code>-</code></td>
+<td>Unique identifier</td>
+</tr>
+<tr>
+<td>title</td>
+<td><code>string</code></td>
+<td><code>-</code></td>
+<td>name</td>
+</tr>
+<tr>
+<td>start</td>
+<td><code>number</code></td>
+<td><code>-</code></td>
+<td>start time (10-digit timestamp)</td>
+</tr>
+<tr>
+<td>end</td>
+<td><code>number</code></td>
+<td><code>-</code></td>
+<td>end time (10-digit timestamp)</td>
+</tr>
+<tr>
+<td>group_id</td>
+<td><code>string</code></td>
+<td><code>-</code></td>
+<td>Id of the corresponding group</td>
+</tr>
+<tr>
+<td>links</td>
+<td><code>string[]</code></td>
+<td><code>-</code></td>
+<td><code>id</code> collection of <code>GanttItem</code> with associated relationships</td>
+</tr>
+<tr>
+<td>draggable</td>
+<td><code>boolean</code></td>
+<td><code>-</code></td>
+<td>Set whether to drag</td>
+</tr>
+<tr>
+<td>linkable</td>
+<td><code>boolean</code></td>
+<td><code>-</code></td>
+<td>Set whether to link/be linked</td>
+</tr>
+<tr>
+<td>expandable</td>
+<td><code>boolean</code></td>
+<td><code>-</code></td>
+<td>Set whether to expand/collapse</td>
+</tr>
+<tr>
+<td>expanded</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>Set whether to expand/collapse</td>
+</tr>
+<tr>
+<td>children</td>
+<td><code>GanttItem[]</code></td>
+<td><code>-</code></td>
+<td>Set child data</td>
+</tr>
+<tr>
+<td>color</td>
+<td><code>string</code></td>
+<td><code>-</code></td>
+<td>Set color</td>
+</tr>
+<tr>
+<td>barStyle</td>
+<td><code>Partial&lt;CSSStyleDeclaration&gt;</code></td>
+<td><code>-</code></td>
+<td>Set style for the bar</td>
+</tr>
+<tr>
+<td>laneStyle</td>
+<td><code>Partial&lt;CSSStyleDeclaration&gt;</code></td>
+<td><code>-</code></td>
+<td>Set style for the cell (containing bar)</td>
+</tr>
+<tr>
+<td>origin</td>
+<td><code>T</code></td>
+<td><code>-</code></td>
+<td>Set original data</td>
+</tr>
+<tr>
+<td>type</td>
+<td><code>GanttItemType</code></td>
+<td><code>-</code></td>
+<td>Set data display mode (interval display and normal display)</td>
+</tr>
+<tr>
+<td>progress</td>
+<td><code>number</code></td>
+<td><code>-</code></td>
+<td>Set progress</td>
+</tr>
+</tbody></table>
+
+        <h1 id="ganttgroup" class="docs-header-link">
+          <span header-link="ganttgroup"></span>
+          GanttGroup
+        </h1>
+      <pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">interface</span> <span class="token class-name">GanttGroup</span><span class="token operator">&lt;</span>T <span class="token operator">=</span> unknown<span class="token operator">></span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  title<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  expanded<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span>
+  origin<span class="token operator">?</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>
+  <span class="token keyword">class</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td><code>string</code></td>
+<td><code>-</code></td>
+<td>Unique identifier</td>
+</tr>
+<tr>
+<td>title</td>
+<td><code>string</code></td>
+<td><code>-</code></td>
+<td>Name</td>
+</tr>
+<tr>
+<td>expanded</td>
+<td><code>boolean</code></td>
+<td><code>true</code></td>
+<td>Set whether to expand/collapse</td>
+</tr>
+<tr>
+<td>origin</td>
+<td><code>T</code></td>
+<td><code>-</code></td>
+<td>Set original data</td>
+</tr>
+<tr>
+<td>class</td>
+<td><code>string</code></td>
+<td><code>-</code></td>
+<td>Set <code>class</code></td>
+</tr>
+</tbody></table>
