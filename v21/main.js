@@ -51711,6 +51711,11 @@ var GanttCalendarGridComponent = class _GanttCalendarGridComponent {
     this.todayBorderRadius = todayBorderRadius;
     this.viewTypes = GanttViewType;
     this.className = `gantt-calendar gantt-calendar-grid`;
+    afterNextRender(() => {
+      merge(outputToObservable(this.ganttUpper.viewChange), this.ganttUpper.view.start$).pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+        this.setTodayPoint();
+      });
+    });
   }
   setTodayPoint() {
     const x = this.view.getNowX();
@@ -51725,11 +51730,6 @@ var GanttCalendarGridComponent = class _GanttCalendarGridComponent {
     } else {
       todayEle.style.display = "none";
     }
-  }
-  ngOnInit() {
-    merge(outputToObservable(this.ganttUpper.viewChange), this.ganttUpper.view.start$).pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-      this.setTodayPoint();
-    });
   }
   ngOnDestroy() {
     this.unsubscribe$.next();
@@ -63309,7 +63309,6 @@ var AppGanttCustomViewExampleComponent = class _AppGanttCustomViewExampleCompone
       ThyLayout,
       ThyContent,
       ThyHeader,
-      ThyButton,
       ThySwitch,
       FormsModule,
       NgxGanttComponent,
@@ -63325,7 +63324,7 @@ var AppGanttCustomViewExampleComponent = class _AppGanttCustomViewExampleCompone
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppGanttCustomViewExampleComponent, { className: "AppGanttCustomViewExampleComponent", filePath: "example/src/app/gantt-custom-view/gantt.component.ts", lineNumber: 43 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppGanttCustomViewExampleComponent, { className: "AppGanttCustomViewExampleComponent", filePath: "example/src/app/gantt-custom-view/gantt.component.ts", lineNumber: 41 });
 })();
 
 // example/src/app/gantt-virtual-scroll/gantt.component.ts
