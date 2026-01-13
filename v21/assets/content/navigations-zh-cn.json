@@ -4,7 +4,7 @@
       "id": "guides",
       "path": "guides",
       "channelPath": "guides",
-      "title": "Guides",
+      "title": "文档",
       "items": [
         {
           "id": "guides/intro",
@@ -21,8 +21,8 @@
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B",
-                  "name": "核心能力",
+                  "id": "%E7%89%B9%E6%80%A7",
+                  "name": "特性",
                   "level": 3,
                   "type": "h3"
                 },
@@ -4237,8 +4237,8 @@
       "toc": "content",
       "headings": [
         {
-          "id": "%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B",
-          "name": "核心能力",
+          "id": "%E7%89%B9%E6%80%A7",
+          "name": "特性",
           "level": 3,
           "type": "h3"
         },
