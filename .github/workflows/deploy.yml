@@ -40,7 +40,7 @@ jobs:
         run: |
           # 定义恢复路由的脚本
           # 放在 index.html 中，用于从 404.html 传来的查询参数恢复真实路径
-          REDIRECT_RECOVERY_SCRIPT='<script>(function(l){if(!l.search){return;}var params=new URLSearchParams(l.search);var p=params.get("p");if(!p){return;}var q=params.get("q");var base=l.pathname.replace(/index\\.html$/,"");base=base.replace(/\\/$/,"");var target=base+decodeURIComponent(p);var query=q?decodeURIComponent(q):"";var url=l.protocol+"//"+l.host+target+(query?"?"+query:"")+l.hash;l.replace(url);})(window.location)</script>'
+          REDIRECT_RECOVERY_SCRIPT='<script>(function(w){var l=w.location;if(!l.search){return;}var params=new URLSearchParams(l.search);var p=params.get("p");if(!p){return;}var q=params.get("q");var base=l.pathname.replace(/index\\.html$/,"").replace(/\\/$/,"");var target=base+decodeURIComponent(p);if(q){var decodedQ=decodeURIComponent(q);target+=decodedQ.startsWith("?")?decodedQ:"?"+decodedQ;}if(l.hash){target+=l.hash;}w.history.replaceState(null,"",target);})(window)</script>'
 
           # 定义 404 转发脚本
           # 放在 404.html 中，根据路径是否包含 v21 决定跳回哪一个 index.html
