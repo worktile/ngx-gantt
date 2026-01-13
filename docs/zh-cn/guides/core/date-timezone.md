@@ -97,10 +97,11 @@ date.isWeekend(); // 是否为周末
 通过 `GANTT_GLOBAL_CONFIG` 配置全局时区和周起始日：
 
 ```typescript
-import { Component } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from '@worktile/gantt';
+import { AppComponent } from './app/app.component';
 
-@Component({
+bootstrapApplication(AppComponent, {
   providers: [
     {
       provide: GANTT_GLOBAL_CONFIG,
@@ -112,8 +113,7 @@ import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from '@worktile/gantt';
       } as GanttGlobalConfig
     }
   ]
-})
-export class AppComponent {}
+}).catch((err) => console.error(err));
 ```
 
 ### 时区说明
