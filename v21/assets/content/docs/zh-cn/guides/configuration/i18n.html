@@ -1,104 +1,384 @@
-<div class="dg-paragraph"><code>ngx-gantt</code> 内置 6 种语言，简体中文（zh-hans）、繁體中文（zh-hant）、English（en-us）、日本語（ja-jp）、Deutsch（de-de）、Русский язык（ru-ru），同时支持自定义语言</div>
+
+        <h1 id="%E5%9B%BD%E9%99%85%E5%8C%96" class="docs-header-link">
+          <span header-link="%E5%9B%BD%E9%99%85%E5%8C%96"></span>
+          国际化
+        </h1>
+      <p>ngx-gantt 支持多语言，内置 6 种语言包，也支持自定义语言包扩展。</p>
+
+        <h2 id="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB" class="docs-header-link">
+          <span header-link="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB"></span>
+          前置阅读
+        </h2>
+      <p>在深入学习国际化之前，建议先了解：</p>
+<ul>
+<li><a href="../core/views.md">视图体系</a> - 理解视图的显示文本</li>
+<li><a href="./global-config.md">全局配置</a> - 了解如何配置语言</li>
+</ul>
+
+        <h2 id="%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85" class="docs-header-link">
+          <span header-link="%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85"></span>
+          内置语言包
+        </h2>
+      <p>ngx-gantt 内置以下语言包：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>标识符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简体中文</td>
+<td><code>zh-hans</code> / <code>zh-cn</code></td>
+<td>默认语言</td>
+</tr>
+<tr>
+<td>繁体中文</td>
+<td><code>zh-hant</code> / <code>zh-tw</code></td>
+<td>繁体中文</td>
+</tr>
+<tr>
+<td>英文</td>
+<td><code>en-us</code></td>
+<td>English</td>
+</tr>
+<tr>
+<td>日文</td>
+<td><code>ja-jp</code></td>
+<td>日本語</td>
+</tr>
+<tr>
+<td>德文</td>
+<td><code>de-de</code></td>
+<td>Deutsch</td>
+</tr>
+<tr>
+<td>俄文</td>
+<td><code>ru-ru</code></td>
+<td>Русский</td>
+</tr>
+</tbody></table>
 
         <h3 id="%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80" class="docs-header-link">
           <span header-link="%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80"></span>
           使用内置语言
         </h3>
-      <pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+      <p>通过全局配置设置语言：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
-@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  <span class="token operator">...</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
       provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
       useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          locale<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>enUs<span class="token punctuation">,</span>
+        locale<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>enUs <span class="token comment" spellcheck="true">// 或 'en-us'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2" class="docs-header-link">
+          <span header-link="%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2"></span>
+          语言切换
+        </h2>
+      
+        <h3 id="%E5%85%A8%E5%B1%80%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2" class="docs-header-link">
+          <span header-link="%E5%85%A8%E5%B1%80%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2"></span>
+          全局语言切换
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttConfigService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;select (change)="changeLanguage($event)">
+      &lt;option value="zh-hans">简体中文&lt;/option>
+      &lt;option value="en-us">English&lt;/option>
+    &lt;/select>
+
+    &lt;ngx-gantt [items]="items">&lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> configService<span class="token punctuation">:</span> GanttConfigService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token function">changeLanguage</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> Event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> locale <span class="token operator">=</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>target as HTMLSelectElement<span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>configService<span class="token punctuation">.</span><span class="token function">setLocale</span><span class="token punctuation">(</span>locale<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85"></span>
+          自定义语言包
+        </h2>
+      
+        <h3 id="%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85" class="docs-header-link">
+          <span header-link="%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85"></span>
+          创建自定义语言包
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> zhCN <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'date-fns/locale'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> customLocale<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token string">'custom-locale'</span><span class="token punctuation">,</span>
+  dateLocale<span class="token punctuation">:</span> zhCN<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// date-fns 的 locale</span>
+  views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>hour<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'小时视图'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'M月d日'</span><span class="token punctuation">,</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'HH:mm'</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token operator">...</span>
-  <span class="token punctuation">]</span>
-  <span class="token operator">...</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'日视图'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'yyyy年MM月'</span><span class="token punctuation">,</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'d'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'周视图'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'yyyy年'</span><span class="token punctuation">,</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'第w周'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'月视图'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`yyyy年'Q'Q`</span></span><span class="token punctuation">,</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'M月'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>quarter<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'季度视图'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'yyyy年'</span><span class="token punctuation">,</span>
+        unit<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`yyyy年'Q'Q`</span></span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>year<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'年视图'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'yyyy年'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 
-<span class="token punctuation">}</span>
-
-</div></code></pre>
-
-        <h3 id="%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80" class="docs-header-link">
-          <span header-link="%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80"></span>
-          配置自定义语言
+        <h3 id="%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85" class="docs-header-link">
+          <span header-link="%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85"></span>
+          注册自定义语言包
         </h3>
-      <p>内置语言支持覆盖配置，配置内容指定为需要覆盖的语言 id 即可，如果指定的 id 不存在，则会创建一个新语言</p>
-<p>dateFormats 格式遵循 <a target="_blank" href="https://date-fns.org">date-fns</a> format 支持格式</p>
-<pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+      <p>使用 <code>GANTT_I18N_LOCALE_TOKEN</code> 注册：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocaleConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
-@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  <span class="token operator">...</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
-            provide<span class="token punctuation">:</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span>
-            useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                id<span class="token punctuation">:</span> <span class="token string">'ko-kr'</span><span class="token punctuation">,</span>
-                dateLocale<span class="token punctuation">:</span> ko<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 指定 date-fns format locale，不传默认为 en-us locale</span>
-                views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>hour<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                        label<span class="token punctuation">:</span> <span class="token string">'매시간'</span><span class="token punctuation">,</span>
-                        dateFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                            primary<span class="token punctuation">:</span> <span class="token string">'M월 d일'</span><span class="token punctuation">,</span>
-                            secondary<span class="token punctuation">:</span> <span class="token string">'HH:mm'</span>
-                        <span class="token punctuation">}</span>
-                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-                    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                        label<span class="token punctuation">:</span> <span class="token string">'매일'</span><span class="token punctuation">,</span>
-                        dateFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                            primary<span class="token punctuation">:</span> <span class="token string">'yyyy년 M월 d일'</span><span class="token punctuation">,</span>
-                            secondary<span class="token punctuation">:</span> <span class="token string">'d'</span>
-                        <span class="token punctuation">}</span>
-                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-                    <span class="token operator">...</span>
-                <span class="token punctuation">}</span>
-            <span class="token punctuation">}</span><span class="token punctuation">,</span>
-            multi<span class="token punctuation">:</span> <span class="token boolean">true</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-            provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
-            useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                locale<span class="token punctuation">:</span> <span class="token string">'ko-kr'</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
+      provide<span class="token punctuation">:</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> customLocale<span class="token punctuation">,</span>
+      multi<span class="token punctuation">:</span> <span class="token keyword">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        locale<span class="token punctuation">:</span> <span class="token string">'custom-locale'</span> <span class="token comment" spellcheck="true">// 使用自定义语言包 ID</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
   <span class="token punctuation">]</span>
-  <span class="token operator">...</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
 
-<span class="token punctuation">}</span>
-</div></code></pre>
-
-        <h3 id="%E6%97%B6%E5%8C%BA" class="docs-header-link">
-          <span header-link="%E6%97%B6%E5%8C%BA"></span>
-          时区
+        <h3 id="%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85" class="docs-header-link">
+          <span header-link="%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85"></span>
+          覆盖内置语言包
         </h3>
-      <div class="dg-paragraph"><code>ngx-gantt</code> 默认使用系统时区，使用者可通过全局配置 <code>GANTT_GLOBAL_CONFIG</code> 中的 <code>dateOptions.timeZone</code> 来设置自定义时区</div>
-<pre class="language-javascript"><code class="language-javascript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'ngx-gantt'</span><span class="token punctuation">;</span>
+      <p>使用相同的 ID 可以覆盖内置语言包：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> customZhHans<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>zhHans<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 使用内置 ID</span>
+  views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'天'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 覆盖标签</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'yyyy-MM'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 覆盖格式</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'dd'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// ... 其他视图</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  <span class="token operator">...</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> customZhHans<span class="token punctuation">,</span>
+      multi<span class="token punctuation">:</span> <span class="token keyword">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%AF%AD%E8%A8%80%E5%8C%85%E7%BB%93%E6%9E%84" class="docs-header-link">
+          <span header-link="%E8%AF%AD%E8%A8%80%E5%8C%85%E7%BB%93%E6%9E%84"></span>
+          语言包结构
+        </h2>
+      
+        <h3 id="gantti18nlocaleconfig" class="docs-header-link">
+          <span header-link="gantti18nlocaleconfig"></span>
+          GanttI18nLocaleConfig
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttI18nLocaleConfig</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 语言标识符</span>
+  dateLocale<span class="token operator">?</span><span class="token punctuation">:</span> DateFnsLocale<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// date-fns 的 locale（可选）</span>
+  views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 视图配置</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 视图标签</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 时间刻度格式</span>
+        period<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 周期刻度格式</span>
+        unit<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 单位刻度格式</span>
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="tickformats-%E6%A0%BC%E5%BC%8F" class="docs-header-link">
+          <span header-link="tickformats-%E6%A0%BC%E5%BC%8F"></span>
+          tickFormats 格式
+        </h3>
+      <p>使用 <code>date-fns</code> 的格式字符串：</p>
+<ul>
+<li><code>&#39;yyyy&#39;</code> - 年份（4 位）</li>
+<li><code>&#39;MM&#39;</code> - 月份（2 位）</li>
+<li><code>&#39;dd&#39;</code> - 日期（2 位）</li>
+<li><code>&#39;HH:mm&#39;</code> - 小时:分钟</li>
+<li><code>&#39;wo&#39;</code> - 周序号</li>
+<li><code>&#39;Q&#39;</code> - 季度</li>
+</ul>
+
+        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
+          最小示例
+        </h2>
+      
+        <h3 id="%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80" class="docs-header-link">
+          <span header-link="%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80"></span>
+          使用内置语言
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
       provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
       useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-             timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span>
-          <span class="token punctuation">}</span>
+        locale<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>enUs
       <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token operator">...</span>
-  <span class="token punctuation">]</span>
-  <span class="token operator">...</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`&lt;ngx-gantt [items]="items">&lt;/ngx-gantt>`</span></span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
 
-<span class="token punctuation">}</span>
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85"></span>
+          自定义语言包
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> zhCN <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'date-fns/locale'</span><span class="token punctuation">;</span>
 
-</div></code></pre>
+<span class="token keyword">const</span> myLocale<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token string">'my-locale'</span><span class="token punctuation">,</span>
+  dateLocale<span class="token punctuation">:</span> zhCN<span class="token punctuation">,</span>
+  views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'日'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'yyyy年MM月'</span><span class="token punctuation">,</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'d'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// ... 其他视图</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> myLocale<span class="token punctuation">,</span>
+      multi<span class="token punctuation">:</span> <span class="token keyword">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        locale<span class="token punctuation">:</span> <span class="token string">'my-locale'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`&lt;ngx-gantt [items]="items">&lt;/ngx-gantt>`</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">
+          <span header-link="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"></span>
+          常见问题
+        </h2>
+      
+        <h3 id="q:-%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F"></span>
+          Q: 语言切换不生效？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 检查：</div>
+<ol>
+<li>是否调用了 <code>configService.setLocale()</code></li>
+<li>语言包是否正确注册</li>
+<li>语言 ID 是否匹配</li>
+</ol>
+
+        <h3 id="q:-%E5%A6%82%E4%BD%95%E5%8F%AA%E8%A6%86%E7%9B%96%E9%83%A8%E5%88%86%E8%A7%86%E5%9B%BE%E7%9A%84%E6%96%87%E6%9C%AC%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%A6%82%E4%BD%95%E5%8F%AA%E8%A6%86%E7%9B%96%E9%83%A8%E5%88%86%E8%A7%86%E5%9B%BE%E7%9A%84%E6%96%87%E6%9C%AC%EF%BC%9F"></span>
+          Q: 如何只覆盖部分视图的文本？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 在自定义语言包中只定义需要覆盖的视图：</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> partialLocale<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>zhHans<span class="token punctuation">,</span>
+  views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'自定义日视图'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'yyyy-MM'</span><span class="token punctuation">,</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'dd'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 其他视图使用默认值</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="q:-datelocale-%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-datelocale-%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F"></span>
+          Q: dateLocale 是必需的吗？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 不是必需的，但建议提供以确保日期格式化正确。</div>
+
+        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
+          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
+          相关链接
+        </h2>
+      <ul>
+<li><a href="./global-config.md">全局配置</a> - 了解如何配置语言</li>
+<li><a href="../core/views.md">视图体系</a> - 了解视图的显示</li>
+<li><a target="_blank" href="https://date-fns.org/docs/format">date-fns 文档</a> - 了解日期格式字符串</li>
+</ul>

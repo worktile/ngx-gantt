@@ -1,0 +1,413 @@
+
+        <h1 id="%E9%AB%98%E7%BA%A7%E5%B8%83%E5%B1%80" class="docs-header-link">
+          <span header-link="%E9%AB%98%E7%BA%A7%E5%B8%83%E5%B1%80"></span>
+          高级布局
+        </h1>
+      <p>当默认的甘特图布局无法满足需求时，可以使用 <code>ngx-gantt-root</code> 组件完全自定义 Side（左侧）和 Main（右侧）区域。</p>
+
+        <h2 id="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB" class="docs-header-link">
+          <span header-link="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB"></span>
+          前置阅读
+        </h2>
+      <p>在深入学习高级布局之前，建议先了解：</p>
+<ul>
+<li><a href="../core/data-model.md">数据模型</a> - 理解数据结构</li>
+<li><a href="../features/bar.md">Bar 交互</a> - 了解任务条组件</li>
+</ul>
+
+        <h2 id="%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF" class="docs-header-link">
+          <span header-link="%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"></span>
+          适用场景
+        </h2>
+      <div class="dg-paragraph"><strong>适用场景：</strong></div>
+<ul>
+<li>需要完全自定义左侧表格区域</li>
+<li>需要完全自定义右侧甘特图区域</li>
+<li>需要实现特殊的布局需求（如打平模式、多行显示）</li>
+<li>需要自定义滚动同步逻辑</li>
+</ul>
+<div class="dg-paragraph"><strong>非适用场景：</strong></div>
+<ul>
+<li>只需要调整样式（使用 CSS 即可）</li>
+<li>只需要调整表格列（使用 <code>ngx-gantt-table</code> 即可）</li>
+</ul>
+
+        <h2 id="ngx-gantt-root-%E7%BB%84%E4%BB%B6" class="docs-header-link">
+          <span header-link="ngx-gantt-root-%E7%BB%84%E4%BB%B6"></span>
+          ngx-gantt-root 组件
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-root</code> 是甘特图的根组件，提供了完全自定义布局的能力。</div>
+
+        <h3 id="%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7" class="docs-header-link">
+          <span header-link="%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7"></span>
+          组件属性
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">NgxGanttRootComponent</span> <span class="token punctuation">{</span>
+  sideWidth<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 左侧区域宽度</span>
+  sideTemplate<span class="token operator">?</span><span class="token punctuation">:</span> TemplateRef<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 左侧区域模板</span>
+  mainTemplate<span class="token operator">?</span><span class="token punctuation">:</span> TemplateRef<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 右侧区域模板</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8" class="docs-header-link">
+          <span header-link="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"></span>
+          基础使用
+        </h3>
+      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-root</span> <span class="token attr-name">[sideWidth]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#sideTemplate</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- 自定义左侧内容 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-side<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>自定义表格<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#mainTemplate</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- 自定义右侧内容 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-main<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>自定义甘特图<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-root</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h2 id="%E5%B8%83%E5%B1%80%E7%BB%93%E6%9E%84" class="docs-header-link">
+          <span header-link="%E5%B8%83%E5%B1%80%E7%BB%93%E6%9E%84"></span>
+          布局结构
+        </h2>
+      
+        <h3 id="%E9%BB%98%E8%AE%A4%E5%B8%83%E5%B1%80" class="docs-header-link">
+          <span header-link="%E9%BB%98%E8%AE%A4%E5%B8%83%E5%B1%80"></span>
+          默认布局
+        </h3>
+      <div class="dg-paragraph"><code>ngx-gantt</code> 组件内部使用 <code>ngx-gantt-root</code> 的默认布局：</div>
+<pre><code><div>┌─────────────────────────────────────┐
+│  Header <span class="token punctuation">(</span>表格头 <span class="token operator">+</span> 日历头<span class="token punctuation">)</span>            │
+├──────────┬──────────────────────────┤
+│          │  Calendar Grid           │
+│  Table   ├──────────────────────────┤
+│  Body    │  Main <span class="token punctuation">(</span>任务条区域<span class="token punctuation">)</span>        │
+│          │                          │
+└──────────┴──────────────────────────┘</div></code></pre>
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80"></span>
+          自定义布局
+        </h3>
+      <p>使用 <code>ngx-gantt-root</code> 可以完全重新定义布局：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-root</span> <span class="token attr-name">[sideWidth]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#sideTemplate</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- 完全自定义的左侧区域 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#mainTemplate</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- 完全自定义的右侧区域 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-root</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h2 id="%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5" class="docs-header-link">
+          <span header-link="%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5"></span>
+          滚动同步
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-root</code> 内部使用 <code>syncScrollX</code> 和 <code>syncScrollY</code> 指令实现滚动同步。</div>
+
+        <h3 id="%E6%B0%B4%E5%B9%B3%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5" class="docs-header-link">
+          <span header-link="%E6%B0%B4%E5%B9%B3%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5"></span>
+          水平滚动同步
+        </h3>
+      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">syncScrollX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainXScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- 与主区域水平滚动同步 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="%E5%9E%82%E7%9B%B4%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5" class="docs-header-link">
+          <span header-link="%E5%9E%82%E7%9B%B4%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5"></span>
+          垂直滚动同步
+        </h3>
+      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">syncScrollY</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainYScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- 与主区域垂直滚动同步 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5%E6%A0%87%E8%AF%86" class="docs-header-link">
+          <span header-link="%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5%E6%A0%87%E8%AF%86"></span>
+          滚动同步标识
+        </h3>
+      <ul>
+<li><code>ganttTableXScroll</code> - 表格水平滚动</li>
+<li><code>ganttMainXScroll</code> - 主区域水平滚动</li>
+<li><code>ganttMainYScroll</code> - 主区域垂直滚动</li>
+</ul>
+
+        <h2 id="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"></span>
+          完整示例
+        </h2>
+      
+        <h3 id="%E6%89%93%E5%B9%B3%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E6%89%93%E5%B9%B3%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B"></span>
+          打平模式示例
+        </h3>
+      <p>实现同一行多任务不重叠排布：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  GANTT_UPPER_TOKEN<span class="token punctuation">,</span>
+  GanttUpper<span class="token punctuation">,</span>
+  GanttItemInternal<span class="token punctuation">,</span>
+  GanttGroupInternal<span class="token punctuation">,</span>
+  NgxGanttRootComponent<span class="token punctuation">,</span>
+  NgxGanttBarComponent
+<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-flat'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt-root [sideWidth]="300">
+      &lt;ng-template #sideTemplate>
+        &lt;div class="gantt-flat-side-header">项目&lt;/div>
+        &lt;div class="gantt-flat-side-body">
+          @for (group of groups; track group.id) {
+            &lt;div class="gantt-group">
+              &lt;div class="gantt-group-content">
+                {{ group.title }}
+              &lt;/div>
+            &lt;/div>
+          }
+        &lt;/div>
+      &lt;/ng-template>
+
+      &lt;ng-template #mainTemplate>
+        &lt;div class="gantt-main-groups" [style.width.px]="view.width">
+          @for (group of groups; track group.id) {
+            &lt;div class="gantt-main-group">
+              @for (items of group.mergedItems; track $index) {
+                &lt;div class="gantt-flat-items" [style.height.px]="styles().rowHeight">
+                  @for (item of items; track item.id) {
+                    &lt;ngx-gantt-bar [item]="item" [template]="barTemplate()" (barClick)="barClick.emit($event)"> &lt;/ngx-gantt-bar>
+                  }
+                &lt;/div>
+              }
+            &lt;/div>
+          }
+        &lt;/div>
+      &lt;/ng-template>
+    &lt;/ngx-gantt-root>
+  `</span></span><span class="token punctuation">,</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_UPPER_TOKEN<span class="token punctuation">,</span>
+      useExisting<span class="token punctuation">:</span> AppGanttFlatComponent
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>NgxGanttRootComponent<span class="token punctuation">,</span> NgxGanttBarComponent<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppGanttFlatComponent</span> <span class="token keyword">extends</span> <span class="token class-name">GanttUpper</span> <span class="token punctuation">{</span>
+  override groups<span class="token punctuation">:</span> GanttGroupInternal<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 实现打平算法</span>
+  <span class="token keyword">private</span> <span class="token function">buildGroupMergedItems</span><span class="token punctuation">(</span>items<span class="token punctuation">:</span> GanttItemInternal<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> mergedItems<span class="token punctuation">:</span> GanttItemInternal<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 排序</span>
+    items <span class="token operator">=</span> items<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>start <span class="token operator">&amp;&amp;</span> item<span class="token punctuation">.</span>end<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> a<span class="token punctuation">.</span>start<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> b<span class="token punctuation">.</span>start<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 合并算法</span>
+    items<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> inserted <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> mergedItems<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> subItems <span class="token operator">=</span> mergedItems<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> lastItem <span class="token operator">=</span> subItems<span class="token punctuation">[</span>subItems<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 如果当前任务开始时间大于上一行最后一个任务的结束时间，可以插入</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>start<span class="token punctuation">.</span>value <span class="token operator">></span> lastItem<span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          subItems<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          inserted <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+          <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>inserted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        mergedItems<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">[</span>item<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> mergedItems<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E6%A0%BC%E5%92%8C%E7%94%98%E7%89%B9%E5%9B%BE" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E6%A0%BC%E5%92%8C%E7%94%98%E7%89%B9%E5%9B%BE"></span>
+          自定义表格和甘特图
+        </h3>
+      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-root</span> <span class="token attr-name">[sideWidth]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>400<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#sideTemplate</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-table<span class="token punctuation">"</span></span> <span class="token attr-name">syncScrollY</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainYScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>thead</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>任务名称<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>负责人<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>状态<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>thead</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tbody</span><span class="token punctuation">></span></span>
+          @for (item of items; track item.id) {
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{{ item.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{{ item.origin.assignee }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{{ item.origin.status }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+          }
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tbody</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#mainTemplate</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-gantt<span class="token punctuation">"</span></span> <span class="token attr-name">syncScrollX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainXScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gantt-calendar-grid</span> <span class="token attr-name">syncScrollX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainXScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gantt-calendar-grid</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>gantt-main<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gantt-main</span> <span class="token attr-name">[flatItems]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flatItems<span class="token punctuation">"</span></span> <span class="token attr-name">[viewportItems]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewportItems<span class="token punctuation">"</span></span> <span class="token attr-name">syncScrollX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainXScroll<span class="token punctuation">"</span></span> <span class="token attr-name">syncScrollY</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainYScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gantt-main</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-root</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h2 id="%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE"></span>
+          关键配置
+        </h2>
+      
+        <h3 id="sidewidth" class="docs-header-link">
+          <span header-link="sidewidth"></span>
+          sideWidth
+        </h3>
+      <p>设置左侧区域宽度：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-root</span> <span class="token attr-name">[sideWidth]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-root</span><span class="token punctuation">></span></span></div></code></pre>
+<p>如果不设置，左侧区域宽度由内容决定。</p>
+
+        <h3 id="%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5" class="docs-header-link">
+          <span header-link="%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5"></span>
+          滚动同步
+        </h3>
+      <p>确保相关区域使用相同的滚动标识：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token comment" spellcheck="true">&lt;!-- 左侧区域 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">syncScrollX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttTableXScroll<span class="token punctuation">"</span></span> <span class="token attr-name">syncScrollY</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainYScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- 表格内容 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- 右侧区域 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">syncScrollX</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainXScroll<span class="token punctuation">"</span></span> <span class="token attr-name">syncScrollY</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ganttMainYScroll<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- 甘特图内容 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h2 id="%E6%89%A9%E5%B1%95%E4%B8%8E%E9%99%90%E5%88%B6" class="docs-header-link">
+          <span header-link="%E6%89%A9%E5%B1%95%E4%B8%8E%E9%99%90%E5%88%B6"></span>
+          扩展与限制
+        </h2>
+      
+        <h3 id="%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6" class="docs-header-link">
+          <span header-link="%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6"></span>
+          样式定制
+        </h3>
+      <p>可以通过 CSS 完全自定义样式：</p>
+<pre class="language-scss"><code class="language-scss"><div><span class="token selector">::ng-deep .gantt-side </span><span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#f5f5f5</span><span class="token punctuation">;</span>
+  <span class="token property">border-right</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#ddd</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">::ng-deep .gantt-main </span><span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E7%BB%84%E4%BB%B6%E9%99%90%E5%88%B6" class="docs-header-link">
+          <span header-link="%E7%BB%84%E4%BB%B6%E9%99%90%E5%88%B6"></span>
+          组件限制
+        </h3>
+      <ol>
+<li><strong>必须继承 GanttUpper</strong>：自定义布局组件需要继承 <code>GanttUpper</code> 类</li>
+<li><strong>提供 GANTT_UPPER_TOKEN</strong>：需要在 providers 中提供</li>
+<li><strong>滚动同步</strong>：需要正确使用滚动同步指令</li>
+</ol>
+
+        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
+          最小示例
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_UPPER_TOKEN<span class="token punctuation">,</span> GanttUpper<span class="token punctuation">,</span> NgxGanttRootComponent<span class="token punctuation">,</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-custom-layout'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt-root [sideWidth]="300">
+      &lt;ng-template #sideTemplate>
+        &lt;div class="custom-side">
+          &lt;h3>任务列表&lt;/h3>
+          &lt;ul>
+            @for (item of items; track item.id) {
+              &lt;li>{{ item.title }}&lt;/li>
+            }
+          &lt;/ul>
+        &lt;/div>
+      &lt;/ng-template>
+
+      &lt;ng-template #mainTemplate>
+        &lt;div class="custom-main">
+          &lt;h3>甘特图&lt;/h3>
+          &lt;!-- 自定义甘特图内容 -->
+        &lt;/div>
+      &lt;/ng-template>
+    &lt;/ngx-gantt-root>
+  `</span></span><span class="token punctuation">,</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_UPPER_TOKEN<span class="token punctuation">,</span>
+      useExisting<span class="token punctuation">:</span> AppCustomLayoutComponent
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>NgxGanttRootComponent<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppCustomLayoutComponent</span> <span class="token keyword">extends</span> <span class="token class-name">GanttUpper</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">
+          <span header-link="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"></span>
+          常见问题
+        </h2>
+      
+        <h3 id="q:-%E6%BB%9A%E5%8A%A8%E4%B8%8D%E5%90%8C%E6%AD%A5%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E6%BB%9A%E5%8A%A8%E4%B8%8D%E5%90%8C%E6%AD%A5%EF%BC%9F"></span>
+          Q: 滚动不同步？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 检查：</div>
+<ol>
+<li>是否使用了正确的滚动同步标识</li>
+<li>滚动同步指令是否正确应用</li>
+<li>容器是否正确设置了 <code>cdkScrollable</code></li>
+</ol>
+
+        <h3 id="q:-%E5%B8%83%E5%B1%80%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%B8%83%E5%B1%80%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F"></span>
+          Q: 布局显示不正确？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 检查：</div>
+<ol>
+<li>是否继承了 <code>GanttUpper</code> 类</li>
+<li>是否提供了 <code>GANTT_UPPER_TOKEN</code></li>
+<li>CSS 样式是否正确</li>
+</ol>
+
+        <h3 id="q:-%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE-ganttroot-%E5%AE%9E%E4%BE%8B%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE-ganttroot-%E5%AE%9E%E4%BE%8B%EF%BC%9F"></span>
+          Q: 如何访问 ganttRoot 实例？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 使用 <code>@ViewChild</code>：</div>
+<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'ganttRoot'</span><span class="token punctuation">)</span> ganttRoot<span class="token punctuation">:</span> NgxGanttRootComponent<span class="token punctuation">;</span>
+
+<span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>ganttRoot<span class="token punctuation">.</span><span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
+          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
+          相关链接
+        </h2>
+      <ul>
+<li><a href="../core/data-model.md">数据模型</a> - 了解数据结构</li>
+<li><a href="../features/bar.md">Bar 交互</a> - 了解任务条组件</li>
+<li><a target="_blank" href="https://github.com/worktile/ngx-gantt/tree/master/example/src/app/gantt-advanced">example 示例</a> - 查看完整示例</li>
+</ul>

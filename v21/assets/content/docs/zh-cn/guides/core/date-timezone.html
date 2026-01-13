@@ -1,0 +1,131 @@
+<p>ngx-gantt 基于 <code>date-fns</code> 和 <code>@date-fns/tz</code> 处理时间，提供了 <code>GanttDate</code> 类统一处理时间，支持时区配置和多种时间格式输入。</p>
+
+        <h2 id="%E6%97%B6%E9%97%B4%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F" class="docs-header-link">
+          <span header-link="%E6%97%B6%E9%97%B4%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"></span>
+          时间输入格式
+        </h2>
+      <div class="dg-paragraph"><code>GanttItem</code> 的 <code>start</code> 和 <code>end</code> 字段支持以下格式：</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 1. Unix 时间戳（10位秒或13位毫秒）</span>
+<span class="token keyword">const</span> items1<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'任务'</span><span class="token punctuation">,</span>
+    start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 10 位 Unix 时间戳（秒）</span>
+    end<span class="token punctuation">:</span> <span class="token number">1627729997000</span> <span class="token comment" spellcheck="true">// 13 位 Unix 时间戳（毫秒）</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 2. Date 对象</span>
+<span class="token keyword">const</span> items2<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'任务'</span><span class="token punctuation">,</span>
+    start<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">1627729997</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    end<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">1628421197</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="ganttdate-%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C" class="docs-header-link">
+          <span header-link="ganttdate-%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C"></span>
+          GanttDate 时间操作
+        </h2>
+      <div class="dg-paragraph"><code>GanttDate</code> 是基于 <code>date-fns</code> 和 <code>@date-fns/tz</code> 封装的时间工具类，提供了丰富的时间操作方法，使用者可选择性使用，它不是必须的。</div>
+
+        <h3 id="%E5%88%9B%E5%BB%BA-ganttdate" class="docs-header-link">
+          <span header-link="%E5%88%9B%E5%BB%BA-ganttdate"></span>
+          创建 GanttDate
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 当前时间</span>
+<span class="token keyword">const</span> now <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 从 Unix 时间戳（秒，10位）创建</span>
+<span class="token keyword">const</span> date1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 从 Unix 时间戳（毫秒，13位）创建</span>
+<span class="token keyword">const</span> date2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 从 Date 对象创建</span>
+<span class="token keyword">const</span> date3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">1627729997</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 从字符串创建</span>
+<span class="token keyword">const</span> date4 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token string">'2021-07-31'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95" class="docs-header-link">
+          <span header-link="%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"></span>
+          时间操作方法
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 加减时间</span>
+date<span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 加 7 天</span>
+date<span class="token punctuation">.</span><span class="token function">addMonths</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 加 1 个月</span>
+date<span class="token punctuation">.</span><span class="token function">addYears</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 加 1 年</span>
+date<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'week'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 加 1 周（通用方法）</span>
+
+<span class="token comment" spellcheck="true">// 获取时间边界</span>
+date<span class="token punctuation">.</span><span class="token function">startOfDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 当天开始</span>
+date<span class="token punctuation">.</span><span class="token function">endOfDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 当天结束</span>
+date<span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 周开始</span>
+date<span class="token punctuation">.</span><span class="token function">endOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 周结束</span>
+date<span class="token punctuation">.</span><span class="token function">startOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 月初</span>
+date<span class="token punctuation">.</span><span class="token function">endOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 月末</span>
+date<span class="token punctuation">.</span><span class="token function">startOfQuarter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 季度开始</span>
+date<span class="token punctuation">.</span><span class="token function">endOfQuarter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 季度结束</span>
+date<span class="token punctuation">.</span><span class="token function">startOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 年初</span>
+date<span class="token punctuation">.</span><span class="token function">endOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 年末</span>
+
+<span class="token comment" spellcheck="true">// 格式化（使用 date-fns 格式字符串）</span>
+date<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'yyyy-MM-dd'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// '2021-07-31'</span>
+date<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'yyyy-MM-dd HH:mm:ss'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// '2021-07-31 12:00:00'</span>
+
+<span class="token comment" spellcheck="true">// 获取 Unix 时间戳（秒）</span>
+<span class="token keyword">const</span> timestamp <span class="token operator">=</span> date<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 1627729997</span>
+
+<span class="token comment" spellcheck="true">// 判断</span>
+date<span class="token punctuation">.</span><span class="token function">isToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 是否为今天</span>
+date<span class="token punctuation">.</span><span class="token function">isWeekend</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 是否为周末</span></div></code></pre>
+
+        <h2 id="%E6%97%B6%E5%8C%BA%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E6%97%B6%E5%8C%BA%E9%85%8D%E7%BD%AE"></span>
+          时区配置
+        </h2>
+      <p>通过 <code>GANTT_GLOBAL_CONFIG</code> 配置全局时区和周起始日：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 时区</span>
+          weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token comment" spellcheck="true">// 周起始日：0=周日, 1=周一</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E6%97%B6%E5%8C%BA%E8%AF%B4%E6%98%8E" class="docs-header-link">
+          <span header-link="%E6%97%B6%E5%8C%BA%E8%AF%B4%E6%98%8E"></span>
+          时区说明
+        </h3>
+      <ul>
+<li><code>timeZone</code>：使用 IANA 时区标识符（如 <code>&#39;Asia/Shanghai&#39;</code>、<code>&#39;America/New_York&#39;</code>）</li>
+<li>所有时间计算和显示都会基于配置的时区</li>
+<li>如果不配置，使用系统默认时区</li>
+</ul>
+
+        <h3 id="%E5%91%A8%E8%B5%B7%E5%A7%8B%E6%97%A5" class="docs-header-link">
+          <span header-link="%E5%91%A8%E8%B5%B7%E5%A7%8B%E6%97%A5"></span>
+          周起始日
+        </h3>
+      <ul>
+<li><code>weekStartsOn</code>：0-6，分别代表周日到周六</li>
+<li>默认值为 <code>1</code>（周一）</li>
+<li>影响周视图的显示和计算</li>
+</ul>

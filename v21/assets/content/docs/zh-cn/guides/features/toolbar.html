@@ -1,0 +1,309 @@
+
+        <h1 id="%E5%B7%A5%E5%85%B7%E6%A0%8F" class="docs-header-link">
+          <span header-link="%E5%B7%A5%E5%85%B7%E6%A0%8F"></span>
+          工具栏
+        </h1>
+      <p>工具栏提供视图类型切换功能，方便用户在不同时间粒度之间快速切换。</p>
+
+        <h2 id="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB" class="docs-header-link">
+          <span header-link="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB"></span>
+          前置阅读
+        </h2>
+      <p>在深入学习工具栏之前，建议先了解：</p>
+<ul>
+<li><a href="../core/views.md">视图体系</a> - 理解 6 种视图类型</li>
+</ul>
+
+        <h2 id="%E5%90%AF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%A0%8F" class="docs-header-link">
+          <span header-link="%E5%90%AF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%A0%8F"></span>
+          启用工具栏
+        </h2>
+      
+        <h3 id="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8" class="docs-header-link">
+          <span header-link="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"></span>
+          基础使用
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType" [showToolbar]="true">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E9%85%8D%E7%BD%AE%E5%8F%AF%E5%88%87%E6%8D%A2%E7%9A%84%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B" class="docs-header-link">
+          <span header-link="%E9%85%8D%E7%BD%AE%E5%8F%AF%E5%88%87%E6%8D%A2%E7%9A%84%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B"></span>
+          配置可切换的视图类型
+        </h3>
+      <p>通过 <code>toolbarOptions</code> 配置工具栏显示的视图类型：</p>
+<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt
+      [items]="items"
+      [viewType]="viewType"
+      [showToolbar]="true"
+      [toolbarOptions]="toolbarOptions"
+      (viewChange)="onViewChange($event)"
+    >
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>hour<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>quarter<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>year<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token function">onViewChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttView<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'视图切换'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>viewType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> event<span class="token punctuation">.</span>viewType<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%A7%86%E5%9B%BE%E5%88%87%E6%8D%A2" class="docs-header-link">
+          <span header-link="%E8%A7%86%E5%9B%BE%E5%88%87%E6%8D%A2"></span>
+          视图切换
+        </h2>
+      <p>工具栏会自动根据 <code>toolbarOptions.viewTypes</code> 显示对应的视图切换按钮。点击按钮会触发视图切换，并发出 <code>viewChange</code> 事件。</p>
+
+        <h3 id="%E8%A7%86%E5%9B%BE%E5%88%87%E6%8D%A2%E4%BA%8B%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E8%A7%86%E5%9B%BE%E5%88%87%E6%8D%A2%E4%BA%8B%E4%BB%B6"></span>
+          视图切换事件
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onViewChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttView<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> viewType <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 更新视图类型</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> viewType<span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 可以保存用户偏好</span>
+  localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'preferredViewType'</span><span class="token punctuation">,</span> viewType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 可以触发其他逻辑</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">onViewTypeChanged</span><span class="token punctuation">(</span>viewType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E6%A8%A1%E6%9D%BF"></span>
+          自定义工具栏模板
+        </h2>
+      <p>使用 <code>#toolbar</code> 模板可以完全自定义工具栏内容：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[viewType]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewType<span class="token punctuation">"</span></span> <span class="token attr-name">[showToolbar]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#toolbar</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-toolbar<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">*ngFor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>let view of availableViews<span class="token punctuation">"</span></span> <span class="token attr-name">[class.active]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewType <span class="token punctuation">=</span><span class="token punctuation">=</span><span class="token punctuation">=</span> view.value<span class="token punctuation">"</span></span> <span class="token attr-name">(click)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>switchView(view.value)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        {{ view.label }}
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">(click)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>scrollToToday()<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>今天<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">(click)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>exportImage()<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>导出<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%A4%BA%E4%BE%8B"></span>
+          自定义工具栏示例
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType" [showToolbar]="true">
+      &lt;ng-template #toolbar>
+        &lt;div class="custom-toolbar">
+          &lt;div class="view-switcher">
+            &lt;button *ngFor="let view of views" [class.active]="viewType === view.value" (click)="selectView(view.value)">
+              {{ view.label }}
+            &lt;/button>
+          &lt;/div>
+
+          &lt;div class="toolbar-actions">
+            &lt;button (click)="scrollToToday()">&lt;i class="icon-today">&lt;/i> 今天&lt;/button>
+            &lt;button (click)="expandAll()">展开全部&lt;/button>
+            &lt;button (click)="collapseAll()">折叠全部&lt;/button>
+          &lt;/div>
+        &lt;/div>
+      &lt;/ng-template>
+
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  views <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'日'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">.</span>day <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'周'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">.</span>week <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'月'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">.</span>month <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'年'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">.</span>year <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">selectView</span><span class="token punctuation">(</span>viewType<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> viewType<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E5%B7%A5%E5%85%B7%E6%A0%8F%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9" class="docs-header-link">
+          <span header-link="%E5%B7%A5%E5%85%B7%E6%A0%8F%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9"></span>
+          工具栏配置选项
+        </h2>
+      
+        <h3 id="gantttoolbaroptions" class="docs-header-link">
+          <span header-link="gantttoolbaroptions"></span>
+          GanttToolbarOptions
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttToolbarOptions</span> <span class="token punctuation">{</span>
+  viewTypes<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 可切换的视图类型数组</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"></span>
+          配置示例
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 只显示常用视图</span>
+toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 显示所有视图</span>
+toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>hour<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>quarter<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>year<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
+          最小示例
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttToolbarOptions<span class="token punctuation">,</span> GanttView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-toolbar'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt
+      [items]="items"
+      [viewType]="viewType"
+      [showToolbar]="true"
+      [toolbarOptions]="toolbarOptions"
+      (viewChange)="onViewChange($event)"
+    >
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttToolbarComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">onViewChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttView<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> event<span class="token punctuation">.</span>viewType<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E5%B7%A5%E5%85%B7%E6%A0%8F%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6" class="docs-header-link">
+          <span header-link="%E5%B7%A5%E5%85%B7%E6%A0%8F%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6"></span>
+          工具栏样式定制
+        </h2>
+      
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E6%A0%B7%E5%BC%8F" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E6%A0%B7%E5%BC%8F"></span>
+          自定义工具栏样式
+        </h3>
+      <pre class="language-scss"><code class="language-scss"><div><span class="token selector">::ng-deep .gantt-toolbar </span><span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#f5f5f5</span><span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">8</span>px <span class="token number">16</span>px<span class="token punctuation">;</span>
+  <span class="token property">border-bottom</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#e0e0e0</span><span class="token punctuation">;</span>
+
+  <span class="token selector">.toolbar-button </span><span class="token punctuation">{</span>
+    <span class="token property">margin-right</span><span class="token punctuation">:</span> <span class="token number">8</span>px<span class="token punctuation">;</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">4</span>px <span class="token number">12</span>px<span class="token punctuation">;</span>
+    <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#ddd</span><span class="token punctuation">;</span>
+    <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token number">4</span>px<span class="token punctuation">;</span>
+    <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+    <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+
+    <span class="token selector"><span class="token parent important">&amp;</span>.active </span><span class="token punctuation">{</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span><span class="token punctuation">;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+      <span class="token property">border-color</span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">
+          <span header-link="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"></span>
+          常见问题
+        </h2>
+      
+        <h3 id="q:-%E5%B7%A5%E5%85%B7%E6%A0%8F%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%B7%A5%E5%85%B7%E6%A0%8F%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F"></span>
+          Q: 工具栏不显示？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 确保 <code>showToolbar</code> 为 <code>true</code>：</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token punctuation">[</span>showToolbar<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'true'</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="q:-%E5%A6%82%E4%BD%95%E9%9A%90%E8%97%8F%E6%9F%90%E4%BA%9B%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%A6%82%E4%BD%95%E9%9A%90%E8%97%8F%E6%9F%90%E4%BA%9B%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B%EF%BC%9F"></span>
+          Q: 如何隐藏某些视图类型？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 在 <code>toolbarOptions.viewTypes</code> 中只包含需要的视图类型：</div>
+<pre class="language-typescript"><code class="language-typescript"><div>toolbarOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 只显示日视图和月视图</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="q:-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%80%89%E4%B8%AD%E7%9A%84%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%80%89%E4%B8%AD%E7%9A%84%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B%EF%BC%9F"></span>
+          Q: 如何获取当前选中的视图类型？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 监听 <code>viewChange</code> 事件或直接使用 <code>viewType</code> 属性：</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onViewChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttView<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> currentViewType <span class="token operator">=</span> event<span class="token punctuation">.</span>viewType<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="q:-%E5%8F%AF%E4%BB%A5%E5%AE%8C%E5%85%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E5%90%97%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%8F%AF%E4%BB%A5%E5%AE%8C%E5%85%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F%E5%90%97%EF%BC%9F"></span>
+          Q: 可以完全自定义工具栏吗？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 可以，使用 <code>#toolbar</code> 模板可以完全自定义工具栏的内容和样式。</div>
+
+        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
+          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
+          相关链接
+        </h2>
+      <ul>
+<li><a href="../core/views.md">视图体系</a> - 了解 6 种视图类型</li>
+<li><a href="./performance.md">滚动定位</a> - 了解 scrollToToday 等 API</li>
+</ul>

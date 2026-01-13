@@ -1,0 +1,285 @@
+<p>本指南将帮助您在几分钟内开始使用 ngx-gantt。</p>
+
+        <h2 id="%F0%9F%93%A6-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96" class="docs-header-link">
+          <span header-link="%F0%9F%93%A6-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"></span>
+          📦 安装依赖
+        </h2>
+      <p>使用 npm 或 yarn 安装核心包：</p>
+<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @worktile/gantt --save
+<span class="token comment" spellcheck="true"># 或</span>
+yarn add @worktile/gantt</div></code></pre>
+<p>ngx-gantt 需要以下 <strong>peerDependencies</strong>，请确保已安装：</p>
+<ul>
+<li><code>@angular/common</code> &gt;= 21.0.0</li>
+<li><code>@angular/core</code> &gt;= 21.0.0</li>
+<li><code>@angular/cdk</code> &gt;= 21.0.0</li>
+<li><code>rxjs</code> ^6.5.0 || ^7.0.0</li>
+<li><code>date-fns</code> &gt;= 4.0.0</li>
+<li><code>@date-fns/tz</code> &gt;= 1.0.0</li>
+</ul>
+<p>如果尚未安装，请运行：</p>
+<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @angular/cdk date-fns @date-fns/tz --save</div></code></pre>
+
+        <h2 id="%F0%9F%8E%A8-%E6%A0%B7%E5%BC%8F%E5%BC%95%E5%85%A5" class="docs-header-link">
+          <span header-link="%F0%9F%8E%A8-%E6%A0%B7%E5%BC%8F%E5%BC%95%E5%85%A5"></span>
+          🎨 样式引入
+        </h2>
+      <p>ngx-gantt 需要引入样式文件才能正常显示。有两种方式：</p>
+
+        <h3 id="%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E5%9C%A8-angular-json-%E4%B8%AD%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89" class="docs-header-link">
+          <span header-link="%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E5%9C%A8-angular-json-%E4%B8%AD%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"></span>
+          方式一：在 angular.json 中配置（推荐）
+        </h3>
+      <p>在 <code>angular.json</code> 的 <code>styles</code> 数组中添加：</p>
+<pre class="language-json"><code class="language-json"><div><span class="token punctuation">{</span>
+  <span class="token property">"styles"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"node_modules/@worktile/gantt/styles/index.scss"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E5%9C%A8-scss-%E6%96%87%E4%BB%B6%E4%B8%AD%E5%BC%95%E5%85%A5" class="docs-header-link">
+          <span header-link="%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E5%9C%A8-scss-%E6%96%87%E4%BB%B6%E4%B8%AD%E5%BC%95%E5%85%A5"></span>
+          方式二：在 SCSS 文件中引入
+        </h3>
+      <p>在您的全局样式文件（如 <code>styles.scss</code>）中：</p>
+<pre class="language-scss"><code class="language-scss"><div>@use <span class="token string">'@worktile/gantt/styles/index.scss'</span><span class="token punctuation">;</span></div></code></pre>
+<blockquote>
+<div class="dg-paragraph"><strong>💡 提示</strong>：如果使用 <code>@use</code> 语法，确保您的项目支持 Sass（Dart Sass）。</div>
+</blockquote>
+
+        <h2 id="%F0%9F%93%A5-%E5%AF%BC%E5%85%A5%E7%BB%84%E4%BB%B6" class="docs-header-link">
+          <span header-link="%F0%9F%93%A5-%E5%AF%BC%E5%85%A5%E7%BB%84%E4%BB%B6"></span>
+          📥 导入组件
+        </h2>
+      <p>ngx-gantt 支持两种导入方式：<strong>Standalone</strong> 和 <strong>NgModule</strong>。</p>
+
+        <h3 id="standalone-%E6%96%B9%E5%BC%8F%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89" class="docs-header-link">
+          <span header-link="standalone-%E6%96%B9%E5%BC%8F%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"></span>
+          Standalone 方式（推荐）
+        </h3>
+      <p>Standalone 是 Angular 目前推荐的现代导入方式</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-example'</span><span class="token punctuation">,</span>
+  standalone<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务名称" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttExampleComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'设计阶段'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Unix 时间戳（秒）</span>
+      end<span class="token punctuation">:</span> <span class="token number">1628421197</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'开发阶段'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1633345997</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'测试阶段'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1633433997</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1636035597</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="ngmodule-%E6%96%B9%E5%BC%8F" class="docs-header-link">
+          <span header-link="ngmodule-%E6%96%B9%E5%BC%8F"></span>
+          NgModule 方式
+        </h3>
+      <p>如果您仍在使用传统的 NgModule 架构：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    NgxGanttModule
+    <span class="token comment" spellcheck="true">// ... 其他模块</span>
+  <span class="token punctuation">]</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%F0%9F%9A%80-hello-world" class="docs-header-link">
+          <span header-link="%F0%9F%9A%80-hello-world"></span>
+          🚀 Hello World
+        </h2>
+      <p>下面是一个完整的甘特图示例，包含组件类和模板：</p>
+
+        <h3 id="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"></span>
+          完整示例
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-example'</span><span class="token punctuation">,</span>
+  standalone<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务名称" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttExampleComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'设计阶段'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1628421197</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'开发阶段'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1633345997</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'测试阶段'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1633433997</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1636035597</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5" class="docs-header-link">
+          <span header-link="%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5"></span>
+          关键概念
+        </h3>
+      <table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>items</code></td>
+<td>任务数据数组，每个任务至少需要 <code>id</code>、<code>title</code>、<code>start</code> 或 <code>end</code> 属性</td>
+</tr>
+<tr>
+<td><code>viewType</code></td>
+<td>视图类型，支持 <code>hour</code>、<code>day</code>、<code>week</code>、<code>month</code>、<code>quarter</code>、<code>year</code></td>
+</tr>
+<tr>
+<td><code>ngx-gantt-table</code></td>
+<td>表格组件，用于显示任务列表</td>
+</tr>
+<tr>
+<td><code>ngx-gantt-column</code></td>
+<td>表格列定义，通过 <code>#cell</code> 模板自定义单元格内容</td>
+</tr>
+</tbody></table>
+
+        <h3 id="%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F" class="docs-header-link">
+          <span header-link="%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F"></span>
+          时间格式
+        </h3>
+      <div class="dg-paragraph"><code>start</code> 和 <code>end</code> 支持以下格式：</div>
+<ul>
+<li><strong>Unix 时间戳（秒）</strong>：<code>1627729997</code>（推荐）</li>
+<li><strong>Date 对象</strong>：<code>new Date(1627729997 * 1000)</code></li>
+<li><strong>GanttDate 对象</strong>：<code>new GanttDate(1627729997)</code></li>
+</ul>
+<blockquote>
+<div class="dg-paragraph"><strong>💡 提示</strong>：如果只提供 <code>start</code> 或 <code>end</code>，组件会自动计算默认宽度。</div>
+</blockquote>
+
+        <h2 id="%E2%9C%85-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85" class="docs-header-link">
+          <span header-link="%E2%9C%85-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85"></span>
+          ✅ 验证安装
+        </h2>
+      <p>运行应用后，您应该能看到一个包含三个任务的甘特图。如果遇到问题，请查看下方的常见问题部分。</p>
+
+        <h2 id="%F0%9F%93%9A-%E4%B8%8B%E4%B8%80%E6%AD%A5" class="docs-header-link">
+          <span header-link="%F0%9F%93%9A-%E4%B8%8B%E4%B8%80%E6%AD%A5"></span>
+          📚 下一步
+        </h2>
+      <p>现在您已经成功运行了第一个甘特图！接下来可以：</p>
+<ul>
+<li>📖 <a href="../core/data-model.md">数据模型</a> - 学习 GanttItem 和 GanttGroup 的结构</li>
+<li>⏰ <a href="../core/date-timezone.md">时间与时区</a> - 理解时间处理和时区配置</li>
+<li>🎨 <a href="../features/index.md">功能指南</a> - 了解任务拖拽、依赖链接等高级功能</li>
+<li>🎯 <a target="_blank" href="https://github.com/worktile/ngx-gantt/tree/master/example/src/app/gantt">完整示例</a> - 参考更多实际使用场景</li>
+</ul>
+
+        <h2 id="%E2%9D%93-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">
+          <span header-link="%E2%9D%93-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"></span>
+          ❓ 常见问题
+        </h2>
+      
+        <h3 id="%E6%A0%B7%E5%BC%8F%E6%9C%AA%E7%94%9F%E6%95%88%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E6%A0%B7%E5%BC%8F%E6%9C%AA%E7%94%9F%E6%95%88%EF%BC%9F"></span>
+          样式未生效？
+        </h3>
+      <ul>
+<li>确保已正确引入样式文件</li>
+<li>检查浏览器控制台是否有样式加载错误</li>
+<li>确认使用的是 Sass（Dart Sass）而不是 Node Sass</li>
+</ul>
+
+        <h3 id="%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F"></span>
+          时间显示不正确？
+        </h3>
+      <ul>
+<li>检查时间格式是否正确，确保使用 Unix 时间戳（秒）或 Date 对象</li>
+<li>查看 <a href="../core/date-timezone.md">时间与时区</a> 了解更多</li>
+<li>确认时区配置是否正确</li>
+</ul>
+
+        <h3 id="%E7%BB%84%E4%BB%B6%E6%9C%AA%E6%98%BE%E7%A4%BA%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E7%BB%84%E4%BB%B6%E6%9C%AA%E6%98%BE%E7%A4%BA%EF%BC%9F"></span>
+          组件未显示？
+        </h3>
+      <ul>
+<li>检查是否正确导入了组件</li>
+<li>确认 <code>items</code> 数组不为空</li>
+<li>查看浏览器控制台是否有错误信息</li>
+<li>确认样式文件已正确引入</li>
+</ul>
+
+        <h3 id="%E5%AF%BC%E5%85%A5%E9%94%99%E8%AF%AF%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E5%AF%BC%E5%85%A5%E9%94%99%E8%AF%AF%EF%BC%9F"></span>
+          导入错误？
+        </h3>
+      <ul>
+<li>确认已安装所有 peer dependencies</li>
+<li>检查 Angular 版本是否符合要求（&gt;= 21.0.0）</li>
+<li>确认使用的是 Standalone 或 NgModule 方式之一</li>
+</ul>
+<!-- ## 🔗 相关链接
+
+- [核心概念](../core/index.md) - 深入理解数据模型、时间、视图和性能
+- [功能指南](../features/index.md) - 详细的功能使用说明
+- [配置与样式](../configuration/index.md) - 全局配置、主题化和国际化
+- [GitHub 仓库](https://github.com/worktile/ngx-gantt) - 查看源码和提交 Issue -->
