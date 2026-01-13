@@ -208,12 +208,6 @@
                   "name": "章节列表",
                   "level": 2,
                   "type": "h2"
-                },
-                {
-                  "id": "%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83",
-                  "name": "快速参考",
-                  "level": 2,
-                  "type": "h2"
                 }
               ],
               "contentPath": "docs/zh-cn/guides/core/index.html",
@@ -705,44 +699,26 @@
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-bar-%E6%A8%A1%E6%9D%BF",
-                  "name": "自定义 Bar 模板",
+                  "id": "bar-%E5%B1%95%E7%A4%BA",
+                  "name": "Bar 展示",
                   "level": 2,
                   "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-bar-%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义 Bar 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+                  "name": "模板上下文",
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
                   "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-item-%E6%A8%A1%E6%9D%BF",
                   "name": "自定义 Item 模板",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E6%8B%96%E6%8B%BD%E4%BA%A4%E4%BA%92",
-                  "name": "拖拽交互",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1",
-                  "name": "事件对象",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%8B%96%E6%8B%BD%E7%A6%81%E7%94%A8",
-                  "name": "拖拽禁用",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E7%A6%81%E7%94%A8%E6%89%80%E6%9C%89-bar-%E6%8B%96%E6%8B%BD",
-                  "name": "禁用所有 Bar 拖拽",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E8%84%B1%E5%AE%85",
-                  "name": "禁用指定任务脱宅",
                   "level": 3,
                   "type": "h3"
                 },
@@ -765,8 +741,50 @@
                   "type": "h3"
                 },
                 {
+                  "id": "%E6%8B%96%E6%8B%BD%E4%BA%A4%E4%BA%92",
+                  "name": "拖拽交互",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+                  "name": "启用拖拽",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1",
+                  "name": "事件对象",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%A6%81%E7%94%A8%E6%8B%96%E6%8B%BD",
+                  "name": "禁用拖拽",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%A6%81%E7%94%A8%E6%89%80%E6%9C%89-bar-%E6%8B%96%E6%8B%BD",
+                  "name": "禁用所有 Bar 拖拽",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8B%96%E6%8B%BD",
+                  "name": "禁用指定任务拖拽",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
                   "id": "%E6%8B%96%E6%8B%BD%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A0%BC%E5%BC%8F",
                   "name": "拖拽提示框格式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
                   "level": 2,
                   "type": "h2"
                 },
@@ -793,6 +811,18 @@
                   "name": "Q: 如何获取拖拽后的新时间？",
                   "level": 3,
                   "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%96%E6%8B%BD%E6%97%B6%E7%9A%84%E6%8F%90%E7%A4%BA%E6%A1%86%E5%86%85%E5%AE%B9%EF%BC%9F",
+                  "name": "Q: 如何自定义拖拽时的提示框内容？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
                 }
               ],
               "contentPath": "docs/zh-cn/guides/features/bar.html",
@@ -1783,76 +1813,16 @@
           "id": "guides/configuration",
           "path": "guides/configuration",
           "channelPath": "guides",
-          "title": "配置",
+          "title": "全局配置",
           "items": [
             {
               "id": "index",
               "path": "configuration",
               "channelPath": "guides",
-              "title": "配置",
+              "title": "全局配置",
               "order": 400,
               "toc": "content",
               "headings": [
-                {
-                  "id": "%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%A0%B7%E5%BC%8F",
-                  "name": "配置与样式",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "%E9%85%8D%E7%BD%AE%E6%A6%82%E8%A7%88",
-                  "name": "配置概览",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E9%85%8D%E7%BD%AE%E5%B1%82%E7%BA%A7",
-                  "name": "配置层级",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
-                  "name": "章节列表",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83",
-                  "name": "快速参考",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE",
-                  "name": "学习建议",
-                  "level": 2,
-                  "type": "h2"
-                }
-              ],
-              "contentPath": "docs/zh-cn/guides/configuration/index.html",
-              "originPath": "docs/zh-cn/guides/configuration/index.md"
-            },
-            {
-              "id": "global-config",
-              "path": "configuration/global-config",
-              "channelPath": "guides",
-              "title": "全局配置",
-              "order": 410,
-              "toc": "content",
-              "headings": [
-                {
-                  "id": "%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
-                  "name": "全局配置",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-                  "name": "前置阅读",
-                  "level": 2,
-                  "type": "h2"
-                },
                 {
                   "id": "%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84",
                   "name": "配置结构",
@@ -1860,8 +1830,14 @@
                   "type": "h2"
                 },
                 {
-                  "id": "%E6%8F%90%E4%BE%9B%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
-                  "name": "提供全局配置",
+                  "id": "%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE",
+                  "name": "默认配置",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%B3%A8%E5%86%8C%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
+                  "name": "注册全局配置",
                   "level": 2,
                   "type": "h2"
                 },
@@ -1876,94 +1852,10 @@
                   "name": "NgModule 方式",
                   "level": 3,
                   "type": "h3"
-                },
-                {
-                  "id": "%E4%BD%BF%E7%94%A8-factory",
-                  "name": "使用 Factory",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E9%85%8D%E7%BD%AE%E9%A1%B9%E8%AF%B4%E6%98%8E",
-                  "name": "配置项说明",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "locale%EF%BC%88%E8%AF%AD%E8%A8%80%EF%BC%89",
-                  "name": "locale（语言）",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "dateoptions%EF%BC%88%E6%97%A5%E6%9C%9F%E9%80%89%E9%A1%B9%EF%BC%89",
-                  "name": "dateOptions（日期选项）",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "linkoptions%EF%BC%88%E9%93%BE%E6%8E%A5%E9%80%89%E9%A1%B9%EF%BC%89",
-                  "name": "linkOptions（链接选项）",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "styleoptions%EF%BC%88%E6%A0%B7%E5%BC%8F%E9%80%89%E9%A1%B9%EF%BC%89",
-                  "name": "styleOptions（样式选项）",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%90%88%E5%B9%B6%E7%AD%96%E7%95%A5",
-                  "name": "合并策略",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%90%88%E5%B9%B6%E7%A4%BA%E4%BE%8B",
-                  "name": "合并示例",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-                  "name": "最小示例",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
-                  "name": "常见问题",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "q:-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-                  "name": "Q: 全局配置不生效？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "q:-%E5%A6%82%E4%BD%95%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%EF%BC%9F",
-                  "name": "Q: 如何动态修改配置？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "q:-%E7%BB%84%E4%BB%B6%E7%BA%A7%E5%88%AB%E9%85%8D%E7%BD%AE%E4%BC%9A%E8%A6%86%E7%9B%96%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E5%90%97%EF%BC%9F",
-                  "name": "Q: 组件级别配置会覆盖全局配置吗？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-                  "name": "相关链接",
-                  "level": 2,
-                  "type": "h2"
                 }
               ],
-              "contentPath": "docs/zh-cn/guides/configuration/global-config.html",
-              "originPath": "docs/zh-cn/guides/configuration/global-config.md"
+              "contentPath": "docs/zh-cn/guides/configuration/index.html",
+              "originPath": "docs/zh-cn/guides/configuration/index.md"
             },
             {
               "id": "i18n",
@@ -1973,18 +1865,6 @@
               "order": 420,
               "toc": "content",
               "headings": [
-                {
-                  "id": "%E5%9B%BD%E9%99%85%E5%8C%96",
-                  "name": "国际化",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-                  "name": "前置阅读",
-                  "level": 2,
-                  "type": "h2"
-                },
                 {
                   "id": "%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85",
                   "name": "内置语言包",
@@ -1998,28 +1878,10 @@
                   "type": "h3"
                 },
                 {
-                  "id": "%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2",
-                  "name": "语言切换",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%85%A8%E5%B1%80%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2",
-                  "name": "全局语言切换",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
                   "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
                   "name": "自定义语言包",
                   "level": 2,
                   "type": "h2"
-                },
-                {
-                  "id": "%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
-                  "name": "创建自定义语言包",
-                  "level": 3,
-                  "type": "h3"
                 },
                 {
                   "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
@@ -2034,52 +1896,10 @@
                   "type": "h3"
                 },
                 {
-                  "id": "%E8%AF%AD%E8%A8%80%E5%8C%85%E7%BB%93%E6%9E%84",
-                  "name": "语言包结构",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "gantti18nlocaleconfig",
-                  "name": "GanttI18nLocaleConfig",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "tickformats-%E6%A0%BC%E5%BC%8F",
-                  "name": "tickFormats 格式",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-                  "name": "最小示例",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80",
-                  "name": "使用内置语言",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
-                  "name": "自定义语言包",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
                   "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
                   "name": "常见问题",
                   "level": 2,
                   "type": "h2"
-                },
-                {
-                  "id": "q:-%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-                  "name": "Q: 语言切换不生效？",
-                  "level": 3,
-                  "type": "h3"
                 },
                 {
                   "id": "q:-%E5%A6%82%E4%BD%95%E5%8F%AA%E8%A6%86%E7%9B%96%E9%83%A8%E5%88%86%E8%A7%86%E5%9B%BE%E7%9A%84%E6%96%87%E6%9C%AC%EF%BC%9F",
@@ -2090,6 +1910,12 @@
                 {
                   "id": "q:-datelocale-%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F",
                   "name": "Q: dateLocale 是必需的吗？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E6%A0%BC%E5%BC%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8D%E7%94%9F%E6%95%88%E6%88%96%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8%EF%BC%9F",
+                  "name": "Q: 格式字符串不生效或显示异常？",
                   "level": 3,
                   "type": "h3"
                 },
@@ -2112,86 +1938,20 @@
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E4%B8%BB%E9%A2%98%E5%8C%96",
-                  "name": "主题化",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-                  "name": "前置阅读",
+                  "id": "%E5%9F%BA%E7%A1%80%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE",
+                  "name": "基础样式配置",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E4%B8%A4%E7%A7%8D%E4%B8%BB%E9%A2%98%E5%8C%96%E6%96%B9%E5%BC%8F",
-                  "name": "两种主题化方式",
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98",
+                  "name": "自定义主题",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "scss-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96",
-                  "name": "SCSS 变量覆盖",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%8F%98%E9%87%8F%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE",
-                  "name": "变量文件位置",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%A6%86%E7%9B%96%E6%96%B9%E5%BC%8F",
-                  "name": "覆盖方式",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E4%B8%BB%E8%A6%81%E5%8F%98%E9%87%8F",
-                  "name": "主要变量",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E4%B8%BB%E9%A2%98%E8%89%B2%E5%8F%98%E9%87%8F",
-                  "name": "主题色变量",
-                  "level": 4,
-                  "type": "h4"
-                },
-                {
-                  "id": "%E6%96%87%E6%9C%AC%E9%A2%9C%E8%89%B2",
-                  "name": "文本颜色",
-                  "level": 4,
-                  "type": "h4"
-                },
-                {
-                  "id": "%E5%B8%83%E5%B1%80%E5%8F%98%E9%87%8F",
-                  "name": "布局变量",
-                  "level": 4,
-                  "type": "h4"
-                },
-                {
-                  "id": "%E7%81%B0%E5%BA%A6%E8%89%B2%E9%98%B6",
-                  "name": "灰度色阶",
-                  "level": 4,
-                  "type": "h4"
-                },
-                {
-                  "id": "%E5%AE%8C%E6%95%B4%E8%A6%86%E7%9B%96%E7%A4%BA%E4%BE%8B",
-                  "name": "完整覆盖示例",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2",
-                  "name": "运行时主题切换",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84",
-                  "name": "主题配置结构",
+                  "id": "%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98",
+                  "name": "如何修改默认主题",
                   "level": 3,
                   "type": "h3"
                 },
@@ -2202,80 +1962,8 @@
                   "type": "h3"
                 },
                 {
-                  "id": "%E5%88%87%E6%8D%A2%E4%B8%BB%E9%A2%98",
-                  "name": "切换主题",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%BB%84%E4%BB%B6%E7%BA%A7%E5%88%AB%E4%B8%BB%E9%A2%98",
-                  "name": "组件级别主题",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E4%B8%BB%E9%A2%98%E5%90%88%E5%B9%B6%E7%AD%96%E7%95%A5",
-                  "name": "主题合并策略",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "css-%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F",
-                  "name": "CSS 变量方式",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "css-%E5%8F%98%E9%87%8F%E5%88%97%E8%A1%A8",
-                  "name": "CSS 变量列表",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2%E7%A4%BA%E4%BE%8B",
-                  "name": "动态切换示例",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-                  "name": "最小示例",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "scss-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96",
-                  "name": "SCSS 变量覆盖",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98",
-                  "name": "运行时主题",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5",
-                  "name": "最佳实践",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "1--%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E6%96%B9%E5%BC%8F",
-                  "name": "1. 选择合适的方式",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "2--%E4%B8%BB%E9%A2%98%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83",
-                  "name": "2. 主题命名规范",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "3--%E4%BF%9D%E6%8C%81%E9%A2%9C%E8%89%B2%E4%B8%80%E8%87%B4%E6%80%A7",
-                  "name": "3. 保持颜色一致性",
+                  "id": "%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E",
+                  "name": "主题配置说明",
                   "level": 3,
                   "type": "h3"
                 },
@@ -2286,28 +1974,10 @@
                   "type": "h2"
                 },
                 {
-                  "id": "q:-scss-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-                  "name": "Q: SCSS 变量覆盖不生效？",
+                  "id": "q:-%E6%88%91%E5%8F%AA%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-bar-%E9%A2%9C%E8%89%B2%EF%BC%8C%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9F",
+                  "name": "Q: 我只需要修改 Bar 颜色，最简单的方式？",
                   "level": 3,
                   "type": "h3"
-                },
-                {
-                  "id": "q:-%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-                  "name": "Q: 运行时主题切换不生效？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "q:-%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8-scss-%E5%8F%98%E9%87%8F%E5%92%8C%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98%EF%BC%9F",
-                  "name": "Q: 如何同时使用 SCSS 变量和运行时主题？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-                  "name": "相关链接",
-                  "level": 2,
-                  "type": "h2"
                 }
               ],
               "contentPath": "docs/zh-cn/guides/configuration/theming.html",
@@ -2331,12 +2001,6 @@
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E8%BF%9B%E9%98%B6%E5%AE%9A%E5%88%B6",
-                  "name": "进阶定制",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
                   "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
                   "name": "章节列表",
                   "level": 2,
@@ -2349,14 +2013,8 @@
                   "type": "h2"
                 },
                 {
-                  "id": "%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE",
-                  "name": "学习建议",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%BF%AB%E9%80%9F%E5%AF%BC%E8%88%AA",
-                  "name": "快速导航",
+                  "id": "%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE",
+                  "name": "使用建议",
                   "level": 2,
                   "type": "h2"
                 }
@@ -2373,76 +2031,28 @@
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
-                  "name": "自定义视图",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-                  "name": "前置阅读",
+                  "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
+                  "name": "什么时候需要自定义视图？",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
-                  "name": "适用场景",
+                  "id": "%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+                  "name": "实现自定义视图",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E7%BB%A7%E6%89%BF-ganttview-%E6%8A%BD%E8%B1%A1%E7%B1%BB",
-                  "name": "继承 GanttView 抽象类",
+                  "id": "%E6%B3%A8%E5%86%8C%E5%92%8C%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+                  "name": "注册和使用自定义视图",
                   "level": 2,
                   "type": "h2"
-                },
-                {
-                  "id": "%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84",
-                  "name": "基础结构",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%BF%85%E9%A1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%96%B9%E6%B3%95",
-                  "name": "必须实现的方法",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "1--rangestartof-/-rangeendof",
-                  "name": "1. rangeStartOf / rangeEndOf",
-                  "level": 4,
-                  "type": "h4"
-                },
-                {
-                  "id": "2--getperiodwidth-/-getdaywidth",
-                  "name": "2. getPeriodWidth / getDayWidth",
-                  "level": 4,
-                  "type": "h4"
-                },
-                {
-                  "id": "3--getperiodticks-/-getunitticks",
-                  "name": "3. getPeriodTicks / getUnitTicks",
-                  "level": 4,
-                  "type": "h4"
-                },
-                {
-                  "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
-                  "name": "完整示例",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%A8%E8%A7%86%E5%9B%BE%EF%BC%88%E9%9A%90%E8%97%8F%E5%91%A8%E6%9C%AB%EF%BC%89",
-                  "name": "自定义周视图（隐藏周末）",
-                  "level": 3,
-                  "type": "h3"
                 },
                 {
                   "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
                   "name": "注册自定义视图",
-                  "level": 2,
-                  "type": "h2"
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
                   "id": "%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
@@ -2451,10 +2061,10 @@
                   "type": "h3"
                 },
                 {
-                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-                  "name": "最小示例",
-                  "level": 2,
-                  "type": "h2"
+                  "id": "%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE",
+                  "name": "覆盖内置视图",
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
                   "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
@@ -2467,24 +2077,6 @@
                   "name": "Q: 自定义视图不显示？",
                   "level": 3,
                   "type": "h3"
-                },
-                {
-                  "id": "q:-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
-                  "name": "Q: 如何调试自定义视图？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "q:-%E5%8F%AF%E4%BB%A5%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE%E5%90%97%EF%BC%9F",
-                  "name": "Q: 可以覆盖内置视图吗？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-                  "name": "相关链接",
-                  "level": 2,
-                  "type": "h2"
                 }
               ],
               "contentPath": "docs/zh-cn/guides/advanced/custom-views.html",
@@ -2499,20 +2091,14 @@
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E9%AB%98%E7%BA%A7%E5%B8%83%E5%B1%80",
-                  "name": "高级布局",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-                  "name": "前置阅读",
+                  "id": "%E2%9A%A0%EF%B8%8F-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA",
+                  "name": "⚠️ 重要提示",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
-                  "name": "适用场景",
+                  "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80%EF%BC%9F",
+                  "name": "什么时候需要自定义布局？",
                   "level": 2,
                   "type": "h2"
                 },
@@ -2529,142 +2115,28 @@
                   "type": "h3"
                 },
                 {
-                  "id": "%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8",
-                  "name": "基础使用",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%B8%83%E5%B1%80%E7%BB%93%E6%9E%84",
-                  "name": "布局结构",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E9%BB%98%E8%AE%A4%E5%B8%83%E5%B1%80",
-                  "name": "默认布局",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80",
-                  "name": "自定义布局",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-                  "name": "滚动同步",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E6%B0%B4%E5%B9%B3%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-                  "name": "水平滚动同步",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%9E%82%E7%9B%B4%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-                  "name": "垂直滚动同步",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5%E6%A0%87%E8%AF%86",
-                  "name": "滚动同步标识",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
-                  "name": "完整示例",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E6%89%93%E5%B9%B3%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B",
-                  "name": "打平模式示例",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E6%A0%BC%E5%92%8C%E7%94%98%E7%89%B9%E5%9B%BE",
-                  "name": "自定义表格和甘特图",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE",
-                  "name": "关键配置",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "sidewidth",
-                  "name": "sideWidth",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-                  "name": "滚动同步",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%89%A9%E5%B1%95%E4%B8%8E%E9%99%90%E5%88%B6",
-                  "name": "扩展与限制",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
-                  "name": "样式定制",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%BB%84%E4%BB%B6%E9%99%90%E5%88%B6",
-                  "name": "组件限制",
+                  "id": "%E6%A8%A1%E6%9D%BF%E7%BB%93%E6%9E%84",
+                  "name": "模板结构",
                   "level": 3,
                   "type": "h3"
                 },
                 {
                   "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
                   "name": "最小示例",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
-                  "name": "常见问题",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "q:-%E6%BB%9A%E5%8A%A8%E4%B8%8D%E5%90%8C%E6%AD%A5%EF%BC%9F",
-                  "name": "Q: 滚动不同步？",
                   "level": 3,
                   "type": "h3"
                 },
                 {
-                  "id": "q:-%E5%B8%83%E5%B1%80%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F",
-                  "name": "Q: 布局显示不正确？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "q:-%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE-ganttroot-%E5%AE%9E%E4%BE%8B%EF%BC%9F",
-                  "name": "Q: 如何访问 ganttRoot 实例？",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-                  "name": "相关链接",
+                  "id": "%E5%AE%9E%E7%8E%B0%E8%A6%81%E7%82%B9",
+                  "name": "实现要点",
                   "level": 2,
                   "type": "h2"
+                },
+                {
+                  "id": "%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81",
+                  "name": "示例代码",
+                  "level": 3,
+                  "type": "h3"
                 }
               ],
               "contentPath": "docs/zh-cn/guides/advanced/advanced-layout.html",
@@ -2731,20 +2203,14 @@
       "toc": "content",
       "headings": [
         {
-          "id": "%E9%AB%98%E7%BA%A7%E5%B8%83%E5%B1%80",
-          "name": "高级布局",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-          "name": "前置阅读",
+          "id": "%E2%9A%A0%EF%B8%8F-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA",
+          "name": "⚠️ 重要提示",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
-          "name": "适用场景",
+          "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80%EF%BC%9F",
+          "name": "什么时候需要自定义布局？",
           "level": 2,
           "type": "h2"
         },
@@ -2761,142 +2227,28 @@
           "type": "h3"
         },
         {
-          "id": "%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8",
-          "name": "基础使用",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%B8%83%E5%B1%80%E7%BB%93%E6%9E%84",
-          "name": "布局结构",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E9%BB%98%E8%AE%A4%E5%B8%83%E5%B1%80",
-          "name": "默认布局",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80",
-          "name": "自定义布局",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-          "name": "滚动同步",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%B0%B4%E5%B9%B3%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-          "name": "水平滚动同步",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%9E%82%E7%9B%B4%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-          "name": "垂直滚动同步",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5%E6%A0%87%E8%AF%86",
-          "name": "滚动同步标识",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
-          "name": "完整示例",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%89%93%E5%B9%B3%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B",
-          "name": "打平模式示例",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E6%A0%BC%E5%92%8C%E7%94%98%E7%89%B9%E5%9B%BE",
-          "name": "自定义表格和甘特图",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE",
-          "name": "关键配置",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "sidewidth",
-          "name": "sideWidth",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%BB%9A%E5%8A%A8%E5%90%8C%E6%AD%A5",
-          "name": "滚动同步",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%89%A9%E5%B1%95%E4%B8%8E%E9%99%90%E5%88%B6",
-          "name": "扩展与限制",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
-          "name": "样式定制",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E7%BB%84%E4%BB%B6%E9%99%90%E5%88%B6",
-          "name": "组件限制",
+          "id": "%E6%A8%A1%E6%9D%BF%E7%BB%93%E6%9E%84",
+          "name": "模板结构",
           "level": 3,
           "type": "h3"
         },
         {
           "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
           "name": "最小示例",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
-          "name": "常见问题",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "q:-%E6%BB%9A%E5%8A%A8%E4%B8%8D%E5%90%8C%E6%AD%A5%EF%BC%9F",
-          "name": "Q: 滚动不同步？",
           "level": 3,
           "type": "h3"
         },
         {
-          "id": "q:-%E5%B8%83%E5%B1%80%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F",
-          "name": "Q: 布局显示不正确？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "q:-%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE-ganttroot-%E5%AE%9E%E4%BE%8B%EF%BC%9F",
-          "name": "Q: 如何访问 ganttRoot 实例？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-          "name": "相关链接",
+          "id": "%E5%AE%9E%E7%8E%B0%E8%A6%81%E7%82%B9",
+          "name": "实现要点",
           "level": 2,
           "type": "h2"
+        },
+        {
+          "id": "%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81",
+          "name": "示例代码",
+          "level": 3,
+          "type": "h3"
         }
       ],
       "contentPath": "docs/zh-cn/guides/advanced/advanced-layout.html",
@@ -2911,76 +2263,28 @@
       "toc": "content",
       "headings": [
         {
-          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
-          "name": "自定义视图",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-          "name": "前置阅读",
+          "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
+          "name": "什么时候需要自定义视图？",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
-          "name": "适用场景",
+          "id": "%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+          "name": "实现自定义视图",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E7%BB%A7%E6%89%BF-ganttview-%E6%8A%BD%E8%B1%A1%E7%B1%BB",
-          "name": "继承 GanttView 抽象类",
+          "id": "%E6%B3%A8%E5%86%8C%E5%92%8C%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+          "name": "注册和使用自定义视图",
           "level": 2,
           "type": "h2"
-        },
-        {
-          "id": "%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84",
-          "name": "基础结构",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%BF%85%E9%A1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%96%B9%E6%B3%95",
-          "name": "必须实现的方法",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "1--rangestartof-/-rangeendof",
-          "name": "1. rangeStartOf / rangeEndOf",
-          "level": 4,
-          "type": "h4"
-        },
-        {
-          "id": "2--getperiodwidth-/-getdaywidth",
-          "name": "2. getPeriodWidth / getDayWidth",
-          "level": 4,
-          "type": "h4"
-        },
-        {
-          "id": "3--getperiodticks-/-getunitticks",
-          "name": "3. getPeriodTicks / getUnitTicks",
-          "level": 4,
-          "type": "h4"
-        },
-        {
-          "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
-          "name": "完整示例",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%A8%E8%A7%86%E5%9B%BE%EF%BC%88%E9%9A%90%E8%97%8F%E5%91%A8%E6%9C%AB%EF%BC%89",
-          "name": "自定义周视图（隐藏周末）",
-          "level": 3,
-          "type": "h3"
         },
         {
           "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
           "name": "注册自定义视图",
-          "level": 2,
-          "type": "h2"
+          "level": 3,
+          "type": "h3"
         },
         {
           "id": "%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
@@ -2989,10 +2293,10 @@
           "type": "h3"
         },
         {
-          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-          "name": "最小示例",
-          "level": 2,
-          "type": "h2"
+          "id": "%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE",
+          "name": "覆盖内置视图",
+          "level": 3,
+          "type": "h3"
         },
         {
           "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
@@ -3005,24 +2309,6 @@
           "name": "Q: 自定义视图不显示？",
           "level": 3,
           "type": "h3"
-        },
-        {
-          "id": "q:-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
-          "name": "Q: 如何调试自定义视图？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "q:-%E5%8F%AF%E4%BB%A5%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE%E5%90%97%EF%BC%9F",
-          "name": "Q: 可以覆盖内置视图吗？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-          "name": "相关链接",
-          "level": 2,
-          "type": "h2"
         }
       ],
       "contentPath": "docs/zh-cn/guides/advanced/custom-views.html",
@@ -3037,12 +2323,6 @@
       "toc": "content",
       "headings": [
         {
-          "id": "%E8%BF%9B%E9%98%B6%E5%AE%9A%E5%88%B6",
-          "name": "进阶定制",
-          "level": 1,
-          "type": "h1"
-        },
-        {
           "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
           "name": "章节列表",
           "level": 2,
@@ -3055,152 +2335,14 @@
           "type": "h2"
         },
         {
-          "id": "%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE",
-          "name": "学习建议",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%BF%AB%E9%80%9F%E5%AF%BC%E8%88%AA",
-          "name": "快速导航",
+          "id": "%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE",
+          "name": "使用建议",
           "level": 2,
           "type": "h2"
         }
       ],
       "contentPath": "docs/zh-cn/guides/advanced/index.html",
       "originPath": "docs/zh-cn/guides/advanced/index.md"
-    },
-    {
-      "id": "global-config",
-      "path": "configuration/global-config",
-      "channelPath": "guides",
-      "title": "全局配置",
-      "order": 410,
-      "toc": "content",
-      "headings": [
-        {
-          "id": "%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
-          "name": "全局配置",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-          "name": "前置阅读",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84",
-          "name": "配置结构",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%8F%90%E4%BE%9B%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
-          "name": "提供全局配置",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "standalone-%E6%96%B9%E5%BC%8F",
-          "name": "Standalone 方式",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "ngmodule-%E6%96%B9%E5%BC%8F",
-          "name": "NgModule 方式",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E4%BD%BF%E7%94%A8-factory",
-          "name": "使用 Factory",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E9%85%8D%E7%BD%AE%E9%A1%B9%E8%AF%B4%E6%98%8E",
-          "name": "配置项说明",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "locale%EF%BC%88%E8%AF%AD%E8%A8%80%EF%BC%89",
-          "name": "locale（语言）",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "dateoptions%EF%BC%88%E6%97%A5%E6%9C%9F%E9%80%89%E9%A1%B9%EF%BC%89",
-          "name": "dateOptions（日期选项）",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "linkoptions%EF%BC%88%E9%93%BE%E6%8E%A5%E9%80%89%E9%A1%B9%EF%BC%89",
-          "name": "linkOptions（链接选项）",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "styleoptions%EF%BC%88%E6%A0%B7%E5%BC%8F%E9%80%89%E9%A1%B9%EF%BC%89",
-          "name": "styleOptions（样式选项）",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%90%88%E5%B9%B6%E7%AD%96%E7%95%A5",
-          "name": "合并策略",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%90%88%E5%B9%B6%E7%A4%BA%E4%BE%8B",
-          "name": "合并示例",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-          "name": "最小示例",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
-          "name": "常见问题",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "q:-%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-          "name": "Q: 全局配置不生效？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "q:-%E5%A6%82%E4%BD%95%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%EF%BC%9F",
-          "name": "Q: 如何动态修改配置？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "q:-%E7%BB%84%E4%BB%B6%E7%BA%A7%E5%88%AB%E9%85%8D%E7%BD%AE%E4%BC%9A%E8%A6%86%E7%9B%96%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E5%90%97%EF%BC%9F",
-          "name": "Q: 组件级别配置会覆盖全局配置吗？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-          "name": "相关链接",
-          "level": 2,
-          "type": "h2"
-        }
-      ],
-      "contentPath": "docs/zh-cn/guides/configuration/global-config.html",
-      "originPath": "docs/zh-cn/guides/configuration/global-config.md"
     },
     {
       "id": "i18n",
@@ -3210,18 +2352,6 @@
       "order": 420,
       "toc": "content",
       "headings": [
-        {
-          "id": "%E5%9B%BD%E9%99%85%E5%8C%96",
-          "name": "国际化",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-          "name": "前置阅读",
-          "level": 2,
-          "type": "h2"
-        },
         {
           "id": "%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85",
           "name": "内置语言包",
@@ -3235,28 +2365,10 @@
           "type": "h3"
         },
         {
-          "id": "%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2",
-          "name": "语言切换",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%85%A8%E5%B1%80%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2",
-          "name": "全局语言切换",
-          "level": 3,
-          "type": "h3"
-        },
-        {
           "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
           "name": "自定义语言包",
           "level": 2,
           "type": "h2"
-        },
-        {
-          "id": "%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
-          "name": "创建自定义语言包",
-          "level": 3,
-          "type": "h3"
         },
         {
           "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
@@ -3271,52 +2383,10 @@
           "type": "h3"
         },
         {
-          "id": "%E8%AF%AD%E8%A8%80%E5%8C%85%E7%BB%93%E6%9E%84",
-          "name": "语言包结构",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "gantti18nlocaleconfig",
-          "name": "GanttI18nLocaleConfig",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "tickformats-%E6%A0%BC%E5%BC%8F",
-          "name": "tickFormats 格式",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-          "name": "最小示例",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80",
-          "name": "使用内置语言",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
-          "name": "自定义语言包",
-          "level": 3,
-          "type": "h3"
-        },
-        {
           "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
           "name": "常见问题",
           "level": 2,
           "type": "h2"
-        },
-        {
-          "id": "q:-%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-          "name": "Q: 语言切换不生效？",
-          "level": 3,
-          "type": "h3"
         },
         {
           "id": "q:-%E5%A6%82%E4%BD%95%E5%8F%AA%E8%A6%86%E7%9B%96%E9%83%A8%E5%88%86%E8%A7%86%E5%9B%BE%E7%9A%84%E6%96%87%E6%9C%AC%EF%BC%9F",
@@ -3327,6 +2397,12 @@
         {
           "id": "q:-datelocale-%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F",
           "name": "Q: dateLocale 是必需的吗？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E6%A0%BC%E5%BC%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8D%E7%94%9F%E6%95%88%E6%88%96%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8%EF%BC%9F",
+          "name": "Q: 格式字符串不生效或显示异常？",
           "level": 3,
           "type": "h3"
         },
@@ -3344,45 +2420,39 @@
       "id": "index",
       "path": "configuration",
       "channelPath": "guides",
-      "title": "配置",
+      "title": "全局配置",
       "order": 400,
       "toc": "content",
       "headings": [
         {
-          "id": "%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%A0%B7%E5%BC%8F",
-          "name": "配置与样式",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E9%85%8D%E7%BD%AE%E6%A6%82%E8%A7%88",
-          "name": "配置概览",
+          "id": "%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84",
+          "name": "配置结构",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E9%85%8D%E7%BD%AE%E5%B1%82%E7%BA%A7",
-          "name": "配置层级",
+          "id": "%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE",
+          "name": "默认配置",
           "level": 3,
           "type": "h3"
         },
         {
-          "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
-          "name": "章节列表",
+          "id": "%E6%B3%A8%E5%86%8C%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
+          "name": "注册全局配置",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83",
-          "name": "快速参考",
-          "level": 2,
-          "type": "h2"
+          "id": "standalone-%E6%96%B9%E5%BC%8F",
+          "name": "Standalone 方式",
+          "level": 3,
+          "type": "h3"
         },
         {
-          "id": "%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE",
-          "name": "学习建议",
-          "level": 2,
-          "type": "h2"
+          "id": "ngmodule-%E6%96%B9%E5%BC%8F",
+          "name": "NgModule 方式",
+          "level": 3,
+          "type": "h3"
         }
       ],
       "contentPath": "docs/zh-cn/guides/configuration/index.html",
@@ -3397,86 +2467,20 @@
       "toc": "content",
       "headings": [
         {
-          "id": "%E4%B8%BB%E9%A2%98%E5%8C%96",
-          "name": "主题化",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-          "name": "前置阅读",
+          "id": "%E5%9F%BA%E7%A1%80%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE",
+          "name": "基础样式配置",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E4%B8%A4%E7%A7%8D%E4%B8%BB%E9%A2%98%E5%8C%96%E6%96%B9%E5%BC%8F",
-          "name": "两种主题化方式",
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98",
+          "name": "自定义主题",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "scss-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96",
-          "name": "SCSS 变量覆盖",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%8F%98%E9%87%8F%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE",
-          "name": "变量文件位置",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%A6%86%E7%9B%96%E6%96%B9%E5%BC%8F",
-          "name": "覆盖方式",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E4%B8%BB%E8%A6%81%E5%8F%98%E9%87%8F",
-          "name": "主要变量",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E4%B8%BB%E9%A2%98%E8%89%B2%E5%8F%98%E9%87%8F",
-          "name": "主题色变量",
-          "level": 4,
-          "type": "h4"
-        },
-        {
-          "id": "%E6%96%87%E6%9C%AC%E9%A2%9C%E8%89%B2",
-          "name": "文本颜色",
-          "level": 4,
-          "type": "h4"
-        },
-        {
-          "id": "%E5%B8%83%E5%B1%80%E5%8F%98%E9%87%8F",
-          "name": "布局变量",
-          "level": 4,
-          "type": "h4"
-        },
-        {
-          "id": "%E7%81%B0%E5%BA%A6%E8%89%B2%E9%98%B6",
-          "name": "灰度色阶",
-          "level": 4,
-          "type": "h4"
-        },
-        {
-          "id": "%E5%AE%8C%E6%95%B4%E8%A6%86%E7%9B%96%E7%A4%BA%E4%BE%8B",
-          "name": "完整覆盖示例",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2",
-          "name": "运行时主题切换",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84",
-          "name": "主题配置结构",
+          "id": "%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98",
+          "name": "如何修改默认主题",
           "level": 3,
           "type": "h3"
         },
@@ -3487,80 +2491,8 @@
           "type": "h3"
         },
         {
-          "id": "%E5%88%87%E6%8D%A2%E4%B8%BB%E9%A2%98",
-          "name": "切换主题",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E7%BB%84%E4%BB%B6%E7%BA%A7%E5%88%AB%E4%B8%BB%E9%A2%98",
-          "name": "组件级别主题",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E4%B8%BB%E9%A2%98%E5%90%88%E5%B9%B6%E7%AD%96%E7%95%A5",
-          "name": "主题合并策略",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "css-%E5%8F%98%E9%87%8F%E6%96%B9%E5%BC%8F",
-          "name": "CSS 变量方式",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "css-%E5%8F%98%E9%87%8F%E5%88%97%E8%A1%A8",
-          "name": "CSS 变量列表",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2%E7%A4%BA%E4%BE%8B",
-          "name": "动态切换示例",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
-          "name": "最小示例",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "scss-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96",
-          "name": "SCSS 变量覆盖",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98",
-          "name": "运行时主题",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5",
-          "name": "最佳实践",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "1--%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E6%96%B9%E5%BC%8F",
-          "name": "1. 选择合适的方式",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "2--%E4%B8%BB%E9%A2%98%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83",
-          "name": "2. 主题命名规范",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "3--%E4%BF%9D%E6%8C%81%E9%A2%9C%E8%89%B2%E4%B8%80%E8%87%B4%E6%80%A7",
-          "name": "3. 保持颜色一致性",
+          "id": "%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E",
+          "name": "主题配置说明",
           "level": 3,
           "type": "h3"
         },
@@ -3571,28 +2503,10 @@
           "type": "h2"
         },
         {
-          "id": "q:-scss-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-          "name": "Q: SCSS 变量覆盖不生效？",
+          "id": "q:-%E6%88%91%E5%8F%AA%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-bar-%E9%A2%9C%E8%89%B2%EF%BC%8C%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9F",
+          "name": "Q: 我只需要修改 Bar 颜色，最简单的方式？",
           "level": 3,
           "type": "h3"
-        },
-        {
-          "id": "q:-%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2%E4%B8%8D%E7%94%9F%E6%95%88%EF%BC%9F",
-          "name": "Q: 运行时主题切换不生效？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "q:-%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8-scss-%E5%8F%98%E9%87%8F%E5%92%8C%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%BB%E9%A2%98%EF%BC%9F",
-          "name": "Q: 如何同时使用 SCSS 变量和运行时主题？",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
-          "name": "相关链接",
-          "level": 2,
-          "type": "h2"
         }
       ],
       "contentPath": "docs/zh-cn/guides/configuration/theming.html",
@@ -3803,12 +2717,6 @@
           "name": "章节列表",
           "level": 2,
           "type": "h2"
-        },
-        {
-          "id": "%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83",
-          "name": "快速参考",
-          "level": 2,
-          "type": "h2"
         }
       ],
       "contentPath": "docs/zh-cn/guides/core/index.html",
@@ -3919,44 +2827,26 @@
       "toc": "content",
       "headings": [
         {
-          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-bar-%E6%A8%A1%E6%9D%BF",
-          "name": "自定义 Bar 模板",
+          "id": "bar-%E5%B1%95%E7%A4%BA",
+          "name": "Bar 展示",
           "level": 2,
           "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-bar-%E6%A8%A1%E6%9D%BF",
+          "name": "自定义 Bar 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+          "name": "模板上下文",
+          "level": 3,
+          "type": "h3"
         },
         {
           "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-item-%E6%A8%A1%E6%9D%BF",
           "name": "自定义 Item 模板",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%8B%96%E6%8B%BD%E4%BA%A4%E4%BA%92",
-          "name": "拖拽交互",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1",
-          "name": "事件对象",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%8B%96%E6%8B%BD%E7%A6%81%E7%94%A8",
-          "name": "拖拽禁用",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E7%A6%81%E7%94%A8%E6%89%80%E6%9C%89-bar-%E6%8B%96%E6%8B%BD",
-          "name": "禁用所有 Bar 拖拽",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E8%84%B1%E5%AE%85",
-          "name": "禁用指定任务脱宅",
           "level": 3,
           "type": "h3"
         },
@@ -3979,8 +2869,50 @@
           "type": "h3"
         },
         {
+          "id": "%E6%8B%96%E6%8B%BD%E4%BA%A4%E4%BA%92",
+          "name": "拖拽交互",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+          "name": "启用拖拽",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1",
+          "name": "事件对象",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%A6%81%E7%94%A8%E6%8B%96%E6%8B%BD",
+          "name": "禁用拖拽",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%A6%81%E7%94%A8%E6%89%80%E6%9C%89-bar-%E6%8B%96%E6%8B%BD",
+          "name": "禁用所有 Bar 拖拽",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8B%96%E6%8B%BD",
+          "name": "禁用指定任务拖拽",
+          "level": 4,
+          "type": "h4"
+        },
+        {
           "id": "%E6%8B%96%E6%8B%BD%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A0%BC%E5%BC%8F",
           "name": "拖拽提示框格式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
           "level": 2,
           "type": "h2"
         },
@@ -4007,6 +2939,18 @@
           "name": "Q: 如何获取拖拽后的新时间？",
           "level": 3,
           "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%96%E6%8B%BD%E6%97%B6%E7%9A%84%E6%8F%90%E7%A4%BA%E6%A1%86%E5%86%85%E5%AE%B9%EF%BC%9F",
+          "name": "Q: 如何自定义拖拽时的提示框内容？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
         }
       ],
       "contentPath": "docs/zh-cn/guides/features/bar.html",

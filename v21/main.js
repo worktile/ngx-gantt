@@ -26,10 +26,10 @@ import {
   isFakeTouchstartFromScreenReader,
   passiveListenerOptions,
   supportsScrollBehavior
-} from "./chunk-XO4YAWWX.js";
+} from "./chunk-NWBM26VC.js";
 import {
   NgxGanttRangeComponent
-} from "./chunk-ARV2EPQ5.js";
+} from "./chunk-6FNT6L6G.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_BOOTSTRAP_LISTENER,
@@ -406,7 +406,7 @@ import {
   ɵɵtwoWayProperty,
   ɵɵviewQuery,
   ɵɵviewQuerySignal
-} from "./chunk-AWOQS22U.js";
+} from "./chunk-EBMWQTJP.js";
 import {
   __async,
   __export,
@@ -53115,8 +53115,8 @@ var GanttIconComponent = class _GanttIconComponent {
 })();
 
 // packages/gantt/src/components/main/gantt-main.component.ts
-var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_0_Defer_2_DepsFn = () => [import("./range.component-D6J2OQHO.js").then((m) => m.NgxGanttRangeComponent)];
-var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_2_Defer_2_DepsFn = () => [import("./bar.component-GR2NSYV5.js").then((m) => m.NgxGanttBarComponent)];
+var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_0_Defer_2_DepsFn = () => [import("./range.component-QDZTU724.js").then((m) => m.NgxGanttRangeComponent)];
+var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_2_Defer_2_DepsFn = () => [import("./bar.component-SDC43D7U.js").then((m) => m.NgxGanttBarComponent)];
 var _c022 = (a0) => ({ group: a0 });
 var _c111 = (a0, a1, a2, a3) => ({ item: a0, refs: a1, baseline: a2, baselineRefs: a3 });
 var _c28 = (a0) => ({ "gantt-quick-time-focus-item-hide": a0 });
@@ -53424,7 +53424,7 @@ var GanttMainComponent = class _GanttMainComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadataAsync(GanttMainComponent, () => [import("./range.component-D6J2OQHO.js").then((m) => m.NgxGanttRangeComponent), import("./bar.component-GR2NSYV5.js").then((m) => m.NgxGanttBarComponent)], (NgxGanttRangeComponent2, NgxGanttBarComponent2) => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadataAsync(GanttMainComponent, () => [import("./range.component-QDZTU724.js").then((m) => m.NgxGanttRangeComponent), import("./bar.component-SDC43D7U.js").then((m) => m.NgxGanttBarComponent)], (NgxGanttRangeComponent2, NgxGanttBarComponent2) => {
     setClassMetadata(GanttMainComponent, [{
       type: Component,
       args: [{ selector: "gantt-main", imports: [

@@ -1,29 +1,13 @@
+<p>当内置的 6 种视图类型无法满足需求时，可以通过继承 <code>GanttView</code> 抽象类创建自定义视图。</p>
 
-        <h1 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE" class="docs-header-link">
-          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE"></span>
-          自定义视图
-        </h1>
-      <p>当内置的 6 种视图类型无法满足需求时，可以通过继承 <code>GanttView</code> 抽象类创建自定义视图。</p>
-
-        <h2 id="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB" class="docs-header-link">
-          <span header-link="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB"></span>
-          前置阅读
-        </h2>
-      <p>在深入学习自定义视图之前，建议先了解：</p>
-<ul>
-<li><a href="../core/views.md">视图体系</a> - 理解视图的工作原理和坐标映射</li>
-</ul>
-
-        <h2 id="%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF" class="docs-header-link">
-          <span header-link="%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"></span>
-          适用场景
+        <h2 id="%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F"></span>
+          什么时候需要自定义视图？
         </h2>
       <div class="dg-paragraph"><strong>适用场景：</strong></div>
 <ul>
 <li>需要特殊的时间粒度（如双周视图、双月视图）</li>
-<li>需要自定义时间刻度显示格式</li>
 <li>需要特殊的时间范围计算逻辑</li>
-<li>需要隐藏周末或特定日期</li>
 </ul>
 <div class="dg-paragraph"><strong>非适用场景：</strong></div>
 <ul>
@@ -31,337 +15,216 @@
 <li>只需要调整时间格式（使用 <code>viewOptions.tickFormats</code> 即可）</li>
 </ul>
 
-        <h2 id="%E7%BB%A7%E6%89%BF-ganttview-%E6%8A%BD%E8%B1%A1%E7%B1%BB" class="docs-header-link">
-          <span header-link="%E7%BB%A7%E6%89%BF-ganttview-%E6%8A%BD%E8%B1%A1%E7%B1%BB"></span>
-          继承 GanttView 抽象类
+        <h2 id="%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE" class="docs-header-link">
+          <span header-link="%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE"></span>
+          实现自定义视图
         </h2>
-      
-        <h3 id="%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84" class="docs-header-link">
-          <span header-link="%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84"></span>
-          基础结构
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
+      <p>以下示例实现了一个双周视图（以2周为一个周期，每周为一个单位）：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
   GanttView<span class="token punctuation">,</span>
   GanttViewOptions<span class="token punctuation">,</span>
-  GanttViewType<span class="token punctuation">,</span>
-  GanttViewDate<span class="token punctuation">,</span>
-  GanttDate<span class="token punctuation">,</span>
-  GanttViewTick<span class="token punctuation">,</span>
-  PERIOD_TICK_TOP<span class="token punctuation">,</span>
-  UNIT_TICK_TOP
-<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
-
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttViewCustom</span> <span class="token keyword">extends</span> <span class="token class-name">GanttView</span> <span class="token punctuation">{</span>
-  override viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 或自定义字符串</span>
-
-  <span class="token keyword">constructor</span><span class="token punctuation">(</span>start<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> end<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> options<span class="token operator">?</span><span class="token punctuation">:</span> GanttViewOptions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">super</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token comment" spellcheck="true">// 必须实现的方法</span>
-  <span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 返回范围的起始日期</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">rangeEndOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 返回范围的结束日期</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 返回一个周期的宽度</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getDayWidth</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 返回一天的宽度</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getPeriodTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 返回周期刻度数组</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getUnitTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 返回单位刻度数组</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h3 id="%E5%BF%85%E9%A1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%96%B9%E6%B3%95" class="docs-header-link">
-          <span header-link="%E5%BF%85%E9%A1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%96%B9%E6%B3%95"></span>
-          必须实现的方法
-        </h3>
-      
-        <h4 id="1--rangestartof-/-rangeendof" class="docs-header-link">
-          <span header-link="1--rangestartof-/-rangeendof"></span>
-          1. rangeStartOf / rangeEndOf
-        </h4>
-      <p>定义时间范围的起始和结束逻辑：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> date<span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 周视图：返回周的开始</span>
-<span class="token punctuation">}</span>
-
-<span class="token function">rangeEndOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> date<span class="token punctuation">.</span><span class="token function">endOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// 周视图：返回周的结束</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h4 id="2--getperiodwidth-/-getdaywidth" class="docs-header-link">
-          <span header-link="2--getperiodwidth-/-getdaywidth"></span>
-          2. getPeriodWidth / getDayWidth
-        </h4>
-      <p>定义宽度计算逻辑：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 一个周期的宽度（如一周的宽度）</span>
-  <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnitWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">7</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token function">getDayWidth</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 一天的宽度</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>options<span class="token punctuation">.</span>showWeekend <span class="token operator">&amp;&amp;</span> date<span class="token punctuation">.</span><span class="token function">isWeekend</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 隐藏周末</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>unitWidth<span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h4 id="3--getperiodticks-/-getunitticks" class="docs-header-link">
-          <span header-link="3--getperiodticks-/-getunitticks"></span>
-          3. getPeriodTicks / getUnitTicks
-        </h4>
-      <p>定义刻度显示逻辑：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">getPeriodTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> ticks<span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token comment" spellcheck="true">// 生成周期刻度</span>
-  <span class="token comment" spellcheck="true">// ...</span>
-  <span class="token keyword">return</span> ticks<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token function">getUnitTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> ticks<span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token comment" spellcheck="true">// 生成单位刻度</span>
-  <span class="token comment" spellcheck="true">// ...</span>
-  <span class="token keyword">return</span> ticks<span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h2 id="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B" class="docs-header-link">
-          <span header-link="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"></span>
-          完整示例
-        </h2>
-      
-        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%A8%E8%A7%86%E5%9B%BE%EF%BC%88%E9%9A%90%E8%97%8F%E5%91%A8%E6%9C%AB%EF%BC%89" class="docs-header-link">
-          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%A8%E8%A7%86%E5%9B%BE%EF%BC%88%E9%9A%90%E8%97%8F%E5%91%A8%E6%9C%AB%EF%BC%89"></span>
-          自定义周视图（隐藏周末）
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
-  GanttView<span class="token punctuation">,</span>
-  GanttViewOptions<span class="token punctuation">,</span>
-  GanttViewType<span class="token punctuation">,</span>
-  GanttViewDate<span class="token punctuation">,</span>
-  GanttDate<span class="token punctuation">,</span>
-  GanttViewTick<span class="token punctuation">,</span>
   PERIOD_TICK_TOP<span class="token punctuation">,</span>
   UNIT_TICK_TOP<span class="token punctuation">,</span>
-  eachDayOfInterval
+  GanttViewDate<span class="token punctuation">,</span>
+  GanttDate<span class="token punctuation">,</span>
+  eachWeekOfInterval<span class="token punctuation">,</span>
+  GanttViewTick
 <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
+<span class="token comment" spellcheck="true">// 默认视图选项</span>
 <span class="token keyword">const</span> defaultViewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
-  unitWidth<span class="token punctuation">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
-  start<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  end<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  unitWidth<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 单位宽度（像素），这里单位是周</span>
+  start<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 视图开始时间</span>
+  end<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 视图结束时间</span>
   loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-    unit<span class="token punctuation">:</span> <span class="token string">'month'</span>
+    amount<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token comment" spellcheck="true">// 加载时长：3个月</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttViewCustomWeek</span> <span class="token keyword">extends</span> <span class="token class-name">GanttView</span> <span class="token punctuation">{</span>
-  override viewType <span class="token operator">=</span> <span class="token string">'custom-week'</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttViewBiweekly</span> <span class="token keyword">extends</span> <span class="token class-name">GanttView</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 显示今日指示器</span>
+  override showNowIndicator <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 视图类型（自定义字符串）</span>
+  override viewType <span class="token operator">=</span> <span class="token string">'biweekly'</span><span class="token punctuation">;</span>
 
   <span class="token keyword">constructor</span><span class="token punctuation">(</span>start<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> end<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> options<span class="token operator">?</span><span class="token punctuation">:</span> GanttViewOptions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 合并默认选项和传入的选项</span>
     <span class="token keyword">super</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">,</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> defaultViewOptions<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
-  <span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> date<span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">/**
+   * 返回指定日期所在范围的起始日期
+   * 双周视图：返回包含该日期的双周周期的开始（每2周为一个周期）
+   */</span>
+  <span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> weekStart <span class="token operator">=</span> date<span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 先找到周的开始</span>
+    <span class="token keyword">const</span> weekNumber <span class="token operator">=</span> weekStart<span class="token punctuation">.</span><span class="token function">getWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 获取周序号</span>
+    <span class="token comment" spellcheck="true">// 如果是奇数周，往前推一周；如果是偶数周，就是当前周</span>
+    <span class="token keyword">const</span> offset <span class="token operator">=</span> <span class="token punctuation">(</span>weekNumber <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 0或1</span>
+    <span class="token keyword">return</span> weekStart<span class="token punctuation">.</span><span class="token function">addWeeks</span><span class="token punctuation">(</span><span class="token operator">-</span>offset<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 返回到双周的开始</span>
   <span class="token punctuation">}</span>
 
-  <span class="token function">rangeEndOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> date<span class="token punctuation">.</span><span class="token function">endOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">/**
+   * 返回指定日期所在范围的结束日期
+   * 双周视图：返回包含该日期的双周周期的结束
+   */</span>
+  <span class="token function">rangeEndOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> rangeStart <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> rangeStart<span class="token punctuation">.</span><span class="token function">addWeeks</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 双周周期的结束（2周后的前一天）</span>
   <span class="token punctuation">}</span>
 
-  <span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 一周的宽度（5个工作日）</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnitWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">5</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">/**
+   * 返回一个周期的宽度（像素）
+   * 双周视图：一个周期是2周，宽度为2个单位宽度
+   */</span>
+  <span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnitWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 2周 = 2个单位宽度</span>
   <span class="token punctuation">}</span>
 
+  <span class="token comment" spellcheck="true">/**
+   * 返回指定日期的宽度（像素）
+   * 双周视图：一天的宽度是单位宽度除以7（一周7天）
+   */</span>
   <span class="token function">getDayWidth</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 周末宽度为 0</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>date<span class="token punctuation">.</span><span class="token function">isWeekend</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>unitWidth<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>unitWidth <span class="token operator">/</span> <span class="token number">7</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 单位是周，一周7天</span>
   <span class="token punctuation">}</span>
 
+  <span class="token comment" spellcheck="true">/**
+   * 返回周期刻度数组
+   * 周期刻度显示在视图的上方，用于标识双周周期
+   */</span>
   <span class="token function">getPeriodTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> days <span class="token operator">=</span> <span class="token function">eachDayOfInterval</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      start<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>start<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
-      end<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>end<span class="token punctuation">.</span>value
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 获取视图范围内的所有周</span>
+    <span class="token keyword">const</span> weeks <span class="token operator">=</span> <span class="token function">eachWeekOfInterval</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span>
+        start<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>start<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
+        end<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">addSeconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
     <span class="token keyword">const</span> ticks<span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">const</span> periodWidth <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token keyword">let</span> workdayIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> days<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span>days<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>date<span class="token punctuation">.</span><span class="token function">isWeekend</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">continue</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 跳过周末</span>
-      <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 每2周生成一个周期刻度</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weeks<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> weekStart <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span>weeks<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> rectX <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">*</span> periodWidth<span class="token punctuation">;</span>
 
-      <span class="token keyword">const</span> rectX <span class="token operator">=</span> workdayIndex <span class="token operator">*</span> <span class="token keyword">this</span><span class="token punctuation">.</span>unitWidth<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 创建周期刻度对象</span>
       <span class="token keyword">const</span> tick <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttViewTick</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-        date<span class="token punctuation">:</span> date<span class="token punctuation">,</span>
+        date<span class="token punctuation">:</span> weekStart<span class="token punctuation">,</span>
         rect<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          x<span class="token punctuation">:</span> rectX<span class="token punctuation">,</span>
-          width<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>unitWidth
+          x<span class="token punctuation">:</span> rectX<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// X 坐标</span>
+          width<span class="token punctuation">:</span> periodWidth <span class="token comment" spellcheck="true">// 宽度（2周）</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         label<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          text<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`第</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>workdayIndex <span class="token operator">/</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">周`</span></span><span class="token punctuation">,</span>
-          y<span class="token punctuation">:</span> PERIOD_TICK_TOP<span class="token punctuation">,</span>
-          x<span class="token punctuation">:</span> rectX <span class="token operator">+</span> periodWidth <span class="token operator">/</span> <span class="token number">2</span>
+          text<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>weekStart<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'MM/dd'</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> - </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>weekStart<span class="token punctuation">.</span><span class="token function">addWeeks</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'MM/dd'</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 显示双周范围</span>
+          y<span class="token punctuation">:</span> PERIOD_TICK_TOP<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Y 坐标（周期刻度位置）</span>
+          x<span class="token punctuation">:</span> rectX <span class="token operator">+</span> periodWidth <span class="token operator">/</span> <span class="token number">2</span> <span class="token comment" spellcheck="true">// 标签居中</span>
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
       ticks<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>tick<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      workdayIndex<span class="token operator">++</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
     <span class="token keyword">return</span> ticks<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
+  <span class="token comment" spellcheck="true">/**
+   * 返回单位刻度数组
+   * 单位刻度显示在视图的下方，用于标识每周
+   */</span>
   <span class="token function">getUnitTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> days <span class="token operator">=</span> <span class="token function">eachDayOfInterval</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      start<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>start<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
-      end<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>end<span class="token punctuation">.</span>value
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 获取视图范围内的所有周</span>
+    <span class="token keyword">const</span> weeks <span class="token operator">=</span> <span class="token function">eachWeekOfInterval</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span>
+        start<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>start<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
+        end<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">addSeconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
     <span class="token keyword">const</span> ticks<span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">const</span> unitWidth <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnitWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token keyword">let</span> workdayIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> days<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span>days<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>date<span class="token punctuation">.</span><span class="token function">isWeekend</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">continue</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 跳过周末</span>
-      <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 遍历所有周，生成单位刻度</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weeks<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> weekStart <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span>weeks<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> rectX <span class="token operator">=</span> i <span class="token operator">*</span> unitWidth<span class="token punctuation">;</span>
 
-      <span class="token keyword">const</span> rectX <span class="token operator">=</span> workdayIndex <span class="token operator">*</span> unitWidth<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 创建单位刻度对象</span>
       <span class="token keyword">const</span> tick <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttViewTick</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-        date<span class="token punctuation">:</span> date<span class="token punctuation">,</span>
+        date<span class="token punctuation">:</span> weekStart<span class="token punctuation">,</span>
         rect<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          x<span class="token punctuation">:</span> rectX<span class="token punctuation">,</span>
-          width<span class="token punctuation">:</span> unitWidth
+          x<span class="token punctuation">:</span> rectX<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// X 坐标</span>
+          width<span class="token punctuation">:</span> unitWidth <span class="token comment" spellcheck="true">// 宽度（1周）</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
         label<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          text<span class="token punctuation">:</span> date<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'MM/dd'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-          y<span class="token punctuation">:</span> UNIT_TICK_TOP<span class="token punctuation">,</span>
-          x<span class="token punctuation">:</span> rectX <span class="token operator">+</span> unitWidth <span class="token operator">/</span> <span class="token number">2</span>
+          text<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`第</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>weekStart<span class="token punctuation">.</span><span class="token function">getWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)}周`</span></span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 显示周序号</span>
+          y<span class="token punctuation">:</span> UNIT_TICK_TOP<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Y 坐标（单位刻度位置）</span>
+          x<span class="token punctuation">:</span> rectX <span class="token operator">+</span> unitWidth <span class="token operator">/</span> <span class="token number">2</span> <span class="token comment" spellcheck="true">// 标签居中</span>
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
       ticks<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>tick<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      workdayIndex<span class="token operator">++</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
     <span class="token keyword">return</span> ticks<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h2 id="%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE" class="docs-header-link">
+        <h2 id="%E6%B3%A8%E5%86%8C%E5%92%8C%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE" class="docs-header-link">
+          <span header-link="%E6%B3%A8%E5%86%8C%E5%92%8C%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE"></span>
+          注册和使用自定义视图
+        </h2>
+      
+        <h3 id="%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE" class="docs-header-link">
           <span header-link="%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE"></span>
           注册自定义视图
-        </h2>
-      <p>使用 <code>registerView</code> 函数注册自定义视图：</p>
+        </h3>
+      <p>使用 <code>registerView</code> 函数注册自定义视图，建议在应用启动时注册：</p>
 <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewCustomWeek <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./custom-week-view'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewCustom <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./custom-day-view'</span><span class="token punctuation">;</span>
 
-<span class="token comment" spellcheck="true">// 在应用启动时注册</span>
-<span class="token function">registerView</span><span class="token punctuation">(</span><span class="token string">'custom-week'</span><span class="token punctuation">,</span> GanttViewCustomWeek<span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+<span class="token comment" spellcheck="true">// 在应用启动时注册（如 main.ts 或 app.component.ts）</span>
+<span class="token function">registerView</span><span class="token punctuation">(</span><span class="token string">'biweekly'</span><span class="token punctuation">,</span> GanttViewBiweekly<span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
 
         <h3 id="%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE" class="docs-header-link">
           <span header-link="%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE"></span>
           使用自定义视图
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <p>注册后，在组件中通过 <code>viewType</code> 属性使用自定义视图：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" [viewType]="'custom-week'">
-      &lt;!-- ... -->
+    &lt;ngx-gantt [items]="items" [viewType]="'biweekly'">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
     &lt;/ngx-gantt>
   `</span></span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
-  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
-          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
-          最小示例
-        </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// custom-view.ts</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span>
-  GanttView<span class="token punctuation">,</span>
-  GanttViewOptions<span class="token punctuation">,</span>
-  GanttViewType<span class="token punctuation">,</span>
-  GanttViewDate<span class="token punctuation">,</span>
-  GanttDate<span class="token punctuation">,</span>
-  GanttViewTick<span class="token punctuation">,</span>
-  PERIOD_TICK_TOP<span class="token punctuation">,</span>
-  UNIT_TICK_TOP
-<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+        <h3 id="%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE" class="docs-header-link">
+          <span header-link="%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE"></span>
+          覆盖内置视图
+        </h3>
+      <p>如果需要覆盖内置视图，使用相同的 <code>GanttViewType</code> 值：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewBiweekly <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./biweekly-view'</span><span class="token punctuation">;</span>
 
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttViewCustom</span> <span class="token keyword">extends</span> <span class="token class-name">GanttView</span> <span class="token punctuation">{</span>
-  override viewType <span class="token operator">=</span> <span class="token string">'custom'</span><span class="token punctuation">;</span>
-
-  <span class="token keyword">constructor</span><span class="token punctuation">(</span>start<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> end<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> options<span class="token operator">?</span><span class="token punctuation">:</span> GanttViewOptions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">super</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> date<span class="token punctuation">.</span><span class="token function">startOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">rangeEndOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> GanttDate <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> date<span class="token punctuation">.</span><span class="token function">endOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnitWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">30</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getDayWidth</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>unitWidth<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getPeriodTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 实现周期刻度</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">getUnitTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 实现单位刻度</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// app.component.ts</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> OnInit <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> registerView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewCustom <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./custom-view'</span><span class="token punctuation">;</span>
-
-<span class="token function">registerView</span><span class="token punctuation">(</span><span class="token string">'custom'</span><span class="token punctuation">,</span> GanttViewCustom<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" [viewType]="'custom'">
-      &lt;!-- ... -->
-    &lt;/ngx-gantt>
-  `</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token keyword">implements</span> <span class="token class-name">OnInit</span> <span class="token punctuation">{</span>
-  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
+<span class="token comment" spellcheck="true">// 覆盖内置的周视图</span>
+<span class="token function">registerView</span><span class="token punctuation">(</span>GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewBiweekly<span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
 
         <h2 id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">
           <span header-link="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"></span>
@@ -375,33 +238,6 @@
       <div class="dg-paragraph"><strong>A:</strong> 检查：</div>
 <ol>
 <li>是否调用了 <code>registerView</code> 注册视图</li>
-<li><code>viewType</code> 是否与注册时的类型一致</li>
+<li>检查注册的 <code>viewType</code> 与使用的 viewType 是否一致</li>
 <li>所有必须的方法是否都已实现</li>
 </ol>
-
-        <h3 id="q:-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F"></span>
-          Q: 如何调试自定义视图？
-        </h3>
-      <div class="dg-paragraph"><strong>A:</strong></div>
-<ol>
-<li>在 <code>getPeriodTicks</code> 和 <code>getUnitTicks</code> 中添加 <code>console.log</code></li>
-<li>检查返回的 <code>GanttViewTick</code> 数组是否正确</li>
-<li>检查 <code>rect</code> 和 <code>label</code> 的坐标是否正确</li>
-</ol>
-
-        <h3 id="q:-%E5%8F%AF%E4%BB%A5%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE%E5%90%97%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E5%8F%AF%E4%BB%A5%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE%E5%90%97%EF%BC%9F"></span>
-          Q: 可以覆盖内置视图吗？
-        </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 可以，使用相同的 <code>GanttViewType</code> 值：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">registerView</span><span class="token punctuation">(</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewCustom<span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
-
-        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
-          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
-          相关链接
-        </h2>
-      <ul>
-<li><a href="../core/views.md">视图体系</a> - 了解视图工作原理</li>
-<li><a target="_blank" href="https://github.com/worktile/ngx-gantt/tree/master/example/src/app/gantt-custom-view">example 示例</a> - 查看完整示例</li>
-</ul>

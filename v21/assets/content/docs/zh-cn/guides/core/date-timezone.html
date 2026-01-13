@@ -92,10 +92,11 @@ date<span class="token punctuation">.</span><span class="token function">isWeeke
           时区配置
         </h2>
       <p>通过 <code>GANTT_GLOBAL_CONFIG</code> 配置全局时区和周起始日：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
 
-@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
       provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
@@ -107,8 +108,7 @@ date<span class="token punctuation">.</span><span class="token function">isWeeke
       <span class="token punctuation">}</span> as GanttGlobalConfig
     <span class="token punctuation">}</span>
   <span class="token punctuation">]</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
 
         <h3 id="%E6%97%B6%E5%8C%BA%E8%AF%B4%E6%98%8E" class="docs-header-link">
           <span header-link="%E6%97%B6%E5%8C%BA%E8%AF%B4%E6%98%8E"></span>
