@@ -42,7 +42,7 @@ const defaultViewOptions: GanttViewOptions = {
 };
 
 export abstract class GanttView {
-    viewType: GanttViewType;
+    viewType: GanttViewType | string;
 
     start$: BehaviorSubject<GanttDate>;
 

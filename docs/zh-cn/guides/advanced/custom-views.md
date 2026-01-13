@@ -4,255 +4,173 @@ path: 'custom-views'
 order: 510
 ---
 
-# 自定义视图
-
 当内置的 6 种视图类型无法满足需求时，可以通过继承 `GanttView` 抽象类创建自定义视图。
 
-## 前置阅读
-
-在深入学习自定义视图之前，建议先了解：
-
-- [视图体系](../core/views.md) - 理解视图的工作原理和坐标映射
-
-## 适用场景
+## 什么时候需要自定义视图？
 
 **适用场景：**
 
 - 需要特殊的时间粒度（如双周视图、双月视图）
-- 需要自定义时间刻度显示格式
 - 需要特殊的时间范围计算逻辑
-- 需要隐藏周末或特定日期
 
 **非适用场景：**
 
 - 只需要调整视图样式（使用 CSS 即可）
 - 只需要调整时间格式（使用 `viewOptions.tickFormats` 即可）
 
-## 继承 GanttView 抽象类
+## 实现自定义视图
 
-### 基础结构
-
-```typescript
-import {
-  GanttView,
-  GanttViewOptions,
-  GanttViewType,
-  GanttViewDate,
-  GanttDate,
-  GanttViewTick,
-  PERIOD_TICK_TOP,
-  UNIT_TICK_TOP
-} from '@worktile/gantt';
-
-export class GanttViewCustom extends GanttView {
-  override viewType = GanttViewType.day; // 或自定义字符串
-
-  constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-    super(start, end, options);
-  }
-
-  // 必须实现的方法
-  rangeStartOf(date: GanttDate): GanttDate {
-    // 返回范围的起始日期
-  }
-
-  rangeEndOf(date: GanttDate): GanttDate {
-    // 返回范围的结束日期
-  }
-
-  getPeriodWidth(): number {
-    // 返回一个周期的宽度
-  }
-
-  getDayWidth(date: GanttDate): number {
-    // 返回一天的宽度
-  }
-
-  getPeriodTicks(): GanttViewTick[] {
-    // 返回周期刻度数组
-  }
-
-  getUnitTicks(): GanttViewTick[] {
-    // 返回单位刻度数组
-  }
-}
-```
-
-### 必须实现的方法
-
-#### 1. rangeStartOf / rangeEndOf
-
-定义时间范围的起始和结束逻辑：
-
-```typescript
-rangeStartOf(date: GanttDate): GanttDate {
-  return date.startOfWeek({ weekStartsOn: 1 });  // 周视图：返回周的开始
-}
-
-rangeEndOf(date: GanttDate): GanttDate {
-  return date.endOfWeek({ weekStartsOn: 1 });    // 周视图：返回周的结束
-}
-```
-
-#### 2. getPeriodWidth / getDayWidth
-
-定义宽度计算逻辑：
-
-```typescript
-getPeriodWidth(): number {
-  // 一个周期的宽度（如一周的宽度）
-  return this.getUnitWidth() * 7;
-}
-
-getDayWidth(date: GanttDate): number {
-  // 一天的宽度
-  if (!this.options.showWeekend && date.isWeekend()) {
-    return 0;  // 隐藏周末
-  }
-  return this.unitWidth;
-}
-```
-
-#### 3. getPeriodTicks / getUnitTicks
-
-定义刻度显示逻辑：
-
-```typescript
-getPeriodTicks(): GanttViewTick[] {
-  const ticks: GanttViewTick[] = [];
-  // 生成周期刻度
-  // ...
-  return ticks;
-}
-
-getUnitTicks(): GanttViewTick[] {
-  const ticks: GanttViewTick[] = [];
-  // 生成单位刻度
-  // ...
-  return ticks;
-}
-```
-
-## 完整示例
-
-### 自定义周视图（隐藏周末）
+以下示例实现了一个双周视图（以2周为一个周期，每周为一个单位）：
 
 ```typescript
 import {
   GanttView,
   GanttViewOptions,
-  GanttViewType,
-  GanttViewDate,
-  GanttDate,
-  GanttViewTick,
   PERIOD_TICK_TOP,
   UNIT_TICK_TOP,
-  eachDayOfInterval
+  GanttViewDate,
+  GanttDate,
+  eachWeekOfInterval,
+  GanttViewTick
 } from '@worktile/gantt';
 
+// 默认视图选项
 const defaultViewOptions: GanttViewOptions = {
-  unitWidth: 50,
-  start: new GanttDate().startOfMonth().startOfWeek({ weekStartsOn: 1 }),
-  end: new GanttDate().endOfMonth().endOfWeek({ weekStartsOn: 1 }),
+  unitWidth: 200, // 单位宽度（像素），这里单位是周
+  start: new GanttDate().startOfYear().startOfWeek({ weekStartsOn: 1 }), // 视图开始时间
+  end: new GanttDate().endOfYear().endOfWeek({ weekStartsOn: 1 }), // 视图结束时间
   loadDuration: {
-    amount: 1,
-    unit: 'month'
+    amount: 3,
+    unit: 'month' // 加载时长：3个月
   }
 };
 
-export class GanttViewCustomWeek extends GanttView {
-  override viewType = 'custom-week';
+export class GanttViewBiweekly extends GanttView {
+  // 显示今日指示器
+  override showNowIndicator = true;
+
+  // 视图类型（自定义字符串）
+  override viewType = 'biweekly';
 
   constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
+    // 合并默认选项和传入的选项
     super(start, end, Object.assign({}, defaultViewOptions, options));
   }
 
-  rangeStartOf(date: GanttDate): GanttDate {
-    return date.startOfWeek({ weekStartsOn: 1 });
+  /**
+   * 返回指定日期所在范围的起始日期
+   * 双周视图：返回包含该日期的双周周期的开始（每2周为一个周期）
+   */
+  rangeStartOf(date: GanttDate) {
+    const weekStart = date.startOfWeek({ weekStartsOn: 1 }); // 先找到周的开始
+    const weekNumber = weekStart.getWeek({ weekStartsOn: 1 }); // 获取周序号
+    // 如果是奇数周，往前推一周；如果是偶数周，就是当前周
+    const offset = (weekNumber - 1) % 2; // 0或1
+    return weekStart.addWeeks(-offset); // 返回到双周的开始
   }
 
-  rangeEndOf(date: GanttDate): GanttDate {
-    return date.endOfWeek({ weekStartsOn: 1 });
+  /**
+   * 返回指定日期所在范围的结束日期
+   * 双周视图：返回包含该日期的双周周期的结束
+   */
+  rangeEndOf(date: GanttDate) {
+    const rangeStart = this.rangeStartOf(date);
+    return rangeStart.addWeeks(2).addDays(-1); // 双周周期的结束（2周后的前一天）
   }
 
-  getPeriodWidth(): number {
-    // 一周的宽度（5个工作日）
-    return this.getUnitWidth() * 5;
+  /**
+   * 返回一个周期的宽度（像素）
+   * 双周视图：一个周期是2周，宽度为2个单位宽度
+   */
+  getPeriodWidth() {
+    return this.getUnitWidth() * 2; // 2周 = 2个单位宽度
   }
 
+  /**
+   * 返回指定日期的宽度（像素）
+   * 双周视图：一天的宽度是单位宽度除以7（一周7天）
+   */
   getDayWidth(date: GanttDate): number {
-    // 周末宽度为 0
-    if (date.isWeekend()) {
-      return 0;
-    }
-    return this.unitWidth;
+    return this.unitWidth / 7; // 单位是周，一周7天
   }
 
+  /**
+   * 返回周期刻度数组
+   * 周期刻度显示在视图的上方，用于标识双周周期
+   */
   getPeriodTicks(): GanttViewTick[] {
-    const days = eachDayOfInterval({
-      start: this.start.value,
-      end: this.end.value
-    });
+    // 获取视图范围内的所有周
+    const weeks = eachWeekOfInterval(
+      {
+        start: this.start.value,
+        end: this.end.addSeconds(1).value
+      },
+      { weekStartsOn: 1 }
+    );
+
     const ticks: GanttViewTick[] = [];
     const periodWidth = this.getPeriodWidth();
 
-    let workdayIndex = 0;
-    for (let i = 0; i < days.length; i++) {
-      const date = new GanttDate(days[i]);
-      if (date.isWeekend()) {
-        continue; // 跳过周末
-      }
+    // 每2周生成一个周期刻度
+    for (let i = 0; i < weeks.length; i += 2) {
+      const weekStart = new GanttDate(weeks[i]);
+      const rectX = (i / 2) * periodWidth;
 
-      const rectX = workdayIndex * this.unitWidth;
+      // 创建周期刻度对象
       const tick = new GanttViewTick({
-        date: date,
+        date: weekStart,
         rect: {
-          x: rectX,
-          width: this.unitWidth
+          x: rectX, // X 坐标
+          width: periodWidth // 宽度（2周）
         },
         label: {
-          text: `第${Math.floor(workdayIndex / 5) + 1}周`,
-          y: PERIOD_TICK_TOP,
-          x: rectX + periodWidth / 2
+          text: `${weekStart.format('MM/dd')} - ${weekStart.addWeeks(2).addDays(-1).format('MM/dd')}`, // 显示双周范围
+          y: PERIOD_TICK_TOP, // Y 坐标（周期刻度位置）
+          x: rectX + periodWidth / 2 // 标签居中
         }
       });
       ticks.push(tick);
-      workdayIndex++;
     }
 
     return ticks;
   }
 
+  /**
+   * 返回单位刻度数组
+   * 单位刻度显示在视图的下方，用于标识每周
+   */
   getUnitTicks(): GanttViewTick[] {
-    const days = eachDayOfInterval({
-      start: this.start.value,
-      end: this.end.value
-    });
+    // 获取视图范围内的所有周
+    const weeks = eachWeekOfInterval(
+      {
+        start: this.start.value,
+        end: this.end.addSeconds(1).value
+      },
+      { weekStartsOn: 1 }
+    );
+
     const ticks: GanttViewTick[] = [];
     const unitWidth = this.getUnitWidth();
 
-    let workdayIndex = 0;
-    for (let i = 0; i < days.length; i++) {
-      const date = new GanttDate(days[i]);
-      if (date.isWeekend()) {
-        continue; // 跳过周末
-      }
+    // 遍历所有周，生成单位刻度
+    for (let i = 0; i < weeks.length; i++) {
+      const weekStart = new GanttDate(weeks[i]);
+      const rectX = i * unitWidth;
 
-      const rectX = workdayIndex * unitWidth;
+      // 创建单位刻度对象
       const tick = new GanttViewTick({
-        date: date,
+        date: weekStart,
         rect: {
-          x: rectX,
-          width: unitWidth
+          x: rectX, // X 坐标
+          width: unitWidth // 宽度（1周）
         },
         label: {
-          text: date.format('MM/dd'),
-          y: UNIT_TICK_TOP,
-          x: rectX + unitWidth / 2
+          text: `第${weekStart.getWeek({ weekStartsOn: 1 })}周`, // 显示周序号
+          y: UNIT_TICK_TOP, // Y 坐标（单位刻度位置）
+          x: rectX + unitWidth / 2 // 标签居中
         }
       });
       ticks.push(tick);
-      workdayIndex++;
     }
 
     return ticks;
@@ -260,99 +178,56 @@ export class GanttViewCustomWeek extends GanttView {
 }
 ```
 
-## 注册自定义视图
+## 注册和使用自定义视图
 
-使用 `registerView` 函数注册自定义视图：
+### 注册自定义视图
+
+使用 `registerView` 函数注册自定义视图，建议在应用启动时注册：
 
 ```typescript
 import { registerView } from '@worktile/gantt';
-import { GanttViewCustomWeek } from './custom-week-view';
+import { GanttViewCustom } from './custom-day-view';
 
-// 在应用启动时注册
-registerView('custom-week', GanttViewCustomWeek);
+// 在应用启动时注册（如 main.ts 或 app.component.ts）
+registerView('biweekly', GanttViewBiweekly);
 ```
 
 ### 使用自定义视图
 
+注册后，在组件中通过 `viewType` 属性使用自定义视图：
+
 ```typescript
+import { Component } from '@angular/core';
+import { GanttItem } from '@worktile/gantt';
+
 @Component({
   template: `
-    <ngx-gantt [items]="items" [viewType]="'custom-week'">
-      <!-- ... -->
+    <ngx-gantt [items]="items" [viewType]="'biweekly'">
+      <ngx-gantt-table>
+        <ngx-gantt-column name="任务" width="200px">
+          <ng-template #cell let-item="item">
+            {{ item.title }}
+          </ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
     </ngx-gantt>
   `
 })
 export class MyComponent {
-  items: GanttItem[] = [];
+  items: GanttItem[] = [{ id: '1', title: '任务 1', start: 1627729997, end: 1628421197 }];
 }
 ```
 
-## 最小示例
+### 覆盖内置视图
+
+如果需要覆盖内置视图，使用相同的 `GanttViewType` 值：
 
 ```typescript
-// custom-view.ts
-import {
-  GanttView,
-  GanttViewOptions,
-  GanttViewType,
-  GanttViewDate,
-  GanttDate,
-  GanttViewTick,
-  PERIOD_TICK_TOP,
-  UNIT_TICK_TOP
-} from '@worktile/gantt';
+import { registerView, GanttViewType } from '@worktile/gantt';
+import { GanttViewBiweekly } from './biweekly-view';
 
-export class GanttViewCustom extends GanttView {
-  override viewType = 'custom';
-
-  constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-    super(start, end, options);
-  }
-
-  rangeStartOf(date: GanttDate): GanttDate {
-    return date.startOfMonth();
-  }
-
-  rangeEndOf(date: GanttDate): GanttDate {
-    return date.endOfMonth();
-  }
-
-  getPeriodWidth(): number {
-    return this.getUnitWidth() * 30;
-  }
-
-  getDayWidth(date: GanttDate): number {
-    return this.unitWidth;
-  }
-
-  getPeriodTicks(): GanttViewTick[] {
-    // 实现周期刻度
-    return [];
-  }
-
-  getUnitTicks(): GanttViewTick[] {
-    // 实现单位刻度
-    return [];
-  }
-}
-
-// app.component.ts
-import { Component, OnInit } from '@angular/core';
-import { registerView } from '@worktile/gantt';
-import { GanttViewCustom } from './custom-view';
-
-registerView('custom', GanttViewCustom);
-
-@Component({
-  template: `
-    <ngx-gantt [items]="items" [viewType]="'custom'">
-      <!-- ... -->
-    </ngx-gantt>
-  `
-})
-export class AppComponent implements OnInit {
-  items: GanttItem[] = [];
-}
+// 覆盖内置的周视图
+registerView(GanttViewType.week, GanttViewBiweekly);
 ```
 
 ## 常见问题
@@ -362,26 +237,5 @@ export class AppComponent implements OnInit {
 **A:** 检查：
 
 1. 是否调用了 `registerView` 注册视图
-2. `viewType` 是否与注册时的类型一致
+2. 检查注册的 `viewType` 与使用的 viewType 是否一致
 3. 所有必须的方法是否都已实现
-
-### Q: 如何调试自定义视图？
-
-**A:**
-
-1. 在 `getPeriodTicks` 和 `getUnitTicks` 中添加 `console.log`
-2. 检查返回的 `GanttViewTick` 数组是否正确
-3. 检查 `rect` 和 `label` 的坐标是否正确
-
-### Q: 可以覆盖内置视图吗？
-
-**A:** 可以，使用相同的 `GanttViewType` 值：
-
-```typescript
-registerView(GanttViewType.day, GanttViewCustom);
-```
-
-## 相关链接
-
-- [视图体系](../core/views.md) - 了解视图工作原理
-- [example 示例](https://github.com/worktile/ngx-gantt/tree/master/example/src/app/gantt-custom-view) - 查看完整示例

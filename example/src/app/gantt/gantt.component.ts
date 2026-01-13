@@ -209,7 +209,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     }
 
     viewChange(event: GanttView) {
-        this.selectedViewType = event.viewType;
+        this.selectedViewType = event.viewType as GanttViewType;
     }
 
     refresh() {
