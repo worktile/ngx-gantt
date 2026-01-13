@@ -283,6 +283,6 @@ onDragEnded(event: GanttDragEvent) {
 
 ## 相关链接
 
-- [数据模型](../core/data-model.md) - 了解 GanttItem 的结构
-- [时间与时区](../core/date-timezone.md) - 理解时间字段的处理
-- [任务关联](./links.md) - 学习任务依赖关系的创建
+- [数据模型](guides/core-concepts/data-model) - 了解 GanttItem 的结构
+- [时间与时区](guides/core-concepts/date-timezone) - 理解时间字段的处理
+- [任务关联](guides/features/task-links) - 学习任务依赖关系的创建

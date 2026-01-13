@@ -16,6 +16,6 @@ ngx-gantt 的核心建立在三个基础概念之上：
 
 ## 章节列表
 
-- [数据模型](./data-model.md) - GanttItem/GanttGroup 核心字段、分组模式与树形模式
-- [时间与时区](./date-timezone.md) - GanttDate 时间操作、时间输入格式、时区配置
-- [视图体系](./views.md) - 内置视图类型、ViewOptions 配置
+- [数据模型](guides/core-concepts/data-model) - GanttItem/GanttGroup 核心字段、分组模式与树形模式
+- [视图](guides/core-concepts/views) - 内置视图类型、ViewOptions 配置
+- [时间与时区](guides/core-concepts/date-timezone) - GanttDate 时间操作、时间输入格式、时区配置

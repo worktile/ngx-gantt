@@ -8,8 +8,8 @@ ngx-gantt 提供深度定制能力，支持自定义视图和完全自定义布�
 
 ## 章节列表
 
-- [自定义视图](./custom-views.md) - 继承 `GanttView` 抽象类，创建自定义时间粒度视图
-- [高级布局](./advanced-layout.md) - 使用 `ngx-gantt-root` 完全自定义布局与渲染逻辑
+- [自定义视图](guides/advanced/custom-views) - 继承 `GanttView` 抽象类，创建自定义时间粒度视图
+- [高级布局](guides/advanced/advanced-layout) - 使用 `ngx-gantt-root` 完全自定义布局与渲染逻辑
 
 ## 适用场景
 

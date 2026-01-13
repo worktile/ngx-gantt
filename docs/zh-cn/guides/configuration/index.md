@@ -132,3 +132,8 @@ import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from '@worktile/gantt';
 })
 export class AppModule {}
 ```
+
+## 相关链接
+
+- [国际化配置](guides/configuration/i18n) - 内置语言包、自定义语言包、语言切换
+- [主题样式配置](guides/configuration/theming) - 基础样式配置、自定义主题、多主题支持
