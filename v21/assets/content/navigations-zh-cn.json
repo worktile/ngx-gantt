@@ -1852,6 +1852,12 @@
                   "name": "NgModule 方式",
                   "level": 3,
                   "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
                 }
               ],
               "contentPath": "docs/zh-cn/guides/configuration/index.html",
@@ -2453,6 +2459,12 @@
           "name": "NgModule 方式",
           "level": 3,
           "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
         }
       ],
       "contentPath": "docs/zh-cn/guides/configuration/index.html",
