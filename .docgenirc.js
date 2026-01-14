@@ -14,20 +14,20 @@ module.exports = {
         null,
         {
             title: '组件 API',
-            path: 'configuration',
+            path: 'component-apis',
             lib: 'ngx-gantt',
             locales: {
                 'en-us': {
-                    title: 'Configuration'
+                    title: 'Component APIs'
                 }
             }
         },
         {
             title: '示例',
-            path: 'components',
+            path: 'examples',
             locales: {
                 'en-us': {
-                    title: 'Component'
+                    title: 'Examples'
                 }
             }
         },
