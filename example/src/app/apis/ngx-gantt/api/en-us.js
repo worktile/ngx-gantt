@@ -240,6 +240,126 @@ module.exports = [
                 description: `Footer custom template`,
                 type: 'TemplateRef<any>'
             }
+        ],
+        methods: [
+            {
+                name: 'scrollToToday',
+                description: `Scroll to today's position`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'scrollToDate',
+                description: `Scroll to specified date position`,
+                parameters: [
+                    {
+                        name: 'date',
+                        type: 'number | Date | GanttDate'
+                    }
+                ],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'expandChildren',
+                description: `Expand or collapse sub-tasks of specified task item`,
+                parameters: [
+                    {
+                        name: 'item',
+                        type: 'GanttItemInternal'
+                    }
+                ],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'expandGroup',
+                description: `Expand or collapse specified group`,
+                parameters: [
+                    {
+                        name: 'group',
+                        type: 'GanttGroupInternal'
+                    }
+                ],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'expandAll',
+                description: `Expand all groups and task items`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'collapseAll',
+                description: `Collapse all groups and task items`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'getGanttItem',
+                description: `Get task item by ID`,
+                parameters: [
+                    {
+                        name: 'id',
+                        type: 'string'
+                    }
+                ],
+                returnValue: {
+                    type: 'GanttItemInternal | null'
+                }
+            },
+            {
+                name: 'getGanttItems',
+                description: `Get multiple task items by ID array`,
+                parameters: [
+                    {
+                        name: 'ids',
+                        type: 'string[]'
+                    }
+                ],
+                returnValue: {
+                    type: 'GanttItemInternal[]'
+                }
+            },
+            {
+                name: 'isSelected',
+                description: `Check if specified task item is selected`,
+                parameters: [
+                    {
+                        name: 'id',
+                        type: 'string'
+                    }
+                ],
+                returnValue: {
+                    type: 'boolean'
+                }
+            },
+            {
+                name: 'changeView',
+                description: `Change view type and recalculate`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'rerenderView',
+                description: `Rerender view`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            }
         ]
     }
 ];

@@ -240,6 +240,126 @@ module.exports = [
                 description: `底部自定义模板`,
                 type: 'TemplateRef<any>'
             }
+        ],
+        methods: [
+            {
+                name: 'scrollToToday',
+                description: `滚动到今天的位置`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'scrollToDate',
+                description: `滚动到指定日期位置`,
+                parameters: [
+                    {
+                        name: 'date',
+                        type: 'number | Date | GanttDate'
+                    }
+                ],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'expandChildren',
+                description: `展开或收起指定任务项的子任务`,
+                parameters: [
+                    {
+                        name: 'item',
+                        type: 'GanttItemInternal'
+                    }
+                ],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'expandGroup',
+                description: `展开或收起指定分组`,
+                parameters: [
+                    {
+                        name: 'group',
+                        type: 'GanttGroupInternal'
+                    }
+                ],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'expandAll',
+                description: `展开所有分组和任务项`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'collapseAll',
+                description: `收起所有分组和任务项`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'getGanttItem',
+                description: `根据 ID 获取任务项`,
+                parameters: [
+                    {
+                        name: 'id',
+                        type: 'string'
+                    }
+                ],
+                returnValue: {
+                    type: 'GanttItemInternal | null'
+                }
+            },
+            {
+                name: 'getGanttItems',
+                description: `根据 ID 数组获取多个任务项`,
+                parameters: [
+                    {
+                        name: 'ids',
+                        type: 'string[]'
+                    }
+                ],
+                returnValue: {
+                    type: 'GanttItemInternal[]'
+                }
+            },
+            {
+                name: 'isSelected',
+                description: `判断指定任务项是否被选中`,
+                parameters: [
+                    {
+                        name: 'id',
+                        type: 'string'
+                    }
+                ],
+                returnValue: {
+                    type: 'boolean'
+                }
+            },
+            {
+                name: 'changeView',
+                description: `切换视图类型并重新计算`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            },
+            {
+                name: 'rerenderView',
+                description: `重新渲染视图`,
+                parameters: [],
+                returnValue: {
+                    type: 'void'
+                }
+            }
         ]
     }
 ];
