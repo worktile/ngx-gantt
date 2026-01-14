@@ -1,449 +1,118 @@
+<p>在处理大规模任务数据时，<code>ngx-gantt</code> 通过 <strong>列表虚拟滚动</strong> 和 <strong>视图滚动加载</strong> 来保证流畅的交互体验。</p>
 
-        <h1 id="%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8A%A0%E8%BD%BD" class="docs-header-link">
-          <span header-link="%E6%80%A7%E8%83%BD%E4%B8%8E%E5%8A%A0%E8%BD%BD"></span>
-          性能与加载
-        </h1>
-      <p>ngx-gantt 针对大数据量场景进行了性能优化，支持虚拟滚动、横向滚动加载等功能。</p>
-
-        <h2 id="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB" class="docs-header-link">
-          <span header-link="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB"></span>
-          前置阅读
+        <h2 id="%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6" class="docs-header-link">
+          <span header-link="%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6"></span>
+          核心机制
         </h2>
-      <p>在深入学习性能优化之前，建议先了解：</p>
-<ul>
-<li><a href="../core/data-model.md">数据模型</a> - 理解数据结构</li>
-<li><a href="../core/views.md">视图体系</a> - 理解视图渲染</li>
-</ul>
-
-        <h2 id="%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8" class="docs-header-link">
-          <span header-link="%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8"></span>
-          虚拟滚动
-        </h2>
-      <p>虚拟滚动是 ngx-gantt 的核心性能优化特性，默认启用。</p>
-
-        <h3 id="%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86" class="docs-header-link">
-          <span header-link="%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"></span>
-          工作原理
-        </h3>
-      <p>虚拟滚动只渲染可见区域的任务项，而不是渲染所有任务，从而大幅提升性能。</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" [virtualScrollEnabled]="true">
-      &lt;!-- ... -->
-    &lt;/ngx-gantt>
-  `</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 即使有数千条任务，也能流畅渲染</span>
-  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">generateLargeDataset</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h3 id="%E5%90%AF%E7%94%A8/%E7%A6%81%E7%94%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8" class="docs-header-link">
-          <span header-link="%E5%90%AF%E7%94%A8/%E7%A6%81%E7%94%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8"></span>
-          启用/禁用虚拟滚动
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 启用虚拟滚动（默认）</span>
-<span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt <span class="token punctuation">[</span>virtualScrollEnabled<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"true"</span><span class="token operator">></span>
-
-<span class="token comment" spellcheck="true">// 禁用虚拟滚动（适用于少量数据）</span>
-<span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt <span class="token punctuation">[</span>virtualScrollEnabled<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"false"</span><span class="token operator">></span></div></code></pre>
-
-        <h3 id="%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6" class="docs-header-link">
-          <span header-link="%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6"></span>
-          虚拟滚动事件
-        </h3>
-      <p>监听虚拟滚动索引变化，可用于实现分页加载：</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" (virtualScrolledIndexChange)="onVirtualScrollChange($event)">
-      &lt;!-- ... -->
-    &lt;/ngx-gantt>
-  `</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
-  <span class="token function">onVirtualScrollChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttVirtualScrolledIndexChangeEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> <span class="token punctuation">{</span> index<span class="token punctuation">,</span> renderedRange<span class="token punctuation">,</span> count <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 如果接近底部，加载更多数据</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>renderedRange<span class="token punctuation">.</span>end <span class="token operator">>=</span> count <span class="token operator">-</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadMoreItems</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h2 id="%E6%A8%AA%E5%90%91%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD" class="docs-header-link">
-          <span header-link="%E6%A8%AA%E5%90%91%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD"></span>
-          横向滚动加载
-        </h2>
-      <p>当用户横向滚动到时间轴边界时，可以自动加载更多时间范围的数据。</p>
-
-        <h3 id="%E5%90%AF%E7%94%A8%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD" class="docs-header-link">
-          <span header-link="%E5%90%AF%E7%94%A8%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD"></span>
-          启用滚动加载
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" [viewOptions]="viewOptions" (loadOnScroll)="onLoadOnScroll($event)">
-      &lt;!-- ... -->
-    &lt;/ngx-gantt>
-  `</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
-  viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
-    loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-      unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token comment" spellcheck="true">// 每次加载 1 个月</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-  <span class="token function">onLoadOnScroll</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLoadOnScrollEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> <span class="token punctuation">{</span> start<span class="token punctuation">,</span> end <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 加载该时间范围的数据</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadItemsByDateRange</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h3 id="%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E6%97%B6%E9%97%B4%E8%B7%A8%E5%BA%A6" class="docs-header-link">
-          <span header-link="%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E6%97%B6%E9%97%B4%E8%B7%A8%E5%BA%A6"></span>
-          配置加载时间跨度
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
-  loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    amount<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 数量</span>
-    unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token comment" spellcheck="true">// 单位：'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year'</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
-
-        <h3 id="%E7%A6%81%E7%94%A8%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD" class="docs-header-link">
-          <span header-link="%E7%A6%81%E7%94%A8%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD"></span>
-          禁用滚动加载
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt
-  <span class="token punctuation">[</span>items<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"items"</span>
-  <span class="token punctuation">[</span>disabledLoadOnScroll<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"true"</span><span class="token operator">></span></div></code></pre>
-
-        <h2 id="%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E9%85%8D%E7%BD%AE%E5%BB%BA%E8%AE%AE" class="docs-header-link">
-          <span header-link="%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E9%85%8D%E7%BD%AE%E5%BB%BA%E8%AE%AE"></span>
-          大数据量配置建议
-        </h2>
-      
-        <h3 id="1--%E5%90%AF%E7%94%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8" class="docs-header-link">
-          <span header-link="1--%E5%90%AF%E7%94%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8"></span>
-          1. 启用虚拟滚动
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt
-  <span class="token punctuation">[</span>items<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"items"</span>
-  <span class="token punctuation">[</span>virtualScrollEnabled<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"true"</span><span class="token operator">></span>  <span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> 默认已启用 <span class="token operator">--</span><span class="token operator">></span></div></code></pre>
-
-        <h3 id="2--%E4%BC%98%E5%8C%96%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE" class="docs-header-link">
-          <span header-link="2--%E4%BC%98%E5%8C%96%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE"></span>
-          2. 优化视图配置
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
-  unitWidth<span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 较小的单位宽度，减少渲染量</span>
-  loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-    unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token comment" spellcheck="true">// 合理的加载跨度</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
-
-        <h3 id="3--%E4%BD%BF%E7%94%A8%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD" class="docs-header-link">
-          <span header-link="3--%E4%BD%BF%E7%94%A8%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD"></span>
-          3. 使用异步加载
-        </h3>
-      <p>对于树形结构，使用异步加载子节点：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt
-  <span class="token punctuation">[</span>items<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"items"</span>
-  <span class="token punctuation">[</span>async<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"true"</span>
-  <span class="token punctuation">[</span>childrenResolve<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"childrenResolve"</span><span class="token operator">></span></div></code></pre>
-
-        <h3 id="4--%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" class="docs-header-link">
-          <span header-link="4--%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"></span>
-          4. 优化数据结构
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ 推荐：只加载必要的数据</span>
-<span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
-  id<span class="token punctuation">:</span> item<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
-  title<span class="token punctuation">:</span> item<span class="token punctuation">.</span>title<span class="token punctuation">,</span>
-  start<span class="token punctuation">:</span> item<span class="token punctuation">.</span>start<span class="token punctuation">,</span>
-  end<span class="token punctuation">:</span> item<span class="token punctuation">.</span>end
-  <span class="token comment" spellcheck="true">// 不加载不需要的字段</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">// ❌ 不推荐：加载所有字段</span>
-<span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> fullItems<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 包含大量不必要的数据</span></div></code></pre>
-
-        <h2 id="%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0" class="docs-header-link">
-          <span header-link="%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0"></span>
-          不可变数据更新
-        </h2>
-      <p>ngx-gantt 使用 OnPush 变更检测策略，要求使用不可变数据更新。</p>
-
-        <h3 id="%E2%9C%85-%E6%AD%A3%E7%A1%AE%EF%BC%9A%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0" class="docs-header-link">
-          <span header-link="%E2%9C%85-%E6%AD%A3%E7%A1%AE%EF%BC%9A%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0"></span>
-          ✅ 正确：不可变更新
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 添加任务</span>
-<span class="token function">addTask</span><span class="token punctuation">(</span>newTask<span class="token punctuation">:</span> GanttItem<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> newTask<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// 更新任务</span>
-<span class="token function">updateTask</span><span class="token punctuation">(</span>updatedTask<span class="token punctuation">:</span> GanttItem<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span>
-    item<span class="token punctuation">.</span>id <span class="token operator">===</span> updatedTask<span class="token punctuation">.</span>id <span class="token operator">?</span> updatedTask <span class="token punctuation">:</span> item
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// 删除任务</span>
-<span class="token function">removeTask</span><span class="token punctuation">(</span>taskId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> item<span class="token punctuation">.</span>id <span class="token operator">!==</span> taskId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h3 id="%E2%9D%8C-%E9%94%99%E8%AF%AF%EF%BC%9A%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0" class="docs-header-link">
-          <span header-link="%E2%9D%8C-%E9%94%99%E8%AF%AF%EF%BC%9A%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0"></span>
-          ❌ 错误：可变更新
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 错误：直接修改原数组</span>
-<span class="token function">addTask</span><span class="token punctuation">(</span>newTask<span class="token punctuation">:</span> GanttItem<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>newTask<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 不会触发视图更新</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// 错误：直接修改对象</span>
-<span class="token function">updateTask</span><span class="token punctuation">(</span>taskId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> newData<span class="token punctuation">:</span> Partial<span class="token operator">&lt;</span>GanttItem<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> i<span class="token punctuation">.</span>id <span class="token operator">===</span> taskId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> newData<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 不会触发视图更新</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h2 id="%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7" class="docs-header-link">
-          <span header-link="%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7"></span>
-          性能监控
-        </h2>
-      
-        <h3 id="%E7%9B%91%E5%90%AC%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6" class="docs-header-link">
-          <span header-link="%E7%9B%91%E5%90%AC%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6"></span>
-          监听虚拟滚动事件
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onVirtualScrollChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttVirtualScrolledIndexChangeEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> index<span class="token punctuation">,</span> renderedRange<span class="token punctuation">,</span> count <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">;</span>
-
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'当前索引:'</span><span class="token punctuation">,</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'可见范围:'</span><span class="token punctuation">,</span> renderedRange<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'总数量:'</span><span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token comment" spellcheck="true">// 可以用于性能分析</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>performanceMonitor<span class="token punctuation">.</span><span class="token function">record</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    visibleItems<span class="token punctuation">:</span> renderedRange<span class="token punctuation">.</span>end <span class="token operator">-</span> renderedRange<span class="token punctuation">.</span>start<span class="token punctuation">,</span>
-    totalItems<span class="token punctuation">:</span> count
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
-          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
-          最小示例
-        </h2>
-      
-        <h3 id="%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
-          <span header-link="%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E7%A4%BA%E4%BE%8B"></span>
-          大数据量示例
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> OnInit <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttViewOptions<span class="token punctuation">,</span> GanttLoadOnScrollEvent<span class="token punctuation">,</span> GanttVirtualScrolledIndexChangeEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
-
-@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-performance'</span><span class="token punctuation">,</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt
-      [items]="items"
-      [viewType]="viewType"
-      [viewOptions]="viewOptions"
-      [virtualScrollEnabled]="true"
-      (loadOnScroll)="onLoadOnScroll($event)"
-      (virtualScrolledIndexChange)="onVirtualScrollChange($event)"
-    >
-      &lt;ngx-gantt-table>
-        &lt;ngx-gantt-column name="任务" width="200px">
-          &lt;ng-template #cell let-item="item">
-            {{ item.title }}
-          &lt;/ng-template>
-        &lt;/ngx-gantt-column>
-      &lt;/ngx-gantt-table>
-    &lt;/ngx-gantt>
-  `</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPerformanceComponent</span> <span class="token keyword">implements</span> <span class="token class-name">OnInit</span> <span class="token punctuation">{</span>
-  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">;</span>
-
-  viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
-    unitWidth<span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">,</span>
-    loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-      unit<span class="token punctuation">:</span> <span class="token string">'month'</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-  <span class="token function">ngOnInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 初始加载</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadInitialData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">loadInitialData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 只加载当前可见范围的数据</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">generateItems</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">onLoadOnScroll</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLoadOnScrollEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 横向滚动加载</span>
-    <span class="token keyword">const</span> <span class="token punctuation">{</span> start<span class="token punctuation">,</span> end <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">;</span>
-    <span class="token keyword">const</span> newItems <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadItemsByDateRange</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> <span class="token operator">...</span>newItems<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">onVirtualScrollChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttVirtualScrolledIndexChangeEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 纵向滚动，可以加载更多任务</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>renderedRange<span class="token punctuation">.</span>end <span class="token operator">>=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadMoreItems</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token keyword">private</span> <span class="token function">loadMoreItems</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> moreItems <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">generateItems</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> <span class="token operator">...</span>moreItems<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token keyword">private</span> <span class="token function">generateItems</span><span class="token punctuation">(</span>count<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 生成测试数据</span>
-    <span class="token keyword">return</span> <span class="token keyword">Array</span><span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span><span class="token punctuation">{</span> length<span class="token punctuation">:</span> count <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>_<span class="token punctuation">,</span> i<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
-      id<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`task-</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>i<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span>
-      title<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`任务 </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>i<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span>
-      start<span class="token punctuation">:</span> <span class="token number">1627729997</span> <span class="token operator">+</span> i <span class="token operator">*</span> <span class="token number">86400</span><span class="token punctuation">,</span>
-      end<span class="token punctuation">:</span> <span class="token number">1627729997</span> <span class="token operator">+</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">86400</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token keyword">private</span> <span class="token function">loadItemsByDateRange</span><span class="token punctuation">(</span>start<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 根据时间范围加载数据</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h2 id="%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE" class="docs-header-link">
-          <span header-link="%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"></span>
-          性能优化建议
-        </h2>
-      
-        <h3 id="1--%E6%95%B0%E6%8D%AE%E9%87%8F%E6%8E%A7%E5%88%B6" class="docs-header-link">
-          <span header-link="1--%E6%95%B0%E6%8D%AE%E9%87%8F%E6%8E%A7%E5%88%B6"></span>
-          1. 数据量控制
-        </h3>
       <ul>
-<li><strong>少量数据（&lt; 100）</strong>：可以禁用虚拟滚动</li>
-<li><strong>中等数据（100-1000）</strong>：启用虚拟滚动</li>
-<li><strong>大量数据（&gt; 1000）</strong>：启用虚拟滚动 + 分页加载</li>
+<li><strong>列表虚拟滚动</strong>：仅渲染当前视口内可见的任务行，即使有数千条数据，实际渲染的 DOM 节点也保持在极小数量级。</li>
+<li><strong>视图滚动加载</strong>：通过配置时间轴边界和步长，实现在时间轴滚动到边缘时自动按需加载时间区间。</li>
 </ul>
 
-        <h3 id="2--%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE%E4%BC%98%E5%8C%96" class="docs-header-link">
-          <span header-link="2--%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE%E4%BC%98%E5%8C%96"></span>
-          2. 视图配置优化
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 对于大数据量，使用较小的 unitWidth</span>
-viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
-  unitWidth<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 而不是 35 或更大</span>
-  loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-    unit<span class="token punctuation">:</span> <span class="token string">'month'</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
-
-        <h3 id="3--%E9%81%BF%E5%85%8D%E9%A2%91%E7%B9%81%E6%9B%B4%E6%96%B0" class="docs-header-link">
-          <span header-link="3--%E9%81%BF%E5%85%8D%E9%A2%91%E7%B9%81%E6%9B%B4%E6%96%B0"></span>
-          3. 避免频繁更新
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ 推荐：批量更新</span>
-<span class="token function">updateMultipleTasks</span><span class="token punctuation">(</span>updates<span class="token punctuation">:</span> <span class="token keyword">Array</span><span class="token operator">&lt;</span><span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> data<span class="token punctuation">:</span> Partial<span class="token operator">&lt;</span>GanttItem<span class="token operator">></span><span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> update <span class="token operator">=</span> updates<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>u <span class="token operator">=</span><span class="token operator">></span> u<span class="token punctuation">.</span>id <span class="token operator">===</span> item<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> update <span class="token operator">?</span> <span class="token punctuation">{</span> <span class="token operator">...</span>item<span class="token punctuation">,</span> <span class="token operator">...</span>update<span class="token punctuation">.</span>data <span class="token punctuation">}</span> <span class="token punctuation">:</span> item<span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// ❌ 不推荐：逐个更新</span>
-<span class="token function">updateTask1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
-<span class="token function">updateTask2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
-<span class="token function">updateTask3</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span></div></code></pre>
-
-        <h3 id="4--%E4%BD%BF%E7%94%A8%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD" class="docs-header-link">
-          <span header-link="4--%E4%BD%BF%E7%94%A8%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD"></span>
-          4. 使用异步加载
-        </h3>
-      <p>对于树形结构，使用异步加载减少初始数据量：</p>
-<pre class="language-typescript"><code class="language-typescript"><div>items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
-  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'父任务'</span><span class="token punctuation">,</span> children<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">}</span>  <span class="token comment" spellcheck="true">// 初始为空</span>
-<span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-childrenResolve <span class="token operator">=</span> <span class="token punctuation">(</span>item<span class="token punctuation">:</span> GanttItem<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadChildren</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
-
-        <h2 id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">
-          <span header-link="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"></span>
-          常见问题
+        <h2 id="%E5%88%97%E8%A1%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8" class="docs-header-link">
+          <span header-link="%E5%88%97%E8%A1%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8"></span>
+          列表虚拟滚动
         </h2>
-      
-        <h3 id="q:-%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8%E4%B8%8D%E5%B7%A5%E4%BD%9C%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8%E4%B8%8D%E5%B7%A5%E4%BD%9C%EF%BC%9F"></span>
-          Q: 虚拟滚动不工作？
-        </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 检查：</div>
-<ol>
-<li><code>virtualScrollEnabled</code> 是否为 <code>true</code>（默认值）</li>
-<li>数据是否正确传入</li>
-<li>浏览器控制台是否有错误</li>
-</ol>
+      <p>甘特图通过虚拟滚动支持大数据量列表，组件默认开启了虚拟滚动。</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[virtualScrollEnabled]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
 
-        <h3 id="q:-%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E4%B8%8D%E8%A7%A6%E5%8F%91%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E4%B8%8D%E8%A7%A6%E5%8F%91%EF%BC%9F"></span>
-          Q: 滚动加载不触发？
+        <h3 id="%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%BB%9A%E5%8A%A8%E5%88%B0%E5%BA%95%E9%83%A8%E5%8A%A0%E8%BD%BD%E4%B8%8B%E4%B8%80%E9%A1%B5%E6%95%B0%E6%8D%AE" class="docs-header-link">
+          <span header-link="%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%BB%9A%E5%8A%A8%E5%88%B0%E5%BA%95%E9%83%A8%E5%8A%A0%E8%BD%BD%E4%B8%8B%E4%B8%80%E9%A1%B5%E6%95%B0%E6%8D%AE"></span>
+          示例：滚动到底部加载下一页数据
         </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 检查：</div>
-<ol>
-<li><code>viewOptions.loadDuration</code> 是否正确配置</li>
-<li><code>loadOnScroll</code> 事件是否绑定</li>
-<li>是否设置了 <code>disabledLoadOnScroll=&quot;true&quot;</code></li>
-</ol>
+      <p>当服务端没有通过一次将数据全量返回时，也可以通过监听 <code>(virtualScrolledIndexChange)</code> 事件，在滚动接近底部时实现无限加载（Infinite Scroll）。</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[loading]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loading<span class="token punctuation">"</span></span> <span class="token attr-name">[loadingDelay]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">(virtualScrolledIndexChange)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onVirtualScroll($event)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>任务标题<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{ item.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttVirtualScrolledIndexChangeEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
-        <h3 id="q:-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E4%B8%8B%E6%80%A7%E8%83%BD%E5%B7%AE%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E4%B8%8B%E6%80%A7%E8%83%BD%E5%B7%AE%EF%BC%9F"></span>
-          Q: 大数据量下性能差？
-        </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 优化建议：</div>
-<ol>
-<li>确保启用虚拟滚动</li>
-<li>减小 <code>unitWidth</code> 值</li>
-<li>使用异步加载</li>
-<li>优化数据结构，只加载必要字段</li>
-</ol>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPerformanceExampleComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  loading <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
 
-        <h3 id="q:-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E5%8A%A0%E8%BD%BD%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E9%A1%B5%E5%8A%A0%E8%BD%BD%EF%BC%9F"></span>
-          Q: 如何实现分页加载？
-        </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 监听 <code>virtualScrolledIndexChange</code> 事件：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onVirtualScrollChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttVirtualScrolledIndexChangeEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>renderedRange<span class="token punctuation">.</span>end <span class="token operator">>=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadNextPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">onVirtualScroll</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttVirtualScrolledIndexChangeEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 当滚动到距离底部还剩 10 条数据时，加载下一页</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>renderedRange<span class="token punctuation">.</span>end <span class="token operator">+</span> <span class="token number">10</span> <span class="token operator">>=</span> event<span class="token punctuation">.</span>count <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>loading<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadNextPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">loadNextPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>taskService<span class="token punctuation">.</span><span class="token function">getTasks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> <span class="token operator">...</span>res<span class="token punctuation">.</span>data<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD" class="docs-header-link">
+          <span header-link="%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD"></span>
+          视图滚动加载
+        </h2>
+      <p>组件默认情况下滚动加载是禁用的，当甘特图的时间跨度非常大时，一次性加载所有时间轴数据会影响性能，可通过参数 <code>disabledLoadOnScroll</code> 设置 <code>false</code> 来启用，启用后当滚动到视图边界时，会触发视图滚动加载。</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[disabledLoadOnScroll]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6" class="docs-header-link">
+          <span header-link="%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"></span>
+          滚动加载机制
+        </h3>
+      <p>根据不同的视图类型，滚动加载的时间跨度（步长）会自动调整，例如：</p>
+<ul>
+<li>日视图 (Day)：默认单次扩展 1 个月。</li>
+<li>月视图 (Month)：默认单次扩展 1 个季度。</li>
+</ul>
+<p>你可以通过 <code>viewOptions</code> 中的 <code>loadDuration</code> 自定义这个步长，并通过 <code>minBoundary</code> 和 <code>maxBoundary</code> 限制时间轴的最大范围（默认限制在当前年份的前后一年）。</p>
+
+        <h3 id="%E7%A4%BA%E4%BE%8B%EF%BC%9A%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE" class="docs-header-link">
+          <span header-link="%E7%A4%BA%E4%BE%8B%EF%BC%9A%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"></span>
+          示例：视图滚动加载数据
+        </h3>
+      <p>开启滚动加载后，当用户将时间轴拖动到边缘时，会触发 <code>(loadOnScroll)</code> 事件，此时可以根据返回的新区间请求数据。</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span>
+  <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[loading]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loading<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[loadingDelay]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[disabledLoadOnScroll]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[viewOptions]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{
+    loadDuration: { amount: 1, unit: <span class="token punctuation">'</span>month<span class="token punctuation">'</span> },
+    minBoundary: minDate,
+    maxBoundary: maxDate
+  }<span class="token punctuation">"</span></span>
+  <span class="token attr-name">(loadOnScroll)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onLoadOnScroll($event)<span class="token punctuation">"</span></span>
+<span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttLoadOnScrollEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+<span class="token function">onLoadOnScroll</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLoadOnScrollEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// event.start 和 event.end 是新增的时间范围（Unix 时间戳）</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>taskService<span class="token punctuation">.</span><span class="token function">getTasksByRange</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>start<span class="token punctuation">,</span> event<span class="token punctuation">.</span>end<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>newItems <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> <span class="token operator">...</span>newItems<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E5%8A%A0%E8%BD%BD%E7%8A%B6%E6%80%81%E5%A4%84%E7%90%86" class="docs-header-link">
+          <span header-link="%E5%8A%A0%E8%BD%BD%E7%8A%B6%E6%80%81%E5%A4%84%E7%90%86"></span>
+          加载状态处理
+        </h2>
+      <p>在异步加载数据时，良好的加载反馈能提升用户体验。<code>ngx-gantt</code> 提供了内置的加载器（Loader）：</p>
+<ul>
+<li><strong><code>loading</code></strong>: 设置为 <code>true</code> 时展示加载状态。</li>
+<li><strong><code>loadingDelay</code></strong>: 设置加载状态显示的延迟时间（单位：<code>ms</code>）。当数据请求在极短时间内（小于延迟时间）返回时，加载器将不会显示，从而有效避免因网络较快导致的加载动画瞬间闪烁。</li>
+</ul>
 
         <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
           <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
           相关链接
         </h2>
       <ul>
-<li><a href="../core/data-model.md">数据模型</a> - 了解数据结构</li>
-<li><a href="../core/views.md">视图体系</a> - 了解视图配置</li>
-<li><a href="./tree.md">树形与异步</a> - 了解异步加载</li>
+<li><a href="guides/core-concepts/views">视图</a> - 了解视图类型及其配置选项</li>
 </ul>

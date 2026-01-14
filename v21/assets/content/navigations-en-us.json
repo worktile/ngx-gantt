@@ -1,8 +1,8 @@
 {
   "navs": [
     {
-      "title": "Configuration",
-      "path": "configuration",
+      "title": "Component APIs",
+      "path": "component-apis",
       "lib": "ngx-gantt",
       "items": [
         {
@@ -23,7 +23,7 @@
               "originPath": "example/src/app/apis/ngx-gantt/doc/en-us.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
             },
             {
               "id": "ngx-gantt-table",
@@ -39,7 +39,7 @@
               "originPath": "example/src/app/apis/ngx-gantt-table/doc/en-us.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
             }
           ],
           "order": 0
@@ -62,7 +62,7 @@
               "originPath": "example/src/app/apis/ngx-gantt-bar/doc/en-us.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
             },
             {
               "id": "ngx-gantt-range",
@@ -78,7 +78,7 @@
               "originPath": "example/src/app/apis/ngx-gantt-range/doc/en-us.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
             },
             {
               "id": "ngx-gantt-toolbar",
@@ -94,7 +94,7 @@
               "originPath": "example/src/app/apis/ngx-gantt-toolbar/doc/en-us.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
             },
             {
               "id": "ngx-gantt-baseline",
@@ -110,7 +110,7 @@
               "originPath": "example/src/app/apis/ngx-gantt-baseline/doc/en-us.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
             },
             {
               "id": "ngx-gantt-root",
@@ -126,7 +126,7 @@
               "originPath": "example/src/app/apis/ngx-gantt-root/doc/en-us.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
             }
           ],
           "order": 0
@@ -134,8 +134,8 @@
       ]
     },
     {
-      "title": "Component",
-      "path": "components"
+      "title": "Examples",
+      "path": "examples"
     },
     {
       "title": "GitHub",
@@ -163,7 +163,7 @@
       "originPath": "example/src/app/apis/ngx-gantt/doc/en-us.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
     },
     {
       "id": "ngx-gantt-bar",
@@ -179,7 +179,7 @@
       "originPath": "example/src/app/apis/ngx-gantt-bar/doc/en-us.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
     },
     {
       "id": "ngx-gantt-baseline",
@@ -195,7 +195,7 @@
       "originPath": "example/src/app/apis/ngx-gantt-baseline/doc/en-us.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
     },
     {
       "id": "ngx-gantt-range",
@@ -211,7 +211,7 @@
       "originPath": "example/src/app/apis/ngx-gantt-range/doc/en-us.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
     },
     {
       "id": "ngx-gantt-root",
@@ -227,7 +227,7 @@
       "originPath": "example/src/app/apis/ngx-gantt-root/doc/en-us.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
     },
     {
       "id": "ngx-gantt-table",
@@ -243,7 +243,7 @@
       "originPath": "example/src/app/apis/ngx-gantt-table/doc/en-us.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
     },
     {
       "id": "ngx-gantt-toolbar",
@@ -259,7 +259,7 @@
       "originPath": "example/src/app/apis/ngx-gantt-toolbar/doc/en-us.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
     }
   ]
 }

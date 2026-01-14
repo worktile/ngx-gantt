@@ -63673,7 +63673,7 @@ var AppGanttVirtualScrollExampleComponent = class _AppGanttVirtualScrollExampleC
 // example/src/app/app-routing.module.ts
 var routes2 = [
   {
-    path: "components",
+    path: "examples",
     component: AppExampleComponentsComponent,
     children: [
       { path: "", redirectTo: "basic", pathMatch: "full" },
