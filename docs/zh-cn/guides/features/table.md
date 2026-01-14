@@ -4,30 +4,88 @@ path: 'table-interaction'
 order: 310
 ---
 
-# 表格交互
+表格区域支持自定义内容、行拖拽、列调整、点击选择等丰富的交互功能，是甘特图的重要组成部分。
 
-表格区域支持行拖拽、列调整、点击选择等丰富的交互功能，是甘特图的重要组成部分。
+## 表格内容展示
 
-## 前置阅读
+### 列内容
 
-在深入学习表格交互之前，建议先了解：
+在 `ngx-gantt-column` 组件中使用`#cell`模版自定义列内容：
 
-- [数据模型](../core/data-model.md) - 理解 GanttItem 的结构
-- [Bar 交互](./bar.md) - 了解任务条交互
+```html
+<ngx-gantt #gantt [items]="items">
+  <ngx-gantt-table>
+    <ngx-gantt-column name="任务名称" width="200px" [showExpandIcon]="true">
+      <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+    </ngx-gantt-column>
 
-## 行拖拽排序
+    <ngx-gantt-column name="开始时间" width="150px">
+      <ng-template #cell let-item="item"> {{ item.start | date: 'yyyy-MM-dd' }} </ng-template>
+    </ngx-gantt-column>
+  </ngx-gantt-table>
+</ngx-gantt>
+```
 
-表格行支持拖拽来调整任务的层级关系和顺序。
+### 行前置/后置插槽
 
-### 拖拽位置
+```html
+<ngx-gantt-table>
+  <!-- 行前置内容 -->
+  <ng-template #rowBeforeSlot let-item="item">
+    <div class="row-before">前置内容</div>
+  </ng-template>
 
-拖拽任务行到目标位置时，有三种放置位置：
+  <!-- 列定义 -->
+  <ngx-gantt-column name="任务" width="200px">
+    <!-- ... -->
+  </ngx-gantt-column>
+
+  <!-- 行后置内容 -->
+  <ng-template #rowAfterSlot let-item="item">
+    <div class="row-after">后置内容</div>
+  </ng-template>
+</ngx-gantt-table>
+```
+
+### 空状态模板
+
+```html
+<ngx-gantt-table>
+  <ng-template #tableEmpty>
+    <div class="empty-state">暂无任务</div>
+  </ng-template>
+
+  <!-- ... -->
+</ngx-gantt-table>
+```
+
+### 底部模版
+
+```html
+<ngx-gantt-table>
+  <ng-template #tableFooter let-columns="columns">
+    <div class="table-footer">
+      @for (column of columns; track $index) {
+      <div class="gantt-table-column" [style.width]="column.columnWidth()">{{ column.name() }}</div>
+      }
+    </div>
+  </ng-template>
+
+  <!-- ... -->
+</ngx-gantt-table>
+```
+
+## 表格交互
+
+### 行拖拽排序
+
+表格行支持拖拽来调整任务的层级关系和顺序。拖拽任务行到目标位置时，有三种放置位置：
 
 - **`before`**：放置在目标任务之前（同级）
 - **`inside`**：放置在目标任务内部（作为子任务）
 - **`after`**：放置在目标任务之后（同级）
 
-### 启用拖拽
+#### 启用拖拽
 
 ```typescript
 @Component({
@@ -65,7 +123,7 @@ export class MyComponent {
 }
 ```
 
-### 拖拽事件处理
+#### 拖拽事件处理
 
 ```typescript
 onDragDropped(event: GanttTableDragDroppedEvent) {
@@ -96,7 +154,7 @@ onDragDropped(event: GanttTableDragDroppedEvent) {
 }
 ```
 
-## dropEnterPredicate 动作拦截
+#### dropEnterPredicate 动作拦截
 
 使用 `dropEnterPredicate` 可以控制哪些拖拽操作被允许：
 
@@ -136,32 +194,28 @@ export class MyComponent {
 }
 ```
 
-## 列配置
+### 列拖拽改变宽度
 
-### 列定义
+表格的每列和表格整体都可以拖拽改变宽度，表格整体宽度改变会触发 `resizeChange` 事件。
 
-```html
-<ngx-gantt-table>
-  <ngx-gantt-column name="任务名称" width="200px" [showExpandIcon]="true">
-    <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
-  </ngx-gantt-column>
-
-  <ngx-gantt-column name="开始时间" width="150px">
-    <ng-template #cell let-item="item"> {{ item.start | date: 'yyyy-MM-dd' }} </ng-template>
-  </ngx-gantt-column>
-</ngx-gantt-table>
+```typescript
+@Component({
+  template: `
+    <ngx-gantt-table (resizeChange)="resizeChange($event)">
+      <!-- ... -->
+    </ngx-gantt-table>
+  `
+})
+export class MyComponent {
+  resizeChange(width: number) {
+    console.log('改变了宽度', width);
+  }
+}
 ```
 
-### 列属性
+### 行点击与选择
 
-- `name`：列标题
-- `width`：列宽度（支持像素值或数字）
-- `showExpandIcon`：是否显示展开图标（用于有子任务的行）
-- `class`：自定义 CSS 类名
-
-## 行点击与选择
-
-### 行点击事件
+#### 行点击事件
 
 ```typescript
 @Component({
@@ -180,53 +234,14 @@ export class MyComponent {
 }
 ```
 
-### 选择功能
+#### 选择功能
 
 启用选择功能后，点击行会触发选择：
 
-```typescript
-<ngx-gantt
-  [items]="items"
-  [selectable]="true"
-  [multiple]="false"
-  (selectedChange)="onSelectedChange($event)">
+```html
+<ngx-gantt [items]="items" [selectable]="true" [multiple]="false" (selectedChange)="onSelectedChange($event)">
   <!-- ... -->
 </ngx-gantt>
-```
-
-## 自定义模板
-
-### 行前置/后置插槽
-
-```html
-<ngx-gantt-table>
-  <!-- 行前置内容 -->
-  <ng-template #rowBeforeSlot let-item="item">
-    <div class="row-before">前置内容</div>
-  </ng-template>
-
-  <!-- 列定义 -->
-  <ngx-gantt-column name="任务" width="200px">
-    <!-- ... -->
-  </ngx-gantt-column>
-
-  <!-- 行后置内容 -->
-  <ng-template #rowAfterSlot let-item="item">
-    <div class="row-after">后置内容</div>
-  </ng-template>
-</ngx-gantt-table>
-```
-
-### 空状态模板
-
-```html
-<ngx-gantt-table>
-  <ng-template #tableEmpty>
-    <div class="empty-state">暂无任务</div>
-  </ng-template>
-
-  <!-- ... -->
-</ngx-gantt-table>
 ```
 
 ## 最小示例
@@ -297,6 +312,6 @@ dropEnterPredicate = (context) => {
 
 ## 相关链接
 
-- [数据模型](../core/data-model.md) - 了解数据结构
-- [Bar 交互](./bar.md) - 了解任务条交互
-- [树形与异步](./tree.md) - 了解层级结构
+- [数据模型](guides/core-concepts/data-model) - 了解数据结构
+- [Bar 交互](guides/features/bar-interaction) - 了解任务条交互
+- [树形与异步](guides/features/groups-tree-async) - 了解层级结构
