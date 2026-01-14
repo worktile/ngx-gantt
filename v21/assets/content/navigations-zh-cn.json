@@ -482,6 +482,36 @@
               ],
               "contentPath": "docs/zh-cn/guides/core/date-timezone.html",
               "originPath": "docs/zh-cn/guides/core/date-timezone.md"
+            },
+            {
+              "id": "api-methods",
+              "path": "core-concepts/api-methods",
+              "channelPath": "guides",
+              "title": "公共方法",
+              "order": 240,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8",
+                  "name": "方法列表",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B",
+                  "name": "使用示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/core/api-methods.html",
+              "originPath": "docs/zh-cn/guides/core/api-methods.md"
             }
           ],
           "order": 200
@@ -677,6 +707,72 @@
               ],
               "contentPath": "docs/zh-cn/guides/features/table.html",
               "originPath": "docs/zh-cn/guides/features/table.md"
+            },
+            {
+              "id": "groups",
+              "path": "features/groups",
+              "channelPath": "guides",
+              "title": "分组模式",
+              "order": 315,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%A6%82%E4%BD%95%E6%B8%B2%E6%9F%93%E5%88%86%E7%BB%84%E6%95%B0%E6%8D%AE%EF%BC%9F",
+                  "name": "如何渲染分组数据？",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义模板",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "#groupheader-%E6%A8%A1%E6%9D%BF",
+                  "name": "#groupHeader 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "#group-%E6%A8%A1%E6%9D%BF",
+                  "name": "#group 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E7%BB%84%E6%A0%B7%E5%BC%8F",
+                  "name": "自定义分组样式",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0",
+                  "name": "展开/折叠",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81",
+                  "name": "初始展开状态",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%87%BD%E6%95%B0%E6%8E%A7%E5%88%B6%E5%B1%95%E5%BC%80",
+                  "name": "函数控制展开",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/groups.html",
+              "originPath": "docs/zh-cn/guides/features/groups.md"
             },
             {
               "id": "bar",
@@ -2676,6 +2772,36 @@
       "originPath": "docs/zh-cn/guides/configuration/theming.md"
     },
     {
+      "id": "api-methods",
+      "path": "core-concepts/api-methods",
+      "channelPath": "guides",
+      "title": "公共方法",
+      "order": 240,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8",
+          "name": "方法列表",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B",
+          "name": "使用示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/core/api-methods.html",
+      "originPath": "docs/zh-cn/guides/core/api-methods.md"
+    },
+    {
       "id": "data-model",
       "path": "core-concepts/data-model",
       "channelPath": "guides",
@@ -3244,6 +3370,72 @@
       ],
       "contentPath": "docs/zh-cn/guides/features/baseline.html",
       "originPath": "docs/zh-cn/guides/features/baseline.md"
+    },
+    {
+      "id": "groups",
+      "path": "features/groups",
+      "channelPath": "guides",
+      "title": "分组模式",
+      "order": 315,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%A6%82%E4%BD%95%E6%B8%B2%E6%9F%93%E5%88%86%E7%BB%84%E6%95%B0%E6%8D%AE%EF%BC%9F",
+          "name": "如何渲染分组数据？",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF",
+          "name": "自定义模板",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "#groupheader-%E6%A8%A1%E6%9D%BF",
+          "name": "#groupHeader 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "#group-%E6%A8%A1%E6%9D%BF",
+          "name": "#group 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E7%BB%84%E6%A0%B7%E5%BC%8F",
+          "name": "自定义分组样式",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0",
+          "name": "展开/折叠",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81",
+          "name": "初始展开状态",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%87%BD%E6%95%B0%E6%8E%A7%E5%88%B6%E5%B1%95%E5%BC%80",
+          "name": "函数控制展开",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/groups.html",
+      "originPath": "docs/zh-cn/guides/features/groups.md"
     },
     {
       "id": "index",

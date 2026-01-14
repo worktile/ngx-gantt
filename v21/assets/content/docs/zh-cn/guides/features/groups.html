@@ -1,0 +1,173 @@
+<p>ngx-gantt 支持任务按分组进行组织，适用于部门、项目、阶段等维度管理任务的场景。</p>
+
+        <h2 id="%E5%A6%82%E4%BD%95%E6%B8%B2%E6%9F%93%E5%88%86%E7%BB%84%E6%95%B0%E6%8D%AE%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E5%A6%82%E4%BD%95%E6%B8%B2%E6%9F%93%E5%88%86%E7%BB%84%E6%95%B0%E6%8D%AE%EF%BC%9F"></span>
+          如何渲染分组数据？
+        </h2>
+      <p>在分组模式下，通过 <code>groups</code> 和 <code>items</code> 两个数组来组织数据：</p>
+<ul>
+<li><code>groups</code>：定义分组信息，每个分组包含 <code>id</code> 和 <code>title</code></li>
+<li><code>items</code>：定义任务项，通过 <code>group_id</code> 字段关联到对应的分组</li>
+</ul>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttGroup<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [groups]="groups" [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GroupsExampleComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">;</span>
+
+  groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'开发组'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'test'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'测试组'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'前端开发'</span><span class="token punctuation">,</span> group_id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'后端开发'</span><span class="token punctuation">,</span> group_id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'功能测试'</span><span class="token punctuation">,</span> group_id<span class="token punctuation">:</span> <span class="token string">'test'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1633433997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1636035597</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF"></span>
+          自定义模板
+        </h2>
+      
+        <h3 id="#groupheader-%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="#groupheader-%E6%A8%A1%E6%9D%BF"></span>
+          #groupHeader 模板
+        </h3>
+      <p>使用 <code>#groupHeader</code> 模板自定义分组头部的显示内容：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[groups]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>groups<span class="token punctuation">"</span></span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#groupHeader</span> <span class="token attr-name">let-group</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>group<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-group-header<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>group-icon<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>📁<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>group-title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{ group.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>group-count<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>({{ group.items?.length || 0 }} 个任务)<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="#group-%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="#group-%E6%A8%A1%E6%9D%BF"></span>
+          #group 模板
+        </h3>
+      <p>使用 <code>#group</code> 模板自定义整个分组的显示（包括头部和内容区域）：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[groups]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>groups<span class="token punctuation">"</span></span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#group</span> <span class="token attr-name">let-group</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>group<span class="token punctuation">"</span></span> <span class="token attr-name">let-items</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-group<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>group-header<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{ group.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>group-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token comment" spellcheck="true">&lt;!-- 分组内容 --></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+<p>模板上下文：</p>
+<ul>
+<li><code>#groupHeader</code>：提供 <code>group</code> 对象（包含 <code>id</code>、<code>title</code>、<code>expanded</code>、<code>items</code> 等属性）</li>
+<li><code>#group</code>：提供 <code>group</code> 对象和 <code>items</code> 数组（分组下的任务数组）</li>
+</ul>
+
+        <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E7%BB%84%E6%A0%B7%E5%BC%8F" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E7%BB%84%E6%A0%B7%E5%BC%8F"></span>
+          自定义分组样式
+        </h2>
+      <p>通过 <code>class</code> 属性为分组添加自定义 CSS 类：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'开发组'</span><span class="token punctuation">,</span>
+    <span class="token keyword">class</span><span class="token punctuation">:</span> <span class="token string">'group-dev'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'test'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'测试组'</span><span class="token punctuation">,</span>
+    <span class="token keyword">class</span><span class="token punctuation">:</span> <span class="token string">'group-test'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0" class="docs-header-link">
+          <span header-link="%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0"></span>
+          展开/折叠
+        </h2>
+      
+        <h3 id="%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81" class="docs-header-link">
+          <span header-link="%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81"></span>
+          初始展开状态
+        </h3>
+      <p>通过 <code>expanded</code> 属性控制分组的初始展开状态：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'开发组'</span><span class="token punctuation">,</span> expanded<span class="token punctuation">:</span> <span class="token keyword">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 默认展开</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'test'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'测试组'</span><span class="token punctuation">,</span> expanded<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// 默认收起</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="%E5%87%BD%E6%95%B0%E6%8E%A7%E5%88%B6%E5%B1%95%E5%BC%80" class="docs-header-link">
+          <span header-link="%E5%87%BD%E6%95%B0%E6%8E%A7%E5%88%B6%E5%B1%95%E5%BC%80"></span>
+          函数控制展开
+        </h3>
+      <p>使用组件的公共方法程序化控制分组展开/收起：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> ViewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> GanttGroup<span class="token punctuation">,</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt #gantt [groups]="groups" [items]="items">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GroupsComponent</span> <span class="token punctuation">{</span>
+  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+
+  groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'开发组'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'test'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'测试组'</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'前端开发'</span><span class="token punctuation">,</span> group_id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">expandGroup</span><span class="token punctuation">(</span>groupId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> group <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span>groups<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> g<span class="token punctuation">.</span>id <span class="token operator">===</span> groupId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>group<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">expandGroup</span><span class="token punctuation">(</span>group<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
+          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
+          相关链接
+        </h2>
+      <ul>
+<li><a href="../core/data-model.md">数据模型</a> - 了解 GanttGroup 的数据结构</li>
+<li><a href="../core/api-methods.md">公共方法</a> - 了解分组相关的 API 方法</li>
+</ul>

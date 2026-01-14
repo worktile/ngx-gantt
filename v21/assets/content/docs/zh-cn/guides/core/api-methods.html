@@ -1,0 +1,133 @@
+<p>ngx-gantt 组件实例提供了一些公开方法，用于程序化控制甘特图的行为。</p>
+
+        <h2 id="%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8" class="docs-header-link">
+          <span header-link="%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8"></span>
+          方法列表
+        </h2>
+      <table>
+<thead>
+<tr>
+<th>方法</th>
+<th>参数</th>
+<th>返回值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scrollToToday()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>滚动到今天的位置</td>
+</tr>
+<tr>
+<td><code>scrollToDate(date)</code></td>
+<td><code>date: number | Date | GanttDate</code></td>
+<td><code>void</code></td>
+<td>滚动到指定日期位置</td>
+</tr>
+<tr>
+<td><code>expandAll()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>展开所有分组和任务项</td>
+</tr>
+<tr>
+<td><code>collapseAll()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>收起所有分组和任务项</td>
+</tr>
+<tr>
+<td><code>expandGroup(group)</code></td>
+<td><code>group: GanttGroupInternal</code></td>
+<td><code>void</code></td>
+<td>展开或收起指定分组</td>
+</tr>
+<tr>
+<td><code>expandChildren(item)</code></td>
+<td><code>item: GanttItemInternal</code></td>
+<td><code>void</code></td>
+<td>展开或收起指定任务项的子任务</td>
+</tr>
+<tr>
+<td><code>getGanttItem(id)</code></td>
+<td><code>id: string</code></td>
+<td><code>GanttItemInternal | null</code></td>
+<td>根据 ID 获取任务项</td>
+</tr>
+<tr>
+<td><code>getGanttItems(ids)</code></td>
+<td><code>ids: string[]</code></td>
+<td><code>GanttItemInternal[]</code></td>
+<td>根据 ID 数组获取多个任务项</td>
+</tr>
+<tr>
+<td><code>isSelected(id)</code></td>
+<td><code>id: string</code></td>
+<td><code>boolean</code></td>
+<td>判断指定任务项是否被选中</td>
+</tr>
+<tr>
+<td><code>rerenderView()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>重新渲染视图</td>
+</tr>
+</tbody></table>
+
+        <h2 id="%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"></span>
+          使用示例
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> ViewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt #gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+
+    &lt;button (click)="gantt.scrollToToday()">回到今天&lt;/button>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttExampleComponent</span> <span class="token punctuation">{</span>
+  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">;</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 滚动到指定日期</span>
+  <span class="token function">scrollToDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">scrollToDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 获取任务项</span>
+  <span class="token function">getTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">getGanttItem</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>origin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 判断是否选中</span>
+  <span class="token function">checkSelected</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> selected <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">isSelected</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'是否选中:'</span><span class="token punctuation">,</span> selected<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
+          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
+          相关链接
+        </h2>
+      <ul>
+<li><a href="./data-model.md">数据模型</a> - 了解 GanttItem 和 GanttGroup 的结构</li>
+<li><a href="../features/groups.md">分组功能</a> - 了解分组的使用方法</li>
+</ul>
