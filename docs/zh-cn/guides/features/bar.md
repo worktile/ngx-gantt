@@ -6,13 +6,15 @@ order: 320
 
 任务条（Bar）是甘特图的核心交互元素，支持拖拽移动、缩放调整时间，以及丰富的自定义能力。
 
-## 自定义 Bar 模板
+## Bar 展示
+
+### 自定义 Bar 模板
 
 使用 `#bar` 模板自定义任务条的内容：
 
 ```html
 <ngx-gantt [items]="items">
-  <ng-template #bar let-item="item">
+  <ng-template #bar let-item="item" let-refs="refs">
     <div class="custom-bar">
       <span>{{ item.title }}</span>
       <span class="progress" *ngIf="item.progress"> {{ (item.progress * 100).toFixed(0) }}% </span>
@@ -23,7 +25,18 @@ order: 320
 </ngx-gantt>
 ```
 
-## 自定义 Item 模板
+### 模板上下文
+
+`#bar` 模板提供以下上下文：
+
+- `item`：任务项数据（`GanttItem`）
+- `refs`：任务条的位置和尺寸信息
+  - `refs.x`：X 坐标
+  - `refs.y`：Y 坐标
+  - `refs.width`：宽度
+  - `refs.height`：高度
+
+### 自定义 Item 模板
 
 使用 `#item` 模板自定义整个任务行的内容（包括任务条和行背景）：
 
@@ -35,6 +48,49 @@ order: 320
 </ng-template>
 ```
 
+## 样式定制
+
+### 自定义颜色
+
+通过 `color` 属性设置任务条的颜色：
+
+```typescript
+const items: GanttItem[] = [
+  {
+    id: '1',
+    title: '高优先级任务',
+    start: 1627729997,
+    end: 1628421197,
+    color: '#ff6b6b' // 自定义颜色
+  }
+];
+```
+
+### 自定义样式
+
+通过 `barStyle` 和 `laneStyle` 属性自定义样式：
+
+```typescript
+const items: GanttItem[] = [
+  {
+    id: '1',
+    title: '任务',
+    start: 1627729997,
+    end: 1628421197,
+    barStyle: {
+      borderRadius: '4px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    },
+    laneStyle: {
+      backgroundColor: '#f5f5f5'
+    }
+  }
+];
+```
+
+- `barStyle`：任务条的样式对象
+- `laneStyle`：任务行背景的样式对象
+
 ## 拖拽交互
 
 Bar 支持两种拖拽方式：
@@ -44,7 +100,7 @@ Bar 支持两种拖拽方式：
   - **左侧手柄**：调整开始时间
   - **右侧手柄**：调整结束时间
 
-两种拖拽方式共用同一套事件系统：
+### 启用拖拽
 
 ```typescript
 import { Component } from '@angular/core';
@@ -117,16 +173,16 @@ interface GanttBarClickEvent {
 }
 ```
 
-## 拖拽禁用
+### 禁用拖拽
 
-### 禁用所有 Bar 拖拽
+#### 禁用所有 Bar 拖拽
 
 ```typescript
 // 禁用所有任务的拖拽
 <ngx-gantt [draggable]="false" [items]="items">
 ```
 
-### 禁用指定任务脱宅
+#### 禁用指定任务拖拽
 
 ```typescript
 const items: GanttItem[] = [
@@ -142,43 +198,7 @@ const items: GanttItem[] = [
 
 **优先级：** 任务级别的 `draggable` 属性会覆盖全局配置。
 
-## 样式定制
-
-### 自定义颜色
-
-```typescript
-const items: GanttItem[] = [
-  {
-    id: '1',
-    title: '高优先级任务',
-    start: 1627729997,
-    end: 1628421197,
-    color: '#ff6b6b' // 自定义颜色
-  }
-];
-```
-
-### 自定义样式
-
-```typescript
-const items: GanttItem[] = [
-  {
-    id: '1',
-    title: '任务',
-    start: 1627729997,
-    end: 1628421197,
-    barStyle: {
-      borderRadius: '4px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-    },
-    laneStyle: {
-      backgroundColor: '#f5f5f5'
-    }
-  }
-];
-```
-
-## 拖拽提示框格式
+### 拖拽提示框格式
 
 拖拽时会显示日期预览，格式由 `viewOptions.dragTooltipFormat` 控制：
 
@@ -186,6 +206,36 @@ const items: GanttItem[] = [
 const viewOptions: GanttViewOptions = {
   dragTooltipFormat: 'MM-dd HH:mm' // 使用 date-fns 格式字符串
 };
+```
+
+## 最小示例
+
+```typescript
+import { Component } from '@angular/core';
+import { GanttItem, GanttViewType } from '@worktile/gantt';
+
+@Component({
+  selector: 'app-gantt-bar',
+  template: `
+    <ngx-gantt [items]="items" [viewType]="viewType">
+      <ngx-gantt-table>
+        <ngx-gantt-column name="任务" width="200px">
+          <ng-template #cell let-item="item">
+            {{ item.title }}
+          </ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
+    </ngx-gantt>
+  `
+})
+export class GanttBarComponent {
+  viewType = GanttViewType.day;
+
+  items: GanttItem[] = [
+    { id: '1', title: '任务 1', start: 1627729997, end: 1628421197 },
+    { id: '2', title: '任务 2', start: 1628507597, end: 1633345997 }
+  ];
+}
 ```
 
 ## 常见问题
@@ -227,8 +277,12 @@ onDragEnded(event: GanttDragEvent) {
 }
 ```
 
-<!-- ## 相关链接
+### Q: 如何自定义拖拽时的提示框内容？
 
-- [数据模型](../core/data-model.md) - 了解 GanttItem 的结构
-- [时间与时区](../core/date-timezone.md) - 理解时间字段的处理
-- [任务关联](./links.md) - 学习任务依赖关系的创建 -->
+**A:** 通过 `viewOptions.dragTooltipFormat` 设置日期格式，使用 date-fns 格式字符串。
+
+## 相关链接
+
+- [数据模型](guides/core-concepts/data-model) - 了解 GanttItem 的结构
+- [时间与时区](guides/core-concepts/date-timezone) - 理解时间字段的处理
+- [任务关联](guides/features/task-links) - 学习任务依赖关系的创建

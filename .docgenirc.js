@@ -13,21 +13,21 @@ module.exports = {
     navs: [
         null,
         {
-            title: '组件',
-            path: 'components',
-            locales: {
-                'en-us': {
-                    title: 'Component'
-                }
-            }
-        },
-        {
-            title: '参数',
+            title: '组件 API',
             path: 'configuration',
             lib: 'ngx-gantt',
             locales: {
                 'en-us': {
                     title: 'Configuration'
+                }
+            }
+        },
+        {
+            title: '示例',
+            path: 'components',
+            locales: {
+                'en-us': {
+                    title: 'Component'
                 }
             }
         },
@@ -50,15 +50,24 @@ module.exports = {
     libs: [
         {
             name: 'ngx-gantt',
-            rootDir: './example/src/app/configuration',
+            rootDir: './example/src/app/apis',
             exclude: [],
             categories: [
                 {
-                    id: 'config',
-                    title: '配置',
+                    id: 'core',
+                    title: '核心组件',
                     locales: {
                         'en-us': {
-                            title: 'Configuration'
+                            title: 'Core Components'
+                        }
+                    }
+                },
+                {
+                    id: 'feature',
+                    title: '功能组件',
+                    locales: {
+                        'en-us': {
+                            title: 'Feature Components'
                         }
                     }
                 }

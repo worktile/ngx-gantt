@@ -218,30 +218,12 @@ export class GanttViewComponent {
 
 ## 常见问题
 
-### Q: 如何选择合适的视图类型？
-
-**A:** 根据任务的时间跨度选择：
-
-- 短期任务（< 1 周）：`hour` 或 `day`
-- 中期任务（1 周 - 3 个月）：`day` 或 `week`
-- 长期任务（3 个月 - 1 年）：`week` 或 `month`
-- 超长期任务（> 1 年）：`month`、`quarter` 或 `year`
-
-### Q: unitWidth 设置多少合适？
-
-**A:** 取决于视图类型和显示需求：
-
-- `day` 视图：30-50px
-- `week` 视图：50-100px
-- `month` 视图：100-200px
-- 值越大，显示越宽松，但性能开销也越大
-
 ### Q: 如何实现自定义视图？
 
-**A:** 参考 [自定义视图](../advanced/custom-views.md)，继承 `GanttView` 抽象类并实现必要方法。
+**A:** 参考 [自定义视图](guides/advanced/custom-views)，继承 `GanttView` 抽象类并实现必要方法。
 
 ## 相关链接
 
-- [自定义视图](../advanced/custom-views.md) - 学习如何创建自定义视图类型
-- [工具栏](../features/toolbar.md) - 了解视图切换的 UI 实现
-- [时间与时区](./date-timezone.md) - 理解时间处理的基础
+- [自定义视图](guides/advanced/custom-views) - 学习如何创建自定义视图类型
+- [工具栏](guides/features/toolbar) - 了解视图切换的 UI 实现
+- [时间与时区](guides/core-concepts/date-timezone) - 理解时间处理的基础

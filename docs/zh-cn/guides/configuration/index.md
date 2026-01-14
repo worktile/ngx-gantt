@@ -1,40 +1,139 @@
 ---
-title: 配置
+title: 全局配置
 path: 'configuration'
 order: 400
 ---
 
-# 配置与样式
+全局配置通过 `GANTT_GLOBAL_CONFIG` Token 提供，用于设置应用级别的默认配置，包括时区、样式和链接选项。
 
-明确"配置入口"与"优先级"，实现品牌主题化和国际化。
+## 配置结构
 
-## 配置概览
+`GanttGlobalConfig` 配置说明：
 
-ngx-gantt 提供多层次的配置方式，从全局到组件再到任务级别，满足不同场景的需求。
+```typescript
+interface GanttGlobalConfig {
+  locale?: GanttI18nLocale | string; // 默认语言 ID（详见国际化文档）
+  dateOptions?: {
+    timeZone?: string; // 时区，如 'Asia/Shanghai'、'UTC'
+    weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6; // 周起始日：0=周日，1=周一 ...
+  };
+  linkOptions?: {
+    dependencyTypes?: GanttLinkType[]; // 允许的依赖类型
+    showArrow?: boolean; // 是否显示箭头
+    lineType?: 'curve' | 'straight'; // 连线类型：曲线/直线
+  };
+  styleOptions?: {
+    primaryColor?: string; // 主色调
+    headerHeight?: number; // 日历头部高度（px）
+    rowHeight?: number; // 行高（px）
+    barHeight?: number; // 任务条高度（px）
+    defaultTheme?: string; // 默认主题名称
+    themes?: Record<string, any>; // 主题配置对象，详见主题化文档
+  };
+}
+```
 
-### 配置层级
+### 默认配置
 
-1. **全局配置**：应用级别的默认配置
-2. **组件配置**：特定组件的配置
-3. **任务配置**：单个任务的配置
+```typescript
+const defaultConfig: GanttGlobalConfig = {
+  locale: 'zh-hans',
+  linkOptions: {
+    dependencyTypes: [GanttLinkType.fs],
+    showArrow: false,
+    lineType: 'curve'
+  },
+  styleOptions: {
+    primaryColor: '#6698ff',
+    headerHeight: 44,
+    rowHeight: 44,
+    barHeight: 22,
+    defaultTheme: 'default',
+    themes: {
+      default: {
+        primary: '#6698ff',
+        danger: '#FF7575',
+        highlight: '#ff9f73',
+        background: '#ffffff',
+        text: {
+          main: '#333333',
+          muted: '#888888',
+          light: '#aaaaaa',
+          inverse: '#ffffff'
+        },
+        gray: {
+          100: '#fafafa',
+          200: '#f5f5f5',
+          300: '#f3f3f3',
+          400: '#eeeeee',
+          500: '#dddddd',
+          600: '#cacaca'
+        }
+      }
+    }
+  },
+  dateOptions: {
+    weekStartsOn: 1
+  }
+};
+```
 
-## 章节列表
+## 注册全局配置
 
-- [全局配置](./global-config.md) - GANTT_GLOBAL_CONFIG Token 的结构与合并策略
-- [国际化](./i18n.md) - 内置语言包使用与 GANTT_I18N_LOCALE_TOKEN 自定义扩展
-- [主题化](./theming.md) - SCSS 变量覆盖策略与运行时动态色系切换
-- [优先级原则](./priority.md) - 配置优先级说明
+### Standalone 方式
 
-## 快速参考
+```typescript
+import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from '@worktile/gantt';
 
-| 配置类型 | 配置方式              | 优先级 | 文档                               |
-| -------- | --------------------- | ------ | ---------------------------------- |
-| 全局配置 | `GANTT_GLOBAL_CONFIG` | 低     | [全局配置](./global-config.md)     |
-| 组件配置 | Input 属性            | 中     | [各功能文档](../features/index.md) |
-| 任务配置 | Item 属性             | 高     | [数据模型](../core/data-model.md)  |
+bootstrapApplication(AppComponent, {
+  providers: [
+    ...,
+    {
+      provide: GANTT_GLOBAL_CONFIG,
+      useValue: {
+        dateOptions: {
+          timeZone: 'Asia/Shanghai',
+          weekStartsOn: 1
+        },
+        linkOptions: {
+          dependencyTypes: [GanttLinkType.fs],
+          showArrow: false,
+          lineType: 'curve'
+        },
+        styleOptions: {
+          primaryColor: '#6698ff',
+          headerHeight: 44,
+          rowHeight: 44,
+          barHeight: 22
+        }
+      } as GanttGlobalConfig
+    }
+  ]
+}).catch(err => console.error(err));
+```
 
-## 学习建议
+### NgModule 方式
 
-1. **初学者**：从 [全局配置](./global-config.md) 开始，了解基础配置
-2. **进阶用户**：学习 [优先级原则](./priority.md)，掌握配置规则
-3. **高级用户**：深入 [主题化](./theming.md) 和 [国际化](./i18n.md)
+```typescript
+import { GANTT_GLOBAL_CONFIG, GanttGlobalConfig } from '@worktile/gantt';
+
+@NgModule({
+  providers: [
+    {
+      provide: GANTT_GLOBAL_CONFIG,
+      useValue: {
+        dateOptions: {
+          timeZone: 'Asia/Shanghai',
+          weekStartsOn: 1
+        }
+      } as GanttGlobalConfig
+    }
+  ]
+})
+export class AppModule {}
+```
+
+## 相关链接
+
+- [国际化配置](guides/configuration/i18n) - 内置语言包、自定义语言包、语言切换
+- [主题样式配置](guides/configuration/theming) - 基础样式配置、自定义主题、多主题支持

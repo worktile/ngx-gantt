@@ -39,18 +39,20 @@ jobs:
       - name: Build documentation
         run: |
           # 定义恢复路由的脚本
-          # 这段脚本将放在 index.html 中，用于还原从 404 跳转过来的路径
-          REDIRECT_RECOVERY_SCRIPT='<script>(function(l){if(l.search[0]==="?"){var s=l.search.slice(1).split("&").map(function(v){return v.replace(/~and~/g,"&")});var ii=s.indexOf("p=/");if(ii!==-1){s.splice(ii,1);l.replace(l.protocol+"//"+l.host+l.pathname.slice(0,-1)+(s.length?"?"+s.join("&"):"")+l.hash)}}})(window.location)</script>'
-          
+          # 放在 index.html 中，用于从 404.html 传来的查询参数恢复真实路径
+          REDIRECT_RECOVERY_SCRIPT='<script>(function(w){var l=w.location;if(!l.search){return;}var params=new URLSearchParams(l.search);var p=params.get("p");if(!p){return;}var q=params.get("q");var base=l.pathname.replace(/index\\.html$/,"").replace(/\\/$/,"");var target=base+decodeURIComponent(p);if(q){var decodedQ=decodeURIComponent(q);target+=decodedQ.startsWith("?")?decodedQ:"?"+decodedQ;}if(l.hash){target+=l.hash;}w.history.replaceState(null,"",target);})(window)</script>'
+
           # 定义 404 转发脚本
-          # 这段脚本将放在根目录的 404.html 中
-          # 它会判断是根目录还是 v21 目录，并跳转到对应的 index.html
-          FOUR_OH_FOUR_SCRIPT='<script>(function(l){var path=l.pathname;var isV21=path.indexOf("/v21/")!==-1;var base=isV21?"/ngx-gantt/v21/":"/ngx-gantt/";var p="/"+path.replace(base,"");l.replace(l.protocol+"//"+l.host+base+"index.html?p="+p.replace(/&/g,"~and~")+(l.search?"&q="+l.search.slice(1).replace(/&/g,"~and~"):"")+l.hash)})(window.location)</script>'
+          # 放在 404.html 中，根据路径是否包含 v21 决定跳回哪一个 index.html
+          FOUR_OH_FOUR_SCRIPT='<script>(function(l){var path=l.pathname;var isV21=path.indexOf("/v21/")!==-1;var base=isV21?"/ngx-gantt/v21/":"/ngx-gantt/";var trimmed=path.replace(base,"");var target=base+"index.html?p="+encodeURIComponent("/"+trimmed)+(l.search?"&q="+encodeURIComponent(l.search.slice(1)):"")+l.hash;l.replace(target);})(window.location)</script>'
 
           if [ "${{ github.ref }}" == "refs/heads/v21.0.0-next" ]; then
             npm run build:next-docs:gh-pages
             # 注入恢复脚本到 index.html
             sed -i "s|<head>|<head>$REDIRECT_RECOVERY_SCRIPT|" dist/example/index.html
+            # 注入转发脚本到 404.html (基于 index.html 副本)
+            cp dist/example/index.html dist/example/404.html
+            sed -i "s|<head>|<head>$FOUR_OH_FOUR_SCRIPT|" dist/example/404.html
             mkdir -p dist/example-combined/v21
             cp -r dist/example/* dist/example-combined/v21/
           else
