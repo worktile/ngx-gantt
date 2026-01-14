@@ -61825,7 +61825,7 @@ function AppGanttExampleComponent_ng_template_2_Conditional_18_Template(rf, ctx)
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "\u9690\u85CF\u5047\u671F\uFF1A");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "thy-switch", 12);
+    \u0275\u0275elementStart(2, "thy-switch", 13);
     \u0275\u0275twoWayListener("ngModelChange", function AppGanttExampleComponent_ng_template_2_Conditional_18_Template_thy_switch_ngModelChange_2_listener($event) {
       \u0275\u0275restoreView(_r4);
       const ctx_r2 = \u0275\u0275nextContext(2);
@@ -61849,7 +61849,7 @@ function AppGanttExampleComponent_ng_template_2_Conditional_18_Template(rf, ctx)
 function AppGanttExampleComponent_ng_template_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "thy-button", 11);
+    \u0275\u0275elementStart(0, "thy-button", 12);
     \u0275\u0275listener("click", function AppGanttExampleComponent_ng_template_2_Template_thy_button_click_0_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r2 = \u0275\u0275nextContext();
@@ -61858,7 +61858,7 @@ function AppGanttExampleComponent_ng_template_2_Template(rf, ctx) {
     \u0275\u0275text(1, "\u4ECA\u5929");
     \u0275\u0275elementEnd();
     \u0275\u0275text(2, " \xA0 \xA0 \xA0 ");
-    \u0275\u0275elementStart(3, "thy-button", 11);
+    \u0275\u0275elementStart(3, "thy-button", 12);
     \u0275\u0275listener("click", function AppGanttExampleComponent_ng_template_2_Template_thy_button_click_3_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r2 = \u0275\u0275nextContext();
@@ -61867,7 +61867,7 @@ function AppGanttExampleComponent_ng_template_2_Template(rf, ctx) {
     \u0275\u0275text(4, "\u5237\u65B0");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " \xA0 \xA0 \xA0 ");
-    \u0275\u0275elementStart(6, "thy-button", 11);
+    \u0275\u0275elementStart(6, "thy-button", 12);
     \u0275\u0275listener("click", function AppGanttExampleComponent_ng_template_2_Template_thy_button_click_6_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r2 = \u0275\u0275nextContext();
@@ -61879,7 +61879,7 @@ function AppGanttExampleComponent_ng_template_2_Template(rf, ctx) {
     \u0275\u0275elementStart(9, "span");
     \u0275\u0275text(10, "\u5DE5\u5177\u680F\uFF1A");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "thy-switch", 12);
+    \u0275\u0275elementStart(11, "thy-switch", 13);
     \u0275\u0275twoWayListener("ngModelChange", function AppGanttExampleComponent_ng_template_2_Template_thy_switch_ngModelChange_11_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r2 = \u0275\u0275nextContext();
@@ -61891,7 +61891,7 @@ function AppGanttExampleComponent_ng_template_2_Template(rf, ctx) {
     \u0275\u0275elementStart(13, "span");
     \u0275\u0275text(14, "\u57FA\u7EBF\u5BF9\u6BD4\uFF1A");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "thy-switch", 12);
+    \u0275\u0275elementStart(15, "thy-switch", 13);
     \u0275\u0275twoWayListener("ngModelChange", function AppGanttExampleComponent_ng_template_2_Template_thy_switch_ngModelChange_15_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r2 = \u0275\u0275nextContext();
@@ -61920,7 +61920,7 @@ function AppGanttExampleComponent_ng_template_2_Template(rf, ctx) {
 }
 function AppGanttExampleComponent_ng_template_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "a", 13);
+    \u0275\u0275elementStart(0, "a", 14);
     \u0275\u0275text(1, "\u67E5\u770B\u6E90\u7801");
     \u0275\u0275elementEnd();
   }
@@ -61956,7 +61956,7 @@ function AppGanttExampleComponent_ng_template_17_Template(rf, ctx) {
 }
 function AppGanttExampleComponent_ng_template_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 14);
+    \u0275\u0275elementStart(0, "span", 15);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -61964,6 +61964,17 @@ function AppGanttExampleComponent_ng_template_19_Template(rf, ctx) {
     const item_r8 = ctx.item;
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1("\xA0\xA0", item_r8.title, " ");
+  }
+}
+function AppGanttExampleComponent_ng_template_21_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 16)(1, "span");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(12344556);
   }
 }
 var cacheKeys = "GANTT_TABLE_KEYS";
@@ -61994,7 +62005,7 @@ var AppGanttExampleComponent = class _AppGanttExampleComponent {
       { id: "000001", title: "Task 1", start: 1617361997, end: 1625483597, links: ["000003", "000004", "0000029"], draggable: false },
       { id: "000002", title: "Task 2", start: 1617361997, end: 1625483597, progress: 0.5, linkable: false },
       { id: "000003", title: "Task 3 (\u4E0D\u53EF\u62D6\u52A8)", start: 1628507597, end: 1633345997, itemDraggable: false },
-      { id: "000004", title: "Task 4", start: 1624705997 },
+      { id: "000004", title: "Task 4", start: 1624705997, end: 1624755997, type: GanttItemType.range },
       { id: "000005", title: "Task 5", start: 1756543568, end: 1756629968, color: "#709dc1" },
       { id: "000006", title: "Task 6", start: 1641121997, end: 1645528397 },
       { id: "000007", title: "Task 7", start: 1639393997, end: 1640862797 },
@@ -62151,13 +62162,13 @@ var AppGanttExampleComponent = class _AppGanttExampleComponent {
       if (rf & 2) {
         \u0275\u0275classProp("gantt-example-component", ctx.class);
       }
-    }, features: [\u0275\u0275ProvidersFeature([GanttPrintService])], decls: 21, vars: 17, consts: [["headerContent", ""], ["headerOperation", ""], ["gantt", ""], ["cell", ""], ["bar", ""], [1, "header-with-baseline"], [3, "barClick", "viewChange", "lineClick", "dragMoved", "dragEnded", "selectedChange", "linkDragEnded", "items", "baselineItems", "viewType", "draggable", "linkable", "selectable", "multiple", "viewOptions", "showToolbar", "toolbarOptions", "loading", "virtualScrollEnabled", "quickTimeFocus"], [3, "itemClick", "dragDropped", "dragStarted", "dragEnded", "resizeChange", "draggable", "maxWidth", "dropEnterPredicate"], ["name", "Title", "width", "160px", 3, "showExpandIcon"], ["name", "Start Time", "width", "200px"], ["name", "End Time", "width", "200px"], ["thyType", "primary", "thySize", "sm", 3, "click"], [1, "baseline-switch", 3, "ngModelChange", "ngModel"], ["href", "https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt", "target", "_blank"], [2, "color", "#fff"]], template: function AppGanttExampleComponent_Template(rf, ctx) {
+    }, features: [\u0275\u0275ProvidersFeature([GanttPrintService])], decls: 23, vars: 17, consts: [["headerContent", ""], ["headerOperation", ""], ["gantt", ""], ["cell", ""], ["bar", ""], ["range", ""], [1, "header-with-baseline"], [3, "barClick", "viewChange", "lineClick", "dragMoved", "dragEnded", "selectedChange", "linkDragEnded", "items", "baselineItems", "viewType", "draggable", "linkable", "selectable", "multiple", "viewOptions", "showToolbar", "toolbarOptions", "loading", "virtualScrollEnabled", "quickTimeFocus"], [3, "itemClick", "dragDropped", "dragStarted", "dragEnded", "resizeChange", "draggable", "maxWidth", "dropEnterPredicate"], ["name", "Title", "width", "160px", 3, "showExpandIcon"], ["name", "Start Time", "width", "200px"], ["name", "End Time", "width", "200px"], ["thyType", "primary", "thySize", "sm", 3, "click"], [1, "baseline-switch", 3, "ngModelChange", "ngModel"], ["href", "https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt", "target", "_blank"], [2, "color", "#fff"], [1, "custom-range"]], template: function AppGanttExampleComponent_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = \u0275\u0275getCurrentView();
-        \u0275\u0275elementStart(0, "thy-layout")(1, "thy-header", 5);
+        \u0275\u0275elementStart(0, "thy-layout")(1, "thy-header", 6);
         \u0275\u0275template(2, AppGanttExampleComponent_ng_template_2_Template, 19, 3, "ng-template", null, 0, \u0275\u0275templateRefExtractor)(4, AppGanttExampleComponent_ng_template_4_Template, 2, 0, "ng-template", null, 1, \u0275\u0275templateRefExtractor);
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(6, "thy-content")(7, "ngx-gantt", 6, 2);
+        \u0275\u0275elementStart(6, "thy-content")(7, "ngx-gantt", 7, 2);
         \u0275\u0275listener("barClick", function AppGanttExampleComponent_Template_ngx_gantt_barClick_7_listener($event) {
           \u0275\u0275restoreView(_r1);
           return \u0275\u0275resetView(ctx.barClick($event));
@@ -62180,7 +62191,7 @@ var AppGanttExampleComponent = class _AppGanttExampleComponent {
           \u0275\u0275restoreView(_r1);
           return \u0275\u0275resetView(ctx.linkDragEnded($event));
         });
-        \u0275\u0275elementStart(9, "ngx-gantt-table", 7);
+        \u0275\u0275elementStart(9, "ngx-gantt-table", 8);
         \u0275\u0275listener("itemClick", function AppGanttExampleComponent_Template_ngx_gantt_table_itemClick_9_listener($event) {
           \u0275\u0275restoreView(_r1);
           return \u0275\u0275resetView(ctx.itemClick($event));
@@ -62197,16 +62208,16 @@ var AppGanttExampleComponent = class _AppGanttExampleComponent {
           \u0275\u0275restoreView(_r1);
           return \u0275\u0275resetView(ctx.resizeChange($event));
         });
-        \u0275\u0275elementStart(10, "ngx-gantt-column", 8);
+        \u0275\u0275elementStart(10, "ngx-gantt-column", 9);
         \u0275\u0275template(11, AppGanttExampleComponent_ng_template_11_Template, 1, 1, "ng-template", null, 3, \u0275\u0275templateRefExtractor);
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(13, "ngx-gantt-column", 9);
+        \u0275\u0275elementStart(13, "ngx-gantt-column", 10);
         \u0275\u0275template(14, AppGanttExampleComponent_ng_template_14_Template, 2, 4, "ng-template", null, 3, \u0275\u0275templateRefExtractor);
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(16, "ngx-gantt-column", 10);
+        \u0275\u0275elementStart(16, "ngx-gantt-column", 11);
         \u0275\u0275template(17, AppGanttExampleComponent_ng_template_17_Template, 2, 4, "ng-template", null, 3, \u0275\u0275templateRefExtractor);
         \u0275\u0275elementEnd()();
-        \u0275\u0275template(19, AppGanttExampleComponent_ng_template_19_Template, 2, 1, "ng-template", null, 4, \u0275\u0275templateRefExtractor);
+        \u0275\u0275template(19, AppGanttExampleComponent_ng_template_19_Template, 2, 1, "ng-template", null, 4, \u0275\u0275templateRefExtractor)(21, AppGanttExampleComponent_ng_template_21_Template, 3, 1, "ng-template", null, 5, \u0275\u0275templateRefExtractor);
         \u0275\u0275elementEnd()()();
       }
       if (rf & 2) {
@@ -62323,6 +62334,12 @@ var AppGanttExampleComponent = class _AppGanttExampleComponent {
       <ng-template #bar let-item="item">
         <span style="color: #fff">&nbsp;&nbsp;{{ item.title }} </span>
       </ng-template>
+
+      <ng-template #range let-item="item" let-refs="refs">
+        <div class="custom-range">
+          <span>{{ 12344556 }}</span>
+        </div>
+      </ng-template>
     </ngx-gantt>
   </thy-content>
 </thy-layout>
@@ -62336,7 +62353,7 @@ var AppGanttExampleComponent = class _AppGanttExampleComponent {
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppGanttExampleComponent, { className: "AppGanttExampleComponent", filePath: "example/src/app/gantt/gantt.component.ts", lineNumber: 55 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppGanttExampleComponent, { className: "AppGanttExampleComponent", filePath: "example/src/app/gantt/gantt.component.ts", lineNumber: 56 });
 })();
 
 // example/src/app/gantt-advanced/component/flat.component.ts

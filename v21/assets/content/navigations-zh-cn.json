@@ -817,6 +817,66 @@
               "originPath": "docs/zh-cn/guides/features/bar.md"
             },
             {
+              "id": "range",
+              "path": "features/range",
+              "channelPath": "guides",
+              "title": "Range 任务显示",
+              "order": 321,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "range-%E7%B1%BB%E5%9E%8B%E4%BB%BB%E5%8A%A1%E9%A1%B9",
+                  "name": "Range 类型任务项",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "range-%E5%B1%95%E7%A4%BA",
+                  "name": "Range 展示",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-range-%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义 Range 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+                  "name": "模板上下文",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "range-%E4%B8%8E-bar-%E7%9A%84%E5%8C%BA%E5%88%AB",
+                  "name": "Range 与 Bar 的区别",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF",
+                  "name": "使用场景",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/range.html",
+              "originPath": "docs/zh-cn/guides/features/range.md"
+            },
+            {
               "id": "links",
               "path": "features/task-links",
               "channelPath": "guides",
@@ -3766,6 +3826,66 @@
       ],
       "contentPath": "docs/zh-cn/guides/features/print.html",
       "originPath": "docs/zh-cn/guides/features/print.md"
+    },
+    {
+      "id": "range",
+      "path": "features/range",
+      "channelPath": "guides",
+      "title": "Range 任务显示",
+      "order": 321,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "range-%E7%B1%BB%E5%9E%8B%E4%BB%BB%E5%8A%A1%E9%A1%B9",
+          "name": "Range 类型任务项",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "range-%E5%B1%95%E7%A4%BA",
+          "name": "Range 展示",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-range-%E6%A8%A1%E6%9D%BF",
+          "name": "自定义 Range 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+          "name": "模板上下文",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "range-%E4%B8%8E-bar-%E7%9A%84%E5%8C%BA%E5%88%AB",
+          "name": "Range 与 Bar 的区别",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF",
+          "name": "使用场景",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/range.html",
+      "originPath": "docs/zh-cn/guides/features/range.md"
     },
     {
       "id": "table",

@@ -1,0 +1,147 @@
+<p>Range（区间）是甘特图中用于展示特定类型任务项的组件，适用于需要以区间形式展示的时间段数据。</p>
+
+        <h2 id="range-%E7%B1%BB%E5%9E%8B%E4%BB%BB%E5%8A%A1%E9%A1%B9" class="docs-header-link">
+          <span header-link="range-%E7%B1%BB%E5%9E%8B%E4%BB%BB%E5%8A%A1%E9%A1%B9"></span>
+          Range 类型任务项
+        </h2>
+      <p>Range 类型的任务项通过设置 <code>type: &#39;range&#39;</code> 来标识：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'版本发布'</span><span class="token punctuation">,</span>
+    start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span>
+    end<span class="token punctuation">:</span> <span class="token number">1627759997</span>
+    type<span class="token punctuation">:</span> <span class="token string">'range'</span> <span class="token comment" spellcheck="true">// 设置为 range 类型</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="range-%E5%B1%95%E7%A4%BA" class="docs-header-link">
+          <span header-link="range-%E5%B1%95%E7%A4%BA"></span>
+          Range 展示
+        </h2>
+      
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89-range-%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89-range-%E6%A8%A1%E6%9D%BF"></span>
+          自定义 Range 模板
+        </h3>
+      <p>使用 <code>#range</code> 模板自定义区间的内容：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#range</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span> <span class="token attr-name">let-refs</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-range<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{ item.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87" class="docs-header-link">
+          <span header-link="%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87"></span>
+          模板上下文
+        </h3>
+      <div class="dg-paragraph"><code>#range</code> 模板提供以下上下文：</div>
+<ul>
+<li><code>item</code>：任务项数据（<code>GanttItem</code>）</li>
+<li><code>refs</code>：区间的位置和尺寸信息<ul>
+<li><code>refs.x</code>：X 坐标</li>
+<li><code>refs.y</code>：Y 坐标</li>
+<li><code>refs.width</code>：宽度</li>
+<li><code>refs.height</code>：高度</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="range-%E4%B8%8E-bar-%E7%9A%84%E5%8C%BA%E5%88%AB" class="docs-header-link">
+          <span header-link="range-%E4%B8%8E-bar-%E7%9A%84%E5%8C%BA%E5%88%AB"></span>
+          Range 与 Bar 的区别
+        </h2>
+      <table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Bar</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用途</td>
+<td>标准任务条，支持拖拽交互</td>
+<td>区间展示，通常用于标记时间段</td>
+</tr>
+<tr>
+<td>模板</td>
+<td><code>#bar</code></td>
+<td><code>#range</code></td>
+</tr>
+<tr>
+<td>拖拽</td>
+<td>支持整体拖拽和缩放</td>
+<td>不支持拖拽</td>
+</tr>
+</tbody></table>
+
+        <h2 id="%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF" class="docs-header-link">
+          <span header-link="%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"></span>
+          使用场景
+        </h2>
+      <p>Range 类型适用于以下场景：</p>
+<ol>
+<li><strong>版本发布区间</strong>：标记版本发布的时间段</li>
+<li><strong>里程碑区间</strong>：展示重要的时间节点范围</li>
+<li><strong>计划区间</strong>：显示计划的时间范围</li>
+</ol>
+
+        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
+          最小示例
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-range'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType">
+      &lt;ng-template #range let-item="item" let-refs="refs">
+        &lt;div class="range-item" [style.left.px]="refs.x" [style.width.px]="refs.width">
+          {{ item.title }}
+        &lt;/div>
+      &lt;/ng-template>
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttRangeComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'版本 V1.0'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span>
+      type<span class="token punctuation">:</span> <span class="token string">'range'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'版本 V2.0'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1630421197</span><span class="token punctuation">,</span>
+      type<span class="token punctuation">:</span> <span class="token string">'range'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
+          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
+          相关链接
+        </h2>
+      <ul>
+<li><a href="guides/features/bar-interaction">Bar 显示与交互</a> - 了解 Bar 类型的任务条交互</li>
+<li><a href="guides/core-concepts/data-model">数据模型</a> - 了解 GanttItem 的结构和 type 字段</li>
+<li><a href="guides/core-concepts/date-timezone">时间与时区</a> - 理解时间字段的处理</li>
+</ul>
