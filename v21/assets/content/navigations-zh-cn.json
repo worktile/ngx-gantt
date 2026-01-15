@@ -573,88 +573,16 @@
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E8%A1%A8%E6%A0%BC%E4%BA%A4%E4%BA%92",
-                  "name": "表格交互",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-                  "name": "前置阅读",
+                  "id": "%E8%A1%A8%E6%A0%BC%E5%86%85%E5%AE%B9%E5%B1%95%E7%A4%BA",
+                  "name": "表格内容展示",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E8%A1%8C%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F",
-                  "name": "行拖拽排序",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E6%8B%96%E6%8B%BD%E4%BD%8D%E7%BD%AE",
-                  "name": "拖拽位置",
+                  "id": "%E5%88%97%E5%86%85%E5%AE%B9",
+                  "name": "列内容",
                   "level": 3,
                   "type": "h3"
-                },
-                {
-                  "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
-                  "name": "启用拖拽",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E6%8B%96%E6%8B%BD%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
-                  "name": "拖拽事件处理",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA",
-                  "name": "dropEnterPredicate 动作拦截",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%88%97%E9%85%8D%E7%BD%AE",
-                  "name": "列配置",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E5%88%97%E5%AE%9A%E4%B9%89",
-                  "name": "列定义",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E5%88%97%E5%B1%9E%E6%80%A7",
-                  "name": "列属性",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%B8%8E%E9%80%89%E6%8B%A9",
-                  "name": "行点击与选择",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6",
-                  "name": "行点击事件",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD",
-                  "name": "选择功能",
-                  "level": 3,
-                  "type": "h3"
-                },
-                {
-                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF",
-                  "name": "自定义模板",
-                  "level": 2,
-                  "type": "h2"
                 },
                 {
                   "id": "%E8%A1%8C%E5%89%8D%E7%BD%AE/%E5%90%8E%E7%BD%AE%E6%8F%92%E6%A7%BD",
@@ -667,6 +595,66 @@
                   "name": "空状态模板",
                   "level": 3,
                   "type": "h3"
+                },
+                {
+                  "id": "%E5%BA%95%E9%83%A8%E6%A8%A1%E7%89%88",
+                  "name": "底部模版",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A1%A8%E6%A0%BC%E4%BA%A4%E4%BA%92",
+                  "name": "表格交互",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%A1%8C%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F",
+                  "name": "行拖拽排序",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+                  "name": "启用拖拽",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
+                  "name": "拖拽事件处理",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA",
+                  "name": "dropEnterPredicate 动作拦截",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E5%88%97%E6%8B%96%E6%8B%BD%E6%94%B9%E5%8F%98%E5%AE%BD%E5%BA%A6",
+                  "name": "列拖拽改变宽度",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%B8%8E%E9%80%89%E6%8B%A9",
+                  "name": "行点击与选择",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6",
+                  "name": "行点击事件",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD",
+                  "name": "选择功能",
+                  "level": 4,
+                  "type": "h4"
                 },
                 {
                   "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
@@ -3374,88 +3362,16 @@
       "toc": "content",
       "headings": [
         {
-          "id": "%E8%A1%A8%E6%A0%BC%E4%BA%A4%E4%BA%92",
-          "name": "表格交互",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB",
-          "name": "前置阅读",
+          "id": "%E8%A1%A8%E6%A0%BC%E5%86%85%E5%AE%B9%E5%B1%95%E7%A4%BA",
+          "name": "表格内容展示",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E8%A1%8C%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F",
-          "name": "行拖拽排序",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%8B%96%E6%8B%BD%E4%BD%8D%E7%BD%AE",
-          "name": "拖拽位置",
+          "id": "%E5%88%97%E5%86%85%E5%AE%B9",
+          "name": "列内容",
           "level": 3,
           "type": "h3"
-        },
-        {
-          "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
-          "name": "启用拖拽",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E6%8B%96%E6%8B%BD%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
-          "name": "拖拽事件处理",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA",
-          "name": "dropEnterPredicate 动作拦截",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%88%97%E9%85%8D%E7%BD%AE",
-          "name": "列配置",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%88%97%E5%AE%9A%E4%B9%89",
-          "name": "列定义",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E5%88%97%E5%B1%9E%E6%80%A7",
-          "name": "列属性",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%B8%8E%E9%80%89%E6%8B%A9",
-          "name": "行点击与选择",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6",
-          "name": "行点击事件",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD",
-          "name": "选择功能",
-          "level": 3,
-          "type": "h3"
-        },
-        {
-          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF",
-          "name": "自定义模板",
-          "level": 2,
-          "type": "h2"
         },
         {
           "id": "%E8%A1%8C%E5%89%8D%E7%BD%AE/%E5%90%8E%E7%BD%AE%E6%8F%92%E6%A7%BD",
@@ -3468,6 +3384,66 @@
           "name": "空状态模板",
           "level": 3,
           "type": "h3"
+        },
+        {
+          "id": "%E5%BA%95%E9%83%A8%E6%A8%A1%E7%89%88",
+          "name": "底部模版",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A1%A8%E6%A0%BC%E4%BA%A4%E4%BA%92",
+          "name": "表格交互",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%A1%8C%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F",
+          "name": "行拖拽排序",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+          "name": "启用拖拽",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
+          "name": "拖拽事件处理",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA",
+          "name": "dropEnterPredicate 动作拦截",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E5%88%97%E6%8B%96%E6%8B%BD%E6%94%B9%E5%8F%98%E5%AE%BD%E5%BA%A6",
+          "name": "列拖拽改变宽度",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%B8%8E%E9%80%89%E6%8B%A9",
+          "name": "行点击与选择",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6",
+          "name": "行点击事件",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD",
+          "name": "选择功能",
+          "level": 4,
+          "type": "h4"
         },
         {
           "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
