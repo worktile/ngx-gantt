@@ -8,12 +8,6 @@ order: 370
 
 ngx-gantt 支持将甘特图导出为 PNG 图片，方便用于报告、分享和存档。
 
-## 前置阅读
-
-在深入学习导出打印之前，建议先了解：
-
-- [视图体系](../core/views.md) - 理解视图的显示
-
 ## GanttPrintService
 
 `GanttPrintService` 是导出打印的核心服务，使用 `html2canvas` 库将甘特图转换为图片。
@@ -25,39 +19,10 @@ import { GanttPrintService } from '@worktile/gantt';
 
 @Component({
   selector: 'app-gantt-print',
-  providers: [GanttPrintService],
-  template: `
-    <ngx-gantt #gantt [items]="items">
-      <!-- ... -->
-    </ngx-gantt>
-    <button (click)="exportImage()">导出为图片</button>
-  `
+  providers: [GanttPrintService]
 })
 export class GanttPrintComponent {
-  @ViewChild('gantt') gantt: NgxGanttComponent;
-
-  constructor(private printService: GanttPrintService) {
-    // 注册甘特图根元素
-    this.printService.register(this.gantt.elementRef);
-  }
-
-  exportImage() {
-    this.printService.print('gantt-chart');
-  }
-}
-```
-
-### 注册甘特图组件
-
-在使用打印服务前，需要先注册甘特图的根元素：
-
-```typescript
-ngAfterViewInit() {
-  // 获取甘特图根元素
-  const ganttRoot = this.gantt.ganttRoot();
-  if (ganttRoot) {
-    this.printService.register(ganttRoot.elementRef);
-  }
+  constructor(private printService: GanttPrintService) {}
 }
 ```
 
@@ -76,30 +41,12 @@ ngAfterViewInit() {
   providers: [GanttPrintService]
 })
 export class GanttPrintComponent {
-  @ViewChild('gantt') gantt: NgxGanttComponent;
-
   constructor(private printService: GanttPrintService) {}
-
-  ngAfterViewInit() {
-    const ganttRoot = this.gantt.ganttRoot();
-    if (ganttRoot) {
-      this.printService.register(ganttRoot.elementRef);
-    }
-  }
 
   exportImage() {
     // 导出为 PNG，文件名为 'gantt-chart.png'
     this.printService.print('gantt-chart');
   }
-}
-```
-
-### 自定义文件名
-
-```typescript
-exportImage() {
-  const fileName = `项目甘特图-${new Date().toISOString().split('T')[0]}`;
-  this.printService.print(fileName);
 }
 ```
 
@@ -176,33 +123,7 @@ async exportAndUpload() {
 `GanttPrintService` 会自动处理 SVG 样式内联，但需要注意：
 
 1. **确保样式已加载**：等待样式加载完成后再导出
-
-```typescript
-async exportImage() {
-  // 等待样式加载
-  await this.waitForStyles();
-
-  // 导出
-  this.printService.print('gantt-chart');
-}
-
-private waitForStyles(): Promise<void> {
-  return new Promise((resolve) => {
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => resolve());
-    } else {
-      setTimeout(() => resolve(), 1000);
-    }
-  });
-}
-```
-
 2. **使用内联样式**：对于关键样式，使用内联样式
-
-```html
-<div style="color: #333; font-size: 14px;">内容</div>
-```
-
 3. **检查 SVG 元素**：确保 SVG 元素的样式正确
 
 ## 最小示例
@@ -333,8 +254,3 @@ exportImage() {
 1. 对于大型甘特图，导出可能需要较长时间
 2. 考虑在导出前隐藏不必要的元素
 3. 使用 `ignoreElementClass` 忽略不需要的元素
-
-## 相关链接
-
-- [视图体系](../core/views.md) - 了解视图显示
-- [工具栏](./toolbar.md) - 了解工具栏功能

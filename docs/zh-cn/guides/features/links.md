@@ -8,13 +8,6 @@ order: 330
 
 任务关联（依赖关系）是项目管理中的重要功能，ngx-gantt 支持通过拖拽创建任务间的依赖链接。
 
-## 前置阅读
-
-在深入学习任务关联之前，建议先了解：
-
-- [数据模型](../core/data-model.md) - 理解 GanttItem 的 links 字段
-- [Bar 交互](./bar.md) - 了解任务条交互
-
 ## 依赖类型
 
 ngx-gantt 支持 4 种依赖类型（GanttLinkType）：
@@ -54,89 +47,6 @@ const items: GanttItem[] = [
 }
 ```
 
-## 拖拽创建链接
-
-### 启用链接功能
-
-```typescript
-@Component({
-  template: `
-    <ngx-gantt [items]="items" [linkable]="true" (linkDragStarted)="onLinkDragStarted($event)" (linkDragEnded)="onLinkDragEnded($event)">
-      <!-- ... -->
-    </ngx-gantt>
-  `
-})
-export class MyComponent {
-  items: GanttItem[] = [
-    { id: '1', title: '任务 1', start: 1627729997, end: 1628421197 },
-    { id: '2', title: '任务 2', start: 1628507597, end: 1633345997 }
-  ];
-
-  onLinkDragStarted(event: GanttLinkDragEvent) {
-    console.log('开始创建链接', event.source);
-  }
-
-  onLinkDragEnded(event: GanttLinkDragEvent) {
-    console.log('链接创建完成', event.source, event.target, event.type);
-    // 更新数据
-    this.updateLinks(event);
-  }
-}
-```
-
-### 拖拽操作
-
-1. 从任务条的**左侧端点**（开始时间）或**右侧端点**（结束时间）开始拖拽
-2. 拖拽到目标任务的任意位置
-3. 释放鼠标完成链接创建
-
-组件会根据拖拽的起点和终点自动判断依赖类型：
-
-- 从结束点拖到开始点 → `fs`（完成-开始）
-- 从结束点拖到结束点 → `ff`（完成-完成）
-- 从开始点拖到开始点 → `ss`（开始-开始）
-- 从开始点拖到结束点 → `sf`（开始-完成）
-
-## 链接配置
-
-### 全局配置
-
-```typescript
-import { provideGANTT_GLOBAL_CONFIG } from '@worktile/gantt';
-
-@Component({
-  providers: [
-    provideGANTT_GLOBAL_CONFIG({
-      linkOptions: {
-        dependencyTypes: [GanttLinkType.fs], // 允许的依赖类型
-        showArrow: false, // 是否显示箭头
-        lineType: 'curve' // 'curve' | 'straight'
-      }
-    })
-  ]
-})
-export class AppComponent {}
-```
-
-### 组件级别配置
-
-```typescript
-@Component({
-  template: `
-    <ngx-gantt [items]="items" [linkOptions]="linkOptions">
-      <!-- ... -->
-    </ngx-gantt>
-  `
-})
-export class MyComponent {
-  linkOptions: GanttLinkOptions = {
-    dependencyTypes: [GanttLinkType.fs, GanttLinkType.ff],
-    showArrow: true,
-    lineType: 'straight'
-  };
-}
-```
-
 ## 链接数据格式
 
 ### 字符串格式（简化）
@@ -166,51 +76,70 @@ const items: GanttItem[] = [
 ];
 ```
 
-### 自定义链接颜色
+## 拖拽创建链接
+
+### 启用链接功能
 
 ```typescript
-links: [
-  {
-    type: GanttLinkType.fs,
-    link: '2',
-    color: {
-      default: '#6698ff', // 默认颜色
-      active: '#ff6b6b' // 激活/悬停颜色
-    }
-  }
-];
-```
-
-## 事件处理
-
-### 链接创建事件
-
-```typescript
-onLinkDragEnded(event: GanttLinkDragEvent) {
-  const { source, target, type } = event;
-
-  // 更新源任务的 links
-  this.items = this.items.map(item => {
-    if (item.id === source.id) {
-      const newLinks = [
-        ...(item.links || []),
-        { type, link: target.id }
-      ];
-      return { ...item, links: newLinks };
-    }
-    return item;
-  });
-
-  // 调用 API 保存
-  this.apiService.createLink({
-    sourceId: source.id,
-    targetId: target.id,
-    type
-  }).subscribe();
+@Component({
+  template: `
+    <ngx-gantt [items]="items" [linkable]="true">
+      <!-- ... -->
+    </ngx-gantt>
+  `
+})
+export class MyComponent {
+  items: GanttItem[] = [
+    { id: '1', title: '任务 1', start: 1627729997, end: 1628421197 },
+    { id: '2', title: '任务 2', start: 1628507597, end: 1633345997 }
+  ];
 }
 ```
 
-### 链接点击事件
+### 拖拽操作
+
+1. 从任务条的**左侧端点**（开始时间）或**右侧端点**（结束时间）开始拖拽
+2. 拖拽到目标任务的任意位置
+3. 释放鼠标完成链接创建
+
+组件会根据拖拽的起点和终点自动判断依赖类型：
+
+- 从结束点拖到开始点 → `fs`（完成-开始）
+- 从结束点拖到结束点 → `ff`（完成-完成）
+- 从开始点拖到开始点 → `ss`（开始-开始）
+- 从开始点拖到结束点 → `sf`（开始-完成）
+
+### 事件处理
+
+#### 拖拽创建链接事件
+
+```typescript
+@Component({
+  template: `
+    <ngx-gantt [items]="items" (linkDragStarted)="onLinkDragStarted($event)" (linkDragEnded)="onLinkDragEnded($event)">
+      <!-- ... -->
+    </ngx-gantt>
+  `
+})
+export class MyComponent {
+  items: GanttItem[] = [
+    { id: '1', title: '任务 1', start: 1627729997, end: 1628421197 },
+    { id: '2', title: '任务 2', start: 1628507597, end: 1633345997 }
+  ];
+
+  onLinkDragStarted(event: GanttLinkDragEvent) {
+    console.log('开始创建链接', event.source);
+  }
+
+  onLinkDragEnded(event: GanttLinkDragEvent) {
+    console.log('链接创建完成', event.source, event.target, event.type);
+    // 更新数据
+    this.updateLinks(event);
+  }
+}
+```
+
+#### 链接点击事件
 
 ```typescript
 @Component({
@@ -230,6 +159,21 @@ export class MyComponent {
 
 ## 链接样式定制
 
+### 自定义链接颜色
+
+```typescript
+links: [
+  {
+    type: GanttLinkType.fs,
+    link: '2',
+    color: {
+      default: '#6698ff', // 默认颜色
+      active: '#ff6b6b' // 激活/悬停颜色
+    }
+  }
+];
+```
+
 ### 连线类型
 
 - **`curve`**（默认）：曲线连接，更美观
@@ -246,6 +190,49 @@ linkOptions: {
 ```typescript
 linkOptions: {
   showArrow: true; // 在连线末端显示箭头
+}
+```
+
+## 链接配置
+
+### 全局配置
+
+```typescript
+import { GANTT_GLOBAL_CONFIG } from '@worktile/gantt';
+
+@Component({
+  providers: [
+    {
+      provide: GANTT_GLOBAL_CONFIG,
+      useValue: {
+        linkOptions: {
+          dependencyTypes: [GanttLinkType.fs], // 允许的依赖类型
+          showArrow: false, // 是否显示箭头
+          lineType: 'curve' // 'curve' | 'straight'
+        }
+      }
+    }
+  ]
+})
+export class AppComponent {}
+```
+
+### 组件级别配置
+
+```typescript
+@Component({
+  template: `
+    <ngx-gantt [items]="items" [linkOptions]="linkOptions">
+      <!-- ... -->
+    </ngx-gantt>
+  `
+})
+export class MyComponent {
+  linkOptions: GanttLinkOptions = {
+    dependencyTypes: [GanttLinkType.fs, GanttLinkType.ff],
+    showArrow: true,
+    lineType: 'straight'
+  };
 }
 ```
 
@@ -335,6 +322,6 @@ linkOptions: {
 
 ## 相关链接
 
-- [数据模型](../core/data-model.md) - 了解 links 字段的结构
-- [Bar 交互](./bar.md) - 了解任务条交互
-- [全局配置](../configuration/global-config.md) - 了解链接的全局配置
+- [数据模型](guides/core-concepts/data-model) - 了解 links 字段的结构
+- [Bar 交互](guides/features/bar-interaction) - 了解任务条交互
+- [全局配置](guides/configuration) - 了解链接的全局配置
