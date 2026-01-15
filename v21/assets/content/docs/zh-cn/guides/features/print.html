@@ -5,15 +5,6 @@
         </h1>
       <p>ngx-gantt 支持将甘特图导出为 PNG 图片，方便用于报告、分享和存档。</p>
 
-        <h2 id="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB" class="docs-header-link">
-          <span header-link="%E5%89%8D%E7%BD%AE%E9%98%85%E8%AF%BB"></span>
-          前置阅读
-        </h2>
-      <p>在深入学习导出打印之前，建议先了解：</p>
-<ul>
-<li><a href="../core/views.md">视图体系</a> - 理解视图的显示</li>
-</ul>
-
         <h2 id="ganttprintservice" class="docs-header-link">
           <span header-link="ganttprintservice"></span>
           GanttPrintService
@@ -28,38 +19,10 @@
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-print'</span><span class="token punctuation">,</span>
-  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt #gantt [items]="items">
-      &lt;!-- ... -->
-    &lt;/ngx-gantt>
-    &lt;button (click)="exportImage()">导出为图片&lt;/button>
-  `</span></span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
-  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
-
-  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 注册甘特图根元素</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span>elementRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h3 id="%E6%B3%A8%E5%86%8C%E7%94%98%E7%89%B9%E5%9B%BE%E7%BB%84%E4%BB%B6" class="docs-header-link">
-          <span header-link="%E6%B3%A8%E5%86%8C%E7%94%98%E7%89%B9%E5%9B%BE%E7%BB%84%E4%BB%B6"></span>
-          注册甘特图组件
-        </h3>
-      <p>在使用打印服务前，需要先注册甘特图的根元素：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">ngAfterViewInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 获取甘特图根元素</span>
-  <span class="token keyword">const</span> ganttRoot <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">ganttRoot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>ganttRoot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>ganttRoot<span class="token punctuation">.</span>elementRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
         <h2 id="%E5%AF%BC%E5%87%BA%E4%B8%BA%E5%9B%BE%E7%89%87" class="docs-header-link">
@@ -81,30 +44,12 @@
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
-  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
-
   <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-
-  <span class="token function">ngAfterViewInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> ganttRoot <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">ganttRoot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>ganttRoot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>ganttRoot<span class="token punctuation">.</span>elementRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
 
   <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">// 导出为 PNG，文件名为 'gantt-chart.png'</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%87%E4%BB%B6%E5%90%8D" class="docs-header-link">
-          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%87%E4%BB%B6%E5%90%8D"></span>
-          自定义文件名
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> fileName <span class="token operator">=</span> <span class="token template-string"><span class="token string">`项目甘特图-</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toISOString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'T'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">;</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
         <h3 id="%E5%BF%BD%E7%95%A5%E7%89%B9%E5%AE%9A%E5%85%83%E7%B4%A0" class="docs-header-link">
@@ -186,29 +131,7 @@
       <div class="dg-paragraph"><code>GanttPrintService</code> 会自动处理 SVG 样式内联，但需要注意：</div>
 <ol>
 <li><strong>确保样式已加载</strong>：等待样式加载完成后再导出</li>
-</ol>
-<pre class="language-typescript"><code class="language-typescript"><div>async <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 等待样式加载</span>
-  await <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">waitForStyles</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token comment" spellcheck="true">// 导出</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">private</span> <span class="token function">waitForStyles</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>document<span class="token punctuation">.</span>fonts <span class="token operator">&amp;&amp;</span> document<span class="token punctuation">.</span>fonts<span class="token punctuation">.</span>ready<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      document<span class="token punctuation">.</span>fonts<span class="token punctuation">.</span>ready<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-      <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
-<ol start="2">
 <li><strong>使用内联样式</strong>：对于关键样式，使用内联样式</li>
-</ol>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">color</span><span class="token punctuation">:</span> <span class="token hexcode">#333</span><span class="token punctuation">;</span> <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token number">14</span>px<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>内容<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></div></code></pre>
-<ol start="3">
 <li><strong>检查 SVG 元素</strong>：确保 SVG 元素的样式正确</li>
 </ol>
 
@@ -356,12 +279,3 @@
 <li>考虑在导出前隐藏不必要的元素</li>
 <li>使用 <code>ignoreElementClass</code> 忽略不需要的元素</li>
 </ol>
-
-        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
-          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
-          相关链接
-        </h2>
-      <ul>
-<li><a href="../core/views.md">视图体系</a> - 了解视图显示</li>
-<li><a href="./toolbar.md">工具栏</a> - 了解工具栏功能</li>
-</ul>
