@@ -1,7 +1,7 @@
 ---
 title: 导出打印
 path: 'export-print'
-order: 370
+order: 391
 ---
 
 # 导出打印
@@ -83,27 +83,39 @@ async exportToCanvas() {
 ### 自定义处理示例
 
 ```typescript
-async exportAndUpload() {
-  try {
-    const canvas = await this.printService.html2canvas('toolbar');
-    const blob = await new Promise<Blob>((resolve) => {
-      canvas.toBlob((blob) => resolve(blob), 'image/png');
-    });
+import { HttpClient } from '@angular/common/http';
 
-    // 上传到服务器
-    const formData = new FormData();
-    formData.append('image', blob, 'gantt-chart.png');
+@Component({
+  providers: [GanttPrintService]
+})
+export class GanttPrintComponent {
+  constructor(
+    private printService: GanttPrintService,
+    private http: HttpClient
+  ) {}
 
-    this.http.post('/api/upload', formData).subscribe({
-      next: (response) => {
-        console.log('上传成功', response);
-      },
-      error: (error) => {
-        console.error('上传失败', error);
-      }
-    });
-  } catch (error) {
-    console.error('导出失败', error);
+  async exportAndUpload() {
+    try {
+      const canvas = await this.printService.html2canvas('toolbar');
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((blob) => resolve(blob), 'image/png');
+      });
+
+      // 上传到服务器
+      const formData = new FormData();
+      formData.append('image', blob, 'gantt-chart.png');
+
+      this.http.post('/api/upload', formData).subscribe({
+        next: (response) => {
+          console.log('上传成功', response);
+        },
+        error: (error) => {
+          console.error('上传失败', error);
+        }
+      });
+    } catch (error) {
+      console.error('导出失败', error);
+    }
   }
 }
 ```
@@ -129,7 +141,7 @@ async exportAndUpload() {
 ## 最小示例
 
 ```typescript
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, viewChild, afterNextRender } from '@angular/core';
 import { GanttItem, GanttViewType, NgxGanttComponent, GanttPrintService } from '@worktile/gantt';
 
 @Component({
@@ -151,21 +163,24 @@ import { GanttItem, GanttViewType, NgxGanttComponent, GanttPrintService } from '
   `,
   providers: [GanttPrintService]
 })
-export class GanttPrintComponent implements AfterViewInit {
-  @ViewChild('gantt') gantt: NgxGanttComponent;
+export class GanttPrintComponent {
+  gantt = viewChild<NgxGanttComponent>('gantt');
 
   viewType = GanttViewType.day;
 
   items: GanttItem[] = [{ id: '1', title: '任务 1', start: 1627729997, end: 1628421197 }];
 
-  constructor(private printService: GanttPrintService) {}
-
-  ngAfterViewInit() {
-    // 注册甘特图根元素
-    const ganttRoot = this.gantt.ganttRoot();
-    if (ganttRoot) {
-      this.printService.register(ganttRoot.elementRef);
-    }
+  constructor(private printService: GanttPrintService) {
+    afterNextRender(() => {
+      // 注册甘特图根元素
+      const gantt = this.gantt();
+      if (gantt) {
+        const ganttRoot = gantt.ganttRoot();
+        if (ganttRoot) {
+          this.printService.register(ganttRoot.elementRef);
+        }
+      }
+    });
   }
 
   exportImage() {
@@ -180,15 +195,17 @@ export class GanttPrintComponent implements AfterViewInit {
 ### 1. 等待渲染完成
 
 ```typescript
-async exportImage() {
-  // 等待视图更新完成
-  await this.gantt.changeView();
+exportImage() {
+  const gantt = this.gantt();
+  if (gantt) {
+    // 更新视图
+    gantt.changeView();
 
-  // 等待一小段时间确保渲染完成
-  await new Promise(resolve => setTimeout(resolve, 500));
-
-  // 导出
-  this.printService.print('gantt-chart');
+    // 等待一小段时间确保渲染完成
+    setTimeout(() => {
+      this.printService.print('gantt-chart');
+    }, 500);
+  }
 }
 ```
 
@@ -215,13 +232,16 @@ async exportImage() {
 ```typescript
 // html2canvas 会自动处理，但可以调整视图以确保最佳效果
 exportImage() {
-  // 确保视图已完全加载
-  this.gantt.rerenderView();
+  const gantt = this.gantt();
+  if (gantt) {
+    // 确保视图已完全加载
+    gantt.rerenderView();
 
-  // 导出
-  setTimeout(() => {
-    this.printService.print('gantt-chart');
-  }, 300);
+    // 导出
+    setTimeout(() => {
+      this.printService.print('gantt-chart');
+    }, 300);
+  }
 }
 ```
 

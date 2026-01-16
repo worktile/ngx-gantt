@@ -1,7 +1,7 @@
 ---
 title: 工具栏
 path: 'toolbar'
-order: 380
+order: 390
 ---
 
 工具栏提供视图类型切换功能，方便用户在不同时间粒度之间快速切换。
@@ -49,7 +49,7 @@ export class MyComponent {
 使用 `#toolbar` 模板可以完全自定义工具栏的内容和布局：
 
 ```typescript
-import { Component, ViewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { GanttItem, GanttViewType, NgxGanttComponent } from '@worktile/gantt';
 
 @Component({
@@ -71,7 +71,7 @@ import { GanttItem, GanttViewType, NgxGanttComponent } from '@worktile/gantt';
   `
 })
 export class MyComponent {
-  @ViewChild('gantt') gantt: NgxGanttComponent;
+  gantt = viewChild<NgxGanttComponent>('gantt');
 
   viewType = GanttViewType.day;
 
@@ -88,7 +88,7 @@ export class MyComponent {
   }
 
   scrollToToday() {
-    this.gantt.scrollToToday();
+    this.gantt()?.scrollToToday();
   }
 }
 ```

@@ -206,9 +206,9 @@ export class GanttExampleComponent {
 
 现在您已经成功运行了第一个甘特图！接下来可以：
 
-- 📖 [数据模型](../core/data-model.md) - 学习 GanttItem 和 GanttGroup 的结构
-- ⏰ [时间与时区](../core/date-timezone.md) - 理解时间处理和时区配置
-- 🎨 [功能指南](../features/index.md) - 了解任务拖拽、依赖链接等高级功能
+- 📖 [数据模型](guides/core-concepts/data-model) - 学习 GanttItem 和 GanttGroup 的结构
+- ⏰ [时间与时区](guides/core-concepts/date-timezone) - 理解时间处理和时区配置
+- 🎨 [功能指南](guides/features) - 了解任务拖拽、依赖链接等高级功能
 - 🎯 [完整示例](https://github.com/worktile/ngx-gantt/tree/master/example/src/app/gantt) - 参考更多实际使用场景
 
 ## ❓ 常见问题
@@ -222,7 +222,7 @@ export class GanttExampleComponent {
 ### 时间显示不正确？
 
 - 检查时间格式是否正确，确保使用 Unix 时间戳（秒）或 Date 对象
-- 查看 [时间与时区](../core/date-timezone.md) 了解更多
+- 查看 [时间与时区](guides/core-concepts/date-timezone) 了解更多
 - 确认时区配置是否正确
 
 ### 组件未显示？

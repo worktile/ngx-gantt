@@ -1,7 +1,7 @@
 ---
 title: Bar 显示与交互
 path: 'bar-interaction'
-order: 320
+order: 340
 ---
 
 任务条（Bar）是甘特图的核心交互元素，支持拖拽移动、缩放调整时间，以及丰富的自定义能力。
@@ -145,17 +145,7 @@ export class MyComponent {
   }
 
   onDragEnded(event: GanttDragEvent) {
-    // 使用不可变更新
-    this.items = this.items.map((item) => {
-      if (item.id === event.item.id) {
-        return {
-          ...item,
-          start: event.item.start.getUnixTime(),
-          end: event.item.end.getUnixTime()
-        };
-      }
-      return item;
-    });
+    this.items = [...this.items];
   }
 }
 ```
@@ -242,20 +232,18 @@ export class GanttBarComponent {
 
 ### Q: 拖拽后视图没有更新？
 
-**A:** 确保使用不可变数据更新，创建新数组而不是修改原数组：
+**A:** 确保使用不可变数据更新，创建新数组引用：
 
 ```typescript
-// ✅ 正确
-this.items = this.items.map((item) => {
-  if (item.id === event.item.id) {
-    return { ...item, start: event.item.start.getUnixTime() };
-  }
-  return item;
-});
+// ✅ 正确：event.item 已经是更新后的数据，只需更新数组引用
+onDragEnded(event: GanttDragEvent) {
+  this.items = [...this.items];
+}
 
-// ❌ 错误
-const item = this.items.find((i) => i.id === event.item.id);
-item.start = event.item.start.getUnixTime(); // 不会触发视图更新
+// ❌ 错误：直接修改原数组不会触发视图更新
+onDragEnded(event: GanttDragEvent) {
+  // 这样不会触发视图更新
+}
 ```
 
 ### Q: 如何禁用特定任务的拖拽？
@@ -268,12 +256,24 @@ item.start = event.item.start.getUnixTime(); // 不会触发视图更新
 
 ### Q: 如何获取拖拽后的新时间？
 
-**A:** 在 `dragEnded` 事件中，`event.item.start` 和 `event.item.end` 是更新后的 `GanttDate` 对象：
+**A:** 在 `dragEnded` 事件中，`event.item.start` 和 `event.item.end` 已经是更新后的值（`number | Date | undefined`）：
 
 ```typescript
 onDragEnded(event: GanttDragEvent) {
-  const startTimestamp = event.item.start.getUnixTime();
-  const endTimestamp = event.item.end.getUnixTime();
+  // event.item.start 和 event.item.end 已经是更新后的时间
+  const startTimestamp = typeof event.item.start === 'number'
+    ? event.item.start
+    : event.item.start instanceof Date
+      ? Math.floor(event.item.start.getTime() / 1000)
+      : undefined;
+  const endTimestamp = typeof event.item.end === 'number'
+    ? event.item.end
+    : event.item.end instanceof Date
+      ? Math.floor(event.item.end.getTime() / 1000)
+      : undefined;
+
+  // 更新数组引用以触发视图刷新
+  this.items = [...this.items];
 }
 ```
 
@@ -285,4 +285,4 @@ onDragEnded(event: GanttDragEvent) {
 
 - [数据模型](guides/core-concepts/data-model) - 了解 GanttItem 的结构
 - [时间与时区](guides/core-concepts/date-timezone) - 理解时间字段的处理
-- [任务关联](guides/features/task-links) - 学习任务依赖关系的创建
+- [任务依赖](guides/features/task-links) - 学习任务依赖关系的创建

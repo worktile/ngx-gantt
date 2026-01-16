@@ -1,14 +1,12 @@
 ---
-title: 树形与异步
-path: 'groups-tree-async'
-order: 340
+title: Tree 模式
+path: 'tree'
+order: 330
 ---
 
 ngx-gantt 支持树形结构（通过 `children` 属性）和异步加载子节点，适用于大型项目管理和 WBS（工作分解结构）场景。
 
-## 树形结构
-
-### 基础使用
+## 如何使用 Tree 模式？
 
 使用 `children` 属性构建层级结构，支持无限层级嵌套：
 
@@ -47,7 +45,9 @@ const items: GanttItem[] = [
 ];
 ```
 
-### 展开/折叠
+## 展开/折叠控制
+
+### 初始展开状态
 
 通过 `expanded` 属性控制节点的初始展开状态（默认为 `false`）：
 
@@ -72,10 +72,12 @@ const items: GanttItem[] = [
 ];
 ```
 
-通过 `ViewChild` 获取组件实例，可以程序化控制展开/折叠：
+### 程序化控制
+
+通过 `viewChild` 获取组件实例，可以程序化控制展开/折叠：
 
 ```typescript
-import { Component, ViewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgxGanttComponent } from '@worktile/gantt';
 
 @Component({
@@ -88,14 +90,14 @@ import { NgxGanttComponent } from '@worktile/gantt';
   `
 })
 export class MyComponent {
-  @ViewChild('gantt') gantt!: NgxGanttComponent;
+  gantt = viewChild<NgxGanttComponent>('gantt');
 
   expandAll() {
-    this.gantt.expandAll();
+    this.gantt()?.expandAll();
   }
 
   collapseAll() {
-    this.gantt.collapseAll();
+    this.gantt()?.collapseAll();
   }
 }
 ```
@@ -110,16 +112,14 @@ export class MyComponent {
 
 ## 异步加载
 
-当数据量大或需要按需加载时，可以使用异步加载子节点。
-
-### 启用异步模式
-
-设置 `async` 为 `true` 并提供 `childrenResolve` 函数。`childrenResolve` 接收父任务项，返回 `Observable<GanttItem[]>`：
+当数据量大或需要按需加载时，可以使用异步加载子节点。设置 `async` 为 `true` 并提供 `childrenResolve` 函数，`childrenResolve` 接收父任务项，返回 `Observable<GanttItem[]>`：
 
 ```typescript
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GanttItem } from '@worktile/gantt';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   template: `
@@ -142,12 +142,17 @@ export class MyComponent {
   constructor(private http: HttpClient) {}
 
   childrenResolve = (item: GanttItem) => {
-    return this.http.get<GanttItem[]>(`/api/tasks/${item.id}/children`);
+    return this.http.get<GanttItem[]>(`/api/tasks/${item.id}/children`).pipe(
+      catchError((error) => {
+        console.error('加载子节点失败:', error);
+        return of([]);
+      })
+    );
   };
 }
 ```
 
-## 最小示例
+## 完整示例
 
 ### 基础树形结构
 
@@ -156,14 +161,11 @@ import { Component } from '@angular/core';
 import { GanttItem, GanttViewType } from '@worktile/gantt';
 
 @Component({
-  selector: 'app-gantt-tree',
   template: `
     <ngx-gantt [items]="items" [viewType]="viewType">
       <ngx-gantt-table>
         <ngx-gantt-column name="任务">
-          <ng-template #cell let-item="item">
-            {{ item.title }}
-          </ng-template>
+          <ng-template #cell let-item="item">{{ item.title }}</ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>
     </ngx-gantt>
@@ -171,7 +173,6 @@ import { GanttItem, GanttViewType } from '@worktile/gantt';
 })
 export class GanttTreeComponent {
   viewType = GanttViewType.day;
-
   items: GanttItem[] = [
     {
       id: '1',
@@ -198,7 +199,7 @@ export class GanttTreeComponent {
 }
 ```
 
-### 异步加载
+### 异步加载示例
 
 ```typescript
 import { Component } from '@angular/core';
@@ -208,14 +209,11 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-gantt-async',
   template: `
     <ngx-gantt [items]="items" [viewType]="viewType" [async]="true" [childrenResolve]="childrenResolve">
       <ngx-gantt-table>
         <ngx-gantt-column name="任务" width="200px" [showExpandIcon]="true">
-          <ng-template #cell let-item="item">
-            {{ item.title }}
-          </ng-template>
+          <ng-template #cell let-item="item">{{ item.title }}</ng-template>
         </ngx-gantt-column>
       </ngx-gantt-table>
     </ngx-gantt>
@@ -223,7 +221,6 @@ import { of } from 'rxjs';
 })
 export class GanttAsyncComponent {
   viewType = GanttViewType.day;
-
   items: GanttItem[] = [
     {
       id: '1',

@@ -4,41 +4,24 @@ path: 'features'
 order: 300
 ---
 
-# 功能指南
+ngx-gantt 提供了丰富的功能特性，涵盖任务展示、交互操作、视图管理和性能优化等方面：
 
-按专题拆解功能细节，解决具体的"怎么做"问题。
+## 概览
 
-## 核心交互功能
+1. **任务展示**：Bar 任务条、Range 任务、分组模式、Tree 模式
+2. **交互操作**：拖拽移动、缩放调整、任务依赖、层级管理
+3. **视图管理**：工具栏配置、视图切换、导出打印
+4. **性能优化**：虚拟滚动、大数据量处理
 
-- [Bar 交互](./bar.md) - 任务条拖拽、缩放、自定义模板
-- [Range 区间展示](./range.md) - 区间类型任务项展示、自定义模板
-- [分组功能](./groups.md) - 分组模式、分组展开/收起、自定义分组模板
-- [表格交互](./table.md) - 行拖拽排序、层级调整、列配置
-- [任务关联](./links.md) - 依赖关系创建、FS/FF/SS/SF 类型
-- [树形与异步](./tree.md) - 层级结构、异步加载子节点
+## 章节列表
 
-## 高级功能
-
-- [基准线](./baseline.md) - 计划与实际时间对比
-- [工具栏](./toolbar.md) - 视图切换、自定义工具栏
-- [导出打印](./print.md) - 导出为图片、打印功能
-- [性能优化](./performance.md) - 虚拟滚动、大数据量处理
-
-## 快速导航
-
-| 功能     | 文档                         | 关键点                          |
-| -------- | ---------------------------- | ------------------------------- |
-| 任务拖拽 | [Bar 交互](./bar.md)         | 拖拽移动、缩放调整时间          |
-| 区间展示 | [Range 区间展示](./range.md) | 区间类型任务项、自定义模板      |
-| 分组功能 | [分组功能](./groups.md)      | 分组模式、展开/收起、自定义模板 |
-| 层级管理 | [表格交互](./table.md)       | 行拖拽调整层级关系              |
-| 依赖关系 | [任务关联](./links.md)       | 拖拽创建任务链接                |
-| 异步加载 | [树形与异步](./tree.md)      | childrenResolve 异步加载        |
-| 视图切换 | [工具栏](./toolbar.md)       | 6 种视图类型切换                |
-| 性能优化 | [性能优化](./performance.md) | 虚拟滚动、大数据处理            |
-
-## 学习建议
-
-1. **初学者**：从 [Bar 交互](./bar.md)、[Range 区间展示](./range.md)、[分组功能](./groups.md) 和 [表格交互](./table.md) 开始
-2. **进阶用户**：学习 [任务关联](./links.md) 和 [树形与异步](./tree.md)
-3. **高级用户**：掌握 [性能优化](./performance.md) 和自定义功能
+- [Bar 显示与交互](guides/features/bar-interaction) - 任务条拖拽、缩放、自定义模板
+- [Range 任务显示](guides/features/range) - 区间类型任务项展示、自定义模板
+- [分组模式](guides/features/groups) - 分组模式、分组展开/收起、自定义分组模板
+- [表格显示与交互](guides/features/table-interaction) - 行拖拽排序、层级调整、列配置
+- [任务依赖](guides/features/task-links) - 依赖关系创建、FS/FF/SS/SF 类型
+- [Tree 模式](guides/features/tree) - 层级结构、异步加载子节点
+- [基线](guides/features/baseline) - 计划与实际时间对比
+- [工具栏](guides/features/toolbar) - 视图切换、自定义工具栏
+- [导出打印](guides/features/export-print) - 导出为图片、打印功能
+- [性能与加载状态](guides/features/performance) - 虚拟滚动、大数据量处理

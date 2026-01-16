@@ -4,13 +4,14 @@ path: 'table-interaction'
 order: 310
 ---
 
-表格区域支持自定义内容、行拖拽、列调整、点击选择等丰富的交互功能，是甘特图的重要组成部分。
+ngx-gantt 内置提供表格的展示功能，支持自定义内容、行拖拽、列调整、点击选择等丰富的交互功能。
 
-## 表格内容展示
+## 如何使用表格？
 
-### 列内容
+表格功能通过两个核心组件实现：
 
-在 `ngx-gantt-column` 组件中使用`#cell`模版自定义列内容：
+- `ngx-gantt-table`：表格容器组件，用于包裹表格列定义和配置表格行为
+- `ngx-gantt-column`：表格列组件，用于定义每一列的显示内容和属性
 
 ```html
 <ngx-gantt #gantt [items]="items">
@@ -26,7 +27,21 @@ order: 310
 </ngx-gantt>
 ```
 
+## 自定义展示模板
+
+### 列内容模板
+
+使用 `#cell` 模板自定义每列的单元格内容：
+
+```html
+<ngx-gantt-column name="任务名称" width="200px">
+  <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+</ngx-gantt-column>
+```
+
 ### 行前置/后置插槽
+
+使用 `#rowBeforeSlot` 和 `#rowAfterSlot` 在每行的前后添加自定义内容：
 
 ```html
 <ngx-gantt-table>
@@ -49,6 +64,8 @@ order: 310
 
 ### 空状态模板
 
+使用 `#tableEmpty` 自定义表格为空时的显示内容：
+
 ```html
 <ngx-gantt-table>
   <ng-template #tableEmpty>
@@ -59,7 +76,9 @@ order: 310
 </ngx-gantt-table>
 ```
 
-### 底部模版
+### 底部模板
+
+使用 `#tableFooter` 自定义表格底部内容：
 
 ```html
 <ngx-gantt-table>
@@ -79,13 +98,9 @@ order: 310
 
 ### 行拖拽排序
 
-表格行支持拖拽来调整任务的层级关系和顺序。拖拽任务行到目标位置时，有三种放置位置：
-
-- **`before`**：放置在目标任务之前（同级）
-- **`inside`**：放置在目标任务内部（作为子任务）
-- **`after`**：放置在目标任务之后（同级）
-
 #### 启用拖拽
+
+通过 `ngx-gantt-table` 的 `draggable` 参数启用拖拽
 
 ```typescript
 @Component({
@@ -153,6 +168,12 @@ onDragDropped(event: GanttTableDragDroppedEvent) {
   this.items = [...this.items];
 }
 ```
+
+表格行支持拖拽来调整任务的层级关系和顺序。拖拽任务行到目标位置时，有三种放置位置：
+
+- `before`：放置在目标任务之前（同级）
+- `inside`：放置在目标任务内部（结合 Tree 模式使用，支持子任务展示时）
+- `after`：放置在目标任务之后（同级）
 
 #### dropEnterPredicate 动作拦截
 
@@ -300,9 +321,11 @@ export class GanttTableComponent {
 **A:** 使用 `dropEnterPredicate` 函数：
 
 ```typescript
-dropEnterPredicate = (context) => {
-  // 只允许拖拽到特定类型的任务
-  return context.target.type === 'allowed-type';
+import { GanttTableDragEnterPredicateContext } from '@worktile/gantt';
+
+canDrop = (context: GanttTableDragEnterPredicateContext) => {
+  // 基于其他业务属性判断
+  return context.target.origin?.status === 'active';
 };
 ```
 
@@ -313,5 +336,5 @@ dropEnterPredicate = (context) => {
 ## 相关链接
 
 - [数据模型](guides/core-concepts/data-model) - 了解数据结构
-- [Bar 交互](guides/features/bar-interaction) - 了解任务条交互
-- [树形与异步](guides/features/groups-tree-async) - 了解层级结构
+- [Bar 显示与交互](guides/features/bar-interaction) - 了解任务条交互
+- [Tree 模式](guides/features/tree) - 了解层级结构

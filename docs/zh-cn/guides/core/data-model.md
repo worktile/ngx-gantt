@@ -159,18 +159,8 @@ dragEnded(event: GanttDragEvent) {
 ### ✅ 正确示例（不可变更新）
 
 ```typescript
-// 正确：创建新数组
 dragEnded(event: GanttDragEvent) {
-  this.items = this.items.map(item => {
-    if (item.id === event.item.id) {
-      return {
-        ...item,
-        start: event.item.start.getUnixTime(),
-        end: event.item.end.getUnixTime()
-      };
-    }
-    return item;
-  });
+  this.items = [...this.items];
 }
 ```
 
@@ -256,6 +246,19 @@ this.items.push(newItem);
 
 **A:** 检查 `children` 数组和 `expandable` 属性：
 
+```typescript
+// 方法1：直接检查 GanttItem
+function hasChildren(item: GanttItem): boolean {
+  return (item.children && item.children.length > 0) || item.expandable === true;
+}
+
+// 方法2：通过 getGanttItem 获取内部对象（更准确）
+const internalItem = this.gantt()?.getGanttItem(itemId);
+if (internalItem) {
+  const hasChildren = internalItem.children.length > 0 || internalItem.expandable;
+}
+```
+
 ### Q: 分组模式和树形模式可以混用吗？
 
 **A:** 可以，混用时需要注意数据结构的清晰性。
@@ -264,9 +267,8 @@ this.items.push(newItem);
 
 **A:** 不是必需的，但强烈推荐使用，便于在事件回调中访问完整的业务数据。
 
-<!-- ## 相关链接
+## 相关链接
 
-- [树形与异步](../features/tree.md) - 了解异步加载的详细用法
-- [时间与时区](./date-timezone.md) - 理解时间字段的处理方式
-- [Bar 交互](../features/bar.md) - 学习任务条交互和事件处理
- -->
+- [Tree 模式](guides/features/tree) - 了解异步加载的详细用法
+- [时间与时区](guides/core-concepts/date-timezone) - 理解时间字段的处理方式
+- [Bar 显示与交互](guides/features/bar-interaction) - 学习任务条交互和事件处理

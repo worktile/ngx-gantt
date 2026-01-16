@@ -1,7 +1,7 @@
 ---
 title: 分组模式
 path: 'groups'
-order: 315
+order: 320
 ---
 
 ngx-gantt 支持任务按分组进行组织，适用于部门、项目、阶段等维度管理任务的场景。
@@ -131,7 +131,7 @@ const groups: GanttGroup[] = [
 使用组件的公共方法程序化控制分组展开/收起：
 
 ```typescript
-import { Component, ViewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { NgxGanttComponent, GanttGroup, GanttItem } from '@worktile/gantt';
 
 @Component({
@@ -142,7 +142,7 @@ import { NgxGanttComponent, GanttGroup, GanttItem } from '@worktile/gantt';
   `
 })
 export class GroupsComponent {
-  @ViewChild('gantt') gantt: NgxGanttComponent;
+  gantt = viewChild<NgxGanttComponent>('gantt');
 
   groups: GanttGroup[] = [
     { id: 'dev', title: '开发组' },
@@ -152,17 +152,20 @@ export class GroupsComponent {
   items: GanttItem[] = [{ id: '1', title: '前端开发', group_id: 'dev', start: 1627729997, end: 1628421197 }];
 
   expandAll() {
-    this.gantt.expandAll();
+    this.gantt()?.expandAll();
   }
 
   collapseAll() {
-    this.gantt.collapseAll();
+    this.gantt()?.collapseAll();
   }
 
   expandGroup(groupId: string) {
-    const group = this.gantt.groups.find((g) => g.id === groupId);
-    if (group) {
-      this.gantt.expandGroup(group);
+    const gantt = this.gantt();
+    if (gantt) {
+      const group = gantt.groups.find((g) => g.id === groupId);
+      if (group) {
+        gantt.expandGroup(group);
+      }
     }
   }
 }
@@ -170,5 +173,5 @@ export class GroupsComponent {
 
 ## 相关链接
 
-- [数据模型](../core/data-model.md) - 了解 GanttGroup 的数据结构
-- [公共方法](../core/api-methods.md) - 了解分组相关的 API 方法
+- [数据模型](guides/core-concepts/data-model) - 了解 GanttGroup 的数据结构
+- [公共方法](guides/core-concepts/api-methods) - 了解分组相关的 API 方法
