@@ -127,7 +127,7 @@
           函数控制展开
         </h3>
       <p>使用组件的公共方法程序化控制分组展开/收起：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> ViewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> GanttGroup<span class="token punctuation">,</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -138,7 +138,7 @@
   `</span></span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GroupsComponent</span> <span class="token punctuation">{</span>
-  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'开发组'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -148,17 +148,20 @@
   items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'前端开发'</span><span class="token punctuation">,</span> group_id<span class="token punctuation">:</span> <span class="token string">'dev'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
   <span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token function">expandGroup</span><span class="token punctuation">(</span>groupId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> group <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span>groups<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> g<span class="token punctuation">.</span>id <span class="token operator">===</span> groupId<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>group<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">expandGroup</span><span class="token punctuation">(</span>group<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> group <span class="token operator">=</span> gantt<span class="token punctuation">.</span>groups<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> g<span class="token punctuation">.</span>id <span class="token operator">===</span> groupId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>group<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        gantt<span class="token punctuation">.</span><span class="token function">expandGroup</span><span class="token punctuation">(</span>group<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
@@ -168,6 +171,6 @@
           相关链接
         </h2>
       <ul>
-<li><a href="../core/data-model.md">数据模型</a> - 了解 GanttGroup 的数据结构</li>
-<li><a href="../core/api-methods.md">公共方法</a> - 了解分组相关的 API 方法</li>
+<li><a href="guides/core-concepts/data-model">数据模型</a> - 了解 GanttGroup 的数据结构</li>
+<li><a href="guides/core-concepts/api-methods">公共方法</a> - 了解分组相关的 API 方法</li>
 </ul>

@@ -71,7 +71,7 @@
 <td><code>rerenderView()</code></td>
 <td>-</td>
 <td><code>void</code></td>
-<td>重新渲染视图</td>
+<td>重新渲染视图（调用 changeView）</td>
 </tr>
 </tbody></table>
 
@@ -79,7 +79,7 @@
           <span header-link="%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"></span>
           使用示例
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> ViewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -94,23 +94,23 @@
       &lt;/ngx-gantt-table>
     &lt;/ngx-gantt>
 
-    &lt;button (click)="gantt.scrollToToday()">回到今天&lt;/button>
+    &lt;button (click)="gantt()?.scrollToToday()">回到今天&lt;/button>
   `</span></span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttExampleComponent</span> <span class="token punctuation">{</span>
-  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">;</span>
   items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
   <span class="token comment" spellcheck="true">// 滚动到指定日期</span>
   <span class="token function">scrollToDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">scrollToDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">scrollToDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token comment" spellcheck="true">// 获取任务项</span>
   <span class="token function">getTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">getGanttItem</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getGanttItem</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>origin<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
@@ -118,8 +118,27 @@
 
   <span class="token comment" spellcheck="true">// 判断是否选中</span>
   <span class="token function">checkSelected</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> selected <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">isSelected</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> selected <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">isSelected</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'是否选中:'</span><span class="token punctuation">,</span> selected<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 展开/收起任务项的子任务</span>
+  <span class="token function">toggleChildren</span><span class="token punctuation">(</span>itemId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getGanttItem</span><span class="token punctuation">(</span>itemId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">expandChildren</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 展开/收起分组</span>
+  <span class="token function">toggleGroup</span><span class="token punctuation">(</span>groupId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> group <span class="token operator">=</span> gantt<span class="token punctuation">.</span>groups<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> g<span class="token punctuation">.</span>id <span class="token operator">===</span> groupId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>group<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        gantt<span class="token punctuation">.</span><span class="token function">expandGroup</span><span class="token punctuation">(</span>group<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
@@ -128,6 +147,6 @@
           相关链接
         </h2>
       <ul>
-<li><a href="./data-model.md">数据模型</a> - 了解 GanttItem 和 GanttGroup 的结构</li>
-<li><a href="../features/groups.md">分组功能</a> - 了解分组的使用方法</li>
+<li><a href="guides/core-concepts/data-model">数据模型</a> - 了解 GanttItem 和 GanttGroup 的结构</li>
+<li><a href="guides/features/groups">分组功能</a> - 了解分组的使用方法</li>
 </ul>

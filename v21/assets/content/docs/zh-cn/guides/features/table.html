@@ -1,15 +1,14 @@
-<p>表格区域支持自定义内容、行拖拽、列调整、点击选择等丰富的交互功能，是甘特图的重要组成部分。</p>
+<p>ngx-gantt 内置提供表格的展示功能，支持自定义内容、行拖拽、列调整、点击选择等丰富的交互功能。</p>
 
-        <h2 id="%E8%A1%A8%E6%A0%BC%E5%86%85%E5%AE%B9%E5%B1%95%E7%A4%BA" class="docs-header-link">
-          <span header-link="%E8%A1%A8%E6%A0%BC%E5%86%85%E5%AE%B9%E5%B1%95%E7%A4%BA"></span>
-          表格内容展示
+        <h2 id="%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E8%A1%A8%E6%A0%BC%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E8%A1%A8%E6%A0%BC%EF%BC%9F"></span>
+          如何使用表格？
         </h2>
-      
-        <h3 id="%E5%88%97%E5%86%85%E5%AE%B9" class="docs-header-link">
-          <span header-link="%E5%88%97%E5%86%85%E5%AE%B9"></span>
-          列内容
-        </h3>
-      <p>在 <code>ngx-gantt-column</code> 组件中使用<code>#cell</code>模版自定义列内容：</p>
+      <p>表格功能通过两个核心组件实现：</p>
+<ul>
+<li><code>ngx-gantt-table</code>：表格容器组件，用于包裹表格列定义和配置表格行为</li>
+<li><code>ngx-gantt-column</code>：表格列组件，用于定义每一列的显示内容和属性</li>
+</ul>
 <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">#gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>任务名称<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span> <span class="token attr-name">[showExpandIcon]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -22,11 +21,26 @@
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
 
+        <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%95%E7%A4%BA%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%95%E7%A4%BA%E6%A8%A1%E6%9D%BF"></span>
+          自定义展示模板
+        </h2>
+      
+        <h3 id="%E5%88%97%E5%86%85%E5%AE%B9%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="%E5%88%97%E5%86%85%E5%AE%B9%E6%A8%A1%E6%9D%BF"></span>
+          列内容模板
+        </h3>
+      <p>使用 <code>#cell</code> 模板自定义每列的单元格内容：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>任务名称<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> {{ item.title }} <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span></div></code></pre>
+
         <h3 id="%E8%A1%8C%E5%89%8D%E7%BD%AE/%E5%90%8E%E7%BD%AE%E6%8F%92%E6%A7%BD" class="docs-header-link">
           <span header-link="%E8%A1%8C%E5%89%8D%E7%BD%AE/%E5%90%8E%E7%BD%AE%E6%8F%92%E6%A7%BD"></span>
           行前置/后置插槽
         </h3>
-      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+      <p>使用 <code>#rowBeforeSlot</code> 和 <code>#rowAfterSlot</code> 在每行的前后添加自定义内容：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
   <span class="token comment" spellcheck="true">&lt;!-- 行前置内容 --></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#rowBeforeSlot</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>row-before<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>前置内容<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
@@ -47,7 +61,8 @@
           <span header-link="%E7%A9%BA%E7%8A%B6%E6%80%81%E6%A8%A1%E6%9D%BF"></span>
           空状态模板
         </h3>
-      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+      <p>使用 <code>#tableEmpty</code> 自定义表格为空时的显示内容：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#tableEmpty</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>empty-state<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>暂无任务<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
@@ -55,11 +70,12 @@
   <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span></div></code></pre>
 
-        <h3 id="%E5%BA%95%E9%83%A8%E6%A8%A1%E7%89%88" class="docs-header-link">
-          <span header-link="%E5%BA%95%E9%83%A8%E6%A8%A1%E7%89%88"></span>
-          底部模版
+        <h3 id="%E5%BA%95%E9%83%A8%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="%E5%BA%95%E9%83%A8%E6%A8%A1%E6%9D%BF"></span>
+          底部模板
         </h3>
-      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+      <p>使用 <code>#tableFooter</code> 自定义表格底部内容：</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#tableFooter</span> <span class="token attr-name">let-columns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>columns<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>table-footer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       @for (column of columns; track $index) {
@@ -80,18 +96,13 @@
           <span header-link="%E8%A1%8C%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F"></span>
           行拖拽排序
         </h3>
-      <p>表格行支持拖拽来调整任务的层级关系和顺序。拖拽任务行到目标位置时，有三种放置位置：</p>
-<ul>
-<li>**<code>before</code>**：放置在目标任务之前（同级）</li>
-<li>**<code>inside</code>**：放置在目标任务内部（作为子任务）</li>
-<li>**<code>after</code>**：放置在目标任务之后（同级）</li>
-</ul>
-
+      
         <h4 id="%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD" class="docs-header-link">
           <span header-link="%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD"></span>
           启用拖拽
         </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <p>通过 <code>ngx-gantt-table</code> 的 <code>draggable</code> 参数启用拖拽</p>
+<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items">
       &lt;ngx-gantt-table
@@ -155,6 +166,12 @@
   <span class="token comment" spellcheck="true">// 不可变更新</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
+<p>表格行支持拖拽来调整任务的层级关系和顺序。拖拽任务行到目标位置时，有三种放置位置：</p>
+<ul>
+<li><code>before</code>：放置在目标任务之前（同级）</li>
+<li><code>inside</code>：放置在目标任务内部（结合 Tree 模式使用，支持子任务展示时）</li>
+<li><code>after</code>：放置在目标任务之后（同级）</li>
+</ul>
 
         <h4 id="dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA" class="docs-header-link">
           <span header-link="dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA"></span>
@@ -304,9 +321,11 @@
           Q: 如何限制拖拽范围？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 使用 <code>dropEnterPredicate</code> 函数：</div>
-<pre class="language-typescript"><code class="language-typescript"><div>dropEnterPredicate <span class="token operator">=</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 只允许拖拽到特定类型的任务</span>
-  <span class="token keyword">return</span> context<span class="token punctuation">.</span>target<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">'allowed-type'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttTableDragEnterPredicateContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+canDrop <span class="token operator">=</span> <span class="token punctuation">(</span>context<span class="token punctuation">:</span> GanttTableDragEnterPredicateContext<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 基于其他业务属性判断</span>
+  <span class="token keyword">return</span> context<span class="token punctuation">.</span>target<span class="token punctuation">.</span>origin<span class="token operator">?</span><span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token string">'active'</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 
         <h3 id="q:-%E6%8B%96%E6%8B%BD%E5%90%8E%E6%95%B0%E6%8D%AE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F" class="docs-header-link">
@@ -321,6 +340,6 @@
         </h2>
       <ul>
 <li><a href="guides/core-concepts/data-model">数据模型</a> - 了解数据结构</li>
-<li><a href="guides/features/bar-interaction">Bar 交互</a> - 了解任务条交互</li>
-<li><a href="guides/features/groups-tree-async">树形与异步</a> - 了解层级结构</li>
+<li><a href="guides/features/bar-interaction">Bar 显示与交互</a> - 了解任务条交互</li>
+<li><a href="guides/features/tree">Tree 模式</a> - 了解层级结构</li>
 </ul>

@@ -153,17 +153,7 @@
   <span class="token punctuation">}</span>
 
   <span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 使用不可变更新</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token punctuation">{</span>
-          <span class="token operator">...</span>item<span class="token punctuation">,</span>
-          start<span class="token punctuation">:</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-          end<span class="token punctuation">:</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-      <span class="token keyword">return</span> item<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
@@ -255,18 +245,16 @@
           <span header-link="q:-%E6%8B%96%E6%8B%BD%E5%90%8E%E8%A7%86%E5%9B%BE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F"></span>
           Q: 拖拽后视图没有更新？
         </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 确保使用不可变数据更新，创建新数组而不是修改原数组：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ 正确</span>
-<span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token operator">...</span>item<span class="token punctuation">,</span> start<span class="token punctuation">:</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> item<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <div class="dg-paragraph"><strong>A:</strong> 确保使用不可变数据更新，创建新数组引用：</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ 正确：event.item 已经是更新后的数据，只需更新数组引用</span>
+<span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-<span class="token comment" spellcheck="true">// ❌ 错误</span>
-<span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> i<span class="token punctuation">.</span>id <span class="token operator">===</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-item<span class="token punctuation">.</span>start <span class="token operator">=</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 不会触发视图更新</span></div></code></pre>
+<span class="token comment" spellcheck="true">// ❌ 错误：直接修改原数组不会触发视图更新</span>
+<span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 这样不会触发视图更新</span>
+<span class="token punctuation">}</span></div></code></pre>
 
         <h3 id="q:-%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E7%89%B9%E5%AE%9A%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8B%96%E6%8B%BD%EF%BC%9F" class="docs-header-link">
           <span header-link="q:-%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E7%89%B9%E5%AE%9A%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8B%96%E6%8B%BD%EF%BC%9F"></span>
@@ -279,10 +267,22 @@ item<span class="token punctuation">.</span>start <span class="token operator">=
           <span header-link="q:-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%8B%96%E6%8B%BD%E5%90%8E%E7%9A%84%E6%96%B0%E6%97%B6%E9%97%B4%EF%BC%9F"></span>
           Q: 如何获取拖拽后的新时间？
         </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 在 <code>dragEnded</code> 事件中，<code>event.item.start</code> 和 <code>event.item.end</code> 是更新后的 <code>GanttDate</code> 对象：</div>
+      <div class="dg-paragraph"><strong>A:</strong> 在 <code>dragEnded</code> 事件中，<code>event.item.start</code> 和 <code>event.item.end</code> 已经是更新后的值（<code>number | Date | undefined</code>）：</div>
 <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> startTimestamp <span class="token operator">=</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> endTimestamp <span class="token operator">=</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// event.item.start 和 event.item.end 已经是更新后的时间</span>
+  <span class="token keyword">const</span> startTimestamp <span class="token operator">=</span> <span class="token keyword">typeof</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start <span class="token operator">===</span> <span class="token string">'number'</span>
+    <span class="token operator">?</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start
+    <span class="token punctuation">:</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start <span class="token keyword">instanceof</span> <span class="token class-name">Date</span>
+      <span class="token operator">?</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+      <span class="token punctuation">:</span> undefined<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> endTimestamp <span class="token operator">=</span> <span class="token keyword">typeof</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>end <span class="token operator">===</span> <span class="token string">'number'</span>
+    <span class="token operator">?</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>end
+    <span class="token punctuation">:</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>end <span class="token keyword">instanceof</span> <span class="token class-name">Date</span>
+      <span class="token operator">?</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+      <span class="token punctuation">:</span> undefined<span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 更新数组引用以触发视图刷新</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
         <h3 id="q:-%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%96%E6%8B%BD%E6%97%B6%E7%9A%84%E6%8F%90%E7%A4%BA%E6%A1%86%E5%86%85%E5%AE%B9%EF%BC%9F" class="docs-header-link">
@@ -298,5 +298,5 @@ item<span class="token punctuation">.</span>start <span class="token operator">=
       <ul>
 <li><a href="guides/core-concepts/data-model">数据模型</a> - 了解 GanttItem 的结构</li>
 <li><a href="guides/core-concepts/date-timezone">时间与时区</a> - 理解时间字段的处理</li>
-<li><a href="guides/features/task-links">任务关联</a> - 学习任务依赖关系的创建</li>
+<li><a href="guides/features/task-links">任务依赖</a> - 学习任务依赖关系的创建</li>
 </ul>

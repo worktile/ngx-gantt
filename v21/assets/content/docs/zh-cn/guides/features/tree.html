@@ -1,14 +1,9 @@
 <p>ngx-gantt 支持树形结构（通过 <code>children</code> 属性）和异步加载子节点，适用于大型项目管理和 WBS（工作分解结构）场景。</p>
 
-        <h2 id="%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84" class="docs-header-link">
-          <span header-link="%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84"></span>
-          树形结构
+        <h2 id="%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-tree-%E6%A8%A1%E5%BC%8F%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-tree-%E6%A8%A1%E5%BC%8F%EF%BC%9F"></span>
+          如何使用 Tree 模式？
         </h2>
-      
-        <h3 id="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8" class="docs-header-link">
-          <span header-link="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"></span>
-          基础使用
-        </h3>
       <p>使用 <code>children</code> 属性构建层级结构，支持无限层级嵌套：</p>
 <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
@@ -43,9 +38,14 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
 
-        <h3 id="%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0" class="docs-header-link">
-          <span header-link="%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0"></span>
-          展开/折叠
+        <h2 id="%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0%E6%8E%A7%E5%88%B6" class="docs-header-link">
+          <span header-link="%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0%E6%8E%A7%E5%88%B6"></span>
+          展开/折叠控制
+        </h2>
+      
+        <h3 id="%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81" class="docs-header-link">
+          <span header-link="%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81"></span>
+          初始展开状态
         </h3>
       <p>通过 <code>expanded</code> 属性控制节点的初始展开状态（默认为 <code>false</code>）：</p>
 <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
@@ -66,8 +66,13 @@
     <span class="token punctuation">]</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
-<p>通过 <code>ViewChild</code> 获取组件实例，可以程序化控制展开/折叠：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> ViewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+
+        <h3 id="%E7%A8%8B%E5%BA%8F%E5%8C%96%E6%8E%A7%E5%88%B6" class="docs-header-link">
+          <span header-link="%E7%A8%8B%E5%BA%8F%E5%8C%96%E6%8E%A7%E5%88%B6"></span>
+          程序化控制
+        </h3>
+      <p>通过 <code>viewChild</code> 获取组件实例，可以程序化控制展开/折叠：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -80,14 +85,14 @@
   `</span></span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
-  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token operator">!</span><span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   <span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">expandAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">collapseAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
@@ -102,16 +107,12 @@
           <span header-link="%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD"></span>
           异步加载
         </h2>
-      <p>当数据量大或需要按需加载时，可以使用异步加载子节点。</p>
-
-        <h3 id="%E5%90%AF%E7%94%A8%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F" class="docs-header-link">
-          <span header-link="%E5%90%AF%E7%94%A8%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F"></span>
-          启用异步模式
-        </h3>
-      <p>设置 <code>async</code> 为 <code>true</code> 并提供 <code>childrenResolve</code> 函数。<code>childrenResolve</code> 接收父任务项，返回 <code>Observable&lt;GanttItem[]&gt;</code>：</p>
+      <p>当数据量大或需要按需加载时，可以使用异步加载子节点。设置 <code>async</code> 为 <code>true</code> 并提供 <code>childrenResolve</code> 函数，<code>childrenResolve</code> 接收父任务项，返回 <code>Observable&lt;GanttItem[]&gt;</code>：</p>
 <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> catchError <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'rxjs/operators'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> of <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'rxjs'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
@@ -134,13 +135,18 @@
   <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> http<span class="token punctuation">:</span> HttpClient<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
   childrenResolve <span class="token operator">=</span> <span class="token punctuation">(</span>item<span class="token punctuation">:</span> GanttItem<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>http<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token operator">&lt;</span>GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/api/tasks/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/children`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>http<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token operator">&lt;</span>GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`/api/tasks/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/children`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+      <span class="token function">catchError</span><span class="token punctuation">(</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'加载子节点失败:'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">of</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
-          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
-          最小示例
+        <h2 id="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"></span>
+          完整示例
         </h2>
       
         <h3 id="%E5%9F%BA%E7%A1%80%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84" class="docs-header-link">
@@ -151,14 +157,11 @@
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-tree'</span><span class="token punctuation">,</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items" [viewType]="viewType">
       &lt;ngx-gantt-table>
         &lt;ngx-gantt-column name="任务">
-          &lt;ng-template #cell let-item="item">
-            {{ item.title }}
-          &lt;/ng-template>
+          &lt;ng-template #cell let-item="item">{{ item.title }}&lt;/ng-template>
         &lt;/ngx-gantt-column>
       &lt;/ngx-gantt-table>
     &lt;/ngx-gantt>
@@ -166,7 +169,6 @@
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTreeComponent</span> <span class="token punctuation">{</span>
   viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
-
   items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
       id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
@@ -192,9 +194,9 @@
   <span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h3 id="%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD" class="docs-header-link">
-          <span header-link="%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD"></span>
-          异步加载
+        <h3 id="%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E7%A4%BA%E4%BE%8B"></span>
+          异步加载示例
         </h3>
       <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span>
@@ -203,14 +205,11 @@
 <span class="token keyword">import</span> <span class="token punctuation">{</span> of <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'rxjs'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-async'</span><span class="token punctuation">,</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items" [viewType]="viewType" [async]="true" [childrenResolve]="childrenResolve">
       &lt;ngx-gantt-table>
         &lt;ngx-gantt-column name="任务" width="200px" [showExpandIcon]="true">
-          &lt;ng-template #cell let-item="item">
-            {{ item.title }}
-          &lt;/ng-template>
+          &lt;ng-template #cell let-item="item">{{ item.title }}&lt;/ng-template>
         &lt;/ngx-gantt-column>
       &lt;/ngx-gantt-table>
     &lt;/ngx-gantt>
@@ -218,7 +217,6 @@
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttAsyncComponent</span> <span class="token punctuation">{</span>
   viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
-
   items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
       id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>

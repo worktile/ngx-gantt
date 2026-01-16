@@ -1,14 +1,65 @@
+<p>任务依赖关系是项目管理中的重要功能，ngx-gantt 支持通过拖拽创建任务间的依赖关系。</p>
 
-        <h1 id="%E4%BB%BB%E5%8A%A1%E5%85%B3%E8%81%94" class="docs-header-link">
-          <span header-link="%E4%BB%BB%E5%8A%A1%E5%85%B3%E8%81%94"></span>
-          任务关联
-        </h1>
-      <p>任务关联（依赖关系）是项目管理中的重要功能，ngx-gantt 支持通过拖拽创建任务间的依赖链接。</p>
+        <h2 id="%E5%A6%82%E4%BD%95%E5%B1%95%E7%A4%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%EF%BC%9F" class="docs-header-link">
+          <span header-link="%E5%A6%82%E4%BD%95%E5%B1%95%E7%A4%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%EF%BC%9F"></span>
+          如何展示依赖数据？
+        </h2>
+      <p>在 <code>ngx-gantt</code> 组件中设置 <code>[linkable]=&quot;true&quot;</code> 启用依赖功能，然后在任务的 <code>links</code> 字段中定义依赖关系：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttLinkType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
-        <h2 id="%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B" class="docs-header-link">
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [linkable]="true">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'A'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'设计'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'B'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'开发'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1633345997</span><span class="token punctuation">,</span>
+      links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'A'</span> <span class="token punctuation">}</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 任务 B 依赖任务 A</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E6%9E%84%E5%BB%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE" class="docs-header-link">
+          <span header-link="%E6%9E%84%E5%BB%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE"></span>
+          构建依赖数据
+        </h2>
+      
+        <h3 id="%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F" class="docs-header-link">
+          <span header-link="%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"></span>
+          数据格式
+        </h3>
+      <p>依赖数据支持两种格式：字符串格式（简化）和对象格式（完整）。</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// 字符串格式：默认为 fs 类型</span>
+    links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'2'</span><span class="token punctuation">,</span> <span class="token string">'3'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'任务 2'</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// 对象格式：可指定依赖类型和自定义样式</span>
+    links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'3'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>ff<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'4'</span><span class="token punctuation">,</span> color<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B" class="docs-header-link">
           <span header-link="%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B"></span>
           依赖类型
-        </h2>
+        </h3>
       <p>ngx-gantt 支持 4 种依赖类型（GanttLinkType）：</p>
 <table>
 <thead>
@@ -39,89 +90,25 @@
 <td>前一个任务开始后，后一个任务才能完成（较少使用）</td>
 </tr>
 </tbody></table>
-
-        <h3 id="%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B%E7%A4%BA%E4%BE%8B" class="docs-header-link">
-          <span header-link="%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B%E7%A4%BA%E4%BE%8B"></span>
-          依赖类型示例
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// FS：任务 B 必须在任务 A 完成后才能开始</span>
-<span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'A'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'设计'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'B'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'开发'</span><span class="token punctuation">,</span>
-    start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span>
-    end<span class="token punctuation">:</span> <span class="token number">1633345997</span><span class="token punctuation">,</span>
-    links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'A'</span> <span class="token punctuation">}</span><span class="token punctuation">]</span>  <span class="token comment" spellcheck="true">// 依赖任务 A</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">// FF：任务 B 必须在任务 A 完成后才能完成</span>
-<span class="token punctuation">{</span>
-  id<span class="token punctuation">:</span> <span class="token string">'B'</span><span class="token punctuation">,</span>
-  links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>ff<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'A'</span> <span class="token punctuation">}</span><span class="token punctuation">]</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// SS：任务 B 必须在任务 A 开始后才能开始</span>
-<span class="token punctuation">{</span>
-  id<span class="token punctuation">:</span> <span class="token string">'B'</span><span class="token punctuation">,</span>
-  links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>ss<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'A'</span> <span class="token punctuation">}</span><span class="token punctuation">]</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h2 id="%E9%93%BE%E6%8E%A5%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F" class="docs-header-link">
-          <span header-link="%E9%93%BE%E6%8E%A5%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"></span>
-          链接数据格式
-        </h2>
-      
-        <h3 id="%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%EF%BC%88%E7%AE%80%E5%8C%96%EF%BC%89" class="docs-header-link">
-          <span header-link="%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%EF%BC%88%E7%AE%80%E5%8C%96%EF%BC%89"></span>
-          字符串格式（简化）
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
-  <span class="token punctuation">{</span>
-    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
-    title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span>
-    links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'2'</span><span class="token punctuation">,</span> <span class="token string">'3'</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 简写，默认为 fs 类型</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
-
-        <h3 id="%E5%AF%B9%E8%B1%A1%E6%A0%BC%E5%BC%8F%EF%BC%88%E5%AE%8C%E6%95%B4%EF%BC%89" class="docs-header-link">
-          <span header-link="%E5%AF%B9%E8%B1%A1%E6%A0%BC%E5%BC%8F%EF%BC%88%E5%AE%8C%E6%95%B4%EF%BC%89"></span>
-          对象格式（完整）
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
-  <span class="token punctuation">{</span>
-    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
-    title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span>
     links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'2'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>ff<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span> color<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span> <span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// 自定义颜色</span>
+      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'A'</span> <span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// FS：任务 A 完成后，任务 B 才能开始</span>
+      <span class="token comment" spellcheck="true">// { type: GanttLinkType.ff, link: 'A' }, // FF：任务 A 完成后，任务 B 才能完成</span>
+      <span class="token comment" spellcheck="true">// { type: GanttLinkType.ss, link: 'A' }, // SS：任务 A 开始后，任务 B 才能开始</span>
+      <span class="token comment" spellcheck="true">// { type: GanttLinkType.sf, link: 'A' }  // SF：任务 A 开始后，任务 B 才能完成</span>
     <span class="token punctuation">]</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
 
-        <h2 id="%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E9%93%BE%E6%8E%A5" class="docs-header-link">
-          <span header-link="%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E9%93%BE%E6%8E%A5"></span>
-          拖拽创建链接
+        <h2 id="%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E4%BE%9D%E8%B5%96" class="docs-header-link">
+          <span header-link="%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E4%BE%9D%E8%B5%96"></span>
+          拖拽创建依赖
         </h2>
-      
-        <h3 id="%E5%90%AF%E7%94%A8%E9%93%BE%E6%8E%A5%E5%8A%9F%E8%83%BD" class="docs-header-link">
-          <span header-link="%E5%90%AF%E7%94%A8%E9%93%BE%E6%8E%A5%E5%8A%9F%E8%83%BD"></span>
-          启用链接功能
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" [linkable]="true">
-      &lt;!-- ... -->
-    &lt;/ngx-gantt>
-  `</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
-  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
-    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span>
-  <span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></div></code></pre>
+      <p>除了在数据中直接定义依赖关系，还可以通过拖拽任务条来创建依赖关系。</p>
 
         <h3 id="%E6%8B%96%E6%8B%BD%E6%93%8D%E4%BD%9C" class="docs-header-link">
           <span header-link="%E6%8B%96%E6%8B%BD%E6%93%8D%E4%BD%9C"></span>
@@ -130,7 +117,7 @@
       <ol>
 <li>从任务条的<strong>左侧端点</strong>（开始时间）或<strong>右侧端点</strong>（结束时间）开始拖拽</li>
 <li>拖拽到目标任务的任意位置</li>
-<li>释放鼠标完成链接创建</li>
+<li>释放鼠标完成依赖关系创建</li>
 </ol>
 <p>组件会根据拖拽的起点和终点自动判断依赖类型：</p>
 <ul>
@@ -144,14 +131,14 @@
           <span header-link="%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86"></span>
           事件处理
         </h3>
-      
-        <h4 id="%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E9%93%BE%E6%8E%A5%E4%BA%8B%E4%BB%B6" class="docs-header-link">
-          <span header-link="%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E9%93%BE%E6%8E%A5%E4%BA%8B%E4%BB%B6"></span>
-          拖拽创建链接事件
-        </h4>
       <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" (linkDragStarted)="onLinkDragStarted($event)" (linkDragEnded)="onLinkDragEnded($event)">
+    &lt;ngx-gantt
+      [items]="items"
+      (linkDragStarted)="onLinkDragStarted($event)"
+      (linkDragEnded)="onLinkDragEnded($event)"
+      (lineClick)="onLineClick($event)"
+    >
       &lt;!-- ... -->
     &lt;/ngx-gantt>
   `</span></span>
@@ -163,42 +150,36 @@
   <span class="token punctuation">]</span><span class="token punctuation">;</span>
 
   <span class="token function">onLinkDragStarted</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLinkDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'开始创建链接'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'开始创建依赖'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token function">onLinkDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLinkDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'链接创建完成'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">,</span> event<span class="token punctuation">.</span>target<span class="token punctuation">,</span> event<span class="token punctuation">.</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 更新数据</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">updateLinks</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 更新依赖数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> event<span class="token punctuation">.</span>source<span class="token punctuation">.</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+          <span class="token operator">...</span>item<span class="token punctuation">,</span>
+          links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>links <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> event<span class="token punctuation">.</span>type<span class="token punctuation">,</span> link<span class="token punctuation">:</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> item<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></div></code></pre>
 
-        <h4 id="%E9%93%BE%E6%8E%A5%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6" class="docs-header-link">
-          <span header-link="%E9%93%BE%E6%8E%A5%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"></span>
-          链接点击事件
-        </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
-    &lt;ngx-gantt [items]="items" (lineClick)="onLineClick($event)">
-      &lt;!-- ... -->
-    &lt;/ngx-gantt>
-  `</span></span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
   <span class="token function">onLineClick</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLineClickEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'点击了链接'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">,</span> event<span class="token punctuation">.</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 显示链接详情或删除链接</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'点击了连线'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">,</span> event<span class="token punctuation">.</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 显示依赖详情或删除依赖</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h2 id="%E9%93%BE%E6%8E%A5%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6" class="docs-header-link">
-          <span header-link="%E9%93%BE%E6%8E%A5%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6"></span>
-          链接样式定制
+        <h2 id="%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6" class="docs-header-link">
+          <span header-link="%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6"></span>
+          连线样式定制
         </h2>
       
-        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5%E9%A2%9C%E8%89%B2" class="docs-header-link">
-          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5%E9%A2%9C%E8%89%B2"></span>
-          自定义链接颜色
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%9E%E7%BA%BF%E9%A2%9C%E8%89%B2" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%9E%E7%BA%BF%E9%A2%9C%E8%89%B2"></span>
+          自定义连线颜色
         </h3>
       <pre class="language-typescript"><code class="language-typescript"><div>links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
@@ -211,36 +192,23 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
 
-        <h3 id="%E8%BF%9E%E7%BA%BF%E7%B1%BB%E5%9E%8B" class="docs-header-link">
-          <span header-link="%E8%BF%9E%E7%BA%BF%E7%B1%BB%E5%9E%8B"></span>
-          连线类型
+        <h3 id="%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE"></span>
+          连线样式配置
         </h3>
-      <ul>
-<li>**<code>curve</code>**（默认）：曲线连接，更美观</li>
-<li>**<code>straight</code>**：直线连接，更简洁</li>
-</ul>
+      <p>通过 <code>linkOptions</code> 配置连线类型和箭头显示：</p>
 <pre class="language-typescript"><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-  lineType<span class="token punctuation">:</span> <span class="token string">'straight'</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 或 'curve'</span>
+  lineType<span class="token punctuation">:</span> <span class="token string">'straight'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 'curve'（默认，曲线）| 'straight'（直线）</span>
+  showArrow<span class="token punctuation">:</span> <span class="token keyword">true</span>       <span class="token comment" spellcheck="true">// 是否在连线末端显示箭头</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h3 id="%E6%98%BE%E7%A4%BA%E7%AE%AD%E5%A4%B4" class="docs-header-link">
-          <span header-link="%E6%98%BE%E7%A4%BA%E7%AE%AD%E5%A4%B4"></span>
-          显示箭头
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-  showArrow<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 在连线末端显示箭头</span>
-<span class="token punctuation">}</span></div></code></pre>
-
-        <h2 id="%E9%93%BE%E6%8E%A5%E9%85%8D%E7%BD%AE" class="docs-header-link">
-          <span header-link="%E9%93%BE%E6%8E%A5%E9%85%8D%E7%BD%AE"></span>
-          链接配置
+        <h2 id="%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE"></span>
+          依赖配置
         </h2>
-      
-        <h3 id="%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE" class="docs-header-link">
-          <span header-link="%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE"></span>
-          全局配置
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+      <p>依赖配置支持全局配置和组件级别配置：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 全局配置</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
@@ -249,20 +217,17 @@
       useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
         linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
           dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 允许的依赖类型</span>
-          showArrow<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 是否显示箭头</span>
-          lineType<span class="token punctuation">:</span> <span class="token string">'curve'</span> <span class="token comment" spellcheck="true">// 'curve' | 'straight'</span>
+          showArrow<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">,</span>
+          lineType<span class="token punctuation">:</span> <span class="token string">'curve'</span>
         <span class="token punctuation">}</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-        <h3 id="%E7%BB%84%E4%BB%B6%E7%BA%A7%E5%88%AB%E9%85%8D%E7%BD%AE" class="docs-header-link">
-          <span header-link="%E7%BB%84%E4%BB%B6%E7%BA%A7%E5%88%AB%E9%85%8D%E7%BD%AE"></span>
-          组件级别配置
-        </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">// 组件级别配置</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items" [linkOptions]="linkOptions">
       &lt;!-- ... -->
@@ -277,22 +242,19 @@
   <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h2 id="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B" class="docs-header-link">
-          <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
-          最小示例
+        <h2 id="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"></span>
+          完整示例
         </h2>
       <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttLinkDragEvent<span class="token punctuation">,</span> GanttLinkType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-links'</span><span class="token punctuation">,</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items" [viewType]="viewType" [linkable]="true" (linkDragEnded)="onLinkDragEnded($event)">
       &lt;ngx-gantt-table>
         &lt;ngx-gantt-column name="任务" width="200px">
-          &lt;ng-template #cell let-item="item">
-            {{ item.title }}
-          &lt;/ng-template>
+          &lt;ng-template #cell let-item="item">{{ item.title }}&lt;/ng-template>
         &lt;/ngx-gantt-column>
       &lt;/ngx-gantt-table>
     &lt;/ngx-gantt>
@@ -300,14 +262,12 @@
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLinksComponent</span> <span class="token punctuation">{</span>
   viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
-
   items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span>
   <span class="token punctuation">]</span><span class="token punctuation">;</span>
 
   <span class="token function">onLinkDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLinkDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 更新链接</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
       <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> event<span class="token punctuation">.</span>source<span class="token punctuation">.</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
@@ -325,11 +285,11 @@
           常见问题
         </h2>
       
-        <h3 id="q:-%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%93%BE%E6%8E%A5%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%93%BE%E6%8E%A5%EF%BC%9F"></span>
-          Q: 如何删除链接？
+        <h3 id="q:-%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E4%BE%9D%E8%B5%96%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E4%BE%9D%E8%B5%96%EF%BC%9F"></span>
+          Q: 如何删除依赖？
         </h3>
-      <div class="dg-paragraph"><strong>A:</strong> 从任务的 <code>links</code> 数组中移除对应的链接：</div>
+      <div class="dg-paragraph"><strong>A:</strong> 从任务的 <code>links</code> 数组中移除对应的依赖：</div>
 <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">removeLink</span><span class="token punctuation">(</span>itemId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> targetId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> itemId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -345,18 +305,18 @@
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h3 id="q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%8F%AA%E8%83%BD%E5%88%9B%E5%BB%BA%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%93%BE%E6%8E%A5%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%8F%AA%E8%83%BD%E5%88%9B%E5%BB%BA%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%93%BE%E6%8E%A5%EF%BC%9F"></span>
-          Q: 如何限制只能创建特定类型的链接？
+        <h3 id="q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%8F%AA%E8%83%BD%E5%88%9B%E5%BB%BA%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BE%9D%E8%B5%96%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%8F%AA%E8%83%BD%E5%88%9B%E5%BB%BA%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BE%9D%E8%B5%96%EF%BC%9F"></span>
+          Q: 如何限制只能创建特定类型的依赖？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 在 <code>linkOptions.dependencyTypes</code> 中指定允许的类型：</div>
 <pre class="language-typescript"><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
   dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 只允许 fs 类型</span>
 <span class="token punctuation">}</span></div></code></pre>
 
-        <h3 id="q:-%E9%93%BE%E6%8E%A5%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F" class="docs-header-link">
-          <span header-link="q:-%E9%93%BE%E6%8E%A5%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F"></span>
-          Q: 链接不显示？
+        <h3 id="q:-%E4%BE%9D%E8%B5%96%E8%BF%9E%E7%BA%BF%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E4%BE%9D%E8%B5%96%E8%BF%9E%E7%BA%BF%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F"></span>
+          Q: 依赖连线不显示？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 检查：</div>
 <ol>
@@ -371,6 +331,6 @@
         </h2>
       <ul>
 <li><a href="guides/core-concepts/data-model">数据模型</a> - 了解 links 字段的结构</li>
-<li><a href="guides/features/bar-interaction">Bar 交互</a> - 了解任务条交互</li>
-<li><a href="guides/configuration">全局配置</a> - 了解链接的全局配置</li>
+<li><a href="guides/features/bar-interaction">Bar 显示与交互</a> - 了解任务条交互</li>
+<li><a href="guides/configuration">全局配置</a> - 了解依赖的全局配置</li>
 </ul>

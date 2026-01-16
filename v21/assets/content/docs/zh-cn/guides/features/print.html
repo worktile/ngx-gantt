@@ -84,27 +84,39 @@
           <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B"></span>
           自定义处理示例
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>async <span class="token function">exportAndUpload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">try</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> canvas <span class="token operator">=</span> await <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">html2canvas</span><span class="token punctuation">(</span><span class="token string">'toolbar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> blob <span class="token operator">=</span> await <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token operator">&lt;</span>Blob<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      canvas<span class="token punctuation">.</span><span class="token function">toBlob</span><span class="token punctuation">(</span><span class="token punctuation">(</span>blob<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">resolve</span><span class="token punctuation">(</span>blob<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true">// 上传到服务器</span>
-    <span class="token keyword">const</span> formData <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FormData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    formData<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">'image'</span><span class="token punctuation">,</span> blob<span class="token punctuation">,</span> <span class="token string">'gantt-chart.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span>
+    <span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">,</span>
+    <span class="token keyword">private</span> http<span class="token punctuation">:</span> HttpClient
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-    <span class="token keyword">this</span><span class="token punctuation">.</span>http<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/api/upload'</span><span class="token punctuation">,</span> formData<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      next<span class="token punctuation">:</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'上传成功'</span><span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      error<span class="token punctuation">:</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'上传失败'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'导出失败'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  async <span class="token function">exportAndUpload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> canvas <span class="token operator">=</span> await <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">html2canvas</span><span class="token punctuation">(</span><span class="token string">'toolbar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> blob <span class="token operator">=</span> await <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token operator">&lt;</span>Blob<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        canvas<span class="token punctuation">.</span><span class="token function">toBlob</span><span class="token punctuation">(</span><span class="token punctuation">(</span>blob<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">resolve</span><span class="token punctuation">(</span>blob<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">// 上传到服务器</span>
+      <span class="token keyword">const</span> formData <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FormData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      formData<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">'image'</span><span class="token punctuation">,</span> blob<span class="token punctuation">,</span> <span class="token string">'gantt-chart.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">this</span><span class="token punctuation">.</span>http<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/api/upload'</span><span class="token punctuation">,</span> formData<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        next<span class="token punctuation">:</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'上传成功'</span><span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        error<span class="token punctuation">:</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'上传失败'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'导出失败'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
@@ -139,7 +151,7 @@
           <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
           最小示例
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> ViewChild<span class="token punctuation">,</span> AfterViewInit <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild<span class="token punctuation">,</span> afterNextRender <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> NgxGanttComponent<span class="token punctuation">,</span> GanttPrintService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -161,21 +173,24 @@
   `</span></span><span class="token punctuation">,</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
-<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token keyword">implements</span> <span class="token class-name">AfterViewInit</span> <span class="token punctuation">{</span>
-  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
 
   items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-
-  <span class="token function">ngAfterViewInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 注册甘特图根元素</span>
-    <span class="token keyword">const</span> ganttRoot <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">ganttRoot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>ganttRoot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>ganttRoot<span class="token punctuation">.</span>elementRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">afterNextRender</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 注册甘特图根元素</span>
+      <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> ganttRoot <span class="token operator">=</span> gantt<span class="token punctuation">.</span><span class="token function">ganttRoot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>ganttRoot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>ganttRoot<span class="token punctuation">.</span>elementRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 
   <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -193,15 +208,17 @@
           <span header-link="1--%E7%AD%89%E5%BE%85%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90"></span>
           1. 等待渲染完成
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>async <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 等待视图更新完成</span>
-  await <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">changeView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 更新视图</span>
+    gantt<span class="token punctuation">.</span><span class="token function">changeView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="token comment" spellcheck="true">// 等待一小段时间确保渲染完成</span>
-  await <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span>resolve <span class="token operator">=</span><span class="token operator">></span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token comment" spellcheck="true">// 导出</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 等待一小段时间确保渲染完成</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
         <h3 id="2--%E5%A4%84%E7%90%86%E5%A4%A7%E5%9B%BE%E5%AF%BC%E5%87%BA" class="docs-header-link">
@@ -227,13 +244,16 @@
         </h3>
       <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// html2canvas 会自动处理，但可以调整视图以确保最佳效果</span>
 <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 确保视图已完全加载</span>
-  <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">rerenderView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 确保视图已完全加载</span>
+    gantt<span class="token punctuation">.</span><span class="token function">rerenderView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="token comment" spellcheck="true">// 导出</span>
-  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 导出</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 
         <h2 id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">

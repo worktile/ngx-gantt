@@ -41,7 +41,7 @@
           自定义工具栏
         </h2>
       <p>使用 <code>#toolbar</code> 模板可以完全自定义工具栏的内容和布局：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> ViewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> NgxGanttComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -63,7 +63,7 @@
   `</span></span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
-  @<span class="token function">ViewChild</span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span> gantt<span class="token punctuation">:</span> NgxGanttComponent<span class="token punctuation">;</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
 
@@ -80,7 +80,7 @@
   <span class="token punctuation">}</span>
 
   <span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>gantt<span class="token punctuation">.</span><span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></div></code></pre>
 <div class="dg-paragraph"><strong>注意：</strong> 使用自定义模板时，需要自行处理视图切换逻辑。如果 <code>toolbarOptions.viewTypes</code> 为空数组或未提供，工具栏将不显示任何视图切换按钮。</div>
