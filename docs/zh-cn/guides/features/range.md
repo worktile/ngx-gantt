@@ -16,7 +16,7 @@ const items: GanttItem[] = [
     id: '1',
     title: '版本发布',
     start: 1627729997,
-    end: 1627759997
+    end: 1627759997,
     type: 'range' // 设置为 range 类型
   }
 ];
