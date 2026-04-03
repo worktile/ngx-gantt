@@ -70,6 +70,7 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@docgeni/cli": "~2.7.0-next.2",
     "@docgeni/template": "~2.7.0-next.2",
+    "@tethys/cdk": "21.0.0-next.3",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
