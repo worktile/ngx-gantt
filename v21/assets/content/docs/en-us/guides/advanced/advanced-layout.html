@@ -1,0 +1,123 @@
+<p>If you only want to rely on ngx-gantt&#39;s view capabilities and customize your own layout and rendering logic based on ngx-gantt, you can use the <code>ngx-gantt-root</code> component to achieve fully customized layout.</p>
+
+        <h2 id="%E2%9A%A0%EF%B8%8F-important" class="docs-header-link">
+          <span header-link="%E2%9A%A0%EF%B8%8F-important"></span>
+          ⚠️ Important
+        </h2>
+      <div class="dg-paragraph"><strong>Implementing a custom layout requires a very deep understanding of the Gantt chart&#39;s internal implementation, and it has high requirements for users.</strong></div>
+<p>Before using <code>ngx-gantt-root</code>, make sure:</p>
+<ul>
+<li>✅ You have fully understood the core concepts and data structures of the Gantt chart</li>
+<li>✅ You understand internal mechanisms such as the view system and task bar positioning</li>
+<li>✅ You have read the source code and are familiar with the properties and methods provided by <code>GanttUpper</code></li>
+</ul>
+
+        <h2 id="when-do-you-need-a-custom-layout-" class="docs-header-link">
+          <span header-link="when-do-you-need-a-custom-layout-"></span>
+          When Do You Need a Custom Layout?
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-root</code> is suitable for scenarios like:</div>
+<ul>
+<li><strong>Want to use the Gantt chart’s view rendering capabilities</strong> (time axis ticks, view calculations, etc.)</li>
+<li><strong>Need a fully custom left-side area</strong> (not a table; could be any content like a list, cards, etc.)</li>
+<li><strong>Need a fully custom main area</strong> (task bar display logic is completely custom)</li>
+<li><strong>Fully customize the bar display logic</strong> (you can use the built-in <code>&lt;ngx-gantt-bar&gt;</code> component, or implement it entirely yourself)</li>
+</ul>
+
+        <h2 id="ngx-gantt-root-component" class="docs-header-link">
+          <span header-link="ngx-gantt-root-component"></span>
+          ngx-gantt-root Component
+        </h2>
+      <div class="dg-paragraph"><code>ngx-gantt-root</code> provides fully custom layout capabilities. It is the underlying component used inside the <code>ngx-gantt</code> component.</div>
+
+        <h3 id="component-properties" class="docs-header-link">
+          <span header-link="component-properties"></span>
+          Component Properties
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">NgxGanttRootComponent</span> <span class="token punctuation">{</span>
+  sideWidth<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Optional left-side area width (px)</span>
+  sideTemplate<span class="token operator">?</span><span class="token punctuation">:</span> TemplateRef<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Template reference for the left-side area</span>
+  mainTemplate<span class="token operator">?</span><span class="token punctuation">:</span> TemplateRef<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Template reference for the right-side area</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="template-structure" class="docs-header-link">
+          <span header-link="template-structure"></span>
+          Template Structure
+        </h3>
+      <div class="dg-paragraph"><code>ngx-gantt-root</code> defines the layout using two templates:</div>
+<ul>
+<li><strong>sideTemplate</strong>: left-side area template, fully custom left-side content</li>
+<li><strong>mainTemplate</strong>: right-side area template, fully custom right-side content (including task bar display)</li>
+</ul>
+
+        <h3 id="minimal-example" class="docs-header-link">
+          <span header-link="minimal-example"></span>
+          Minimal Example
+        </h3>
+      <p>The following example shows the basic usage structure of <code>ngx-gantt-root</code>:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> OnInit <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_UPPER_TOKEN<span class="token punctuation">,</span> GanttUpper<span class="token punctuation">,</span> NgxGanttRootComponent<span class="token punctuation">,</span> NgxGanttBarComponent<span class="token punctuation">,</span> GanttItemInternal <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-custom-gantt'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt-root [sideWidth]="300">
+      &lt;ng-template #sideTemplate>
+        &lt;!-- Custom left area -->
+        &lt;div class="custom-side">
+          @for (item of customItems; track item.id) {
+            &lt;div>{{ item.title }}&lt;/div>
+          }
+        &lt;/div>
+      &lt;/ng-template>
+
+      &lt;ng-template #mainTemplate>
+        &lt;!-- Custom main area -->
+        &lt;div class="gantt-main" [style.width.px]="view.width">
+          @for (item of customItems; track item.id) {
+            &lt;ngx-gantt-bar [item]="item">&lt;/ngx-gantt-bar>
+          }
+        &lt;/div>
+      &lt;/ng-template>
+    &lt;/ngx-gantt-root>
+  `</span></span><span class="token punctuation">,</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_UPPER_TOKEN<span class="token punctuation">,</span>
+      useExisting<span class="token punctuation">:</span> AppCustomGanttComponent
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>NgxGanttRootComponent<span class="token punctuation">,</span> NgxGanttBarComponent<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppCustomGanttComponent</span> <span class="token keyword">extends</span> <span class="token class-name">GanttUpper</span> <span class="token keyword">implements</span> <span class="token class-name">OnInit</span> <span class="token punctuation">{</span>
+  customItems<span class="token punctuation">:</span> GanttItemInternal<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  override <span class="token function">ngOnInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">ngOnInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">buildItems</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token function">buildItems</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Custom data processing logic</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="implementation-highlights" class="docs-header-link">
+          <span header-link="implementation-highlights"></span>
+          Implementation Highlights
+        </h2>
+      <p>When implementing a custom layout with <code>ngx-gantt-root</code>, you need to:</p>
+<ol>
+<li><strong>Understand the data structures</strong>: understand data structures like <code>GanttItem</code>, <code>GanttItemInternal</code>, <code>GanttGroup</code>, etc.</li>
+<li><strong>Understand the view system</strong>: understand how the view calculates the time range and width</li>
+<li><strong>Understand task bar positioning</strong>: understand how to compute the bar&#39;s position and width based on a task&#39;s start/end time</li>
+<li><strong>Handle interaction logic</strong>: you need to implement drag/click interactions yourself (if you use built-in components, interactions are supported automatically)</li>
+</ol>
+
+        <h3 id="example-code" class="docs-header-link">
+          <span header-link="example-code"></span>
+          Example Code
+        </h3>
+      <ul>
+<li><a target="_blank" href="https://github.com/worktile/ngx-gantt/tree/master/example/src/app/gantt-advanced">example</a> - View the full example code</li>
+</ul>

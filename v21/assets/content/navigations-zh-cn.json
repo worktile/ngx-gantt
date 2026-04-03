@@ -179,6 +179,96 @@
               ],
               "contentPath": "docs/zh-cn/guides/getting-started/getting-started.html",
               "originPath": "docs/zh-cn/guides/getting-started/getting-started.md"
+            },
+            {
+              "id": "upgrade-to-21",
+              "path": "intro/upgrade-to-21",
+              "channelPath": "guides",
+              "title": "v21 升级迁移指南（重要）",
+              "order": 120,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%8D%87%E7%BA%A7%E5%89%8D%E5%87%86%E5%A4%87",
+                  "name": "升级前准备",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "1--%E8%A7%86%E5%9B%BE%EF%BC%88view%EF%BC%89%E9%85%8D%E7%BD%AE%E8%BF%81%E7%A7%BB",
+                  "name": "1. 视图（View）配置迁移",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "1-1-%E5%AD%97%E6%AE%B5%E9%87%8D%E5%91%BD%E5%90%8D",
+                  "name": "1.1 字段重命名",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "1-2-%E8%BF%81%E7%A7%BB%E7%A4%BA%E4%BE%8B",
+                  "name": "1.2 迁移示例",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "2--%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%88custom-view%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%BF%81%E7%A7%BB",
+                  "name": "2. 自定义视图（Custom View）抽象类迁移",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "3--%E5%9B%BD%E9%99%85%E5%8C%96%EF%BC%88i18n%EF%BC%89%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84%E8%BF%81%E7%A7%BB",
+                  "name": "3. 国际化（i18n）配置结构迁移",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "4--%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%B8%BB%E9%A2%98%E7%B3%BB%E7%BB%9F",
+                  "name": "4. 全局配置与主题系统",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "4-1-%E6%A0%B7%E5%BC%8F%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4",
+                  "name": "4.1 样式字段变更",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "4-2-%E5%85%A8%E6%96%B0%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE",
+                  "name": "4.2 全新主题配置",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "5--%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%B8%85%E5%8D%95",
+                  "name": "5. 类型与常量替换清单",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "5-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E6%9B%BF%E6%8D%A2",
+                  "name": "5.1 数据模型替换",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "5-2-%E5%B8%83%E5%B1%80%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2",
+                  "name": "5.2 布局常量替换",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "6--%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95%EF%BC%88checklist%EF%BC%89",
+                  "name": "6. 验证清单（Checklist）",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.html",
+              "originPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.md"
             }
           ],
           "order": 100
@@ -3670,6 +3760,96 @@
       ],
       "contentPath": "docs/zh-cn/guides/getting-started/index.html",
       "originPath": "docs/zh-cn/guides/getting-started/index.md"
+    },
+    {
+      "id": "upgrade-to-21",
+      "path": "intro/upgrade-to-21",
+      "channelPath": "guides",
+      "title": "v21 升级迁移指南（重要）",
+      "order": 120,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%8D%87%E7%BA%A7%E5%89%8D%E5%87%86%E5%A4%87",
+          "name": "升级前准备",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1--%E8%A7%86%E5%9B%BE%EF%BC%88view%EF%BC%89%E9%85%8D%E7%BD%AE%E8%BF%81%E7%A7%BB",
+          "name": "1. 视图（View）配置迁移",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1-1-%E5%AD%97%E6%AE%B5%E9%87%8D%E5%91%BD%E5%90%8D",
+          "name": "1.1 字段重命名",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "1-2-%E8%BF%81%E7%A7%BB%E7%A4%BA%E4%BE%8B",
+          "name": "1.2 迁移示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "2--%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%88custom-view%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%BF%81%E7%A7%BB",
+          "name": "2. 自定义视图（Custom View）抽象类迁移",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "3--%E5%9B%BD%E9%99%85%E5%8C%96%EF%BC%88i18n%EF%BC%89%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84%E8%BF%81%E7%A7%BB",
+          "name": "3. 国际化（i18n）配置结构迁移",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "4--%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%B8%BB%E9%A2%98%E7%B3%BB%E7%BB%9F",
+          "name": "4. 全局配置与主题系统",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "4-1-%E6%A0%B7%E5%BC%8F%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4",
+          "name": "4.1 样式字段变更",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "4-2-%E5%85%A8%E6%96%B0%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE",
+          "name": "4.2 全新主题配置",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "5--%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%B8%85%E5%8D%95",
+          "name": "5. 类型与常量替换清单",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "5-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E6%9B%BF%E6%8D%A2",
+          "name": "5.1 数据模型替换",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "5-2-%E5%B8%83%E5%B1%80%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2",
+          "name": "5.2 布局常量替换",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "6--%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95%EF%BC%88checklist%EF%BC%89",
+          "name": "6. 验证清单（Checklist）",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.html",
+      "originPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.md"
     },
     {
       "id": "ngx-gantt",

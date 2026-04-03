@@ -1,0 +1,279 @@
+<p>This guide will help you get started with ngx-gantt in a few minutes.</p>
+
+        <h2 id="%F0%9F%93%A6-install-dependencies" class="docs-header-link">
+          <span header-link="%F0%9F%93%A6-install-dependencies"></span>
+          📦 Install Dependencies
+        </h2>
+      <p>Install the core package with npm or yarn:</p>
+<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @worktile/gantt --save
+<span class="token comment" spellcheck="true"># or</span>
+yarn add @worktile/gantt</div></code></pre>
+<p>ngx-gantt requires the following <strong>peerDependencies</strong>. Please make sure they are installed:</p>
+<ul>
+<li><code>@angular/common</code> &gt;= 21.0.0</li>
+<li><code>@angular/core</code> &gt;= 21.0.0</li>
+<li><code>@angular/cdk</code> &gt;= 21.0.0</li>
+<li><code>rxjs</code> ^6.5.0 || ^7.0.0</li>
+<li><code>date-fns</code> &gt;= 4.0.0</li>
+<li><code>@date-fns/tz</code> &gt;= 1.0.0</li>
+</ul>
+<p>If you have not installed them yet, run:</p>
+<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @angular/cdk date-fns @date-fns/tz --save</div></code></pre>
+
+        <h2 id="%F0%9F%8E%A8-import-styles" class="docs-header-link">
+          <span header-link="%F0%9F%8E%A8-import-styles"></span>
+          🎨 Import Styles
+        </h2>
+      <p>ngx-gantt needs you to import the styles so it renders correctly. There are two ways:</p>
+
+        <h3 id="option-1:-configure-in-%3Ccode%3Eangular-json%3C/code%3E-(recommended)" class="docs-header-link">
+          <span header-link="option-1:-configure-in-%3Ccode%3Eangular-json%3C/code%3E-(recommended)"></span>
+          Option 1: Configure in <code>angular.json</code> (recommended)
+        </h3>
+      <p>Add it to the <code>styles</code> array in your <code>angular.json</code>:</p>
+<pre class="language-json"><code class="language-json"><div><span class="token punctuation">{</span>
+  <span class="token property">"styles"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"node_modules/@worktile/gantt/styles/index.scss"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="option-2:-import-in-your-scss-file" class="docs-header-link">
+          <span header-link="option-2:-import-in-your-scss-file"></span>
+          Option 2: Import in your SCSS file
+        </h3>
+      <p>In your global styles file (e.g. <code>styles.scss</code>):</p>
+<pre class="language-scss"><code class="language-scss"><div>@use <span class="token string">'@worktile/gantt/styles/index.scss'</span><span class="token punctuation">;</span></div></code></pre>
+<blockquote>
+<div class="dg-paragraph"><strong>💡 Tip</strong>: If you use <code>@use</code>, make sure your project supports Sass (Dart Sass).</div>
+</blockquote>
+
+        <h2 id="%F0%9F%93%A5-import-the-component" class="docs-header-link">
+          <span header-link="%F0%9F%93%A5-import-the-component"></span>
+          📥 Import the Component
+        </h2>
+      <p>ngx-gantt supports two import methods: <strong>Standalone</strong> and <strong>NgModule</strong>.</p>
+
+        <h3 id="standalone-(recommended)" class="docs-header-link">
+          <span header-link="standalone-(recommended)"></span>
+          Standalone (recommended)
+        </h3>
+      <p>Standalone is the modern import approach recommended by Angular:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-example'</span><span class="token punctuation">,</span>
+  standalone<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task Name" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttExampleComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Design Phase'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Unix timestamp (seconds)</span>
+      end<span class="token punctuation">:</span> <span class="token number">1628421197</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Development Phase'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1633345997</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Testing Phase'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1633433997</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1636035597</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="ngmodule" class="docs-header-link">
+          <span header-link="ngmodule"></span>
+          NgModule
+        </h3>
+      <p>If you are still using the traditional NgModule architecture:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    NgxGanttModule
+    <span class="token comment" spellcheck="true">// ... other modules</span>
+  <span class="token punctuation">]</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%F0%9F%9A%80-hello-world" class="docs-header-link">
+          <span header-link="%F0%9F%9A%80-hello-world"></span>
+          🚀 Hello World
+        </h2>
+      <p>Here is a complete Gantt chart example, including the component class and template:</p>
+
+        <h3 id="full-example" class="docs-header-link">
+          <span header-link="full-example"></span>
+          Full Example
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-example'</span><span class="token punctuation">,</span>
+  standalone<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task Name" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttExampleComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Design Phase'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1628421197</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Development Phase'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1633345997</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Testing Phase'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1633433997</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1636035597</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="key-concepts" class="docs-header-link">
+          <span header-link="key-concepts"></span>
+          Key Concepts
+        </h3>
+      <table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>items</code></td>
+<td>Task data array; each task needs at least <code>id</code>, <code>title</code>, <code>start</code>, or <code>end</code></td>
+</tr>
+<tr>
+<td><code>viewType</code></td>
+<td>View type; supports <code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>quarter</code>, <code>year</code></td>
+</tr>
+<tr>
+<td><code>ngx-gantt-table</code></td>
+<td>Table component for displaying task lists</td>
+</tr>
+<tr>
+<td><code>ngx-gantt-column</code></td>
+<td>Table column definition; customize cell content via <code>#cell</code> template</td>
+</tr>
+</tbody></table>
+
+        <h3 id="time-formats" class="docs-header-link">
+          <span header-link="time-formats"></span>
+          Time Formats
+        </h3>
+      <div class="dg-paragraph"><code>start</code> and <code>end</code> support the following formats:</div>
+<ul>
+<li><strong>Unix timestamp (seconds)</strong>: <code>1627729997</code> (recommended)</li>
+<li><strong>Date object</strong>: <code>new Date(1627729997 * 1000)</code></li>
+<li><strong>GanttDate object</strong>: <code>new GanttDate(1627729997)</code></li>
+</ul>
+<blockquote>
+<div class="dg-paragraph"><strong>💡 Tip</strong>: If you provide only <code>start</code> or <code>end</code>, the component will automatically calculate the default width.</div>
+</blockquote>
+
+        <h2 id="%E2%9C%85-verify-installation" class="docs-header-link">
+          <span header-link="%E2%9C%85-verify-installation"></span>
+          ✅ Verify Installation
+        </h2>
+      <p>After running your app, you should see a Gantt chart with three tasks. If you run into issues, check the FAQ section below.</p>
+
+        <h2 id="%F0%9F%93%9A-next-steps" class="docs-header-link">
+          <span header-link="%F0%9F%93%9A-next-steps"></span>
+          📚 Next Steps
+        </h2>
+      <p>You have successfully run your first Gantt chart! Next you can:</p>
+<ul>
+<li>📖 <a href="guides/core-concepts/data-model">Data Model</a> - Learn the structure of <code>GanttItem</code> and <code>GanttGroup</code></li>
+<li>⏰ <a href="guides/core-concepts/date-timezone">Date and Timezone</a> - Understand time handling and timezone configuration</li>
+<li>🎨 <a href="guides/features">Feature Guide</a> - Learn advanced features like drag interactions and dependency links</li>
+<li>🎯 <a target="_blank" href="https://github.com/worktile/ngx-gantt/tree/master/example/src/app/gantt">Full Example</a> - Reference more real-world usage scenarios</li>
+</ul>
+
+        <h2 id="%E2%9D%93-common-questions" class="docs-header-link">
+          <span header-link="%E2%9D%93-common-questions"></span>
+          ❓ Common Questions
+        </h2>
+      
+        <h3 id="styles-not-working-" class="docs-header-link">
+          <span header-link="styles-not-working-"></span>
+          Styles not working?
+        </h3>
+      <ul>
+<li>Make sure you imported the styles correctly</li>
+<li>Check the browser console for style loading errors</li>
+<li>Confirm you are using Sass (Dart Sass) instead of Node Sass</li>
+</ul>
+
+        <h3 id="time-display-is-incorrect-" class="docs-header-link">
+          <span header-link="time-display-is-incorrect-"></span>
+          Time display is incorrect?
+        </h3>
+      <ul>
+<li>Check whether the time format is correct, and ensure you are using Unix timestamp (seconds) or <code>Date</code></li>
+<li>See <a href="guides/core-concepts/date-timezone">Date and Timezone</a> for more details</li>
+<li>Confirm the timezone configuration is correct</li>
+</ul>
+
+        <h3 id="component-not-displayed-" class="docs-header-link">
+          <span header-link="component-not-displayed-"></span>
+          Component not displayed?
+        </h3>
+      <ul>
+<li>Check whether you imported the component correctly</li>
+<li>Confirm the <code>items</code> array is not empty</li>
+<li>Check the browser console for error messages</li>
+<li>Confirm the styles have been imported correctly</li>
+</ul>
+
+        <h3 id="import-error-" class="docs-header-link">
+          <span header-link="import-error-"></span>
+          Import error?
+        </h3>
+      <ul>
+<li>Make sure all peer dependencies are installed</li>
+<li>Check whether your Angular version meets the requirement (&gt;= 21.0.0)</li>
+<li>Confirm you are using either the Standalone or NgModule approach</li>
+</ul>

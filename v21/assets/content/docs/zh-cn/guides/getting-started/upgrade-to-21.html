@@ -1,0 +1,249 @@
+
+        <h2 id="%E5%8D%87%E7%BA%A7%E5%89%8D%E5%87%86%E5%A4%87" class="docs-header-link">
+          <span header-link="%E5%8D%87%E7%BA%A7%E5%89%8D%E5%87%86%E5%A4%87"></span>
+          升级前准备
+        </h2>
+      <p>在开始迁移之前，请确保完成以下准备工作：</p>
+<ol>
+<li><strong>环境要求</strong>：确认宿主项目的 Angular 版本已升级至 <strong>&gt;= 21.0.0</strong>。</li>
+<li><strong>分支管理</strong>：建议在独立的 <code>feature/upgrade-to-v21</code> 分支进行操作。</li>
+</ol>
+<hr>
+
+        <h2 id="1--%E8%A7%86%E5%9B%BE%EF%BC%88view%EF%BC%89%E9%85%8D%E7%BD%AE%E8%BF%81%E7%A7%BB" class="docs-header-link">
+          <span header-link="1--%E8%A7%86%E5%9B%BE%EF%BC%88view%EF%BC%89%E9%85%8D%E7%BD%AE%E8%BF%81%E7%A7%BB"></span>
+          1. 视图（View）配置迁移
+        </h2>
+      <p>视图配置项进行了语义化重命名，并整合了滚动加载相关的逻辑。</p>
+
+        <h3 id="1-1-%E5%AD%97%E6%AE%B5%E9%87%8D%E5%91%BD%E5%90%8D" class="docs-header-link">
+          <span header-link="1-1-%E5%AD%97%E6%AE%B5%E9%87%8D%E5%91%BD%E5%90%8D"></span>
+          1.1 字段重命名
+        </h3>
+      <p>旧版中的部分字段已被标记为废弃或移除，请按以下对照表进行替换：</p>
+<table>
+<thead>
+<tr>
+<th align="left">旧字段 (v20)</th>
+<th align="left">新字段 (v21)</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>min</code> / <code>max</code></td>
+<td align="left"><strong><code>minBoundary</code> / <code>maxBoundary</code></strong></td>
+<td align="left">明确边界含义</td>
+</tr>
+<tr>
+<td align="left"><code>cellWidth</code></td>
+<td align="left"><strong><code>unitWidth</code></strong></td>
+<td align="left">最小刻度单位宽度</td>
+</tr>
+<tr>
+<td align="left"><code>addAmount</code> / <code>addUnit</code></td>
+<td align="left"><strong><code>loadDuration: { amount, unit }</code></strong></td>
+<td align="left">滚动加载的步进配置</td>
+</tr>
+<tr>
+<td align="left"><code>datePrecisionUnit</code></td>
+<td align="left"><strong><code>precisionUnit</code></strong></td>
+<td align="left">精度单位</td>
+</tr>
+<tr>
+<td align="left"><code>dragPreviewDateFormat</code></td>
+<td align="left"><strong><code>dragTooltipFormat</code></strong></td>
+<td align="left">拖拽提示格式</td>
+</tr>
+<tr>
+<td align="left"><code>hoilday</code></td>
+<td align="left"><strong><code>holiday</code></strong></td>
+<td align="left">修正拼写错误</td>
+</tr>
+</tbody></table>
+
+        <h3 id="1-2-%E8%BF%81%E7%A7%BB%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="1-2-%E8%BF%81%E7%A7%BB%E7%A4%BA%E4%BE%8B"></span>
+          1.2 迁移示例
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ❌ 旧版 v20 配置</span>
+<span class="token keyword">const</span> viewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  cellWidth<span class="token punctuation">:</span> <span class="token number">40</span><span class="token punctuation">,</span>
+  addAmount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  addUnit<span class="token punctuation">:</span> <span class="token string">'month'</span><span class="token punctuation">,</span>
+  hoilday<span class="token punctuation">:</span> <span class="token punctuation">{</span> isHoliday<span class="token punctuation">:</span> <span class="token keyword">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  datePrecisionUnit<span class="token punctuation">:</span> <span class="token string">'day'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// ✅ 新版 v21 配置</span>
+<span class="token keyword">const</span> viewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  unitWidth<span class="token punctuation">:</span> <span class="token number">40</span><span class="token punctuation">,</span>
+  loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span> amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 结构化合并</span>
+  holiday<span class="token punctuation">:</span> <span class="token punctuation">{</span> isHoliday<span class="token punctuation">:</span> <span class="token keyword">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 拼写修正</span>
+  precisionUnit<span class="token punctuation">:</span> <span class="token string">'day'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+<blockquote>
+<p>[!CAUTION]
+<strong>运行时校验</strong>：新版内部对 <code>loadDuration</code> 增加了非空断言。如果你定义了自定义 View，请务必提供该配置，否则在横向滚动触发 <code>extendStart/End</code> 时会抛出异常。</p>
+</blockquote>
+<hr>
+
+        <h2 id="2--%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%88custom-view%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%BF%81%E7%A7%BB" class="docs-header-link">
+          <span header-link="2--%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%88custom-view%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%BF%81%E7%A7%BB"></span>
+          2. 自定义视图（Custom View）抽象类迁移
+        </h2>
+      <p>如果你通过继承 <code>GanttView</code> 实现过自定义视图，需要更新以下抽象方法：</p>
+<table>
+<thead>
+<tr>
+<th align="left">旧版方法 (v20)</th>
+<th align="left">新版方法 (v21)</th>
+<th align="left">返回值变化</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>viewStartOf()</code> / <code>viewEndOf()</code></td>
+<td align="left"><strong><code>rangeStartOf()</code> / <code>rangeEndOf()</code></strong></td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left"><code>getPrimaryWidth()</code></td>
+<td align="left"><strong><code>getPeriodWidth()</code></strong></td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left"><code>getDayOccupancyWidth()</code></td>
+<td align="left"><strong><code>getDayWidth()</code></strong></td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left"><code>getPrimaryDatePoints()</code></td>
+<td align="left"><strong><code>getPeriodTicks()</code></strong></td>
+<td align="left"><code>GanttDatePoint[]</code> -&gt; <strong><code>GanttViewTick[]</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>getSecondaryDatePoints()</code></td>
+<td align="left"><strong><code>getUnitTicks()</code></strong></td>
+<td align="left"><code>GanttDatePoint[]</code> -&gt; <strong><code>GanttViewTick[]</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>addStartDate()</code> / <code>addEndDate()</code></td>
+<td align="left"><strong><code>extendStart()</code> / <code>extendEnd()</code></strong></td>
+<td align="left">逻辑重命名</td>
+</tr>
+</tbody></table>
+<hr>
+
+        <h2 id="3--%E5%9B%BD%E9%99%85%E5%8C%96%EF%BC%88i18n%EF%BC%89%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84%E8%BF%81%E7%A7%BB" class="docs-header-link">
+          <span header-link="3--%E5%9B%BD%E9%99%85%E5%8C%96%EF%BC%88i18n%EF%BC%89%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84%E8%BF%81%E7%A7%BB"></span>
+          3. 国际化（i18n）配置结构迁移
+        </h2>
+      <p>为了支持更灵活的刻度展示，时间轴文字格式从 <code>dateFormats</code> 迁移至 <code>tickFormats</code>。</p>
+<ul>
+<li><strong>旧结构</strong>：<code>views[viewType].dateFormats: { primary, secondary }</code></li>
+<li><strong>新结构</strong>：<code>views[viewType].tickFormats: { period, unit }</code></li>
+</ul>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// v21 i18n 示例</span>
+<span class="token keyword">const</span> localeConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token string">'zh-cn'</span><span class="token punctuation">,</span>
+  views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    day<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'天'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'YYYY年MM月'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 对应原 primary</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'D'</span> <span class="token comment" spellcheck="true">// 对应原 secondary</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+<hr>
+
+        <h2 id="4--%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%B8%BB%E9%A2%98%E7%B3%BB%E7%BB%9F" class="docs-header-link">
+          <span header-link="4--%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%B8%BB%E9%A2%98%E7%B3%BB%E7%BB%9F"></span>
+          4. 全局配置与主题系统
+        </h2>
+      
+        <h3 id="4-1-%E6%A0%B7%E5%BC%8F%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4" class="docs-header-link">
+          <span header-link="4-1-%E6%A0%B7%E5%BC%8F%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4"></span>
+          4.1 样式字段变更
+        </h3>
+      <p>旧版 <code>styleOptions.lineHeight</code> 现更名为 <code>rowHeight</code>，以更准确地描述甘特图的行高。</p>
+<blockquote>
+<div class="dg-paragraph"><strong>注意</strong>：v21 目前对 <code>lineHeight</code> 保持向下兼容，但会在控制台打印弃用警告，建议立即替换。</div>
+</blockquote>
+
+        <h3 id="4-2-%E5%85%A8%E6%96%B0%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="4-2-%E5%85%A8%E6%96%B0%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE"></span>
+          4.2 全新主题配置
+        </h3>
+      <p>v21 引入了更加系统的主题配置，支持通过 <code>themes</code> 字段定义多套配色方案。</p>
+<pre class="language-typescript"><code class="language-typescript"><div>styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+  defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span>
+  primaryColor<span class="token punctuation">:</span> <span class="token string">'#1890ff'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 快速覆盖主色调</span>
+  themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      primary<span class="token punctuation">:</span> <span class="token string">'#1890ff'</span><span class="token punctuation">,</span>
+      background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+      text<span class="token punctuation">:</span> <span class="token punctuation">{</span> main<span class="token punctuation">:</span> <span class="token string">'#333333'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      gray<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token number">100</span><span class="token punctuation">:</span> <span class="token string">'#fafafa'</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">:</span> <span class="token string">'#d9d9d9'</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+<hr>
+
+        <h2 id="5--%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%B8%85%E5%8D%95" class="docs-header-link">
+          <span header-link="5--%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%B8%85%E5%8D%95"></span>
+          5. 类型与常量替换清单
+        </h2>
+      <p>请全局搜索并替换以下已移除的公共导出项：</p>
+
+        <h3 id="5-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E6%9B%BF%E6%8D%A2" class="docs-header-link">
+          <span header-link="5-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E6%9B%BF%E6%8D%A2"></span>
+          5.1 数据模型替换
+        </h3>
+      <ul>
+<li>**<code>GanttDatePoint</code> (已删除)**：统一使用 **<code>GanttViewTick</code>**。<ul>
+<li><code>point.leftX</code> -&gt; <code>point.rect.x</code></li>
+<li><code>point.start</code> -&gt; <code>point.date</code></li>
+</ul>
+</li>
+<li>**<code>LinkColors</code> (已删除)**：现通过 <code>GanttLink</code> 对象直接配置颜色。</li>
+</ul>
+
+        <h3 id="5-2-%E5%B8%83%E5%B1%80%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2" class="docs-header-link">
+          <span header-link="5-2-%E5%B8%83%E5%B1%80%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2"></span>
+          5.2 布局常量替换
+        </h3>
+      <p>如果你的组件逻辑中直接引用了布局常量，请更新 Import 路径：</p>
+<table>
+<thead>
+<tr>
+<th align="left">旧常量名</th>
+<th align="left">新常量名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>primaryDatePointTop</code></td>
+<td align="left"><strong><code>PRIMARY_TICK_TOP</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>secondaryDatePointTop</code></td>
+<td align="left"><strong><code>SECONDARY_TICK_TOP</code></strong></td>
+</tr>
+</tbody></table>
+<hr>
+
+        <h2 id="6--%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95%EF%BC%88checklist%EF%BC%89" class="docs-header-link">
+          <span header-link="6--%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95%EF%BC%88checklist%EF%BC%89"></span>
+          6. 验证清单（Checklist）
+        </h2>
+      <p>完成代码修改后，请务必覆盖以下测试场景：</p>
+<ul>
+<li><strong>编译检查</strong>：确保无 <code>GanttDatePoint</code> 或旧字段相关的 TypeScript 报错。</li>
+<li><strong>渲染核对</strong>：时间轴头部（Header）的主次文字是否显示正常。</li>
+<li><strong>滚动功能</strong>：向左/右滚动到底时，是否能正常加载新范围的数据（Load Duration 测试）。</li>
+<li><strong>交互回归</strong>：拖拽 Task 时的 Tooltip 格式是否正确，链接线颜色是否符合预期。</li>
+<li><strong>主题校验</strong>：如果使用了自定义主题，检查背景色和文字颜色在暗色/亮色模式下的表现。</li>
+</ul>
+<hr>
+<p>_如在迁移过程中遇到任何问题，请在 GitHub Issue 中提交反馈。</p>

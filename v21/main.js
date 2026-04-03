@@ -26,10 +26,10 @@ import {
   isFakeTouchstartFromScreenReader,
   passiveListenerOptions,
   supportsScrollBehavior
-} from "./chunk-NWBM26VC.js";
+} from "./chunk-UA3WWUMS.js";
 import {
   NgxGanttRangeComponent
-} from "./chunk-6FNT6L6G.js";
+} from "./chunk-U54XNL7I.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_BOOTSTRAP_LISTENER,
@@ -228,11 +228,14 @@ import {
   getDOM,
   getDaysInMonth,
   getDefaultOptions,
+  getISOWeek,
   getOutputDestroyRef,
   getQuarter,
   getRoundingMethod,
+  getTimezoneOffsetInMilliseconds,
   getUnixTime,
   getWeek,
+  getWeekYear,
   i18nLocaleProvides,
   inject,
   input,
@@ -243,6 +246,8 @@ import {
   isObservable,
   isPlatformBrowser,
   isPromise,
+  isProtectedDayOfYearToken,
+  isProtectedWeekYearToken,
   isSameDay,
   isSameWeek,
   isSignal,
@@ -253,12 +258,16 @@ import {
   isWeekend,
   keyBy,
   linkedSignal,
+  longFormatters,
   makeEnvironmentProviders,
   map,
   mapTo,
   merge,
   mergeAll,
   mergeMap,
+  millisecondsInHour,
+  millisecondsInMinute,
+  millisecondsInSecond,
   model,
   normalizeDates,
   numberAttribute,
@@ -310,12 +319,15 @@ import {
   untracked,
   unwrapSafeValue,
   viewChild,
+  warnOrThrowProtectedError,
   ɵsetClassDebugInfo,
   ɵɵHostDirectivesFeature,
   ɵɵInheritDefinitionFeature,
   ɵɵNgOnChangesFeature,
   ɵɵProvidersFeature,
   ɵɵadvance,
+  ɵɵanimateEnter,
+  ɵɵanimateLeave,
   ɵɵattribute,
   ɵɵclassMap,
   ɵɵclassProp,
@@ -406,7 +418,7 @@ import {
   ɵɵtwoWayProperty,
   ɵɵviewQuery,
   ɵɵviewQuerySignal
-} from "./chunk-EBMWQTJP.js";
+} from "./chunk-R5NEFCYC.js";
 import {
   __async,
   __export,
@@ -7254,7 +7266,7 @@ var HttpResourceImpl = class extends ResourceImpl {
   }] : []);
   progress = this._progress.asReadonly();
   statusCode = this._statusCode.asReadonly();
-  constructor(injector, request, defaultValue, debugName, parse, equal) {
+  constructor(injector, request, defaultValue, debugName, parse2, equal) {
     super(request, ({
       params: request2,
       abortSignal
@@ -7282,7 +7294,7 @@ var HttpResourceImpl = class extends ResourceImpl {
               this._statusCode.set(event.status);
               try {
                 send({
-                  value: parse ? parse(event.body) : event.body
+                  value: parse2 ? parse2(event.body) : event.body
                 });
               } catch (error) {
                 send({
@@ -8840,6 +8852,905 @@ function endOfISOWeek(date, options) {
   return endOfWeek(date, __spreadProps(__spreadValues({}, options), { weekStartsOn: 1 }));
 }
 
+// node_modules/date-fns/getDefaultOptions.js
+function getDefaultOptions2() {
+  return Object.assign({}, getDefaultOptions());
+}
+
+// node_modules/date-fns/getISODay.js
+function getISODay(date, options) {
+  const day = toDate(date, options?.in).getDay();
+  return day === 0 ? 7 : day;
+}
+
+// node_modules/date-fns/transpose.js
+function transpose(date, constructor) {
+  const date_ = isConstructor(constructor) ? new constructor(0) : constructFrom(constructor, 0);
+  date_.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+  date_.setHours(
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds()
+  );
+  return date_;
+}
+function isConstructor(constructor) {
+  return typeof constructor === "function" && constructor.prototype?.constructor === constructor;
+}
+
+// node_modules/date-fns/parse/_lib/Setter.js
+var TIMEZONE_UNIT_PRIORITY = 10;
+var Setter = class {
+  subPriority = 0;
+  validate(_utcDate, _options) {
+    return true;
+  }
+};
+var ValueSetter = class extends Setter {
+  constructor(value, validateValue, setValue, priority, subPriority) {
+    super();
+    this.value = value;
+    this.validateValue = validateValue;
+    this.setValue = setValue;
+    this.priority = priority;
+    if (subPriority) {
+      this.subPriority = subPriority;
+    }
+  }
+  validate(date, options) {
+    return this.validateValue(date, this.value, options);
+  }
+  set(date, flags, options) {
+    return this.setValue(date, flags, this.value, options);
+  }
+};
+var DateTimezoneSetter = class extends Setter {
+  priority = TIMEZONE_UNIT_PRIORITY;
+  subPriority = -1;
+  constructor(context, reference) {
+    super();
+    this.context = context || ((date) => constructFrom(reference, date));
+  }
+  set(date, flags) {
+    if (flags.timestampIsSet) return date;
+    return constructFrom(date, transpose(date, this.context));
+  }
+};
+
+// node_modules/date-fns/parse/_lib/Parser.js
+var Parser = class {
+  run(dateString, token, match5, options) {
+    const result = this.parse(dateString, token, match5, options);
+    if (!result) {
+      return null;
+    }
+    return {
+      setter: new ValueSetter(
+        result.value,
+        this.validate,
+        this.set,
+        this.priority,
+        this.subPriority
+      ),
+      rest: result.rest
+    };
+  }
+  validate(_utcDate, _value, _options) {
+    return true;
+  }
+};
+
+// node_modules/date-fns/parse/_lib/parsers/EraParser.js
+var EraParser = class extends Parser {
+  priority = 140;
+  parse(dateString, token, match5) {
+    switch (token) {
+      // AD, BC
+      case "G":
+      case "GG":
+      case "GGG":
+        return match5.era(dateString, { width: "abbreviated" }) || match5.era(dateString, { width: "narrow" });
+      // A, B
+      case "GGGGG":
+        return match5.era(dateString, { width: "narrow" });
+      // Anno Domini, Before Christ
+      case "GGGG":
+      default:
+        return match5.era(dateString, { width: "wide" }) || match5.era(dateString, { width: "abbreviated" }) || match5.era(dateString, { width: "narrow" });
+    }
+  }
+  set(date, flags, value) {
+    flags.era = value;
+    date.setFullYear(value, 0, 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["R", "u", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/constants.js
+var numericPatterns = {
+  month: /^(1[0-2]|0?\d)/,
+  // 0 to 12
+  date: /^(3[0-1]|[0-2]?\d)/,
+  // 0 to 31
+  dayOfYear: /^(36[0-6]|3[0-5]\d|[0-2]?\d?\d)/,
+  // 0 to 366
+  week: /^(5[0-3]|[0-4]?\d)/,
+  // 0 to 53
+  hour23h: /^(2[0-3]|[0-1]?\d)/,
+  // 0 to 23
+  hour24h: /^(2[0-4]|[0-1]?\d)/,
+  // 0 to 24
+  hour11h: /^(1[0-1]|0?\d)/,
+  // 0 to 11
+  hour12h: /^(1[0-2]|0?\d)/,
+  // 0 to 12
+  minute: /^[0-5]?\d/,
+  // 0 to 59
+  second: /^[0-5]?\d/,
+  // 0 to 59
+  singleDigit: /^\d/,
+  // 0 to 9
+  twoDigits: /^\d{1,2}/,
+  // 0 to 99
+  threeDigits: /^\d{1,3}/,
+  // 0 to 999
+  fourDigits: /^\d{1,4}/,
+  // 0 to 9999
+  anyDigitsSigned: /^-?\d+/,
+  singleDigitSigned: /^-?\d/,
+  // 0 to 9, -0 to -9
+  twoDigitsSigned: /^-?\d{1,2}/,
+  // 0 to 99, -0 to -99
+  threeDigitsSigned: /^-?\d{1,3}/,
+  // 0 to 999, -0 to -999
+  fourDigitsSigned: /^-?\d{1,4}/
+  // 0 to 9999, -0 to -9999
+};
+var timezonePatterns = {
+  basicOptionalMinutes: /^([+-])(\d{2})(\d{2})?|Z/,
+  basic: /^([+-])(\d{2})(\d{2})|Z/,
+  basicOptionalSeconds: /^([+-])(\d{2})(\d{2})((\d{2}))?|Z/,
+  extended: /^([+-])(\d{2}):(\d{2})|Z/,
+  extendedOptionalSeconds: /^([+-])(\d{2}):(\d{2})(:(\d{2}))?|Z/
+};
+
+// node_modules/date-fns/parse/_lib/utils.js
+function mapValue(parseFnResult, mapFn) {
+  if (!parseFnResult) {
+    return parseFnResult;
+  }
+  return {
+    value: mapFn(parseFnResult.value),
+    rest: parseFnResult.rest
+  };
+}
+function parseNumericPattern(pattern, dateString) {
+  const matchResult = dateString.match(pattern);
+  if (!matchResult) {
+    return null;
+  }
+  return {
+    value: parseInt(matchResult[0], 10),
+    rest: dateString.slice(matchResult[0].length)
+  };
+}
+function parseTimezonePattern(pattern, dateString) {
+  const matchResult = dateString.match(pattern);
+  if (!matchResult) {
+    return null;
+  }
+  if (matchResult[0] === "Z") {
+    return {
+      value: 0,
+      rest: dateString.slice(1)
+    };
+  }
+  const sign = matchResult[1] === "+" ? 1 : -1;
+  const hours = matchResult[2] ? parseInt(matchResult[2], 10) : 0;
+  const minutes = matchResult[3] ? parseInt(matchResult[3], 10) : 0;
+  const seconds = matchResult[5] ? parseInt(matchResult[5], 10) : 0;
+  return {
+    value: sign * (hours * millisecondsInHour + minutes * millisecondsInMinute + seconds * millisecondsInSecond),
+    rest: dateString.slice(matchResult[0].length)
+  };
+}
+function parseAnyDigitsSigned(dateString) {
+  return parseNumericPattern(numericPatterns.anyDigitsSigned, dateString);
+}
+function parseNDigits(n, dateString) {
+  switch (n) {
+    case 1:
+      return parseNumericPattern(numericPatterns.singleDigit, dateString);
+    case 2:
+      return parseNumericPattern(numericPatterns.twoDigits, dateString);
+    case 3:
+      return parseNumericPattern(numericPatterns.threeDigits, dateString);
+    case 4:
+      return parseNumericPattern(numericPatterns.fourDigits, dateString);
+    default:
+      return parseNumericPattern(new RegExp("^\\d{1," + n + "}"), dateString);
+  }
+}
+function parseNDigitsSigned(n, dateString) {
+  switch (n) {
+    case 1:
+      return parseNumericPattern(numericPatterns.singleDigitSigned, dateString);
+    case 2:
+      return parseNumericPattern(numericPatterns.twoDigitsSigned, dateString);
+    case 3:
+      return parseNumericPattern(numericPatterns.threeDigitsSigned, dateString);
+    case 4:
+      return parseNumericPattern(numericPatterns.fourDigitsSigned, dateString);
+    default:
+      return parseNumericPattern(new RegExp("^-?\\d{1," + n + "}"), dateString);
+  }
+}
+function dayPeriodEnumToHours(dayPeriod) {
+  switch (dayPeriod) {
+    case "morning":
+      return 4;
+    case "evening":
+      return 17;
+    case "pm":
+    case "noon":
+    case "afternoon":
+      return 12;
+    case "am":
+    case "midnight":
+    case "night":
+    default:
+      return 0;
+  }
+}
+function normalizeTwoDigitYear(twoDigitYear, currentYear) {
+  const isCommonEra = currentYear > 0;
+  const absCurrentYear = isCommonEra ? currentYear : 1 - currentYear;
+  let result;
+  if (absCurrentYear <= 50) {
+    result = twoDigitYear || 100;
+  } else {
+    const rangeEnd = absCurrentYear + 50;
+    const rangeEndCentury = Math.trunc(rangeEnd / 100) * 100;
+    const isPreviousCentury = twoDigitYear >= rangeEnd % 100;
+    result = twoDigitYear + rangeEndCentury - (isPreviousCentury ? 100 : 0);
+  }
+  return isCommonEra ? result : 1 - result;
+}
+function isLeapYearIndex(year) {
+  return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
+}
+
+// node_modules/date-fns/parse/_lib/parsers/YearParser.js
+var YearParser = class extends Parser {
+  priority = 130;
+  incompatibleTokens = ["Y", "R", "u", "w", "I", "i", "e", "c", "t", "T"];
+  parse(dateString, token, match5) {
+    const valueCallback = (year) => ({
+      year,
+      isTwoDigitYear: token === "yy"
+    });
+    switch (token) {
+      case "y":
+        return mapValue(parseNDigits(4, dateString), valueCallback);
+      case "yo":
+        return mapValue(
+          match5.ordinalNumber(dateString, {
+            unit: "year"
+          }),
+          valueCallback
+        );
+      default:
+        return mapValue(parseNDigits(token.length, dateString), valueCallback);
+    }
+  }
+  validate(_date, value) {
+    return value.isTwoDigitYear || value.year > 0;
+  }
+  set(date, flags, value) {
+    const currentYear = date.getFullYear();
+    if (value.isTwoDigitYear) {
+      const normalizedTwoDigitYear = normalizeTwoDigitYear(
+        value.year,
+        currentYear
+      );
+      date.setFullYear(normalizedTwoDigitYear, 0, 1);
+      date.setHours(0, 0, 0, 0);
+      return date;
+    }
+    const year = !("era" in flags) || flags.era === 1 ? value.year : 1 - value.year;
+    date.setFullYear(year, 0, 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+};
+
+// node_modules/date-fns/parse/_lib/parsers/LocalWeekYearParser.js
+var LocalWeekYearParser = class extends Parser {
+  priority = 130;
+  parse(dateString, token, match5) {
+    const valueCallback = (year) => ({
+      year,
+      isTwoDigitYear: token === "YY"
+    });
+    switch (token) {
+      case "Y":
+        return mapValue(parseNDigits(4, dateString), valueCallback);
+      case "Yo":
+        return mapValue(
+          match5.ordinalNumber(dateString, {
+            unit: "year"
+          }),
+          valueCallback
+        );
+      default:
+        return mapValue(parseNDigits(token.length, dateString), valueCallback);
+    }
+  }
+  validate(_date, value) {
+    return value.isTwoDigitYear || value.year > 0;
+  }
+  set(date, flags, value, options) {
+    const currentYear = getWeekYear(date, options);
+    if (value.isTwoDigitYear) {
+      const normalizedTwoDigitYear = normalizeTwoDigitYear(
+        value.year,
+        currentYear
+      );
+      date.setFullYear(
+        normalizedTwoDigitYear,
+        0,
+        options.firstWeekContainsDate
+      );
+      date.setHours(0, 0, 0, 0);
+      return startOfWeek(date, options);
+    }
+    const year = !("era" in flags) || flags.era === 1 ? value.year : 1 - value.year;
+    date.setFullYear(year, 0, options.firstWeekContainsDate);
+    date.setHours(0, 0, 0, 0);
+    return startOfWeek(date, options);
+  }
+  incompatibleTokens = [
+    "y",
+    "R",
+    "u",
+    "Q",
+    "q",
+    "M",
+    "L",
+    "I",
+    "d",
+    "D",
+    "i",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/ISOWeekYearParser.js
+var ISOWeekYearParser = class extends Parser {
+  priority = 130;
+  parse(dateString, token) {
+    if (token === "R") {
+      return parseNDigitsSigned(4, dateString);
+    }
+    return parseNDigitsSigned(token.length, dateString);
+  }
+  set(date, _flags, value) {
+    const firstWeekOfYear = constructFrom(date, 0);
+    firstWeekOfYear.setFullYear(value, 0, 4);
+    firstWeekOfYear.setHours(0, 0, 0, 0);
+    return startOfISOWeek(firstWeekOfYear);
+  }
+  incompatibleTokens = [
+    "G",
+    "y",
+    "Y",
+    "u",
+    "Q",
+    "q",
+    "M",
+    "L",
+    "w",
+    "d",
+    "D",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/ExtendedYearParser.js
+var ExtendedYearParser = class extends Parser {
+  priority = 130;
+  parse(dateString, token) {
+    if (token === "u") {
+      return parseNDigitsSigned(4, dateString);
+    }
+    return parseNDigitsSigned(token.length, dateString);
+  }
+  set(date, _flags, value) {
+    date.setFullYear(value, 0, 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["G", "y", "Y", "R", "w", "I", "i", "e", "c", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/QuarterParser.js
+var QuarterParser = class extends Parser {
+  priority = 120;
+  parse(dateString, token, match5) {
+    switch (token) {
+      // 1, 2, 3, 4
+      case "Q":
+      case "QQ":
+        return parseNDigits(token.length, dateString);
+      // 1st, 2nd, 3rd, 4th
+      case "Qo":
+        return match5.ordinalNumber(dateString, { unit: "quarter" });
+      // Q1, Q2, Q3, Q4
+      case "QQQ":
+        return match5.quarter(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.quarter(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+      case "QQQQQ":
+        return match5.quarter(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      // 1st quarter, 2nd quarter, ...
+      case "QQQQ":
+      default:
+        return match5.quarter(dateString, {
+          width: "wide",
+          context: "formatting"
+        }) || match5.quarter(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.quarter(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+    }
+  }
+  validate(_date, value) {
+    return value >= 1 && value <= 4;
+  }
+  set(date, _flags, value) {
+    date.setMonth((value - 1) * 3, 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "Y",
+    "R",
+    "q",
+    "M",
+    "L",
+    "w",
+    "I",
+    "d",
+    "D",
+    "i",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/StandAloneQuarterParser.js
+var StandAloneQuarterParser = class extends Parser {
+  priority = 120;
+  parse(dateString, token, match5) {
+    switch (token) {
+      // 1, 2, 3, 4
+      case "q":
+      case "qq":
+        return parseNDigits(token.length, dateString);
+      // 1st, 2nd, 3rd, 4th
+      case "qo":
+        return match5.ordinalNumber(dateString, { unit: "quarter" });
+      // Q1, Q2, Q3, Q4
+      case "qqq":
+        return match5.quarter(dateString, {
+          width: "abbreviated",
+          context: "standalone"
+        }) || match5.quarter(dateString, {
+          width: "narrow",
+          context: "standalone"
+        });
+      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+      case "qqqqq":
+        return match5.quarter(dateString, {
+          width: "narrow",
+          context: "standalone"
+        });
+      // 1st quarter, 2nd quarter, ...
+      case "qqqq":
+      default:
+        return match5.quarter(dateString, {
+          width: "wide",
+          context: "standalone"
+        }) || match5.quarter(dateString, {
+          width: "abbreviated",
+          context: "standalone"
+        }) || match5.quarter(dateString, {
+          width: "narrow",
+          context: "standalone"
+        });
+    }
+  }
+  validate(_date, value) {
+    return value >= 1 && value <= 4;
+  }
+  set(date, _flags, value) {
+    date.setMonth((value - 1) * 3, 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "Y",
+    "R",
+    "Q",
+    "M",
+    "L",
+    "w",
+    "I",
+    "d",
+    "D",
+    "i",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/MonthParser.js
+var MonthParser = class extends Parser {
+  incompatibleTokens = [
+    "Y",
+    "R",
+    "q",
+    "Q",
+    "L",
+    "w",
+    "I",
+    "D",
+    "i",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+  priority = 110;
+  parse(dateString, token, match5) {
+    const valueCallback = (value) => value - 1;
+    switch (token) {
+      // 1, 2, ..., 12
+      case "M":
+        return mapValue(
+          parseNumericPattern(numericPatterns.month, dateString),
+          valueCallback
+        );
+      // 01, 02, ..., 12
+      case "MM":
+        return mapValue(parseNDigits(2, dateString), valueCallback);
+      // 1st, 2nd, ..., 12th
+      case "Mo":
+        return mapValue(
+          match5.ordinalNumber(dateString, {
+            unit: "month"
+          }),
+          valueCallback
+        );
+      // Jan, Feb, ..., Dec
+      case "MMM":
+        return match5.month(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.month(dateString, { width: "narrow", context: "formatting" });
+      // J, F, ..., D
+      case "MMMMM":
+        return match5.month(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      // January, February, ..., December
+      case "MMMM":
+      default:
+        return match5.month(dateString, { width: "wide", context: "formatting" }) || match5.month(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.month(dateString, { width: "narrow", context: "formatting" });
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 11;
+  }
+  set(date, _flags, value) {
+    date.setMonth(value, 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+};
+
+// node_modules/date-fns/parse/_lib/parsers/StandAloneMonthParser.js
+var StandAloneMonthParser = class extends Parser {
+  priority = 110;
+  parse(dateString, token, match5) {
+    const valueCallback = (value) => value - 1;
+    switch (token) {
+      // 1, 2, ..., 12
+      case "L":
+        return mapValue(
+          parseNumericPattern(numericPatterns.month, dateString),
+          valueCallback
+        );
+      // 01, 02, ..., 12
+      case "LL":
+        return mapValue(parseNDigits(2, dateString), valueCallback);
+      // 1st, 2nd, ..., 12th
+      case "Lo":
+        return mapValue(
+          match5.ordinalNumber(dateString, {
+            unit: "month"
+          }),
+          valueCallback
+        );
+      // Jan, Feb, ..., Dec
+      case "LLL":
+        return match5.month(dateString, {
+          width: "abbreviated",
+          context: "standalone"
+        }) || match5.month(dateString, { width: "narrow", context: "standalone" });
+      // J, F, ..., D
+      case "LLLLL":
+        return match5.month(dateString, {
+          width: "narrow",
+          context: "standalone"
+        });
+      // January, February, ..., December
+      case "LLLL":
+      default:
+        return match5.month(dateString, { width: "wide", context: "standalone" }) || match5.month(dateString, {
+          width: "abbreviated",
+          context: "standalone"
+        }) || match5.month(dateString, { width: "narrow", context: "standalone" });
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 11;
+  }
+  set(date, _flags, value) {
+    date.setMonth(value, 1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "Y",
+    "R",
+    "q",
+    "Q",
+    "M",
+    "w",
+    "I",
+    "D",
+    "i",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/setWeek.js
+function setWeek(date, week, options) {
+  const date_ = toDate(date, options?.in);
+  const diff = getWeek(date_, options) - week;
+  date_.setDate(date_.getDate() - diff * 7);
+  return toDate(date_, options?.in);
+}
+
+// node_modules/date-fns/parse/_lib/parsers/LocalWeekParser.js
+var LocalWeekParser = class extends Parser {
+  priority = 100;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "w":
+        return parseNumericPattern(numericPatterns.week, dateString);
+      case "wo":
+        return match5.ordinalNumber(dateString, { unit: "week" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 1 && value <= 53;
+  }
+  set(date, _flags, value, options) {
+    return startOfWeek(setWeek(date, value, options), options);
+  }
+  incompatibleTokens = [
+    "y",
+    "R",
+    "u",
+    "q",
+    "Q",
+    "M",
+    "L",
+    "I",
+    "d",
+    "D",
+    "i",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/setISOWeek.js
+function setISOWeek(date, week, options) {
+  const _date = toDate(date, options?.in);
+  const diff = getISOWeek(_date, options) - week;
+  _date.setDate(_date.getDate() - diff * 7);
+  return _date;
+}
+
+// node_modules/date-fns/parse/_lib/parsers/ISOWeekParser.js
+var ISOWeekParser = class extends Parser {
+  priority = 100;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "I":
+        return parseNumericPattern(numericPatterns.week, dateString);
+      case "Io":
+        return match5.ordinalNumber(dateString, { unit: "week" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 1 && value <= 53;
+  }
+  set(date, _flags, value) {
+    return startOfISOWeek(setISOWeek(date, value));
+  }
+  incompatibleTokens = [
+    "y",
+    "Y",
+    "u",
+    "q",
+    "Q",
+    "M",
+    "L",
+    "w",
+    "d",
+    "D",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/DateParser.js
+var DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+var DAYS_IN_MONTH_LEAP_YEAR = [
+  31,
+  29,
+  31,
+  30,
+  31,
+  30,
+  31,
+  31,
+  30,
+  31,
+  30,
+  31
+];
+var DateParser = class extends Parser {
+  priority = 90;
+  subPriority = 1;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "d":
+        return parseNumericPattern(numericPatterns.date, dateString);
+      case "do":
+        return match5.ordinalNumber(dateString, { unit: "date" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(date, value) {
+    const year = date.getFullYear();
+    const isLeapYear = isLeapYearIndex(year);
+    const month = date.getMonth();
+    if (isLeapYear) {
+      return value >= 1 && value <= DAYS_IN_MONTH_LEAP_YEAR[month];
+    } else {
+      return value >= 1 && value <= DAYS_IN_MONTH[month];
+    }
+  }
+  set(date, _flags, value) {
+    date.setDate(value);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "Y",
+    "R",
+    "q",
+    "Q",
+    "w",
+    "I",
+    "D",
+    "i",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/DayOfYearParser.js
+var DayOfYearParser = class extends Parser {
+  priority = 90;
+  subpriority = 1;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "D":
+      case "DD":
+        return parseNumericPattern(numericPatterns.dayOfYear, dateString);
+      case "Do":
+        return match5.ordinalNumber(dateString, { unit: "date" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(date, value) {
+    const year = date.getFullYear();
+    const isLeapYear = isLeapYearIndex(year);
+    if (isLeapYear) {
+      return value >= 1 && value <= 366;
+    } else {
+      return value >= 1 && value <= 365;
+    }
+  }
+  set(date, _flags, value) {
+    date.setMonth(0, value);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "Y",
+    "R",
+    "q",
+    "Q",
+    "M",
+    "L",
+    "w",
+    "I",
+    "d",
+    "E",
+    "i",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
 // node_modules/date-fns/setDay.js
 function setDay(date, day, options) {
   const defaultOptions = getDefaultOptions();
@@ -8851,6 +9762,835 @@ function setDay(date, day, options) {
   const delta = 7 - weekStartsOn;
   const diff = day < 0 || day > 6 ? day - (currentDay + delta) % 7 : (dayIndex + delta) % 7 - (currentDay + delta) % 7;
   return addDays(date_, diff, options);
+}
+
+// node_modules/date-fns/parse/_lib/parsers/DayParser.js
+var DayParser = class extends Parser {
+  priority = 90;
+  parse(dateString, token, match5) {
+    switch (token) {
+      // Tue
+      case "E":
+      case "EE":
+      case "EEE":
+        return match5.day(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.day(dateString, { width: "short", context: "formatting" }) || match5.day(dateString, { width: "narrow", context: "formatting" });
+      // T
+      case "EEEEE":
+        return match5.day(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      // Tu
+      case "EEEEEE":
+        return match5.day(dateString, { width: "short", context: "formatting" }) || match5.day(dateString, { width: "narrow", context: "formatting" });
+      // Tuesday
+      case "EEEE":
+      default:
+        return match5.day(dateString, { width: "wide", context: "formatting" }) || match5.day(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.day(dateString, { width: "short", context: "formatting" }) || match5.day(dateString, { width: "narrow", context: "formatting" });
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 6;
+  }
+  set(date, _flags, value, options) {
+    date = setDay(date, value, options);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["D", "i", "e", "c", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/LocalDayParser.js
+var LocalDayParser = class extends Parser {
+  priority = 90;
+  parse(dateString, token, match5, options) {
+    const valueCallback = (value) => {
+      const wholeWeekDays = Math.floor((value - 1) / 7) * 7;
+      return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
+    };
+    switch (token) {
+      // 3
+      case "e":
+      case "ee":
+        return mapValue(parseNDigits(token.length, dateString), valueCallback);
+      // 3rd
+      case "eo":
+        return mapValue(
+          match5.ordinalNumber(dateString, {
+            unit: "day"
+          }),
+          valueCallback
+        );
+      // Tue
+      case "eee":
+        return match5.day(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.day(dateString, { width: "short", context: "formatting" }) || match5.day(dateString, { width: "narrow", context: "formatting" });
+      // T
+      case "eeeee":
+        return match5.day(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      // Tu
+      case "eeeeee":
+        return match5.day(dateString, { width: "short", context: "formatting" }) || match5.day(dateString, { width: "narrow", context: "formatting" });
+      // Tuesday
+      case "eeee":
+      default:
+        return match5.day(dateString, { width: "wide", context: "formatting" }) || match5.day(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.day(dateString, { width: "short", context: "formatting" }) || match5.day(dateString, { width: "narrow", context: "formatting" });
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 6;
+  }
+  set(date, _flags, value, options) {
+    date = setDay(date, value, options);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "y",
+    "R",
+    "u",
+    "q",
+    "Q",
+    "M",
+    "L",
+    "I",
+    "d",
+    "D",
+    "E",
+    "i",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/StandAloneLocalDayParser.js
+var StandAloneLocalDayParser = class extends Parser {
+  priority = 90;
+  parse(dateString, token, match5, options) {
+    const valueCallback = (value) => {
+      const wholeWeekDays = Math.floor((value - 1) / 7) * 7;
+      return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
+    };
+    switch (token) {
+      // 3
+      case "c":
+      case "cc":
+        return mapValue(parseNDigits(token.length, dateString), valueCallback);
+      // 3rd
+      case "co":
+        return mapValue(
+          match5.ordinalNumber(dateString, {
+            unit: "day"
+          }),
+          valueCallback
+        );
+      // Tue
+      case "ccc":
+        return match5.day(dateString, {
+          width: "abbreviated",
+          context: "standalone"
+        }) || match5.day(dateString, { width: "short", context: "standalone" }) || match5.day(dateString, { width: "narrow", context: "standalone" });
+      // T
+      case "ccccc":
+        return match5.day(dateString, {
+          width: "narrow",
+          context: "standalone"
+        });
+      // Tu
+      case "cccccc":
+        return match5.day(dateString, { width: "short", context: "standalone" }) || match5.day(dateString, { width: "narrow", context: "standalone" });
+      // Tuesday
+      case "cccc":
+      default:
+        return match5.day(dateString, { width: "wide", context: "standalone" }) || match5.day(dateString, {
+          width: "abbreviated",
+          context: "standalone"
+        }) || match5.day(dateString, { width: "short", context: "standalone" }) || match5.day(dateString, { width: "narrow", context: "standalone" });
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 6;
+  }
+  set(date, _flags, value, options) {
+    date = setDay(date, value, options);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "y",
+    "R",
+    "u",
+    "q",
+    "Q",
+    "M",
+    "L",
+    "I",
+    "d",
+    "D",
+    "E",
+    "i",
+    "e",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/setISODay.js
+function setISODay(date, day, options) {
+  const date_ = toDate(date, options?.in);
+  const currentDay = getISODay(date_, options);
+  const diff = day - currentDay;
+  return addDays(date_, diff, options);
+}
+
+// node_modules/date-fns/parse/_lib/parsers/ISODayParser.js
+var ISODayParser = class extends Parser {
+  priority = 90;
+  parse(dateString, token, match5) {
+    const valueCallback = (value) => {
+      if (value === 0) {
+        return 7;
+      }
+      return value;
+    };
+    switch (token) {
+      // 2
+      case "i":
+      case "ii":
+        return parseNDigits(token.length, dateString);
+      // 2nd
+      case "io":
+        return match5.ordinalNumber(dateString, { unit: "day" });
+      // Tue
+      case "iii":
+        return mapValue(
+          match5.day(dateString, {
+            width: "abbreviated",
+            context: "formatting"
+          }) || match5.day(dateString, {
+            width: "short",
+            context: "formatting"
+          }) || match5.day(dateString, {
+            width: "narrow",
+            context: "formatting"
+          }),
+          valueCallback
+        );
+      // T
+      case "iiiii":
+        return mapValue(
+          match5.day(dateString, {
+            width: "narrow",
+            context: "formatting"
+          }),
+          valueCallback
+        );
+      // Tu
+      case "iiiiii":
+        return mapValue(
+          match5.day(dateString, {
+            width: "short",
+            context: "formatting"
+          }) || match5.day(dateString, {
+            width: "narrow",
+            context: "formatting"
+          }),
+          valueCallback
+        );
+      // Tuesday
+      case "iiii":
+      default:
+        return mapValue(
+          match5.day(dateString, {
+            width: "wide",
+            context: "formatting"
+          }) || match5.day(dateString, {
+            width: "abbreviated",
+            context: "formatting"
+          }) || match5.day(dateString, {
+            width: "short",
+            context: "formatting"
+          }) || match5.day(dateString, {
+            width: "narrow",
+            context: "formatting"
+          }),
+          valueCallback
+        );
+    }
+  }
+  validate(_date, value) {
+    return value >= 1 && value <= 7;
+  }
+  set(date, _flags, value) {
+    date = setISODay(date, value);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = [
+    "y",
+    "Y",
+    "u",
+    "q",
+    "Q",
+    "M",
+    "L",
+    "w",
+    "d",
+    "D",
+    "E",
+    "e",
+    "c",
+    "t",
+    "T"
+  ];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/AMPMParser.js
+var AMPMParser = class extends Parser {
+  priority = 80;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "a":
+      case "aa":
+      case "aaa":
+        return match5.dayPeriod(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      case "aaaaa":
+        return match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      case "aaaa":
+      default:
+        return match5.dayPeriod(dateString, {
+          width: "wide",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+    }
+  }
+  set(date, _flags, value) {
+    date.setHours(dayPeriodEnumToHours(value), 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["b", "B", "H", "k", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/AMPMMidnightParser.js
+var AMPMMidnightParser = class extends Parser {
+  priority = 80;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "b":
+      case "bb":
+      case "bbb":
+        return match5.dayPeriod(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      case "bbbbb":
+        return match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      case "bbbb":
+      default:
+        return match5.dayPeriod(dateString, {
+          width: "wide",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+    }
+  }
+  set(date, _flags, value) {
+    date.setHours(dayPeriodEnumToHours(value), 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["a", "B", "H", "k", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/DayPeriodParser.js
+var DayPeriodParser = class extends Parser {
+  priority = 80;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "B":
+      case "BB":
+      case "BBB":
+        return match5.dayPeriod(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      case "BBBBB":
+        return match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+      case "BBBB":
+      default:
+        return match5.dayPeriod(dateString, {
+          width: "wide",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "abbreviated",
+          context: "formatting"
+        }) || match5.dayPeriod(dateString, {
+          width: "narrow",
+          context: "formatting"
+        });
+    }
+  }
+  set(date, _flags, value) {
+    date.setHours(dayPeriodEnumToHours(value), 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["a", "b", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/Hour1to12Parser.js
+var Hour1to12Parser = class extends Parser {
+  priority = 70;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "h":
+        return parseNumericPattern(numericPatterns.hour12h, dateString);
+      case "ho":
+        return match5.ordinalNumber(dateString, { unit: "hour" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 1 && value <= 12;
+  }
+  set(date, _flags, value) {
+    const isPM = date.getHours() >= 12;
+    if (isPM && value < 12) {
+      date.setHours(value + 12, 0, 0, 0);
+    } else if (!isPM && value === 12) {
+      date.setHours(0, 0, 0, 0);
+    } else {
+      date.setHours(value, 0, 0, 0);
+    }
+    return date;
+  }
+  incompatibleTokens = ["H", "K", "k", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/Hour0to23Parser.js
+var Hour0to23Parser = class extends Parser {
+  priority = 70;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "H":
+        return parseNumericPattern(numericPatterns.hour23h, dateString);
+      case "Ho":
+        return match5.ordinalNumber(dateString, { unit: "hour" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 23;
+  }
+  set(date, _flags, value) {
+    date.setHours(value, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["a", "b", "h", "K", "k", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/Hour0To11Parser.js
+var Hour0To11Parser = class extends Parser {
+  priority = 70;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "K":
+        return parseNumericPattern(numericPatterns.hour11h, dateString);
+      case "Ko":
+        return match5.ordinalNumber(dateString, { unit: "hour" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 11;
+  }
+  set(date, _flags, value) {
+    const isPM = date.getHours() >= 12;
+    if (isPM && value < 12) {
+      date.setHours(value + 12, 0, 0, 0);
+    } else {
+      date.setHours(value, 0, 0, 0);
+    }
+    return date;
+  }
+  incompatibleTokens = ["h", "H", "k", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/Hour1To24Parser.js
+var Hour1To24Parser = class extends Parser {
+  priority = 70;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "k":
+        return parseNumericPattern(numericPatterns.hour24h, dateString);
+      case "ko":
+        return match5.ordinalNumber(dateString, { unit: "hour" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 1 && value <= 24;
+  }
+  set(date, _flags, value) {
+    const hours = value <= 24 ? value % 24 : value;
+    date.setHours(hours, 0, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["a", "b", "h", "H", "K", "t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/MinuteParser.js
+var MinuteParser = class extends Parser {
+  priority = 60;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "m":
+        return parseNumericPattern(numericPatterns.minute, dateString);
+      case "mo":
+        return match5.ordinalNumber(dateString, { unit: "minute" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 59;
+  }
+  set(date, _flags, value) {
+    date.setMinutes(value, 0, 0);
+    return date;
+  }
+  incompatibleTokens = ["t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/SecondParser.js
+var SecondParser = class extends Parser {
+  priority = 50;
+  parse(dateString, token, match5) {
+    switch (token) {
+      case "s":
+        return parseNumericPattern(numericPatterns.second, dateString);
+      case "so":
+        return match5.ordinalNumber(dateString, { unit: "second" });
+      default:
+        return parseNDigits(token.length, dateString);
+    }
+  }
+  validate(_date, value) {
+    return value >= 0 && value <= 59;
+  }
+  set(date, _flags, value) {
+    date.setSeconds(value, 0);
+    return date;
+  }
+  incompatibleTokens = ["t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/FractionOfSecondParser.js
+var FractionOfSecondParser = class extends Parser {
+  priority = 30;
+  parse(dateString, token) {
+    const valueCallback = (value) => Math.trunc(value * Math.pow(10, -token.length + 3));
+    return mapValue(parseNDigits(token.length, dateString), valueCallback);
+  }
+  set(date, _flags, value) {
+    date.setMilliseconds(value);
+    return date;
+  }
+  incompatibleTokens = ["t", "T"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/ISOTimezoneWithZParser.js
+var ISOTimezoneWithZParser = class extends Parser {
+  priority = 10;
+  parse(dateString, token) {
+    switch (token) {
+      case "X":
+        return parseTimezonePattern(
+          timezonePatterns.basicOptionalMinutes,
+          dateString
+        );
+      case "XX":
+        return parseTimezonePattern(timezonePatterns.basic, dateString);
+      case "XXXX":
+        return parseTimezonePattern(
+          timezonePatterns.basicOptionalSeconds,
+          dateString
+        );
+      case "XXXXX":
+        return parseTimezonePattern(
+          timezonePatterns.extendedOptionalSeconds,
+          dateString
+        );
+      case "XXX":
+      default:
+        return parseTimezonePattern(timezonePatterns.extended, dateString);
+    }
+  }
+  set(date, flags, value) {
+    if (flags.timestampIsSet) return date;
+    return constructFrom(
+      date,
+      date.getTime() - getTimezoneOffsetInMilliseconds(date) - value
+    );
+  }
+  incompatibleTokens = ["t", "T", "x"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/ISOTimezoneParser.js
+var ISOTimezoneParser = class extends Parser {
+  priority = 10;
+  parse(dateString, token) {
+    switch (token) {
+      case "x":
+        return parseTimezonePattern(
+          timezonePatterns.basicOptionalMinutes,
+          dateString
+        );
+      case "xx":
+        return parseTimezonePattern(timezonePatterns.basic, dateString);
+      case "xxxx":
+        return parseTimezonePattern(
+          timezonePatterns.basicOptionalSeconds,
+          dateString
+        );
+      case "xxxxx":
+        return parseTimezonePattern(
+          timezonePatterns.extendedOptionalSeconds,
+          dateString
+        );
+      case "xxx":
+      default:
+        return parseTimezonePattern(timezonePatterns.extended, dateString);
+    }
+  }
+  set(date, flags, value) {
+    if (flags.timestampIsSet) return date;
+    return constructFrom(
+      date,
+      date.getTime() - getTimezoneOffsetInMilliseconds(date) - value
+    );
+  }
+  incompatibleTokens = ["t", "T", "X"];
+};
+
+// node_modules/date-fns/parse/_lib/parsers/TimestampSecondsParser.js
+var TimestampSecondsParser = class extends Parser {
+  priority = 40;
+  parse(dateString) {
+    return parseAnyDigitsSigned(dateString);
+  }
+  set(date, _flags, value) {
+    return [constructFrom(date, value * 1e3), { timestampIsSet: true }];
+  }
+  incompatibleTokens = "*";
+};
+
+// node_modules/date-fns/parse/_lib/parsers/TimestampMillisecondsParser.js
+var TimestampMillisecondsParser = class extends Parser {
+  priority = 20;
+  parse(dateString) {
+    return parseAnyDigitsSigned(dateString);
+  }
+  set(date, _flags, value) {
+    return [constructFrom(date, value), { timestampIsSet: true }];
+  }
+  incompatibleTokens = "*";
+};
+
+// node_modules/date-fns/parse/_lib/parsers.js
+var parsers = {
+  G: new EraParser(),
+  y: new YearParser(),
+  Y: new LocalWeekYearParser(),
+  R: new ISOWeekYearParser(),
+  u: new ExtendedYearParser(),
+  Q: new QuarterParser(),
+  q: new StandAloneQuarterParser(),
+  M: new MonthParser(),
+  L: new StandAloneMonthParser(),
+  w: new LocalWeekParser(),
+  I: new ISOWeekParser(),
+  d: new DateParser(),
+  D: new DayOfYearParser(),
+  E: new DayParser(),
+  e: new LocalDayParser(),
+  c: new StandAloneLocalDayParser(),
+  i: new ISODayParser(),
+  a: new AMPMParser(),
+  b: new AMPMMidnightParser(),
+  B: new DayPeriodParser(),
+  h: new Hour1to12Parser(),
+  H: new Hour0to23Parser(),
+  K: new Hour0To11Parser(),
+  k: new Hour1To24Parser(),
+  m: new MinuteParser(),
+  s: new SecondParser(),
+  S: new FractionOfSecondParser(),
+  X: new ISOTimezoneWithZParser(),
+  x: new ISOTimezoneParser(),
+  t: new TimestampSecondsParser(),
+  T: new TimestampMillisecondsParser()
+};
+
+// node_modules/date-fns/parse.js
+var formattingTokensRegExp = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
+var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+var escapedStringRegExp = /^'([^]*?)'?$/;
+var doubleQuoteRegExp = /''/g;
+var notWhitespaceRegExp = /\S/;
+var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+function parse(dateStr, formatStr, referenceDate, options) {
+  const invalidDate = () => constructFrom(options?.in || referenceDate, NaN);
+  const defaultOptions = getDefaultOptions2();
+  const locale2 = options?.locale ?? defaultOptions.locale ?? enUS;
+  const firstWeekContainsDate = options?.firstWeekContainsDate ?? options?.locale?.options?.firstWeekContainsDate ?? defaultOptions.firstWeekContainsDate ?? defaultOptions.locale?.options?.firstWeekContainsDate ?? 1;
+  const weekStartsOn = options?.weekStartsOn ?? options?.locale?.options?.weekStartsOn ?? defaultOptions.weekStartsOn ?? defaultOptions.locale?.options?.weekStartsOn ?? 0;
+  if (!formatStr)
+    return dateStr ? invalidDate() : toDate(referenceDate, options?.in);
+  const subFnOptions = {
+    firstWeekContainsDate,
+    weekStartsOn,
+    locale: locale2
+  };
+  const setters = [new DateTimezoneSetter(options?.in, referenceDate)];
+  const tokens = formatStr.match(longFormattingTokensRegExp).map((substring) => {
+    const firstCharacter = substring[0];
+    if (firstCharacter in longFormatters) {
+      const longFormatter = longFormatters[firstCharacter];
+      return longFormatter(substring, locale2.formatLong);
+    }
+    return substring;
+  }).join("").match(formattingTokensRegExp);
+  const usedTokens = [];
+  for (let token of tokens) {
+    if (!options?.useAdditionalWeekYearTokens && isProtectedWeekYearToken(token)) {
+      warnOrThrowProtectedError(token, formatStr, dateStr);
+    }
+    if (!options?.useAdditionalDayOfYearTokens && isProtectedDayOfYearToken(token)) {
+      warnOrThrowProtectedError(token, formatStr, dateStr);
+    }
+    const firstCharacter = token[0];
+    const parser = parsers[firstCharacter];
+    if (parser) {
+      const { incompatibleTokens } = parser;
+      if (Array.isArray(incompatibleTokens)) {
+        const incompatibleToken = usedTokens.find(
+          (usedToken) => incompatibleTokens.includes(usedToken.token) || usedToken.token === firstCharacter
+        );
+        if (incompatibleToken) {
+          throw new RangeError(
+            `The format string mustn't contain \`${incompatibleToken.fullToken}\` and \`${token}\` at the same time`
+          );
+        }
+      } else if (parser.incompatibleTokens === "*" && usedTokens.length > 0) {
+        throw new RangeError(
+          `The format string mustn't contain \`${token}\` and any other token at the same time`
+        );
+      }
+      usedTokens.push({ token: firstCharacter, fullToken: token });
+      const parseResult = parser.run(
+        dateStr,
+        token,
+        locale2.match,
+        subFnOptions
+      );
+      if (!parseResult) {
+        return invalidDate();
+      }
+      setters.push(parseResult.setter);
+      dateStr = parseResult.rest;
+    } else {
+      if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
+        throw new RangeError(
+          "Format string contains an unescaped latin alphabet character `" + firstCharacter + "`"
+        );
+      }
+      if (token === "''") {
+        token = "'";
+      } else if (firstCharacter === "'") {
+        token = cleanEscapedString(token);
+      }
+      if (dateStr.indexOf(token) === 0) {
+        dateStr = dateStr.slice(token.length);
+      } else {
+        return invalidDate();
+      }
+    }
+  }
+  if (dateStr.length > 0 && notWhitespaceRegExp.test(dateStr)) {
+    return invalidDate();
+  }
+  const uniquePrioritySetters = setters.map((setter) => setter.priority).sort((a, b) => b - a).filter((priority, index2, array) => array.indexOf(priority) === index2).map(
+    (priority) => setters.filter((setter) => setter.priority === priority).sort((a, b) => b.subPriority - a.subPriority)
+  ).map((setterArray) => setterArray[0]);
+  let date = toDate(referenceDate, options?.in);
+  if (isNaN(+date)) return invalidDate();
+  const flags = {};
+  for (const setter of uniquePrioritySetters) {
+    if (!setter.validate(date, subFnOptions)) {
+      return invalidDate();
+    }
+    const result = setter.set(date, flags, subFnOptions);
+    if (Array.isArray(result)) {
+      date = result[0];
+      Object.assign(flags, result[1]);
+    } else {
+      date = result;
+    }
+  }
+  return date;
+}
+function cleanEscapedString(input2) {
+  return input2.match(escapedStringRegExp)[1].replace(doubleQuoteRegExp, "'");
 }
 
 // node_modules/date-fns/isSameHour.js
@@ -8922,6 +10662,181 @@ function isTomorrow(date, options) {
 // node_modules/date-fns/subDays.js
 function subDays(date, amount, options) {
   return addDays(date, -amount, options);
+}
+
+// node_modules/date-fns/parseISO.js
+function parseISO(argument, options) {
+  const invalidDate = () => constructFrom(options?.in, NaN);
+  const additionalDigits = options?.additionalDigits ?? 2;
+  const dateStrings = splitDateString(argument);
+  let date;
+  if (dateStrings.date) {
+    const parseYearResult = parseYear(dateStrings.date, additionalDigits);
+    date = parseDate(parseYearResult.restDateString, parseYearResult.year);
+  }
+  if (!date || isNaN(+date)) return invalidDate();
+  const timestamp = +date;
+  let time = 0;
+  let offset;
+  if (dateStrings.time) {
+    time = parseTime(dateStrings.time);
+    if (isNaN(time)) return invalidDate();
+  }
+  if (dateStrings.timezone) {
+    offset = parseTimezone(dateStrings.timezone);
+    if (isNaN(offset)) return invalidDate();
+  } else {
+    const tmpDate = new Date(timestamp + time);
+    const result = toDate(0, options?.in);
+    result.setFullYear(
+      tmpDate.getUTCFullYear(),
+      tmpDate.getUTCMonth(),
+      tmpDate.getUTCDate()
+    );
+    result.setHours(
+      tmpDate.getUTCHours(),
+      tmpDate.getUTCMinutes(),
+      tmpDate.getUTCSeconds(),
+      tmpDate.getUTCMilliseconds()
+    );
+    return result;
+  }
+  return toDate(timestamp + time + offset, options?.in);
+}
+var patterns = {
+  dateTimeDelimiter: /[T ]/,
+  timeZoneDelimiter: /[Z ]/i,
+  timezone: /([Z+-].*)$/
+};
+var dateRegex = /^-?(?:(\d{3})|(\d{2})(?:-?(\d{2}))?|W(\d{2})(?:-?(\d{1}))?|)$/;
+var timeRegex = /^(\d{2}(?:[.,]\d*)?)(?::?(\d{2}(?:[.,]\d*)?))?(?::?(\d{2}(?:[.,]\d*)?))?$/;
+var timezoneRegex = /^([+-])(\d{2})(?::?(\d{2}))?$/;
+function splitDateString(dateString) {
+  const dateStrings = {};
+  const array = dateString.split(patterns.dateTimeDelimiter);
+  let timeString;
+  if (array.length > 2) {
+    return dateStrings;
+  }
+  if (/:/.test(array[0])) {
+    timeString = array[0];
+  } else {
+    dateStrings.date = array[0];
+    timeString = array[1];
+    if (patterns.timeZoneDelimiter.test(dateStrings.date)) {
+      dateStrings.date = dateString.split(patterns.timeZoneDelimiter)[0];
+      timeString = dateString.substr(
+        dateStrings.date.length,
+        dateString.length
+      );
+    }
+  }
+  if (timeString) {
+    const token = patterns.timezone.exec(timeString);
+    if (token) {
+      dateStrings.time = timeString.replace(token[1], "");
+      dateStrings.timezone = token[1];
+    } else {
+      dateStrings.time = timeString;
+    }
+  }
+  return dateStrings;
+}
+function parseYear(dateString, additionalDigits) {
+  const regex = new RegExp(
+    "^(?:(\\d{4}|[+-]\\d{" + (4 + additionalDigits) + "})|(\\d{2}|[+-]\\d{" + (2 + additionalDigits) + "})$)"
+  );
+  const captures = dateString.match(regex);
+  if (!captures) return { year: NaN, restDateString: "" };
+  const year = captures[1] ? parseInt(captures[1]) : null;
+  const century = captures[2] ? parseInt(captures[2]) : null;
+  return {
+    year: century === null ? year : century * 100,
+    restDateString: dateString.slice((captures[1] || captures[2]).length)
+  };
+}
+function parseDate(dateString, year) {
+  if (year === null) return /* @__PURE__ */ new Date(NaN);
+  const captures = dateString.match(dateRegex);
+  if (!captures) return /* @__PURE__ */ new Date(NaN);
+  const isWeekDate = !!captures[4];
+  const dayOfYear = parseDateUnit(captures[1]);
+  const month = parseDateUnit(captures[2]) - 1;
+  const day = parseDateUnit(captures[3]);
+  const week = parseDateUnit(captures[4]);
+  const dayOfWeek = parseDateUnit(captures[5]) - 1;
+  if (isWeekDate) {
+    if (!validateWeekDate(year, week, dayOfWeek)) {
+      return /* @__PURE__ */ new Date(NaN);
+    }
+    return dayOfISOWeekYear(year, week, dayOfWeek);
+  } else {
+    const date = /* @__PURE__ */ new Date(0);
+    if (!validateDate(year, month, day) || !validateDayOfYearDate(year, dayOfYear)) {
+      return /* @__PURE__ */ new Date(NaN);
+    }
+    date.setUTCFullYear(year, month, Math.max(dayOfYear, day));
+    return date;
+  }
+}
+function parseDateUnit(value) {
+  return value ? parseInt(value) : 1;
+}
+function parseTime(timeString) {
+  const captures = timeString.match(timeRegex);
+  if (!captures) return NaN;
+  const hours = parseTimeUnit(captures[1]);
+  const minutes = parseTimeUnit(captures[2]);
+  const seconds = parseTimeUnit(captures[3]);
+  if (!validateTime(hours, minutes, seconds)) {
+    return NaN;
+  }
+  return hours * millisecondsInHour + minutes * millisecondsInMinute + seconds * 1e3;
+}
+function parseTimeUnit(value) {
+  return value && parseFloat(value.replace(",", ".")) || 0;
+}
+function parseTimezone(timezoneString) {
+  if (timezoneString === "Z") return 0;
+  const captures = timezoneString.match(timezoneRegex);
+  if (!captures) return 0;
+  const sign = captures[1] === "+" ? -1 : 1;
+  const hours = parseInt(captures[2]);
+  const minutes = captures[3] && parseInt(captures[3]) || 0;
+  if (!validateTimezone(hours, minutes)) {
+    return NaN;
+  }
+  return sign * (hours * millisecondsInHour + minutes * millisecondsInMinute);
+}
+function dayOfISOWeekYear(isoWeekYear, week, day) {
+  const date = /* @__PURE__ */ new Date(0);
+  date.setUTCFullYear(isoWeekYear, 0, 4);
+  const fourthOfJanuaryDay = date.getUTCDay() || 7;
+  const diff = (week - 1) * 7 + day + 1 - fourthOfJanuaryDay;
+  date.setUTCDate(date.getUTCDate() + diff);
+  return date;
+}
+var daysInMonths = [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+function isLeapYearIndex2(year) {
+  return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
+}
+function validateDate(year, month, date) {
+  return month >= 0 && month <= 11 && date >= 1 && date <= (daysInMonths[month] || (isLeapYearIndex2(year) ? 29 : 28));
+}
+function validateDayOfYearDate(year, dayOfYear) {
+  return dayOfYear >= 1 && dayOfYear <= (isLeapYearIndex2(year) ? 366 : 365);
+}
+function validateWeekDate(_year, week, day) {
+  return week >= 1 && week <= 53 && day >= 0 && day <= 6;
+}
+function validateTime(hours, minutes, seconds) {
+  if (hours === 24) {
+    return minutes === 0 && seconds === 0;
+  }
+  return seconds >= 0 && seconds < 60 && minutes >= 0 && minutes < 60 && hours >= 0 && hours < 25;
+}
+function validateTimezone(_hours, minutes) {
+  return minutes >= 0 && minutes <= 59;
 }
 
 // node_modules/date-fns/setMonth.js
@@ -9545,11 +11460,11 @@ var formatRelativeLocale2 = {
   other: "PP p"
 };
 var formatRelative2 = (token, date, baseDate, options) => {
-  const format4 = formatRelativeLocale2[token];
-  if (typeof format4 === "function") {
-    return format4(date, baseDate, options);
+  const format3 = formatRelativeLocale2[token];
+  if (typeof format3 === "function") {
+    return format3(date, baseDate, options);
   }
-  return format4;
+  return format3;
 };
 
 // node_modules/date-fns/locale/zh-CN/_lib/localize.js
@@ -11140,7 +13055,10 @@ var ThyI18nService = class _ThyI18nService {
     })) || getDefaultLocaleId();
     this.locale = signal(this.locales[this.defaultLocaleId], ...ngDevMode ? [{
       debugName: "locale"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   /**
    * 设置语言
@@ -11189,507 +13107,6 @@ function injectLocale(key) {
     }
     return allLocale();
   });
-}
-
-// node_modules/date-fns-tz/dist/esm/_lib/tzTokenizeDate/index.js
-function tzTokenizeDate(date, timeZone) {
-  const dtf = getDateTimeFormat(timeZone);
-  return "formatToParts" in dtf ? partsOffset(dtf, date) : hackyOffset(dtf, date);
-}
-var typeToPos = {
-  year: 0,
-  month: 1,
-  day: 2,
-  hour: 3,
-  minute: 4,
-  second: 5
-};
-function partsOffset(dtf, date) {
-  try {
-    const formatted = dtf.formatToParts(date);
-    const filled = [];
-    for (let i = 0; i < formatted.length; i++) {
-      const pos = typeToPos[formatted[i].type];
-      if (pos !== void 0) {
-        filled[pos] = parseInt(formatted[i].value, 10);
-      }
-    }
-    return filled;
-  } catch (error) {
-    if (error instanceof RangeError) {
-      return [NaN];
-    }
-    throw error;
-  }
-}
-function hackyOffset(dtf, date) {
-  const formatted = dtf.format(date);
-  const parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted);
-  return [
-    parseInt(parsed[3], 10),
-    parseInt(parsed[1], 10),
-    parseInt(parsed[2], 10),
-    parseInt(parsed[4], 10),
-    parseInt(parsed[5], 10),
-    parseInt(parsed[6], 10)
-  ];
-}
-var dtfCache = {};
-var testDateFormatted = new Intl.DateTimeFormat("en-US", {
-  hourCycle: "h23",
-  timeZone: "America/New_York",
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit"
-}).format(/* @__PURE__ */ new Date("2014-06-25T04:00:00.123Z"));
-var hourCycleSupported = testDateFormatted === "06/25/2014, 00:00:00" || testDateFormatted === "\u200E06\u200E/\u200E25\u200E/\u200E2014\u200E \u200E00\u200E:\u200E00\u200E:\u200E00";
-function getDateTimeFormat(timeZone) {
-  if (!dtfCache[timeZone]) {
-    dtfCache[timeZone] = hourCycleSupported ? new Intl.DateTimeFormat("en-US", {
-      hourCycle: "h23",
-      timeZone,
-      year: "numeric",
-      month: "numeric",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    }) : new Intl.DateTimeFormat("en-US", {
-      hour12: false,
-      timeZone,
-      year: "numeric",
-      month: "numeric",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    });
-  }
-  return dtfCache[timeZone];
-}
-
-// node_modules/date-fns-tz/dist/esm/_lib/newDateUTC/index.js
-function newDateUTC(fullYear, month, day, hour, minute, second, millisecond) {
-  const utcDate = /* @__PURE__ */ new Date(0);
-  utcDate.setUTCFullYear(fullYear, month, day);
-  utcDate.setUTCHours(hour, minute, second, millisecond);
-  return utcDate;
-}
-
-// node_modules/date-fns-tz/dist/esm/_lib/tzParseTimezone/index.js
-var MILLISECONDS_IN_HOUR = 36e5;
-var MILLISECONDS_IN_MINUTE = 6e4;
-var patterns = {
-  timezone: /([Z+-].*)$/,
-  timezoneZ: /^(Z)$/,
-  timezoneHH: /^([+-]\d{2})$/,
-  timezoneHHMM: /^([+-])(\d{2}):?(\d{2})$/
-};
-function tzParseTimezone(timezoneString, date, isUtcDate) {
-  if (!timezoneString) {
-    return 0;
-  }
-  let token = patterns.timezoneZ.exec(timezoneString);
-  if (token) {
-    return 0;
-  }
-  let hours;
-  let absoluteOffset;
-  token = patterns.timezoneHH.exec(timezoneString);
-  if (token) {
-    hours = parseInt(token[1], 10);
-    if (!validateTimezone(hours)) {
-      return NaN;
-    }
-    return -(hours * MILLISECONDS_IN_HOUR);
-  }
-  token = patterns.timezoneHHMM.exec(timezoneString);
-  if (token) {
-    hours = parseInt(token[2], 10);
-    const minutes = parseInt(token[3], 10);
-    if (!validateTimezone(hours, minutes)) {
-      return NaN;
-    }
-    absoluteOffset = Math.abs(hours) * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE;
-    return token[1] === "+" ? -absoluteOffset : absoluteOffset;
-  }
-  if (isValidTimezoneIANAString(timezoneString)) {
-    date = new Date(date || Date.now());
-    const utcDate = isUtcDate ? date : toUtcDate(date);
-    const offset = calcOffset(utcDate, timezoneString);
-    const fixedOffset = isUtcDate ? offset : fixOffset(date, offset, timezoneString);
-    return -fixedOffset;
-  }
-  return NaN;
-}
-function toUtcDate(date) {
-  return newDateUTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-}
-function calcOffset(date, timezoneString) {
-  const tokens = tzTokenizeDate(date, timezoneString);
-  const asUTC = newDateUTC(tokens[0], tokens[1] - 1, tokens[2], tokens[3] % 24, tokens[4], tokens[5], 0).getTime();
-  let asTS = date.getTime();
-  const over = asTS % 1e3;
-  asTS -= over >= 0 ? over : 1e3 + over;
-  return asUTC - asTS;
-}
-function fixOffset(date, offset, timezoneString) {
-  const localTS = date.getTime();
-  let utcGuess = localTS - offset;
-  const o2 = calcOffset(new Date(utcGuess), timezoneString);
-  if (offset === o2) {
-    return offset;
-  }
-  utcGuess -= o2 - offset;
-  const o3 = calcOffset(new Date(utcGuess), timezoneString);
-  if (o2 === o3) {
-    return o2;
-  }
-  return Math.max(o2, o3);
-}
-function validateTimezone(hours, minutes) {
-  return -23 <= hours && hours <= 23 && (minutes == null || 0 <= minutes && minutes <= 59);
-}
-var validIANATimezoneCache = {};
-function isValidTimezoneIANAString(timeZoneString) {
-  if (validIANATimezoneCache[timeZoneString])
-    return true;
-  try {
-    new Intl.DateTimeFormat(void 0, { timeZone: timeZoneString });
-    validIANATimezoneCache[timeZoneString] = true;
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-// node_modules/date-fns-tz/dist/esm/format/formatters/index.js
-var MILLISECONDS_IN_MINUTE2 = 60 * 1e3;
-
-// node_modules/date-fns-tz/dist/esm/_lib/getTimezoneOffsetInMilliseconds/index.js
-function getTimezoneOffsetInMilliseconds(date) {
-  const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
-  utcDate.setUTCFullYear(date.getFullYear());
-  return +date - +utcDate;
-}
-
-// node_modules/date-fns-tz/dist/esm/_lib/tzPattern/index.js
-var tzPattern = /(Z|[+-]\d{2}(?::?\d{2})?| UTC| [a-zA-Z]+\/[a-zA-Z_]+(?:\/[a-zA-Z_]+)?)$/;
-
-// node_modules/date-fns-tz/dist/esm/toDate/index.js
-var MILLISECONDS_IN_HOUR2 = 36e5;
-var MILLISECONDS_IN_MINUTE3 = 6e4;
-var DEFAULT_ADDITIONAL_DIGITS = 2;
-var patterns2 = {
-  dateTimePattern: /^([0-9W+-]+)(T| )(.*)/,
-  datePattern: /^([0-9W+-]+)(.*)/,
-  plainTime: /:/,
-  // year tokens
-  YY: /^(\d{2})$/,
-  YYY: [
-    /^([+-]\d{2})$/,
-    // 0 additional digits
-    /^([+-]\d{3})$/,
-    // 1 additional digit
-    /^([+-]\d{4})$/
-    // 2 additional digits
-  ],
-  YYYY: /^(\d{4})/,
-  YYYYY: [
-    /^([+-]\d{4})/,
-    // 0 additional digits
-    /^([+-]\d{5})/,
-    // 1 additional digit
-    /^([+-]\d{6})/
-    // 2 additional digits
-  ],
-  // date tokens
-  MM: /^-(\d{2})$/,
-  DDD: /^-?(\d{3})$/,
-  MMDD: /^-?(\d{2})-?(\d{2})$/,
-  Www: /^-?W(\d{2})$/,
-  WwwD: /^-?W(\d{2})-?(\d{1})$/,
-  HH: /^(\d{2}([.,]\d*)?)$/,
-  HHMM: /^(\d{2}):?(\d{2}([.,]\d*)?)$/,
-  HHMMSS: /^(\d{2}):?(\d{2}):?(\d{2}([.,]\d*)?)$/,
-  // time zone tokens (to identify the presence of a tz)
-  timeZone: tzPattern
-};
-function toDate2(argument, options = {}) {
-  if (arguments.length < 1) {
-    throw new TypeError("1 argument required, but only " + arguments.length + " present");
-  }
-  if (argument === null) {
-    return /* @__PURE__ */ new Date(NaN);
-  }
-  const additionalDigits = options.additionalDigits == null ? DEFAULT_ADDITIONAL_DIGITS : Number(options.additionalDigits);
-  if (additionalDigits !== 2 && additionalDigits !== 1 && additionalDigits !== 0) {
-    throw new RangeError("additionalDigits must be 0, 1 or 2");
-  }
-  if (argument instanceof Date || typeof argument === "object" && Object.prototype.toString.call(argument) === "[object Date]") {
-    return new Date(argument.getTime());
-  } else if (typeof argument === "number" || Object.prototype.toString.call(argument) === "[object Number]") {
-    return new Date(argument);
-  } else if (!(Object.prototype.toString.call(argument) === "[object String]")) {
-    return /* @__PURE__ */ new Date(NaN);
-  }
-  const dateStrings = splitDateString(argument);
-  const { year, restDateString } = parseYear(dateStrings.date, additionalDigits);
-  const date = parseDate(restDateString, year);
-  if (date === null || isNaN(date.getTime())) {
-    return /* @__PURE__ */ new Date(NaN);
-  }
-  if (date) {
-    const timestamp = date.getTime();
-    let time = 0;
-    let offset;
-    if (dateStrings.time) {
-      time = parseTime(dateStrings.time);
-      if (time === null || isNaN(time)) {
-        return /* @__PURE__ */ new Date(NaN);
-      }
-    }
-    if (dateStrings.timeZone || options.timeZone) {
-      offset = tzParseTimezone(dateStrings.timeZone || options.timeZone, new Date(timestamp + time));
-      if (isNaN(offset)) {
-        return /* @__PURE__ */ new Date(NaN);
-      }
-    } else {
-      offset = getTimezoneOffsetInMilliseconds(new Date(timestamp + time));
-      offset = getTimezoneOffsetInMilliseconds(new Date(timestamp + time + offset));
-    }
-    return new Date(timestamp + time + offset);
-  } else {
-    return /* @__PURE__ */ new Date(NaN);
-  }
-}
-function splitDateString(dateString) {
-  const dateStrings = {};
-  let parts = patterns2.dateTimePattern.exec(dateString);
-  let timeString;
-  if (!parts) {
-    parts = patterns2.datePattern.exec(dateString);
-    if (parts) {
-      dateStrings.date = parts[1];
-      timeString = parts[2];
-    } else {
-      dateStrings.date = null;
-      timeString = dateString;
-    }
-  } else {
-    dateStrings.date = parts[1];
-    timeString = parts[3];
-  }
-  if (timeString) {
-    const token = patterns2.timeZone.exec(timeString);
-    if (token) {
-      dateStrings.time = timeString.replace(token[1], "");
-      dateStrings.timeZone = token[1].trim();
-    } else {
-      dateStrings.time = timeString;
-    }
-  }
-  return dateStrings;
-}
-function parseYear(dateString, additionalDigits) {
-  if (dateString) {
-    const patternYYY = patterns2.YYY[additionalDigits];
-    const patternYYYYY = patterns2.YYYYY[additionalDigits];
-    let token = patterns2.YYYY.exec(dateString) || patternYYYYY.exec(dateString);
-    if (token) {
-      const yearString = token[1];
-      return {
-        year: parseInt(yearString, 10),
-        restDateString: dateString.slice(yearString.length)
-      };
-    }
-    token = patterns2.YY.exec(dateString) || patternYYY.exec(dateString);
-    if (token) {
-      const centuryString = token[1];
-      return {
-        year: parseInt(centuryString, 10) * 100,
-        restDateString: dateString.slice(centuryString.length)
-      };
-    }
-  }
-  return {
-    year: null
-  };
-}
-function parseDate(dateString, year) {
-  if (year === null) {
-    return null;
-  }
-  let date;
-  let month;
-  let week;
-  if (!dateString || !dateString.length) {
-    date = /* @__PURE__ */ new Date(0);
-    date.setUTCFullYear(year);
-    return date;
-  }
-  let token = patterns2.MM.exec(dateString);
-  if (token) {
-    date = /* @__PURE__ */ new Date(0);
-    month = parseInt(token[1], 10) - 1;
-    if (!validateDate(year, month)) {
-      return /* @__PURE__ */ new Date(NaN);
-    }
-    date.setUTCFullYear(year, month);
-    return date;
-  }
-  token = patterns2.DDD.exec(dateString);
-  if (token) {
-    date = /* @__PURE__ */ new Date(0);
-    const dayOfYear = parseInt(token[1], 10);
-    if (!validateDayOfYearDate(year, dayOfYear)) {
-      return /* @__PURE__ */ new Date(NaN);
-    }
-    date.setUTCFullYear(year, 0, dayOfYear);
-    return date;
-  }
-  token = patterns2.MMDD.exec(dateString);
-  if (token) {
-    date = /* @__PURE__ */ new Date(0);
-    month = parseInt(token[1], 10) - 1;
-    const day = parseInt(token[2], 10);
-    if (!validateDate(year, month, day)) {
-      return /* @__PURE__ */ new Date(NaN);
-    }
-    date.setUTCFullYear(year, month, day);
-    return date;
-  }
-  token = patterns2.Www.exec(dateString);
-  if (token) {
-    week = parseInt(token[1], 10) - 1;
-    if (!validateWeekDate(week)) {
-      return /* @__PURE__ */ new Date(NaN);
-    }
-    return dayOfISOWeekYear(year, week);
-  }
-  token = patterns2.WwwD.exec(dateString);
-  if (token) {
-    week = parseInt(token[1], 10) - 1;
-    const dayOfWeek = parseInt(token[2], 10) - 1;
-    if (!validateWeekDate(week, dayOfWeek)) {
-      return /* @__PURE__ */ new Date(NaN);
-    }
-    return dayOfISOWeekYear(year, week, dayOfWeek);
-  }
-  return null;
-}
-function parseTime(timeString) {
-  let hours;
-  let minutes;
-  let token = patterns2.HH.exec(timeString);
-  if (token) {
-    hours = parseFloat(token[1].replace(",", "."));
-    if (!validateTime(hours)) {
-      return NaN;
-    }
-    return hours % 24 * MILLISECONDS_IN_HOUR2;
-  }
-  token = patterns2.HHMM.exec(timeString);
-  if (token) {
-    hours = parseInt(token[1], 10);
-    minutes = parseFloat(token[2].replace(",", "."));
-    if (!validateTime(hours, minutes)) {
-      return NaN;
-    }
-    return hours % 24 * MILLISECONDS_IN_HOUR2 + minutes * MILLISECONDS_IN_MINUTE3;
-  }
-  token = patterns2.HHMMSS.exec(timeString);
-  if (token) {
-    hours = parseInt(token[1], 10);
-    minutes = parseInt(token[2], 10);
-    const seconds = parseFloat(token[3].replace(",", "."));
-    if (!validateTime(hours, minutes, seconds)) {
-      return NaN;
-    }
-    return hours % 24 * MILLISECONDS_IN_HOUR2 + minutes * MILLISECONDS_IN_MINUTE3 + seconds * 1e3;
-  }
-  return null;
-}
-function dayOfISOWeekYear(isoWeekYear, week, day) {
-  week = week || 0;
-  day = day || 0;
-  const date = /* @__PURE__ */ new Date(0);
-  date.setUTCFullYear(isoWeekYear, 0, 4);
-  const fourthOfJanuaryDay = date.getUTCDay() || 7;
-  const diff = week * 7 + day + 1 - fourthOfJanuaryDay;
-  date.setUTCDate(date.getUTCDate() + diff);
-  return date;
-}
-var DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-var DAYS_IN_MONTH_LEAP_YEAR = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-function isLeapYearIndex(year) {
-  return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
-}
-function validateDate(year, month, date) {
-  if (month < 0 || month > 11) {
-    return false;
-  }
-  if (date != null) {
-    if (date < 1) {
-      return false;
-    }
-    const isLeapYear = isLeapYearIndex(year);
-    if (isLeapYear && date > DAYS_IN_MONTH_LEAP_YEAR[month]) {
-      return false;
-    }
-    if (!isLeapYear && date > DAYS_IN_MONTH[month]) {
-      return false;
-    }
-  }
-  return true;
-}
-function validateDayOfYearDate(year, dayOfYear) {
-  if (dayOfYear < 1) {
-    return false;
-  }
-  const isLeapYear = isLeapYearIndex(year);
-  if (isLeapYear && dayOfYear > 366) {
-    return false;
-  }
-  if (!isLeapYear && dayOfYear > 365) {
-    return false;
-  }
-  return true;
-}
-function validateWeekDate(week, day) {
-  if (week < 0 || week > 52) {
-    return false;
-  }
-  if (day != null && (day < 0 || day > 6)) {
-    return false;
-  }
-  return true;
-}
-function validateTime(hours, minutes, seconds) {
-  if (hours < 0 || hours >= 25) {
-    return false;
-  }
-  if (minutes != null && (minutes < 0 || minutes >= 60)) {
-    return false;
-  }
-  if (seconds != null && (seconds < 0 || seconds >= 60)) {
-    return false;
-  }
-  return true;
-}
-
-// node_modules/date-fns-tz/dist/esm/fromZonedTime/index.js
-function fromZonedTime(date, timeZone, options) {
-  if (typeof date === "string" && !date.match(tzPattern)) {
-    return toDate2(date, __spreadProps(__spreadValues({}, options), { timeZone }));
-  }
-  date = toDate2(date, options);
-  const utc = newDateUTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()).getTime();
-  const offsetMilliseconds = tzParseTimezone(timeZone, new Date(utc));
-  return new Date(utc + offsetMilliseconds);
 }
 
 // node_modules/@angular/cdk/fesm2022/keycodes.mjs
@@ -11994,7 +13411,7 @@ var endOfMonth2 = endOfMonth;
 var endOfQuarter2 = endOfQuarter;
 var endOfYear2 = endOfYear;
 var endOfISOWeek2 = endOfISOWeek;
-var format3 = format;
+var format2 = format;
 var getQuarter2 = getQuarter;
 var addDays2 = addDays;
 var subDays2 = subDays;
@@ -12014,6 +13431,457 @@ var getDateFnsLocale = (locale2) => {
       return de;
     default:
       return zhCN;
+  }
+};
+var DATE_FORMATS = [
+  "yyyy-MM-dd HH:mm:ss",
+  "yyyy-MM-dd HH:mm",
+  "yyyy-MM-dd",
+  "yyyy/MM/dd HH:mm:ss",
+  "yyyy/MM/dd HH:mm",
+  "yyyy/MM/dd",
+  "MMM d, yyyy HH:mm:ss",
+  "MMM d, yyyy HH:mm",
+  "MMM dd, yyyy HH:mm:ss",
+  "MMM dd, yyyy HH:mm",
+  "MMM d, yyyy",
+  "MMM dd, yyyy"
+];
+function sortRangeValue(rangeValue) {
+  if (Array.isArray(rangeValue)) {
+    const [start, end] = rangeValue;
+    return start && end && start.isAfterSecond(end) ? [end, start] : [start, end];
+  }
+  return rangeValue;
+}
+var DEFAULT_TIMEZONE = "Asia/Shanghai";
+var TinyDate = class _TinyDate {
+  static {
+    this.locale = getDefaultLocaleId();
+  }
+  static {
+    this.dateFnsLocale = getDateFnsLocale(_TinyDate.locale);
+  }
+  static {
+    this.defaultTimeZone = DEFAULT_TIMEZONE;
+  }
+  constructor(date, zone) {
+    setDefaultOptions2({ locale: _TinyDate.dateFnsLocale });
+    this.useTimeZone = zone || _TinyDate.defaultTimeZone;
+    if (date) {
+      if (date instanceof Date) {
+        this.nativeDate = _TinyDate.utcToZonedTime(date, this.useTimeZone);
+      } else if (typeof date === "string") {
+        try {
+          const parsed = _TinyDate.parseStringDate(date, this.useTimeZone);
+          this.nativeDate = new TZDate(parsed.year, parsed.month, parsed.day, parsed.hours, parsed.minutes, parsed.seconds, this.useTimeZone);
+        } catch {
+          this.nativeDate = /* @__PURE__ */ new Date(NaN);
+        }
+      } else if (typeof date === "number") {
+        this.nativeDate = new TZDate(date, this.useTimeZone);
+      } else if (typeof ngDevMode === "undefined" || ngDevMode) {
+        throw new Error(`The input date type is not supported expect Date | string | number | { date: number; with_time: 0 | 1}, actual ${JSON.stringify(date)}`);
+      }
+    } else {
+      this.nativeDate = new TZDate(Date.now(), this.useTimeZone);
+    }
+  }
+  static setDefaultLocale(locale2) {
+    _TinyDate.locale = locale2;
+    _TinyDate.dateFnsLocale = getDateFnsLocale(locale2);
+    return setDefaultOptions2({ locale: _TinyDate.dateFnsLocale });
+  }
+  static getDefaultLocale() {
+    return { locale: _TinyDate.locale, dateFnsLocale: _TinyDate.dateFnsLocale };
+  }
+  static setDefaultTimeZone(zone) {
+    _TinyDate.defaultTimeZone = zone ?? DEFAULT_TIMEZONE;
+  }
+  static getDefaultTimeZone() {
+    return _TinyDate.defaultTimeZone;
+  }
+  static utcToZonedTime(value, timeZone) {
+    return TZDate.tz(timeZone || _TinyDate.defaultTimeZone, value);
+  }
+  static createDateInTimeZone(year, month, day, hours, minutes, seconds, timeZone) {
+    return new TZDate(year, month, day, hours, minutes, seconds, timeZone || _TinyDate.defaultTimeZone);
+  }
+  static fromUnixTime(unixTime, timeZone) {
+    return new _TinyDate(fromUnixTime2(unixTime), timeZone || _TinyDate.defaultTimeZone);
+  }
+  // get
+  getTime() {
+    return this.nativeDate.getTime();
+  }
+  getDate() {
+    return this.nativeDate.getDate();
+  }
+  getYear() {
+    return this.nativeDate.getFullYear();
+  }
+  getQuarter() {
+    return getQuarter2(this.nativeDate);
+  }
+  getMonth() {
+    return this.nativeDate.getMonth();
+  }
+  getFullYear() {
+    return this.nativeDate.getFullYear();
+  }
+  getWeek(options = { weekStartsOn: 1 }) {
+    return getWeek2(this.nativeDate, options);
+  }
+  getDay() {
+    return this.nativeDate.getDay();
+  }
+  getHours() {
+    return this.nativeDate.getHours();
+  }
+  getMinutes() {
+    return this.nativeDate.getMinutes();
+  }
+  getSeconds() {
+    return this.nativeDate.getSeconds();
+  }
+  getMilliseconds() {
+    return this.nativeDate.getMilliseconds();
+  }
+  getDaysInMonth() {
+    return getDaysInMonth2(this.nativeDate);
+  }
+  getDaysInQuarter() {
+    return differenceInCalendarDays2(this.endOfQuarter().addSeconds(1).nativeDate, this.startOfQuarter().nativeDate);
+  }
+  // set
+  setDate(amount) {
+    return new _TinyDate(this.nativeDate.setDate(amount), this.useTimeZone);
+  }
+  setHms(hour, minute, second) {
+    return new _TinyDate(this.nativeDate?.setHours(hour, minute, second), this.useTimeZone);
+  }
+  setYear(year) {
+    return new _TinyDate(setYear2(this.nativeDate, year), this.useTimeZone);
+  }
+  setMonth(month) {
+    return new _TinyDate(setMonth2(this.nativeDate, month), this.useTimeZone);
+  }
+  setQuarter(quarter) {
+    return new _TinyDate(setQuarter2(this.nativeDate, quarter), this.useTimeZone);
+  }
+  setDay(day, options) {
+    return new _TinyDate(setDay2(this.nativeDate, day, options), this.useTimeZone);
+  }
+  setHours(hours) {
+    return new _TinyDate(setHours(this.nativeDate, hours), this.useTimeZone);
+  }
+  setMinutes(minutes) {
+    return new _TinyDate(setMinutes(this.nativeDate, minutes), this.useTimeZone);
+  }
+  setSeconds(seconds) {
+    return new _TinyDate(setSeconds(this.nativeDate, seconds), this.useTimeZone);
+  }
+  // add
+  addYears(amount) {
+    return new _TinyDate(addYears2(this.nativeDate, amount), this.useTimeZone);
+  }
+  addQuarters(amount) {
+    return new _TinyDate(addQuarters2(this.nativeDate, amount), this.useTimeZone);
+  }
+  addMonths(amount) {
+    return new _TinyDate(addMonths2(this.nativeDate, amount), this.useTimeZone);
+  }
+  addWeeks(amount) {
+    return new _TinyDate(addWeeks2(this.nativeDate, amount), this.useTimeZone);
+  }
+  addDays(amount) {
+    return new _TinyDate(addDays2(this.nativeDate, amount), this.useTimeZone);
+  }
+  addHours(amount) {
+    return new _TinyDate(addHours2(this.nativeDate, amount), this.useTimeZone);
+  }
+  addSeconds(amount) {
+    return new _TinyDate(addSeconds2(this.nativeDate, amount), this.useTimeZone);
+  }
+  addMinutes(amount) {
+    return new _TinyDate(addMinutes2(this.nativeDate, amount), this.useTimeZone);
+  }
+  // isSame
+  isSame(date, grain = "day") {
+    let fn;
+    switch (grain) {
+      case "decade":
+        fn = (pre, next) => Math.abs(pre.getFullYear() - next.getFullYear()) < 11;
+        break;
+      case "year":
+        fn = isSameYear2;
+        break;
+      case "month":
+        fn = isSameMonth2;
+        break;
+      case "quarter":
+        fn = isSameQuarter2;
+        break;
+      case "day":
+        fn = isSameDay2;
+        break;
+      case "hour":
+        fn = isSameHour2;
+        break;
+      case "minute":
+        fn = isSameMinute2;
+        break;
+      case "second":
+        fn = isSameSecond2;
+        break;
+      default:
+        fn = isSameDay2;
+        break;
+    }
+    return fn(this.nativeDate, this.toNativeDate(date));
+  }
+  isSameYear(date) {
+    return this.isSame(date, "year");
+  }
+  isSameMonth(date) {
+    return this.isSame(date, "month");
+  }
+  isSameQuarter(date) {
+    return this.isSame(date, "quarter");
+  }
+  isSameDay(date) {
+    return this.isSame(date, "day");
+  }
+  isSameHour(date) {
+    return this.isSame(date, "hour");
+  }
+  isSameMinute(date) {
+    return this.isSame(date, "minute");
+  }
+  isSameSecond(date) {
+    return this.isSame(date, "second");
+  }
+  // isBefore and isAfter
+  isBeforeYear(date) {
+    return this.compare(date, "year");
+  }
+  isBeforeQuarter(date) {
+    return this.compare(date, "quarter");
+  }
+  isBeforeMonth(date) {
+    return this.compare(date, "month");
+  }
+  isBeforeWeek(date) {
+    return this.compare(date, "week");
+  }
+  isBeforeDay(date) {
+    return this.compare(date, "day");
+  }
+  isBeforeHour(date) {
+    return this.compare(date, "hour");
+  }
+  isBeforeMinute(date) {
+    return this.compare(date, "minute");
+  }
+  isBeforeSecond(date) {
+    return this.compare(date, "second");
+  }
+  isAfterYear(date) {
+    return this.compare(date, "year", false);
+  }
+  isAfterQuarter(date) {
+    return this.compare(date, "quarter", false);
+  }
+  isAfterMonth(date) {
+    return this.compare(date, "month", false);
+  }
+  isAfterWeek(date) {
+    return this.compare(date, "week", false);
+  }
+  isAfterDay(date) {
+    return this.compare(date, "day", false);
+  }
+  isAfterHour(date) {
+    return this.compare(date, "hour", false);
+  }
+  isAfterMinute(date) {
+    return this.compare(date, "minute", false);
+  }
+  isAfterSecond(date) {
+    return this.compare(date, "second", false);
+  }
+  // is
+  isWeekend() {
+    return isWeekend2(this.nativeDate);
+  }
+  isToday() {
+    return isToday2(this.nativeDate);
+  }
+  isTomorrow() {
+    return isTomorrow2(this.nativeDate);
+  }
+  isValid() {
+    return isValid2(this.nativeDate);
+  }
+  // startOf and endOf
+  startOfYear() {
+    return new _TinyDate(startOfYear2(this.nativeDate), this.useTimeZone);
+  }
+  startOfQuarter() {
+    return new _TinyDate(startOfQuarter2(this.nativeDate), this.useTimeZone);
+  }
+  startOfMonth() {
+    return new _TinyDate(startOfMonth2(this.nativeDate), this.useTimeZone);
+  }
+  startOfWeek(options) {
+    return new _TinyDate(startOfWeek2(this.nativeDate, options), this.useTimeZone);
+  }
+  startOfDay() {
+    return new _TinyDate(startOfDay2(this.nativeDate), this.useTimeZone);
+  }
+  endOfYear() {
+    return new _TinyDate(endOfYear2(this.nativeDate), this.useTimeZone);
+  }
+  endOfQuarter() {
+    return new _TinyDate(endOfQuarter2(this.nativeDate), this.useTimeZone);
+  }
+  endOfMonth() {
+    return new _TinyDate(endOfMonth2(this.nativeDate), this.useTimeZone);
+  }
+  endOfWeek(options) {
+    return new _TinyDate(endOfWeek2(this.nativeDate, options), this.useTimeZone);
+  }
+  endOfDay() {
+    return new _TinyDate(endOfDay2(this.nativeDate), this.useTimeZone);
+  }
+  // other
+  format(mat, options) {
+    return format2(this.nativeDate, mat, options);
+  }
+  calendarStart(options) {
+    return new _TinyDate(startOfWeek2(startOfMonth2(this.nativeDate), options), this.useTimeZone);
+  }
+  clone() {
+    return new _TinyDate(this.nativeDate, this.useTimeZone);
+  }
+  getUnixTime() {
+    return getUnixTime2(this.nativeDate);
+  }
+  compare(date, grain = "day", isBefore = true) {
+    if (date === null) {
+      return false;
+    }
+    let fn;
+    switch (grain) {
+      case "year":
+        fn = differenceInCalendarYears2;
+        break;
+      case "quarter":
+        fn = differenceInCalendarQuarters2;
+        break;
+      case "month":
+        fn = differenceInCalendarMonths2;
+        break;
+      case "day":
+        fn = differenceInCalendarDays2;
+        break;
+      case "week":
+        fn = differenceInWeeks2;
+        break;
+      case "hour":
+        fn = differenceInHours2;
+        break;
+      case "minute":
+        fn = differenceInMinutes2;
+        break;
+      case "second":
+        fn = differenceInSeconds2;
+        break;
+      default:
+        fn = differenceInCalendarDays2;
+        break;
+    }
+    return isBefore ? fn(this.nativeDate, this.toNativeDate(date)) < 0 : fn(this.nativeDate, this.toNativeDate(date)) > 0;
+  }
+  toNativeDate(date) {
+    return date instanceof _TinyDate ? date.nativeDate : date;
+  }
+  startOfISOWeek() {
+    return new _TinyDate(startOfISOWeek2(this.nativeDate), this.useTimeZone);
+  }
+  endOfISOWeek() {
+    return new _TinyDate(endOfISOWeek2(this.nativeDate), this.useTimeZone);
+  }
+  differenceInDays(date) {
+    return differenceInDays2(this.nativeDate, date);
+  }
+  differenceInHours(date) {
+    return differenceInHours2(this.nativeDate, date);
+  }
+  subWeeks(amount) {
+    return new _TinyDate(subWeeks2(this.nativeDate, amount), this.useTimeZone);
+  }
+  subDays(amount) {
+    return new _TinyDate(subDays2(this.nativeDate, amount), this.useTimeZone);
+  }
+  /**
+   * Supports: YYYY-MM, YYYY-MM-DD, YYYY-MM-DD HH:mm, YYYY/MM/DD, ISO formats,
+   * YYYY年MM月DD日, YYYY年MM月DD日 HH时mm分, English formats (Apr 10, 2025), etc.
+   * If no time is specified, defaults to 00:00:00.
+   */
+  static parseStringDate(dateString, targetTimeZone) {
+    const hasTime = /\d{1,2}[:时]\d{1,2}/.test(dateString) || /T\d{1,2}:\d{1,2}/.test(dateString);
+    const chineseMatch = dateString.match(/(\d{4})年(\d{1,2})月(\d{1,2})日?\s*(?:(\d{1,2})[时:](\d{1,2})分?)?/);
+    if (chineseMatch) {
+      return _TinyDate.extractComponentsFromMatch(chineseMatch);
+    }
+    if (/[Zz]|[+-]\d{2}:?\d{2}/.test(dateString)) {
+      const date = parseISO(dateString);
+      if (!isNaN(date.getTime())) {
+        return _TinyDate.extractComponentsFromDate(TZDate.tz(targetTimeZone, date), true);
+      }
+    }
+    for (const format3 of DATE_FORMATS) {
+      const date = parse(dateString, format3, /* @__PURE__ */ new Date(), { locale: _TinyDate.dateFnsLocale });
+      if (!isNaN(date.getTime())) {
+        return _TinyDate.extractComponentsFromDate(date, hasTime);
+      }
+    }
+    const isoDate = parseISO(dateString);
+    if (!isNaN(isoDate.getTime())) {
+      return _TinyDate.extractComponentsFromDate(isoDate, hasTime);
+    }
+    const nativeDate = new Date(dateString);
+    if (!isNaN(nativeDate.getTime()) && nativeDate.getFullYear() >= 1e3 && nativeDate.getFullYear() <= 9999) {
+      return _TinyDate.extractComponentsFromDate(nativeDate, hasTime);
+    }
+    throw new Error(`Unable to parse date string: ${dateString}`);
+  }
+  /**
+   * Extract date components from a Date object.
+   */
+  static extractComponentsFromDate(date, useTime = true) {
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      day: date.getDate(),
+      hours: useTime ? date.getHours() : 0,
+      minutes: useTime ? date.getMinutes() : 0,
+      seconds: useTime ? date.getSeconds() : 0
+    };
+  }
+  /**
+   * Extract date components from a regex match result.
+   */
+  static extractComponentsFromMatch(match5, hourIdx = 4, minIdx = 5, secIdx = 6) {
+    return {
+      year: parseInt(match5[1], 10),
+      month: parseInt(match5[2], 10) - 1,
+      day: parseInt(match5[3], 10),
+      hours: match5[hourIdx] ? parseInt(match5[hourIdx], 10) : 0,
+      minutes: match5[minIdx] ? parseInt(match5[minIdx], 10) : 0,
+      seconds: match5[secIdx] ? parseInt(match5[secIdx], 10) : 0
+    };
   }
 };
 function isUndefined(value) {
@@ -12329,386 +14197,6 @@ var index = /* @__PURE__ */ Object.freeze({
   shallowEqual,
   valueFunctionProp
 });
-function sortRangeValue(rangeValue) {
-  if (Array.isArray(rangeValue)) {
-    const [start, end] = rangeValue;
-    return start && end && start.isAfterSecond(end) ? [end, start] : [start, end];
-  }
-  return rangeValue;
-}
-var DEFAULT_TIMEZONE = "Asia/Shanghai";
-var TinyDate = class _TinyDate {
-  static {
-    this.locale = getDefaultLocaleId();
-  }
-  static {
-    this.dateFnsLocale = getDateFnsLocale(_TinyDate.locale);
-  }
-  static {
-    this.defaultTimeZone = DEFAULT_TIMEZONE;
-  }
-  constructor(date, zone) {
-    setDefaultOptions2({ locale: _TinyDate.dateFnsLocale });
-    this.useTimeZone = zone || _TinyDate.defaultTimeZone;
-    if (date) {
-      if (date instanceof Date) {
-        this.nativeDate = _TinyDate.utcToZonedTime(date, this.useTimeZone);
-      } else if (typeof date === "string") {
-        if (hasTimeInStringDate(date)) {
-          const originTime = new Date(date);
-          const zoneTime = TZDate.tz(this.useTimeZone, originTime);
-          const utcDate = fromZonedTime(zoneTime, this.useTimeZone).toISOString();
-          this.nativeDate = new TZDate(utcDate, this.useTimeZone);
-        } else {
-          this.nativeDate = new TZDate(date, this.useTimeZone);
-        }
-      } else if (typeof date === "number") {
-        this.nativeDate = new TZDate(date, this.useTimeZone);
-      } else if (typeof ngDevMode === "undefined" || ngDevMode) {
-        throw new Error(`The input date type is not supported expect Date | string | number | { date: number; with_time: 0 | 1}, actual ${JSON.stringify(date)}`);
-      }
-    } else {
-      this.nativeDate = new TZDate(Date.now(), this.useTimeZone);
-    }
-  }
-  static setDefaultLocale(locale2) {
-    _TinyDate.locale = locale2;
-    _TinyDate.dateFnsLocale = getDateFnsLocale(locale2);
-    return setDefaultOptions2({ locale: _TinyDate.dateFnsLocale });
-  }
-  static getDefaultLocale() {
-    return { locale: _TinyDate.locale, dateFnsLocale: _TinyDate.dateFnsLocale };
-  }
-  static setDefaultTimeZone(zone) {
-    _TinyDate.defaultTimeZone = zone ?? DEFAULT_TIMEZONE;
-  }
-  static getDefaultTimeZone() {
-    return _TinyDate.defaultTimeZone;
-  }
-  static utcToZonedTime(value, timeZone) {
-    return TZDate.tz(timeZone || _TinyDate.defaultTimeZone, value);
-  }
-  static createDateInTimeZone(year, month, day, hours, minutes, seconds, timeZone) {
-    return new TZDate(year, month, day, hours, minutes, seconds, timeZone || _TinyDate.defaultTimeZone);
-  }
-  static fromUnixTime(unixTime, timeZone) {
-    return new _TinyDate(fromUnixTime2(unixTime), timeZone || _TinyDate.defaultTimeZone);
-  }
-  // get
-  getTime() {
-    return this.nativeDate.getTime();
-  }
-  getDate() {
-    return this.nativeDate.getDate();
-  }
-  getYear() {
-    return this.nativeDate.getFullYear();
-  }
-  getQuarter() {
-    return getQuarter2(this.nativeDate);
-  }
-  getMonth() {
-    return this.nativeDate.getMonth();
-  }
-  getFullYear() {
-    return this.nativeDate.getFullYear();
-  }
-  getWeek(options = { weekStartsOn: 1 }) {
-    return getWeek2(this.nativeDate, options);
-  }
-  getDay() {
-    return this.nativeDate.getDay();
-  }
-  getHours() {
-    return this.nativeDate.getHours();
-  }
-  getMinutes() {
-    return this.nativeDate.getMinutes();
-  }
-  getSeconds() {
-    return this.nativeDate.getSeconds();
-  }
-  getMilliseconds() {
-    return this.nativeDate.getMilliseconds();
-  }
-  getDaysInMonth() {
-    return getDaysInMonth2(this.nativeDate);
-  }
-  getDaysInQuarter() {
-    return differenceInCalendarDays2(this.endOfQuarter().addSeconds(1).nativeDate, this.startOfQuarter().nativeDate);
-  }
-  // set
-  setDate(amount) {
-    return new _TinyDate(this.nativeDate.setDate(amount), this.useTimeZone);
-  }
-  setHms(hour, minute, second) {
-    return new _TinyDate(this.nativeDate?.setHours(hour, minute, second), this.useTimeZone);
-  }
-  setYear(year) {
-    return new _TinyDate(setYear2(this.nativeDate, year), this.useTimeZone);
-  }
-  setMonth(month) {
-    return new _TinyDate(setMonth2(this.nativeDate, month), this.useTimeZone);
-  }
-  setQuarter(quarter) {
-    return new _TinyDate(setQuarter2(this.nativeDate, quarter), this.useTimeZone);
-  }
-  setDay(day, options) {
-    return new _TinyDate(setDay2(this.nativeDate, day, options), this.useTimeZone);
-  }
-  setHours(hours) {
-    return new _TinyDate(setHours(this.nativeDate, hours), this.useTimeZone);
-  }
-  setMinutes(minutes) {
-    return new _TinyDate(setMinutes(this.nativeDate, minutes), this.useTimeZone);
-  }
-  setSeconds(seconds) {
-    return new _TinyDate(setSeconds(this.nativeDate, seconds), this.useTimeZone);
-  }
-  // add
-  addYears(amount) {
-    return new _TinyDate(addYears2(this.nativeDate, amount), this.useTimeZone);
-  }
-  addQuarters(amount) {
-    return new _TinyDate(addQuarters2(this.nativeDate, amount), this.useTimeZone);
-  }
-  addMonths(amount) {
-    return new _TinyDate(addMonths2(this.nativeDate, amount), this.useTimeZone);
-  }
-  addWeeks(amount) {
-    return new _TinyDate(addWeeks2(this.nativeDate, amount), this.useTimeZone);
-  }
-  addDays(amount) {
-    return new _TinyDate(addDays2(this.nativeDate, amount), this.useTimeZone);
-  }
-  addHours(amount) {
-    return new _TinyDate(addHours2(this.nativeDate, amount), this.useTimeZone);
-  }
-  addSeconds(amount) {
-    return new _TinyDate(addSeconds2(this.nativeDate, amount), this.useTimeZone);
-  }
-  addMinutes(amount) {
-    return new _TinyDate(addMinutes2(this.nativeDate, amount), this.useTimeZone);
-  }
-  // isSame
-  isSame(date, grain = "day") {
-    let fn;
-    switch (grain) {
-      case "decade":
-        fn = (pre, next) => Math.abs(pre.getFullYear() - next.getFullYear()) < 11;
-        break;
-      case "year":
-        fn = isSameYear2;
-        break;
-      case "month":
-        fn = isSameMonth2;
-        break;
-      case "quarter":
-        fn = isSameQuarter2;
-        break;
-      case "day":
-        fn = isSameDay2;
-        break;
-      case "hour":
-        fn = isSameHour2;
-        break;
-      case "minute":
-        fn = isSameMinute2;
-        break;
-      case "second":
-        fn = isSameSecond2;
-        break;
-      default:
-        fn = isSameDay2;
-        break;
-    }
-    return fn(this.nativeDate, this.toNativeDate(date));
-  }
-  isSameYear(date) {
-    return this.isSame(date, "year");
-  }
-  isSameMonth(date) {
-    return this.isSame(date, "month");
-  }
-  isSameQuarter(date) {
-    return this.isSame(date, "quarter");
-  }
-  isSameDay(date) {
-    return this.isSame(date, "day");
-  }
-  isSameHour(date) {
-    return this.isSame(date, "hour");
-  }
-  isSameMinute(date) {
-    return this.isSame(date, "minute");
-  }
-  isSameSecond(date) {
-    return this.isSame(date, "second");
-  }
-  // isBefore and isAfter
-  isBeforeYear(date) {
-    return this.compare(date, "year");
-  }
-  isBeforeQuarter(date) {
-    return this.compare(date, "quarter");
-  }
-  isBeforeMonth(date) {
-    return this.compare(date, "month");
-  }
-  isBeforeWeek(date) {
-    return this.compare(date, "week");
-  }
-  isBeforeDay(date) {
-    return this.compare(date, "day");
-  }
-  isBeforeHour(date) {
-    return this.compare(date, "hour");
-  }
-  isBeforeMinute(date) {
-    return this.compare(date, "minute");
-  }
-  isBeforeSecond(date) {
-    return this.compare(date, "second");
-  }
-  isAfterYear(date) {
-    return this.compare(date, "year", false);
-  }
-  isAfterQuarter(date) {
-    return this.compare(date, "quarter", false);
-  }
-  isAfterMonth(date) {
-    return this.compare(date, "month", false);
-  }
-  isAfterWeek(date) {
-    return this.compare(date, "week", false);
-  }
-  isAfterDay(date) {
-    return this.compare(date, "day", false);
-  }
-  isAfterHour(date) {
-    return this.compare(date, "hour", false);
-  }
-  isAfterMinute(date) {
-    return this.compare(date, "minute", false);
-  }
-  isAfterSecond(date) {
-    return this.compare(date, "second", false);
-  }
-  // is
-  isWeekend() {
-    return isWeekend2(this.nativeDate);
-  }
-  isToday() {
-    return isToday2(this.nativeDate);
-  }
-  isTomorrow() {
-    return isTomorrow2(this.nativeDate);
-  }
-  isValid() {
-    return isValid2(this.nativeDate);
-  }
-  // startOf and endOf
-  startOfYear() {
-    return new _TinyDate(startOfYear2(this.nativeDate), this.useTimeZone);
-  }
-  startOfQuarter() {
-    return new _TinyDate(startOfQuarter2(this.nativeDate), this.useTimeZone);
-  }
-  startOfMonth() {
-    return new _TinyDate(startOfMonth2(this.nativeDate), this.useTimeZone);
-  }
-  startOfWeek(options) {
-    return new _TinyDate(startOfWeek2(this.nativeDate, options), this.useTimeZone);
-  }
-  startOfDay() {
-    return new _TinyDate(startOfDay2(this.nativeDate), this.useTimeZone);
-  }
-  endOfYear() {
-    return new _TinyDate(endOfYear2(this.nativeDate), this.useTimeZone);
-  }
-  endOfQuarter() {
-    return new _TinyDate(endOfQuarter2(this.nativeDate), this.useTimeZone);
-  }
-  endOfMonth() {
-    return new _TinyDate(endOfMonth2(this.nativeDate), this.useTimeZone);
-  }
-  endOfWeek(options) {
-    return new _TinyDate(endOfWeek2(this.nativeDate, options), this.useTimeZone);
-  }
-  endOfDay() {
-    return new _TinyDate(endOfDay2(this.nativeDate), this.useTimeZone);
-  }
-  // other
-  format(mat, options) {
-    return format3(this.nativeDate, mat, options);
-  }
-  calendarStart(options) {
-    return new _TinyDate(startOfWeek2(startOfMonth2(this.nativeDate), options), this.useTimeZone);
-  }
-  clone() {
-    return new _TinyDate(this.nativeDate, this.useTimeZone);
-  }
-  getUnixTime() {
-    return getUnixTime2(this.nativeDate);
-  }
-  compare(date, grain = "day", isBefore = true) {
-    if (date === null) {
-      return false;
-    }
-    let fn;
-    switch (grain) {
-      case "year":
-        fn = differenceInCalendarYears2;
-        break;
-      case "quarter":
-        fn = differenceInCalendarQuarters2;
-        break;
-      case "month":
-        fn = differenceInCalendarMonths2;
-        break;
-      case "day":
-        fn = differenceInCalendarDays2;
-        break;
-      case "week":
-        fn = differenceInWeeks2;
-        break;
-      case "hour":
-        fn = differenceInHours2;
-        break;
-      case "minute":
-        fn = differenceInMinutes2;
-        break;
-      case "second":
-        fn = differenceInSeconds2;
-        break;
-      default:
-        fn = differenceInCalendarDays2;
-        break;
-    }
-    return isBefore ? fn(this.nativeDate, this.toNativeDate(date)) < 0 : fn(this.nativeDate, this.toNativeDate(date)) > 0;
-  }
-  toNativeDate(date) {
-    return date instanceof _TinyDate ? date.nativeDate : date;
-  }
-  startOfISOWeek() {
-    return new _TinyDate(startOfISOWeek2(this.nativeDate), this.useTimeZone);
-  }
-  endOfISOWeek() {
-    return new _TinyDate(endOfISOWeek2(this.nativeDate), this.useTimeZone);
-  }
-  differenceInDays(date) {
-    return differenceInDays2(this.nativeDate, date);
-  }
-  differenceInHours(date) {
-    return differenceInHours2(this.nativeDate, date);
-  }
-  subWeeks(amount) {
-    return new _TinyDate(subWeeks2(this.nativeDate, amount), this.useTimeZone);
-  }
-  subDays(amount) {
-    return new _TinyDate(subDays2(this.nativeDate, amount), this.useTimeZone);
-  }
-};
 var proto = Element.prototype;
 var vendor = proto.matches || proto["matchesSelector"] || proto["webkitMatchesSelector"] || proto["mozMatchesSelector"] || proto["msMatchesSelector"] || proto["oMatchesSelector"];
 function getWindow(elem) {
@@ -13101,34 +14589,52 @@ var ThyIcon = class _ThyIcon {
     this.iconRegistry = inject(ThyIconRegistry);
     this.thyIconType = input("outline", ...ngDevMode ? [{
       debugName: "thyIconType"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTwotoneColor = input(...ngDevMode ? [void 0, {
       debugName: "thyTwotoneColor"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyIconName = input.required(...ngDevMode ? [{
       debugName: "thyIconName"
-    }] : []);
-    this.thyIconRotate = input(void 0, ...ngDevMode ? [{
-      debugName: "thyIconRotate",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyIconRotate = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyIconRotate"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
+    }));
     this.thyIconSet = input(...ngDevMode ? [void 0, {
       debugName: "thyIconSet"
-    }] : []);
-    this.thyIconLegging = input(false, ...ngDevMode ? [{
-      debugName: "thyIconLegging",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyIconLegging = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyIconLegging"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyIconLinearGradient = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyIconLinearGradient"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyIconLinearGradient = input(false, ...ngDevMode ? [{
-      debugName: "thyIconLinearGradient",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.hostRenderer = useHostRenderer();
     effect(() => {
       this.updateClasses();
@@ -13662,10 +15168,16 @@ var ThyHotkeyDirective = class _ThyHotkeyDirective {
     this.elementRef = inject(ElementRef);
     this.thyHotkey = input(...ngDevMode ? [void 0, {
       debugName: "thyHotkey"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyHotkeyScope = input(...ngDevMode ? [void 0, {
       debugName: "thyHotkeyScope"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyHotkeyListener = output();
   }
   ngOnInit() {
@@ -14000,73 +15512,99 @@ var ThyResizableDirective = class _ThyResizableDirective {
     this.thyResizableService = inject(ThyResizableService);
     this.thyBounds = input("parent", ...ngDevMode ? [{
       debugName: "thyBounds"
-    }] : []);
-    this.thyMaxHeight = input(void 0, ...ngDevMode ? [{
-      debugName: "thyMaxHeight",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyMaxHeight = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMaxHeight"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
+    }));
+    this.thyMaxWidth = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMaxWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }]);
-    this.thyMaxWidth = input(void 0, ...ngDevMode ? [{
-      debugName: "thyMaxWidth",
+    }));
+    this.thyMinHeight = input(40, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMinHeight"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
+    }));
+    this.thyMinWidth = input(40, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMinWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }]);
-    this.thyMinHeight = input(40, ...ngDevMode ? [{
-      debugName: "thyMinHeight",
+    }));
+    this.thyGridColumnCount = input(-1, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyGridColumnCount"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
+    }));
+    this.thyMaxColumn = input(-1, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMaxColumn"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }]);
-    this.thyMinWidth = input(40, ...ngDevMode ? [{
-      debugName: "thyMinWidth",
+    }));
+    this.thyMinColumn = input(-1, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMinColumn"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
-    this.thyGridColumnCount = input(-1, ...ngDevMode ? [{
-      debugName: "thyGridColumnCount",
-      transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
-    this.thyMaxColumn = input(-1, ...ngDevMode ? [{
-      debugName: "thyMaxColumn",
-      transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
-    this.thyMinColumn = input(-1, ...ngDevMode ? [{
-      debugName: "thyMinColumn",
-      transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
-    this.thyLockAspectRatio = input(false, ...ngDevMode ? [{
-      debugName: "thyLockAspectRatio",
+    }));
+    this.thyLockAspectRatio = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyLockAspectRatio"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyPreview = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyPreview"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyPreview = input(false, ...ngDevMode ? [{
-      debugName: "thyPreview",
+    }));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyDisabled",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyResize = output();
     this.thyResizeStart = output();
     this.thyResizeEnd = output();
     this.resizing = signal(false, ...ngDevMode ? [{
       debugName: "resizing"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.sizeCache = null;
     this.ghostElement = null;
     this.currentHandleEvent = null;
@@ -14459,16 +15997,22 @@ var ThyResizeHandle = class _ThyResizeHandle {
     this.host = inject(ElementRef);
     this.thyDirection = input("bottomRight", ...ngDevMode ? [{
       debugName: "thyDirection"
-    }] : []);
-    this.thyLine = input(false, ...ngDevMode ? [{
-      debugName: "thyLine",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyLine = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyLine"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyMouseDown = output();
     this.hostRenderer = useHostRenderer();
     this.destroyRef = inject(DestroyRef);
+    this.entered = toSignal(this.thyResizableService.mouseEnteredOutsideAngular$);
   }
   ngOnInit() {
     this.thyResizableService.mouseEnteredOutsideAngular$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((entered) => {
@@ -14497,7 +16041,7 @@ var ThyResizeHandle = class _ThyResizeHandle {
       hostVars: 18,
       hostBindings: function ThyResizeHandle_HostBindings(rf, ctx) {
         if (rf & 2) {
-          \u0275\u0275classProp("thy-resizable-handle-top", ctx.thyDirection() === "top")("thy-resizable-handle-right", ctx.thyDirection() === "right")("thy-resizable-handle-bottom", ctx.thyDirection() === "bottom")("thy-resizable-handle-left", ctx.thyDirection() === "left")("thy-resizable-handle-topRight", ctx.thyDirection() === "topRight")("thy-resizable-handle-bottomRight", ctx.thyDirection() === "bottomRight")("thy-resizable-handle-bottomLeft", ctx.thyDirection() === "bottomLeft")("thy-resizable-handle-topLeft", ctx.thyDirection() === "topLeft")("thy-resizable-handle-box-hover", ctx.entered);
+          \u0275\u0275classProp("thy-resizable-handle-top", ctx.thyDirection() === "top")("thy-resizable-handle-right", ctx.thyDirection() === "right")("thy-resizable-handle-bottom", ctx.thyDirection() === "bottom")("thy-resizable-handle-left", ctx.thyDirection() === "left")("thy-resizable-handle-topRight", ctx.thyDirection() === "topRight")("thy-resizable-handle-bottomRight", ctx.thyDirection() === "bottomRight")("thy-resizable-handle-bottomLeft", ctx.thyDirection() === "bottomLeft")("thy-resizable-handle-topLeft", ctx.thyDirection() === "topLeft")("thy-resizable-handle-box-hover", ctx.entered());
         }
       },
       inputs: {
@@ -14551,7 +16095,7 @@ var ThyResizeHandle = class _ThyResizeHandle {
         "[class.thy-resizable-handle-bottomRight]": `thyDirection() === 'bottomRight'`,
         "[class.thy-resizable-handle-bottomLeft]": `thyDirection() === 'bottomLeft'`,
         "[class.thy-resizable-handle-topLeft]": `thyDirection() === 'topLeft'`,
-        "[class.thy-resizable-handle-box-hover]": "entered"
+        "[class.thy-resizable-handle-box-hover]": "entered()"
       },
       imports: []
     }]
@@ -14583,19 +16127,27 @@ var ThyResizeHandles = class _ThyResizeHandles {
   constructor() {
     this.thyDirections = input(DEFAULT_RESIZE_DIRECTION, ...ngDevMode ? [{
       debugName: "thyDirections"
-    }] : []);
-    this.thyLine = input(false, ...ngDevMode ? [{
-      debugName: "thyLine",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyLine = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyLine"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.directions = computed(() => {
       const directions = this.thyDirections();
       return new Set(directions);
     }, ...ngDevMode ? [{
       debugName: "directions"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   static {
     this.\u0275fac = function ThyResizeHandles_Factory(__ngFactoryType__) {
@@ -20206,6 +21758,8 @@ var AnimationCurves = class {
     this.EASE_IN_OUT_STANDARD = "cubic-bezier(0.34, 0.69, 0.1, 1)";
   }
 };
+var requestAnimationFrame2 = typeof globalThis.requestAnimationFrame === "function" ? globalThis.requestAnimationFrame : globalThis.setTimeout;
+var cancelAnimationFrame = typeof globalThis.requestAnimationFrame === "function" ? globalThis.cancelAnimationFrame : globalThis.clearTimeout;
 var fadeMotion = trigger("fadeMotion", [transition(":enter", [style({
   opacity: 0
 }), animate(`${AnimationDuration.BASE}`, style({
@@ -20215,16 +21769,6 @@ var fadeMotion = trigger("fadeMotion", [transition(":enter", [style({
 }), animate(`${AnimationDuration.BASE}`, style({
   opacity: 0
 }))])]);
-var collapseMotion = trigger("collapseMotion", [state("expanded", style({
-  height: "*"
-})), state("collapsed", style({
-  height: 0,
-  overflow: "hidden"
-})), state("hidden", style({
-  height: 0,
-  overflow: "hidden",
-  borderTopWidth: "0"
-})), transition("expanded => collapsed", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`)), transition("expanded => hidden", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`)), transition("collapsed => expanded", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`)), transition("hidden => expanded", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`))]);
 var thumbMotion = trigger("thumbMotion", [state("from", style({
   transform: "translateX({{ transform }}px)",
   width: "{{ width }}px"
@@ -20242,6 +21786,14 @@ var thumbMotion = trigger("thumbMotion", [state("from", style({
     width: 0
   }
 }), transition("from => to", animate(`300ms ${AnimationCurves.EASE_IN_OUT}`))]);
+var thyAnimationZoom = {
+  xEnter: "thy-scale-x-enter",
+  xLeave: "thy-scale-x-leave",
+  yEnter: "thy-scale-y-enter",
+  yLeave: "thy-scale-y-leave",
+  enter: "thy-scale-enter",
+  leave: "thy-scale-leave"
+};
 var scaleXMotion = trigger("scaleXMotion", [transition("* => enter", [style({
   opacity: 0,
   transform: "scaleX(0.9)"
@@ -20281,17 +21833,171 @@ var scaleMotion = trigger("scaleMotion", [transition("* => enter", [style({
   opacity: 0,
   transform: "scale(0.9, 0.9)"
 }))])]);
+var collapseMotion = trigger("collapseMotion", [state("expanded", style({
+  height: "*"
+})), state("collapsed", style({
+  height: 0,
+  overflow: "hidden"
+})), state("hidden", style({
+  height: 0,
+  overflow: "hidden",
+  borderTopWidth: "0"
+})), transition("expanded => collapsed", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`)), transition("expanded => hidden", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`)), transition("collapsed => expanded", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`)), transition("hidden => expanded", animate(`150ms ${AnimationCurves.EASE_IN_OUT}`))]);
+var THY_ANIMATION_COLLAPSE_CLASS = "thy-animation-collapse";
+var ThyAnimationCollapseDirective = class _ThyAnimationCollapseDirective {
+  constructor() {
+    this.elementRef = inject(ElementRef);
+    this.thyOpen = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyOpen"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
+      transform: coerceBooleanProperty2
+    }));
+    this.thyLeavedClassName = input("", ...ngDevMode ? [{
+      debugName: "thyLeavedClassName"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.firstRender = signal(true, ...ngDevMode ? [{
+      debugName: "firstRender"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    effect((cleanup) => {
+      const open = this.thyOpen();
+      const element = this.elementRef.nativeElement;
+      const leavedClassName = this.thyLeavedClassName();
+      if (open && leavedClassName) {
+        element.classList.remove(leavedClassName);
+      }
+      if (this.firstRender()) {
+        if (open) {
+          element.style.height = "auto";
+        } else {
+          element.style.height = coerceCssPixelValue(0);
+          if (leavedClassName) {
+            element.classList.add(leavedClassName);
+          }
+        }
+      } else {
+        element.classList.add(THY_ANIMATION_COLLAPSE_CLASS);
+        if (open) {
+          const requestAnimationFrameId = requestAnimationFrame2(() => {
+            if (!element) return;
+            const scrollHeight = this.calculateScrollHeight(element);
+            element.style.height = coerceCssPixelValue(scrollHeight);
+          });
+          cleanup(() => {
+            cancelAnimationFrame(requestAnimationFrameId);
+          });
+        } else {
+          const scrollHeight = this.calculateScrollHeight(element);
+          element.style.height = coerceCssPixelValue(scrollHeight);
+          const requestAnimationFrameId = requestAnimationFrame2(() => {
+            if (!element) return;
+            element.style.height = coerceCssPixelValue(0);
+          });
+          cleanup(() => {
+            cancelAnimationFrame(requestAnimationFrameId);
+          });
+        }
+      }
+      this.firstRender.set(false);
+    });
+  }
+  // Calculate height by summing up direct children's offsetHeight
+  // This naturally excludes collapsed nested submenus since they have height: 0
+  calculateScrollHeight(element) {
+    return Array.from(element.children).reduce((acc, child) => {
+      if (child instanceof HTMLElement) {
+        return acc + child.offsetHeight;
+      }
+      return acc;
+    }, 0);
+  }
+  transitionEnd(event) {
+    if (this.firstRender() || event.target !== this.elementRef.nativeElement) {
+      return;
+    }
+    if (this.thyOpen()) {
+      this.elementRef.nativeElement.style.height = "auto";
+    } else if (this.thyLeavedClassName()) {
+      this.elementRef.nativeElement.classList.add(this.thyLeavedClassName());
+    }
+    this.elementRef.nativeElement.classList.remove(THY_ANIMATION_COLLAPSE_CLASS);
+  }
+  static {
+    this.\u0275fac = function ThyAnimationCollapseDirective_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ThyAnimationCollapseDirective)();
+    };
+  }
+  static {
+    this.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+      type: _ThyAnimationCollapseDirective,
+      selectors: [["", "thyAnimationCollapse", ""]],
+      hostBindings: function ThyAnimationCollapseDirective_HostBindings(rf, ctx) {
+        if (rf & 1) {
+          \u0275\u0275listener("transitionend", function ThyAnimationCollapseDirective_transitionend_HostBindingHandler($event) {
+            return ctx.transitionEnd($event);
+          });
+        }
+      },
+      inputs: {
+        thyOpen: [1, "thyOpen"],
+        thyLeavedClassName: [1, "thyLeavedClassName"]
+      }
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThyAnimationCollapseDirective, [{
+    type: Directive,
+    args: [{
+      selector: "[thyAnimationCollapse]",
+      host: {
+        "(transitionend)": "transitionEnd($event)"
+      }
+    }]
+  }], () => [], {
+    thyOpen: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyOpen",
+        required: false
+      }]
+    }],
+    thyLeavedClassName: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyLeavedClassName",
+        required: false
+      }]
+    }]
+  });
+})();
 var ThyThemeStore = class _ThyThemeStore {
   constructor() {
     this.theme = signal("light", ...ngDevMode ? [{
       debugName: "theme"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isDark = computed(() => {
       const theme = this.theme();
       return theme === "dark" || theme === "system" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     }, ...ngDevMode ? [{
       debugName: "isDark"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   setTheme(theme) {
     this.theme.set(theme);
@@ -20822,6 +22528,27 @@ var ThyAbstractOverlayService = class {
     this._afterAllClosed = new Subject();
     this._afterOpened = new Subject();
   }
+  /** Create injector for component content */
+  createInjector(config2, overlayRef, containerInstance) {
+    const userInjector = config2 && config2.viewContainerRef && config2.viewContainerRef.injector;
+    const injectionProviders = this.createInjectorProviders(overlayRef, containerInstance);
+    if (config2?.providers?.length) {
+      injectionProviders.unshift(...config2.providers);
+    }
+    if (config2.direction && (!userInjector || !userInjector.get(Directionality, null))) {
+      injectionProviders.push({
+        provide: Directionality,
+        useValue: {
+          value: config2.direction,
+          change: of()
+        }
+      });
+    }
+    return Injector.create({
+      parent: userInjector || this.injector,
+      providers: injectionProviders
+    });
+  }
   /** Attach component or template ref to overlay container */
   attachOverlayContent(componentOrTemplateRef, containerInstance, overlayRef, config2) {
     const abstractOverlayRef = this.createAbstractOverlayRef(overlayRef, containerInstance, config2);
@@ -21296,6 +23023,21 @@ function isThemeColor(color) {
 }
 var presetTextColors = [...presetThemeColors, "secondary", "muted", "desc", "placeholder", "white", "body"];
 var presetBgColors = [...presetThemeColors, "secondary", "dark", "lighter", "bright", "content", "white", "transparent"];
+var SPACING_SIZES_MAP = {
+  zero: 0,
+  xxs: 4,
+  xs: 8,
+  sm: 12,
+  md: 16,
+  lg: 20,
+  xlg: 24
+};
+function getNumericSize(size, defaultSize) {
+  if (isNumber2(size)) {
+    return size;
+  }
+  return SPACING_SIZES_MAP[size] !== void 0 ? SPACING_SIZES_MAP[size] : SPACING_SIZES_MAP[defaultSize];
+}
 
 // node_modules/ngx-tethys/fesm2022/ngx-tethys-tooltip.mjs
 var _c03 = (a0) => ({
@@ -21324,34 +23066,18 @@ function ThyTooltip_Conditional_3_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ctx_r0.content, " ");
   }
 }
-var thyTooltipAnimations = {
-  tooltipState: trigger("state", [state("initial, void, hidden", style({
-    opacity: 0,
-    transform: "scale(0)"
-  })), state("visible", style({
-    transform: "scale(1)"
-  })), transition("* => visible", [style({
-    opacity: 0,
-    transform: "scale(0.9, 0.9)"
-  }), animate(`${AnimationDuration.BASE} ${AnimationCurves.EASE_IN_OUT_STANDARD}`, style({
-    opacity: 1,
-    transform: "scale(1, 1)"
-  }))]), transition("visible => *", [style({
-    opacity: 1,
-    transform: "scale(1, 1)"
-  }), animate(`${AnimationDuration.BASE} ${AnimationCurves.EASE_IN_OUT_STANDARD}`, style({
-    opacity: 0,
-    transform: "scale(0.9, 0.9)"
-  }))])])
-};
 var ThyTooltip = class _ThyTooltip {
   constructor() {
     this.changeDetectorRef = inject(ChangeDetectorRef);
     this.addTooltipContainerClass = true;
     this.onHide = new Subject();
-    this.closeOnInteraction = false;
     this.hostRenderer = useHostRenderer();
-    this.visibility = "initial";
+    this.visibility = signal("initial", ...ngDevMode ? [{
+      debugName: "visibility"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.tooltipClasses = [];
     this.isTemplateRef = false;
   }
@@ -21375,16 +23101,15 @@ var ThyTooltip = class _ThyTooltip {
     this.changeDetectorRef.markForCheck();
   }
   isVisible() {
-    return this.visibility === "visible";
+    return this.visibility() === "visible";
   }
   show(delay2) {
     if (this.hideTimeoutId) {
       clearTimeout(this.hideTimeoutId);
       this.hideTimeoutId = null;
     }
-    this.closeOnInteraction = true;
     this.showTimeoutId = setTimeout(() => {
-      this.visibility = "visible";
+      this.visibility.set("visible");
       this.showTimeoutId = null;
       this.markForCheck();
     }, delay2);
@@ -21395,21 +23120,16 @@ var ThyTooltip = class _ThyTooltip {
       this.showTimeoutId = null;
     }
     this.hideTimeoutId = setTimeout(() => {
-      this.visibility = "hidden";
+      this.visibility.set("hidden");
       this.hideTimeoutId = null;
       this.markForCheck();
     }, delay2);
   }
-  animationStart() {
-    this.closeOnInteraction = false;
-  }
-  animationDone(event) {
-    const toState = event.toState;
-    if (toState === "hidden" && !this.isVisible()) {
-      this.onHide.next();
-    }
-    if (toState === "visible" || toState === "hidden") {
-      this.closeOnInteraction = true;
+  onTransitionEnd(event) {
+    if (event.propertyName === "opacity" || event.propertyName === "transform") {
+      if (this.visibility() === "hidden") {
+        this.onHide.next();
+      }
     }
   }
   afterHidden() {
@@ -21428,18 +23148,15 @@ var ThyTooltip = class _ThyTooltip {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
       type: _ThyTooltip,
       selectors: [["thy-tooltip"]],
-      hostVars: 3,
+      hostVars: 6,
       hostBindings: function ThyTooltip_HostBindings(rf, ctx) {
         if (rf & 1) {
-          \u0275\u0275syntheticHostListener("@state.start", function ThyTooltip_animation_state_start_HostBindingHandler() {
-            return ctx.animationStart();
-          })("@state.done", function ThyTooltip_animation_state_done_HostBindingHandler($event) {
-            return ctx.animationDone($event);
+          \u0275\u0275listener("transitionend", function ThyTooltip_transitionend_HostBindingHandler($event) {
+            return ctx.onTransitionEnd($event);
           });
         }
         if (rf & 2) {
-          \u0275\u0275syntheticHostProperty("@state", ctx.visibility);
-          \u0275\u0275classProp("thy-tooltip", ctx.addTooltipContainerClass);
+          \u0275\u0275classProp("thy-scale-enter", ctx.visibility() === "visible")("thy-scale-leave", ctx.visibility() === "hidden")("thy-tooltip", ctx.addTooltipContainerClass);
         }
       },
       decls: 4,
@@ -21459,9 +23176,6 @@ var ThyTooltip = class _ThyTooltip {
       },
       dependencies: [NgTemplateOutlet],
       encapsulation: 2,
-      data: {
-        animation: [thyTooltipAnimations.tooltipState]
-      },
       changeDetection: 0
     });
   }
@@ -21473,11 +23187,9 @@ var ThyTooltip = class _ThyTooltip {
       selector: "thy-tooltip",
       encapsulation: ViewEncapsulation.None,
       changeDetection: ChangeDetectionStrategy.OnPush,
-      animations: [thyTooltipAnimations.tooltipState],
       host: {
-        "[@state]": "visibility",
-        "(@state.start)": "animationStart()",
-        "(@state.done)": "animationDone($event)"
+        "[class.thy-scale-enter]": 'this.visibility() === "visible"',
+        "[class.thy-scale-leave]": 'this.visibility() === "hidden"'
       },
       imports: [NgTemplateOutlet],
       template: '<div class="thy-tooltip-arrow"></div>\n<div class="thy-tooltip-content">\n  @if (isTemplateRef) {\n    <ng-container *ngTemplateOutlet="content; context: { $implicit: data }"></ng-container>\n  } @else {\n    {{ content }}\n  }\n</div>\n'
@@ -21486,6 +23198,10 @@ var ThyTooltip = class _ThyTooltip {
     addTooltipContainerClass: [{
       type: HostBinding,
       args: [`class.thy-tooltip`]
+    }],
+    onTransitionEnd: [{
+      type: HostListener,
+      args: ["transitionend", ["$event"]]
     }]
   });
 })();
@@ -21685,85 +23401,117 @@ var ThyTooltipDirective = class _ThyTooltipDirective extends ThyOverlayDirective
     this.thyTooltipService = inject(ThyTooltipService);
     this.touchendHideDelay = 1500;
     this.isAutoCloseOnMobileTouch = true;
-    this.thyTooltipContent = input(void 0, ...ngDevMode ? [{
-      debugName: "thyTooltipContent",
+    this.thyTooltipContent = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyTooltipContent"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyTooltip"
-    }] : [{
-      alias: "thyTooltip"
-    }]);
+    }));
     this.content = linkedSignal(() => {
       const value = this.thyTooltipContent();
       return this.getValidContent(value);
     }, ...ngDevMode ? [{
       debugName: "content"
-    }] : []);
-    this.thyPlacement = input("top", ...ngDevMode ? [{
-      debugName: "thyPlacement",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyPlacement = input("top", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyPlacement"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyTooltipPlacement"
-    }] : [{
-      alias: "thyTooltipPlacement"
-    }]);
+    }));
     this.placement = linkedSignal(() => {
       return this.thyPlacement();
     }, ...ngDevMode ? [{
       debugName: "placement"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTooltipClass = input(...ngDevMode ? [void 0, {
       debugName: "thyTooltipClass"
-    }] : []);
-    this.thyTooltipShowDelay = input(void 0, ...ngDevMode ? [{
-      debugName: "thyTooltipShowDelay",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyTooltipShowDelay = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyTooltipShowDelay"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
+    }));
+    this.thyTooltipHideDelay = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyTooltipHideDelay"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }]);
-    this.thyTooltipHideDelay = input(void 0, ...ngDevMode ? [{
-      debugName: "thyTooltipHideDelay",
-      transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
+    }));
     this.thyTooltipTrigger = input("hover", ...ngDevMode ? [{
       debugName: "thyTooltipTrigger"
-    }] : []);
-    this.thyTooltipDisabled = input(void 0, ...ngDevMode ? [{
-      debugName: "thyTooltipDisabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyTooltipDisabled = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyTooltipDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.toolTipDisabled = linkedSignal(() => {
       return this.thyTooltipDisabled();
     }, ...ngDevMode ? [{
       debugName: "toolTipDisabled"
-    }] : []);
-    this.data = input(void 0, ...ngDevMode ? [{
-      debugName: "data",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.data = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "data"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyTooltipTemplateContext"
-    }] : [{
-      alias: "thyTooltipTemplateContext"
-    }]);
-    this.thyTooltipOffset = input(void 0, ...ngDevMode ? [{
-      debugName: "thyTooltipOffset",
+    }));
+    this.thyTooltipOffset = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyTooltipOffset"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyTooltipOffset",
       transform: numberAttribute
-    }] : [{
-      alias: "thyTooltipOffset",
-      transform: numberAttribute
-    }]);
+    }));
     this.tooltipOffset = linkedSignal(() => {
       return this.thyTooltipOffset();
     }, ...ngDevMode ? [{
       debugName: "tooltipOffset"
-    }] : []);
-    this.tooltipPin = input(void 0, ...ngDevMode ? [{
-      debugName: "tooltipPin",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.tooltipPin = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "tooltipPin"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyTooltipPin",
       transform: coerceBooleanProperty2
-    }] : [{
-      alias: "thyTooltipPin",
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     effect(() => {
       const value = this.content();
       const data = this.data();
@@ -22170,12 +23918,18 @@ var ThyLayoutDirective = class _ThyLayoutDirective {
   constructor() {
     this.sidebarDirection = signal(null, ...ngDevMode ? [{
       debugName: "sidebarDirection"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isSidebarRight = computed(() => {
       return this.sidebarDirection() === "right";
     }, ...ngDevMode ? [{
       debugName: "isSidebarRight"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   static {
     this.\u0275fac = function ThyLayoutDirective_Factory(__ngFactoryType__) {
@@ -22249,25 +24003,34 @@ var ThyHeaderDirective = class _ThyHeaderDirective {
   constructor() {
     this.thySize = input("md", ...ngDevMode ? [{
       debugName: "thySize"
-    }] : []);
-    this.thyShadow = input(false, ...ngDevMode ? [{
-      debugName: "thyShadow",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyShadow = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShadow"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyDivided = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDivided"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyDivided = input(false, ...ngDevMode ? [{
-      debugName: "thyDivided",
+    }));
+    this.thyHasBorder = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyHasBorder"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyHasBorder = input(false, ...ngDevMode ? [{
-      debugName: "thyHasBorder",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.divided = computed(() => {
       const value = this.thyDivided();
       if (value !== void 0) {
@@ -22276,7 +24039,10 @@ var ThyHeaderDirective = class _ThyHeaderDirective {
       return this.thyHasBorder();
     }, ...ngDevMode ? [{
       debugName: "divided"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   static {
     this.\u0275fac = function ThyHeaderDirective_Factory(__ngFactoryType__) {
@@ -22356,13 +24122,22 @@ var ThyHeader = class _ThyHeader {
   constructor() {
     this.thyTitle = input(...ngDevMode ? [void 0, {
       debugName: "thyTitle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyIconPrefix = input("wtf", ...ngDevMode ? [{
       debugName: "thyIconPrefix"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyIcon = input(...ngDevMode ? [void 0, {
       debugName: "thyIcon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.svgIconName = computed(() => {
       const icon = this.thyIcon();
       if (icon && !icon.includes("wtf")) {
@@ -22371,7 +24146,10 @@ var ThyHeader = class _ThyHeader {
       return null;
     }, ...ngDevMode ? [{
       debugName: "svgIconName"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.iconClass = computed(() => {
       const icon = this.svgIconName();
       if (icon) {
@@ -22385,16 +24163,28 @@ var ThyHeader = class _ThyHeader {
       return null;
     }, ...ngDevMode ? [{
       debugName: "iconClass"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.titleTemplateRef = contentChild("headerTitle", ...ngDevMode ? [{
       debugName: "titleTemplateRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.contentTemplateRef = contentChild("headerContent", ...ngDevMode ? [{
       debugName: "contentTemplateRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.operationTemplateRef = contentChild("headerOperation", ...ngDevMode ? [{
       debugName: "operationTemplateRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   static {
     this.\u0275fac = function ThyHeader_Factory(__ngFactoryType__) {
@@ -22584,43 +24374,53 @@ var ThySidebarDirective = class _ThySidebarDirective {
     });
     this.thyDirection = input("left", ...ngDevMode ? [{
       debugName: "thyDirection"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTheme = input(...ngDevMode ? [void 0, {
       debugName: "thyTheme"
-    }] : []);
-    this.thyWidth = input(SIDEBAR_DEFAULT_WIDTH, ...ngDevMode ? [{
-      debugName: "thyWidth",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyWidth = input(SIDEBAR_DEFAULT_WIDTH, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         if (value === "lg") {
           return LG_WIDTH;
         }
         return value || SIDEBAR_DEFAULT_WIDTH;
       }
-    }] : [{
-      transform: (value) => {
-        if (value === "lg") {
-          return LG_WIDTH;
-        }
-        return value || SIDEBAR_DEFAULT_WIDTH;
-      }
-    }]);
+    }));
     this.sidebarWidth = linkedSignal(() => {
       return this.thyWidth();
     }, ...ngDevMode ? [{
       debugName: "sidebarWidth"
-    }] : []);
-    this.thyIsolated = input(false, ...ngDevMode ? [{
-      debugName: "thyIsolated",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyIsolated = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyIsolated"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyDivided = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDivided"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyDivided = input(true, ...ngDevMode ? [{
-      debugName: "thyDivided",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   ngOnInit() {
     if (this.thyLayoutDirective) {
@@ -22727,7 +24527,10 @@ var ThySidebar = class _ThySidebar {
     this.sidebarDirective = inject(ThySidebarDirective);
     this.isMouseEnter = signal(false, ...ngDevMode ? [{
       debugName: "isMouseEnter"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.sidebarWidth = computed(() => {
       if (this.thyCollapsible() && this.collapsed()) {
         return this.thyCollapsedWidth();
@@ -22736,93 +24539,129 @@ var ThySidebar = class _ThySidebar {
       }
     }, ...ngDevMode ? [{
       debugName: "sidebarWidth"
-    }] : []);
-    this.thyDraggable = input(false, ...ngDevMode ? [{
-      debugName: "thyDraggable",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDraggable = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDraggable"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyDragMaxWidth = input(void 0, ...ngDevMode ? [{
-      debugName: "thyDragMaxWidth",
+    }));
+    this.thyDragMaxWidth = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDragMaxWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
+    }));
+    this.thyDragMinWidth = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDragMinWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }]);
-    this.thyDragMinWidth = input(void 0, ...ngDevMode ? [{
-      debugName: "thyDragMinWidth",
-      transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
+    }));
     this.thyTrigger = input(void 0, ...ngDevMode ? [{
       debugName: "thyTrigger"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyCollapsedChange = output();
     this.thyDragWidthChange = output();
-    this.thyCollapsible = input(false, ...ngDevMode ? [{
-      debugName: "thyCollapsible",
+    this.thyCollapsible = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyCollapsible"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyCollapsed = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyCollapsed"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyCollapsed = input(false, ...ngDevMode ? [{
-      debugName: "thyCollapsed",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.collapsed = linkedSignal(() => this.thyCollapsed(), ...ngDevMode ? [{
       debugName: "collapsed"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.collapseVisible = computed(() => {
       return this.isMouseEnter() && !this.collapsed() ? true : false;
     }, ...ngDevMode ? [{
       debugName: "collapseVisible"
-    }] : []);
-    this.thyCollapsedWidth = input(SIDEBAR_COLLAPSED_WIDTH, ...ngDevMode ? [{
-      debugName: "thyCollapsedWidth",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyCollapsedWidth = input(SIDEBAR_COLLAPSED_WIDTH, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyCollapsedWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
-    this.thyDefaultWidth = input(void 0, ...ngDevMode ? [{
-      debugName: "thyDefaultWidth",
+    }));
+    this.thyDefaultWidth = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDefaultWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         if (value === "lg") {
           return LG_WIDTH;
         }
         return value;
       }
-    }] : [{
-      transform: (value) => {
-        if (value === "lg") {
-          return LG_WIDTH;
-        }
-        return value;
-      }
-    }]);
+    }));
     this.collapseTip = computed(() => {
       const collapseTip = this.collapsed() ? this.locale().expand : this.locale().collapse;
       return collapseTip + (isMacPlatform() ? `\uFF08\u2318 + /)` : `\uFF08Ctrl + /)`);
     }, ...ngDevMode ? [{
       debugName: "collapseTip"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.originWidth = SIDEBAR_DEFAULT_WIDTH;
     this.collapseHidden = signal(false, ...ngDevMode ? [{
       debugName: "collapseHidden"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isRemoveTransition = signal(false, ...ngDevMode ? [{
       debugName: "isRemoveTransition"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isResizable = signal(false, ...ngDevMode ? [{
       debugName: "isResizable"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.dragMinWidth = computed(() => {
       return this.thyDragMinWidth() || this.thyCollapsedWidth();
     }, ...ngDevMode ? [{
       debugName: "dragMinWidth"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       const collapsible = this.thyCollapsible();
       if (collapsible) {
@@ -23216,12 +25055,14 @@ var ThyContentMain = class _ThyContentMain {
 })();
 var ThySidebarHeaderDirective = class _ThySidebarHeaderDirective {
   constructor() {
-    this.thyDivided = input(false, ...ngDevMode ? [{
-      debugName: "thyDivided",
+    this.thyDivided = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDivided"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   static {
     this.\u0275fac = function ThySidebarHeaderDirective_Factory(__ngFactoryType__) {
@@ -23270,13 +25111,22 @@ var ThySidebarHeader = class _ThySidebarHeader {
   constructor() {
     this.thyTitle = input(...ngDevMode ? [void 0, {
       debugName: "thyTitle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.operationTemplateRef = contentChild("headerOperation", ...ngDevMode ? [{
       debugName: "operationTemplateRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.titleTemplateRef = contentChild("headerTitle", ...ngDevMode ? [{
       debugName: "titleTemplateRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   static {
     this.\u0275fac = function ThySidebarHeader_Factory(__ngFactoryType__) {
@@ -28834,6 +30684,7 @@ var ThyPopoverContainer = class _ThyPopoverContainer extends ThyAbstractOverlayC
     this.thyClickDispatcher = inject(ThyClickDispatcher);
     this.contentObserver = inject(ContentObserver);
     this.ngZone = inject(NgZone);
+    this.injector = inject(Injector);
     this.animationState = "enter";
     this.animationStateChanged = new EventEmitter();
     this.insideClicked = new EventEmitter();
@@ -28859,13 +30710,12 @@ var ThyPopoverContainer = class _ThyPopoverContainer extends ThyAbstractOverlayC
       });
     }
     if (this.config.autoAdaptive) {
-      const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-      this.ngZone.runOutsideAngular(() => {
-        onStable$.pipe(takeUntil(this.containerDestroy)).subscribe(() => {
-          this.contentObserver.observe(this.elementRef).pipe(takeUntil(this.containerDestroy)).subscribe(() => {
-            this.updatePosition.emit();
-          });
+      afterNextRender(() => {
+        this.contentObserver.observe(this.elementRef).pipe(takeUntil(this.containerDestroy)).subscribe(() => {
+          this.updatePosition.emit();
         });
+      }, {
+        injector: this.injector
       });
     }
   }
@@ -29066,28 +30916,14 @@ var ThyPopover = class _ThyPopover extends ThyAbstractOverlayService {
     popoverRef.initialize(overlayRef, containerInstance, config2);
     return popoverRef;
   }
-  createInjector(config2, popoverRef, popoverContainer) {
-    const userInjector = config2 && config2.viewContainerRef && config2.viewContainerRef.injector;
-    const injectionTokens = [{
+  createInjectorProviders(popoverRef, popoverContainer) {
+    return [{
       provide: ThyPopoverContainer,
       useValue: popoverContainer
     }, {
       provide: ThyPopoverRef,
       useValue: popoverRef
     }];
-    if (config2.direction && (!userInjector || !userInjector.get(Directionality, null))) {
-      injectionTokens.push({
-        provide: Directionality,
-        useValue: {
-          value: config2.direction,
-          change: of()
-        }
-      });
-    }
-    return Injector.create({
-      parent: userInjector || this.injector,
-      providers: injectionTokens
-    });
   }
   originElementAddActiveClass(config2) {
     if (config2.originActiveClass) {
@@ -29253,10 +31089,16 @@ var ThyPopoverHeader = class _ThyPopoverHeader {
     this.thyPopover = inject(ThyPopover);
     this.thyTitle = input(void 0, ...ngDevMode ? [{
       debugName: "thyTitle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTitleTranslationKey = input(void 0, ...ngDevMode ? [{
       debugName: "thyTitleTranslationKey"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.titleSignal = computed(() => {
       const title = this.thyTitle();
       if (title) {
@@ -29269,10 +31111,16 @@ var ThyPopoverHeader = class _ThyPopoverHeader {
       return "";
     }, ...ngDevMode ? [{
       debugName: "titleSignal"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.headerTemplate = contentChild("popoverHeader", ...ngDevMode ? [{
       debugName: "headerTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyClosed = output();
   }
   /**
@@ -29385,45 +31233,64 @@ var ThyPopoverDirective = class _ThyPopoverDirective extends ThyOverlayDirective
     this.viewContainerRef = inject(ViewContainerRef);
     this.cdr = inject(ChangeDetectorRef);
     this.popoverOpened = false;
-    this.content = input(void 0, ...ngDevMode ? [{
-      debugName: "content",
+    this.content = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "content"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyPopover"
-    }] : [{
-      alias: "thyPopover"
-    }]);
+    }));
     this.thyTrigger = input("click", ...ngDevMode ? [{
       debugName: "thyTrigger"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPlacement = input("bottom", ...ngDevMode ? [{
       debugName: "thyPlacement"
-    }] : []);
-    this.thyOffset = input(0, ...ngDevMode ? [{
-      debugName: "thyOffset",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyOffset = input(0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyOffset"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
+    }));
     this.thyConfig = input(void 0, ...ngDevMode ? [{
       debugName: "thyConfig"
-    }] : []);
-    this.thyShowDelay = input(0, ...ngDevMode ? [{
-      debugName: "thyShowDelay",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyShowDelay = input(0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowDelay"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
+    }));
+    this.thyHideDelay = input(0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyHideDelay"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }]);
-    this.thyHideDelay = input(0, ...ngDevMode ? [{
-      debugName: "thyHideDelay",
-      transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
-    this.thyAutoAdaptive = input(false, ...ngDevMode ? [{
-      debugName: "thyAutoAdaptive",
+    }));
+    this.thyAutoAdaptive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAutoAdaptive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.elementRef = elementRef;
     effect(() => {
       this.trigger = this.thyTrigger();
@@ -29732,18 +31599,22 @@ var ThyDropdownAbstractMenu = class _ThyDropdownAbstractMenu {
 var ThyDropdownMenuComponent = class _ThyDropdownMenuComponent {
   constructor() {
     this.templateRef = viewChild.required("dropdownMenu");
-    this.thyWidth = input(THY_DROPDOWN_DEFAULT_WIDTH, ...ngDevMode ? [{
-      debugName: "thyWidth",
+    this.thyWidth = input(THY_DROPDOWN_DEFAULT_WIDTH, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceCssPixelValue2
-    }] : [{
-      transform: coerceCssPixelValue2
-    }]);
-    this.thyImmediateRender = input(false, ...ngDevMode ? [{
-      debugName: "thyImmediateRender",
+    }));
+    this.thyImmediateRender = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyImmediateRender"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   static {
     this.\u0275fac = function ThyDropdownMenuComponent_Factory(__ngFactoryType__) {
@@ -29848,7 +31719,10 @@ var ThyDropdownMenuGroup = class _ThyDropdownMenuGroup {
   constructor() {
     this.thyTitle = input(...ngDevMode ? [void 0, {
       debugName: "thyTitle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   static {
     this.\u0275fac = function ThyDropdownMenuGroup_Factory(__ngFactoryType__) {
@@ -29959,53 +31833,81 @@ var ThyDropdownDirective = class _ThyDropdownDirective extends ThyOverlayDirecti
       return this.thyDropdownMenu() || this.thyDropdown();
     }, ...ngDevMode ? [{
       debugName: "menu"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.popoverOpened = false;
     this.thyDropdownMenu = input(...ngDevMode ? [void 0, {
       debugName: "thyDropdownMenu"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyDropdown = input(...ngDevMode ? [void 0, {
       debugName: "thyDropdown"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTrigger = input("click", ...ngDevMode ? [{
       debugName: "thyTrigger"
-    }] : []);
-    this.thyShowDelay = input(100, ...ngDevMode ? [{
-      debugName: "thyShowDelay",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyShowDelay = input(100, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowDelay"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
+    }));
+    this.thyHideDelay = input(100, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyHideDelay"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }]);
-    this.thyHideDelay = input(100, ...ngDevMode ? [{
-      debugName: "thyHideDelay",
-      transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
-    this.thyActiveClass = input("thy-dropdown-origin-active", ...ngDevMode ? [{
-      debugName: "thyActiveClass",
+    }));
+    this.thyActiveClass = input("thy-dropdown-origin-active", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyActiveClass"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => value || "thy-dropdown-origin-active"
-    }] : [{
-      transform: (value) => value || "thy-dropdown-origin-active"
-    }]);
+    }));
     this.thyPopoverOptions = input(...ngDevMode ? [void 0, {
       debugName: "thyPopoverOptions"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPlacement = input(...ngDevMode ? [void 0, {
       debugName: "thyPlacement"
-    }] : []);
-    this.thyMenuInsideClosable = input(void 0, ...ngDevMode ? [{
-      debugName: "thyMenuInsideClosable",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyMenuInsideClosable = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMenuInsideClosable"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyPanelClass = input(["thy-dropdown-pane"], ...ngDevMode ? [{
-      debugName: "thyPanelClass",
+    }));
+    this.thyPanelClass = input(["thy-dropdown-pane"], __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyPanelClass"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => !isUndefinedOrNull(value) && ["thy-dropdown-pane"].concat(coerceArray2(value)) || ["thy-dropdown-pane"]
-    }] : [{
-      transform: (value) => !isUndefinedOrNull(value) && ["thy-dropdown-pane"].concat(coerceArray2(value)) || ["thy-dropdown-pane"]
-    }]);
+    }));
     this.thyActiveChange = output();
     effect(() => {
       this.trigger = this.thyTrigger() || "click";
@@ -30019,6 +31921,9 @@ var ThyDropdownDirective = class _ThyDropdownDirective extends ThyOverlayDirecti
   }
   ngOnInit() {
     this.initialize();
+  }
+  ngOnDestroy() {
+    this.dispose();
   }
   createOverlay() {
     let componentTypeOrTemplateRef;
@@ -30231,19 +32136,30 @@ var ThyDropdownMenuItemDirective = class _ThyDropdownMenuItemDirective {
     this.elementRef = inject(ElementRef);
     this.danger = computed(() => this.thyType() === "danger" || false, ...ngDevMode ? [{
       debugName: "danger"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.success = computed(() => this.thyType() === "success" || false, ...ngDevMode ? [{
       debugName: "success"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyType = input("default", ...ngDevMode ? [{
       debugName: "thyType"
-    }] : []);
-    this.thyDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyDisabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.hostRenderer = useHostRenderer();
   }
   onClick(event) {
@@ -30503,12 +32419,14 @@ var ThyDropdownMenuItemExtendIconDirective = class _ThyDropdownMenuItemExtendIco
 })();
 var ThyDropdownMenuItemActiveDirective = class _ThyDropdownMenuItemActiveDirective {
   constructor() {
-    this.thyDropdownMenuItemActive = input(false, ...ngDevMode ? [{
-      debugName: "thyDropdownMenuItemActive",
+    this.thyDropdownMenuItemActive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDropdownMenuItemActive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   static {
     this.\u0275fac = function ThyDropdownMenuItemActiveDirective_Factory(__ngFactoryType__) {
@@ -30557,16 +32475,16 @@ var ThyDropdownSubmenu = class _ThyDropdownSubmenu {
     this.dropdownMenuItem = inject(ThyDropdownMenuItemDirective);
     this.elementRef = inject(ElementRef);
     this.destroyRef = inject(DestroyRef);
-    this.thyDirection = input("right", ...ngDevMode ? [{
-      debugName: "thyDirection",
+    this.thyDirection = input("right", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDirection"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         return value || "right";
       }
-    }] : [{
-      transform: (value) => {
-        return value || "right";
-      }
-    }]);
+    }));
   }
   ngOnInit() {
     let direction = this.thyDirection();
@@ -30661,11 +32579,17 @@ var ThyDropdownActiveDirective = class _ThyDropdownActiveDirective {
       return coerceArray2(this.thyDropdownActive() || []).filter((c) => !!c);
     }, ...ngDevMode ? [{
       debugName: "classes"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hostRenderer = useHostRenderer();
     this.thyDropdownActive = input(...ngDevMode ? [void 0, {
       debugName: "thyDropdownActive"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   ngOnInit() {
   }
@@ -30820,8 +32744,8 @@ function ThyNav_Conditional_3_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275classProp("d-none", !ctx_r1.showMore())("invisible", !ctx_r1.initialized);
-    \u0275\u0275property("thyNavItemActive", ctx_r1.moreActive);
+    \u0275\u0275classProp("d-none", !ctx_r1.showMore())("invisible", !ctx_r1.initialized());
+    \u0275\u0275property("thyNavItemActive", ctx_r1.moreActive());
     \u0275\u0275advance(2);
     \u0275\u0275conditional(ctx_r1.moreOperation() ? 2 : 3);
   }
@@ -30844,7 +32768,7 @@ function ThyNav_ng_template_6_Conditional_0_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1.morePopover())("ngTemplateOutletContext", \u0275\u0275pureFunction1(2, _c6, ctx_r1.hiddenItems));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1.morePopover())("ngTemplateOutletContext", \u0275\u0275pureFunction1(2, _c6, ctx_r1.hiddenItems()));
   }
 }
 function ThyNav_ng_template_6_Conditional_1_For_2_Template(rf, ctx) {
@@ -30873,7 +32797,7 @@ function ThyNav_ng_template_6_Conditional_1_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r1.hiddenItems);
+    \u0275\u0275repeater(ctx_r1.hiddenItems());
   }
 }
 function ThyNav_ng_template_6_Template(rf, ctx) {
@@ -30894,13 +32818,18 @@ var ThyIconNavLink = class _ThyIconNavLink {
   constructor() {
     this.thyIconNavLinkIcon = input("", ...ngDevMode ? [{
       debugName: "thyIconNavLinkIcon"
-    }] : []);
-    this.thyIconNavLinkActive = input(false, ...ngDevMode ? [{
-      debugName: "thyIconNavLinkActive",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyIconNavLinkActive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyIconNavLinkActive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   static {
     this.\u0275fac = function ThyIconNavLink_Factory(__ngFactoryType__) {
@@ -30983,7 +32912,10 @@ var ThyIconNav = class _ThyIconNav {
     this.isIconNav = true;
     this.thyType = input("", ...ngDevMode ? [{
       debugName: "thyType"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     if (typeof ngDevMode === "undefined" || ngDevMode) {
       warnDeprecation("thy-icon-nav has been deprecated, please use thyAction and thy-space components instead of it");
     }
@@ -31052,63 +32984,91 @@ var ThyNavItemDirective = class _ThyNavItemDirective {
     this.routerLinkActive = inject(RouterLinkActive, {
       optional: true
     });
-    this.ngZone = inject(NgZone);
+    this.hostRenderer = useHostRenderer();
     this.id = input(...ngDevMode ? [void 0, {
       debugName: "id"
-    }] : []);
-    this.thyNavItemActive = input(false, ...ngDevMode ? [{
-      debugName: "thyNavItemActive",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyNavItemActive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyNavItemActive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyNavLinkActive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyNavLinkActive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyNavLinkActive = input(false, ...ngDevMode ? [{
-      debugName: "thyNavLinkActive",
+    }));
+    this.thyNavItemDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyNavItemDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyNavItemDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyNavItemDisabled",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.links = contentChildren(forwardRef(() => _ThyNavItemDirective), ...ngDevMode ? [{
-      debugName: "links",
+    }));
+    this.links = contentChildren(forwardRef(() => _ThyNavItemDirective), __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "links"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       descendants: true
-    }] : [{
+    }));
+    this.routers = contentChildren(RouterLinkActive, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "routers"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       descendants: true
-    }]);
-    this.routers = contentChildren(RouterLinkActive, ...ngDevMode ? [{
-      debugName: "routers",
-      descendants: true
-    }] : [{
-      descendants: true
-    }]);
-    this.offset = {
+    }));
+    this.offset = signal({
       width: 0,
       height: 0,
       left: 0,
       top: 0
-    };
-    this.hostRenderer = useHostRenderer();
-    this.destroyRef = inject(DestroyRef);
-  }
-  ngAfterViewInit() {
-    this.setOffset();
-    this.content = this.elementRef.nativeElement.outerHTML;
-    this.ngZone.onStable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.isActive = this.linkIsActive();
+    }, ...ngDevMode ? [{
+      debugName: "offset"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.template = signal(void 0, ...ngDevMode ? [{
+      debugName: "template"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.isActive = computed(() => {
+      return this.linkIsActive();
+    }, ...ngDevMode ? [{
+      debugName: "isActive"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    afterNextRender(() => {
+      this.setOffset();
+      this.content = this.elementRef.nativeElement.outerHTML;
+      this.template.set(this.elementRef.nativeElement.outerHTML);
     });
   }
   setOffset() {
-    this.offset = {
-      width: this.elementRef.nativeElement.offsetWidth || this.offset.width,
-      height: this.elementRef.nativeElement.offsetHeight || this.offset.height,
-      left: this.elementRef.nativeElement.offsetLeft || this.offset.left,
-      top: this.elementRef.nativeElement.offsetTop || this.offset.top
-    };
+    this.offset.set({
+      width: this.elementRef.nativeElement.offsetWidth || this.offset().width,
+      height: this.elementRef.nativeElement.offsetHeight || this.offset().height,
+      left: this.elementRef.nativeElement.offsetLeft || this.offset().left,
+      top: this.elementRef.nativeElement.offsetTop || this.offset().top
+    });
   }
   linkIsActive() {
     const links = this.links();
@@ -31171,7 +33131,7 @@ var ThyNavItemDirective = class _ThyNavItemDirective {
         "[class.disabled]": "thyNavItemDisabled()"
       }
     }]
-  }], null, {
+  }], () => [], {
     id: [{
       type: Input,
       args: [{
@@ -31225,33 +33185,35 @@ var ThyNavItemDirective = class _ThyNavItemDirective {
 var ThyNavInkBarDirective = class _ThyNavInkBarDirective {
   constructor() {
     this.elementRef = inject(ElementRef);
-    this.ngZone = inject(NgZone);
     this.animationMode = inject(ANIMATION_MODULE_TYPE, {
       optional: true
     });
-    this.isVertical = input(false, ...ngDevMode ? [{
-      debugName: "isVertical",
+    this.isVertical = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "isVertical"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.showInkBar = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showInkBar"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.showInkBar = input(false, ...ngDevMode ? [{
-      debugName: "showInkBar",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.animated = computed(() => this.animationMode !== "NoopAnimations" && this.showInkBar(), ...ngDevMode ? [{
       debugName: "animated"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   alignToElement(element) {
     this.show();
-    this.ngZone.run(() => {
-      this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-        this.setStyles(element);
-      });
-    });
+    this.setStyles(element);
   }
   setStyles(element) {
     const inkBar = this.elementRef.nativeElement;
@@ -31342,8 +33304,8 @@ var BypassSecurityTrustHtmlPipe = class _BypassSecurityTrustHtmlPipe {
   constructor() {
     this.sanitizer = inject(DomSanitizer);
   }
-  transform(format4) {
-    return this.sanitizer.bypassSecurityTrustHtml(format4);
+  transform(format3) {
+    return this.sanitizer.bypassSecurityTrustHtml(format3);
   }
   static {
     this.\u0275fac = function BypassSecurityTrustHtmlPipe_Factory(__ngFactoryType__) {
@@ -31385,20 +33347,6 @@ var navSizeClassesMap = {
 };
 var tabItemRight = 20;
 var ThyNav = class _ThyNav {
-  /**
-   * @private
-   */
-  set links(value) {
-    this.innerLinks = value;
-    this.prevActiveIndex = NaN;
-  }
-  get links() {
-    return this.innerLinks;
-  }
-  get showInkBar() {
-    const showTypes = ["pulled", "tabs"];
-    return showTypes.includes(this.type());
-  }
   updateClasses() {
     let classNames = [];
     if (navTypeClassesMap[this.type()]) {
@@ -31411,131 +33359,231 @@ var ThyNav = class _ThyNav {
   }
   constructor() {
     this.elementRef = inject(ElementRef);
-    this.ngZone = inject(NgZone);
-    this.changeDetectorRef = inject(ChangeDetectorRef);
     this.popover = inject(ThyPopover);
     this.destroyRef = inject(DestroyRef);
-    this.initialized = false;
-    this.wrapperOffset = {
+    this.hostRenderer = useHostRenderer();
+    this.locale = injectLocale("nav");
+    this.initialized = signal(false, ...ngDevMode ? [{
+      debugName: "initialized"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.wrapperOffset = signal({
       height: 0,
       width: 0,
       left: 0,
       top: 0
-    };
-    this.hiddenItems = [];
-    this.showMore = signal(false, ...ngDevMode ? [{
+    }, ...ngDevMode ? [{
+      debugName: "wrapperOffset"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.hiddenItems = signal([], ...ngDevMode ? [{
+      debugName: "hiddenItems"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.moreActive = computed(() => {
+      return this.calculateMoreIsActive();
+    }, ...ngDevMode ? [{
+      debugName: "moreActive"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.showMore = computed(() => {
+      return this.hiddenItems().length > 0;
+    }, ...ngDevMode ? [{
       debugName: "showMore"
-    }] : []);
-    this.moreBtnOffset = {
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.moreBtnOffset = signal({
       height: 0,
       width: 0
-    };
-    this.hostRenderer = useHostRenderer();
-    this.locale = injectLocale("nav");
+    }, ...ngDevMode ? [{
+      debugName: "moreBtnOffset"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyType = input(...ngDevMode ? [void 0, {
       debugName: "thyType"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input("md", ...ngDevMode ? [{
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyHorizontal = input("", ...ngDevMode ? [{
       debugName: "thyHorizontal"
-    }] : []);
-    this.thyVertical = input(false, ...ngDevMode ? [{
-      debugName: "thyVertical",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyVertical = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyVertical"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyFill = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyFill"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyFill = input(false, ...ngDevMode ? [{
-      debugName: "thyFill",
+    }));
+    this.thyResponsive = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyResponsive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyResponsive = input(void 0, ...ngDevMode ? [{
-      debugName: "thyResponsive",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyPauseReCalculate = input(false, ...ngDevMode ? [{
       debugName: "thyPauseReCalculate"
-    }] : []);
-    this.thyInsideClosable = input(true, ...ngDevMode ? [{
-      debugName: "thyInsideClosable",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyInsideClosable = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyInsideClosable"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyPopoverOptions = input(null, ...ngDevMode ? [{
       debugName: "thyPopoverOptions"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyExtra = input(...ngDevMode ? [void 0, {
       debugName: "thyExtra"
-    }] : []);
-    this.routers = contentChildren(RouterLinkActive, ...ngDevMode ? [{
-      debugName: "routers",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.links = contentChildren(ThyNavItemDirective, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "links"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       descendants: true
-    }] : [{
+    }));
+    this.routers = contentChildren(RouterLinkActive, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "routers"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       descendants: true
-    }]);
+    }));
     this.moreOperation = contentChild("more", ...ngDevMode ? [{
       debugName: "moreOperation"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.morePopover = contentChild("morePopover", ...ngDevMode ? [{
       debugName: "morePopover"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.extra = contentChild("extra", ...ngDevMode ? [{
       debugName: "extra"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.defaultMoreOperation = viewChild("moreOperationContainer", ...ngDevMode ? [{
       debugName: "defaultMoreOperation"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.inkBar = viewChild.required(ThyNavInkBarDirective);
     this.horizontal = computed(() => {
       const horizontalValue = this.thyHorizontal();
       return horizontalValue === "right" ? "end" : horizontalValue;
     }, ...ngDevMode ? [{
       debugName: "horizontal"
-    }] : []);
-    this.prevActiveIndex = NaN;
-    this.navSubscription = null;
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.type = computed(() => this.thyType() || "pulled", ...ngDevMode ? [{
       debugName: "type"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.showInkBar = computed(() => {
+      const showTypes = ["pulled", "tabs"];
+      return showTypes.includes(this.type());
+    }, ...ngDevMode ? [{
+      debugName: "showInkBar"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.prevActiveIndex = signal(NaN, ...ngDevMode ? [{
+      debugName: "prevActiveIndex"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.navSubscription = null;
     effect(() => {
       this.updateClasses();
     });
-  }
-  ngOnInit() {
-    if (!this.thyResponsive()) {
-      this.initialized = true;
-    }
-  }
-  ngAfterViewInit() {
-    if (this.thyResponsive()) {
-      this.setMoreBtnOffset();
-      this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-        this.setMoreBtnOffset();
-        this.links.toArray().forEach((link) => link.setOffset());
-        this.setHiddenItems();
+    effect(() => {
+      (this.hiddenItems() || []).forEach((item) => {
+        item.setNavLinkHidden(true);
       });
-    }
-    this.ngZone.runOutsideAngular(() => {
-      this.links.changes.pipe(startWith(this.links), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    });
+    effect(() => {
+      const thyVertical = this.thyVertical();
+      const thyType = this.thyType();
+      untracked(() => {
+        this.alignInkBarToSelectedTab();
+      });
+    });
+    effect(() => {
+      const links = this.links();
+      this.prevActiveIndex.set(NaN);
+      const responsive = this.thyResponsive();
+      untracked(() => {
         if (this.navSubscription) {
           this.navSubscription.unsubscribe();
         }
-        this.navSubscription = merge(this.createResizeObserver(this.elementRef.nativeElement), ...this.links.map((item) => this.createResizeObserver(item.elementRef.nativeElement).pipe(tap(() => item.setOffset()))), ...(this.routers() || []).map((router) => router?.isActiveChange)).pipe(takeUntilDestroyed(this.destroyRef), tap(() => {
+        this.navSubscription = merge(this.createResizeObserver(this.elementRef.nativeElement), ...links.map((item) => this.createResizeObserver(item.elementRef.nativeElement).pipe(tap(() => {
+          item.setOffset();
+        }))), ...(this.routers() || []).map((router) => router?.isActiveChange)).pipe(takeUntilDestroyed(this.destroyRef), tap(() => {
           if (this.thyPauseReCalculate()) {
             return;
           }
-          if (this.thyResponsive()) {
+          if (responsive) {
             this.setMoreBtnOffset();
             this.resetSizes();
             this.setHiddenItems();
-            this.calculateMoreIsActive();
           }
           if (this.type() === "card") {
             this.setNavItemDivider();
@@ -31545,36 +33593,41 @@ var ThyNav = class _ThyNav {
         });
       });
     });
-  }
-  ngAfterContentInit() {
-    if (this.thyResponsive()) {
-      this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-        this.resetSizes();
-      });
-    }
-  }
-  ngAfterContentChecked() {
-    this.calculateMoreIsActive();
-    this.curActiveIndex = this.links && this.links.length ? this.links.toArray().findIndex((item) => item.linkIsActive()) : -1;
-    if (this.curActiveIndex < 0) {
-      this.inkBar().hide();
-    } else if (this.curActiveIndex !== this.prevActiveIndex) {
-      this.alignInkBarToSelectedTab();
-    }
+    afterNextRender(() => {
+      if (this.thyResponsive()) {
+        from(Promise.resolve()).subscribe(() => {
+          this.setMoreBtnOffset();
+          this.links().forEach((link) => link.setOffset());
+          this.setHiddenItems();
+          this.resetSizes();
+          this.initialized.set(true);
+        });
+      } else {
+        this.initialized.set(true);
+      }
+    });
+    afterEveryRender(() => {
+      this.curActiveIndex = this.links() && this.links().length ? this.links().findIndex((item) => item.linkIsActive()) : -1;
+      if (this.curActiveIndex < 0) {
+        this.inkBar().hide();
+      } else if (this.curActiveIndex !== this.prevActiveIndex()) {
+        this.alignInkBarToSelectedTab();
+      }
+    });
   }
   setMoreBtnOffset() {
     const defaultMoreOperation = this.defaultMoreOperation();
     const computedStyle = window.getComputedStyle(defaultMoreOperation.nativeElement);
-    this.moreBtnOffset = {
+    this.moreBtnOffset.set({
       height: defaultMoreOperation.nativeElement.offsetHeight + parseFloat(computedStyle?.marginBottom) || 0,
       width: defaultMoreOperation.nativeElement.offsetWidth + parseFloat(computedStyle?.marginRight) || 0
-    };
+    });
   }
   setNavItemDivider() {
-    const tabs = this.links.toArray();
+    const tabs = this.links();
     const activeIndex = tabs.findIndex((item) => item.linkIsActive());
     for (let i = 0; i < tabs.length; i++) {
-      if (i !== activeIndex && i !== activeIndex - 1 && i !== tabs.length - 1 || i === activeIndex - 1 && this.moreActive) {
+      if (i !== activeIndex && i !== activeIndex - 1 && i !== tabs.length - 1 || i === activeIndex - 1 && this.moreActive()) {
         tabs[i].addClass("has-right-divider");
       } else {
         tabs[i].removeClass("has-right-divider");
@@ -31593,17 +33646,15 @@ var ThyNav = class _ThyNav {
     });
   }
   calculateMoreIsActive() {
-    this.moreActive = this.hiddenItems.some((item) => {
+    const moreActive = this.hiddenItems().some((item) => {
       return item.linkIsActive();
     });
-    this.changeDetectorRef.detectChanges();
+    return moreActive;
   }
   setHiddenItems() {
-    this.moreActive = false;
-    const tabs = this.links.toArray();
+    const tabs = this.links();
     if (!tabs.length) {
-      this.hiddenItems = [];
-      this.showMore.set(false);
+      this.hiddenItems.set([]);
       return;
     }
     const endIndex = this.thyVertical() ? this.getShowItemsEndIndexWhenVertical(tabs) : this.getShowItemsEndIndexWhenHorizontal(tabs);
@@ -31611,22 +33662,17 @@ var ThyNav = class _ThyNav {
     (showItems || []).forEach((item) => {
       item.setNavLinkHidden(false);
     });
-    this.hiddenItems = endIndex === tabs.length - 1 ? [] : tabs.slice(endIndex + 1);
-    (this.hiddenItems || []).forEach((item) => {
-      item.setNavLinkHidden(true);
-    });
-    this.showMore.set(this.hiddenItems.length > 0);
-    this.initialized = true;
+    this.hiddenItems.set(endIndex === tabs.length - 1 ? [] : tabs.slice(endIndex + 1));
   }
   getShowItemsEndIndexWhenHorizontal(tabs) {
     const tabsLength = tabs.length;
     let endIndex = tabsLength;
     let totalWidth = 0;
     for (let i = 0; i < tabsLength; i += 1) {
-      const _totalWidth = i === tabsLength - 1 ? totalWidth + tabs[i].offset.width : totalWidth + tabs[i].offset.width + tabItemRight;
-      if (_totalWidth > this.wrapperOffset.width) {
-        const moreOperationWidth = this.moreBtnOffset.width;
-        if (totalWidth + moreOperationWidth <= this.wrapperOffset.width) {
+      const _totalWidth = i === tabsLength - 1 ? totalWidth + tabs[i].offset().width : totalWidth + tabs[i].offset().width + tabItemRight;
+      if (_totalWidth > this.wrapperOffset().width) {
+        const moreOperationWidth = this.moreBtnOffset().width;
+        if (totalWidth + moreOperationWidth <= this.wrapperOffset().width) {
           endIndex = i - 1;
         } else {
           endIndex = i - 2;
@@ -31644,10 +33690,10 @@ var ThyNav = class _ThyNav {
     let endIndex = tabsLength;
     let totalHeight = 0;
     for (let i = 0; i < tabsLength; i += 1) {
-      const _totalHeight = totalHeight + tabs[i].offset.height;
-      if (_totalHeight > this.wrapperOffset.height) {
-        const moreOperationHeight = this.moreBtnOffset.height;
-        if (totalHeight + moreOperationHeight <= this.wrapperOffset.height) {
+      const _totalHeight = totalHeight + tabs[i].offset().height;
+      if (_totalHeight > this.wrapperOffset().height) {
+        const moreOperationHeight = this.moreBtnOffset().height;
+        if (totalHeight + moreOperationHeight <= this.wrapperOffset().height) {
           endIndex = i - 1;
         } else {
           endIndex = i - 2;
@@ -31661,12 +33707,12 @@ var ThyNav = class _ThyNav {
     return endIndex;
   }
   resetSizes() {
-    this.wrapperOffset = {
-      height: this.elementRef.nativeElement.offsetHeight || 0,
-      width: this.elementRef.nativeElement.offsetWidth || 0,
+    this.wrapperOffset.set({
+      height: this.elementRef.nativeElement.clientHeight || 0,
+      width: this.elementRef.nativeElement.clientWidth || 0,
       left: this.elementRef.nativeElement.offsetLeft || 0,
       top: this.elementRef.nativeElement.offsetTop || 0
-    };
+    });
   }
   openMoreMenu(event, template) {
     this.popover.open(template, Object.assign({
@@ -31683,28 +33729,19 @@ var ThyNav = class _ThyNav {
     item.elementRef.nativeElement.click();
   }
   alignInkBarToSelectedTab() {
-    if (!this.showInkBar) {
+    if (!this.showInkBar()) {
       this.inkBar().hide();
       return;
     }
-    const tabs = this.links?.toArray() ?? [];
+    const tabs = this.links() ?? [];
     const selectedItem = tabs.find((item) => item.linkIsActive());
     let selectedItemElement = selectedItem && selectedItem.elementRef.nativeElement;
-    if (selectedItem && this.moreActive) {
+    if (selectedItem && this.moreActive()) {
       selectedItemElement = this.defaultMoreOperation().nativeElement;
     }
     if (selectedItemElement) {
-      this.prevActiveIndex = this.curActiveIndex;
+      this.prevActiveIndex.set(this.curActiveIndex);
       this.inkBar().alignToElement(selectedItemElement);
-    }
-  }
-  ngOnChanges(changes) {
-    const {
-      thyVertical,
-      thyType
-    } = changes;
-    if (thyType?.currentValue !== thyType?.previousValue || thyVertical?.currentValue !== thyVertical?.previousValue) {
-      this.alignInkBarToSelectedTab();
     }
   }
   ngOnDestroy() {
@@ -31723,13 +33760,10 @@ var ThyNav = class _ThyNav {
       selectors: [["thy-nav"]],
       contentQueries: function ThyNav_ContentQueries(rf, ctx, dirIndex) {
         if (rf & 1) {
-          \u0275\u0275contentQuerySignal(dirIndex, ctx.routers, RouterLinkActive, 5)(dirIndex, ctx.moreOperation, _c23, 5)(dirIndex, ctx.morePopover, _c32, 5)(dirIndex, ctx.extra, _c42, 5);
-          \u0275\u0275contentQuery(dirIndex, ThyNavItemDirective, 5);
+          \u0275\u0275contentQuerySignal(dirIndex, ctx.links, ThyNavItemDirective, 5)(dirIndex, ctx.routers, RouterLinkActive, 5)(dirIndex, ctx.moreOperation, _c23, 5)(dirIndex, ctx.morePopover, _c32, 5)(dirIndex, ctx.extra, _c42, 5);
         }
         if (rf & 2) {
-          \u0275\u0275queryAdvance(4);
-          let _t;
-          \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.links = _t);
+          \u0275\u0275queryAdvance(5);
         }
       },
       viewQuery: function ThyNav_Query(rf, ctx) {
@@ -31758,7 +33792,6 @@ var ThyNav = class _ThyNav {
         thyPopoverOptions: [1, "thyPopoverOptions"],
         thyExtra: [1, "thyExtra"]
       },
-      features: [\u0275\u0275NgOnChangesFeature],
       ngContentSelectors: _c14,
       decls: 10,
       vars: 6,
@@ -31784,7 +33817,7 @@ var ThyNav = class _ThyNav {
           \u0275\u0275advance();
           \u0275\u0275conditional(ctx.thyExtra() || ctx.extra() ? 4 : -1);
           \u0275\u0275advance();
-          \u0275\u0275property("showInkBar", ctx.showInkBar)("isVertical", ctx.thyVertical());
+          \u0275\u0275property("showInkBar", ctx.showInkBar())("isVertical", ctx.thyVertical());
         }
       },
       dependencies: [NgClass, NgTemplateOutlet, ThyNavItemDirective, ThyIcon, ThyNavInkBarDirective, ThyDropdownMenuComponent, ThyDropdownMenuItemDirective, ThyDropdownMenuItemActiveDirective, BypassSecurityTrustHtmlPipe],
@@ -31812,10 +33845,10 @@ var ThyNav = class _ThyNav {
       href="javascript:;"
       class="thy-nav-more-container"
       [class.d-none]="!showMore()"
-      [class.invisible]="!initialized"
+      [class.invisible]="!initialized()"
       #moreOperationContainer
       thyNavLink
-      [thyNavItemActive]="moreActive"
+      [thyNavItemActive]="moreActive()"
       (click)="openMoreMenu($event, navListPopover)">
       @if (moreOperation()) {
         <ng-container [ngTemplateOutlet]="moreOperation()"></ng-container>
@@ -31830,15 +33863,15 @@ var ThyNav = class _ThyNav {
       <ng-container [ngTemplateOutlet]="thyExtra() || extra()"></ng-container>
     </div>
   }
-  <thy-nav-ink-bar [showInkBar]="showInkBar" [isVertical]="thyVertical()"></thy-nav-ink-bar>
+  <thy-nav-ink-bar [showInkBar]="showInkBar()" [isVertical]="thyVertical()"></thy-nav-ink-bar>
 </div>
 
 <ng-template #navListPopover>
   @if (morePopover()) {
-    <ng-container [ngTemplateOutlet]="morePopover()" [ngTemplateOutletContext]="{ $implicit: hiddenItems }"></ng-container>
+    <ng-container [ngTemplateOutlet]="morePopover()" [ngTemplateOutletContext]="{ $implicit: hiddenItems() }"></ng-container>
   } @else {
     <thy-dropdown-menu thyImmediateRender>
-      @for (item of hiddenItems; track $index) {
+      @for (item of hiddenItems(); track $index) {
         <span
           class="thy-nav-item-more"
           thyDropdownMenuItem
@@ -31938,9 +33971,11 @@ var ThyNav = class _ThyNav {
     }],
     links: [{
       type: ContentChildren,
-      args: [ThyNavItemDirective, {
+      args: [forwardRef(() => ThyNavItemDirective), __spreadProps(__spreadValues({}, {
         descendants: true
-      }]
+      }), {
+        isSignal: true
+      })]
     }],
     routers: [{
       type: ContentChildren,
@@ -32080,16 +34115,24 @@ var ThyButtonGroup = class _ThyButtonGroup {
     this.hostRenderer = useHostRenderer();
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyType = input(...ngDevMode ? [void 0, {
       debugName: "thyType"
-    }] : []);
-    this.thyClearMinWidth = input(false, ...ngDevMode ? [{
-      debugName: "thyClearMinWidth",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyClearMinWidth = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyClearMinWidth"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty
-    }] : [{
-      transform: coerceBooleanProperty
-    }]);
+    }));
     effect(() => {
       this.setClasses();
     });
@@ -32199,46 +34242,74 @@ var ThyButtonIcon = class _ThyButtonIcon {
   constructor() {
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyIcon = input(...ngDevMode ? [void 0, {
       debugName: "thyIcon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyButtonIcon = input(...ngDevMode ? [void 0, {
       debugName: "thyButtonIcon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyShape = input(...ngDevMode ? [void 0, {
       debugName: "thyShape"
-    }] : []);
-    this.thyLight = input(false, ...ngDevMode ? [{
-      debugName: "thyLight",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyLight = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyLight"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyActive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyActive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyActive = input(false, ...ngDevMode ? [{
-      debugName: "thyActive",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyTheme = input(...ngDevMode ? [void 0, {
       debugName: "thyTheme"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyColor = input(...ngDevMode ? [void 0, {
       debugName: "thyColor"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hostRenderer = useHostRenderer();
     this.icon = computed(() => {
       return this.thyButtonIcon() || this.thyIcon();
     }, ...ngDevMode ? [{
       debugName: "icon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isWtfIcon = computed(() => {
       const icon = this.icon();
       return icon && icon.includes("wtf");
     }, ...ngDevMode ? [{
       debugName: "isWtfIcon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.svgIconName = computed(() => {
       if (!this.isWtfIcon()) {
         return this.icon();
@@ -32246,7 +34317,10 @@ var ThyButtonIcon = class _ThyButtonIcon {
       return null;
     }, ...ngDevMode ? [{
       debugName: "svgIconName"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.iconClasses = computed(() => {
       const icon = this.icon();
       if (this.isWtfIcon()) {
@@ -32259,7 +34333,10 @@ var ThyButtonIcon = class _ThyButtonIcon {
       return null;
     }, ...ngDevMode ? [{
       debugName: "iconClasses"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.setClasses();
     });
@@ -32474,12 +34551,22 @@ var ThyButton = class _ThyButton {
     this.hostRenderer = useHostRenderer();
     this.thyButton = input(...ngDevMode ? [void 0, {
       debugName: "thyButton"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyType = input(...ngDevMode ? [void 0, {
       debugName: "thyType"
-    }] : []);
-    this.thyLoading = input(false, ...ngDevMode ? [{
-      debugName: "thyLoading",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyLoading = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyLoading"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         if (!this.thyLoading() && value) {
           const textElement = this.nativeElement?.querySelector("span");
@@ -32487,36 +34574,42 @@ var ThyButton = class _ThyButton {
         }
         return coerceBooleanProperty2(value);
       }
-    }] : [{
-      transform: (value) => {
-        if (!this.thyLoading() && value) {
-          const textElement = this.nativeElement?.querySelector("span");
-          this._originalText = textElement ? textElement.innerText : "";
-        }
-        return coerceBooleanProperty2(value);
-      }
-    }]);
+    }));
     this.thyLoadingText = input(...ngDevMode ? [void 0, {
       debugName: "thyLoadingText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyIcon = input(...ngDevMode ? [void 0, {
       debugName: "thyIcon"
-    }] : []);
-    this.thyBlock = input(false, ...ngDevMode ? [{
-      debugName: "thyBlock",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyBlock = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyBlock"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.isWtfIcon = computed(() => {
       const icon = this.thyIcon();
       return icon && icon.includes("wtf");
     }, ...ngDevMode ? [{
       debugName: "isWtfIcon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.svgIconName = computed(() => {
       if (!this.isWtfIcon()) {
         return this.thyIcon();
@@ -32524,7 +34617,10 @@ var ThyButton = class _ThyButton {
       return null;
     }, ...ngDevMode ? [{
       debugName: "svgIconName"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.iconClass = computed(() => {
       const icon = this.thyIcon();
       if (this.isWtfIcon()) {
@@ -32537,18 +34633,27 @@ var ThyButton = class _ThyButton {
       return null;
     }, ...ngDevMode ? [{
       debugName: "iconClass"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.buttonType = computed(() => {
       return this.thyButton() || this.thyType();
     }, ...ngDevMode ? [{
       debugName: "buttonType"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isRadiusSquare = computed(() => {
       const type = this.buttonType();
       return !!type?.includes("-square");
     }, ...ngDevMode ? [{
       debugName: "isRadiusSquare"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.type = computed(() => {
       const type = this.buttonType();
       if (this.isRadiusSquare()) {
@@ -32558,7 +34663,10 @@ var ThyButton = class _ThyButton {
       }
     }, ...ngDevMode ? [{
       debugName: "type"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.updateClasses();
     });
@@ -32740,28 +34848,48 @@ var ThyTag = class _ThyTag {
     this.hostRenderer = useHostRenderer();
     this.thyTag = input("", ...ngDevMode ? [{
       debugName: "thyTag"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyShape = input("rectangle", ...ngDevMode ? [{
       debugName: "thyShape"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyColor = input("", ...ngDevMode ? [{
       debugName: "thyColor"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTheme = input("fill", ...ngDevMode ? [{
       debugName: "thyTheme"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input("md", ...ngDevMode ? [{
       debugName: "thySize"
-    }] : []);
-    this.thyHoverable = input(false, ...ngDevMode ? [{
-      debugName: "thyHoverable",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyHoverable = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyHoverable"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.color = computed(() => this.thyColor() || this.thyTag() || "default", ...ngDevMode ? [{
       debugName: "color"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.setColor();
     });
@@ -32795,10 +34923,10 @@ var ThyTag = class _ThyTag {
       type: _ThyTag,
       selectors: [["thy-tag"], ["", "thyTag", ""]],
       hostAttrs: [1, "thy-tag"],
-      hostVars: 14,
+      hostVars: 12,
       hostBindings: function ThyTag_HostBindings(rf, ctx) {
         if (rf & 2) {
-          \u0275\u0275classProp("thy-tag-pill", ctx.thyShape() === "pill")("thy-tag-outline", ctx.thyTheme() === "outline")("thy-tag-hover", ctx.thyHoverable())("thy-tag-md", ctx.thySize() === "md")("thy-tag-sm", ctx.thySize() === "sm")("thy-tag-xs", ctx.thySize() === "xs")("thy-tag-lg", ctx.thySize() === "lg");
+          \u0275\u0275classProp("thy-tag-pill", ctx.thyShape() === "pill")("thy-tag-outline", ctx.thyTheme() === "outline")("thy-tag-hover", ctx.thyHoverable())("thy-tag-md", ctx.thySize() === "md")("thy-tag-sm", ctx.thySize() === "sm")("thy-tag-lg", ctx.thySize() === "lg");
         }
       },
       inputs: {
@@ -32836,7 +34964,6 @@ var ThyTag = class _ThyTag {
         "[class.thy-tag-hover]": "thyHoverable()",
         "[class.thy-tag-md]": 'thySize() === "md"',
         "[class.thy-tag-sm]": 'thySize() === "sm"',
-        "[class.thy-tag-xs]": 'thySize() === "xs"',
         "[class.thy-tag-lg]": 'thySize() === "lg"'
       },
       template: "<ng-content></ng-content>\n"
@@ -32984,27 +35111,40 @@ var ThyFlexibleText = class _ThyFlexibleText {
     this.tooltipDirective = inject(ThyTooltipDirective);
     this.isOverflow = false;
     this.subscription = null;
-    this.trigger = input(void 0, ...ngDevMode ? [{
-      debugName: "trigger",
+    this.trigger = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "trigger"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyTooltipTrigger"
-    }] : [{
-      alias: "thyTooltipTrigger"
-    }]);
+    }));
     this.thyContainerClass = input(...ngDevMode ? [void 0, {
       debugName: "thyContainerClass"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTooltipContent = input(...ngDevMode ? [void 0, {
       debugName: "thyTooltipContent"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTooltipPlacement = input(...ngDevMode ? [void 0, {
       debugName: "thyTooltipPlacement"
-    }] : []);
-    this.thyTooltipOffset = input(void 0, ...ngDevMode ? [{
-      debugName: "thyTooltipOffset",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyTooltipOffset = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyTooltipOffset"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: numberAttribute
-    }] : [{
-      transform: numberAttribute
-    }]);
+    }));
     this.destroy$ = new Subject();
     this.hostRenderer = useHostRenderer();
     effect(() => {
@@ -33187,7 +35327,10 @@ var ThyRowDirective = class _ThyRowDirective {
   constructor() {
     this.thyGutter = input(...ngDevMode ? [void 0, {
       debugName: "thyGutter"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.actualGutter$ = new ReplaySubject(1);
     this.hostRenderer = useHostRenderer();
     effect(() => {
@@ -33260,16 +35403,25 @@ var ThyColDirective = class _ThyColDirective {
     });
     this.thyCol = input(...ngDevMode ? [void 0, {
       debugName: "thyCol"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySpan = input(...ngDevMode ? [void 0, {
       debugName: "thySpan"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.span = computed(() => {
       const span = this.thySpan() ?? this.thyCol();
       return span || 24;
     }, ...ngDevMode ? [{
       debugName: "span"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hostRenderer = useHostRenderer();
     this.takeUntilDestroyed = takeUntilDestroyed();
     effect(() => {
@@ -33363,10 +35515,16 @@ var ThyGridItem = class _ThyGridItem {
     });
     this.thySpan = input(THY_GRID_ITEM_DEFAULT_SPAN, ...ngDevMode ? [{
       debugName: "thySpan"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyOffset = input(0, ...ngDevMode ? [{
       debugName: "thyOffset"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.destroyRef = inject(DestroyRef);
     this.hostRenderer = useHostRenderer();
     this.span = THY_GRID_ITEM_DEFAULT_SPAN;
@@ -33448,22 +35606,40 @@ var ThyGrid = class _ThyGrid {
     this.ngZone = inject(NgZone);
     this.gridItems = contentChildren(ThyGridItem, ...ngDevMode ? [{
       debugName: "gridItems"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyCols = input(THY_GRID_DEFAULT_COLUMNS, ...ngDevMode ? [{
       debugName: "thyCols"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyXGap = input(0, ...ngDevMode ? [{
       debugName: "thyXGap"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyYGap = input(0, ...ngDevMode ? [{
       debugName: "thyYGap"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyGap = input(0, ...ngDevMode ? [{
       debugName: "thyGap"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyResponsive = input("none", ...ngDevMode ? [{
       debugName: "thyResponsive"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hostRenderer = useHostRenderer();
     this.numRegex = /^\d+$/;
     this.gridItemPropValueChange$ = new Subject();
@@ -33724,24 +35900,38 @@ function getRawSpan(span) {
 var ThyFlex = class _ThyFlex {
   constructor() {
     this.hostRenderer = useHostRenderer();
-    this.thyDirection = input("row", ...ngDevMode ? [{
-      debugName: "thyDirection",
+    this.thyDirection = input("row", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDirection"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => value || "row"
-    }] : [{
-      transform: (value) => value || "row"
-    }]);
+    }));
     this.thyWrap = input(...ngDevMode ? [void 0, {
       debugName: "thyWrap"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyJustifyContent = input(...ngDevMode ? [void 0, {
       debugName: "thyJustifyContent"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyAlignItems = input(...ngDevMode ? [void 0, {
       debugName: "thyAlignItems"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyGap = input(...ngDevMode ? [void 0, {
       debugName: "thyGap"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.updateClasses();
     });
@@ -33887,16 +36077,28 @@ var ThyFlexItem = class _ThyFlexItem {
     this.hostRenderer = useHostRenderer();
     this.thyFlexItem = input(...ngDevMode ? [void 0, {
       debugName: "thyFlexItem"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyGrow = input(...ngDevMode ? [void 0, {
       debugName: "thyGrow"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyShrink = input(...ngDevMode ? [void 0, {
       debugName: "thyShrink"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyBasis = input(...ngDevMode ? [void 0, {
       debugName: "thyBasis"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.updateClasses();
     });
@@ -34437,7 +36639,10 @@ var ThyTranscludeDirective = class _ThyTranscludeDirective {
   constructor() {
     this.thyTransclude = input(...ngDevMode ? [void 0, {
       debugName: "thyTransclude"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     const viewRef = inject(ViewContainerRef);
     this.viewRef = viewRef;
     effect(() => {
@@ -34484,18 +36689,22 @@ var ThyAutofocusDirective = class _ThyAutofocusDirective {
     this.elementRef = inject(ElementRef);
     this.ngZone = inject(NgZone);
     this._autoSelect = false;
-    this.thyAutofocus = input(false, ...ngDevMode ? [{
-      debugName: "thyAutofocus",
+    this.thyAutofocus = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAutofocus"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyAutoSelect = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAutoSelect"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyAutoSelect = input(false, ...ngDevMode ? [{
-      debugName: "thyAutoSelect",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     effect(() => {
       if (this.thyAutofocus()) {
         this.ngZone.runOutsideAngular(() => (
@@ -34671,12 +36880,14 @@ var ThyShowDirective = class _ThyShowDirective {
     this.thyShowChange = output();
     this.hostRenderer = useHostRenderer();
     this.unListenEvent = null;
-    this.thyShow = input(false, ...ngDevMode ? [{
-      debugName: "thyShow",
+    this.thyShow = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShow"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     effect(() => {
       if (this.thyShow()) {
         this.hostRenderer.setStyle("display", "block");
@@ -34740,7 +36951,10 @@ var ThyStopPropagationDirective = class _ThyStopPropagationDirective {
   constructor() {
     this.thyStopPropagation = input(true, ...ngDevMode ? [{
       debugName: "thyStopPropagation"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this._eventName = computed(() => {
       const stopPropagation = this.thyStopPropagation();
       if (stopPropagation !== false) {
@@ -34752,13 +36966,19 @@ var ThyStopPropagationDirective = class _ThyStopPropagationDirective {
       }
     }, ...ngDevMode ? [{
       debugName: "_eventName"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this._shouldStopPropagation = computed(() => {
       const stopPropagation = this.thyStopPropagation();
       return stopPropagation === false || stopPropagation === "false" ? false : true;
     }, ...ngDevMode ? [{
       debugName: "_shouldStopPropagation"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this._changes$ = new Subject();
     this._destroy$ = new Subject();
     const _host = inject(ElementRef);
@@ -34871,12 +37091,14 @@ var ThyScrollDirective = class _ThyScrollDirective {
     this._destroyed = new Subject();
     this._subscription = null;
     this._elementScrolled = new Observable((observer) => this.ngZone.runOutsideAngular(() => fromEvent(this.elementRef.nativeElement, "scroll", passiveEventListenerOptions3).pipe(takeUntil(this._destroyed)).subscribe(observer)));
-    this.thyEnable = input(true, ...ngDevMode ? [{
-      debugName: "thyEnable",
+    this.thyEnable = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyEnable"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyOnScrolled = output();
     effect(() => {
       const thyEnable = this.thyEnable();
@@ -35006,10 +37228,16 @@ var ThyStringOrTemplateOutletDirective = class _ThyStringOrTemplateOutletDirecti
     this.viewRef = null;
     this.thyStringOrTemplateOutletContext = input(...ngDevMode ? [void 0, {
       debugName: "thyStringOrTemplateOutletContext"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyStringOrTemplateOutlet = input(...ngDevMode ? [void 0, {
       debugName: "thyStringOrTemplateOutlet"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.updateView();
     });
@@ -35092,22 +37320,27 @@ var ThyViewOutletDirective = class _ThyViewOutletDirective {
     this.keyValueDiffers = inject(KeyValueDiffers);
     this.thyViewOutlet = input(null, ...ngDevMode ? [{
       debugName: "thyViewOutlet"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyViewOutletContext = input(...ngDevMode ? [void 0, {
       debugName: "thyViewOutletContext"
-    }] : []);
-    this.isViewOutletChanged = linkedSignal(...ngDevMode ? [{
-      debugName: "isViewOutletChanged",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.isViewOutletChanged = linkedSignal(__spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "isViewOutletChanged"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       source: () => this.thyViewOutlet(),
       computation: (source, previous) => {
         return !!(source && previous?.source && source !== previous?.source);
       }
-    }] : [{
-      source: () => this.thyViewOutlet(),
-      computation: (source, previous) => {
-        return !!(source && previous?.source && source !== previous?.source);
-      }
-    }]);
+    }));
     effect(() => {
       const thyViewOutlet = this.thyViewOutlet();
       const {
@@ -35277,30 +37510,44 @@ var ThyFormCheckBaseComponent = class _ThyFormCheckBaseComponent extends TabInde
     this.onChangeCallback = noop3;
     this._isFormCheck = true;
     this._isChecked = false;
-    this.thyInline = input(false, ...ngDevMode ? [{
-      debugName: "thyInline",
+    this.thyInline = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyInline"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyLabelText = input(...ngDevMode ? [void 0, {
       debugName: "thyLabelText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyLabelTextTranslateKey = input(...ngDevMode ? [void 0, {
       debugName: "thyLabelTextTranslateKey"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this._labelText = computed(() => {
       const labelTextTranslateKey = this.thyLabelTextTranslateKey();
       const labelText = this.thyLabelText();
       return labelTextTranslateKey ? this.thyTranslate.instant(labelTextTranslateKey) : labelText || "";
     }, ...ngDevMode ? [{
       debugName: "_labelText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this._isNoText = computed(() => {
       return this.thyInline() && !this._labelText();
     }, ...ngDevMode ? [{
       debugName: "_isNoText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabled = false;
   }
   change() {
@@ -35387,62 +37634,91 @@ var ThySelectControl = class _ThySelectControl {
     this.destroyRef = inject(DestroyRef);
     this.inputValue = model("", ...ngDevMode ? [{
       debugName: "inputValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isComposing = signal(false, ...ngDevMode ? [{
       debugName: "isComposing"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isFirstPanelOpenedChange = true;
     this.hostRenderer = useHostRenderer();
-    this.thyPanelOpened = input(false, ...ngDevMode ? [{
-      debugName: "thyPanelOpened",
+    this.thyPanelOpened = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyPanelOpened"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyIsMultiple = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyIsMultiple"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyIsMultiple = input(false, ...ngDevMode ? [{
-      debugName: "thyIsMultiple",
+    }));
+    this.thyShowSearch = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowSearch"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyShowSearch = input(false, ...ngDevMode ? [{
-      debugName: "thyShowSearch",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thySelectedOptions = input(...ngDevMode ? [void 0, {
       debugName: "thySelectedOptions"
-    }] : []);
-    this.previousSelectedOptions = linkedSignal(...ngDevMode ? [{
-      debugName: "previousSelectedOptions",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.previousSelectedOptions = linkedSignal(__spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "previousSelectedOptions"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       source: () => this.thySelectedOptions(),
       computation: (source, previous) => previous?.source
-    }] : [{
-      source: () => this.thySelectedOptions(),
-      computation: (source, previous) => previous?.source
-    }]);
-    this.thyDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyDisabled",
+    }));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.customDisplayTemplate = input(...ngDevMode ? [void 0, {
       debugName: "customDisplayTemplate"
-    }] : []);
-    this.thyAllowClear = input(false, ...ngDevMode ? [{
-      debugName: "thyAllowClear",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyAllowClear = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAllowClear"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyPlaceholder = input("", ...ngDevMode ? [{
       debugName: "thyPlaceholder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.tagSize = computed(() => {
       const value = this.thySize();
       if (value === "xs" || value === "sm") {
@@ -35454,59 +37730,84 @@ var ThySelectControl = class _ThySelectControl {
       }
     }, ...ngDevMode ? [{
       debugName: "tagSize"
-    }] : []);
-    this.thyMaxTagCount = input(0, ...ngDevMode ? [{
-      debugName: "thyMaxTagCount",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyMaxTagCount = input(0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMaxTagCount"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         if (value === "auto") return "auto";
         return numberAttribute(value, 0);
       }
-    }] : [{
-      transform: (value) => {
-        if (value === "auto") return "auto";
-        return numberAttribute(value, 0);
-      }
-    }]);
-    this.thyBorderless = input(false, ...ngDevMode ? [{
-      debugName: "thyBorderless",
+    }));
+    this.thyBorderless = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyBorderless"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyPreset = input("", ...ngDevMode ? [{
       debugName: "thyPreset"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyOnSearch = output();
     this.thyOnRemove = output();
     this.thyOnClear = output();
     this.thyOnBlur = output();
     this.inputElement = viewChild("inputElement", ...ngDevMode ? [{
       debugName: "inputElement"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.locale = injectLocale("shared");
     this.isSelectedValue = computed(() => {
       return !this.thyIsMultiple() && !isUndefinedOrNull(this.thySelectedOptions()) || this.thyIsMultiple() && this.thySelectedOptions().length > 0;
     }, ...ngDevMode ? [{
       debugName: "isSelectedValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.tagsContainer = viewChild("tagsContainer", ...ngDevMode ? [{
       debugName: "tagsContainer"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.visibleTagCount = signal(0, ...ngDevMode ? [{
       debugName: "visibleTagCount"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showClearIcon = computed(() => {
       return this.thyAllowClear() && this.isSelectedValue();
     }, ...ngDevMode ? [{
       debugName: "showClearIcon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.selectedTags = computed(() => {
       if (!this.thyIsMultiple() || !this.thySelectedOptions()) return [];
       const selectedOptions = coerceArray2(this.thySelectedOptions());
       return selectedOptions;
     }, ...ngDevMode ? [{
       debugName: "selectedTags"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.collapsedSelectedTags = computed(() => {
       if (!this.thyIsMultiple() || !this.thySelectedOptions()) return [];
       const selectedOptions = coerceArray2(this.thySelectedOptions());
@@ -35520,7 +37821,10 @@ var ThySelectControl = class _ThySelectControl {
       return selectedOptions.slice(this.visibleTagCount());
     }, ...ngDevMode ? [{
       debugName: "collapsedSelectedTags"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.selectedValueStyle = computed(() => {
       let showSelectedValue = false;
       if (this.thyShowSearch()) {
@@ -35537,7 +37841,10 @@ var ThySelectControl = class _ThySelectControl {
       };
     }, ...ngDevMode ? [{
       debugName: "selectedValueStyle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.placeholderStyle = computed(() => {
       let placeholder = true;
       if (this.isSelectedValue()) {
@@ -35554,7 +37861,10 @@ var ThySelectControl = class _ThySelectControl {
       };
     }, ...ngDevMode ? [{
       debugName: "placeholderStyle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       const panelOpened = this.thyPanelOpened();
       if (this.isFirstPanelOpenedChange) {
@@ -35590,15 +37900,7 @@ var ThySelectControl = class _ThySelectControl {
       if (value) {
         let sameValue = false;
         untracked(() => {
-          if (this.thyIsMultiple()) {
-            if (oldValue instanceof Array && value instanceof Array && oldValue.length === value.length) {
-              sameValue = value.every((option, index2) => option.thyValue === oldValue[index2].thyValue);
-            }
-          } else {
-            if (oldValue && value) {
-              sameValue = oldValue.thyValue === value.thyValue;
-            }
-          }
+          sameValue = this.compareSelectedOptions(oldValue, value);
           if (this.thyPanelOpened() && this.thyShowSearch()) {
             if (!sameValue) {
               Promise.resolve(null).then(() => {
@@ -35641,6 +37943,42 @@ var ThySelectControl = class _ThySelectControl {
         resize.disconnect();
       };
     });
+  }
+  /**
+   * 比较两个 thyValue 是否相等
+   * @param oldThyValue 旧的 thyValue
+   * @param newThyValue 新的 thyValue
+   * @returns 如果 thyValue 相等返回 true，否则返回 false
+   */
+  compareThyValue(oldThyValue, newThyValue) {
+    if (Array.isArray(oldThyValue) && Array.isArray(newThyValue)) {
+      if (oldThyValue.length !== newThyValue.length) {
+        return false;
+      }
+      return oldThyValue.every((item, index2) => item === newThyValue[index2]);
+    }
+    return oldThyValue === newThyValue;
+  }
+  /**
+   * 比较两个值的 thyValue 是否相等
+   * @param oldValue 旧值
+   * @param value 新值
+   * @returns 如果 thyValue 相等返回 true，否则返回 false
+   */
+  compareSelectedOptions(oldValue, value) {
+    if (this.thyIsMultiple()) {
+      if (oldValue instanceof Array && value instanceof Array && oldValue.length === value.length) {
+        return value.every((option, index2) => this.compareThyValue(oldValue[index2].thyValue, option.thyValue));
+      }
+      return false;
+    } else {
+      if (oldValue && value) {
+        const oldThyValue = oldValue.thyValue;
+        const newThyValue = value.thyValue;
+        return this.compareThyValue(oldThyValue, newThyValue);
+      }
+      return false;
+    }
   }
   calculateVisibleTags() {
     if (!this.tagsContainer()?.nativeElement) return;
@@ -36134,25 +38472,42 @@ var ThyListOption = class _ThyListOption {
     this.tabIndex = -1;
     this.isMultiple = computed(() => (this.parentSelectionList?.multiple && this.parentSelectionList.multiple()) ?? false, ...ngDevMode ? [{
       debugName: "isMultiple"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isListOption = computed(() => this.parentSelectionList?.layout && this.parentSelectionList?.layout() === "list", ...ngDevMode ? [{
       debugName: "isListOption"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isGridOption = computed(() => this.parentSelectionList?.layout && this.parentSelectionList?.layout() === "grid", ...ngDevMode ? [{
       debugName: "isGridOption"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.id = input(`thy-list-option-${_uniqueIdCounter++}`, ...ngDevMode ? [{
       debugName: "id"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyValue = input(void 0, ...ngDevMode ? [{
       debugName: "thyValue"
-    }] : []);
-    this.thyDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyDisabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   /** Whether the option is selected. */
   get selected() {
@@ -36321,13 +38676,18 @@ var ThySelectOptionGroup = class _ThySelectOptionGroup {
   constructor() {
     this.thyGroupLabel = input(...ngDevMode ? [void 0, {
       debugName: "thyGroupLabel"
-    }] : []);
-    this.thyDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyDisabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   static {
     this.\u0275fac = function ThySelectOptionGroup_Factory(__ngFactoryType__) {
@@ -36385,32 +38745,59 @@ var ThyOption = class _ThyOption {
   constructor() {
     this.thyValue = input(...ngDevMode ? [void 0, {
       debugName: "thyValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyRawValue = input(...ngDevMode ? [void 0, {
       debugName: "thyRawValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyLabelText = input(...ngDevMode ? [void 0, {
       debugName: "thyLabelText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyShowOptionCustom = input(...ngDevMode ? [void 0, {
       debugName: "thyShowOptionCustom"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySearchKey = input(...ngDevMode ? [void 0, {
       debugName: "thySearchKey"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyDisabled = input(...ngDevMode ? [void 0, {
       debugName: "thyDisabled"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.selected = signal(false, ...ngDevMode ? [{
       debugName: "selected"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.selectionChange = output();
     this.template = viewChild(TemplateRef, ...ngDevMode ? [{
       debugName: "template"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.suffixTemplate = contentChild("suffixTemplate", ...ngDevMode ? [{
       debugName: "suffixTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.optionGroupComponent = inject(ThySelectOptionGroup, {
       optional: true
     });
@@ -36553,63 +38940,102 @@ var ThyOptionRender = class _ThyOptionRender {
     this.hostRenderer = useHostRenderer();
     this.thyValue = input(...ngDevMode ? [void 0, {
       debugName: "thyValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyRawValue = input(...ngDevMode ? [void 0, {
       debugName: "thyRawValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyLabelText = input(...ngDevMode ? [void 0, {
       debugName: "thyLabelText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySearchKey = input(...ngDevMode ? [void 0, {
       debugName: "thySearchKey"
-    }] : []);
-    this.thyDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyDisabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyShowOptionCustom = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowOptionCustom"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyShowOptionCustom = input(false, ...ngDevMode ? [{
-      debugName: "thyShowOptionCustom",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyTemplate = input(...ngDevMode ? [void 0, {
       debugName: "thyTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTemplateContext = input(...ngDevMode ? [void 0, {
       debugName: "thyTemplateContext"
-    }] : []);
-    this.thyShowCheckedIcon = input(false, ...ngDevMode ? [{
-      debugName: "thyShowCheckedIcon",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyShowCheckedIcon = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowCheckedIcon"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thySelectedValuesMap = input(/* @__PURE__ */ new Map(), ...ngDevMode ? [{
       debugName: "thySelectedValuesMap"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyActivatedValue = input(...ngDevMode ? [void 0, {
       debugName: "thyActivatedValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.optionClick = output();
     this.optionHover = output();
     this.selected = computed(() => {
       return this.thySelectedValuesMap().has(this.thyValue());
     }, ...ngDevMode ? [{
       debugName: "selected"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.activated = computed(() => {
       return this.thyActivatedValue() === this.thyValue();
     }, ...ngDevMode ? [{
       debugName: "activated"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.tabIndex = computed(() => {
       return this.thyDisabled() ? "-1" : "0";
     }, ...ngDevMode ? [{
       debugName: "tabIndex"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.activated() ? this.setActiveStyles() : this.setInactiveStyles();
     });
@@ -36835,13 +39261,18 @@ var ThyOptionGroupRender = class _ThyOptionGroupRender {
   constructor() {
     this.thyGroupLabel = input(void 0, ...ngDevMode ? [{
       debugName: "thyGroupLabel"
-    }] : []);
-    this.thyDisabled = input(false, ...ngDevMode ? [{
-      debugName: "thyDisabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   static {
     this.\u0275fac = function ThyOptionGroupRender_Factory(__ngFactoryType__) {
@@ -36961,12 +39392,14 @@ function ThyCheckbox_Conditional_1_Template(rf, ctx) {
 var ThyCheckbox = class _ThyCheckbox extends ThyFormCheckBaseComponent {
   constructor() {
     super(...arguments);
-    this.thyIndeterminate = input(false, ...ngDevMode ? [{
-      debugName: "thyIndeterminate",
+    this.thyIndeterminate = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyIndeterminate"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
   }
   static {
     this.\u0275fac = /* @__PURE__ */ (() => {
@@ -37122,31 +39555,46 @@ var ThySwitch = class _ThySwitch extends TabIndexDisabledControlValueAccessorMix
     super();
     this.thyType = input("primary", ...ngDevMode ? [{
       debugName: "thyType"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input("", ...ngDevMode ? [{
       debugName: "thySize"
-    }] : []);
-    this.inputDisabled = input(false, ...ngDevMode ? [{
-      debugName: "inputDisabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.inputDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "inputDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2,
       alias: `thyDisabled`
-    }] : [{
-      transform: coerceBooleanProperty2,
-      alias: `thyDisabled`
-    }]);
-    this.thyLoading = input(false, ...ngDevMode ? [{
-      debugName: "thyLoading",
+    }));
+    this.thyLoading = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyLoading"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyChange = output();
     this.model = signal(false, ...ngDevMode ? [{
       debugName: "model"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabled = signal(false, ...ngDevMode ? [{
       debugName: "disabled"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.type = computed(() => {
       if (!supportedTypes.includes(this.thyType())) {
         return "primary";
@@ -37155,7 +39603,10 @@ var ThySwitch = class _ThySwitch extends TabIndexDisabledControlValueAccessorMix
       }
     }, ...ngDevMode ? [{
       debugName: "type"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.size = computed(() => {
       if (!supportedSizes.includes(this.thySize())) {
         return "";
@@ -37164,7 +39615,10 @@ var ThySwitch = class _ThySwitch extends TabIndexDisabledControlValueAccessorMix
       }
     }, ...ngDevMode ? [{
       debugName: "size"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.classNames = computed(() => {
       const classList = [`thy-switch-${this.type()}`];
       if (this.size()) {
@@ -37179,7 +39633,10 @@ var ThySwitch = class _ThySwitch extends TabIndexDisabledControlValueAccessorMix
       return classList;
     }, ...ngDevMode ? [{
       debugName: "classNames"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.loadingCircle = computed(() => {
       const svgSize = {
         xs: 12,
@@ -37197,17 +39654,22 @@ var ThySwitch = class _ThySwitch extends TabIndexDisabledControlValueAccessorMix
       };
     }, ...ngDevMode ? [{
       debugName: "loadingCircle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.onModelChange = () => {
     };
     this.onModelTouched = () => {
     };
-    this.switchElementRef = viewChild("switch", ...ngDevMode ? [{
-      debugName: "switchElementRef",
+    this.switchElementRef = viewChild("switch", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "switchElementRef"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       read: ElementRef
-    }] : [{
-      read: ElementRef
-    }]);
+    }));
     this.cdr = inject(ChangeDetectorRef);
     effect(() => {
       this.disabled.set(this.inputDisabled());
@@ -37514,7 +39976,10 @@ var ThyAbstractMessageQueue = class {
   constructor(defaultConfig2) {
     this.queues = signal([], ...ngDevMode ? [{
       debugName: "queues"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.defaultConfig = defaultConfig2;
   }
   add(messageRef) {
@@ -37551,12 +40016,14 @@ var ThyAbstractMessageComponent = class _ThyAbstractMessageComponent {
   constructor() {
     this._ngZone = inject(NgZone);
     this.iconName = "";
-    this.config = input(null, ...ngDevMode ? [{
-      debugName: "config",
+    this.config = input(null, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "config"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyConfig"
-    }] : [{
-      alias: "thyConfig"
-    }]);
+    }));
   }
   ngOnInit() {
     const iconName = {
@@ -37754,8 +40221,9 @@ var ThyMessage = class _ThyMessage extends ThyAbstractMessageComponent {
       hostVars: 3,
       hostBindings: function ThyMessage_HostBindings(rf, ctx) {
         if (rf & 2) {
+          let tmp_1_0;
           \u0275\u0275syntheticHostProperty("@flyInOut", ctx.animationState);
-          \u0275\u0275classMap("thy-message thy-message-" + ctx.config().type);
+          \u0275\u0275classMap("thy-message thy-message-" + ((tmp_1_0 = ctx.config()) == null ? null : tmp_1_0.type));
         }
       },
       features: [\u0275\u0275InheritDefinitionFeature],
@@ -37801,7 +40269,7 @@ var ThyMessage = class _ThyMessage extends ThyAbstractMessageComponent {
     args: [{
       selector: "thy-message",
       host: {
-        "[class]": "'thy-message thy-message-' + config().type"
+        "[class]": "'thy-message thy-message-' + config()?.type"
       },
       animations: [trigger("flyInOut", [state("flyIn", style({
         transform: "translateY(0)",
@@ -38000,8 +40468,458 @@ var ThyMessageService = class _ThyMessageService extends ThyAbstractMessageServi
   }], () => [], null);
 })();
 
+// node_modules/ngx-tethys/fesm2022/ngx-tethys-action.mjs
+var _c015 = ["*"];
+function ThyAction_Conditional_0_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "thy-icon", 0);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275property("thyIconName", ctx_r0.icon());
+  }
+}
+function ThyAction_Conditional_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "thy-icon", 0);
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    let tmp_2_0;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275classMap((tmp_1_0 = ctx_r0.feedbackOptions()) == null ? null : tmp_1_0.class);
+    \u0275\u0275property("thyIconName", (tmp_2_0 = ctx_r0.feedbackOptions()) == null ? null : tmp_2_0.icon);
+  }
+}
+function ThyAction_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "thy-icon", 2);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275property("thyIconName", ctx_r0.thyHoverIcon());
+  }
+}
+var defaultFeedbackOptions = {
+  success: {
+    icon: "check-circle-fill",
+    class: "text-success",
+    duration: 3e3
+  },
+  error: {
+    icon: "close-circle-fill",
+    class: "text-danger",
+    duration: 3e3
+  }
+};
+var ThyAction = class _ThyAction {
+  ngOnInit() {
+    this.updateClasses();
+  }
+  ngAfterViewInit() {
+    this.wrapSpanForText(this.elementRef.nativeElement.childNodes);
+  }
+  constructor() {
+    this.elementRef = inject(ElementRef);
+    this.renderer = inject(Renderer2);
+    this.destroyRef = inject(DestroyRef);
+    this.icon = computed(() => this.thyActionIcon() || this.thyIcon(), ...ngDevMode ? [{
+      debugName: "icon"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.feedback = signal(null, ...ngDevMode ? [{
+      debugName: "feedback"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.feedbackOptions = signal(null, ...ngDevMode ? [{
+      debugName: "feedbackOptions"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.active = computed(() => this.thyActionActive() || this.thyActive(), ...ngDevMode ? [{
+      debugName: "active"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.hostRenderer = useHostRenderer();
+    this.feedbackTimer = null;
+    this.thyType = input("primary", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyType"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
+      transform: (value) => value || "primary"
+    }));
+    this.thyIcon = input("", ...ngDevMode ? [{
+      debugName: "thyIcon"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyActionIcon = input("", ...ngDevMode ? [{
+      debugName: "thyActionIcon"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyActive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyActive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
+      transform: coerceBooleanProperty2
+    }));
+    this.thyActionActive = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyActionActive"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
+      transform: coerceBooleanProperty2
+    }));
+    this.thyTheme = input("fill", ...ngDevMode ? [{
+      debugName: "thyTheme"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyHoverIcon = input(...ngDevMode ? [void 0, {
+      debugName: "thyHoverIcon"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDisabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDisabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
+      transform: coerceBooleanProperty2
+    }));
+    effect(() => {
+      this.updateClasses();
+    });
+  }
+  setMarginRight(marginRight) {
+    this.elementRef.nativeElement.style.marginRight = marginRight;
+  }
+  /**
+   * 触发成功反馈操作
+   */
+  success(options) {
+    this.setFeedback("success", options);
+  }
+  /**
+   * 触发失败反馈操作
+   */
+  error(options) {
+    this.setFeedback("error", options);
+  }
+  setFeedback(feedback, options) {
+    if (this.thyDisabled()) {
+      return;
+    }
+    options = Object.assign({}, defaultFeedbackOptions[feedback], options);
+    this.feedback.set(feedback);
+    this.feedbackOptions.set(options);
+    if (options.duration) {
+      if (this.feedbackTimer) {
+        this.feedbackTimer.unsubscribe();
+      }
+      this.feedbackTimer = timer(options.duration).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+        this.feedback.set(null);
+        this.feedbackOptions.set(null);
+      });
+    }
+  }
+  wrapSpanForText(nodes) {
+    nodes.forEach((node) => {
+      if (node.nodeName === "#text") {
+        const span = this.renderer.createElement("span");
+        const parent = this.renderer.parentNode(node);
+        this.renderer.insertBefore(parent, span, node);
+        this.renderer.appendChild(span, node);
+      }
+    });
+  }
+  updateClasses() {
+    const classNames = [];
+    classNames.push(`action-${this.thyType()}`);
+    if (this.thyTheme() === "lite") {
+      classNames.push("thy-action-lite");
+    }
+    this.hostRenderer.updateClass(classNames);
+  }
+  ngOnDestroy() {
+    this.feedbackTimer?.unsubscribe();
+  }
+  static {
+    this.\u0275fac = function ThyAction_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ThyAction)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+      type: _ThyAction,
+      selectors: [["thy-action"], ["", "thyAction", ""]],
+      hostAttrs: [1, "thy-action"],
+      hostVars: 8,
+      hostBindings: function ThyAction_HostBindings(rf, ctx) {
+        if (rf & 2) {
+          \u0275\u0275classProp("active", ctx.active())("thy-action-hover-icon", ctx.thyHoverIcon())("thy-action-has-feedback", !!ctx.feedback())("disabled", ctx.thyDisabled());
+        }
+      },
+      inputs: {
+        thyType: [1, "thyType"],
+        thyIcon: [1, "thyIcon"],
+        thyActionIcon: [1, "thyActionIcon"],
+        thyActive: [1, "thyActive"],
+        thyActionActive: [1, "thyActionActive"],
+        thyTheme: [1, "thyTheme"],
+        thyHoverIcon: [1, "thyHoverIcon"],
+        thyDisabled: [1, "thyDisabled"]
+      },
+      ngContentSelectors: _c015,
+      decls: 4,
+      vars: 3,
+      consts: [[3, "thyIconName"], [3, "class", "thyIconName"], [1, "hover-icon", 3, "thyIconName"]],
+      template: function ThyAction_Template(rf, ctx) {
+        if (rf & 1) {
+          \u0275\u0275projectionDef();
+          \u0275\u0275conditionalCreate(0, ThyAction_Conditional_0_Template, 1, 1, "thy-icon", 0);
+          \u0275\u0275conditionalCreate(1, ThyAction_Conditional_1_Template, 1, 3, "thy-icon", 1);
+          \u0275\u0275conditionalCreate(2, ThyAction_Conditional_2_Template, 1, 1, "thy-icon", 2);
+          \u0275\u0275projection(3);
+        }
+        if (rf & 2) {
+          let tmp_1_0;
+          \u0275\u0275conditional(ctx.icon() && !ctx.feedback() ? 0 : -1);
+          \u0275\u0275advance();
+          \u0275\u0275conditional(((tmp_1_0 = ctx.feedbackOptions()) == null ? null : tmp_1_0.icon) ? 1 : -1);
+          \u0275\u0275advance();
+          \u0275\u0275conditional(ctx.thyHoverIcon() ? 2 : -1);
+        }
+      },
+      dependencies: [ThyIcon],
+      encapsulation: 2,
+      changeDetection: 0
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThyAction, [{
+    type: Component,
+    args: [{
+      selector: "thy-action, [thyAction]",
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        class: "thy-action",
+        "[class.active]": "active()",
+        "[class.thy-action-hover-icon]": "thyHoverIcon()",
+        "[class.thy-action-has-feedback]": "!!feedback()",
+        "[class.disabled]": "thyDisabled()"
+      },
+      imports: [ThyIcon],
+      template: '@if (icon() && !feedback()) {\n  <thy-icon [thyIconName]="icon()"></thy-icon>\n}\n@if (feedbackOptions()?.icon) {\n  <thy-icon [class]="feedbackOptions()?.class" [thyIconName]="feedbackOptions()?.icon"></thy-icon>\n}\n@if (thyHoverIcon()) {\n  <thy-icon class="hover-icon" [thyIconName]="thyHoverIcon()"></thy-icon>\n}\n<ng-content></ng-content>\n'
+    }]
+  }], () => [], {
+    thyType: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyType",
+        required: false
+      }]
+    }],
+    thyIcon: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyIcon",
+        required: false
+      }]
+    }],
+    thyActionIcon: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyActionIcon",
+        required: false
+      }]
+    }],
+    thyActive: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyActive",
+        required: false
+      }]
+    }],
+    thyActionActive: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyActionActive",
+        required: false
+      }]
+    }],
+    thyTheme: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyTheme",
+        required: false
+      }]
+    }],
+    thyHoverIcon: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyHoverIcon",
+        required: false
+      }]
+    }],
+    thyDisabled: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thyDisabled",
+        required: false
+      }]
+    }]
+  });
+})();
+var ThyActions = class _ThyActions {
+  constructor() {
+    this.actions = contentChildren(ThyAction, ...ngDevMode ? [{
+      debugName: "actions"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thySize = input("md", ...ngDevMode ? [{
+      debugName: "thySize"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    effect(() => {
+      this.setActionsSize();
+    });
+  }
+  ngOnInit() {
+  }
+  setActionsSize() {
+    const actions = Array.from(this.actions());
+    actions.forEach((action, index2) => {
+      if (index2 !== actions.length - 1) {
+        action.setMarginRight(`${getNumericSize(this.thySize(), "md")}px`);
+      }
+    });
+  }
+  static {
+    this.\u0275fac = function ThyActions_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ThyActions)();
+    };
+  }
+  static {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
+      type: _ThyActions,
+      selectors: [["thy-actions"]],
+      contentQueries: function ThyActions_ContentQueries(rf, ctx, dirIndex) {
+        if (rf & 1) {
+          \u0275\u0275contentQuerySignal(dirIndex, ctx.actions, ThyAction, 4);
+        }
+        if (rf & 2) {
+          \u0275\u0275queryAdvance();
+        }
+      },
+      hostAttrs: [1, "thy-actions"],
+      inputs: {
+        thySize: [1, "thySize"]
+      },
+      ngContentSelectors: _c015,
+      decls: 1,
+      vars: 0,
+      template: function ThyActions_Template(rf, ctx) {
+        if (rf & 1) {
+          \u0275\u0275projectionDef();
+          \u0275\u0275projection(0);
+        }
+      },
+      encapsulation: 2,
+      changeDetection: 0
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThyActions, [{
+    type: Component,
+    args: [{
+      selector: "thy-actions",
+      template: ` <ng-content></ng-content> `,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+      host: {
+        class: "thy-actions"
+      }
+    }]
+  }], () => [], {
+    actions: [{
+      type: ContentChildren,
+      args: [forwardRef(() => ThyAction), {
+        isSignal: true
+      }]
+    }],
+    thySize: [{
+      type: Input,
+      args: [{
+        isSignal: true,
+        alias: "thySize",
+        required: false
+      }]
+    }]
+  });
+})();
+var ThyActionModule = class _ThyActionModule {
+  static {
+    this.\u0275fac = function ThyActionModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ThyActionModule)();
+    };
+  }
+  static {
+    this.\u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+      type: _ThyActionModule,
+      imports: [CommonModule, ThyIconModule, ThyAction, ThyActions],
+      exports: [ThyAction, ThyActions]
+    });
+  }
+  static {
+    this.\u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({
+      imports: [CommonModule, ThyIconModule, ThyAction]
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThyActionModule, [{
+    type: NgModule,
+    args: [{
+      imports: [CommonModule, ThyIconModule, ThyAction, ThyActions],
+      exports: [ThyAction, ThyActions]
+    }]
+  }], null, null);
+})();
+
 // node_modules/ngx-tethys/fesm2022/ngx-tethys-notify.mjs
-var _c015 = (a0) => ({
+var _c016 = (a0) => ({
   "thy-notify-content--extend": a0
 });
 var _c17 = () => ({});
@@ -38044,7 +40962,7 @@ function ThyNotify_Conditional_2_Conditional_7_Conditional_1_Conditional_1_ng_co
 }
 function ThyNotify_Conditional_2_Conditional_7_Conditional_1_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275template(0, ThyNotify_Conditional_2_Conditional_7_Conditional_1_Conditional_1_ng_container_0_Template, 1, 0, "ng-container", 11);
+    \u0275\u0275template(0, ThyNotify_Conditional_2_Conditional_7_Conditional_1_Conditional_1_ng_container_0_Template, 1, 0, "ng-container", 12);
   }
   if (rf & 2) {
     \u0275\u0275nextContext(4);
@@ -38064,7 +40982,7 @@ function ThyNotify_Conditional_2_Conditional_7_Conditional_1_Template(rf, ctx) {
 function ThyNotify_Conditional_2_Conditional_7_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "a", 12);
+    \u0275\u0275elementStart(0, "a", 13);
     \u0275\u0275listener("click", function ThyNotify_Conditional_2_Conditional_7_Conditional_2_Template_a_click_0_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -38083,24 +41001,25 @@ function ThyNotify_Conditional_2_Conditional_7_Conditional_2_Template(rf, ctx) {
 function ThyNotify_Conditional_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 9);
+    \u0275\u0275elementStart(0, "div", 10);
     \u0275\u0275listener("click", function ThyNotify_Conditional_2_Conditional_7_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r5);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.extendContent());
     });
     \u0275\u0275conditionalCreate(1, ThyNotify_Conditional_2_Conditional_7_Conditional_1_Template, 2, 1);
-    \u0275\u0275conditionalCreate(2, ThyNotify_Conditional_2_Conditional_7_Conditional_2_Template, 2, 1, "a", 10);
+    \u0275\u0275conditionalCreate(2, ThyNotify_Conditional_2_Conditional_7_Conditional_2_Template, 2, 1, "a", 11);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
+    let tmp_5_0;
     const ctx_r1 = \u0275\u0275nextContext(2);
     const notifyConfig_r3 = \u0275\u0275readContextLet(0);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c015, ctx_r1.extendContentClass()));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c016, ctx_r1.extendContentClass()));
     \u0275\u0275advance();
     \u0275\u0275conditional((notifyConfig_r3 == null ? null : notifyConfig_r3.content) ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional((notifyConfig_r3 == null ? null : notifyConfig_r3.detail) ? 2 : -1);
+    \u0275\u0275conditional((notifyConfig_r3 == null ? null : notifyConfig_r3.detail) && !((tmp_5_0 = ctx_r1.actions()) == null ? null : tmp_5_0.length) ? 2 : -1);
   }
 }
 function ThyNotify_Conditional_2_Conditional_8_Template(rf, ctx) {
@@ -38114,6 +41033,36 @@ function ThyNotify_Conditional_2_Conditional_8_Template(rf, ctx) {
     const notifyConfig_r3 = \u0275\u0275readContextLet(0);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate((notifyConfig_r3 == null ? null : notifyConfig_r3.detail)["content"]);
+  }
+}
+function ThyNotify_Conditional_2_Conditional_9_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r7 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "a", 15);
+    \u0275\u0275listener("click", function ThyNotify_Conditional_2_Conditional_9_For_2_Template_a_click_0_listener() {
+      const action_r8 = \u0275\u0275restoreView(_r7).$implicit;
+      return \u0275\u0275resetView(action_r8 == null ? null : action_r8.onClick());
+    });
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const action_r8 = ctx.$implicit;
+    \u0275\u0275property("thyIcon", action_r8 == null ? null : action_r8.icon);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", action_r8 == null ? null : action_r8.text, " ");
+  }
+}
+function ThyNotify_Conditional_2_Conditional_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 9);
+    \u0275\u0275repeaterCreate(1, ThyNotify_Conditional_2_Conditional_9_For_2_Template, 2, 2, "a", 14, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r1.actions());
   }
 }
 function ThyNotify_Conditional_2_Template(rf, ctx) {
@@ -38135,9 +41084,11 @@ function ThyNotify_Conditional_2_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(7, ThyNotify_Conditional_2_Conditional_7_Template, 3, 5, "div", 7);
     \u0275\u0275conditionalCreate(8, ThyNotify_Conditional_2_Conditional_8_Template, 2, 1, "div", 8);
+    \u0275\u0275conditionalCreate(9, ThyNotify_Conditional_2_Conditional_9_Template, 3, 0, "div", 9);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
+    let tmp_6_0;
     const ctx_r1 = \u0275\u0275nextContext();
     const notifyConfig_r3 = \u0275\u0275readContextLet(0);
     \u0275\u0275advance(3);
@@ -38148,6 +41099,8 @@ function ThyNotify_Conditional_2_Template(rf, ctx) {
     \u0275\u0275conditional((notifyConfig_r3 == null ? null : notifyConfig_r3.detail) || (notifyConfig_r3 == null ? null : notifyConfig_r3.content) ? 7 : -1);
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.isShowDetail() ? 8 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(((tmp_6_0 = ctx_r1.actions()) == null ? null : tmp_6_0.length) > 0 ? 9 : -1);
   }
 }
 var _forTrack02 = ($index, $item) => $item.id;
@@ -38207,22 +41160,34 @@ var ThyNotifyQueue = class _ThyNotifyQueue extends ThyAbstractMessageQueue {
       return this.queues().filter((item) => item.config.placement === "topLeft");
     }, ...ngDevMode ? [{
       debugName: "topLeftQueues"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.topRightQueues = computed(() => {
       return this.queues().filter((item) => item.config.placement === "topRight");
     }, ...ngDevMode ? [{
       debugName: "topRightQueues"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.bottomLeftQueues = computed(() => {
       return this.queues().filter((item) => item.config.placement === "bottomLeft");
     }, ...ngDevMode ? [{
       debugName: "bottomLeftQueues"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.bottomRightQueues = computed(() => {
       return this.queues().filter((item) => item.config.placement === "bottomRight");
     }, ...ngDevMode ? [{
       debugName: "bottomRightQueues"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   static {
     this.\u0275fac = function ThyNotifyQueue_Factory(__ngFactoryType__) {
@@ -38250,20 +41215,38 @@ var ThyNotify = class _ThyNotify extends ThyAbstractMessageComponent {
     super();
     this.extendContentClass = signal(false, ...ngDevMode ? [{
       debugName: "extendContentClass"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isShowDetail = signal(false, ...ngDevMode ? [{
       debugName: "isShowDetail"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.contentIsString = computed(() => isString(this.config()?.content), ...ngDevMode ? [{
       debugName: "contentIsString"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.queue = inject(ThyNotifyQueue);
     this.placement = computed(() => {
       const config2 = this.config();
       return config2?.placement || "topRight";
     }, ...ngDevMode ? [{
       debugName: "placement"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.actions = computed(() => this.config()?.actions || [], ...ngDevMode ? [{
+      debugName: "actions"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       const placement = this.placement();
       if (placement === "topLeft" || placement === "bottomLeft") {
@@ -38300,26 +41283,27 @@ var ThyNotify = class _ThyNotify extends ThyAbstractMessageComponent {
       hostVars: 3,
       hostBindings: function ThyNotify_HostBindings(rf, ctx) {
         if (rf & 2) {
+          let tmp_1_0;
           \u0275\u0275syntheticHostProperty("@flyInOut", ctx.animationState);
-          \u0275\u0275classMap("thy-notify thy-notify-" + ctx.config().type);
+          \u0275\u0275classMap("thy-notify thy-notify-" + ((tmp_1_0 = ctx.config()) == null ? null : tmp_1_0.type));
         }
       },
       features: [\u0275\u0275InheritDefinitionFeature],
       decls: 3,
       vars: 2,
-      consts: [["href", "javascript:;", 1, "thy-notify-close", 3, "click"], ["thyIconName", "close"], [1, "thy-notify-main"], [3, "ngTemplateOutlet"], [1, "thy-notify-icon-container"], [3, "thyIconName"], [1, "thy-notify-title"], [1, "thy-notify-content", 3, "ngClass"], [1, "thy-notify-detail"], [1, "thy-notify-content", 3, "click", "ngClass"], ["href", "javascript:;", 1, "link-secondary"], [4, "thyViewOutlet", "thyViewOutletContext"], ["href", "javascript:;", 1, "link-secondary", 3, "click"]],
+      consts: [["href", "javascript:;", 1, "thy-notify-close", 3, "click"], ["thyIconName", "close"], [1, "thy-notify-main"], [3, "ngTemplateOutlet"], [1, "thy-notify-icon-container"], [3, "thyIconName"], [1, "thy-notify-title"], [1, "thy-notify-content", 3, "ngClass"], [1, "thy-notify-detail"], [1, "thy-notify-actions", "ml-n2"], [1, "thy-notify-content", 3, "click", "ngClass"], ["href", "javascript:;", 1, "link-secondary"], [4, "thyViewOutlet", "thyViewOutletContext"], ["href", "javascript:;", 1, "link-secondary", 3, "click"], ["href", "javascript:;", "thyAction", "", "thyTheme", "lite", 3, "thyIcon"], ["href", "javascript:;", "thyAction", "", "thyTheme", "lite", 3, "click", "thyIcon"]],
       template: function ThyNotify_Template(rf, ctx) {
         if (rf & 1) {
           \u0275\u0275declareLet(0);
-          \u0275\u0275conditionalCreate(1, ThyNotify_Conditional_1_Template, 4, 1)(2, ThyNotify_Conditional_2_Template, 9, 4);
+          \u0275\u0275conditionalCreate(1, ThyNotify_Conditional_1_Template, 4, 1)(2, ThyNotify_Conditional_2_Template, 10, 5);
         }
         if (rf & 2) {
-          const notifyConfig_r7 = \u0275\u0275storeLet(ctx.config());
+          const notifyConfig_r9 = \u0275\u0275storeLet(ctx.config());
           \u0275\u0275advance();
-          \u0275\u0275conditional((notifyConfig_r7 == null ? null : notifyConfig_r7.html) ? 1 : 2);
+          \u0275\u0275conditional((notifyConfig_r9 == null ? null : notifyConfig_r9.html) ? 1 : 2);
         }
       },
-      dependencies: [ThyIcon, NgClass, ThyViewOutletDirective, NgTemplateOutlet],
+      dependencies: [ThyIcon, NgClass, ThyViewOutletDirective, NgTemplateOutlet, ThyAction],
       encapsulation: 2,
       data: {
         animation: [trigger("flyInOut", [state("flyInOutRight", style({
@@ -38349,7 +41333,7 @@ var ThyNotify = class _ThyNotify extends ThyAbstractMessageComponent {
     args: [{
       selector: "thy-notify",
       host: {
-        "[class]": "'thy-notify thy-notify-' + config().type"
+        "[class]": "'thy-notify thy-notify-' + config()?.type"
       },
       animations: [trigger("flyInOut", [state("flyInOutRight", style({
         transform: "translateX(0)",
@@ -38368,7 +41352,7 @@ var ThyNotify = class _ThyNotify extends ThyAbstractMessageComponent {
         opacity: 0,
         height: "*"
       }), animate(ANIMATION_IN_DURATION)]), transition("flyInOutLeft => componentHide", [animate(ANIMATION_OUT_DURATION, style(HIDE_STYLE))]), state("componentHide", style(HIDE_STYLE))])],
-      imports: [ThyIcon, NgClass, ThyViewOutletDirective, NgTemplateOutlet],
+      imports: [ThyIcon, NgClass, ThyViewOutletDirective, NgTemplateOutlet, ThyAction],
       template: `@let notifyConfig = config();
 
 @if (notifyConfig?.html) {
@@ -38396,13 +41380,23 @@ var ThyNotify = class _ThyNotify extends ThyAbstractMessageComponent {
             <ng-container *thyViewOutlet="notifyConfig?.content; context: notifyConfig?.contentInitialState || {}"></ng-container>
           }
         }
-        @if (notifyConfig?.detail) {
+        @if (notifyConfig?.detail && !actions()?.length) {
           <a href="javascript:;" class="link-secondary" (click)="triggerDetail()">{{ (notifyConfig?.detail)['link'] }}</a>
         }
       </div>
     }
     @if (isShowDetail()) {
       <div class="thy-notify-detail">{{ (notifyConfig?.detail)['content'] }}</div>
+    }
+
+    @if (actions()?.length > 0) {
+      <div class="thy-notify-actions ml-n2">
+        @for (action of actions(); track $index) {
+          <a href="javascript:;" thyAction thyTheme="lite" [thyIcon]="action?.icon" (click)="action?.onClick()">
+            {{ action?.text }}
+          </a>
+        }
+      </div>
     }
   </div>
 }
@@ -38667,21 +41661,32 @@ function ThyDivider_Conditional_1_Template(rf, ctx) {
 var ThyDivider = class _ThyDivider {
   constructor() {
     this.hostRenderer = useHostRenderer();
-    this.thyVertical = input(false, ...ngDevMode ? [{
-      debugName: "thyVertical",
+    this.thyVertical = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyVertical"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyStyle = input("solid", ...ngDevMode ? [{
       debugName: "thyStyle"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyColor = input("default", ...ngDevMode ? [{
       debugName: "thyColor"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyText = input(...ngDevMode ? [void 0, {
       debugName: "thyText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.templateContent = computed(() => {
       const text = this.thyText();
       if (text instanceof TemplateRef) {
@@ -38689,7 +41694,10 @@ var ThyDivider = class _ThyDivider {
       }
     }, ...ngDevMode ? [{
       debugName: "templateContent"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.textContent = computed(() => {
       const text = this.thyText();
       if (typeof text === "string") {
@@ -38697,16 +41705,24 @@ var ThyDivider = class _ThyDivider {
       }
     }, ...ngDevMode ? [{
       debugName: "textContent"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTextDirection = input("center", ...ngDevMode ? [{
       debugName: "thyTextDirection"
-    }] : []);
-    this.thyDeeper = input(false, ...ngDevMode ? [{
-      debugName: "thyDeeper",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyDeeper = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyDeeper"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     effect(() => {
       this.setColor();
     });
@@ -38874,7 +41890,7 @@ var ThyDividerModule = class _ThyDividerModule {
 })();
 
 // node_modules/ngx-tethys/fesm2022/ngx-tethys-input.mjs
-var _c016 = ["append"];
+var _c017 = ["append"];
 var _c18 = ["prepend"];
 function ThyInput_Conditional_0_2_ng_template_0_Template(rf, ctx) {
 }
@@ -39130,7 +42146,10 @@ var ThyInputDirective = class _ThyInputDirective {
     this.hostRenderer = useHostRenderer();
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       const size = this.thySize();
       if (size && inputGroupSizeMap$1[size]) {
@@ -39198,70 +42217,112 @@ var ThyInput = class _ThyInput {
     this.elementRef = inject(ElementRef);
     this.placeholder = input("", ...ngDevMode ? [{
       debugName: "placeholder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
-    this.thyAutofocus = input(false, ...ngDevMode ? [{
-      debugName: "thyAutofocus",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyAutofocus = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAutofocus"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyType = input(...ngDevMode ? [void 0, {
       debugName: "thyType"
-    }] : []);
-    this._type = input(void 0, ...ngDevMode ? [{
-      debugName: "_type",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this._type = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "_type"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "type"
-    }] : [{
-      alias: "type"
-    }]);
+    }));
     this.thyLabelText = input(...ngDevMode ? [void 0, {
       debugName: "thyLabelText"
-    }] : []);
-    this.readonly = input(false, ...ngDevMode ? [{
-      debugName: "readonly",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.readonly = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "readonly"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.focus = output();
     this.blur = output();
     this.appendTemplate = contentChild("append", ...ngDevMode ? [{
       debugName: "appendTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.prependTemplate = contentChild("prepend", ...ngDevMode ? [{
       debugName: "prependTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.type = signal(void 0, ...ngDevMode ? [{
       debugName: "type"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.value = signal("", ...ngDevMode ? [{
       debugName: "value"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showLabel = signal(false, ...ngDevMode ? [{
       debugName: "showLabel"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.focused = signal(false, ...ngDevMode ? [{
       debugName: "focused"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabled = signal(false, ...ngDevMode ? [{
       debugName: "disabled"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.onTouchedCallback = noop$1;
     this.onChangeCallback = noop$1;
     this.isPasswordType = signal(false, ...ngDevMode ? [{
       debugName: "isPasswordType"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.type.set(this.thyType() || this._type());
     });
-  }
-  ngOnInit() {
-    this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+    afterNextRender(() => {
       this.isPasswordType.set(this.isPassword(this.type()));
     });
+  }
+  ngOnInit() {
   }
   writeValue(value) {
     this.value.set(value);
@@ -39309,7 +42370,7 @@ var ThyInput = class _ThyInput {
       selectors: [["thy-input"]],
       contentQueries: function ThyInput_ContentQueries(rf, ctx, dirIndex) {
         if (rf & 1) {
-          \u0275\u0275contentQuerySignal(dirIndex, ctx.appendTemplate, _c016, 5)(dirIndex, ctx.prependTemplate, _c18, 5);
+          \u0275\u0275contentQuerySignal(dirIndex, ctx.appendTemplate, _c017, 5)(dirIndex, ctx.prependTemplate, _c18, 5);
         }
         if (rf & 2) {
           \u0275\u0275queryAdvance(2);
@@ -39493,25 +42554,46 @@ var ThyInputGroup = class _ThyInputGroup {
     this.destroyRef = inject(DestroyRef);
     this.isTextareaSuffix = signal(false, ...ngDevMode ? [{
       debugName: "isTextareaSuffix"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hasScrollbar = signal(false, ...ngDevMode ? [{
       debugName: "hasScrollbar"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabled = signal(false, ...ngDevMode ? [{
       debugName: "disabled"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyAppendText = input(...ngDevMode ? [void 0, {
       debugName: "thyAppendText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyAppendTextTranslateKey = input(...ngDevMode ? [void 0, {
       debugName: "thyAppendTextTranslateKey"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPrependText = input(...ngDevMode ? [void 0, {
       debugName: "thyPrependText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPrependTextTranslateKey = input(...ngDevMode ? [void 0, {
       debugName: "thyPrependTextTranslateKey"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.prependText = computed(() => {
       const prependTextTranslateKey = this.thyPrependTextTranslateKey();
       if (prependTextTranslateKey) {
@@ -39520,7 +42602,10 @@ var ThyInputGroup = class _ThyInputGroup {
       return this.thyPrependText();
     }, ...ngDevMode ? [{
       debugName: "prependText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.appendText = computed(() => {
       const appendTextTranslateKey = this.thyAppendTextTranslateKey();
       if (appendTextTranslateKey) {
@@ -39529,25 +42614,46 @@ var ThyInputGroup = class _ThyInputGroup {
       return this.thyAppendText();
     }, ...ngDevMode ? [{
       debugName: "appendText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.appendTemplate = contentChild("append", ...ngDevMode ? [{
       debugName: "appendTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.prependTemplate = contentChild("prepend", ...ngDevMode ? [{
       debugName: "prependTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.prefixTemplate = contentChild("prefix", ...ngDevMode ? [{
       debugName: "prefixTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.suffixTemplate = contentChild("suffix", ...ngDevMode ? [{
       debugName: "suffixTemplate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.inputDirective = contentChild(ThyInputDirective, ...ngDevMode ? [{
       debugName: "inputDirective"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabledObservable = null;
     effect(() => {
       const size = this.thySize();
@@ -39632,7 +42738,7 @@ var ThyInputGroup = class _ThyInputGroup {
       selectors: [["thy-input-group"]],
       contentQueries: function ThyInputGroup_ContentQueries(rf, ctx, dirIndex) {
         if (rf & 1) {
-          \u0275\u0275contentQuerySignal(dirIndex, ctx.appendTemplate, _c016, 5)(dirIndex, ctx.prependTemplate, _c18, 5)(dirIndex, ctx.prefixTemplate, _c25, 5)(dirIndex, ctx.suffixTemplate, _c34, 5)(dirIndex, ctx.inputDirective, ThyInputDirective, 5);
+          \u0275\u0275contentQuerySignal(dirIndex, ctx.appendTemplate, _c017, 5)(dirIndex, ctx.prependTemplate, _c18, 5)(dirIndex, ctx.prefixTemplate, _c25, 5)(dirIndex, ctx.suffixTemplate, _c34, 5)(dirIndex, ctx.inputDirective, ThyInputDirective, 5);
         }
         if (rf & 2) {
           \u0275\u0275queryAdvance(5);
@@ -39794,41 +42900,64 @@ var ThyInputSearch = class _ThyInputSearch extends _MixinBase2 {
     this.hostFocusControl = useHostFocusControl();
     this.disabled = signal(false, ...ngDevMode ? [{
       debugName: "disabled"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.searchText = signal("", ...ngDevMode ? [{
       debugName: "searchText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.focused = signal(false, ...ngDevMode ? [{
       debugName: "focused"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.name = input("", ...ngDevMode ? [{
       debugName: "name"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.placeholder = input("", ...ngDevMode ? [{
       debugName: "placeholder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTheme = input(...ngDevMode ? [void 0, {
       debugName: "thyTheme"
-    }] : []);
-    this.autoFocus = input(false, ...ngDevMode ? [{
-      debugName: "autoFocus",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.autoFocus = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "autoFocus"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thySearchFocus",
       transform: coerceBooleanProperty2
-    }] : [{
-      alias: "thySearchFocus",
-      transform: coerceBooleanProperty2
-    }]);
-    this.iconPosition = input("before", ...ngDevMode ? [{
-      debugName: "iconPosition",
+    }));
+    this.iconPosition = input("before", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "iconPosition"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       alias: "thyIconPosition",
       transform: (value) => value || "before"
-    }] : [{
-      alias: "thyIconPosition",
-      transform: (value) => value || "before"
-    }]);
+    }));
     this.thySize = input(...ngDevMode ? [void 0, {
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.clear = output();
     this.thyClear = output();
     effect(() => {
@@ -40087,13 +43216,22 @@ var ThyInputCount = class _ThyInputCount {
     this.hasInput = false;
     this.thyInput = input(...ngDevMode ? [void 0, {
       debugName: "thyInput"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.maxLength = signal(null, ...ngDevMode ? [{
       debugName: "maxLength"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.inputLength = signal(0, ...ngDevMode ? [{
       debugName: "inputLength"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyInput$ = new Subject();
     this.setup();
     effect(() => {
@@ -40431,7 +43569,7 @@ function ThyInnerTimePicker_Conditional_30_Template(rf, ctx) {
     \u0275\u0275domElement(0, "td");
   }
 }
-var _c017 = ["hourListElement"];
+var _c018 = ["hourListElement"];
 var _c19 = ["minuteListElement"];
 var _c26 = ["secondListElement"];
 function ThyTimePanel_Conditional_1_For_3_Template(rf, ctx) {
@@ -40643,7 +43781,18 @@ function ThyTimePicker_ng_template_6_Template(rf, ctx) {
 function ThyTimePicker_ng_template_8_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 11, 3)(2, "thy-time-picker-panel", 12);
+    \u0275\u0275elementStart(0, "div", 11, 3);
+    \u0275\u0275animateLeave(function ThyTimePicker_ng_template_8_Template_animateleave_cb() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.animateLeaveClass());
+    });
+    \u0275\u0275animateEnter(function ThyTimePicker_ng_template_8_Template_animateenter_cb() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.animateEnterClass());
+    });
+    \u0275\u0275elementStart(2, "thy-time-picker-panel", 12);
     \u0275\u0275twoWayListener("ngModelChange", function ThyTimePicker_ng_template_8_Template_thy_time_picker_panel_ngModelChange_2_listener($event) {
       \u0275\u0275restoreView(_r4);
       const ctx_r2 = \u0275\u0275nextContext();
@@ -40667,7 +43816,6 @@ function ThyTimePicker_ng_template_8_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("@scaleXMotion", ctx_r2.thyPlacement() === "left" || ctx_r2.thyPlacement() === "right" ? "enter" : "void")("@scaleYMotion", ctx_r2.thyPlacement() === "top" || ctx_r2.thyPlacement() === "bottom" ? "enter" : "void")("@scaleMotion", ctx_r2.thyPlacement() !== "left" && ctx_r2.thyPlacement() !== "right" && ctx_r2.thyPlacement() !== "top" && ctx_r2.thyPlacement() !== "bottom" ? "enter" : "void");
     \u0275\u0275advance(2);
     \u0275\u0275property("ngClass", ctx_r2.thyPopupClass());
     \u0275\u0275twoWayProperty("ngModel", ctx_r2.value);
@@ -41136,65 +44284,125 @@ var ThyInnerTimePicker = class _ThyInnerTimePicker {
     this._config = inject(TimePickerConfig);
     this.hourStep = input(this._config.hourStep, ...ngDevMode ? [{
       debugName: "hourStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.minuteStep = input(this._config.minuteStep, ...ngDevMode ? [{
       debugName: "minuteStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.secondsStep = input(this._config.secondsStep, ...ngDevMode ? [{
       debugName: "secondsStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.readonlyInput = input(this._config.readonlyInput, ...ngDevMode ? [{
       debugName: "readonlyInput"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabled = model(this._config.disabled, ...ngDevMode ? [{
       debugName: "disabled"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.mousewheel = input(this._config.mousewheel, ...ngDevMode ? [{
       debugName: "mousewheel"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.arrowKeys = input(this._config.arrowKeys, ...ngDevMode ? [{
       debugName: "arrowKeys"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showSpinners = input(this._config.showSpinners, ...ngDevMode ? [{
       debugName: "showSpinners"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showMeridian = input(this._config.showMeridian, ...ngDevMode ? [{
       debugName: "showMeridian"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showMinutes = input(this._config.showMinutes, ...ngDevMode ? [{
       debugName: "showMinutes"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showSeconds = input(this._config.showSeconds, ...ngDevMode ? [{
       debugName: "showSeconds"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.meridians = input(this._config.meridians, ...ngDevMode ? [{
       debugName: "meridians"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.min = input(this._config.min, ...ngDevMode ? [{
       debugName: "min"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.max = input(this._config.max, ...ngDevMode ? [{
       debugName: "max"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hoursPlaceholder = input(this._config.hoursPlaceholder, ...ngDevMode ? [{
       debugName: "hoursPlaceholder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.minutesPlaceholder = input(this._config.minutesPlaceholder, ...ngDevMode ? [{
       debugName: "minutesPlaceholder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.secondsPlaceholder = input(this._config.secondsPlaceholder, ...ngDevMode ? [{
       debugName: "secondsPlaceholder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.timeZone = input(...ngDevMode ? [void 0, {
       debugName: "timeZone"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isValid = output();
     this.isEditable = computed(() => !(this.readonlyInput() || this.disabled()), ...ngDevMode ? [{
       debugName: "isEditable"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isPM = computed(() => this.showMeridian() && this.meridian === this.meridians()[1], ...ngDevMode ? [{
       debugName: "isPM"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.invalidHours = false;
     this.invalidMinutes = false;
     this.invalidSeconds = false;
@@ -41834,37 +45042,62 @@ var ThyTimePanel = class _ThyTimePanel {
     this.locale = injectLocale("timePicker");
     this.hourListRef = viewChild("hourListElement", ...ngDevMode ? [{
       debugName: "hourListRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.minuteListRef = viewChild("minuteListElement", ...ngDevMode ? [{
       debugName: "minuteListRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.secondListRef = viewChild("secondListElement", ...ngDevMode ? [{
       debugName: "secondListRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyFormat = input("HH:mm:ss", ...ngDevMode ? [{
       debugName: "thyFormat"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyHourStep = input(1, ...ngDevMode ? [{
       debugName: "thyHourStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyMinuteStep = input(1, ...ngDevMode ? [{
       debugName: "thyMinuteStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySecondStep = input(1, ...ngDevMode ? [{
       debugName: "thySecondStep"
-    }] : []);
-    this.thyShowSelectNow = input(true, ...ngDevMode ? [{
-      debugName: "thyShowSelectNow",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyShowSelectNow = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowSelectNow"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyShowOperations = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowOperations"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyShowOperations = input(true, ...ngDevMode ? [{
-      debugName: "thyShowOperations",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyPickChange = output();
     this.thyClosePanel = output();
     this.SCROLL_OFFSET_SPACING = 5;
@@ -41874,32 +45107,41 @@ var ThyTimePanel = class _ThyTimePanel {
     this.minuteRange = [];
     this.secondRange = [];
     this.showHourColumn = computed(() => {
-      const format4 = this.thyFormat();
-      if (format4) {
-        return new Set(format4).has("H") || new Set(format4).has("h");
+      const format3 = this.thyFormat();
+      if (format3) {
+        return new Set(format3).has("H") || new Set(format3).has("h");
       }
       return true;
     }, ...ngDevMode ? [{
       debugName: "showHourColumn"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showMinuteColumn = computed(() => {
-      const format4 = this.thyFormat();
-      if (format4) {
-        return new Set(format4).has("m");
+      const format3 = this.thyFormat();
+      if (format3) {
+        return new Set(format3).has("m");
       }
       return true;
     }, ...ngDevMode ? [{
       debugName: "showMinuteColumn"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showSecondColumn = computed(() => {
-      const format4 = this.thyFormat();
-      if (format4) {
-        return new Set(format4).has("s");
+      const format3 = this.thyFormat();
+      if (format3) {
+        return new Set(format3).has("s");
       }
       return true;
     }, ...ngDevMode ? [{
       debugName: "showSecondColumn"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showColumnCount = computed(() => {
       const showHour = this.showHourColumn();
       const showMinute = this.showMinuteColumn();
@@ -41907,7 +45149,10 @@ var ThyTimePanel = class _ThyTimePanel {
       return [showHour, showMinute, showSecond].filter((m) => m).length || 3;
     }, ...ngDevMode ? [{
       debugName: "showColumnCount"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.onValueChangeFn = () => void 0;
     this.onTouchedFn = () => void 0;
   }
@@ -42053,7 +45298,7 @@ var ThyTimePanel = class _ThyTimePanel {
       selectors: [["thy-time-picker-panel"]],
       viewQuery: function ThyTimePanel_Query(rf, ctx) {
         if (rf & 1) {
-          \u0275\u0275viewQuerySignal(ctx.hourListRef, _c017, 5)(ctx.minuteListRef, _c19, 5)(ctx.secondListRef, _c26, 5);
+          \u0275\u0275viewQuerySignal(ctx.hourListRef, _c018, 5)(ctx.minuteListRef, _c19, 5)(ctx.secondListRef, _c26, 5);
         }
         if (rf & 2) {
           \u0275\u0275queryAdvance(3);
@@ -42266,78 +45511,154 @@ var ThyTimePicker = class _ThyTimePicker {
     this.locale = injectLocale("timePicker");
     this.cdkConnectedOverlay = viewChild(CdkConnectedOverlay, ...ngDevMode ? [{
       debugName: "cdkConnectedOverlay"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.origin = viewChild("origin", ...ngDevMode ? [{
       debugName: "origin"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.inputRef = viewChild("pickerInput", ...ngDevMode ? [{
       debugName: "inputRef"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.overlayContainer = viewChild.required("overlayContainer");
     this.thySize = input("default", ...ngDevMode ? [{
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPlaceholder = input(this.locale().placeholder, ...ngDevMode ? [{
       debugName: "thyPlaceholder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPlacement = input("bottomLeft", ...ngDevMode ? [{
       debugName: "thyPlacement"
-    }] : []);
-    this.thyFormat = input("HH:mm:ss", ...ngDevMode ? [{
-      debugName: "thyFormat",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyFormat = input("HH:mm:ss", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyFormat"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => value || "HH:mm:ss"
-    }] : [{
-      transform: (value) => value || "HH:mm:ss"
-    }]);
+    }));
     this.thyHourStep = input(1, ...ngDevMode ? [{
       debugName: "thyHourStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyMinuteStep = input(1, ...ngDevMode ? [{
       debugName: "thyMinuteStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySecondStep = input(1, ...ngDevMode ? [{
       debugName: "thySecondStep"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPopupClass = input(...ngDevMode ? [void 0, {
       debugName: "thyPopupClass"
-    }] : []);
-    this.thyBackdrop = input(false, ...ngDevMode ? [{
-      debugName: "thyBackdrop",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyBackdrop = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyBackdrop"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyDisabled = model(false, ...ngDevMode ? [{
       debugName: "thyDisabled"
-    }] : []);
-    this.thyReadonly = input(false, ...ngDevMode ? [{
-      debugName: "thyReadonly",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyReadonly = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyReadonly"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyShowSelectNow = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowSelectNow"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyShowSelectNow = input(true, ...ngDevMode ? [{
-      debugName: "thyShowSelectNow",
+    }));
+    this.thyAllowClear = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAllowClear"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyAllowClear = input(true, ...ngDevMode ? [{
-      debugName: "thyAllowClear",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyOpenChange = output();
     this.prefixCls = "thy-time-picker";
     this.overlayPositions = getFlexiblePositions(this.thyPlacement(), 4);
     this.showText = model("", ...ngDevMode ? [{
       debugName: "showText"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.value = new TinyDate().setHms(0, 0, 0).nativeDate;
     this.isDisabledFirstChange = true;
     this.onValueChangeFn = () => void 0;
     this.onTouchedFn = () => void 0;
+    this.animateEnterClass = computed(() => {
+      const placement = this.thyPlacement();
+      if (placement === "top" || placement === "bottom") {
+        return thyAnimationZoom.yEnter;
+      } else if (placement === "left" || placement === "right") {
+        return thyAnimationZoom.xEnter;
+      } else {
+        return thyAnimationZoom.enter;
+      }
+    }, ...ngDevMode ? [{
+      debugName: "animateEnterClass"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.animateLeaveClass = computed(() => {
+      const placement = this.thyPlacement();
+      if (placement === "top" || placement === "bottom") {
+        return thyAnimationZoom.yLeave;
+      } else if (placement === "left" || placement === "right") {
+        return thyAnimationZoom.xLeave;
+      } else {
+        return thyAnimationZoom.leave;
+      }
+    }, ...ngDevMode ? [{
+      debugName: "animateLeaveClass"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       if (this.thyFormat() && this.value && isValid2(this.value)) {
         this.showText.set(new TinyDate(this.value).format(this.thyFormat()));
@@ -42619,7 +45940,7 @@ var ThyTimePicker = class _ThyTimePicker {
           \u0275\u0275template(5, ThyTimePicker_ng_container_5_Template, 1, 0, "ng-container", 6);
           \u0275\u0275elementContainerEnd();
           \u0275\u0275elementEnd();
-          \u0275\u0275template(6, ThyTimePicker_ng_template_6_Template, 3, 7, "ng-template", null, 2, \u0275\u0275templateRefExtractor)(8, ThyTimePicker_ng_template_8_Template, 3, 10, "ng-template", 7);
+          \u0275\u0275template(6, ThyTimePicker_ng_template_6_Template, 3, 7, "ng-template", null, 2, \u0275\u0275templateRefExtractor)(8, ThyTimePicker_ng_template_8_Template, 3, 7, "ng-template", 7);
           \u0275\u0275listener("positionChange", function ThyTimePicker_Template_ng_template_positionChange_8_listener($event) {
             \u0275\u0275restoreView(_r1);
             return \u0275\u0275resetView(ctx.onPositionChange($event));
@@ -42654,9 +45975,6 @@ var ThyTimePicker = class _ThyTimePicker {
       },
       dependencies: [CdkOverlayOrigin, ThyInputDirective, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, NgTemplateOutlet, ThyIcon, NgClass, CdkConnectedOverlay, ThyTimePanel],
       encapsulation: 2,
-      data: {
-        animation: [scaleXMotion, scaleYMotion, scaleMotion]
-      },
       changeDetection: 0
     });
   }
@@ -42678,7 +45996,6 @@ var ThyTimePicker = class _ThyTimePicker {
         "[class.thy-time-picker-readonly]": `thyReadonly()`
       },
       imports: [CdkOverlayOrigin, ThyInputDirective, FormsModule, NgTemplateOutlet, ThyIcon, NgClass, CdkConnectedOverlay, ThyTimePanel],
-      animations: [scaleXMotion, scaleYMotion, scaleMotion],
       template: `<span cdkOverlayOrigin #origin="cdkOverlayOrigin" (click)="onInputPickerClick()" class="{{ prefixCls }}-wrapper">
   <ng-container>
     <input
@@ -42732,11 +46049,8 @@ var ThyTimePicker = class _ThyTimePicker {
   <div
     #overlayContainer
     style="position: relative"
-    [@scaleXMotion]="thyPlacement() === 'left' || thyPlacement() === 'right' ? 'enter' : 'void'"
-    [@scaleYMotion]="thyPlacement() === 'top' || thyPlacement() === 'bottom' ? 'enter' : 'void'"
-    [@scaleMotion]="
-      thyPlacement() !== 'left' && thyPlacement() !== 'right' && thyPlacement() !== 'top' && thyPlacement() !== 'bottom' ? 'enter' : 'void'
-    "
+    [animate.enter]="animateEnterClass()"
+    [animate.leave]="animateLeaveClass()"
     class="thy-time-picker-container">
     <!-- Compatible for overlay that not support offset dynamically and immediately -->
     <thy-time-picker-panel
@@ -43045,7 +46359,7 @@ function CalendarFooter_Conditional_2_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r2.locale().clear);
   }
 }
-var _c018 = (a0, a1) => ({
+var _c019 = (a0, a1) => ({
   title: a0,
   type: "year",
   selectableData: a1
@@ -44203,13 +47517,20 @@ function ThyPicker_ng_template_6_Template(rf, ctx) {
 }
 function ThyPicker_ng_template_8_Template(rf, ctx) {
   if (rf & 1) {
+    const _r4 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div", 11, 3);
+    \u0275\u0275animateLeave(function ThyPicker_ng_template_8_Template_animateleave_cb() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.animateLeaveClass());
+    });
+    \u0275\u0275animateEnter(function ThyPicker_ng_template_8_Template_animateenter_cb() {
+      \u0275\u0275restoreView(_r4);
+      const ctx_r2 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r2.animateEnterClass());
+    });
     \u0275\u0275projection(2);
     \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("@scaleXMotion", ctx_r2.placement() === "left" || ctx_r2.placement() === "right" ? "enter" : "void")("@scaleYMotion", ctx_r2.placement() === "top" || ctx_r2.placement() === "bottom" ? "enter" : "void")("@scaleMotion", ctx_r2.placement() !== "left" && ctx_r2.placement() !== "right" && ctx_r2.placement() !== "top" && ctx_r2.placement() !== "bottom" ? "enter" : "void");
   }
 }
 var _c132 = ["thyPicker"];
@@ -44472,41 +47793,52 @@ var DateHelperByDatePipe = class extends DateHelperService {
   format(date, formatStr) {
     return date ? formatDate(date, formatStr, this.locale().id) : "";
   }
-  transCompatFormat(format4) {
-    return format4 && format4.replace(/Y/g, "y").replace(/D/g, "d");
+  transCompatFormat(format3) {
+    return format3 && format3.replace(/Y/g, "y").replace(/D/g, "d");
   }
 };
 var CalendarHeader = class _CalendarHeader {
   constructor() {
     this.dateHelper = inject(DateHelperService);
     this.locale = injectLocale("datePicker");
-    this.showSuperPreBtn = input(true, ...ngDevMode ? [{
-      debugName: "showSuperPreBtn",
+    this.showSuperPreBtn = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showSuperPreBtn"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.showSuperNextBtn = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showSuperNextBtn"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.showSuperNextBtn = input(true, ...ngDevMode ? [{
-      debugName: "showSuperNextBtn",
+    }));
+    this.showPreBtn = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showPreBtn"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.showNextBtn = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showNextBtn"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.showPreBtn = input(true, ...ngDevMode ? [{
-      debugName: "showPreBtn",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.showNextBtn = input(true, ...ngDevMode ? [{
-      debugName: "showNextBtn",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.value = model(...ngDevMode ? [void 0, {
       debugName: "value"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.valueChange = output();
     this.panelModeChange = output();
     this.prefixCls = "thy-calendar";
@@ -44556,9 +47888,9 @@ var CalendarHeader = class _CalendarHeader {
       this.valueChange.emit(value);
     }
   }
-  formatDateTime(format4) {
+  formatDateTime(format3) {
     const date = this.value().nativeDate;
-    return this.dateHelper.format(date, format4);
+    return this.dateHelper.format(date, format3);
   }
   static {
     this.\u0275fac = function CalendarHeader_Factory(__ngFactoryType__) {
@@ -44779,40 +48111,58 @@ var MonthHeader = class _MonthHeader extends CalendarHeader {
 })();
 var CalendarFooter = class _CalendarFooter {
   constructor() {
-    this.showTime = input(false, ...ngDevMode ? [{
-      debugName: "showTime",
+    this.showTime = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showTime"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.mustShowTime = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "mustShowTime"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.mustShowTime = input(false, ...ngDevMode ? [{
-      debugName: "mustShowTime",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.value = model(...ngDevMode ? [void 0, {
       debugName: "value"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.timeZone = input(...ngDevMode ? [void 0, {
       debugName: "timeZone"
-    }] : []);
-    this.disableTimeConfirm = input(false, ...ngDevMode ? [{
-      debugName: "disableTimeConfirm",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.disableTimeConfirm = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "disableTimeConfirm"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.selectTime = output();
     this.clickOk = output();
     this.clickRemove = output();
     this.showTimePickerChange = output();
     this.isShowTime = signal(false, ...ngDevMode ? [{
       debugName: "isShowTime"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isCanTime = signal(false, ...ngDevMode ? [{
       debugName: "isCanTime"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.locale = injectLocale("datePicker");
     effect(() => {
       this.initTimeShowMode();
@@ -45292,8 +48642,8 @@ function parseStringDate(dateStr, timeZone) {
 }
 function hasTimeInStringDate2(dateStr, timeZone) {
   const formatDate2 = fixStringDate(dateStr, timeZone);
-  const timeRegex = /(\d{1,2}:\d{1,2}(:\d{1,2})?)|(^\d{1,2}时\d{1,2}分(\d{1,2}秒)?)$/;
-  return timeRegex.test(formatDate2);
+  const timeRegex2 = /(\d{1,2}:\d{1,2}(:\d{1,2})?)|(^\d{1,2}时\d{1,2}分(\d{1,2}秒)?)$/;
+  return timeRegex2.test(formatDate2);
 }
 function fixStringDate(dateStr, timeZone) {
   let replacedStr = dateStr.replace(/[^0-9\s.,:]/g, "-").replace("- ", " ");
@@ -45469,7 +48819,10 @@ var DateCarousel = class _DateCarousel {
     this.locale = injectLocale("datePicker");
     this.activeDate = input(...ngDevMode ? [void 0, {
       debugName: "activeDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.selectableData = {};
     this.selectedValue = [];
     this.initialized = false;
@@ -45829,7 +49182,7 @@ var DateCarousel = class _DateCarousel {
         }
         if (rf & 2) {
           const carouselItem_r8 = \u0275\u0275reference(4);
-          \u0275\u0275property("ngTemplateOutlet", carouselItem_r8)("ngTemplateOutletContext", \u0275\u0275pureFunction2(6, _c018, ctx.locale().yearText, ctx.selectableData.year));
+          \u0275\u0275property("ngTemplateOutlet", carouselItem_r8)("ngTemplateOutletContext", \u0275\u0275pureFunction2(6, _c019, ctx.locale().yearText, ctx.selectableData.year));
           \u0275\u0275advance();
           \u0275\u0275property("ngTemplateOutlet", carouselItem_r8)("ngTemplateOutletContext", \u0275\u0275pureFunction2(9, _c110, ctx.locale().quarterText, ctx.selectableData.quarter));
           \u0275\u0275advance();
@@ -46073,34 +49426,60 @@ var CalendarTable = class _CalendarTable {
     this.MAX_COL = 7;
     this.prefixCls = input("thy-calendar", ...ngDevMode ? [{
       debugName: "prefixCls"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.value = model(...ngDevMode ? [void 0, {
       debugName: "value"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.activeDate = model(new TinyDate(), ...ngDevMode ? [{
       debugName: "activeDate"
-    }] : []);
-    this.showWeek = input(false, ...ngDevMode ? [{
-      debugName: "showWeek",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.showWeek = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showWeek"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.selectedValue = input([], ...ngDevMode ? [{
       debugName: "selectedValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hoverValue = input([], ...ngDevMode ? [{
       debugName: "hoverValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.timeZone = input(...ngDevMode ? [void 0, {
       debugName: "timeZone"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabledDate = input(...ngDevMode ? [void 0, {
       debugName: "disabledDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.cellRender = input(...ngDevMode ? [void 0, {
       debugName: "cellRender"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.valueChange = output();
     this.cellHover = output();
   }
@@ -46275,10 +49654,16 @@ var DateTableCell = class _DateTableCell {
     this.isTemplateRef = isTemplateRef;
     this.prefixCls = input(...ngDevMode ? [void 0, {
       debugName: "prefixCls"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.cell = input(...ngDevMode ? [void 0, {
       debugName: "cell"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isNonEmptyString = (v) => isEmpty(v) && isString(v);
     this.functionRenderResult = computed(() => {
       const renderFn = this.cellRender();
@@ -46289,12 +49674,18 @@ var DateTableCell = class _DateTableCell {
       return !isUndefinedOrNull(result);
     }, ...ngDevMode ? [{
       debugName: "functionRenderResult"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.cellRender = computed(() => {
       return this.cell()?.dateCellRender || this.datePickerConfigService.config?.dateCellRender;
     }, ...ngDevMode ? [{
       debugName: "cellRender"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   cellClick(event) {
     event.stopPropagation();
@@ -46664,10 +50055,16 @@ var DecadeHeader = class _DecadeHeader extends CalendarHeader {
     super(...arguments);
     this.startYear = computed(() => parseInt(`${this.value().getYear() / 100}`, 10) * 100, ...ngDevMode ? [{
       debugName: "startYear"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.endYear = computed(() => this.startYear() + 99, ...ngDevMode ? [{
       debugName: "endYear"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   superPrevious() {
     const newValue = this.value().addYears(-100);
@@ -46821,10 +50218,16 @@ var DecadeTable = class _DecadeTable extends CalendarTable {
     this.MAX_COL = 3;
     this.startYear = computed(() => parseInt(`${this.activeDate().getYear() / 100}`, 10) * 100, ...ngDevMode ? [{
       debugName: "startYear"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.endYear = computed(() => this.startYear() + 99, ...ngDevMode ? [{
       debugName: "endYear"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   chooseDecade(startYear) {
     const newValue = (this.value() || new TinyDate()).setYear(startYear);
@@ -47223,10 +50626,16 @@ var YearHeader = class _YearHeader extends CalendarHeader {
     super(...arguments);
     this.startYear = computed(() => parseInt(`${this.value().getYear() / 10}`, 10) * 10, ...ngDevMode ? [{
       debugName: "startYear"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.endYear = computed(() => this.startYear() + 9, ...ngDevMode ? [{
       debugName: "endYear"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   superPrevious() {
     const newValue = this.value().addYears(-10);
@@ -47523,70 +50932,103 @@ var InnerPopup = class _InnerPopup {
   constructor() {
     this.dateHelper = inject(DateHelperService);
     this.locale = injectLocale("datePicker");
-    this.showWeek = input(false, ...ngDevMode ? [{
-      debugName: "showWeek",
+    this.showWeek = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showWeek"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.isRange = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "isRange"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.isRange = input(false, ...ngDevMode ? [{
-      debugName: "isRange",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.activeDate = model.required(...ngDevMode ? [{
       debugName: "activeDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.rangeActiveDate = input(...ngDevMode ? [void 0, {
       debugName: "rangeActiveDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabledDate = input(...ngDevMode ? [void 0, {
       debugName: "disabledDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.dateRender = input(...ngDevMode ? [void 0, {
       debugName: "dateRender"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.selectedValue = input(...ngDevMode ? [void 0, {
       debugName: "selectedValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hoverValue = input(...ngDevMode ? [void 0, {
       debugName: "hoverValue"
-    }] : []);
-    this.panelMode = input(null, ...ngDevMode ? [{
-      debugName: "panelMode",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.panelMode = input(null, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "panelMode"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         if (value === "time") {
           return "date";
         }
         return value;
       }
-    }] : [{
-      transform: (value) => {
-        if (value === "time") {
-          return "date";
-        }
-        return value;
-      }
-    }]);
+    }));
     this.timeZone = input(...ngDevMode ? [void 0, {
       debugName: "timeZone"
-    }] : []);
-    this.showDateRangeInput = input(false, ...ngDevMode ? [{
-      debugName: "showDateRangeInput",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.showDateRangeInput = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showDateRangeInput"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.partType = input(...ngDevMode ? [void 0, {
       debugName: "partType"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.endPanelMode = input(...ngDevMode ? [void 0, {
       debugName: "endPanelMode"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.value = model(...ngDevMode ? [void 0, {
       debugName: "value"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.panelModeChange = output();
     this.headerChange = output();
     this.selectDate = output();
@@ -48018,84 +51460,142 @@ var DatePopup = class _DatePopup {
     this.cdr = inject(ChangeDetectorRef);
     this.datePickerConfigService = inject(ThyDatePickerConfigService);
     this.locale = injectLocale("datePicker");
-    this.isRange = input(false, ...ngDevMode ? [{
-      debugName: "isRange",
+    this.isRange = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "isRange"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.showWeek = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showWeek"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.showWeek = input(false, ...ngDevMode ? [{
-      debugName: "showWeek",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.format = input(...ngDevMode ? [void 0, {
       debugName: "format"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabledDate = model(...ngDevMode ? [void 0, {
       debugName: "disabledDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.minDate = input(...ngDevMode ? [void 0, {
       debugName: "minDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.maxDate = input(...ngDevMode ? [void 0, {
       debugName: "maxDate"
-    }] : []);
-    this.showToday = input(false, ...ngDevMode ? [{
-      debugName: "showToday",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.showToday = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "showToday"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.showTime = input(...ngDevMode ? [void 0, {
       debugName: "showTime"
-    }] : []);
-    this.mustShowTime = input(false, ...ngDevMode ? [{
-      debugName: "mustShowTime",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.mustShowTime = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "mustShowTime"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.dateRender = input(...ngDevMode ? [void 0, {
       debugName: "dateRender"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.className = input(...ngDevMode ? [void 0, {
       debugName: "className"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.panelMode = model(...ngDevMode ? [void 0, {
       debugName: "panelMode"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.value = model(...ngDevMode ? [void 0, {
       debugName: "value"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.defaultPickerValue = input(...ngDevMode ? [void 0, {
       debugName: "defaultPickerValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.showShortcut = model(...ngDevMode ? [void 0, {
       debugName: "showShortcut"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.shortcutPresets = model(...ngDevMode ? [void 0, {
       debugName: "shortcutPresets"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.shortcutPosition = input(...ngDevMode ? [void 0, {
       debugName: "shortcutPosition"
-    }] : []);
-    this.flexible = input(false, ...ngDevMode ? [{
-      debugName: "flexible",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.flexible = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "flexible"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.flexibleDateGranularity = model(...ngDevMode ? [void 0, {
       debugName: "flexibleDateGranularity"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.timestampPrecision = input(...ngDevMode ? [void 0, {
       debugName: "timestampPrecision"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.timeZone = input(...ngDevMode ? [void 0, {
       debugName: "timeZone"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.panelModeChange = output();
     this.calendarChange = output();
     this.valueChange = output();
@@ -48113,10 +51613,16 @@ var DatePopup = class _DatePopup {
     };
     this.endPanelMode = signal(void 0, ...ngDevMode ? [{
       debugName: "endPanelMode"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disableTimeConfirm = signal(false, ...ngDevMode ? [{
       debugName: "disableTimeConfirm"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
   }
   setProperty(key, value) {
     this[key] = value;
@@ -49007,105 +52513,197 @@ var ThyPicker = class _ThyPicker {
     this.changeDetector = inject(ChangeDetectorRef);
     this.dateHelper = inject(DateHelperService);
     this.i18n = inject(ThyI18nService);
-    this.isRange = input(false, ...ngDevMode ? [{
-      debugName: "isRange",
+    this.isRange = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "isRange"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.opened = input(void 0, ...ngDevMode ? [{
       debugName: "opened"
-    }] : []);
-    this.disabled = input(false, ...ngDevMode ? [{
-      debugName: "disabled",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.disabled = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "disabled"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.placeholder = input(...ngDevMode ? [void 0, {
       debugName: "placeholder"
-    }] : []);
-    this.readonly = input(false, ...ngDevMode ? [{
-      debugName: "readonly",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.readonly = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "readonly"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.allowClear = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "allowClear"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.allowClear = input(false, ...ngDevMode ? [{
-      debugName: "allowClear",
+    }));
+    this.autoFocus = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "autoFocus"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.autoFocus = input(false, ...ngDevMode ? [{
-      debugName: "autoFocus",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.className = input(...ngDevMode ? [void 0, {
       debugName: "className"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.size = input(...ngDevMode ? [void 0, {
       debugName: "size"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.suffixIcon = input(...ngDevMode ? [void 0, {
       debugName: "suffixIcon"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.placement = input("bottomLeft", ...ngDevMode ? [{
       debugName: "placement"
-    }] : []);
-    this.flexible = input(false, ...ngDevMode ? [{
-      debugName: "flexible",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.flexible = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "flexible"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.mode = input(...ngDevMode ? [void 0, {
       debugName: "mode"
-    }] : []);
-    this.hasBackdrop = input(false, ...ngDevMode ? [{
-      debugName: "hasBackdrop",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.hasBackdrop = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "hasBackdrop"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.separator = input(...ngDevMode ? [void 0, {
       debugName: "separator"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.timeZone = input(...ngDevMode ? [void 0, {
       debugName: "timeZone"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.blur = output();
     this.valueChange = output();
     this.openChange = output();
     this.inputChange = output();
     this.origin = viewChild("origin", ...ngDevMode ? [{
       debugName: "origin"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.cdkConnectedOverlay = viewChild(CdkConnectedOverlay, ...ngDevMode ? [{
       debugName: "cdkConnectedOverlay"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.pickerInput = viewChild("pickerInput", ...ngDevMode ? [{
       debugName: "pickerInput"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.overlayContainer = viewChild("overlayContainer", ...ngDevMode ? [{
       debugName: "overlayContainer"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.format = input(...ngDevMode ? [void 0, {
       debugName: "format"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.flexibleDateGranularity = input(...ngDevMode ? [void 0, {
       debugName: "flexibleDateGranularity"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.value = input(...ngDevMode ? [void 0, {
       debugName: "value"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.entering = false;
     this.prefixCls = "thy-calendar";
     this.isShowDatePopup = false;
     this.overlayOpen = false;
     this.overlayPositions = getFlexiblePositions(this.placement(), 4);
+    this.animateEnterClass = computed(() => {
+      const placement = this.placement();
+      if (placement === "top" || placement === "bottom") {
+        return thyAnimationZoom.yEnter;
+      } else if (placement === "left" || placement === "right") {
+        return thyAnimationZoom.xEnter;
+      } else {
+        return thyAnimationZoom.enter;
+      }
+    }, ...ngDevMode ? [{
+      debugName: "animateEnterClass"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.animateLeaveClass = computed(() => {
+      const placement = this.placement();
+      if (placement === "top" || placement === "bottom") {
+        return thyAnimationZoom.yLeave;
+      } else if (placement === "left" || placement === "right") {
+        return thyAnimationZoom.xLeave;
+      } else {
+        return thyAnimationZoom.leave;
+      }
+    }, ...ngDevMode ? [{
+      debugName: "animateLeaveClass"
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     effect(() => {
       this.innerValue = this.value();
       if (!this.entering) {
@@ -49343,7 +52941,7 @@ var ThyPicker = class _ThyPicker {
           \u0275\u0275template(5, ThyPicker_ng_container_5_Template, 1, 0, "ng-container", 6);
           \u0275\u0275elementContainerEnd();
           \u0275\u0275elementEnd();
-          \u0275\u0275template(6, ThyPicker_ng_template_6_Template, 4, 10, "ng-template", null, 2, \u0275\u0275templateRefExtractor)(8, ThyPicker_ng_template_8_Template, 3, 3, "ng-template", 7);
+          \u0275\u0275template(6, ThyPicker_ng_template_6_Template, 4, 10, "ng-template", null, 2, \u0275\u0275templateRefExtractor)(8, ThyPicker_ng_template_8_Template, 3, 0, "ng-template", 7);
           \u0275\u0275listener("positionChange", function ThyPicker_Template_ng_template_positionChange_8_listener($event) {
             \u0275\u0275restoreView(_r1);
             return \u0275\u0275resetView(ctx.onPositionChange($event));
@@ -49356,24 +52954,21 @@ var ThyPicker = class _ThyPicker {
           });
         }
         if (rf & 2) {
-          const origin_r4 = \u0275\u0275reference(1);
-          const tplRightRest_r5 = \u0275\u0275reference(7);
+          const origin_r5 = \u0275\u0275reference(1);
+          const tplRightRest_r6 = \u0275\u0275reference(7);
           \u0275\u0275classMap(\u0275\u0275interpolate3("", ctx.prefixCls, "-picker ", ctx.size() ? ctx.prefixCls + "-picker-" + ctx.size() : "", " ", ctx.className()));
           \u0275\u0275advance(3);
           \u0275\u0275classMap(\u0275\u0275interpolate2("form-control-", ctx.size(), " form-control ", ctx.prefixCls, "-picker-input"));
           \u0275\u0275classProp("thy-input-disabled", ctx.disabled())("thy-input-readonly", ctx.readonly());
           \u0275\u0275property("placeholder", \u0275\u0275interpolate(ctx.getPlaceholder()))("ngClass", \u0275\u0275pureFunction1(25, _c122, ctx.realOpenState))("thySize", ctx.size())("tabindex", -1)("disabled", ctx.disabled())("readonly", ctx.readonlyState);
           \u0275\u0275advance(2);
-          \u0275\u0275property("ngTemplateOutlet", tplRightRest_r5);
+          \u0275\u0275property("ngTemplateOutlet", tplRightRest_r6);
           \u0275\u0275advance(3);
-          \u0275\u0275property("cdkConnectedOverlayOrigin", origin_r4)("cdkConnectedOverlayOpen", ctx.realOpenState)("cdkConnectedOverlayHasBackdrop", ctx.hasBackdrop())("cdkConnectedOverlayPositions", ctx.overlayPositions);
+          \u0275\u0275property("cdkConnectedOverlayOrigin", origin_r5)("cdkConnectedOverlayOpen", ctx.realOpenState)("cdkConnectedOverlayHasBackdrop", ctx.hasBackdrop())("cdkConnectedOverlayPositions", ctx.overlayPositions);
         }
       },
       dependencies: [CdkOverlayOrigin, ThyInputDirective, ThyEnterDirective, NgTemplateOutlet, ThyIcon, NgClass, CdkConnectedOverlay],
       encapsulation: 2,
-      data: {
-        animation: [scaleXMotion, scaleYMotion, scaleMotion]
-      },
       changeDetection: 0
     });
   }
@@ -49386,7 +52981,6 @@ var ThyPicker = class _ThyPicker {
       exportAs: "thyPicker",
       changeDetection: ChangeDetectionStrategy.OnPush,
       imports: [CdkOverlayOrigin, ThyInputDirective, ThyEnterDirective, NgTemplateOutlet, ThyIcon, NgClass, CdkConnectedOverlay],
-      animations: [scaleXMotion, scaleYMotion, scaleMotion],
       template: `<span
   cdkOverlayOrigin
   #origin="cdkOverlayOrigin"
@@ -49444,11 +53038,8 @@ var ThyPicker = class _ThyPicker {
     #overlayContainer
     style="position: relative"
     class="thy-picker-container"
-    [@scaleXMotion]="placement() === 'left' || placement() === 'right' ? 'enter' : 'void'"
-    [@scaleYMotion]="placement() === 'top' || placement() === 'bottom' ? 'enter' : 'void'"
-    [@scaleMotion]="
-      placement() !== 'left' && placement() !== 'right' && placement() !== 'top' && placement() !== 'bottom' ? 'enter' : 'void'
-    ">
+    [animate.enter]="animateEnterClass()"
+    [animate.leave]="animateLeaveClass()">
     <!-- Compatible for overlay that not support offset dynamically and immediately -->
     <ng-content></ng-content>
   </div>
@@ -49688,122 +53279,197 @@ var AbstractPickerComponent = class _AbstractPickerComponent extends TabIndexDis
     this.thyValue = null;
     this._panelMode = "date";
     this.datePickerConfigService = inject(ThyDatePickerConfigService);
-    this.thyAllowClear = input(true, ...ngDevMode ? [{
-      debugName: "thyAllowClear",
+    this.thyAllowClear = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAllowClear"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
+    }));
+    this.thyAutoFocus = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAutoFocus"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }]);
-    this.thyAutoFocus = input(false, ...ngDevMode ? [{
-      debugName: "thyAutoFocus",
+    }));
+    this.thyOpen = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyOpen"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyOpen = input(void 0, ...ngDevMode ? [{
-      debugName: "thyOpen",
-      transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.opened = linkedSignal(this.thyOpen, ...ngDevMode ? [{
       debugName: "opened"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyDisabledDate = input(...ngDevMode ? [void 0, {
       debugName: "thyDisabledDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyMinDate = input(...ngDevMode ? [void 0, {
       debugName: "thyMinDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyMaxDate = input(...ngDevMode ? [void 0, {
       debugName: "thyMaxDate"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPlaceHolder = input(...ngDevMode ? [void 0, {
       debugName: "thyPlaceHolder"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.placeholder = signal(void 0, ...ngDevMode ? [{
       debugName: "placeholder"
-    }] : []);
-    this.thyReadonly = input(false, ...ngDevMode ? [{
-      debugName: "thyReadonly",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyReadonly = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyReadonly"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyOriginClassName = input(...ngDevMode ? [void 0, {
       debugName: "thyOriginClassName"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyPanelClassName = input(...ngDevMode ? [void 0, {
       debugName: "thyPanelClassName"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySize = input("default", ...ngDevMode ? [{
       debugName: "thySize"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyTimestampPrecision = input(this.datePickerConfigService.config?.timestampPrecision || "seconds", ...ngDevMode ? [{
       debugName: "thyTimestampPrecision"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyFormat = model(...ngDevMode ? [void 0, {
       debugName: "thyFormat"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySeparator = input(this.datePickerConfigService.config?.separator, ...ngDevMode ? [{
       debugName: "thySeparator"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.separator = computed(() => {
       return ` ${this.thySeparator()?.trim()} `;
     }, ...ngDevMode ? [{
       debugName: "separator"
-    }] : []);
-    this.thyAutoStartAndEnd = input(false, ...ngDevMode ? [{
-      debugName: "thyAutoStartAndEnd",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyAutoStartAndEnd = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyAutoStartAndEnd"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.thyDefaultPickerValue = input(null, ...ngDevMode ? [{
       debugName: "thyDefaultPickerValue"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thySuffixIcon = input("calendar", ...ngDevMode ? [{
       debugName: "thySuffixIcon"
-    }] : []);
-    this.thyShowShortcut = input(void 0, ...ngDevMode ? [{
-      debugName: "thyShowShortcut",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyShowShortcut = input(void 0, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowShortcut"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
-    this.thyShortcutPosition = input("left", ...ngDevMode ? [{
-      debugName: "thyShortcutPosition",
+    }));
+    this.thyShortcutPosition = input("left", __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShortcutPosition"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => value || "left"
-    }] : [{
-      transform: (value) => value || "left"
-    }]);
+    }));
     this.thyShortcutPresets = input(...ngDevMode ? [void 0, {
       debugName: "thyShortcutPresets"
-    }] : []);
-    this.thyShowTime = input(false, ...ngDevMode ? [{
-      debugName: "thyShowTime",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyShowTime = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyShowTime"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => typeof value === "object" ? value : coerceBooleanProperty2(value)
-    }] : [{
-      transform: (value) => typeof value === "object" ? value : coerceBooleanProperty2(value)
-    }]);
-    this.thyMustShowTime = input(false, ...ngDevMode ? [{
-      debugName: "thyMustShowTime",
+    }));
+    this.thyMustShowTime = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyMustShowTime"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty2
-    }] : [{
-      transform: coerceBooleanProperty2
-    }]);
+    }));
     this.showWeek = computed(() => this.thyMode === "week", ...ngDevMode ? [{
       debugName: "showWeek"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.flexible = computed(() => this.thyMode === "flexible", ...ngDevMode ? [{
       debugName: "flexible"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyDateChange = output();
     this.thyOpenChange = output();
     this.picker = viewChild.required(ThyPicker);
     this.thyTimeZone = input(...ngDevMode ? [void 0, {
       debugName: "thyTimeZone"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.disabled = false;
     this.isCustomPlaceHolder = false;
     this.onlyEmitDate = false;
@@ -50269,16 +53935,24 @@ var BasePicker = class _BasePicker extends AbstractPickerComponent {
     this.thyPicker = viewChild.required("thyPicker");
     this.thyDateRender = input(...ngDevMode ? [void 0, {
       debugName: "thyDateRender"
-    }] : []);
-    this.thyHasBackdrop = input(true, ...ngDevMode ? [{
-      debugName: "thyHasBackdrop",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyHasBackdrop = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyHasBackdrop"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty
-    }] : [{
-      transform: coerceBooleanProperty
-    }]);
+    }));
     this.thyPlacement = input("bottomLeft", ...ngDevMode ? [{
       debugName: "thyPlacement"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyOnPanelChange = output();
     this.thyOnCalendarChange = output();
     this.thyOnOk = output();
@@ -50615,7 +54289,10 @@ var ThyMonthPicker = class _ThyMonthPicker extends BasePicker {
     super();
     this.thyFormat = model("yyyy-MM", ...ngDevMode ? [{
       debugName: "thyFormat"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.hostRenderer = useHostRenderer();
     this.hostRenderer.addClass("thy-calendar-picker");
     this.thyMode = "month";
@@ -50858,7 +54535,10 @@ var ThyYearPicker = class _ThyYearPicker extends BasePicker {
     super();
     this.thyFormat = model("yyyy", ...ngDevMode ? [{
       debugName: "thyFormat"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isRange = false;
     this.endPanelMode = "year";
     this.hostRenderer = useHostRenderer();
@@ -50957,16 +54637,16 @@ var DATE_PICKER_REQUIRED_VALIDATOR = {
 };
 var DatePickerRequiredValidator = class _DatePickerRequiredValidator {
   constructor() {
-    this.required = input(false, ...ngDevMode ? [{
-      debugName: "required",
+    this.required = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "required"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         return value != null && value !== false && `${value}` !== "false";
       }
-    }] : [{
-      transform: (value) => {
-        return value != null && value !== false && `${value}` !== "false";
-      }
-    }]);
+    }));
   }
   validate(control) {
     return this.required() ? this.validateRequired(control) : null;
@@ -51017,16 +54697,16 @@ var RANGE_PICKER_REQUIRED_VALIDATOR = {
 };
 var RangePickerRequiredValidator = class _RangePickerRequiredValidator {
   constructor() {
-    this.required = input(false, ...ngDevMode ? [{
-      debugName: "required",
+    this.required = input(false, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "required"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         return value != null && value !== false && `${value}` !== "false";
       }
-    }] : [{
-      transform: (value) => {
-        return value != null && value !== false && `${value}` !== "false";
-      }
-    }]);
+    }));
   }
   validate(control) {
     return this.required() ? this.validateRequired(control) : null;
@@ -51084,53 +54764,58 @@ var PickerDirective = class _PickerDirective extends AbstractPickerComponent {
     this.thyPopover = inject(ThyPopover);
     this.thyDateRender = input(...ngDevMode ? [void 0, {
       debugName: "thyDateRender"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.thyOnPanelChange = output();
     this.thyOnCalendarChange = output();
     this.thyPlacement = input("bottom", ...ngDevMode ? [{
       debugName: "thyPlacement"
-    }] : []);
-    this.thyOffset = input(4, ...ngDevMode ? [{
-      debugName: "thyOffset",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyOffset = input(4, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyOffset"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         if (typeof ngDevMode === "undefined" || ngDevMode) {
           warnDeprecation(`thyOffset parameter will be deprecated, please use thyPopoverOptions instead.`);
         }
         return numberAttribute(value);
       }
-    }] : [{
-      transform: (value) => {
-        if (typeof ngDevMode === "undefined" || ngDevMode) {
-          warnDeprecation(`thyOffset parameter will be deprecated, please use thyPopoverOptions instead.`);
-        }
-        return numberAttribute(value);
-      }
-    }]);
-    this.thyHasBackdrop = input(true, ...ngDevMode ? [{
-      debugName: "thyHasBackdrop",
-      transform: (value) => {
-        if (typeof ngDevMode === "undefined" || ngDevMode) {
-          warnDeprecation(`thyOffset parameter will be deprecated, please use thyPopoverOptions instead.`);
-        }
-        return coerceBooleanProperty(value);
-      }
-    }] : [{
+    }));
+    this.thyHasBackdrop = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyHasBackdrop"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: (value) => {
         if (typeof ngDevMode === "undefined" || ngDevMode) {
           warnDeprecation(`thyOffset parameter will be deprecated, please use thyPopoverOptions instead.`);
         }
         return coerceBooleanProperty(value);
       }
-    }]);
+    }));
     this.thyPopoverOptions = input(...ngDevMode ? [void 0, {
       debugName: "thyPopoverOptions"
-    }] : []);
-    this.thyStopPropagation = input(true, ...ngDevMode ? [{
-      debugName: "thyStopPropagation",
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
+    this.thyStopPropagation = input(true, __spreadProps(__spreadValues({}, ngDevMode ? {
+      debugName: "thyStopPropagation"
+    } : (
+      /* istanbul ignore next */
+      {}
+    )), {
       transform: coerceBooleanProperty
-    }] : [{
-      transform: coerceBooleanProperty
-    }]);
+    }));
     this.el = this.elementRef.nativeElement;
     this.$click = fromEvent(this.el, "click").pipe(tap((e) => {
       if (this.thyStopPropagation()) {
@@ -51411,7 +55096,10 @@ var ThyQuarterPicker = class _ThyQuarterPicker extends BasePicker {
     super();
     this.thyFormat = model(`yyyy-${QUARTER_FORMAT}`, ...ngDevMode ? [{
       debugName: "thyFormat"
-    }] : []);
+    }] : (
+      /* istanbul ignore next */
+      []
+    ));
     this.isRange = false;
     this.endPanelMode = "quarter";
     this.hostRenderer = useHostRenderer();
@@ -51567,7 +55255,7 @@ var NgxGanttPlaceholderComponent = class _NgxGanttPlaceholderComponent extends G
 })();
 
 // packages/gantt/src/components/baseline/baseline.component.ts
-var _c019 = (a0, a1) => ({ item: a0, refs: a1 });
+var _c020 = (a0, a1) => ({ item: a0, refs: a1 });
 function NgxGanttBaselineComponent_Conditional_0_ng_template_2_Template(rf, ctx) {
 }
 function NgxGanttBaselineComponent_Conditional_0_Template(rf, ctx) {
@@ -51579,7 +55267,7 @@ function NgxGanttBaselineComponent_Conditional_0_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext();
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.template())("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c019, ctx_r0.baselineItem().origin, ctx_r0.baselineItem().refs));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.template())("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c020, ctx_r0.baselineItem().origin, ctx_r0.baselineItem().refs));
   }
 }
 var NgxGanttBaselineComponent = class _NgxGanttBaselineComponent {
@@ -51792,7 +55480,7 @@ var GanttCalendarGridComponent = class _GanttCalendarGridComponent {
 })();
 
 // packages/gantt/src/components/calendar/header/calendar-header.component.ts
-var _c020 = (a0, a1, a2) => ({ fill: a0, fontSize: a1, fontWeight: a2 });
+var _c021 = (a0, a1, a2) => ({ fill: a0, fontSize: a1, fontWeight: a2 });
 var _forTrack04 = ($index, $item) => $item.rect.x;
 function GanttCalendarHeaderComponent_For_5_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
@@ -51818,7 +55506,7 @@ function GanttCalendarHeaderComponent_For_5_Template(rf, ctx) {
     \u0275\u0275conditional(tick_r1.rect.background ? 0 : -1);
     \u0275\u0275advance();
     \u0275\u0275classProp("today", tick_r1.metadata == null ? null : tick_r1.metadata.isToday)("weekend", tick_r1.metadata == null ? null : tick_r1.metadata.isWeekend);
-    \u0275\u0275property("ngStyle", \u0275\u0275pureFunction3(9, _c020, tick_r1.label.style == null ? null : tick_r1.label.style.color, tick_r1.label.style == null ? null : tick_r1.label.style.fontSize, tick_r1.label.style == null ? null : tick_r1.label.style.fontWeight));
+    \u0275\u0275property("ngStyle", \u0275\u0275pureFunction3(9, _c021, tick_r1.label.style == null ? null : tick_r1.label.style.color, tick_r1.label.style == null ? null : tick_r1.label.style.fontSize, tick_r1.label.style == null ? null : tick_r1.label.style.fontWeight));
     \u0275\u0275attribute("x", tick_r1.label.x)("y", tick_r1.label.y);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", tick_r1.label.text, " ");
@@ -52129,7 +55817,7 @@ var GanttSyncScrollYDirective = class _GanttSyncScrollYDirective {
 })();
 
 // packages/gantt/src/components/scrollbar/scrollbar.component.ts
-var _c021 = (a0) => ({ "gantt-scrollbar-bg": a0 });
+var _c022 = (a0) => ({ "gantt-scrollbar-bg": a0 });
 var GanttScrollbarComponent = class _GanttScrollbarComponent {
   constructor() {
     this.ganttUpper = inject(GANTT_UPPER_TOKEN);
@@ -52159,7 +55847,7 @@ var GanttScrollbarComponent = class _GanttScrollbarComponent {
         let tmp_4_0;
         let tmp_6_0;
         \u0275\u0275styleProp("height", ((tmp_0_0 = ctx.ganttRoot()) == null ? null : tmp_0_0.horizontalScrollbarHeight) + 1, "px")("right", (tmp_1_0 = ctx.ganttRoot()) == null ? null : tmp_1_0.verticalScrollbarWidth, "px");
-        \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(13, _c021, ctx.hasFooter()));
+        \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(13, _c022, ctx.hasFooter()));
         \u0275\u0275advance();
         \u0275\u0275styleProp("width", ctx.tableWidth(), "px");
         \u0275\u0275classProp("with-scrollbar", (tmp_4_0 = ctx.ganttRoot()) == null ? null : tmp_4_0.horizontalScrollbarHeight);
@@ -53115,9 +56803,9 @@ var GanttIconComponent = class _GanttIconComponent {
 })();
 
 // packages/gantt/src/components/main/gantt-main.component.ts
-var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_0_Defer_2_DepsFn = () => [import("./range.component-QDZTU724.js").then((m) => m.NgxGanttRangeComponent)];
-var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_2_Defer_2_DepsFn = () => [import("./bar.component-SDC43D7U.js").then((m) => m.NgxGanttBarComponent)];
-var _c022 = (a0) => ({ group: a0 });
+var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_0_Defer_2_DepsFn = () => [import("./range.component-R2P4RDS4.js").then((m) => m.NgxGanttRangeComponent)];
+var GanttMainComponent_For_3_Conditional_2_Conditional_3_Conditional_2_Defer_2_DepsFn = () => [import("./bar.component-5VG5QGOS.js").then((m) => m.NgxGanttBarComponent)];
+var _c023 = (a0) => ({ group: a0 });
 var _c111 = (a0, a1, a2, a3) => ({ item: a0, refs: a1, baseline: a2, baselineRefs: a3 });
 var _c28 = (a0) => ({ "gantt-quick-time-focus-item-hide": a0 });
 function GanttMainComponent_For_3_Conditional_0_ng_template_1_Template(rf, ctx) {
@@ -53133,7 +56821,7 @@ function GanttMainComponent_For_3_Conditional_0_Template(rf, ctx) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275property("ngClass", data_r1.class);
     \u0275\u0275advance();
-    \u0275\u0275property("ngTemplateOutlet", ctx_r1.groupHeaderTemplate())("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c022, data_r1));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r1.groupHeaderTemplate())("ngTemplateOutletContext", \u0275\u0275pureFunction1(3, _c023, data_r1));
   }
 }
 function GanttMainComponent_For_3_Conditional_2_Conditional_1_ng_template_0_Template(rf, ctx) {
@@ -53424,7 +57112,7 @@ var GanttMainComponent = class _GanttMainComponent {
   }
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadataAsync(GanttMainComponent, () => [import("./range.component-QDZTU724.js").then((m) => m.NgxGanttRangeComponent), import("./bar.component-SDC43D7U.js").then((m) => m.NgxGanttBarComponent)], (NgxGanttRangeComponent2, NgxGanttBarComponent2) => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadataAsync(GanttMainComponent, () => [import("./range.component-R2P4RDS4.js").then((m) => m.NgxGanttRangeComponent), import("./bar.component-5VG5QGOS.js").then((m) => m.NgxGanttBarComponent)], (NgxGanttRangeComponent2, NgxGanttBarComponent2) => {
     setClassMetadata(GanttMainComponent, [{
       type: Component,
       args: [{ selector: "gantt-main", imports: [
@@ -53535,7 +57223,7 @@ function setStyleWithVendorPrefix({ element, style: style2, value }) {
 }
 
 // packages/gantt/src/components/table/header/gantt-table-header.component.ts
-var _c023 = ["resizeLine"];
+var _c024 = ["resizeLine"];
 function GanttTableHeaderComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainer(0, 4);
@@ -53715,7 +57403,7 @@ var GanttTableHeaderComponent = class _GanttTableHeaderComponent {
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GanttTableHeaderComponent, selectors: [["gantt-table-header"]], viewQuery: function GanttTableHeaderComponent_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuerySignal(ctx.resizeLineElementRef, _c023, 5);
+        \u0275\u0275viewQuerySignal(ctx.resizeLineElementRef, _c024, 5);
       }
       if (rf & 2) {
         \u0275\u0275queryAdvance();
@@ -53771,7 +57459,7 @@ var GanttTableHeaderComponent = class _GanttTableHeaderComponent {
 })();
 
 // packages/gantt/src/components/table/body/gantt-table-body.component.ts
-var _c024 = (a0, a1) => ({ $implicit: a0, group: a1 });
+var _c025 = (a0, a1) => ({ $implicit: a0, group: a1 });
 var _c112 = (a0, a1) => ({ $implicit: a0, item: a1 });
 function GanttTableBodyComponent_Conditional_1_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
@@ -53804,7 +57492,7 @@ function GanttTableBodyComponent_Conditional_2_For_1_Conditional_0_Conditional_3
   if (rf & 2) {
     const item_r3 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngTemplateOutlet", ctx_r0.groupTemplate())("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c024, item_r3.origin, item_r3.origin));
+    \u0275\u0275property("ngTemplateOutlet", ctx_r0.groupTemplate())("ngTemplateOutletContext", \u0275\u0275pureFunction2(2, _c025, item_r3.origin, item_r3.origin));
   }
 }
 function GanttTableBodyComponent_Conditional_2_For_1_Conditional_0_Conditional_4_Template(rf, ctx) {
@@ -54399,7 +58087,7 @@ var GanttTableBodyComponent = class _GanttTableBodyComponent {
 })();
 
 // packages/gantt/src/root.component.ts
-var _c025 = ["sideTemplate"];
+var _c026 = ["sideTemplate"];
 var _c113 = ["mainTemplate"];
 var _c29 = ["*"];
 function NgxGanttRootComponent_Conditional_0_ng_template_2_Template(rf, ctx) {
@@ -54569,7 +58257,7 @@ var NgxGanttRootComponent = class _NgxGanttRootComponent {
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NgxGanttRootComponent, selectors: [["ngx-gantt-root"]], contentQueries: function NgxGanttRootComponent_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuerySignal(dirIndex, ctx.sideTemplate, _c025, 5)(dirIndex, ctx.mainTemplate, _c113, 5);
+        \u0275\u0275contentQuerySignal(dirIndex, ctx.sideTemplate, _c026, 5)(dirIndex, ctx.mainTemplate, _c113, 5);
       }
       if (rf & 2) {
         \u0275\u0275queryAdvance(2);
@@ -54637,7 +58325,7 @@ var NgxGanttRootComponent = class _NgxGanttRootComponent {
 })();
 
 // packages/gantt/src/table/gantt-column.component.ts
-var _c026 = ["cell"];
+var _c027 = ["cell"];
 var _c114 = ["header"];
 var NgxGanttTableColumnComponent = class _NgxGanttTableColumnComponent {
   constructor() {
@@ -54664,7 +58352,7 @@ var NgxGanttTableColumnComponent = class _NgxGanttTableColumnComponent {
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NgxGanttTableColumnComponent, selectors: [["ngx-gantt-column"]], contentQueries: function NgxGanttTableColumnComponent_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuerySignal(dirIndex, ctx.templateRef, _c026, 5)(dirIndex, ctx.headerTemplateRef, _c114, 5);
+        \u0275\u0275contentQuerySignal(dirIndex, ctx.templateRef, _c027, 5)(dirIndex, ctx.headerTemplateRef, _c114, 5);
       }
       if (rf & 2) {
         \u0275\u0275queryAdvance(2);
@@ -54690,7 +58378,7 @@ var NgxGanttTableColumnComponent = class _NgxGanttTableColumnComponent {
 })();
 
 // packages/gantt/src/table/gantt-table.component.ts
-var _c027 = ["rowBeforeSlot"];
+var _c028 = ["rowBeforeSlot"];
 var _c115 = ["rowAfterSlot"];
 var _c210 = ["tableEmpty"];
 var _c37 = ["tableFooter"];
@@ -54721,7 +58409,7 @@ var NgxGanttTableComponent = class _NgxGanttTableComponent {
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NgxGanttTableComponent, selectors: [["ngx-gantt-table"]], contentQueries: function NgxGanttTableComponent_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuerySignal(dirIndex, ctx.rowBeforeTemplate, _c027, 5)(dirIndex, ctx.rowAfterTemplate, _c115, 5)(dirIndex, ctx.tableEmptyTemplate, _c210, 5)(dirIndex, ctx.tableFooterTemplate, _c37, 5)(dirIndex, ctx.settingsSlot, _c47, 5);
+        \u0275\u0275contentQuerySignal(dirIndex, ctx.rowBeforeTemplate, _c028, 5)(dirIndex, ctx.rowAfterTemplate, _c115, 5)(dirIndex, ctx.tableEmptyTemplate, _c210, 5)(dirIndex, ctx.tableFooterTemplate, _c37, 5)(dirIndex, ctx.settingsSlot, _c47, 5);
       }
       if (rf & 2) {
         \u0275\u0275queryAdvance(5);
@@ -54744,7 +58432,7 @@ var NgxGanttTableComponent = class _NgxGanttTableComponent {
 })();
 
 // packages/gantt/src/gantt.component.ts
-var _c028 = ["footer"];
+var _c029 = ["footer"];
 var _c116 = ["ganttRoot"];
 var _c211 = ["ganttTableBody"];
 var _c38 = (a0, a1, a2) => ({ "gantt-normal-viewport": a0, "gantt-scroll-container": a1, "with-footer": a2 });
@@ -55070,7 +58758,7 @@ var NgxGanttComponent = class _NgxGanttComponent extends GanttUpper {
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NgxGanttComponent, selectors: [["ngx-gantt"]], contentQueries: function NgxGanttComponent_ContentQueries(rf, ctx, dirIndex) {
       if (rf & 1) {
-        \u0275\u0275contentQuerySignal(dirIndex, ctx.table, NgxGanttTableComponent, 5)(dirIndex, ctx.columns, NgxGanttTableColumnComponent, 5)(dirIndex, ctx.footerTemplate, _c028, 5);
+        \u0275\u0275contentQuerySignal(dirIndex, ctx.table, NgxGanttTableComponent, 5)(dirIndex, ctx.columns, NgxGanttTableColumnComponent, 5)(dirIndex, ctx.footerTemplate, _c029, 5);
       }
       if (rf & 2) {
         \u0275\u0275queryAdvance(3);
@@ -55421,7 +59109,7 @@ var NgxGanttModule = class _NgxGanttModule {
 })();
 
 // node_modules/@docgeni/template/fesm2022/docgeni-template.mjs
-var _c029 = ["*"];
+var _c030 = ["*"];
 var _forTrack05 = ($index, $item) => $item.id;
 function TableOfContentsComponent_For_3_Template(rf, ctx) {
   if (rf & 1) {
@@ -56760,7 +60448,7 @@ var DocgeniLabelComponent = class _DocgeniLabelComponent extends DocgeniBuiltInC
       },
       standalone: false,
       features: [\u0275\u0275InheritDefinitionFeature],
-      ngContentSelectors: _c029,
+      ngContentSelectors: _c030,
       decls: 1,
       vars: 0,
       template: function DocgeniLabelComponent_Template(rf, ctx) {
@@ -56832,7 +60520,7 @@ var DocgeniAlertComponent = class _DocgeniAlertComponent extends DocgeniBuiltInC
       },
       standalone: false,
       features: [\u0275\u0275InheritDefinitionFeature],
-      ngContentSelectors: _c029,
+      ngContentSelectors: _c030,
       decls: 1,
       vars: 0,
       template: function DocgeniAlertComponent_Template(rf, ctx) {
@@ -57759,7 +61447,7 @@ var IconComponent = class _IconComponent {
         iconName: "iconName"
       },
       standalone: false,
-      ngContentSelectors: _c029,
+      ngContentSelectors: _c030,
       decls: 1,
       vars: 0,
       template: function IconComponent_Template(rf, ctx) {
@@ -57867,7 +61555,7 @@ var LabelComponent = class _LabelComponent {
         labelType: "labelType"
       },
       standalone: false,
-      ngContentSelectors: _c029,
+      ngContentSelectors: _c030,
       decls: 1,
       vars: 0,
       template: function LabelComponent_Template(rf, ctx) {
@@ -58857,7 +62545,7 @@ var FooterComponent = class _FooterComponent {
         }
       },
       standalone: false,
-      ngContentSelectors: _c029,
+      ngContentSelectors: _c030,
       decls: 1,
       vars: 0,
       template: function FooterComponent_Template(rf, ctx) {
@@ -59392,7 +63080,7 @@ var CopyComponent = class _CopyComponent {
         dgCopy: [1, "dgCopy"]
       },
       standalone: false,
-      ngContentSelectors: _c029,
+      ngContentSelectors: _c030,
       decls: 2,
       vars: 1,
       consts: [[1, "color-primary", 3, "iconName"]],
@@ -61796,8 +65484,8 @@ function randomGroupsAndItems(length) {
 
 // example/src/app/pipes/date-format.pipe.ts
 var GanttDateFormatPipe = class _GanttDateFormatPipe {
-  transform(value, format4) {
-    return new GanttDate(value).format(format4);
+  transform(value, format3) {
+    return new GanttDate(value).format(format3);
   }
   static {
     this.\u0275fac = function GanttDateFormatPipe_Factory(__ngFactoryType__) {
@@ -61818,7 +65506,7 @@ var GanttDateFormatPipe = class _GanttDateFormatPipe {
 })();
 
 // example/src/app/gantt/gantt.component.ts
-var _c030 = ["gantt"];
+var _c031 = ["gantt"];
 function AppGanttExampleComponent_ng_template_2_Conditional_18_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
@@ -62152,7 +65840,7 @@ var AppGanttExampleComponent = class _AppGanttExampleComponent {
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppGanttExampleComponent, selectors: [["app-gantt-example"]], viewQuery: function AppGanttExampleComponent_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c030, 5);
+        \u0275\u0275viewQuery(_c031, 5);
       }
       if (rf & 2) {
         let _t;
@@ -62707,7 +66395,7 @@ var AppExampleComponentsComponent = class _AppExampleComponentsComponent {
 })();
 
 // example/src/app/gantt-groups/gantt-groups.component.ts
-var _c031 = ["gantt"];
+var _c032 = ["gantt"];
 function AppGanttGroupsExampleComponent_ng_template_2_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
@@ -62856,7 +66544,7 @@ var AppGanttGroupsExampleComponent = class _AppGanttGroupsExampleComponent {
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppGanttGroupsExampleComponent, selectors: [["app-gantt-groups-example"]], viewQuery: function AppGanttGroupsExampleComponent_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c031, 5);
+        \u0275\u0275viewQuery(_c032, 5);
       }
       if (rf & 2) {
         let _t;
@@ -63123,7 +66811,7 @@ var GanttViewCustom = class extends GanttView {
 };
 
 // example/src/app/gantt-custom-view/gantt.component.ts
-var _c032 = ["gantt"];
+var _c033 = ["gantt"];
 function AppGanttCustomViewExampleComponent_ng_template_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
@@ -63259,7 +66947,7 @@ var AppGanttCustomViewExampleComponent = class _AppGanttCustomViewExampleCompone
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppGanttCustomViewExampleComponent, selectors: [["app-gantt-custom-view-example"]], viewQuery: function AppGanttCustomViewExampleComponent_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c032, 5);
+        \u0275\u0275viewQuery(_c033, 5);
       }
       if (rf & 2) {
         let _t;
@@ -63345,7 +67033,7 @@ var AppGanttCustomViewExampleComponent = class _AppGanttCustomViewExampleCompone
 })();
 
 // example/src/app/gantt-virtual-scroll/gantt.component.ts
-var _c033 = ["gantt"];
+var _c034 = ["gantt"];
 function AppGanttVirtualScrollExampleComponent_ng_template_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 12);
@@ -63524,7 +67212,7 @@ var AppGanttVirtualScrollExampleComponent = class _AppGanttVirtualScrollExampleC
   static {
     this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppGanttVirtualScrollExampleComponent, selectors: [["app-gantt-virtual-scroll-example"]], viewQuery: function AppGanttVirtualScrollExampleComponent_Query(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275viewQuery(_c033, 5);
+        \u0275\u0275viewQuery(_c034, 5);
       }
       if (rf & 2) {
         let _t;

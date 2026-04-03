@@ -1,0 +1,190 @@
+<p>The toolbar provides view-type switching, allowing users to quickly switch between different time granularities.</p>
+
+        <h2 id="basic-usage" class="docs-header-link">
+          <span header-link="basic-usage"></span>
+          Basic Usage
+        </h2>
+      <p>Enable the toolbar by setting <code>showToolbar</code> to <code>true</code>, and configure which view types are shown via <code>toolbarOptions</code>:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttToolbarOptions<span class="token punctuation">,</span> GanttView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt
+      [items]="items"
+      [viewType]="viewType"
+      [showToolbar]="true"
+      [toolbarOptions]="toolbarOptions"
+      (viewChange)="onViewChange($event)"
+    >
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">onViewChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttView<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> event<span class="token punctuation">.</span>viewType<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+<div class="dg-paragraph"><strong>Note:</strong> The <code>viewChange</code> event is required. You must update the <code>viewType</code> property in the event handler for the view to actually switch.</div>
+
+        <h2 id="custom-toolbar" class="docs-header-link">
+          <span header-link="custom-toolbar"></span>
+          Custom Toolbar
+        </h2>
+      <p>Use the <code>#toolbar</code> template to fully customize the content and layout of the toolbar:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> NgxGanttComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt #gantt [items]="items" [viewType]="viewType" [showToolbar]="true">
+      &lt;ng-template #toolbar>
+        &lt;div class="custom-toolbar">
+          &lt;button *ngFor="let view of views" [class.active]="viewType === view.value" (click)="selectView(view.value)">
+            {{ view.label }}
+          &lt;/button>
+          &lt;button (click)="scrollToToday()">Today&lt;/button>
+        &lt;/div>
+      &lt;/ng-template>
+
+      &lt;ngx-gantt-table>
+        &lt;!-- ... -->
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  views <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'Day'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">.</span>day <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'Week'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">.</span>week <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'Month'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">.</span>month <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">selectView</span><span class="token punctuation">(</span>viewType<span class="token punctuation">:</span> GanttViewType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> viewType<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">scrollToToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+<div class="dg-paragraph"><strong>Note:</strong> When using a custom template, you need to handle the view-switching logic yourself. If <code>toolbarOptions.viewTypes</code> is an empty array or not provided, the toolbar will not show any view-switching buttons.</div>
+
+        <h2 id="style-customization" class="docs-header-link">
+          <span header-link="style-customization"></span>
+          Style Customization
+        </h2>
+      <p>Override the default toolbar styles using CSS to customize its appearance:</p>
+<pre class="language-scss"><code class="language-scss"><div><span class="token selector">:::ng-deep .gantt-toolbar </span><span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#f5f5f5</span><span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">8</span>px <span class="token number">16</span>px<span class="token punctuation">;</span>
+
+  <span class="token selector">.toolbar-button </span><span class="token punctuation">{</span>
+    <span class="token property">margin-right</span><span class="token punctuation">:</span> <span class="token number">8</span>px<span class="token punctuation">;</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">4</span>px <span class="token number">12</span>px<span class="token punctuation">;</span>
+    <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#ddd</span><span class="token punctuation">;</span>
+    <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token number">4</span>px<span class="token punctuation">;</span>
+    <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+    <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+
+    <span class="token selector"><span class="token parent important">&amp;</span>.active </span><span class="token punctuation">{</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span><span class="token punctuation">;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+      <span class="token property">border-color</span><span class="token punctuation">:</span> <span class="token hexcode">#6698ff</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="minimal-example" class="docs-header-link">
+          <span header-link="minimal-example"></span>
+          Minimal Example
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttToolbarOptions<span class="token punctuation">,</span> GanttView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-toolbar'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt
+      [items]="items"
+      [viewType]="viewType"
+      [showToolbar]="true"
+      [toolbarOptions]="toolbarOptions"
+      (viewChange)="onViewChange($event)"
+    >
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttToolbarComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">onViewChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttView<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> event<span class="token punctuation">.</span>viewType<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="common-questions" class="docs-header-link">
+          <span header-link="common-questions"></span>
+          Common Questions
+        </h2>
+      
+        <h3 id="q:-toolbar-is-not-displayed-" class="docs-header-link">
+          <span header-link="q:-toolbar-is-not-displayed-"></span>
+          Q: Toolbar is not displayed?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Check the following:</div>
+<ol>
+<li>Whether <code>showToolbar</code> is <code>true</code></li>
+<li>Whether <code>toolbarOptions.viewTypes</code> is not an empty array</li>
+</ol>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ Correct</span>
+<span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt <span class="token punctuation">[</span>showToolbar<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"true"</span> <span class="token punctuation">[</span>toolbarOptions<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"toolbarOptions"</span><span class="token operator">></span>
+toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="q:-the-view-switch-doesn%E2%80%99t-take-effect-" class="docs-header-link">
+          <span header-link="q:-the-view-switch-doesn%E2%80%99t-take-effect-"></span>
+          Q: The view switch doesn’t take effect?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Make sure you update the <code>viewType</code> property inside the <code>viewChange</code> event handler:</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onViewChange</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttView<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>viewType <span class="token operator">=</span> event<span class="token punctuation">.</span>viewType<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ✅ Must update</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="q:-how-to-hide-certain-view-types-" class="docs-header-link">
+          <span header-link="q:-how-to-hide-certain-view-types-"></span>
+          Q: How to hide certain view types?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Include only the view types you want in <code>toolbarOptions.viewTypes</code>:</div>
+<pre class="language-typescript"><code class="language-typescript"><div>toolbarOptions<span class="token punctuation">:</span> GanttToolbarOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  viewTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>

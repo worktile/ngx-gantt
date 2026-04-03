@@ -1,0 +1,147 @@
+<p>Range is a component in the Gantt chart used to display task items of a specific type. It is suitable for time-interval data that should be shown as ranges.</p>
+
+        <h2 id="range-type-task-items" class="docs-header-link">
+          <span header-link="range-type-task-items"></span>
+          Range Type Task Items
+        </h2>
+      <p>Range type tasks are identified by setting <code>type: &#39;range&#39;</code>:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'Version Release'</span><span class="token punctuation">,</span>
+    start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span>
+    end<span class="token punctuation">:</span> <span class="token number">1627759997</span><span class="token punctuation">,</span>
+    type<span class="token punctuation">:</span> <span class="token string">'range'</span> <span class="token comment" spellcheck="true">// Set as range type</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="range-display" class="docs-header-link">
+          <span header-link="range-display"></span>
+          Range Display
+        </h2>
+      
+        <h3 id="custom-range-template" class="docs-header-link">
+          <span header-link="custom-range-template"></span>
+          Custom Range Template
+        </h3>
+      <p>Use the <code>#range</code> template to customize the content of the range:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#range</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span> <span class="token attr-name">let-refs</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-range<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{ item.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="template-context" class="docs-header-link">
+          <span header-link="template-context"></span>
+          Template Context
+        </h3>
+      <p>The <code>#range</code> template provides the following context:</p>
+<ul>
+<li><code>item</code>: task item data (<code>GanttItem</code>)</li>
+<li><code>refs</code>: range position and size information<ul>
+<li><code>refs.x</code>: X coordinate</li>
+<li><code>refs.y</code>: Y coordinate</li>
+<li><code>refs.width</code>: width</li>
+<li><code>refs.height</code>: height</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="range-vs-bar" class="docs-header-link">
+          <span header-link="range-vs-bar"></span>
+          Range vs Bar
+        </h2>
+      <table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Bar</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Use</td>
+<td>Standard task bar with drag interactions</td>
+<td>Interval display, usually used to mark a time period</td>
+</tr>
+<tr>
+<td>Template</td>
+<td><code>#bar</code></td>
+<td><code>#range</code></td>
+</tr>
+<tr>
+<td>Drag</td>
+<td>Supports overall dragging and resizing</td>
+<td>Does not support dragging</td>
+</tr>
+</tbody></table>
+
+        <h2 id="use-cases" class="docs-header-link">
+          <span header-link="use-cases"></span>
+          Use Cases
+        </h2>
+      <p>Range type tasks are suitable for:</p>
+<ol>
+<li><strong>Version release interval</strong>: marking the time period of a version release</li>
+<li><strong>Milestone interval</strong>: displaying the range of important time nodes</li>
+<li><strong>Planning interval</strong>: showing planned time ranges</li>
+</ol>
+
+        <h2 id="minimal-example" class="docs-header-link">
+          <span header-link="minimal-example"></span>
+          Minimal Example
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-range'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType">
+      &lt;ng-template #range let-item="item" let-refs="refs">
+        &lt;div class="range-item" [style.left.px]="refs.x" [style.width.px]="refs.width">
+          {{ item.title }}
+        &lt;/div>
+      &lt;/ng-template>
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttRangeComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Version V1.0'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span>
+      type<span class="token punctuation">:</span> <span class="token string">'range'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Version V2.0'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1630421197</span><span class="token punctuation">,</span>
+      type<span class="token punctuation">:</span> <span class="token string">'range'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="related-links" class="docs-header-link">
+          <span header-link="related-links"></span>
+          Related Links
+        </h2>
+      <ul>
+<li><a href="guides/features/bar-interaction">Bar Display and Interaction</a> - Learn about the interactions for Bar tasks</li>
+<li><a href="guides/core-concepts/data-model">Data Model</a> - Learn the structure of <code>GanttItem</code> and the <code>type</code> field</li>
+<li><a href="guides/core-concepts/date-timezone">Date and Timezone</a> - Understand how time fields are handled</li>
+</ul>

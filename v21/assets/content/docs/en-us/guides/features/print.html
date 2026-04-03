@@ -1,0 +1,301 @@
+
+        <h1 id="export-&amp;-print" class="docs-header-link">
+          <span header-link="export-&amp;-print"></span>
+          Export &amp; Print
+        </h1>
+      <p>ngx-gantt supports exporting the Gantt chart as a PNG image, which is convenient for reports, sharing, and archiving.</p>
+
+        <h2 id="ganttprintservice" class="docs-header-link">
+          <span header-link="ganttprintservice"></span>
+          GanttPrintService
+        </h2>
+      <div class="dg-paragraph"><code>GanttPrintService</code> is the core service for export &amp; print. It uses the <code>html2canvas</code> library to convert the Gantt chart into an image.</div>
+
+        <h3 id="inject-the-service" class="docs-header-link">
+          <span header-link="inject-the-service"></span>
+          Inject the Service
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttPrintService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-print'</span><span class="token punctuation">,</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="export-to-an-image" class="docs-header-link">
+          <span header-link="export-to-an-image"></span>
+          Export to an Image
+        </h2>
+      
+        <h3 id="basic-export" class="docs-header-link">
+          <span header-link="basic-export"></span>
+          Basic Export
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt #gantt [items]="items">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+    &lt;button (click)="exportImage()">Export as PNG&lt;/button>
+  `</span></span><span class="token punctuation">,</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Export as PNG; file name is 'gantt-chart.png'</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="ignore-specific-elements" class="docs-header-link">
+          <span header-link="ignore-specific-elements"></span>
+          Ignore Specific Elements
+        </h3>
+      <p>When exporting, you can ignore certain elements (such as the toolbar, action buttons, etc.):</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Ignore elements with class 'toolbar'</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">,</span> <span class="token string">'toolbar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="get-the-canvas-object" class="docs-header-link">
+          <span header-link="get-the-canvas-object"></span>
+          Get the Canvas Object
+        </h2>
+      <p>If you need to customize the processing of the exported image, you can use the <code>html2canvas</code> method to get the <code>Canvas</code> object:</p>
+<pre class="language-typescript"><code class="language-typescript"><div>async <span class="token function">exportToCanvas</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> canvas <span class="token operator">=</span> await <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">html2canvas</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Custom handling</span>
+  <span class="token keyword">const</span> dataUrl <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">toDataURL</span><span class="token punctuation">(</span><span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// You can upload it to your server</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">uploadImage</span><span class="token punctuation">(</span>dataUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Or show a preview</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">showPreview</span><span class="token punctuation">(</span>dataUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="custom-handling-example" class="docs-header-link">
+          <span header-link="custom-handling-example"></span>
+          Custom Handling Example
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span>
+    <span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">,</span>
+    <span class="token keyword">private</span> http<span class="token punctuation">:</span> HttpClient
+  <span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+  async <span class="token function">exportAndUpload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> canvas <span class="token operator">=</span> await <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">html2canvas</span><span class="token punctuation">(</span><span class="token string">'toolbar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> blob <span class="token operator">=</span> await <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token operator">&lt;</span>Blob<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        canvas<span class="token punctuation">.</span><span class="token function">toBlob</span><span class="token punctuation">(</span><span class="token punctuation">(</span>blob<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">resolve</span><span class="token punctuation">(</span>blob<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">// Upload to the server</span>
+      <span class="token keyword">const</span> formData <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FormData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      formData<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">'image'</span><span class="token punctuation">,</span> blob<span class="token punctuation">,</span> <span class="token string">'gantt-chart.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">this</span><span class="token punctuation">.</span>http<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/api/upload'</span><span class="token punctuation">,</span> formData<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        next<span class="token punctuation">:</span> <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Upload successful'</span><span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        error<span class="token punctuation">:</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'Upload failed'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'Export failed'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="missing-styles-issue" class="docs-header-link">
+          <span header-link="missing-styles-issue"></span>
+          Missing Styles Issue
+        </h2>
+      
+        <h3 id="cause" class="docs-header-link">
+          <span header-link="cause"></span>
+          Cause
+        </h3>
+      <p>Styles might be lost during export. Common causes include:</p>
+<ol>
+<li>SVG element styles are not inlined</li>
+<li>External stylesheets are not loaded</li>
+<li>Fonts are not loaded completely</li>
+</ol>
+
+        <h3 id="solutions" class="docs-header-link">
+          <span header-link="solutions"></span>
+          Solutions
+        </h3>
+      <div class="dg-paragraph"><code>GanttPrintService</code> automatically inlines SVG styles, but please note:</div>
+<ol>
+<li><strong>Ensure styles are loaded</strong>: wait for styles to finish loading before exporting</li>
+<li><strong>Use inline styles</strong>: for critical styles, use inline styles</li>
+<li><strong>Check SVG element styles</strong>: make sure styles for SVG elements are correct</li>
+</ol>
+
+        <h2 id="minimal-example" class="docs-header-link">
+          <span header-link="minimal-example"></span>
+          Minimal Example
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild<span class="token punctuation">,</span> afterNextRender <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> NgxGanttComponent<span class="token punctuation">,</span> GanttPrintService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-print'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;div class="toolbar">
+      &lt;button (click)="exportImage()">Export as image&lt;/button>
+    &lt;/div>
+
+    &lt;ngx-gantt #gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span><span class="token punctuation">,</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPrintComponent</span> <span class="token punctuation">{</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> printService<span class="token punctuation">:</span> GanttPrintService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">afterNextRender</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// Register the Gantt chart root element</span>
+      <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> ganttRoot <span class="token operator">=</span> gantt<span class="token punctuation">.</span><span class="token function">ganttRoot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>ganttRoot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>ganttRoot<span class="token punctuation">.</span>elementRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Ignore the toolbar</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">,</span> <span class="token string">'toolbar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="best-practices" class="docs-header-link">
+          <span header-link="best-practices"></span>
+          Best Practices
+        </h2>
+      
+        <h3 id="1--wait-until-the-rendering-is-completed" class="docs-header-link">
+          <span header-link="1--wait-until-the-rendering-is-completed"></span>
+          1. Wait until the rendering is completed
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Update the view</span>
+    gantt<span class="token punctuation">.</span><span class="token function">changeView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Wait a little while to ensure rendering is completed</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="2--handle-large-chart-exports" class="docs-header-link">
+          <span header-link="2--handle-large-chart-exports"></span>
+          2. Handle large chart exports
+        </h3>
+      <p>For large Gantt charts, export may take a longer time:</p>
+<pre class="language-typescript"><code class="language-typescript"><div>async <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    await <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>notify<span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token string">'Export successful'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>notify<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'Export failed'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="3--optimize-export-quality" class="docs-header-link">
+          <span header-link="3--optimize-export-quality"></span>
+          3. Optimize export quality
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// html2canvas will process automatically, but you can adjust the view for the best result</span>
+<span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Ensure the view is fully loaded</span>
+    gantt<span class="token punctuation">.</span><span class="token function">rerenderView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Export</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="common-questions" class="docs-header-link">
+          <span header-link="common-questions"></span>
+          Common Questions
+        </h2>
+      
+        <h3 id="q:-export-fails-or-the-image-is-blank-" class="docs-header-link">
+          <span header-link="q:-export-fails-or-the-image-is-blank-"></span>
+          Q: Export fails or the image is blank?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Check:</div>
+<ol>
+<li>Whether you have called <code>register</code> to register the root element</li>
+<li>Whether the Gantt chart is fully rendered</li>
+<li>Whether there are errors in the browser console</li>
+</ol>
+
+        <h3 id="q:-the-exported-image-styles-are-incorrect-" class="docs-header-link">
+          <span header-link="q:-the-exported-image-styles-are-incorrect-"></span>
+          Q: The exported image styles are incorrect?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong></div>
+<ol>
+<li>Ensure styles are fully loaded</li>
+<li>Check styles for SVG elements</li>
+<li>Use inline styles instead of external stylesheets</li>
+</ol>
+
+        <h3 id="q:-how-do-i-export-a-specific-area-" class="docs-header-link">
+          <span header-link="q:-how-do-i-export-a-specific-area-"></span>
+          Q: How do I export a specific area?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Exporting a specific area is not supported currently. You can hide the parts you don’t need with CSS and then export.</div>
+
+        <h3 id="q:-export-performance-issues-" class="docs-header-link">
+          <span header-link="q:-export-performance-issues-"></span>
+          Q: Export performance issues?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong></div>
+<ol>
+<li>For large Gantt charts, export may take a long time</li>
+<li>Consider hiding unnecessary elements before exporting</li>
+<li>Use <code>ignoreElementClass</code> to ignore elements you don’t need</li>
+</ol>

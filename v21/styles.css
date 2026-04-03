@@ -5417,6 +5417,72 @@ button.close:focus {
 .thy-typography.thy-styles-rich img {
   max-width: 100%;
 }
+@keyframes thy-scale-x-fade {
+  from {
+    opacity: 0;
+    transform: scaleX(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+.thy-scale-x-enter {
+  animation: thy-scale-x-fade 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+.thy-scale-x-leave {
+  opacity: 0;
+  transform: scaleX(0.9);
+  transition: opacity 0.2s cubic-bezier(0.34, 0.69, 0.1, 1), transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+@keyframes thy-scale-y-fade {
+  from {
+    opacity: 0;
+    transform: scaleY(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+.thy-scale-y-enter {
+  animation: thy-scale-y-fade 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+.thy-scale-y-leave {
+  opacity: 0;
+  transform: scaleY(0.9);
+  transition: opacity 0.2s cubic-bezier(0.34, 0.69, 0.1, 1), transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+@keyframes thy-scale-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.9, 0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+.thy-scale-enter {
+  animation: thy-scale-fade 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+.thy-scale-leave {
+  opacity: 0;
+  transform: scale(0.9, 0.9);
+  transition: opacity 0.2s cubic-bezier(0.34, 0.69, 0.1, 1), transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+.thy-fade-enter {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+.thy-fade-leave {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.thy-animation-collapse {
+  overflow: hidden;
+  transition: height 0.15s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -14468,6 +14534,9 @@ input[type=button].btn-block {
 .thy-menu .thy-menu-group .thy-menu-group-body {
   margin-left: 15px;
 }
+.thy-menu .thy-menu-group .thy-menu-group-body.thy-menu-group-body-leaved {
+  display: none;
+}
 .thy-menu .thy-menu-group.has-icon .thy-menu-group-title-text {
   font-size: 0.875rem;
 }
@@ -14540,8 +14609,7 @@ input[type=button].btn-block {
   min-height: 36px;
 }
 .thy-menu.thy-menu-theme-loose .thy-menu-item {
-  padding: 0;
-  margin-bottom: 12px;
+  padding: 0 0 12px;
 }
 .thy-menu.thy-menu-theme-loose .thy-menu-item-content {
   margin: 0;
@@ -17966,6 +18034,9 @@ select.form-control-md:not([size]):not([multiple]) {
   padding-left: 20px;
   padding-right: 20px;
 }
+.thy-select-dropdown-options .cdk-virtual-scroll-content-wrapper {
+  position: fixed;
+}
 .thy-select-dropdown {
   width: 100%;
   background: var(--bg-color-panel);
@@ -20156,6 +20227,7 @@ select.form-control-md:not([size]):not([multiple]) {
 }
 .thy-cascader-menu .cdk-virtual-scroll-content-wrapper {
   width: 100%;
+  position: fixed;
 }
 .thy-cascader-menu-item {
   padding: 7px 16px;
@@ -20510,15 +20582,6 @@ select.form-control-md:not([size]):not([multiple]) {
 .thy-breadcrumb.thy-breadcrumb-separator-vertical-line .thy-breadcrumb-item::after {
   content: "|";
 }
-.thy-drop-position-in {
-  border: #6698ff 2px solid !important;
-}
-.thy-drop-position-before {
-  border-top: #6698ff 2px solid !important;
-}
-.thy-drop-position-after {
-  border-bottom: #6698ff 2px solid !important;
-}
 .thy-arrow-switcher {
   display: inline-block;
 }
@@ -20600,6 +20663,14 @@ select.form-control-md:not([size]):not([multiple]) {
   line-break: auto;
   font-size: 0.875rem;
   word-wrap: break-word;
+}
+.thy-tooltip:not(.thy-scale-enter):not(.thy-scale-leave) {
+  opacity: 0;
+  transform: scale(0);
+}
+.thy-tooltip.thy-scale-enter {
+  opacity: 1;
+  transform: scale(1, 1);
 }
 .thy-tooltip.show {
   opacity: 0.9;
@@ -23678,6 +23749,9 @@ thy-affix {
 .thy-collapse .thy-collapse-item .thy-collapse-content-box:empty {
   display: none;
 }
+.thy-collapse .thy-collapse-item .thy-collapse-content.thy-collapse-content-leaved {
+  display: none;
+}
 .thy-collapse .thy-collapse-item-disabled > .thy-collapse-header,
 .thy-collapse .thy-collapse-item-disabled > .thy-collapse-header > .thy-collapse .thy-collapse-item-disabled > .thy-collapse-header-icon {
   color: var(--gray-400);
@@ -25318,6 +25392,10 @@ thy-carousel .thy-carousel-control-next {
   color: var(--gray-800);
   background-color: transparent;
 }
+.thy-native-table table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
 .thy-native-table th,
 .thy-native-table td {
   padding: 0 16px;
@@ -25345,7 +25423,7 @@ thy-carousel .thy-carousel-control-next {
 .thy-native-table thead td {
   padding: 12px 16px;
 }
-.thy-native-table .thy-native-table-content {
+.thy-native-table .thy-native-table-content table {
   width: 100%;
 }
 .thy-native-table .thy-table-pagination {
@@ -25374,6 +25452,7 @@ thy-carousel .thy-carousel-control-next {
 }
 .thy-native-table .thy-table-cell-fix-left-last::after {
   right: 30px;
+  width: 31px;
 }
 .thy-native-table .thy-table-cell-fix-right-first::before {
   left: -30px;
@@ -25394,15 +25473,16 @@ thy-carousel .thy-carousel-control-next {
   color: var(--gray-700);
   padding: 12px 16px;
 }
-.native-table-bordered {
+.native-table-bordered .thy-native-table-thead .thy-table-cell-fix-left,
+.native-table-bordered .thy-native-table-thead .thy-table-cell-fix-right {
+  background-color: var(--gray-100);
+}
+.native-table-bordered .thy-native-table-wrapper {
   border: 1px solid var(--gray-200);
 }
-.native-table-bordered th,
-.native-table-bordered td {
-  border: 1px solid var(--gray-200);
-}
-.native-table-bordered:has(+ .thy-table-skeleton) > thead tr th {
-  border-bottom: 0;
+.native-table-bordered .thy-native-table-wrapper th,
+.native-table-bordered .thy-native-table-wrapper td {
+  border-right: 1px solid var(--gray-200);
 }
 .native-table-bordered thead th,
 .native-table-bordered thead td {
@@ -25414,18 +25494,16 @@ thy-carousel .thy-carousel-control-next {
   color: var(--gray-800);
   padding: 0;
 }
-.native-table-boxed {
+.native-table-boxed .thy-native-table-thead .thy-table-cell-fix-left,
+.native-table-boxed .thy-native-table-thead .thy-table-cell-fix-right {
+  background-color: var(--gray-100);
+}
+.native-table-boxed .thy-native-table-wrapper {
   border: 1px solid var(--gray-200);
+  border-radius: 4px;
 }
 .native-table-boxed tbody tr:last-child td {
   border-bottom: 0px;
-}
-.native-table-boxed:has(+ .thy-table-skeleton) {
-  border-radius: 0 !important;
-  border-top-left-radius: 0.25rem !important;
-}
-.native-table-boxed:has(+ .thy-table-skeleton) > thead tr th {
-  border-bottom: 0;
 }
 .native-table-boxed thead th,
 .native-table-boxed thead td {

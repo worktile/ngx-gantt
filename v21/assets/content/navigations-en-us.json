@@ -1,6 +1,1878 @@
 {
   "navs": [
     {
+      "id": "guides",
+      "path": "guides",
+      "channelPath": "guides",
+      "title": "Documentation",
+      "items": [
+        {
+          "id": "guides/intro",
+          "path": "guides/intro",
+          "channelPath": "guides",
+          "title": "Introduction",
+          "items": [
+            {
+              "id": "index",
+              "path": "intro",
+              "channelPath": "guides",
+              "title": "Introduction",
+              "order": 100,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "features",
+                  "name": "Features",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "use-cases",
+                  "name": "Use Cases",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "tech-stack-overview",
+                  "name": "Tech Stack Overview",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "current-version",
+                  "name": "Current Version",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "open-source-license",
+                  "name": "Open Source License",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "contributing",
+                  "name": "Contributing",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/getting-started/index.html",
+              "originPath": "docs/en-us/guides/getting-started/index.md"
+            },
+            {
+              "id": "getting-started",
+              "path": "intro/getting-started",
+              "channelPath": "guides",
+              "title": "Getting Started",
+              "order": 110,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%F0%9F%93%A6-install-dependencies",
+                  "name": "📦 Install Dependencies",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%F0%9F%8E%A8-import-styles",
+                  "name": "🎨 Import Styles",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "option-1:-configure-in-%3Ccode%3Eangular-json%3C/code%3E-(recommended)",
+                  "name": "Option 1: Configure in <code>angular.json</code> (recommended)",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "option-2:-import-in-your-scss-file",
+                  "name": "Option 2: Import in your SCSS file",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%F0%9F%93%A5-import-the-component",
+                  "name": "📥 Import the Component",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "standalone-(recommended)",
+                  "name": "Standalone (recommended)",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "ngmodule",
+                  "name": "NgModule",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%F0%9F%9A%80-hello-world",
+                  "name": "🚀 Hello World",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "full-example",
+                  "name": "Full Example",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "key-concepts",
+                  "name": "Key Concepts",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "time-formats",
+                  "name": "Time Formats",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E2%9C%85-verify-installation",
+                  "name": "✅ Verify Installation",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%F0%9F%93%9A-next-steps",
+                  "name": "📚 Next Steps",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E2%9D%93-common-questions",
+                  "name": "❓ Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "styles-not-working-",
+                  "name": "Styles not working?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "time-display-is-incorrect-",
+                  "name": "Time display is incorrect?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "component-not-displayed-",
+                  "name": "Component not displayed?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "import-error-",
+                  "name": "Import error?",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/getting-started/getting-started.html",
+              "originPath": "docs/en-us/guides/getting-started/getting-started.md"
+            },
+            {
+              "id": "upgrade-to-21",
+              "path": "intro/upgrade-to-21",
+              "channelPath": "guides",
+              "title": "v21 Upgrade Migration Guide (Important)",
+              "order": 120,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "upgrade-preparation",
+                  "name": "Upgrade Preparation",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "1--view-(view)-configuration-migration",
+                  "name": "1. View (View) Configuration Migration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "1-1-field-renaming",
+                  "name": "1.1 Field Renaming",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "1-2-migration-example",
+                  "name": "1.2 Migration Example",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "2--custom-view-(custom-view)-abstract-class-migration",
+                  "name": "2. Custom View (Custom View) Abstract Class Migration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "3--i18n-configuration-structure-migration",
+                  "name": "3. i18n Configuration Structure Migration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "4--global-configuration-&amp;-theming-system",
+                  "name": "4. Global Configuration &amp; Theming System",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "4-1-style-field-changes",
+                  "name": "4.1 Style Field Changes",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "4-2-new-theme-configuration",
+                  "name": "4.2 New Theme Configuration",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "5--type-&amp;-constant-replacement-checklist",
+                  "name": "5. Type &amp; Constant Replacement Checklist",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "5-1-data-model-replacement",
+                  "name": "5.1 Data Model Replacement",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "5-2-layout-constant-replacement",
+                  "name": "5.2 Layout Constant Replacement",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "6--verification-checklist",
+                  "name": "6. Verification Checklist",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/getting-started/upgrade-to-21.html",
+              "originPath": "docs/en-us/guides/getting-started/upgrade-to-21.md"
+            }
+          ],
+          "order": 100
+        },
+        {
+          "id": "guides/core-concepts",
+          "path": "guides/core-concepts",
+          "channelPath": "guides",
+          "title": "Core Concepts",
+          "items": [
+            {
+              "id": "index",
+              "path": "core-concepts",
+              "channelPath": "guides",
+              "title": "Core Concepts",
+              "order": 200,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "basics",
+                  "name": "Basics",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "chapter-list",
+                  "name": "Chapter List",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/core/index.html",
+              "originPath": "docs/en-us/guides/core/index.md"
+            },
+            {
+              "id": "data-model",
+              "path": "core-concepts/data-model",
+              "channelPath": "guides",
+              "title": "Data Model",
+              "order": 210,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "ganttitem",
+                  "name": "GanttItem",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "required-fields",
+                  "name": "Required Fields",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "time-fields",
+                  "name": "Time Fields",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "using-%3Ccode%3Eorigin%3C/code%3E-to-attach-business-data",
+                  "name": "Using <code>origin</code> to attach business data",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "ganttgroup",
+                  "name": "GanttGroup",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "organizing-data-in-group-and-tree-modes",
+                  "name": "Organizing Data in Group and Tree Modes",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "group-mode-(group-+-items)",
+                  "name": "Group Mode (Group + items)",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "tree-mode-(children)",
+                  "name": "Tree Mode (Children)",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "data-updates",
+                  "name": "Data Updates",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E2%9D%8C-wrong-example-(mutable-update)",
+                  "name": "❌ Wrong Example (mutable update)",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E2%9C%85-correct-example-(immutable-update)",
+                  "name": "✅ Correct Example (immutable update)",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "basic-task-list",
+                  "name": "Basic Task List",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "group-mode-example",
+                  "name": "Group Mode Example",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "tree-mode-example",
+                  "name": "Tree Mode Example",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-why-doesn%E2%80%99t-the-view-update-after-modifying-the-data-",
+                  "name": "Q: Why doesn’t the view update after modifying the data?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-how-to-tell-whether-a-task-has-child-nodes-",
+                  "name": "Q: How to tell whether a task has child nodes?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-can-group-mode-and-tree-mode-be-used-together-",
+                  "name": "Q: Can Group mode and Tree mode be used together?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-is-the-%3Ccode%3Eorigin%3C/code%3E-field-required-",
+                  "name": "Q: Is the <code>origin</code> field required?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/core/data-model.html",
+              "originPath": "docs/en-us/guides/core/data-model.md"
+            },
+            {
+              "id": "views",
+              "path": "core-concepts/views",
+              "channelPath": "guides",
+              "title": "Views",
+              "order": 220,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "using-views",
+                  "name": "Using Views",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "view-types",
+                  "name": "View Types",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "view-display-notes",
+                  "name": "View Display Notes",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "viewoptions-configuration",
+                  "name": "ViewOptions Configuration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "tick-formatting-(tickformats)",
+                  "name": "Tick Formatting (tickFormats)",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "drag-tooltip-format-(dragtooltipformat)",
+                  "name": "Drag Tooltip Format (dragTooltipFormat)",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "scroll-loading-configuration-(loadduration)",
+                  "name": "Scroll Loading Configuration (loadDuration)",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "holiday-configuration-(holiday)",
+                  "name": "Holiday Configuration (holiday)",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-how-do-i-implement-a-custom-view-",
+                  "name": "Q: How do I implement a custom view?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/core/views.html",
+              "originPath": "docs/en-us/guides/core/views.md"
+            },
+            {
+              "id": "date-timezone",
+              "path": "core-concepts/date-timezone",
+              "channelPath": "guides",
+              "title": "Date and Timezone",
+              "order": 230,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "time-input-formats",
+                  "name": "Time Input Formats",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ganttdate-time-operations",
+                  "name": "GanttDate Time Operations",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "create-a-ganttdate",
+                  "name": "Create a GanttDate",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "time-operation-methods",
+                  "name": "Time Operation Methods",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "timezone-configuration",
+                  "name": "Timezone Configuration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "timezone-notes",
+                  "name": "Timezone Notes",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "week-starts-on",
+                  "name": "Week Starts On",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/core/date-timezone.html",
+              "originPath": "docs/en-us/guides/core/date-timezone.md"
+            },
+            {
+              "id": "api-methods",
+              "path": "core-concepts/api-methods",
+              "channelPath": "guides",
+              "title": "Public Methods",
+              "order": 240,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "method-list",
+                  "name": "Method List",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "example",
+                  "name": "Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/core/api-methods.html",
+              "originPath": "docs/en-us/guides/core/api-methods.md"
+            }
+          ],
+          "order": 200
+        },
+        {
+          "id": "guides/features",
+          "path": "guides/features",
+          "channelPath": "guides",
+          "title": "Feature Guide",
+          "items": [
+            {
+              "id": "index",
+              "path": "features",
+              "channelPath": "guides",
+              "title": "Feature Guide",
+              "order": 300,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "overview",
+                  "name": "Overview",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "chapter-list",
+                  "name": "Chapter List",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/index.html",
+              "originPath": "docs/en-us/guides/features/index.md"
+            },
+            {
+              "id": "table",
+              "path": "features/table-interaction",
+              "channelPath": "guides",
+              "title": "Table Display and Interaction",
+              "order": 310,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "how-to-use-the-table-",
+                  "name": "How to Use the Table?",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-display-templates",
+                  "name": "Custom Display Templates",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "column-content-template",
+                  "name": "Column Content Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "row-before/after-slots",
+                  "name": "Row Before/After Slots",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "table-empty-template",
+                  "name": "Table Empty Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "table-footer-template",
+                  "name": "Table Footer Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "table-interactions",
+                  "name": "Table Interactions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "row-drag-sorting",
+                  "name": "Row Drag Sorting",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "enable-dragging",
+                  "name": "Enable Dragging",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "handle-drag-drop-events",
+                  "name": "Handle Drag Drop Events",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "intercept-%3Ccode%3Edropenterpredicate%3C/code%3E-actions",
+                  "name": "Intercept <code>dropEnterPredicate</code> Actions",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "column-drag-to-change-width",
+                  "name": "Column Drag to Change Width",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "row-click-and-selection",
+                  "name": "Row Click and Selection",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "row-click-event",
+                  "name": "Row Click Event",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "selection-feature",
+                  "name": "Selection Feature",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-how-do-i-disable-dragging-for-a-specific-task-",
+                  "name": "Q: How do I disable dragging for a specific task?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-how-do-i-limit-the-drag-range-",
+                  "name": "Q: How do I limit the drag range?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-the-data-doesn%E2%80%99t-update-after-dragging-",
+                  "name": "Q: The data doesn’t update after dragging?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/table.html",
+              "originPath": "docs/en-us/guides/features/table.md"
+            },
+            {
+              "id": "groups",
+              "path": "features/groups",
+              "channelPath": "guides",
+              "title": "Group Mode",
+              "order": 320,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "how-to-render-group-data-",
+                  "name": "How to Render Group Data?",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-templates",
+                  "name": "Custom Templates",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "#groupheader-template",
+                  "name": "#groupHeader Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "#group-template",
+                  "name": "#group Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "custom-group-styling",
+                  "name": "Custom Group Styling",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "expand-/-collapse",
+                  "name": "Expand / Collapse",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "initial-expanded-state",
+                  "name": "Initial Expanded State",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "programmatic-control",
+                  "name": "Programmatic Control",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/groups.html",
+              "originPath": "docs/en-us/guides/features/groups.md"
+            },
+            {
+              "id": "tree",
+              "path": "features/tree",
+              "channelPath": "guides",
+              "title": "Tree Mode",
+              "order": 330,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "how-to-use-tree-mode-",
+                  "name": "How to Use Tree Mode?",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "expand-/-collapse-control",
+                  "name": "Expand / Collapse Control",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "initial-expanded-state",
+                  "name": "Initial Expanded State",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "programmatic-control",
+                  "name": "Programmatic Control",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "maximum-level-limit",
+                  "name": "Maximum Level Limit",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "async-loading",
+                  "name": "Async Loading",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "complete-example",
+                  "name": "Complete Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "basic-tree-structure",
+                  "name": "Basic Tree Structure",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "async-loading-example",
+                  "name": "Async Loading Example",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/tree.html",
+              "originPath": "docs/en-us/guides/features/tree.md"
+            },
+            {
+              "id": "bar",
+              "path": "features/bar-interaction",
+              "channelPath": "guides",
+              "title": "Bar Display and Interaction",
+              "order": 340,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "bar-display",
+                  "name": "Bar Display",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-bar-template",
+                  "name": "Custom Bar Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "template-context",
+                  "name": "Template Context",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "custom-item-template",
+                  "name": "Custom Item Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "styling-customization",
+                  "name": "Styling Customization",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-color",
+                  "name": "Custom Color",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "custom-style",
+                  "name": "Custom Style",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "drag-interactions",
+                  "name": "Drag Interactions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "enable-dragging",
+                  "name": "Enable Dragging",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "event-object",
+                  "name": "Event Object",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "disable-dragging",
+                  "name": "Disable Dragging",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "disable-all-bar-dragging",
+                  "name": "Disable All Bar Dragging",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "disable-dragging-for-a-specific-task",
+                  "name": "Disable Dragging for a Specific Task",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "drag-tooltip-format",
+                  "name": "Drag Tooltip Format",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-the-view-doesn%E2%80%99t-update-after-dragging-",
+                  "name": "Q: The view doesn’t update after dragging?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-how-do-i-disable-dragging-for-a-specific-task-",
+                  "name": "Q: How do I disable dragging for a specific task?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-how-do-i-customize-the-dragged-tooltip-content-",
+                  "name": "Q: How do I customize the dragged tooltip content?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/bar.html",
+              "originPath": "docs/en-us/guides/features/bar.md"
+            },
+            {
+              "id": "range",
+              "path": "features/range",
+              "channelPath": "guides",
+              "title": "Range Task Display",
+              "order": 350,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "range-type-task-items",
+                  "name": "Range Type Task Items",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "range-display",
+                  "name": "Range Display",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-range-template",
+                  "name": "Custom Range Template",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "template-context",
+                  "name": "Template Context",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "range-vs-bar",
+                  "name": "Range vs Bar",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "use-cases",
+                  "name": "Use Cases",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/range.html",
+              "originPath": "docs/en-us/guides/features/range.md"
+            },
+            {
+              "id": "links",
+              "path": "features/task-links",
+              "channelPath": "guides",
+              "title": "Task Dependencies",
+              "order": 360,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "how-to-display-dependency-data-",
+                  "name": "How to Display Dependency Data?",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "building-dependency-data",
+                  "name": "Building Dependency Data",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "data-formats",
+                  "name": "Data Formats",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "dependency-types",
+                  "name": "Dependency Types",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "create-dependencies-by-dragging",
+                  "name": "Create Dependencies by Dragging",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "drag-operations",
+                  "name": "Drag Operations",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "event-handling",
+                  "name": "Event Handling",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "dependency-link-styling",
+                  "name": "Dependency Link Styling",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-dependency-link-color",
+                  "name": "Custom Dependency Link Color",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "dependency-link-style-configuration",
+                  "name": "Dependency Link Style Configuration",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "dependency-configuration",
+                  "name": "Dependency Configuration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "full-example",
+                  "name": "Full Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-how-do-i-delete-a-dependency-",
+                  "name": "Q: How do I delete a dependency?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-how-do-i-restrict-dependency-creation-to-only-certain-types-",
+                  "name": "Q: How do I restrict dependency creation to only certain types?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-dependency-links-are-not-displayed-",
+                  "name": "Q: Dependency links are not displayed?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/links.html",
+              "originPath": "docs/en-us/guides/features/links.md"
+            },
+            {
+              "id": "baseline",
+              "path": "features/baseline",
+              "channelPath": "guides",
+              "title": "Baseline",
+              "order": 370,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "basic-usage",
+                  "name": "Basic Usage",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "data-structure",
+                  "name": "Data Structure",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "dynamic-show/hide",
+                  "name": "Dynamic Show/Hide",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "custom-baseline-template",
+                  "name": "Custom Baseline Template",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "template-context",
+                  "name": "Template Context",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "custom-example",
+                  "name": "Custom Example",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/baseline.html",
+              "originPath": "docs/en-us/guides/features/baseline.md"
+            },
+            {
+              "id": "performance",
+              "path": "features/performance",
+              "channelPath": "guides",
+              "title": "Performance & Loading Status",
+              "order": 380,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "core-mechanisms",
+                  "name": "Core Mechanisms",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "list-virtual-scrolling",
+                  "name": "List Virtual Scrolling",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "example:-load-the-next-page-when-scrolling-to-the-bottom",
+                  "name": "Example: Load the Next Page When Scrolling to the Bottom",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "view-scroll-loading",
+                  "name": "View Scroll Loading",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "scroll-loading-mechanism",
+                  "name": "Scroll Loading Mechanism",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "example:-load-data-with-view-scroll-loading",
+                  "name": "Example: Load Data with View Scroll Loading",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "loading-state-handling",
+                  "name": "Loading State Handling",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/performance.html",
+              "originPath": "docs/en-us/guides/features/performance.md"
+            },
+            {
+              "id": "toolbar",
+              "path": "features/toolbar",
+              "channelPath": "guides",
+              "title": "Toolbar",
+              "order": 390,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "basic-usage",
+                  "name": "Basic Usage",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-toolbar",
+                  "name": "Custom Toolbar",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "style-customization",
+                  "name": "Style Customization",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-toolbar-is-not-displayed-",
+                  "name": "Q: Toolbar is not displayed?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-the-view-switch-doesn%E2%80%99t-take-effect-",
+                  "name": "Q: The view switch doesn’t take effect?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-how-to-hide-certain-view-types-",
+                  "name": "Q: How to hide certain view types?",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/toolbar.html",
+              "originPath": "docs/en-us/guides/features/toolbar.md"
+            },
+            {
+              "id": "print",
+              "path": "features/export-print",
+              "channelPath": "guides",
+              "title": "Export & Print",
+              "order": 391,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "export-&amp;-print",
+                  "name": "Export &amp; Print",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttprintservice",
+                  "name": "GanttPrintService",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "inject-the-service",
+                  "name": "Inject the Service",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "export-to-an-image",
+                  "name": "Export to an Image",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "basic-export",
+                  "name": "Basic Export",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "ignore-specific-elements",
+                  "name": "Ignore Specific Elements",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "get-the-canvas-object",
+                  "name": "Get the Canvas Object",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-handling-example",
+                  "name": "Custom Handling Example",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "missing-styles-issue",
+                  "name": "Missing Styles Issue",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "cause",
+                  "name": "Cause",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "solutions",
+                  "name": "Solutions",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "best-practices",
+                  "name": "Best Practices",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "1--wait-until-the-rendering-is-completed",
+                  "name": "1. Wait until the rendering is completed",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "2--handle-large-chart-exports",
+                  "name": "2. Handle large chart exports",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "3--optimize-export-quality",
+                  "name": "3. Optimize export quality",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-export-fails-or-the-image-is-blank-",
+                  "name": "Q: Export fails or the image is blank?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-the-exported-image-styles-are-incorrect-",
+                  "name": "Q: The exported image styles are incorrect?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-how-do-i-export-a-specific-area-",
+                  "name": "Q: How do I export a specific area?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-export-performance-issues-",
+                  "name": "Q: Export performance issues?",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/features/print.html",
+              "originPath": "docs/en-us/guides/features/print.md"
+            }
+          ],
+          "order": 300
+        },
+        {
+          "id": "guides/configuration",
+          "path": "guides/configuration",
+          "channelPath": "guides",
+          "title": "Global Configuration",
+          "items": [
+            {
+              "id": "index",
+              "path": "configuration",
+              "channelPath": "guides",
+              "title": "Global Configuration",
+              "order": 400,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "configuration-structure",
+                  "name": "Configuration Structure",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "default-configuration",
+                  "name": "Default Configuration",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "register-global-configuration",
+                  "name": "Register Global Configuration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "standalone",
+                  "name": "Standalone",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "ngmodule",
+                  "name": "NgModule",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/configuration/index.html",
+              "originPath": "docs/en-us/guides/configuration/index.md"
+            },
+            {
+              "id": "i18n",
+              "path": "configuration/i18n",
+              "channelPath": "guides",
+              "title": "Internationalization",
+              "order": 420,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "built-in-language-packs",
+                  "name": "Built-in Language Packs",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "use-built-in-languages",
+                  "name": "Use Built-in Languages",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "custom-language-packs",
+                  "name": "Custom Language Packs",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "register-a-custom-language-pack",
+                  "name": "Register a Custom Language Pack",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "override-built-in-language-packs",
+                  "name": "Override Built-in Language Packs",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-how-do-i-override-text-for-only-specific-views-",
+                  "name": "Q: How do I override text for only specific views?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-is-%3Ccode%3Edatelocale%3C/code%3E-required-",
+                  "name": "Q: Is <code>dateLocale</code> required?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-do-the-format-strings-not-work-or-show-incorrectly-",
+                  "name": "Q: Do the format strings not work or show incorrectly?",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "related-links",
+                  "name": "Related Links",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/configuration/i18n.html",
+              "originPath": "docs/en-us/guides/configuration/i18n.md"
+            },
+            {
+              "id": "theming",
+              "path": "configuration/theming",
+              "channelPath": "guides",
+              "title": "Theme & Style",
+              "order": 430,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "basic-style-configuration",
+                  "name": "Basic Style Configuration",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "custom-themes",
+                  "name": "Custom Themes",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "how-to-modify-the-default-theme",
+                  "name": "How to Modify the Default Theme",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "define-multiple-themes",
+                  "name": "Define Multiple Themes",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "theme-configuration-reference",
+                  "name": "Theme Configuration Reference",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-what%E2%80%99s-the-easiest-way-to-change-only-the-bar-color-",
+                  "name": "Q: What’s the easiest way to change only the Bar color?",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/configuration/theming.html",
+              "originPath": "docs/en-us/guides/configuration/theming.md"
+            }
+          ],
+          "order": 400
+        },
+        {
+          "id": "guides/advanced",
+          "path": "guides/advanced",
+          "channelPath": "guides",
+          "title": "Advanced Customization",
+          "items": [
+            {
+              "id": "index",
+              "path": "advanced",
+              "channelPath": "guides",
+              "title": "Advanced Customization",
+              "order": 500,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "chapter-list",
+                  "name": "Chapter List",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "use-cases",
+                  "name": "Use Cases",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "recommended-approach",
+                  "name": "Recommended Approach",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/advanced/index.html",
+              "originPath": "docs/en-us/guides/advanced/index.md"
+            },
+            {
+              "id": "custom-views",
+              "path": "advanced/custom-views",
+              "channelPath": "guides",
+              "title": "Custom Views",
+              "order": 510,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "when-do-you-need-a-custom-view-",
+                  "name": "When Do You Need a Custom View?",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "implement-a-custom-view",
+                  "name": "Implement a Custom View",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "register-and-use-custom-views",
+                  "name": "Register and Use Custom Views",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "register-a-custom-view",
+                  "name": "Register a Custom View",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "use-the-custom-view",
+                  "name": "Use the Custom View",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "override-built-in-views",
+                  "name": "Override Built-in Views",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "common-questions",
+                  "name": "Common Questions",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-the-custom-view-is-not-displayed-",
+                  "name": "Q: The custom view is not displayed?",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/advanced/custom-views.html",
+              "originPath": "docs/en-us/guides/advanced/custom-views.md"
+            },
+            {
+              "id": "advanced-layout",
+              "path": "advanced/advanced-layout",
+              "channelPath": "guides",
+              "title": "Advanced Layout",
+              "order": 520,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E2%9A%A0%EF%B8%8F-important",
+                  "name": "⚠️ Important",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "when-do-you-need-a-custom-layout-",
+                  "name": "When Do You Need a Custom Layout?",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ngx-gantt-root-component",
+                  "name": "ngx-gantt-root Component",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "component-properties",
+                  "name": "Component Properties",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "template-structure",
+                  "name": "Template Structure",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "minimal-example",
+                  "name": "Minimal Example",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "implementation-highlights",
+                  "name": "Implementation Highlights",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "example-code",
+                  "name": "Example Code",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/en-us/guides/advanced/advanced-layout.html",
+              "originPath": "docs/en-us/guides/advanced/advanced-layout.md"
+            }
+          ],
+          "order": 500
+        }
+      ],
+      "order": 9007199254740991
+    },
+    {
       "title": "Component APIs",
       "path": "component-apis",
       "lib": "ngx-gantt",
@@ -149,6 +2021,1824 @@
     }
   ],
   "docs": [
+    {
+      "id": "advanced-layout",
+      "path": "advanced/advanced-layout",
+      "channelPath": "guides",
+      "title": "Advanced Layout",
+      "order": 520,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E2%9A%A0%EF%B8%8F-important",
+          "name": "⚠️ Important",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "when-do-you-need-a-custom-layout-",
+          "name": "When Do You Need a Custom Layout?",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "ngx-gantt-root-component",
+          "name": "ngx-gantt-root Component",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "component-properties",
+          "name": "Component Properties",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "template-structure",
+          "name": "Template Structure",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "implementation-highlights",
+          "name": "Implementation Highlights",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "example-code",
+          "name": "Example Code",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/advanced/advanced-layout.html",
+      "originPath": "docs/en-us/guides/advanced/advanced-layout.md"
+    },
+    {
+      "id": "custom-views",
+      "path": "advanced/custom-views",
+      "channelPath": "guides",
+      "title": "Custom Views",
+      "order": 510,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "when-do-you-need-a-custom-view-",
+          "name": "When Do You Need a Custom View?",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "implement-a-custom-view",
+          "name": "Implement a Custom View",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "register-and-use-custom-views",
+          "name": "Register and Use Custom Views",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "register-a-custom-view",
+          "name": "Register a Custom View",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "use-the-custom-view",
+          "name": "Use the Custom View",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "override-built-in-views",
+          "name": "Override Built-in Views",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-the-custom-view-is-not-displayed-",
+          "name": "Q: The custom view is not displayed?",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/advanced/custom-views.html",
+      "originPath": "docs/en-us/guides/advanced/custom-views.md"
+    },
+    {
+      "id": "index",
+      "path": "advanced",
+      "channelPath": "guides",
+      "title": "Advanced Customization",
+      "order": 500,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "chapter-list",
+          "name": "Chapter List",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "use-cases",
+          "name": "Use Cases",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "recommended-approach",
+          "name": "Recommended Approach",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/advanced/index.html",
+      "originPath": "docs/en-us/guides/advanced/index.md"
+    },
+    {
+      "id": "i18n",
+      "path": "configuration/i18n",
+      "channelPath": "guides",
+      "title": "Internationalization",
+      "order": 420,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "built-in-language-packs",
+          "name": "Built-in Language Packs",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "use-built-in-languages",
+          "name": "Use Built-in Languages",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "custom-language-packs",
+          "name": "Custom Language Packs",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "register-a-custom-language-pack",
+          "name": "Register a Custom Language Pack",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "override-built-in-language-packs",
+          "name": "Override Built-in Language Packs",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-how-do-i-override-text-for-only-specific-views-",
+          "name": "Q: How do I override text for only specific views?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-is-%3Ccode%3Edatelocale%3C/code%3E-required-",
+          "name": "Q: Is <code>dateLocale</code> required?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-do-the-format-strings-not-work-or-show-incorrectly-",
+          "name": "Q: Do the format strings not work or show incorrectly?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/configuration/i18n.html",
+      "originPath": "docs/en-us/guides/configuration/i18n.md"
+    },
+    {
+      "id": "index",
+      "path": "configuration",
+      "channelPath": "guides",
+      "title": "Global Configuration",
+      "order": 400,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "configuration-structure",
+          "name": "Configuration Structure",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "default-configuration",
+          "name": "Default Configuration",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "register-global-configuration",
+          "name": "Register Global Configuration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "standalone",
+          "name": "Standalone",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "ngmodule",
+          "name": "NgModule",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/configuration/index.html",
+      "originPath": "docs/en-us/guides/configuration/index.md"
+    },
+    {
+      "id": "theming",
+      "path": "configuration/theming",
+      "channelPath": "guides",
+      "title": "Theme & Style",
+      "order": 430,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "basic-style-configuration",
+          "name": "Basic Style Configuration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-themes",
+          "name": "Custom Themes",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "how-to-modify-the-default-theme",
+          "name": "How to Modify the Default Theme",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "define-multiple-themes",
+          "name": "Define Multiple Themes",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "theme-configuration-reference",
+          "name": "Theme Configuration Reference",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-what%E2%80%99s-the-easiest-way-to-change-only-the-bar-color-",
+          "name": "Q: What’s the easiest way to change only the Bar color?",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/configuration/theming.html",
+      "originPath": "docs/en-us/guides/configuration/theming.md"
+    },
+    {
+      "id": "api-methods",
+      "path": "core-concepts/api-methods",
+      "channelPath": "guides",
+      "title": "Public Methods",
+      "order": 240,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "method-list",
+          "name": "Method List",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "example",
+          "name": "Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/core/api-methods.html",
+      "originPath": "docs/en-us/guides/core/api-methods.md"
+    },
+    {
+      "id": "data-model",
+      "path": "core-concepts/data-model",
+      "channelPath": "guides",
+      "title": "Data Model",
+      "order": 210,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "ganttitem",
+          "name": "GanttItem",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "required-fields",
+          "name": "Required Fields",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "time-fields",
+          "name": "Time Fields",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "using-%3Ccode%3Eorigin%3C/code%3E-to-attach-business-data",
+          "name": "Using <code>origin</code> to attach business data",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "ganttgroup",
+          "name": "GanttGroup",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "organizing-data-in-group-and-tree-modes",
+          "name": "Organizing Data in Group and Tree Modes",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "group-mode-(group-+-items)",
+          "name": "Group Mode (Group + items)",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "tree-mode-(children)",
+          "name": "Tree Mode (Children)",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "data-updates",
+          "name": "Data Updates",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E2%9D%8C-wrong-example-(mutable-update)",
+          "name": "❌ Wrong Example (mutable update)",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E2%9C%85-correct-example-(immutable-update)",
+          "name": "✅ Correct Example (immutable update)",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "basic-task-list",
+          "name": "Basic Task List",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "group-mode-example",
+          "name": "Group Mode Example",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "tree-mode-example",
+          "name": "Tree Mode Example",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-why-doesn%E2%80%99t-the-view-update-after-modifying-the-data-",
+          "name": "Q: Why doesn’t the view update after modifying the data?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-how-to-tell-whether-a-task-has-child-nodes-",
+          "name": "Q: How to tell whether a task has child nodes?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-can-group-mode-and-tree-mode-be-used-together-",
+          "name": "Q: Can Group mode and Tree mode be used together?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-is-the-%3Ccode%3Eorigin%3C/code%3E-field-required-",
+          "name": "Q: Is the <code>origin</code> field required?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/core/data-model.html",
+      "originPath": "docs/en-us/guides/core/data-model.md"
+    },
+    {
+      "id": "date-timezone",
+      "path": "core-concepts/date-timezone",
+      "channelPath": "guides",
+      "title": "Date and Timezone",
+      "order": 230,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "time-input-formats",
+          "name": "Time Input Formats",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "ganttdate-time-operations",
+          "name": "GanttDate Time Operations",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "create-a-ganttdate",
+          "name": "Create a GanttDate",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "time-operation-methods",
+          "name": "Time Operation Methods",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "timezone-configuration",
+          "name": "Timezone Configuration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "timezone-notes",
+          "name": "Timezone Notes",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "week-starts-on",
+          "name": "Week Starts On",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/core/date-timezone.html",
+      "originPath": "docs/en-us/guides/core/date-timezone.md"
+    },
+    {
+      "id": "index",
+      "path": "core-concepts",
+      "channelPath": "guides",
+      "title": "Core Concepts",
+      "order": 200,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "basics",
+          "name": "Basics",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "chapter-list",
+          "name": "Chapter List",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/core/index.html",
+      "originPath": "docs/en-us/guides/core/index.md"
+    },
+    {
+      "id": "views",
+      "path": "core-concepts/views",
+      "channelPath": "guides",
+      "title": "Views",
+      "order": 220,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "using-views",
+          "name": "Using Views",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "view-types",
+          "name": "View Types",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "view-display-notes",
+          "name": "View Display Notes",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "viewoptions-configuration",
+          "name": "ViewOptions Configuration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "tick-formatting-(tickformats)",
+          "name": "Tick Formatting (tickFormats)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "drag-tooltip-format-(dragtooltipformat)",
+          "name": "Drag Tooltip Format (dragTooltipFormat)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "scroll-loading-configuration-(loadduration)",
+          "name": "Scroll Loading Configuration (loadDuration)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "holiday-configuration-(holiday)",
+          "name": "Holiday Configuration (holiday)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-how-do-i-implement-a-custom-view-",
+          "name": "Q: How do I implement a custom view?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/core/views.html",
+      "originPath": "docs/en-us/guides/core/views.md"
+    },
+    {
+      "id": "bar",
+      "path": "features/bar-interaction",
+      "channelPath": "guides",
+      "title": "Bar Display and Interaction",
+      "order": 340,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "bar-display",
+          "name": "Bar Display",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-bar-template",
+          "name": "Custom Bar Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "template-context",
+          "name": "Template Context",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "custom-item-template",
+          "name": "Custom Item Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "styling-customization",
+          "name": "Styling Customization",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-color",
+          "name": "Custom Color",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "custom-style",
+          "name": "Custom Style",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "drag-interactions",
+          "name": "Drag Interactions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "enable-dragging",
+          "name": "Enable Dragging",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "event-object",
+          "name": "Event Object",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "disable-dragging",
+          "name": "Disable Dragging",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "disable-all-bar-dragging",
+          "name": "Disable All Bar Dragging",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "disable-dragging-for-a-specific-task",
+          "name": "Disable Dragging for a Specific Task",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "drag-tooltip-format",
+          "name": "Drag Tooltip Format",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-the-view-doesn%E2%80%99t-update-after-dragging-",
+          "name": "Q: The view doesn’t update after dragging?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-how-do-i-disable-dragging-for-a-specific-task-",
+          "name": "Q: How do I disable dragging for a specific task?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-how-do-i-customize-the-dragged-tooltip-content-",
+          "name": "Q: How do I customize the dragged tooltip content?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/bar.html",
+      "originPath": "docs/en-us/guides/features/bar.md"
+    },
+    {
+      "id": "baseline",
+      "path": "features/baseline",
+      "channelPath": "guides",
+      "title": "Baseline",
+      "order": 370,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "basic-usage",
+          "name": "Basic Usage",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "data-structure",
+          "name": "Data Structure",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "dynamic-show/hide",
+          "name": "Dynamic Show/Hide",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "custom-baseline-template",
+          "name": "Custom Baseline Template",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "template-context",
+          "name": "Template Context",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "custom-example",
+          "name": "Custom Example",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/baseline.html",
+      "originPath": "docs/en-us/guides/features/baseline.md"
+    },
+    {
+      "id": "groups",
+      "path": "features/groups",
+      "channelPath": "guides",
+      "title": "Group Mode",
+      "order": 320,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "how-to-render-group-data-",
+          "name": "How to Render Group Data?",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-templates",
+          "name": "Custom Templates",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "#groupheader-template",
+          "name": "#groupHeader Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "#group-template",
+          "name": "#group Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "custom-group-styling",
+          "name": "Custom Group Styling",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "expand-/-collapse",
+          "name": "Expand / Collapse",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "initial-expanded-state",
+          "name": "Initial Expanded State",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "programmatic-control",
+          "name": "Programmatic Control",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/groups.html",
+      "originPath": "docs/en-us/guides/features/groups.md"
+    },
+    {
+      "id": "index",
+      "path": "features",
+      "channelPath": "guides",
+      "title": "Feature Guide",
+      "order": 300,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "overview",
+          "name": "Overview",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "chapter-list",
+          "name": "Chapter List",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/index.html",
+      "originPath": "docs/en-us/guides/features/index.md"
+    },
+    {
+      "id": "links",
+      "path": "features/task-links",
+      "channelPath": "guides",
+      "title": "Task Dependencies",
+      "order": 360,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "how-to-display-dependency-data-",
+          "name": "How to Display Dependency Data?",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "building-dependency-data",
+          "name": "Building Dependency Data",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "data-formats",
+          "name": "Data Formats",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "dependency-types",
+          "name": "Dependency Types",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "create-dependencies-by-dragging",
+          "name": "Create Dependencies by Dragging",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "drag-operations",
+          "name": "Drag Operations",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "event-handling",
+          "name": "Event Handling",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "dependency-link-styling",
+          "name": "Dependency Link Styling",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-dependency-link-color",
+          "name": "Custom Dependency Link Color",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "dependency-link-style-configuration",
+          "name": "Dependency Link Style Configuration",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "dependency-configuration",
+          "name": "Dependency Configuration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "full-example",
+          "name": "Full Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-how-do-i-delete-a-dependency-",
+          "name": "Q: How do I delete a dependency?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-how-do-i-restrict-dependency-creation-to-only-certain-types-",
+          "name": "Q: How do I restrict dependency creation to only certain types?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-dependency-links-are-not-displayed-",
+          "name": "Q: Dependency links are not displayed?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/links.html",
+      "originPath": "docs/en-us/guides/features/links.md"
+    },
+    {
+      "id": "performance",
+      "path": "features/performance",
+      "channelPath": "guides",
+      "title": "Performance & Loading Status",
+      "order": 380,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "core-mechanisms",
+          "name": "Core Mechanisms",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "list-virtual-scrolling",
+          "name": "List Virtual Scrolling",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "example:-load-the-next-page-when-scrolling-to-the-bottom",
+          "name": "Example: Load the Next Page When Scrolling to the Bottom",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "view-scroll-loading",
+          "name": "View Scroll Loading",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "scroll-loading-mechanism",
+          "name": "Scroll Loading Mechanism",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "example:-load-data-with-view-scroll-loading",
+          "name": "Example: Load Data with View Scroll Loading",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "loading-state-handling",
+          "name": "Loading State Handling",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/performance.html",
+      "originPath": "docs/en-us/guides/features/performance.md"
+    },
+    {
+      "id": "print",
+      "path": "features/export-print",
+      "channelPath": "guides",
+      "title": "Export & Print",
+      "order": 391,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "export-&amp;-print",
+          "name": "Export &amp; Print",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttprintservice",
+          "name": "GanttPrintService",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "inject-the-service",
+          "name": "Inject the Service",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "export-to-an-image",
+          "name": "Export to an Image",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "basic-export",
+          "name": "Basic Export",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "ignore-specific-elements",
+          "name": "Ignore Specific Elements",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "get-the-canvas-object",
+          "name": "Get the Canvas Object",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-handling-example",
+          "name": "Custom Handling Example",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "missing-styles-issue",
+          "name": "Missing Styles Issue",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "cause",
+          "name": "Cause",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "solutions",
+          "name": "Solutions",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "best-practices",
+          "name": "Best Practices",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1--wait-until-the-rendering-is-completed",
+          "name": "1. Wait until the rendering is completed",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "2--handle-large-chart-exports",
+          "name": "2. Handle large chart exports",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "3--optimize-export-quality",
+          "name": "3. Optimize export quality",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-export-fails-or-the-image-is-blank-",
+          "name": "Q: Export fails or the image is blank?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-the-exported-image-styles-are-incorrect-",
+          "name": "Q: The exported image styles are incorrect?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-how-do-i-export-a-specific-area-",
+          "name": "Q: How do I export a specific area?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-export-performance-issues-",
+          "name": "Q: Export performance issues?",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/print.html",
+      "originPath": "docs/en-us/guides/features/print.md"
+    },
+    {
+      "id": "range",
+      "path": "features/range",
+      "channelPath": "guides",
+      "title": "Range Task Display",
+      "order": 350,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "range-type-task-items",
+          "name": "Range Type Task Items",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "range-display",
+          "name": "Range Display",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-range-template",
+          "name": "Custom Range Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "template-context",
+          "name": "Template Context",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "range-vs-bar",
+          "name": "Range vs Bar",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "use-cases",
+          "name": "Use Cases",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/range.html",
+      "originPath": "docs/en-us/guides/features/range.md"
+    },
+    {
+      "id": "table",
+      "path": "features/table-interaction",
+      "channelPath": "guides",
+      "title": "Table Display and Interaction",
+      "order": 310,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "how-to-use-the-table-",
+          "name": "How to Use the Table?",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-display-templates",
+          "name": "Custom Display Templates",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "column-content-template",
+          "name": "Column Content Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "row-before/after-slots",
+          "name": "Row Before/After Slots",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "table-empty-template",
+          "name": "Table Empty Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "table-footer-template",
+          "name": "Table Footer Template",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "table-interactions",
+          "name": "Table Interactions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "row-drag-sorting",
+          "name": "Row Drag Sorting",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "enable-dragging",
+          "name": "Enable Dragging",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "handle-drag-drop-events",
+          "name": "Handle Drag Drop Events",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "intercept-%3Ccode%3Edropenterpredicate%3C/code%3E-actions",
+          "name": "Intercept <code>dropEnterPredicate</code> Actions",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "column-drag-to-change-width",
+          "name": "Column Drag to Change Width",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "row-click-and-selection",
+          "name": "Row Click and Selection",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "row-click-event",
+          "name": "Row Click Event",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "selection-feature",
+          "name": "Selection Feature",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-how-do-i-disable-dragging-for-a-specific-task-",
+          "name": "Q: How do I disable dragging for a specific task?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-how-do-i-limit-the-drag-range-",
+          "name": "Q: How do I limit the drag range?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-the-data-doesn%E2%80%99t-update-after-dragging-",
+          "name": "Q: The data doesn’t update after dragging?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "related-links",
+          "name": "Related Links",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/table.html",
+      "originPath": "docs/en-us/guides/features/table.md"
+    },
+    {
+      "id": "toolbar",
+      "path": "features/toolbar",
+      "channelPath": "guides",
+      "title": "Toolbar",
+      "order": 390,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "basic-usage",
+          "name": "Basic Usage",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "custom-toolbar",
+          "name": "Custom Toolbar",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "style-customization",
+          "name": "Style Customization",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "minimal-example",
+          "name": "Minimal Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "common-questions",
+          "name": "Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-toolbar-is-not-displayed-",
+          "name": "Q: Toolbar is not displayed?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-the-view-switch-doesn%E2%80%99t-take-effect-",
+          "name": "Q: The view switch doesn’t take effect?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-how-to-hide-certain-view-types-",
+          "name": "Q: How to hide certain view types?",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/toolbar.html",
+      "originPath": "docs/en-us/guides/features/toolbar.md"
+    },
+    {
+      "id": "tree",
+      "path": "features/tree",
+      "channelPath": "guides",
+      "title": "Tree Mode",
+      "order": 330,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "how-to-use-tree-mode-",
+          "name": "How to Use Tree Mode?",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "expand-/-collapse-control",
+          "name": "Expand / Collapse Control",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "initial-expanded-state",
+          "name": "Initial Expanded State",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "programmatic-control",
+          "name": "Programmatic Control",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "maximum-level-limit",
+          "name": "Maximum Level Limit",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "async-loading",
+          "name": "Async Loading",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "complete-example",
+          "name": "Complete Example",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "basic-tree-structure",
+          "name": "Basic Tree Structure",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "async-loading-example",
+          "name": "Async Loading Example",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/features/tree.html",
+      "originPath": "docs/en-us/guides/features/tree.md"
+    },
+    {
+      "id": "getting-started",
+      "path": "intro/getting-started",
+      "channelPath": "guides",
+      "title": "Getting Started",
+      "order": 110,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%F0%9F%93%A6-install-dependencies",
+          "name": "📦 Install Dependencies",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%F0%9F%8E%A8-import-styles",
+          "name": "🎨 Import Styles",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "option-1:-configure-in-%3Ccode%3Eangular-json%3C/code%3E-(recommended)",
+          "name": "Option 1: Configure in <code>angular.json</code> (recommended)",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "option-2:-import-in-your-scss-file",
+          "name": "Option 2: Import in your SCSS file",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%F0%9F%93%A5-import-the-component",
+          "name": "📥 Import the Component",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "standalone-(recommended)",
+          "name": "Standalone (recommended)",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "ngmodule",
+          "name": "NgModule",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%F0%9F%9A%80-hello-world",
+          "name": "🚀 Hello World",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "full-example",
+          "name": "Full Example",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "key-concepts",
+          "name": "Key Concepts",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "time-formats",
+          "name": "Time Formats",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E2%9C%85-verify-installation",
+          "name": "✅ Verify Installation",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%F0%9F%93%9A-next-steps",
+          "name": "📚 Next Steps",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E2%9D%93-common-questions",
+          "name": "❓ Common Questions",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "styles-not-working-",
+          "name": "Styles not working?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "time-display-is-incorrect-",
+          "name": "Time display is incorrect?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "component-not-displayed-",
+          "name": "Component not displayed?",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "import-error-",
+          "name": "Import error?",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/getting-started/getting-started.html",
+      "originPath": "docs/en-us/guides/getting-started/getting-started.md"
+    },
+    {
+      "id": "index",
+      "path": "intro",
+      "channelPath": "guides",
+      "title": "Introduction",
+      "order": 100,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "features",
+          "name": "Features",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "use-cases",
+          "name": "Use Cases",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "tech-stack-overview",
+          "name": "Tech Stack Overview",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "current-version",
+          "name": "Current Version",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "open-source-license",
+          "name": "Open Source License",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "contributing",
+          "name": "Contributing",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/getting-started/index.html",
+      "originPath": "docs/en-us/guides/getting-started/index.md"
+    },
+    {
+      "id": "upgrade-to-21",
+      "path": "intro/upgrade-to-21",
+      "channelPath": "guides",
+      "title": "v21 Upgrade Migration Guide (Important)",
+      "order": 120,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "upgrade-preparation",
+          "name": "Upgrade Preparation",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1--view-(view)-configuration-migration",
+          "name": "1. View (View) Configuration Migration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1-1-field-renaming",
+          "name": "1.1 Field Renaming",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "1-2-migration-example",
+          "name": "1.2 Migration Example",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "2--custom-view-(custom-view)-abstract-class-migration",
+          "name": "2. Custom View (Custom View) Abstract Class Migration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "3--i18n-configuration-structure-migration",
+          "name": "3. i18n Configuration Structure Migration",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "4--global-configuration-&amp;-theming-system",
+          "name": "4. Global Configuration &amp; Theming System",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "4-1-style-field-changes",
+          "name": "4.1 Style Field Changes",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "4-2-new-theme-configuration",
+          "name": "4.2 New Theme Configuration",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "5--type-&amp;-constant-replacement-checklist",
+          "name": "5. Type &amp; Constant Replacement Checklist",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "5-1-data-model-replacement",
+          "name": "5.1 Data Model Replacement",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "5-2-layout-constant-replacement",
+          "name": "5.2 Layout Constant Replacement",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "6--verification-checklist",
+          "name": "6. Verification Checklist",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/en-us/guides/getting-started/upgrade-to-21.html",
+      "originPath": "docs/en-us/guides/getting-started/upgrade-to-21.md"
+    },
     {
       "id": "ngx-gantt",
       "title": "ngx-gantt",

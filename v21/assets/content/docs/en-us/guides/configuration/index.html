@@ -1,0 +1,139 @@
+<p>Global configuration is provided through the <code>GANTT_GLOBAL_CONFIG</code> token. It is used to set application-level defaults, including timezone, styling, and link options.</p>
+
+        <h2 id="configuration-structure" class="docs-header-link">
+          <span header-link="configuration-structure"></span>
+          Configuration Structure
+        </h2>
+      <div class="dg-paragraph"><code>GanttGlobalConfig</code> configuration description:</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttGlobalConfig</span> <span class="token punctuation">{</span>
+  locale<span class="token operator">?</span><span class="token punctuation">:</span> GanttI18nLocale <span class="token operator">|</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Default language ID (see internationalization documentation)</span>
+  dateOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    timeZone<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Timezone, e.g. 'Asia/Shanghai' or 'UTC'</span>
+    weekStartsOn<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span> <span class="token operator">|</span> <span class="token number">2</span> <span class="token operator">|</span> <span class="token number">3</span> <span class="token operator">|</span> <span class="token number">4</span> <span class="token operator">|</span> <span class="token number">5</span> <span class="token operator">|</span> <span class="token number">6</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Week starts on: 0=Sunday, 1=Monday ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  linkOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    dependencyTypes<span class="token operator">?</span><span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Allowed dependency types</span>
+    showArrow<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Whether to show arrows</span>
+    lineType<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token string">'curve'</span> <span class="token operator">|</span> <span class="token string">'straight'</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Link line type: curve/straight</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  styleOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    primaryColor<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Primary color</span>
+    headerHeight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Calendar header height (px)</span>
+    rowHeight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Row height (px)</span>
+    barHeight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Task bar height (px)</span>
+    defaultTheme<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Default theme name</span>
+    themes<span class="token operator">?</span><span class="token punctuation">:</span> Record<span class="token operator">&lt;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Theme configuration object (see theming documentation)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="default-configuration" class="docs-header-link">
+          <span header-link="default-configuration"></span>
+          Default Configuration
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> defaultConfig<span class="token punctuation">:</span> GanttGlobalConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  locale<span class="token punctuation">:</span> <span class="token string">'zh-hans'</span><span class="token punctuation">,</span>
+  linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    showArrow<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">,</span>
+    lineType<span class="token punctuation">:</span> <span class="token string">'curve'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    primaryColor<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+    headerHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+    rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+    barHeight<span class="token punctuation">:</span> <span class="token number">22</span><span class="token punctuation">,</span>
+    defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span>
+    themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        primary<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+        danger<span class="token punctuation">:</span> <span class="token string">'#FF7575'</span><span class="token punctuation">,</span>
+        highlight<span class="token punctuation">:</span> <span class="token string">'#ff9f73'</span><span class="token punctuation">,</span>
+        background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+        text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          main<span class="token punctuation">:</span> <span class="token string">'#333333'</span><span class="token punctuation">,</span>
+          muted<span class="token punctuation">:</span> <span class="token string">'#888888'</span><span class="token punctuation">,</span>
+          light<span class="token punctuation">:</span> <span class="token string">'#aaaaaa'</span><span class="token punctuation">,</span>
+          inverse<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        gray<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token number">100</span><span class="token punctuation">:</span> <span class="token string">'#fafafa'</span><span class="token punctuation">,</span>
+          <span class="token number">200</span><span class="token punctuation">:</span> <span class="token string">'#f5f5f5'</span><span class="token punctuation">,</span>
+          <span class="token number">300</span><span class="token punctuation">:</span> <span class="token string">'#f3f3f3'</span><span class="token punctuation">,</span>
+          <span class="token number">400</span><span class="token punctuation">:</span> <span class="token string">'#eeeeee'</span><span class="token punctuation">,</span>
+          <span class="token number">500</span><span class="token punctuation">:</span> <span class="token string">'#dddddd'</span><span class="token punctuation">,</span>
+          <span class="token number">600</span><span class="token punctuation">:</span> <span class="token string">'#cacaca'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="register-global-configuration" class="docs-header-link">
+          <span header-link="register-global-configuration"></span>
+          Register Global Configuration
+        </h2>
+      
+        <h3 id="standalone" class="docs-header-link">
+          <span header-link="standalone"></span>
+          Standalone
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token operator">...</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span><span class="token punctuation">,</span>
+          weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">,</span>
+          showArrow<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">,</span>
+          lineType<span class="token punctuation">:</span> <span class="token string">'curve'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          primaryColor<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+          headerHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+          rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+          barHeight<span class="token punctuation">:</span> <span class="token number">22</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="ngmodule" class="docs-header-link">
+          <span header-link="ngmodule"></span>
+          NgModule
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span><span class="token punctuation">,</span>
+          weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="related-links" class="docs-header-link">
+          <span header-link="related-links"></span>
+          Related Links
+        </h2>
+      <ul>
+<li><a href="guides/configuration/i18n">Internationalization Configuration</a> - built-in language packs, custom language packs, and language switching</li>
+<li><a href="guides/configuration/theming">Theming &amp; Style Options</a> - base style settings, custom themes, and multi-theme support</li>
+</ul>

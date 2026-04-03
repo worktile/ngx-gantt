@@ -1,0 +1,336 @@
+<p>Task dependencies are an important feature in project management. ngx-gantt supports creating dependency relationships between tasks by dragging.</p>
+
+        <h2 id="how-to-display-dependency-data-" class="docs-header-link">
+          <span header-link="how-to-display-dependency-data-"></span>
+          How to Display Dependency Data?
+        </h2>
+      <p>In the <code>ngx-gantt</code> component, set <code>[linkable]=&quot;true&quot;</code> to enable the dependency feature. Then define dependency relationships in each task&#39;s <code>links</code> field:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttLinkType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [linkable]="true">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'A'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Design'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      id<span class="token punctuation">:</span> <span class="token string">'B'</span><span class="token punctuation">,</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Development'</span><span class="token punctuation">,</span>
+      start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span>
+      end<span class="token punctuation">:</span> <span class="token number">1633345997</span><span class="token punctuation">,</span>
+      links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'A'</span> <span class="token punctuation">}</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// Task B depends on Task A</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="building-dependency-data" class="docs-header-link">
+          <span header-link="building-dependency-data"></span>
+          Building Dependency Data
+        </h2>
+      
+        <h3 id="data-formats" class="docs-header-link">
+          <span header-link="data-formats"></span>
+          Data Formats
+        </h3>
+      <p>Dependency data supports two formats: string format (simplified) and object format (full):</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// String format: defaults to `fs`</span>
+    links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'2'</span><span class="token punctuation">,</span> <span class="token string">'3'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'Task 2'</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// Object format: specify dependency type and custom styling</span>
+    links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'3'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>ff<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'4'</span><span class="token punctuation">,</span> color<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="dependency-types" class="docs-header-link">
+          <span header-link="dependency-types"></span>
+          Dependency Types
+        </h3>
+      <p>ngx-gantt supports 4 dependency types (<code>GanttLinkType</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Typical Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fs</code> (Finish-to-Start)</td>
+<td>Finish → Start</td>
+<td>After the previous task finishes, the next task can start (most common)</td>
+</tr>
+<tr>
+<td><code>ff</code> (Finish-to-Finish)</td>
+<td>Finish → Finish</td>
+<td>After the previous task finishes, the next task can also finish</td>
+</tr>
+<tr>
+<td><code>ss</code> (Start-to-Start)</td>
+<td>Start → Start</td>
+<td>After the previous task starts, the next task can also start</td>
+</tr>
+<tr>
+<td><code>sf</code> (Start-to-Finish)</td>
+<td>Start → Finish</td>
+<td>After the previous task starts, the next task can finish (less common)</td>
+</tr>
+</tbody></table>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'A'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Design'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'B'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'Development'</span><span class="token punctuation">,</span>
+    links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span> type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> link<span class="token punctuation">:</span> <span class="token string">'A'</span> <span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// FS: Task A finishes → Task B can start</span>
+      <span class="token comment" spellcheck="true">// { type: GanttLinkType.ff, link: 'A' }, // FF: Task A finishes → Task B can finish</span>
+      <span class="token comment" spellcheck="true">// { type: GanttLinkType.ss, link: 'A' }, // SS: Task A starts → Task B can start</span>
+      <span class="token comment" spellcheck="true">// { type: GanttLinkType.sf, link: 'A' }  // SF: Task A starts → Task B can finish</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="create-dependencies-by-dragging" class="docs-header-link">
+          <span header-link="create-dependencies-by-dragging"></span>
+          Create Dependencies by Dragging
+        </h2>
+      <p>In addition to defining dependencies directly in data, you can create them by dragging the task bar.</p>
+
+        <h3 id="drag-operations" class="docs-header-link">
+          <span header-link="drag-operations"></span>
+          Drag Operations
+        </h3>
+      <ol>
+<li>Start dragging from the task bar&#39;s <strong>left endpoint</strong> (start time) or <strong>right endpoint</strong> (end time)</li>
+<li>Drag to any position of the target task</li>
+<li>Release the mouse to finish creating the dependency relationship</li>
+</ol>
+<p>The component automatically determines the dependency type based on the drag start and end points:</p>
+<ul>
+<li>Drag from the end point to the start point → <code>fs</code> (Finish-to-Start)</li>
+<li>Drag from the end point to the end point → <code>ff</code> (Finish-to-Finish)</li>
+<li>Drag from the start point to the start point → <code>ss</code> (Start-to-Start)</li>
+<li>Drag from the start point to the end point → <code>sf</code> (Start-to-Finish)</li>
+</ul>
+
+        <h3 id="event-handling" class="docs-header-link">
+          <span header-link="event-handling"></span>
+          Event Handling
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt
+      [items]="items"
+      (linkDragStarted)="onLinkDragStarted($event)"
+      (linkDragEnded)="onLinkDragEnded($event)"
+      (lineClick)="onLineClick($event)"
+    >
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">onLinkDragStarted</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLinkDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Start creating dependency'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">onLinkDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLinkDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Update dependency data</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> event<span class="token punctuation">.</span>source<span class="token punctuation">.</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+          <span class="token operator">...</span>item<span class="token punctuation">,</span>
+          links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>links <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> event<span class="token punctuation">.</span>type<span class="token punctuation">,</span> link<span class="token punctuation">:</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> item<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">onLineClick</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLineClickEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Clicked dependency link'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">,</span> event<span class="token punctuation">.</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// Show dependency details or delete the dependency</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="dependency-link-styling" class="docs-header-link">
+          <span header-link="dependency-link-styling"></span>
+          Dependency Link Styling
+        </h2>
+      
+        <h3 id="custom-dependency-link-color" class="docs-header-link">
+          <span header-link="custom-dependency-link-color"></span>
+          Custom Dependency Link Color
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div>links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span>
+    link<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+    color<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Default color</span>
+      active<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span> <span class="token comment" spellcheck="true">// Active/hover color</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="dependency-link-style-configuration" class="docs-header-link">
+          <span header-link="dependency-link-style-configuration"></span>
+          Dependency Link Style Configuration
+        </h3>
+      <p>Configure link type and whether to show the arrow via <code>linkOptions</code>:</p>
+<pre class="language-typescript"><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  lineType<span class="token punctuation">:</span> <span class="token string">'straight'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 'curve' (default, curve) | 'straight' (straight)</span>
+  showArrow<span class="token punctuation">:</span> <span class="token keyword">true</span>       <span class="token comment" spellcheck="true">// Whether to show the arrow at the end of the link</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="dependency-configuration" class="docs-header-link">
+          <span header-link="dependency-configuration"></span>
+          Dependency Configuration
+        </h2>
+      <p>Dependency configuration supports both global configuration and component-level configuration:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// Global configuration</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Allowed dependency types</span>
+          showArrow<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">,</span>
+          lineType<span class="token punctuation">:</span> <span class="token string">'curve'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// Component-level configuration</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [linkOptions]="linkOptions">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  linkOptions<span class="token punctuation">:</span> GanttLinkOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span> GanttLinkType<span class="token punctuation">.</span>ff<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    showArrow<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+    lineType<span class="token punctuation">:</span> <span class="token string">'straight'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="full-example" class="docs-header-link">
+          <span header-link="full-example"></span>
+          Full Example
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttLinkDragEvent<span class="token punctuation">,</span> GanttLinkType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType" [linkable]="true" (linkDragEnded)="onLinkDragEnded($event)">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task" width="200px">
+          &lt;ng-template #cell let-item="item">{{ item.title }}&lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttLinksComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">onLinkDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLinkDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> event<span class="token punctuation">.</span>source<span class="token punctuation">.</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+          <span class="token operator">...</span>item<span class="token punctuation">,</span>
+          links<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>links <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> event<span class="token punctuation">.</span>type<span class="token punctuation">,</span> link<span class="token punctuation">:</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>id <span class="token punctuation">}</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> item<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="common-questions" class="docs-header-link">
+          <span header-link="common-questions"></span>
+          Common Questions
+        </h2>
+      
+        <h3 id="q:-how-do-i-delete-a-dependency-" class="docs-header-link">
+          <span header-link="q:-how-do-i-delete-a-dependency-"></span>
+          Q: How do I delete a dependency?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Remove the corresponding dependency from the task&#39;s <code>links</code> array:</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">removeLink</span><span class="token punctuation">(</span>itemId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> targetId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> itemId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>item<span class="token punctuation">,</span>
+        links<span class="token punctuation">:</span> item<span class="token punctuation">.</span>links<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>link <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          <span class="token keyword">const</span> linkId <span class="token operator">=</span> <span class="token keyword">typeof</span> link <span class="token operator">===</span> <span class="token string">'string'</span> <span class="token operator">?</span> link <span class="token punctuation">:</span> link<span class="token punctuation">.</span>link<span class="token punctuation">;</span>
+          <span class="token keyword">return</span> linkId <span class="token operator">!==</span> targetId<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> item<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="q:-how-do-i-restrict-dependency-creation-to-only-certain-types-" class="docs-header-link">
+          <span header-link="q:-how-do-i-restrict-dependency-creation-to-only-certain-types-"></span>
+          Q: How do I restrict dependency creation to only certain types?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Specify the allowed types in <code>linkOptions.dependencyTypes</code>:</div>
+<pre class="language-typescript"><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Only allow fs</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="q:-dependency-links-are-not-displayed-" class="docs-header-link">
+          <span header-link="q:-dependency-links-are-not-displayed-"></span>
+          Q: Dependency links are not displayed?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Check:</div>
+<ol>
+<li>Whether <code>linkable</code> is <code>true</code></li>
+<li>Whether the task&#39;s <code>linkable</code> property is <code>true</code> (default value)</li>
+<li>Whether the task IDs referenced in the <code>links</code> array exist</li>
+</ol>
+
+        <h2 id="related-links" class="docs-header-link">
+          <span header-link="related-links"></span>
+          Related Links
+        </h2>
+      <ul>
+<li><a href="guides/core-concepts/data-model">Data Model</a> - Learn the structure of the <code>links</code> field</li>
+<li><a href="guides/features/bar-interaction">Bar Display and Interaction</a> - Learn about task bar interactions</li>
+<li><a href="guides/configuration">Global Configuration</a> - Learn global configuration for dependencies</li>
+</ul>
