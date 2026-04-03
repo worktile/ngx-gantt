@@ -1,5 +1,5 @@
 module.exports = {
-    allowBranch: ['master', 'v15.*', 'v16.*', 'v17.*', 'v18.*', 'v19.*', 'release-auto-*'],
+    allowBranch: ['master', 'v15.*', 'v16.*', 'v17.*', 'v18.*', 'v19.*', 'v20.*', 'v21.*', 'v22.*', 'release-auto-*'],
     bumpFiles: ['package.json', 'package-lock.json', 'packages/gantt/package.json'],
     skip: {
         confirm: true
