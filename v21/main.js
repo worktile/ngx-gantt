@@ -57289,17 +57289,25 @@ var GanttTableHeaderComponent = class _GanttTableHeaderComponent {
     this.elementRef = inject(ElementRef);
     this.gantt = inject(GANTT_ABSTRACT_TOKEN);
     this.tableWidth = 0;
-    this.unsubscribe$ = new Subject();
+    this.columnsLayoutInitialized = false;
     this.columns = input(...ngDevMode ? [void 0, { debugName: "columns" }] : []);
     this.resizeLineElementRef = viewChild("resizeLine", ...ngDevMode ? [{ debugName: "resizeLineElementRef" }] : []);
     this.className = `gantt-table-header `;
-  }
-  ngOnInit() {
-    this.columnsChange();
-    this.columns()?.changes?.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-      if (!this.gantt?.table()?.width() && !this.customWidth) {
-        this.columnsChange();
+    effect(() => {
+      const cols = this.columns();
+      if (!cols?.length) {
+        return;
       }
+      if (!this.columnsLayoutInitialized) {
+        this.columnsLayoutInitialized = true;
+        this.columnsChange();
+        return;
+      }
+      untracked(() => {
+        if (!this.gantt?.table()?.width() && !this.customWidth) {
+          this.columnsChange();
+        }
+      });
     });
   }
   columnsChange() {
@@ -57391,10 +57399,6 @@ var GanttTableHeaderComponent = class _GanttTableHeaderComponent {
     const maxWidth = this.gantt.table()?.maxWidth();
     return maxWidth && width > maxWidth ? maxWidth : width;
   }
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
   static {
     this.\u0275fac = function GanttTableHeaderComponent_Factory(__ngFactoryType__) {
       return new (__ngFactoryType__ || _GanttTableHeaderComponent)();
@@ -57455,7 +57459,7 @@ var GanttTableHeaderComponent = class _GanttTableHeaderComponent {
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GanttTableHeaderComponent, { className: "GanttTableHeaderComponent", filePath: "packages/gantt/src/components/table/header/gantt-table-header.component.ts", lineNumber: 23 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GanttTableHeaderComponent, { className: "GanttTableHeaderComponent", filePath: "packages/gantt/src/components/table/header/gantt-table-header.component.ts", lineNumber: 22 });
 })();
 
 // packages/gantt/src/components/table/body/gantt-table-body.component.ts
@@ -57617,7 +57621,7 @@ function GanttTableBodyComponent_Conditional_2_For_1_Conditional_2_For_4_Templat
     \u0275\u0275advance();
     \u0275\u0275conditional(\u0275$index_36_r7 === 0 && ctx_r0.draggable() ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional((column_r6 == null ? null : column_r6.showExpandIcon()) || !ctx_r0.hasExpandIcon && \u0275$index_36_r7 === 0 ? 2 : -1);
+    \u0275\u0275conditional((column_r6 == null ? null : column_r6.showExpandIcon()) || !ctx_r0.hasExpandIcon() && \u0275$index_36_r7 === 0 ? 2 : -1);
     \u0275\u0275advance(2);
     \u0275\u0275property("ngTemplateOutlet", column_r6.templateRef())("ngTemplateOutletContext", \u0275\u0275pureFunction2(7, _c112, item_r3.origin, item_r3.origin));
   }
@@ -57693,7 +57697,6 @@ var GanttTableBodyComponent = class _GanttTableBodyComponent {
   constructor() {
     this.gantt = inject(GANTT_ABSTRACT_TOKEN);
     this.ganttUpper = inject(GANTT_UPPER_TOKEN);
-    this.cdr = inject(ChangeDetectorRef);
     this.document = inject(DOCUMENT);
     this.elementRef = inject(ElementRef);
     this.viewportItems = input(...ngDevMode ? [void 0, { debugName: "viewportItems" }] : []);
@@ -57714,24 +57717,25 @@ var GanttTableBodyComponent = class _GanttTableBodyComponent {
     this.dragStarted = output();
     this.dragEnded = output();
     this.itemClick = output();
-    this.hasExpandIcon = false;
+    this.hasExpandIcon = signal(false, ...ngDevMode ? [{ debugName: "hasExpandIcon" }] : []);
     this.itemDragsMap = /* @__PURE__ */ new Map();
     this.itemDragMoved = new Subject();
     this.destroy$ = new Subject();
     this.ganttTableDragging = false;
-  }
-  ngOnInit() {
-    this.columns()?.changes?.pipe(startWith(this.columns()), takeUntil(this.destroy$)).subscribe(() => {
-      this.hasExpandIcon = false;
-      this.columns().forEach((column) => {
+    effect(() => {
+      const cols = this.columns();
+      if (!cols?.length) {
+        return;
+      }
+      this.hasExpandIcon.set(false);
+      cols.forEach((column) => {
         if (!column.columnWidth()) {
           column.columnWidth.set(coerceCssPixelValue(defaultColumnWidth));
         }
         if (column.showExpandIcon()) {
-          this.hasExpandIcon = true;
+          this.hasExpandIcon.set(true);
         }
       });
-      this.cdr.detectChanges();
     });
   }
   ngAfterViewInit() {
@@ -58040,7 +58044,7 @@ var GanttTableBodyComponent = class _GanttTableBodyComponent {
                 ></gantt-icon>
               }
               <!-- expand icon -->
-              @if (column?.showExpandIcon() || (!hasExpandIcon && first)) {
+              @if (column?.showExpandIcon() || (!hasExpandIcon() && first)) {
                 <div class="gantt-expand-icon" [style.marginLeft.px]="item.level * 20">
                   @if (item.level < gantt.maxLevel() - 1 && ((gantt.async() && item.expandable) || item.children?.length > 0)) {
                     @if (!item.loading) {
@@ -58083,7 +58087,7 @@ var GanttTableBodyComponent = class _GanttTableBodyComponent {
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GanttTableBodyComponent, { className: "GanttTableBodyComponent", filePath: "packages/gantt/src/components/table/body/gantt-table-body.component.ts", lineNumber: 51 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GanttTableBodyComponent, { className: "GanttTableBodyComponent", filePath: "packages/gantt/src/components/table/body/gantt-table-body.component.ts", lineNumber: 50 });
 })();
 
 // packages/gantt/src/root.component.ts
