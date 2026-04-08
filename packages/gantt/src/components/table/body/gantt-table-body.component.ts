@@ -3,13 +3,10 @@ import { CdkDrag, CdkDragDrop, CdkDragEnd, CdkDragHandle, CdkDragMove, CdkDragSt
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
     AfterViewInit,
-    ChangeDetectorRef,
     Component,
     ElementRef,
     HostBinding,
-    Input,
     OnDestroy,
-    OnInit,
     QueryList,
     TemplateRef,
     ViewChildren,
@@ -17,7 +14,9 @@ import {
     inject,
     input,
     output,
-    computed
+    computed,
+    effect,
+    signal
 } from '@angular/core';
 import { auditTime, filter, startWith, Subject, takeUntil } from 'rxjs';
 import {
@@ -48,12 +47,10 @@ import { defaultColumnWidth } from '../header/gantt-table-header.component';
     },
     imports: [CdkDropList, GanttIconComponent, NgTemplateOutlet, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe, IsGanttGroupPipe]
 })
-export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GanttTableBodyComponent implements OnDestroy, AfterViewInit {
     gantt = inject<GanttAbstractComponent>(GANTT_ABSTRACT_TOKEN);
 
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
-
-    private cdr = inject(ChangeDetectorRef);
 
     private document = inject<Document>(DOCUMENT);
 
@@ -70,7 +67,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     readonly flatItems = input<(GanttGroupInternal | GanttItemInternal)[]>();
 
-    readonly columns = input<QueryList<NgxGanttTableColumnComponent>>();
+    readonly columns = input<ReadonlyArray<NgxGanttTableColumnComponent>>();
 
     readonly groupTemplate = input<TemplateRef<any>>();
 
@@ -94,7 +91,7 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     @ViewChildren(CdkDrag<string>) cdkDrags: QueryList<CdkDrag<GanttItemInternal>>;
 
-    public hasExpandIcon = false;
+    readonly hasExpandIcon = signal(false);
 
     // 缓存 Element 和 DragRef 的关系，方便在 Item 拖动时查找
     private itemDragsMap = new Map<HTMLElement, CdkDrag<GanttItemInternal>>();
@@ -111,23 +108,22 @@ export class GanttTableBodyComponent implements OnInit, OnDestroy, AfterViewInit
 
     ganttTableDragging = false;
 
-    constructor() {}
-
-    ngOnInit() {
-        this.columns()
-            ?.changes?.pipe(startWith(this.columns()), takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.hasExpandIcon = false;
-                this.columns().forEach((column) => {
-                    if (!column.columnWidth()) {
-                        column.columnWidth.set(coerceCssPixelValue(defaultColumnWidth));
-                    }
-                    if (column.showExpandIcon()) {
-                        this.hasExpandIcon = true;
-                    }
-                });
-                this.cdr.detectChanges();
+    constructor() {
+        effect(() => {
+            const cols = this.columns();
+            if (!cols?.length) {
+                return;
+            }
+            this.hasExpandIcon.set(false);
+            cols.forEach((column) => {
+                if (!column.columnWidth()) {
+                    column.columnWidth.set(coerceCssPixelValue(defaultColumnWidth));
+                }
+                if (column.showExpandIcon()) {
+                    this.hasExpandIcon.set(true);
+                }
             });
+        });
     }
 
     ngAfterViewInit(): void {

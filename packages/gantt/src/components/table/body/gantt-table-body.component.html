@@ -61,7 +61,7 @@
                 ></gantt-icon>
               }
               <!-- expand icon -->
-              @if (column?.showExpandIcon() || (!hasExpandIcon && first)) {
+              @if (column?.showExpandIcon() || (!hasExpandIcon() && first)) {
                 <div class="gantt-expand-icon" [style.marginLeft.px]="item.level * 20">
                   @if (item.level < gantt.maxLevel() - 1 && ((gantt.async() && item.expandable) || item.children?.length > 0)) {
                     @if (!item.loading) {
