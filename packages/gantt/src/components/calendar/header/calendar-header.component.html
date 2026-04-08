@@ -32,7 +32,11 @@
     @for (tick of view.periodTicks; track tick.rect.x) {
       <text
         class="primary-text"
-        [ngStyle]="tick.label.style"
+        [ngStyle]="{
+          fill: tick.label.style?.color,
+          fontSize: tick.label.style?.fontSize,
+          fontWeight: tick.label.style?.fontWeight
+        }"
         [class.today]="tick.metadata?.isToday"
         [class.weekend]="tick.metadata?.isWeekend"
         [attr.x]="tick.label.x"
