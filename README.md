@@ -45,8 +45,8 @@ See [Getting Started](https://worktile.github.io/ngx-gantt/guides/getting-starte
 
 Pick one:
 
-1. **`angular.json`** — add `node_modules/@worktile/gantt/styles/index.scss` to the `styles` array.
-2. **Global SCSS** —
+1. `angular.json` — add `node_modules/@worktile/gantt/styles/index.scss` to the `styles` array.
+2. Global SCSS
 
 ```scss
 @use '@worktile/gantt/styles/index.scss';

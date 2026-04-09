@@ -46,7 +46,7 @@ npm install html2canvas
 任选一种：
 
 1. **`angular.json`** — 在 `styles` 数组中加入 `node_modules/@worktile/gantt/styles/index.scss`。
-2. **全局 SCSS** —
+2. 全局 SCSS
 
 ```scss
 @use '@worktile/gantt/styles/index.scss';
