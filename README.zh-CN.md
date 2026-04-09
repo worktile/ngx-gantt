@@ -1,6 +1,6 @@
 # ngx-gantt
 
-**Language:** **English** | [中文](README.zh-CN.md)
+**语言：** [English](README.md) | **中文**
 
 [![CircleCI](https://circleci.com/gh/worktile/ngx-gantt.svg?style=shield)](https://circleci.com/gh/worktile/ngx-gantt)
 [![Coverage Status][coveralls-image]][coveralls-url]
@@ -12,39 +12,39 @@
 [coveralls-image]: https://coveralls.io/repos/github/worktile/ngx-gantt/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/worktile/ngx-gantt
 
-A modern Gantt chart component for Angular, published as [`@worktile/gantt`](https://www.npmjs.com/package/@worktile/gantt).
+适用于 Angular 的现代甘特图组件，npm 包名为 [`@worktile/gantt`](https://www.npmjs.com/package/@worktile/gantt)。
 
-## Documentation
+## 文档
 
-**[Documentation (GitHub Pages)](https://worktile.github.io/ngx-gantt/)** — guides, API, and examples.
+**[在线文档（GitHub Pages）](https://worktile.github.io/ngx-gantt/)** — 使用指南、API 说明与示例。
 
-## Installation
+## 安装
 
 ```bash
 npm install @worktile/gantt
-# or
+# 或
 yarn add @worktile/gantt
 ```
 
-**Optional:** install [`html2canvas`](https://www.npmjs.com/package/html2canvas) if you use export or print (`GanttPrintService`).
+**可选：** 若使用导出或打印功能（`GanttPrintService`），请单独安装 [`html2canvas`](https://www.npmjs.com/package/html2canvas)。
 
 ```bash
 npm install html2canvas
 ```
 
-## Quick start
+## 快速开始
 
-**Stack:** Angular **≥ 21**, and peer dependencies `@angular/cdk`, `date-fns`, `@date-fns/tz`, `rxjs` (see [Getting Started](https://worktile.github.io/ngx-gantt/guides/getting-started) for versions and setup).
+**环境：** Angular **≥ 21**，以及 peer 依赖 `@angular/cdk`、`date-fns`、`@date-fns/tz`、`rxjs`（版本与安装说明见 [快速开始](https://worktile.github.io/ngx-gantt/guides/getting-started)）。
 
-**Styles** — add the bundle in `angular.json` → `styles`, or in global SCSS:
+**样式** — 在 `angular.json` 的 `styles` 中加入样式入口，或在全局 SCSS 中引入：
 
 ```scss
 @use '@worktile/gantt/styles/index.scss';
 ```
 
-(`angular.json` path: `node_modules/@worktile/gantt/styles/index.scss`.)
+（`angular.json` 中路径示例：`node_modules/@worktile/gantt/styles/index.scss`。）
 
-**Component** — prefer **standalone** imports; or add `NgxGanttModule` to your `NgModule`.
+**组件** — 推荐使用 **Standalone** 方式引入组件；也可在 `NgModule` 中导入 `NgxGanttModule`。
 
 ```ts
 import { Component } from '@angular/core';
@@ -74,7 +74,7 @@ export class AppGanttExampleComponent {
 }
 ```
 
-## Development
+## 本地开发
 
 ```bash
 git clone git@github.com:worktile/ngx-gantt.git
@@ -83,9 +83,9 @@ npm ci
 npm run start
 ```
 
-## Contributors ✨
+<h2 id="contributors-">贡献者 ✨</h2>
 
-Thanks to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+感谢以下贡献者（[emoji 说明](https://allcontributors.org/docs/en/emoji-key)）：
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -103,8 +103,8 @@ Thanks to these wonderful people ([emoji key](https://allcontributors.org/docs/e
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+本项目遵循 [all-contributors](https://github.com/all-contributors/all-contributors) 规范，欢迎各种形式的贡献。
 
-## License
+## 开源协议
 
 [MIT](https://github.com/worktile/ngx-gantt/blob/master/LICENSE)
