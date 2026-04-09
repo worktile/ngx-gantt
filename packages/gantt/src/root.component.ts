@@ -57,7 +57,6 @@ export class NgxGanttRootComponent implements OnDestroy {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
 
     private printService = inject(GanttPrintService, { optional: true })!;
-    private cdr = inject(ChangeDetectorRef);
 
     private cdr = inject(ChangeDetectorRef);
 
