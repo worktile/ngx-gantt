@@ -34,17 +34,27 @@ npm install html2canvas
 
 ## Quick start
 
-**Stack:** Angular **≥ 21**, and peer dependencies `@angular/cdk`, `date-fns`, `@date-fns/tz`, `rxjs` (see [Getting Started](https://worktile.github.io/ngx-gantt/guides/getting-started) for versions and setup).
+### Requirements
 
-**Styles** — add the bundle in `angular.json` → `styles`, or in global SCSS:
+- Angular **≥ 21**
+- Peer dependencies: `@angular/cdk`, `date-fns`, `@date-fns/tz`, `rxjs`
+
+See [Getting Started](https://worktile.github.io/ngx-gantt/guides/getting-started) for exact versions and install commands.
+
+### Styles
+
+Pick one:
+
+1. **`angular.json`** — add `node_modules/@worktile/gantt/styles/index.scss` to the `styles` array.
+2. **Global SCSS** —
 
 ```scss
 @use '@worktile/gantt/styles/index.scss';
 ```
 
-(`angular.json` path: `node_modules/@worktile/gantt/styles/index.scss`.)
+### Component
 
-**Component** — prefer **standalone** imports; or add `NgxGanttModule` to your `NgModule`.
+Use **standalone** imports (recommended), or import `NgxGanttModule` in your `NgModule`.
 
 ```ts
 import { Component } from '@angular/core';

@@ -34,17 +34,27 @@ npm install html2canvas
 
 ## 快速开始
 
-**环境：** Angular **≥ 21**，以及 peer 依赖 `@angular/cdk`、`date-fns`、`@date-fns/tz`、`rxjs`（版本与安装说明见 [快速开始](https://worktile.github.io/ngx-gantt/guides/getting-started)）。
+### 环境要求
 
-**样式** — 在 `angular.json` 的 `styles` 中加入样式入口，或在全局 SCSS 中引入：
+- Angular **≥ 21**
+- Peer 依赖：`@angular/cdk`、`date-fns`、`@date-fns/tz`、`rxjs`
+
+版本与安装命令见 [快速开始](https://worktile.github.io/ngx-gantt/guides/getting-started)。
+
+### 样式
+
+任选一种：
+
+1. **`angular.json`** — 在 `styles` 数组中加入 `node_modules/@worktile/gantt/styles/index.scss`。
+2. **全局 SCSS** —
 
 ```scss
 @use '@worktile/gantt/styles/index.scss';
 ```
 
-（`angular.json` 中路径示例：`node_modules/@worktile/gantt/styles/index.scss`。）
+### 组件
 
-**组件** — 推荐使用 **Standalone** 方式引入组件；也可在 `NgModule` 中导入 `NgxGanttModule`。
+推荐使用 **Standalone** 引入；或在 `NgModule` 中导入 `NgxGanttModule`。
 
 ```ts
 import { Component } from '@angular/core';
