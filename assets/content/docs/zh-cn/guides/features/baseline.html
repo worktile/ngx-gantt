@@ -1,0 +1,111 @@
+<p>基准线（Baseline）用于展示项目计划中的原始时间安排，与实际执行时间进行对比，帮助跟踪项目进度偏差。基准线以灰色条的形式显示在任务条下方。</p>
+
+        <h2 id="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8" class="docs-header-link">
+          <span header-link="%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"></span>
+          基础使用
+        </h2>
+      <p>基准线数据通过 <code>baselineItems</code> 属性传入，每个基准线项的 <code>id</code> 必须与对应任务的 <code>id</code> 一致：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttBaselineItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [baselineItems]="baselineItems">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="任务">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  baselineItems<span class="token punctuation">:</span> GanttBaselineItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627728888</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1617361997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1625483597</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84" class="docs-header-link">
+          <span header-link="%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"></span>
+          数据结构
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttBaselineItem</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 必须与任务项的 id 对应</span>
+  start<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 基准线开始时间（Unix 时间戳，秒）</span>
+  end<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 基准线结束时间（Unix 时间戳，秒）</span>
+<span class="token punctuation">}</span></div></code></pre>
+<div class="dg-paragraph"><strong>注意：</strong> <code>start</code> 和 <code>end</code> 都是可选的，但至少需要提供其中一个。时间格式必须使用 Unix 时间戳（秒），与任务项的时间格式保持一致。</div>
+
+        <h3 id="%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/%E9%9A%90%E8%97%8F" class="docs-header-link">
+          <span header-link="%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/%E9%9A%90%E8%97%8F"></span>
+          动态显示/隐藏
+        </h3>
+      <p>可以通过控制 <code>baselineItems</code> 数组来实现动态显示或隐藏基准线：</p>
+<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [baselineItems]="showBaseline ? baselineItems : []">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt>
+    &lt;button (click)="toggleBaseline()">{{ showBaseline ? '隐藏' : '显示' }}基准线&lt;/button>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  showBaseline <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  baselineItems<span class="token punctuation">:</span> GanttBaselineItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">toggleBaseline</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>showBaseline <span class="token operator">=</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>showBaseline<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%BA%E5%87%86%E7%BA%BF%E6%A8%A1%E6%9D%BF" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%BA%E5%87%86%E7%BA%BF%E6%A8%A1%E6%9D%BF"></span>
+          自定义基准线模板
+        </h2>
+      <p>默认情况下，基准线显示为灰色条（高度 8px，颜色 <code>#cacaca</code>）。如果需要自定义样式，可以使用 <code>#baseline</code> 模板。</p>
+
+        <h3 id="%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87" class="docs-header-link">
+          <span header-link="%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87"></span>
+          模板上下文
+        </h3>
+      <div class="dg-paragraph"><code>#baseline</code> 模板提供以下上下文：</div>
+<ul>
+<li><code>item</code>：基准线项数据（<code>GanttBaselineItem</code>）</li>
+<li><code>refs</code>：基准线的位置和尺寸信息<ul>
+<li><code>refs.x</code>：X 坐标</li>
+<li><code>refs.y</code>：Y 坐标</li>
+<li><code>refs.width</code>：宽度</li>
+</ul>
+</li>
+</ul>
+
+        <h3 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A4%BA%E4%BE%8B" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A4%BA%E4%BE%8B"></span>
+          自定义示例
+        </h3>
+      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[baselineItems]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>baselineItems<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#baseline</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span> <span class="token attr-name">let-refs</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-baseline<span class="token punctuation">"</span></span> <span class="token attr-name">[style.width.px]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs.width<span class="token punctuation">"</span></span> <span class="token attr-name">[style.left.px]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs.x<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+<pre class="language-scss"><code class="language-scss"><div><span class="token selector">.custom-baseline </span><span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">bottom</span><span class="token punctuation">:</span> <span class="token number">2</span>px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">4</span>px<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> <span class="token hexcode">#ff6b6b</span><span class="token punctuation">;</span>
+  <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">0.6</span><span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token number">2</span>px<span class="token punctuation">;</span>
+  <span class="token property">z-index</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>

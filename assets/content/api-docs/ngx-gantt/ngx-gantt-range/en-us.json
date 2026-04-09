@@ -1,0 +1,1 @@
+[{"type":"component","name":"ngx-gantt-range","description":"<p>Range display component, used to display range type task items</p>\n","properties":[{"name":"template","description":"<p>Range custom template</p>\n","type":"TemplateRef<any>","default":""},{"name":"item","description":"<p>Task item data (passed via signal)</p>\n","type":"GanttItemInternal","default":""}]}]

@@ -1,0 +1,681 @@
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>甘特图主组件</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          items
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttItem[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务数据项数组，单独设置以列表展示；设置 group_id 可关联到 groups 进行分组展示；支持树形结构（children）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          groups
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttGroup[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>分组数据数组，items 需设置 group_id 关联，支持展开/收起</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          baselineItems
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttBaselineItem[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>基线对比数据，显示在任务条下方</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewType
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttViewType</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">GanttViewType.month</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>视图类型：hour、day、week、month、quarter、year，默认 month</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          start
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>开始时间（Unix 时间戳，秒）。不设置则根据 items 自动计算</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          end
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>结束时间（Unix 时间戳，秒）。不设置则根据 items 自动计算</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          showTodayLine
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">true</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否显示今天线</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          draggable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否允许拖拽任务条修改时间</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          styles
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttStyleOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>样式配置（主题、行高、任务条高度等）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          showToolbar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否显示工具栏</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          toolbarOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttToolbarOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">{
+                    viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
+                }</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>工具栏配置，可配置显示的视图类型列表</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttViewOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>视图配置（时间刻度格式、单位宽度、滚动加载等）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttLinkOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>关联关系配置（依赖类型、箭头、连线类型等）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          disabledLoadOnScroll
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">true</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否禁用滚动加载，默认 true</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          selectable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否启用行选择功能</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          multiple
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否启用多选模式（需 selectable 为 true）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          quickTimeFocus
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否启用快速时间聚焦（点击任务条端点快速定位）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          maxLevel
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">2</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>最大展示层级，默认 2</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          async
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否启用异步加载子任务</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          childrenResolve
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">(item: GanttItem) &#x3D;&gt; Observable&lt;GanttItem[]&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>异步加载子任务函数，返回 Observable&lt;GanttItem[]&gt;</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否允许创建任务关联关系</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loading
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否显示加载状态</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          virtualScrollEnabled
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">true</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>是否启用虚拟滚动，默认 true</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loadingDelay
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">0</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>加载延迟时间（毫秒），用于避免闪烁，默认 0</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loadOnScroll
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLoadOnScrollEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>滚动加载事件，事件对象包含 start 和 end 时间戳</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragStarted
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务条拖拽开始事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragMoved
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务条拖拽移动事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragEnded
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务条拖拽结束事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          barClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttBarClickEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务条点击事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttView&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>视图类型变化事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          expandChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttItemInternal | GanttGroupInternal | (GanttItemInternal | GanttGroupInternal)[]&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>展开/收起状态变化事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkDragStarted
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLinkDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>关联关系拖拽开始事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkDragEnded
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLinkDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>关联关系拖拽结束事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          lineClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLineClickEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>关联关系线点击事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          selectedChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttSelectedEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务选择变化事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          virtualScrolledIndexChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttVirtualScrolledIndexChangeEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>虚拟滚动索引变化事件</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #bar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务条自定义模板（bar 类型）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #range
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>区间自定义模板（range 类型）</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #item
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>任务项自定义模板</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #baseline
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>基线自定义模板</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #group
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>分组自定义模板</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #groupHeader
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>分组头部自定义模板</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #toolbar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>工具栏自定义模板</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #footer
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>底部自定义模板</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>

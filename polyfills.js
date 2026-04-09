@@ -14,9 +14,7 @@ function initZone() {
   }
   mark("Zone");
   class ZoneImpl {
-    static {
-      this.__symbol__ = __symbol__;
-    }
+    static __symbol__ = __symbol__;
     static assertZonePatched() {
       if (global["Promise"] !== patches["ZoneAwarePromise"]) {
         throw new Error("Zone.js has detected that ZoneAwarePromise `(window|global).Promise` has been overwritten.\nMost likely cause is that a Promise polyfill has been loaded after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. If you must load one, do so before loading zone.js.)");
@@ -35,7 +33,6 @@ function initZone() {
     static get currentTask() {
       return _currentTask;
     }
-    // tslint:disable-next-line:require-internal-with-underscore
     static __load_patch(name, fn, ignoreDuplicate = false) {
       if (patches.hasOwnProperty(name)) {
         const checkDuplicate = global[__symbol__("forceDuplicateZoneCheck")] === true;
@@ -55,6 +52,10 @@ function initZone() {
     get name() {
       return this._name;
     }
+    _parent;
+    _name;
+    _properties;
+    _zoneDelegate;
     constructor(parent, zoneSpec) {
       this._parent = parent;
       this._name = zoneSpec ? zoneSpec.name || "unnamed" : "<root>";
@@ -234,12 +235,39 @@ function initZone() {
     get zone() {
       return this._zone;
     }
+    _zone;
+    _taskCounts = {
+      "microTask": 0,
+      "macroTask": 0,
+      "eventTask": 0
+    };
+    _parentDelegate;
+    _forkDlgt;
+    _forkZS;
+    _forkCurrZone;
+    _interceptDlgt;
+    _interceptZS;
+    _interceptCurrZone;
+    _invokeDlgt;
+    _invokeZS;
+    _invokeCurrZone;
+    _handleErrorDlgt;
+    _handleErrorZS;
+    _handleErrorCurrZone;
+    _scheduleTaskDlgt;
+    _scheduleTaskZS;
+    _scheduleTaskCurrZone;
+    _invokeTaskDlgt;
+    _invokeTaskZS;
+    _invokeTaskCurrZone;
+    _cancelTaskDlgt;
+    _cancelTaskZS;
+    _cancelTaskCurrZone;
+    _hasTaskDlgt;
+    _hasTaskDlgtOwner;
+    _hasTaskZS;
+    _hasTaskCurrZone;
     constructor(zone, parentDelegate, zoneSpec) {
-      this._taskCounts = {
-        "microTask": 0,
-        "macroTask": 0,
-        "eventTask": 0
-      };
       this._zone = zone;
       this._parentDelegate = parentDelegate;
       this._forkZS = zoneSpec && (zoneSpec && zoneSpec.onFork ? zoneSpec : parentDelegate._forkZS);
@@ -345,7 +373,6 @@ function initZone() {
         this.handleError(targetZone, err);
       }
     }
-    // tslint:disable-next-line:require-internal-with-underscore
     _updateTaskCount(type, count) {
       const counts = this._taskCounts;
       const prev = counts[type];
@@ -365,11 +392,18 @@ function initZone() {
     }
   }
   class ZoneTask {
+    type;
+    source;
+    invoke;
+    callback;
+    data;
+    scheduleFn;
+    cancelFn;
+    _zone = null;
+    runCount = 0;
+    _zoneDelegates = null;
+    _state = "notScheduled";
     constructor(type, source, callback, options, scheduleFn, cancelFn) {
-      this._zone = null;
-      this.runCount = 0;
-      this._zoneDelegates = null;
-      this._state = "notScheduled";
       this.type = type;
       this.source = source;
       this.data = options;
@@ -412,7 +446,6 @@ function initZone() {
     cancelScheduleRequest() {
       this._transitionTo(notScheduled, scheduling);
     }
-    // tslint:disable-next-line:require-internal-with-underscore
     _transitionTo(toState, fromState1, fromState2) {
       if (this._state === fromState1 || this._state === fromState2) {
         this._state = toState;
@@ -682,7 +715,7 @@ function patchProperty(obj, prop, prototype) {
     if (typeof previousValue === "function") {
       target.removeEventListener(eventName, wrapFn);
     }
-    originalDescSet && originalDescSet.call(target, null);
+    originalDescSet?.call(target, null);
     target[eventNameSymbol] = newValue;
     if (typeof newValue === "function") {
       target.addEventListener(eventName, wrapFn, false);
@@ -841,16 +874,6 @@ function attachOriginToPatched(patched, original) {
 }
 var isDetectedIEOrEdge = false;
 var ieOrEdge = false;
-function isIE() {
-  try {
-    const ua = internalWindow.navigator.userAgent;
-    if (ua.indexOf("MSIE ") !== -1 || ua.indexOf("Trident/") !== -1) {
-      return true;
-    }
-  } catch (error) {
-  }
-  return false;
-}
 function isIEOrEdge() {
   if (isDetectedIEOrEdge) {
     return ieOrEdge;
@@ -870,20 +893,6 @@ function isFunction(value) {
 }
 function isNumber(value) {
   return typeof value === "number";
-}
-var passiveSupported = false;
-if (typeof window !== "undefined") {
-  try {
-    const options = Object.defineProperty({}, "passive", {
-      get: function() {
-        passiveSupported = true;
-      }
-    });
-    window.addEventListener("test", options, options);
-    window.removeEventListener("test", options, options);
-  } catch (err) {
-    passiveSupported = false;
-  }
 }
 var OPTIMIZED_ZONE_EVENT_TASK_DATA = {
   useG: true
@@ -1013,10 +1022,7 @@ function patchEventTarget(_global2, api, apis, patchOptions) {
       nativePrependEventListener = proto[zoneSymbol(patchOptions2.prepend)] = proto[patchOptions2.prepend];
     }
     function buildEventListenerOptions(options, passive) {
-      if (!passiveSupported && typeof options === "object" && options) {
-        return !!options.capture;
-      }
-      if (!passiveSupported || !passive) {
+      if (!passive) {
         return options;
       }
       if (typeof options === "boolean") {
@@ -1083,7 +1089,7 @@ function patchEventTarget(_global2, api, apis, patchOptions) {
       const typeOfDelegate = typeof delegate;
       return typeOfDelegate === "function" && task.callback === delegate || typeOfDelegate === "object" && task.originalDelegate === delegate;
     };
-    const compare = patchOptions2 && patchOptions2.diff ? patchOptions2.diff : compareTaskCallbackVsDelegate;
+    const compare = patchOptions2?.diff || compareTaskCallbackVsDelegate;
     const unpatchedEvents = Zone[zoneSymbol("UNPATCHED_EVENTS")];
     const passiveEvents = _global2[zoneSymbol("PASSIVE_EVENTS")];
     function copyEventListenerOptions(options) {
@@ -1110,17 +1116,17 @@ function patchEventTarget(_global2, api, apis, patchOptions) {
         if (isNode && eventName === "uncaughtException") {
           return nativeListener.apply(this, arguments);
         }
-        let isHandleEvent = false;
+        let isEventListenerObject = false;
         if (typeof delegate !== "function") {
           if (!delegate.handleEvent) {
             return nativeListener.apply(this, arguments);
           }
-          isHandleEvent = true;
+          isEventListenerObject = true;
         }
         if (validateHandler && !validateHandler(nativeListener, delegate, target, arguments)) {
           return;
         }
-        const passive = passiveSupported && !!passiveEvents && passiveEvents.indexOf(eventName) !== -1;
+        const passive = !!passiveEvents && passiveEvents.indexOf(eventName) !== -1;
         const options = copyEventListenerOptions(buildEventListenerOptions(arguments[2], passive));
         const signal = options?.signal;
         if (signal?.aborted) {
@@ -1198,13 +1204,13 @@ function patchEventTarget(_global2, api, apis, patchOptions) {
         if (once) {
           taskData.options.once = true;
         }
-        if (!(!passiveSupported && typeof task.options === "boolean")) {
+        if (typeof task.options !== "boolean") {
           task.options = options;
         }
         task.target = target;
         task.capture = capture;
         task.eventName = eventName;
-        if (isHandleEvent) {
+        if (isEventListenerObject) {
           task.originalDelegate = delegate;
         }
         if (!prepend) {
@@ -1535,7 +1541,7 @@ function filterProperties(target, onProperties, ignoreProperties) {
     return onProperties;
   }
   const tip = ignoreProperties.filter((ip) => ip.target === target);
-  if (!tip || tip.length === 0) {
+  if (tip.length === 0) {
     return onProperties;
   }
   const targetIgnoreProperties = tip[0].ignoreProperties;
@@ -1575,7 +1581,7 @@ function propertyDescriptorPatch(api, _global2) {
       "HTMLMarqueeElement",
       "Worker"
     ]);
-    const ignoreErrorProperties = isIE() ? [{ target: internalWindow2, ignoreProperties: ["error"] }] : [];
+    const ignoreErrorProperties = [];
     patchFilteredProperties(internalWindow2, getOnEventNames(internalWindow2), ignoreProperties ? ignoreProperties.concat(ignoreErrorProperties) : ignoreProperties, ObjectGetPrototypeOf(internalWindow2));
   }
   patchTargets = patchTargets.concat([
@@ -1591,7 +1597,7 @@ function propertyDescriptorPatch(api, _global2) {
   ]);
   for (let i = 0; i < patchTargets.length; i++) {
     const target = _global2[patchTargets[i]];
-    target && target.prototype && patchFilteredProperties(target.prototype, getOnEventNames(target.prototype), ignoreProperties);
+    target?.prototype && patchFilteredProperties(target.prototype, getOnEventNames(target.prototype), ignoreProperties);
   }
 }
 function patchBrowser(Zone2) {
@@ -1857,7 +1863,7 @@ function patchPromise(Zone2) {
       }
     }
     function isThenable(value) {
-      return value && value.then;
+      return value && typeof value.then === "function";
     }
     function forwardResolution(value) {
       return value;
@@ -2376,7 +2382,7 @@ patchBrowser(Zone$1);
 zone.js/fesm2015/zone.js:
   (**
    * @license Angular v<unknown>
-   * (c) 2010-2024 Google LLC. https://angular.io/
+   * (c) 2010-2025 Google LLC. https://angular.io/
    * License: MIT
    *)
 */

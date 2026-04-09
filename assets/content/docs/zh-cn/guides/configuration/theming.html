@@ -1,0 +1,161 @@
+<p>ngx-gantt 支持通过全局配置的 <code>styleOptions</code> 定义主题与样式，使用者可根据自身项目的品牌/设计风格调整配色与主题。</p>
+
+        <h2 id="%E5%9F%BA%E7%A1%80%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E5%9F%BA%E7%A1%80%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE"></span>
+          基础样式配置
+        </h2>
+      <p>对于基本样式配置（布局尺寸）和 Bar 颜色，可以直接通过 <code>styleOptions</code> 的顶层属性实现：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          primaryColor<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Bar 颜色，优先级高于主题配置 primary 颜色</span>
+          headerHeight<span class="token punctuation">:</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 日历头部高度（px）</span>
+          rowHeight<span class="token punctuation">:</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 任务行高度（px）</span>
+          barHeight<span class="token punctuation">:</span> <span class="token number">24</span> <span class="token comment" spellcheck="true">// 任务条高度（px）</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98" class="docs-header-link">
+          <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98"></span>
+          自定义主题
+        </h2>
+      <p>如果需要更细致的颜色控制（如背景色、文本色、灰阶等），可以通过修改默认主题或定义多个主题来实现。</p>
+
+        <h3 id="%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98" class="docs-header-link">
+          <span header-link="%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98"></span>
+          如何修改默认主题
+        </h3>
+      <p>在全局配置中通过 <code>styleOptions.themes</code> 修改默认主题，可以只定义需要修改的颜色，未定义的颜色会使用默认值：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 指定默认主题</span>
+          themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              primary<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+              background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+              text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> <span class="token string">'#333333'</span><span class="token punctuation">,</span>
+                muted<span class="token punctuation">:</span> <span class="token string">'#888888'</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="%E5%AE%9A%E4%B9%89%E5%A4%9A%E4%B8%AA%E4%B8%BB%E9%A2%98" class="docs-header-link">
+          <span header-link="%E5%AE%9A%E4%B9%89%E5%A4%9A%E4%B8%AA%E4%B8%BB%E9%A2%98"></span>
+          定义多个主题
+        </h3>
+      <p>可以定义多套主题，通过 <code>defaultTheme</code> 指定当前使用的主题：</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          defaultTheme<span class="token punctuation">:</span> <span class="token string">'dark'</span><span class="token punctuation">,</span>
+          themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              primary<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+              background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+              text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> <span class="token string">'#333333'</span><span class="token punctuation">,</span>
+                muted<span class="token punctuation">:</span> <span class="token string">'#888888'</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            dark<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              primary<span class="token punctuation">:</span> <span class="token string">'#4a90e2'</span><span class="token punctuation">,</span>
+              background<span class="token punctuation">:</span> <span class="token string">'#1a1a1a'</span><span class="token punctuation">,</span>
+              text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+                muted<span class="token punctuation">:</span> <span class="token string">'#aaaaaa'</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E" class="docs-header-link">
+          <span header-link="%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"></span>
+          主题配置说明
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">Theme</span> <span class="token punctuation">{</span>
+  primary<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 主色：Bar、选中高亮等</span>
+  danger<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 危险色：关联关系冲突</span>
+  highlight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 高亮色：今日高亮显示</span>
+  background<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 背景色：甘特主区域、表格背景</span>
+  text<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    main<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 主要文本（表格、时间刻度）</span>
+    muted<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 次要文本（辅助信息、弱化文字）</span>
+    light<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 浅色文本（禁用/弱提示）</span>
+    inverse<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 反色文本（彩色背景/深色背景上的文字）</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  gray<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token number">100</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 灰阶 100：行/背景浅分隔</span>
+    <span class="token number">200</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 灰阶 200：网格/边框浅色</span>
+    <span class="token number">300</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 灰阶 300：弱分隔线</span>
+    <span class="token number">400</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 灰阶 400：常规分隔线</span>
+    <span class="token number">500</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 灰阶 500：强调分隔/边框</span>
+    <span class="token number">600</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 灰阶 600：更深的强调元素</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+<ul>
+<li>所有颜色属性均为可选，可根据需要部分修改</li>
+<li>未提供的颜色属性会与默认值进行深度合并，保留默认配置</li>
+<li>颜色值支持 CSS 颜色格式：十六进制（<code>#6698ff</code>）</li>
+</ul>
+
+        <h2 id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="docs-header-link">
+          <span header-link="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"></span>
+          常见问题
+        </h2>
+      
+        <h3 id="q:-%E6%88%91%E5%8F%AA%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-bar-%E9%A2%9C%E8%89%B2%EF%BC%8C%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9F" class="docs-header-link">
+          <span header-link="q:-%E6%88%91%E5%8F%AA%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-bar-%E9%A2%9C%E8%89%B2%EF%BC%8C%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9F"></span>
+          Q: 我只需要修改 Bar 颜色，最简单的方式？
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> 直接在全局 <code>styleOptions.primaryColor</code> 设置即可，无需改主题或 Sass：</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          primaryColor<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span> <span class="token comment" spellcheck="true">// 全局 Bar 主色</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>

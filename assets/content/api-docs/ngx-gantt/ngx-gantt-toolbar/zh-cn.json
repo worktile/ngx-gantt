@@ -1,0 +1,1 @@
+[{"type":"component","name":"ngx-gantt-toolbar","description":"<p>工具栏组件，提供视图类型切换等功能</p>\n","properties":[{"name":"template","description":"<p>工具栏自定义模板</p>\n","type":"TemplateRef<any>","default":""}]}]

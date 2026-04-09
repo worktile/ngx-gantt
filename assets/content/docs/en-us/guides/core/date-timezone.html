@@ -1,0 +1,131 @@
+<p>ngx-gantt uses <code>date-fns</code> and <code>@date-fns/tz</code> to handle time. It provides a unified <code>GanttDate</code> class for time handling, supports timezone configuration, and accepts multiple time input formats.</p>
+
+        <h2 id="time-input-formats" class="docs-header-link">
+          <span header-link="time-input-formats"></span>
+          Time Input Formats
+        </h2>
+      <div class="dg-paragraph"><code>GanttItem</code>&#39;s <code>start</code> and <code>end</code> fields support the following formats:</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 1. Unix timestamp (10-digit seconds or 13-digit milliseconds)</span>
+<span class="token keyword">const</span> items1<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'Task'</span><span class="token punctuation">,</span>
+    start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 10-digit Unix timestamp (seconds)</span>
+    end<span class="token punctuation">:</span> <span class="token number">1627729997000</span> <span class="token comment" spellcheck="true">// 13-digit Unix timestamp (milliseconds)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 2. Date object</span>
+<span class="token keyword">const</span> items2<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'Task'</span><span class="token punctuation">,</span>
+    start<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">1627729997</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    end<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">1628421197</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="ganttdate-time-operations" class="docs-header-link">
+          <span header-link="ganttdate-time-operations"></span>
+          GanttDate Time Operations
+        </h2>
+      <div class="dg-paragraph"><code>GanttDate</code> is a time utility class wrapped on top of <code>date-fns</code> and <code>@date-fns/tz</code>. It provides many time-related methods. You may choose to use it optionally; it is not required.</div>
+
+        <h3 id="create-a-ganttdate" class="docs-header-link">
+          <span header-link="create-a-ganttdate"></span>
+          Create a GanttDate
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Current time</span>
+<span class="token keyword">const</span> now <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Create from Unix timestamp (seconds, 10 digits)</span>
+<span class="token keyword">const</span> date1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Create from Unix timestamp (milliseconds, 13 digits)</span>
+<span class="token keyword">const</span> date2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Create from a Date object</span>
+<span class="token keyword">const</span> date3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">1627729997</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Create from a string</span>
+<span class="token keyword">const</span> date4 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token string">'2021-07-31'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="time-operation-methods" class="docs-header-link">
+          <span header-link="time-operation-methods"></span>
+          Time Operation Methods
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Add/subtract time</span>
+date<span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Add 7 days</span>
+date<span class="token punctuation">.</span><span class="token function">addMonths</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Add 1 month</span>
+date<span class="token punctuation">.</span><span class="token function">addYears</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Add 1 year</span>
+date<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'week'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Add 1 week (generic method)</span>
+
+<span class="token comment" spellcheck="true">// Get time boundaries</span>
+date<span class="token punctuation">.</span><span class="token function">startOfDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Start of the day</span>
+date<span class="token punctuation">.</span><span class="token function">endOfDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// End of the day</span>
+date<span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Start of the week</span>
+date<span class="token punctuation">.</span><span class="token function">endOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// End of the week</span>
+date<span class="token punctuation">.</span><span class="token function">startOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Start of the month</span>
+date<span class="token punctuation">.</span><span class="token function">endOfMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// End of the month</span>
+date<span class="token punctuation">.</span><span class="token function">startOfQuarter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Start of the quarter</span>
+date<span class="token punctuation">.</span><span class="token function">endOfQuarter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// End of the quarter</span>
+date<span class="token punctuation">.</span><span class="token function">startOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Start of the year</span>
+date<span class="token punctuation">.</span><span class="token function">endOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// End of the year</span>
+
+<span class="token comment" spellcheck="true">// Format (using date-fns format strings)</span>
+date<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'yyyy-MM-dd'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// '2021-07-31'</span>
+date<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'yyyy-MM-dd HH:mm:ss'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// '2021-07-31 12:00:00'</span>
+
+<span class="token comment" spellcheck="true">// Get Unix timestamp (seconds)</span>
+<span class="token keyword">const</span> timestamp <span class="token operator">=</span> date<span class="token punctuation">.</span><span class="token function">getUnixTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 1627729997</span>
+
+<span class="token comment" spellcheck="true">// Check</span>
+date<span class="token punctuation">.</span><span class="token function">isToday</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Is today</span>
+date<span class="token punctuation">.</span><span class="token function">isWeekend</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Is weekend</span></div></code></pre>
+
+        <h2 id="timezone-configuration" class="docs-header-link">
+          <span header-link="timezone-configuration"></span>
+          Timezone Configuration
+        </h2>
+      <p>Configure the global timezone and the week start day through <code>GANTT_GLOBAL_CONFIG</code>:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Timezone</span>
+          weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token comment" spellcheck="true">// Week starts on: 0=Sunday, 1=Monday</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="timezone-notes" class="docs-header-link">
+          <span header-link="timezone-notes"></span>
+          Timezone Notes
+        </h3>
+      <ul>
+<li><code>timeZone</code>: uses an IANA timezone identifier (e.g., <code>&#39;Asia/Shanghai&#39;</code>, <code>&#39;America/New_York&#39;</code>)</li>
+<li>All time calculations and displays are based on the configured timezone</li>
+<li>If not configured, the system default timezone is used</li>
+</ul>
+
+        <h3 id="week-starts-on" class="docs-header-link">
+          <span header-link="week-starts-on"></span>
+          Week Starts On
+        </h3>
+      <ul>
+<li><code>weekStartsOn</code>: 0-6 represent Sunday through Saturday</li>
+<li>Default value is <code>1</code> (Monday)</li>
+<li>Affects the display and calculation of the week view</li>
+</ul>

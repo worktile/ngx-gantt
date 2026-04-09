@@ -1,0 +1,243 @@
+<p>When the built-in 6 view types cannot meet your needs, you can create a custom view by extending the <code>GanttView</code> abstract class.</p>
+
+        <h2 id="when-do-you-need-a-custom-view-" class="docs-header-link">
+          <span header-link="when-do-you-need-a-custom-view-"></span>
+          When Do You Need a Custom View?
+        </h2>
+      <div class="dg-paragraph"><strong>Use cases:</strong></div>
+<ul>
+<li>You need special time granularity (e.g., a biweekly view or a bimonthly view)</li>
+<li>You need special time range calculation logic</li>
+</ul>
+<div class="dg-paragraph"><strong>Not suitable for:</strong></div>
+<ul>
+<li>You only need to adjust view styles (use CSS)</li>
+<li>You only need to adjust time formats (use <code>viewOptions.tickFormats</code>)</li>
+</ul>
+
+        <h2 id="implement-a-custom-view" class="docs-header-link">
+          <span header-link="implement-a-custom-view"></span>
+          Implement a Custom View
+        </h2>
+      <p>The following example implements a biweekly view (2 weeks per period, 1 week per unit):</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
+  GanttView<span class="token punctuation">,</span>
+  GanttViewOptions<span class="token punctuation">,</span>
+  PERIOD_TICK_TOP<span class="token punctuation">,</span>
+  UNIT_TICK_TOP<span class="token punctuation">,</span>
+  GanttViewDate<span class="token punctuation">,</span>
+  GanttDate<span class="token punctuation">,</span>
+  eachWeekOfInterval<span class="token punctuation">,</span>
+  GanttViewTick
+<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Default view options</span>
+<span class="token keyword">const</span> defaultViewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  unitWidth<span class="token punctuation">:</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Unit width (px). Here the unit is a week.</span>
+  start<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// View start time</span>
+  end<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endOfYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// View end time</span>
+  loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    amount<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token comment" spellcheck="true">// Load duration: 3 months</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttViewBiweekly</span> <span class="token keyword">extends</span> <span class="token class-name">GanttView</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Show the "now" indicator</span>
+  override showNowIndicator <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// View type (custom string)</span>
+  override viewType <span class="token operator">=</span> <span class="token string">'biweekly'</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span>start<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> end<span class="token punctuation">:</span> GanttViewDate<span class="token punctuation">,</span> options<span class="token operator">?</span><span class="token punctuation">:</span> GanttViewOptions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Merge default options and the passed options</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> end<span class="token punctuation">,</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> defaultViewOptions<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Return the start date of the range containing the specified date
+   * Biweekly view: return the start of the biweekly period that contains the date (a period = every 2 weeks)
+   */</span>
+  <span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> weekStart <span class="token operator">=</span> date<span class="token punctuation">.</span><span class="token function">startOfWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// First find the start of the week</span>
+    <span class="token keyword">const</span> weekNumber <span class="token operator">=</span> weekStart<span class="token punctuation">.</span><span class="token function">getWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Get the week number</span>
+    <span class="token comment" spellcheck="true">// If it's an odd week, step back one week; otherwise it's the current week</span>
+    <span class="token keyword">const</span> offset <span class="token operator">=</span> <span class="token punctuation">(</span>weekNumber <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 0 or 1</span>
+    <span class="token keyword">return</span> weekStart<span class="token punctuation">.</span><span class="token function">addWeeks</span><span class="token punctuation">(</span><span class="token operator">-</span>offset<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Return to the start of the biweekly period</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Return the end date of the range containing the specified date
+   * Biweekly view: return the end of the biweekly period that contains the date
+   */</span>
+  <span class="token function">rangeEndOf</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> rangeStart <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">rangeStartOf</span><span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> rangeStart<span class="token punctuation">.</span><span class="token function">addWeeks</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// End of the biweekly period (the day before 2 weeks later)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Return the width of a period (px)
+   * Biweekly view: a period is 2 weeks, so the width is 2 unit widths
+   */</span>
+  <span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnitWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 2 weeks = 2 unit widths</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Return the width of a specific date (px)
+   * Biweekly view: one day width is unit width / 7 (7 days per week)
+   */</span>
+  <span class="token function">getDayWidth</span><span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>unitWidth <span class="token operator">/</span> <span class="token number">7</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Unit is week; 7 days in a week</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Return the array of period ticks
+   * Period ticks are displayed at the top of the view to identify biweekly periods
+   */</span>
+  <span class="token function">getPeriodTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Get all weeks in the view range</span>
+    <span class="token keyword">const</span> weeks <span class="token operator">=</span> <span class="token function">eachWeekOfInterval</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span>
+        start<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>start<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
+        end<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">addSeconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> ticks<span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> periodWidth <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getPeriodWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Generate a period tick every 2 weeks</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weeks<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> weekStart <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span>weeks<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> rectX <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">*</span> periodWidth<span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">// Create the period tick object</span>
+      <span class="token keyword">const</span> tick <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttViewTick</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        date<span class="token punctuation">:</span> weekStart<span class="token punctuation">,</span>
+        rect<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          x<span class="token punctuation">:</span> rectX<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// X coordinate</span>
+          width<span class="token punctuation">:</span> periodWidth <span class="token comment" spellcheck="true">// Width (2 weeks)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        label<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          text<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>weekStart<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'MM/dd'</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> - </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>weekStart<span class="token punctuation">.</span><span class="token function">addWeeks</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'MM/dd'</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Show the biweekly range</span>
+          y<span class="token punctuation">:</span> PERIOD_TICK_TOP<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Y coordinate (period tick position)</span>
+          x<span class="token punctuation">:</span> rectX <span class="token operator">+</span> periodWidth <span class="token operator">/</span> <span class="token number">2</span> <span class="token comment" spellcheck="true">// Center the label</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      ticks<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>tick<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> ticks<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Return the array of unit ticks
+   * Unit ticks are displayed at the bottom of the view to identify each week
+   */</span>
+  <span class="token function">getUnitTicks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Get all weeks in the view range</span>
+    <span class="token keyword">const</span> weeks <span class="token operator">=</span> <span class="token function">eachWeekOfInterval</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span>
+        start<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>start<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
+        end<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>end<span class="token punctuation">.</span><span class="token function">addSeconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> ticks<span class="token punctuation">:</span> GanttViewTick<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> unitWidth <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnitWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Iterate through all weeks and generate unit ticks</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weeks<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> weekStart <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span>weeks<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> rectX <span class="token operator">=</span> i <span class="token operator">*</span> unitWidth<span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">// Create the unit tick object</span>
+      <span class="token keyword">const</span> tick <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttViewTick</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        date<span class="token punctuation">:</span> weekStart<span class="token punctuation">,</span>
+        rect<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          x<span class="token punctuation">:</span> rectX<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// X coordinate</span>
+          width<span class="token punctuation">:</span> unitWidth <span class="token comment" spellcheck="true">// Width (1 week)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        label<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          text<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`Week </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>weekStart<span class="token punctuation">.</span><span class="token function">getWeek</span><span class="token punctuation">(</span><span class="token punctuation">{</span> weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)}`</span></span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Show the week number</span>
+          y<span class="token punctuation">:</span> UNIT_TICK_TOP<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Y coordinate (unit tick position)</span>
+          x<span class="token punctuation">:</span> rectX <span class="token operator">+</span> unitWidth <span class="token operator">/</span> <span class="token number">2</span> <span class="token comment" spellcheck="true">// Center the label</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      ticks<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>tick<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> ticks<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="register-and-use-custom-views" class="docs-header-link">
+          <span header-link="register-and-use-custom-views"></span>
+          Register and Use Custom Views
+        </h2>
+      
+        <h3 id="register-a-custom-view" class="docs-header-link">
+          <span header-link="register-a-custom-view"></span>
+          Register a Custom View
+        </h3>
+      <p>Use the <code>registerView</code> function to register a custom view. It is recommended to register it when the app starts:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewCustom <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./custom-day-view'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Register at app startup (e.g., main.ts or app.component.ts)</span>
+<span class="token function">registerView</span><span class="token punctuation">(</span><span class="token string">'biweekly'</span><span class="token punctuation">,</span> GanttViewBiweekly<span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="use-the-custom-view" class="docs-header-link">
+          <span header-link="use-the-custom-view"></span>
+          Use the Custom View
+        </h3>
+      <p>After registering, use the custom view via the <code>viewType</code> attribute in your component:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="'biweekly'">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="override-built-in-views" class="docs-header-link">
+          <span header-link="override-built-in-views"></span>
+          Override Built-in Views
+        </h3>
+      <p>To override a built-in view, use the same <code>GanttViewType</code> value:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewBiweekly <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./biweekly-view'</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Override the built-in week view</span>
+<span class="token function">registerView</span><span class="token punctuation">(</span>GanttViewType<span class="token punctuation">.</span>week<span class="token punctuation">,</span> GanttViewBiweekly<span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="common-questions" class="docs-header-link">
+          <span header-link="common-questions"></span>
+          Common Questions
+        </h2>
+      
+        <h3 id="q:-the-custom-view-is-not-displayed-" class="docs-header-link">
+          <span header-link="q:-the-custom-view-is-not-displayed-"></span>
+          Q: The custom view is not displayed?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Check:</div>
+<ol>
+<li>Whether you called <code>registerView</code> to register the view</li>
+<li>Whether the registered <code>viewType</code> matches the <code>viewType</code> you are using</li>
+<li>Whether all required methods have been implemented</li>
+</ol>

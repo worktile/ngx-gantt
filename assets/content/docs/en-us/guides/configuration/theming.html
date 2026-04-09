@@ -1,0 +1,161 @@
+<p>ngx-gantt supports defining themes and styles via the global configuration <code>styleOptions</code>. Users can adjust color schemes and themes based on their own project brand/design style.</p>
+
+        <h2 id="basic-style-configuration" class="docs-header-link">
+          <span header-link="basic-style-configuration"></span>
+          Basic Style Configuration
+        </h2>
+      <p>For basic style configuration (layout sizes) and Bar colors, you can directly set them through the top-level properties of <code>styleOptions</code>:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          primaryColor<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Bar color; higher priority than the theme's primary color</span>
+          headerHeight<span class="token punctuation">:</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Calendar header height (px)</span>
+          rowHeight<span class="token punctuation">:</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Task row height (px)</span>
+          barHeight<span class="token punctuation">:</span> <span class="token number">24</span> <span class="token comment" spellcheck="true">// Task bar height (px)</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="custom-themes" class="docs-header-link">
+          <span header-link="custom-themes"></span>
+          Custom Themes
+        </h2>
+      <p>If you need finer control over colors (such as background, text color, grayscale, etc.), you can modify the default theme or define multiple themes.</p>
+
+        <h3 id="how-to-modify-the-default-theme" class="docs-header-link">
+          <span header-link="how-to-modify-the-default-theme"></span>
+          How to Modify the Default Theme
+        </h3>
+      <p>In the global configuration, modify the default theme via <code>styleOptions.themes</code>. You can define only the colors you need to change; unspecified colors will fall back to defaults:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Specify the default theme</span>
+          themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              primary<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+              background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+              text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> <span class="token string">'#333333'</span><span class="token punctuation">,</span>
+                muted<span class="token punctuation">:</span> <span class="token string">'#888888'</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="define-multiple-themes" class="docs-header-link">
+          <span header-link="define-multiple-themes"></span>
+          Define Multiple Themes
+        </h3>
+      <p>You can define multiple themes and use <code>defaultTheme</code> to choose which theme is currently active:</p>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          defaultTheme<span class="token punctuation">:</span> <span class="token string">'dark'</span><span class="token punctuation">,</span>
+          themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              primary<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+              background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+              text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> <span class="token string">'#333333'</span><span class="token punctuation">,</span>
+                muted<span class="token punctuation">:</span> <span class="token string">'#888888'</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            dark<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              primary<span class="token punctuation">:</span> <span class="token string">'#4a90e2'</span><span class="token punctuation">,</span>
+              background<span class="token punctuation">:</span> <span class="token string">'#1a1a1a'</span><span class="token punctuation">,</span>
+              text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                main<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+                muted<span class="token punctuation">:</span> <span class="token string">'#aaaaaa'</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="theme-configuration-reference" class="docs-header-link">
+          <span header-link="theme-configuration-reference"></span>
+          Theme Configuration Reference
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">Theme</span> <span class="token punctuation">{</span>
+  primary<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Primary color: Bar, selection highlight, etc.</span>
+  danger<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Danger color: dependency relationship conflicts</span>
+  highlight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Highlight color: today highlight display</span>
+  background<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Background: gantt main area, table background</span>
+  text<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    main<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Main text (table, time axis ticks)</span>
+    muted<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Secondary text (helper info, muted text)</span>
+    light<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Light text (disabled / weak hints)</span>
+    inverse<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Inverse text (text on colored background / dark background)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  gray<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token number">100</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Grayscale 100: subtle line separators for rows/background</span>
+    <span class="token number">200</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Grayscale 200: light grid/border colors</span>
+    <span class="token number">300</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Grayscale 300: weak separators</span>
+    <span class="token number">400</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Grayscale 400: standard separators</span>
+    <span class="token number">500</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Grayscale 500: emphasized separators/borders</span>
+    <span class="token number">600</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Grayscale 600: deeper emphasized elements</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+<ul>
+<li>All color properties are optional. Modify only what you need</li>
+<li>Unspecified color properties will be deeply merged with defaults, keeping the default configuration</li>
+<li>Color values support CSS color formats: hexadecimal (<code>#6698ff</code>)</li>
+</ul>
+
+        <h2 id="common-questions" class="docs-header-link">
+          <span header-link="common-questions"></span>
+          Common Questions
+        </h2>
+      
+        <h3 id="q:-what%E2%80%99s-the-easiest-way-to-change-only-the-bar-color-" class="docs-header-link">
+          <span header-link="q:-what%E2%80%99s-the-easiest-way-to-change-only-the-bar-color-"></span>
+          Q: What’s the easiest way to change only the Bar color?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Set <code>styleOptions.primaryColor</code> globally directly. You don’t need to change themes or Sass:</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          primaryColor<span class="token punctuation">:</span> <span class="token string">'#ff6b6b'</span> <span class="token comment" spellcheck="true">// Global Bar primary color</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>

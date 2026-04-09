@@ -1,0 +1,152 @@
+<p>The ngx-gantt component instance provides several public methods to programmatically control the behavior of the Gantt chart.</p>
+
+        <h2 id="method-list" class="docs-header-link">
+          <span header-link="method-list"></span>
+          Method List
+        </h2>
+      <table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Return Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scrollToToday()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>Scroll to today&#39;s position</td>
+</tr>
+<tr>
+<td><code>scrollToDate(date)</code></td>
+<td><code>date: number | Date | GanttDate</code></td>
+<td><code>void</code></td>
+<td>Scroll to the specified date</td>
+</tr>
+<tr>
+<td><code>expandAll()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>Expand all groups and task items</td>
+</tr>
+<tr>
+<td><code>collapseAll()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>Collapse all groups and task items</td>
+</tr>
+<tr>
+<td><code>expandGroup(group)</code></td>
+<td><code>group: GanttGroupInternal</code></td>
+<td><code>void</code></td>
+<td>Expand or collapse the specified group</td>
+</tr>
+<tr>
+<td><code>expandChildren(item)</code></td>
+<td><code>item: GanttItemInternal</code></td>
+<td><code>void</code></td>
+<td>Expand or collapse the child tasks of the specified item</td>
+</tr>
+<tr>
+<td><code>getGanttItem(id)</code></td>
+<td><code>id: string</code></td>
+<td><code>GanttItemInternal | null</code></td>
+<td>Get the task item by ID</td>
+</tr>
+<tr>
+<td><code>getGanttItems(ids)</code></td>
+<td><code>ids: string[]</code></td>
+<td><code>GanttItemInternal[]</code></td>
+<td>Get multiple task items by an array of IDs</td>
+</tr>
+<tr>
+<td><code>isSelected(id)</code></td>
+<td><code>id: string</code></td>
+<td><code>boolean</code></td>
+<td>Check whether the specified task item is selected</td>
+</tr>
+<tr>
+<td><code>rerenderView()</code></td>
+<td>-</td>
+<td><code>void</code></td>
+<td>Re-render the view (calls <code>changeView</code>)</td>
+</tr>
+</tbody></table>
+
+        <h2 id="example" class="docs-header-link">
+          <span header-link="example"></span>
+          Example
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt #gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table>
+        &lt;ngx-gantt-column name="Task" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+
+    &lt;button (click)="gantt()?.scrollToToday()">Back to Today&lt;/button>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttExampleComponent</span> <span class="token punctuation">{</span>
+  gantt <span class="token operator">=</span> viewChild<span class="token operator">&lt;</span>NgxGanttComponent<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">'gantt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>month<span class="token punctuation">;</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Scroll to a specific date</span>
+  <span class="token function">scrollToDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">scrollToDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// Get the task item</span>
+  <span class="token function">getTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getGanttItem</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>origin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// Check whether it is selected</span>
+  <span class="token function">checkSelected</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> selected <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">isSelected</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Is selected:'</span><span class="token punctuation">,</span> selected<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// Expand/collapse the child tasks of an item</span>
+  <span class="token function">toggleChildren</span><span class="token punctuation">(</span>itemId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getGanttItem</span><span class="token punctuation">(</span>itemId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">expandChildren</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// Expand/collapse the group</span>
+  <span class="token function">toggleGroup</span><span class="token punctuation">(</span>groupId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> group <span class="token operator">=</span> gantt<span class="token punctuation">.</span>groups<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> g<span class="token punctuation">.</span>id <span class="token operator">===</span> groupId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>group<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        gantt<span class="token punctuation">.</span><span class="token function">expandGroup</span><span class="token punctuation">(</span>group<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="related-links" class="docs-header-link">
+          <span header-link="related-links"></span>
+          Related Links
+        </h2>
+      <ul>
+<li><a href="guides/core-concepts/data-model">Data Model</a> - Learn the structure of <code>GanttItem</code> and <code>GanttGroup</code></li>
+<li><a href="guides/features/groups">Group Feature</a> - Learn how to use group mode</li>
+</ul>

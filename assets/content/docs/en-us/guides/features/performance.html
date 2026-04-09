@@ -1,0 +1,118 @@
+<p>When handling large-scale task datasets, <code>ngx-gantt</code> ensures a smooth interaction experience through <strong>list virtual scrolling</strong> and <strong>view scroll loading</strong>.</p>
+
+        <h2 id="core-mechanisms" class="docs-header-link">
+          <span header-link="core-mechanisms"></span>
+          Core Mechanisms
+        </h2>
+      <ul>
+<li><strong>List virtual scrolling</strong>: only renders task rows visible within the current viewport. Even with thousands of items, the actual number of rendered DOM nodes stays very small.</li>
+<li><strong>View scroll loading</strong>: by configuring time-axis boundaries and step size, it automatically loads the needed time interval when the user scrolls to the edge.</li>
+</ul>
+
+        <h2 id="list-virtual-scrolling" class="docs-header-link">
+          <span header-link="list-virtual-scrolling"></span>
+          List Virtual Scrolling
+        </h2>
+      <p>The Gantt chart uses virtual scrolling to support large lists, and virtual scrolling is enabled by default.</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[virtualScrollEnabled]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="example:-load-the-next-page-when-scrolling-to-the-bottom" class="docs-header-link">
+          <span header-link="example:-load-the-next-page-when-scrolling-to-the-bottom"></span>
+          Example: Load the Next Page When Scrolling to the Bottom
+        </h3>
+      <p>If your server does not return the full dataset in one response, you can implement Infinite Scroll by listening to <code>(virtualScrolledIndexChange)</code>. When the scroll approaches the bottom, load the next page:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[loading]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loading<span class="token punctuation">"</span></span> <span class="token attr-name">[loadingDelay]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span> <span class="token attr-name">(virtualScrolledIndexChange)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onVirtualScroll($event)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Task Title<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{ item.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttVirtualScrolledIndexChangeEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttPerformanceExampleComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  loading <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+
+  <span class="token function">onVirtualScroll</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttVirtualScrolledIndexChangeEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// When there are 10 items left before reaching the bottom, load the next page</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>renderedRange<span class="token punctuation">.</span>end <span class="token operator">+</span> <span class="token number">10</span> <span class="token operator">>=</span> event<span class="token punctuation">.</span>count <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>loading<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">loadNextPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">loadNextPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>taskService<span class="token punctuation">.</span><span class="token function">getTasks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>res <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> <span class="token operator">...</span>res<span class="token punctuation">.</span>data<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="view-scroll-loading" class="docs-header-link">
+          <span header-link="view-scroll-loading"></span>
+          View Scroll Loading
+        </h2>
+      <p>By default, scroll loading is disabled. When the time span of the Gantt chart is very large, loading all time-axis data at once may impact performance. You can enable it by setting <code>disabledLoadOnScroll</code> to <code>false</code>. After enabling, when scrolling to the view boundary it will trigger view scroll loading:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[disabledLoadOnScroll]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="scroll-loading-mechanism" class="docs-header-link">
+          <span header-link="scroll-loading-mechanism"></span>
+          Scroll Loading Mechanism
+        </h3>
+      <p>Depending on the view type, the scroll-loading time span (step size) is adjusted automatically. For example:</p>
+<ul>
+<li>Day view (Day): default expands by 1 month per load</li>
+<li>Month view (Month): default expands by 1 quarter per load</li>
+</ul>
+<p>You can customize the step size via <code>viewOptions</code> → <code>loadDuration</code>, and limit the maximum time-axis range via <code>minBoundary</code> and <code>maxBoundary</code> (by default, it’s constrained to one year before and after the current year).</p>
+
+        <h3 id="example:-load-data-with-view-scroll-loading" class="docs-header-link">
+          <span header-link="example:-load-data-with-view-scroll-loading"></span>
+          Example: Load Data with View Scroll Loading
+        </h3>
+      <p>After enabling scroll loading, when the user drags the time axis to the edge, the <code>(loadOnScroll)</code> event is triggered. At this point, you can request data based on the new interval returned:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span>
+  <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[loading]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>loading<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[loadingDelay]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[disabledLoadOnScroll]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span>
+  <span class="token attr-name">[viewOptions]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{
+    loadDuration: { amount: 1, unit: <span class="token punctuation">'</span>month<span class="token punctuation">'</span> },
+    minBoundary: minDate,
+    maxBoundary: maxDate
+  }<span class="token punctuation">"</span></span>
+  <span class="token attr-name">(loadOnScroll)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onLoadOnScroll($event)<span class="token punctuation">"</span></span>
+<span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttLoadOnScrollEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+<span class="token function">onLoadOnScroll</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttLoadOnScrollEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// event.start and event.end are the newly added time range (Unix timestamps)</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>taskService<span class="token punctuation">.</span><span class="token function">getTasksByRange</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>start<span class="token punctuation">,</span> event<span class="token punctuation">.</span>end<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>newItems <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> <span class="token operator">...</span>newItems<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="loading-state-handling" class="docs-header-link">
+          <span header-link="loading-state-handling"></span>
+          Loading State Handling
+        </h2>
+      <p>With async data loading, good loading feedback improves the user experience. <code>ngx-gantt</code> provides a built-in Loader:</p>
+<ul>
+<li><strong><code>loading</code></strong>: set to <code>true</code> to show the loading state.</li>
+<li><strong><code>loadingDelay</code></strong>: delay time before showing the loader (unit: <code>ms</code>). If the data request returns within the delay, the loader will not be shown, which helps prevent loading animations flickering due to very fast responses.</li>
+</ul>
+
+        <h2 id="related-links" class="docs-header-link">
+          <span header-link="related-links"></span>
+          Related Links
+        </h2>
+      <ul>
+<li><a href="guides/core-concepts/views">Views</a> - Learn about view types and configuration options</li>
+</ul>

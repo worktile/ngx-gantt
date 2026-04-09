@@ -1,0 +1,681 @@
+  <div class="dg-api-header">
+     <span class="name">ngx-gantt</span>
+     <label class="type-label dg-label component">component</label>
+  </div>
+  <div class="dg-api-class-description"><p>Gantt chart main component</p>
+</div>
+  <table class="dg-api-property-table">
+    <thead>
+      <tr class="dg-api-property-header-row">
+        <th class="dg-api-property-name-th">Name</th>
+        <th class="dg-api-property-type-th">Type</th>
+        <th class="dg-api-property-default-th">Default</th>
+        <th class="dg-api-property-description-th">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          items
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttItem[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task data items array. Set separately for list display; set group_id to associate with groups for grouped display; supports tree structure (children)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          groups
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttGroup[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Grouped data array. Items need to set group_id to associate, supports expand/collapse</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          baselineItems
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttBaselineItem[]</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Baseline comparison data, displayed below task bars</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewType
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttViewType</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">GanttViewType.month</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>View type: hour, day, week, month, quarter, year, default month</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          start
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Start time (Unix timestamp, seconds). Auto-calculated from items if not set</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          end
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>End time (Unix timestamp, seconds). Auto-calculated from items if not set</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          showTodayLine
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">true</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to display today line</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          draggable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to allow dragging task bars to modify time</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          styles
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttStyleOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Style configuration (theme, row height, task bar height, etc.)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          showToolbar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to display toolbar</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          toolbarOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttToolbarOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">{
+                    viewTypes: [GanttViewType.day, GanttViewType.month, GanttViewType.year]
+                }</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Toolbar configuration, can configure list of view types to display</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttViewOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>View configuration (time tick format, unit width, scroll loading, etc.)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkOptions
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">GanttLinkOptions</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Link relationship configuration (dependency types, arrows, line types, etc.)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          disabledLoadOnScroll
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">true</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to disable scroll loading, default true</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          selectable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to enable row selection</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          multiple
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to enable multiple selection mode (requires selectable to be true)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          quickTimeFocus
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to enable quick time focus (click task bar endpoints to quickly locate)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          maxLevel
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">2</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Maximum display level, default 2</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          async
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to enable asynchronous loading of sub-tasks</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          childrenResolve
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">(item: GanttItem) &#x3D;&gt; Observable&lt;GanttItem[]&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Async loading sub-tasks function, returns Observable&lt;GanttItem[]&gt;</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkable
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to allow creating task link relationships</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loading
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">false</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to display loading state</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          virtualScrollEnabled
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">boolean</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">true</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Whether to enable virtual scrolling, default true</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loadingDelay
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">number</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default">0</label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Loading delay time (milliseconds), used to avoid flickering, default 0</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          loadOnScroll
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLoadOnScrollEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Scroll loading event, event object contains start and end timestamps</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragStarted
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task bar drag start event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragMoved
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task bar drag move event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          dragEnded
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task bar drag end event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          barClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttBarClickEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task bar click event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          viewChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttView&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>View type change event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          expandChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttItemInternal | GanttGroupInternal | (GanttItemInternal | GanttGroupInternal)[]&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Expand/collapse state change event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkDragStarted
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLinkDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Link drag start event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          linkDragEnded
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLinkDragEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Link drag end event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          lineClick
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttLineClickEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Link line click event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          selectedChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttSelectedEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task selection change event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          virtualScrolledIndexChange
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">EventEmitter&lt;GanttVirtualScrolledIndexChangeEvent&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Virtual scroll index change event</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #bar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task bar custom template (bar type)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #range
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Range custom template (range type)</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #item
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Task item custom template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #baseline
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Baseline custom template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #group
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Group custom template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #groupHeader
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Group header custom template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #toolbar
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Toolbar custom template</p>
+</p>
+         </td>
+      </tr>
+      <tr class="dg-api-property-row">
+         <td class="dg-api-property-name-cell">
+          #footer
+         </td>
+         <td class="dg-api-property-type-cell">
+             <label class="dg-label dg-label-outline-info">TemplateRef&lt;any&gt;</label>
+         </td>
+         <td class="dg-api-property-default-cell">
+           <label class="dg-label dg-label-default"></label>
+         </td>
+         <td class="dg-api-property-description">
+           <p><p>Footer custom template</p>
+</p>
+         </td>
+      </tr>
+    </tbody>
+  </table>

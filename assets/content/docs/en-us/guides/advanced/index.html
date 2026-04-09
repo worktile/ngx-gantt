@@ -1,0 +1,32 @@
+<p>ngx-gantt provides deep customization capabilities, supporting custom views and fully custom layouts. It fits scenarios where you need special time granularity or fully custom rendering logic.</p>
+
+        <h2 id="chapter-list" class="docs-header-link">
+          <span header-link="chapter-list"></span>
+          Chapter List
+        </h2>
+      <ul>
+<li><a href="guides/advanced/custom-views">Custom Views</a> - Extend the <code>GanttView</code> abstract class to create a custom time-granularity view</li>
+<li><a href="guides/advanced/advanced-layout">Advanced Layout</a> - Use <code>ngx-gantt-root</code> to fully customize layout and rendering logic</li>
+</ul>
+
+        <h2 id="use-cases" class="docs-header-link">
+          <span header-link="use-cases"></span>
+          Use Cases
+        </h2>
+      <p>Advanced customization is suitable for the following scenarios:</p>
+<ul>
+<li><strong>Custom Views</strong>: You need special time granularity or tick display (e.g., a biweekly view or a custom workday view)</li>
+<li><strong>Advanced Layout</strong>: You only want to rely on ngx-gantt&#39;s view abilities, and you need a fully customized layout and rendering logic</li>
+</ul>
+
+        <h2 id="recommended-approach" class="docs-header-link">
+          <span header-link="recommended-approach"></span>
+          Recommended Approach
+        </h2>
+      <blockquote>
+<div class="dg-paragraph"><strong>⚠️ Important</strong>: Advanced customization requires a deep understanding of ngx-gantt&#39;s internal implementation and has higher requirements for users. We recommend using it after you fully understand the core concepts and data structures.</div>
+</blockquote>
+<ul>
+<li><strong>Custom Views</strong>: You need to understand the view system, tick calculation, and formatting strategies</li>
+<li><strong>Advanced Layout</strong>: You need to read the source code and be familiar with the properties and methods provided by <code>GanttUpper</code></li>
+</ul>

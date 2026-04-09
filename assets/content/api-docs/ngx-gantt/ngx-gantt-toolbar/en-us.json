@@ -1,0 +1,1 @@
+[{"type":"component","name":"ngx-gantt-toolbar","description":"<p>Toolbar component, provides view type switching and other functions</p>\n","properties":[{"name":"template","description":"<p>Toolbar custom template</p>\n","type":"TemplateRef<any>","default":""}]}]

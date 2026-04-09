@@ -1,0 +1,249 @@
+
+        <h2 id="upgrade-preparation" class="docs-header-link">
+          <span header-link="upgrade-preparation"></span>
+          Upgrade Preparation
+        </h2>
+      <p>Before starting the migration, make sure you complete the following preparations:</p>
+<ol>
+<li><strong>Environment requirements</strong>: confirm that the host project&#39;s Angular version has been upgraded to <strong>&gt;= 21.0.0</strong></li>
+<li><strong>Branch management</strong>: it is recommended to perform the work on an independent <code>feature/upgrade-to-v21</code> branch</li>
+</ol>
+<hr>
+
+        <h2 id="1--view-(view)-configuration-migration" class="docs-header-link">
+          <span header-link="1--view-(view)-configuration-migration"></span>
+          1. View (View) Configuration Migration
+        </h2>
+      <p>View configuration options have undergone semantic renaming and integrated scroll-loading related logic.</p>
+
+        <h3 id="1-1-field-renaming" class="docs-header-link">
+          <span header-link="1-1-field-renaming"></span>
+          1.1 Field Renaming
+        </h3>
+      <p>Some fields in the previous version have been marked as deprecated or removed. Replace them according to the following mapping table:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Old Field (v20)</th>
+<th align="left">New Field (v21)</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>min</code> / <code>max</code></td>
+<td align="left"><strong><code>minBoundary</code> / <code>maxBoundary</code></strong></td>
+<td align="left">Clarifies boundary semantics</td>
+</tr>
+<tr>
+<td align="left"><code>cellWidth</code></td>
+<td align="left"><strong><code>unitWidth</code></strong></td>
+<td align="left">Width of the minimum tick unit</td>
+</tr>
+<tr>
+<td align="left"><code>addAmount</code> / <code>addUnit</code></td>
+<td align="left"><strong><code>loadDuration: { amount, unit }</code></strong></td>
+<td align="left">Step configuration for scroll loading</td>
+</tr>
+<tr>
+<td align="left"><code>datePrecisionUnit</code></td>
+<td align="left"><strong><code>precisionUnit</code></strong></td>
+<td align="left">Precision unit</td>
+</tr>
+<tr>
+<td align="left"><code>dragPreviewDateFormat</code></td>
+<td align="left"><strong><code>dragTooltipFormat</code></strong></td>
+<td align="left">Drag tooltip format</td>
+</tr>
+<tr>
+<td align="left"><code>hoilday</code></td>
+<td align="left"><strong><code>holiday</code></strong></td>
+<td align="left">Fix spelling error</td>
+</tr>
+</tbody></table>
+
+        <h3 id="1-2-migration-example" class="docs-header-link">
+          <span header-link="1-2-migration-example"></span>
+          1.2 Migration Example
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ❌ Old v20 configuration</span>
+<span class="token keyword">const</span> viewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  cellWidth<span class="token punctuation">:</span> <span class="token number">40</span><span class="token punctuation">,</span>
+  addAmount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  addUnit<span class="token punctuation">:</span> <span class="token string">'month'</span><span class="token punctuation">,</span>
+  hoilday<span class="token punctuation">:</span> <span class="token punctuation">{</span> isHoliday<span class="token punctuation">:</span> <span class="token keyword">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  datePrecisionUnit<span class="token punctuation">:</span> <span class="token string">'day'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// ✅ New v21 configuration</span>
+<span class="token keyword">const</span> viewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  unitWidth<span class="token punctuation">:</span> <span class="token number">40</span><span class="token punctuation">,</span>
+  loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span> amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Structured merge</span>
+  holiday<span class="token punctuation">:</span> <span class="token punctuation">{</span> isHoliday<span class="token punctuation">:</span> <span class="token keyword">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Spelling correction</span>
+  precisionUnit<span class="token punctuation">:</span> <span class="token string">'day'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+<blockquote>
+<p>[!CAUTION]
+<strong>Runtime validation</strong>: v21 adds a non-empty assertion to <code>loadDuration</code> internally. If you define a custom View, you must provide this configuration; otherwise, horizontal scrolling that triggers <code>extendStart/End</code> will throw an exception.</p>
+</blockquote>
+<hr>
+
+        <h2 id="2--custom-view-(custom-view)-abstract-class-migration" class="docs-header-link">
+          <span header-link="2--custom-view-(custom-view)-abstract-class-migration"></span>
+          2. Custom View (Custom View) Abstract Class Migration
+        </h2>
+      <p>If you implemented a custom view by extending <code>GanttView</code>, update the following abstract methods:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Old Method (v20)</th>
+<th align="left">New Method (v21)</th>
+<th align="left">Return Value Changes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>viewStartOf()</code> / <code>viewEndOf()</code></td>
+<td align="left"><strong><code>rangeStartOf()</code> / <code>rangeEndOf()</code></strong></td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left"><code>getPrimaryWidth()</code></td>
+<td align="left"><strong><code>getPeriodWidth()</code></strong></td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left"><code>getDayOccupancyWidth()</code></td>
+<td align="left"><strong><code>getDayWidth()</code></strong></td>
+<td align="left">-</td>
+</tr>
+<tr>
+<td align="left"><code>getPrimaryDatePoints()</code></td>
+<td align="left"><strong><code>getPeriodTicks()</code></strong></td>
+<td align="left"><code>GanttDatePoint[]</code> -&gt; <strong><code>GanttViewTick[]</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>getSecondaryDatePoints()</code></td>
+<td align="left"><strong><code>getUnitTicks()</code></strong></td>
+<td align="left"><code>GanttDatePoint[]</code> -&gt; <strong><code>GanttViewTick[]</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>addStartDate()</code> / <code>addEndDate()</code></td>
+<td align="left"><strong><code>extendStart()</code> / <code>extendEnd()</code></strong></td>
+<td align="left">Logic renamed</td>
+</tr>
+</tbody></table>
+<hr>
+
+        <h2 id="3--i18n-configuration-structure-migration" class="docs-header-link">
+          <span header-link="3--i18n-configuration-structure-migration"></span>
+          3. i18n Configuration Structure Migration
+        </h2>
+      <p>To support more flexible tick display, the time-axis text format has moved from <code>dateFormats</code> to <code>tickFormats</code>.</p>
+<ul>
+<li><strong>Old structure</strong>: <code>views[viewType].dateFormats: { primary, secondary }</code></li>
+<li><strong>New structure</strong>: <code>views[viewType].tickFormats: { period, unit }</code></li>
+</ul>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// v21 i18n example</span>
+<span class="token keyword">const</span> localeConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token string">'zh-cn'</span><span class="token punctuation">,</span>
+  views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    day<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'Day'</span><span class="token punctuation">,</span>
+      tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        period<span class="token punctuation">:</span> <span class="token string">'YYYY-MM'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// corresponds to original primary</span>
+        unit<span class="token punctuation">:</span> <span class="token string">'D'</span> <span class="token comment" spellcheck="true">// corresponds to original secondary</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+<hr>
+
+        <h2 id="4--global-configuration-&amp;-theming-system" class="docs-header-link">
+          <span header-link="4--global-configuration-&amp;-theming-system"></span>
+          4. Global Configuration &amp; Theming System
+        </h2>
+      
+        <h3 id="4-1-style-field-changes" class="docs-header-link">
+          <span header-link="4-1-style-field-changes"></span>
+          4.1 Style Field Changes
+        </h3>
+      <p>The old <code>styleOptions.lineHeight</code> has been renamed to <code>rowHeight</code> to more accurately describe the Gantt row height.</p>
+<blockquote>
+<div class="dg-paragraph"><strong>Note</strong>: v21 keeps backward compatibility for <code>lineHeight</code>, but it will print a deprecation warning in the console. It is recommended that you replace it immediately.</div>
+</blockquote>
+
+        <h3 id="4-2-new-theme-configuration" class="docs-header-link">
+          <span header-link="4-2-new-theme-configuration"></span>
+          4.2 New Theme Configuration
+        </h3>
+      <p>v21 introduces a more systematic theme configuration and supports defining multiple color schemes through the <code>themes</code> field.</p>
+<pre class="language-typescript"><code class="language-typescript"><div>styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+  defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span>
+  primaryColor<span class="token punctuation">:</span> <span class="token string">'#1890ff'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Quickly override the primary tone</span>
+  themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      primary<span class="token punctuation">:</span> <span class="token string">'#1890ff'</span><span class="token punctuation">,</span>
+      background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+      text<span class="token punctuation">:</span> <span class="token punctuation">{</span> main<span class="token punctuation">:</span> <span class="token string">'#333333'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      gray<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token number">100</span><span class="token punctuation">:</span> <span class="token string">'#fafafa'</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">:</span> <span class="token string">'#d9d9d9'</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+<hr>
+
+        <h2 id="5--type-&amp;-constant-replacement-checklist" class="docs-header-link">
+          <span header-link="5--type-&amp;-constant-replacement-checklist"></span>
+          5. Type &amp; Constant Replacement Checklist
+        </h2>
+      <p>Please globally search and replace the following removed public exports:</p>
+
+        <h3 id="5-1-data-model-replacement" class="docs-header-link">
+          <span header-link="5-1-data-model-replacement"></span>
+          5.1 Data Model Replacement
+        </h3>
+      <ul>
+<li><strong><code>GanttDatePoint</code> (deleted)</strong>: use <strong><code>GanttViewTick</code></strong> uniformly.<ul>
+<li><code>point.leftX</code> -&gt; <code>point.rect.x</code></li>
+<li><code>point.start</code> -&gt; <code>point.date</code></li>
+</ul>
+</li>
+<li><strong><code>LinkColors</code> (deleted)</strong>: colors are now configured directly via the <code>GanttLink</code> object.</li>
+</ul>
+
+        <h3 id="5-2-layout-constant-replacement" class="docs-header-link">
+          <span header-link="5-2-layout-constant-replacement"></span>
+          5.2 Layout Constant Replacement
+        </h3>
+      <p>If your component logic directly references layout constants, update the import paths:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Old Constant Name</th>
+<th align="left">New Constant Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>primaryDatePointTop</code></td>
+<td align="left"><strong><code>PRIMARY_TICK_TOP</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>secondaryDatePointTop</code></td>
+<td align="left"><strong><code>SECONDARY_TICK_TOP</code></strong></td>
+</tr>
+</tbody></table>
+<hr>
+
+        <h2 id="6--verification-checklist" class="docs-header-link">
+          <span header-link="6--verification-checklist"></span>
+          6. Verification Checklist
+        </h2>
+      <p>After completing your code changes, make sure you cover the following testing scenarios:</p>
+<ul>
+<li><strong>Compilation check</strong>: ensure there are no TypeScript errors related to <code>GanttDatePoint</code> or the old fields</li>
+<li><strong>Rendering verification</strong>: confirm that the primary/secondary text in the time-axis header (Header) is displayed correctly</li>
+<li><strong>Scrolling functionality</strong>: when scrolling fully left/right, can it load new-range data correctly? (Load Duration test)</li>
+<li><strong>Interaction regression</strong>: when dragging a Task, verify that the Tooltip format is correct and that link line colors match expectations</li>
+<li><strong>Theme validation</strong>: if you use a custom theme, check background and text colors in both dark/light modes</li>
+</ul>
+<hr>
+<div class="dg-paragraph"><em>If you encounter any issues during the migration process, please submit feedback via a GitHub Issue.</em></div>

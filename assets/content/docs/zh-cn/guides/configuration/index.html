@@ -1,0 +1,139 @@
+<p>全局配置通过 <code>GANTT_GLOBAL_CONFIG</code> Token 提供，用于设置应用级别的默认配置，包括时区、样式和链接选项。</p>
+
+        <h2 id="%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84" class="docs-header-link">
+          <span header-link="%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84"></span>
+          配置结构
+        </h2>
+      <div class="dg-paragraph"><code>GanttGlobalConfig</code> 配置说明：</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttGlobalConfig</span> <span class="token punctuation">{</span>
+  locale<span class="token operator">?</span><span class="token punctuation">:</span> GanttI18nLocale <span class="token operator">|</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 默认语言 ID（详见国际化文档）</span>
+  dateOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    timeZone<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 时区，如 'Asia/Shanghai'、'UTC'</span>
+    weekStartsOn<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span> <span class="token operator">|</span> <span class="token number">2</span> <span class="token operator">|</span> <span class="token number">3</span> <span class="token operator">|</span> <span class="token number">4</span> <span class="token operator">|</span> <span class="token number">5</span> <span class="token operator">|</span> <span class="token number">6</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 周起始日：0=周日，1=周一 ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  linkOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    dependencyTypes<span class="token operator">?</span><span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 允许的依赖类型</span>
+    showArrow<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 是否显示箭头</span>
+    lineType<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token string">'curve'</span> <span class="token operator">|</span> <span class="token string">'straight'</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 连线类型：曲线/直线</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  styleOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    primaryColor<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 主色调</span>
+    headerHeight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 日历头部高度（px）</span>
+    rowHeight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 行高（px）</span>
+    barHeight<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 任务条高度（px）</span>
+    defaultTheme<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 默认主题名称</span>
+    themes<span class="token operator">?</span><span class="token punctuation">:</span> Record<span class="token operator">&lt;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 主题配置对象，详见主题化文档</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"></span>
+          默认配置
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> defaultConfig<span class="token punctuation">:</span> GanttGlobalConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  locale<span class="token punctuation">:</span> <span class="token string">'zh-hans'</span><span class="token punctuation">,</span>
+  linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    showArrow<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">,</span>
+    lineType<span class="token punctuation">:</span> <span class="token string">'curve'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    primaryColor<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+    headerHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+    rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+    barHeight<span class="token punctuation">:</span> <span class="token number">22</span><span class="token punctuation">,</span>
+    defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span>
+    themes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        primary<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+        danger<span class="token punctuation">:</span> <span class="token string">'#FF7575'</span><span class="token punctuation">,</span>
+        highlight<span class="token punctuation">:</span> <span class="token string">'#ff9f73'</span><span class="token punctuation">,</span>
+        background<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span><span class="token punctuation">,</span>
+        text<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          main<span class="token punctuation">:</span> <span class="token string">'#333333'</span><span class="token punctuation">,</span>
+          muted<span class="token punctuation">:</span> <span class="token string">'#888888'</span><span class="token punctuation">,</span>
+          light<span class="token punctuation">:</span> <span class="token string">'#aaaaaa'</span><span class="token punctuation">,</span>
+          inverse<span class="token punctuation">:</span> <span class="token string">'#ffffff'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        gray<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token number">100</span><span class="token punctuation">:</span> <span class="token string">'#fafafa'</span><span class="token punctuation">,</span>
+          <span class="token number">200</span><span class="token punctuation">:</span> <span class="token string">'#f5f5f5'</span><span class="token punctuation">,</span>
+          <span class="token number">300</span><span class="token punctuation">:</span> <span class="token string">'#f3f3f3'</span><span class="token punctuation">,</span>
+          <span class="token number">400</span><span class="token punctuation">:</span> <span class="token string">'#eeeeee'</span><span class="token punctuation">,</span>
+          <span class="token number">500</span><span class="token punctuation">:</span> <span class="token string">'#dddddd'</span><span class="token punctuation">,</span>
+          <span class="token number">600</span><span class="token punctuation">:</span> <span class="token string">'#cacaca'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="%E6%B3%A8%E5%86%8C%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E6%B3%A8%E5%86%8C%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE"></span>
+          注册全局配置
+        </h2>
+      
+        <h3 id="standalone-%E6%96%B9%E5%BC%8F" class="docs-header-link">
+          <span header-link="standalone-%E6%96%B9%E5%BC%8F"></span>
+          Standalone 方式
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+<span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token operator">...</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span><span class="token punctuation">,</span>
+          weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">,</span>
+          showArrow<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">,</span>
+          lineType<span class="token punctuation">:</span> <span class="token string">'curve'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          primaryColor<span class="token punctuation">:</span> <span class="token string">'#6698ff'</span><span class="token punctuation">,</span>
+          headerHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+          rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
+          barHeight<span class="token punctuation">:</span> <span class="token number">22</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="ngmodule-%E6%96%B9%E5%BC%8F" class="docs-header-link">
+          <span header-link="ngmodule-%E6%96%B9%E5%BC%8F"></span>
+          NgModule 方式
+        </h3>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      provide<span class="token punctuation">:</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span>
+      useValue<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        dateOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          timeZone<span class="token punctuation">:</span> <span class="token string">'Asia/Shanghai'</span><span class="token punctuation">,</span>
+          weekStartsOn<span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> as GanttGlobalConfig
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5" class="docs-header-link">
+          <span header-link="%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"></span>
+          相关链接
+        </h2>
+      <ul>
+<li><a href="guides/configuration/i18n">国际化配置</a> - 内置语言包、自定义语言包、语言切换</li>
+<li><a href="guides/configuration/theming">主题样式配置</a> - 基础样式配置、自定义主题、多主题支持</li>
+</ul>

@@ -1,0 +1,345 @@
+<p>ngx-gantt provides built-in table display capabilities, supporting custom content, row dragging, column resizing, click-to-select, and other rich interactions.</p>
+
+        <h2 id="how-to-use-the-table-" class="docs-header-link">
+          <span header-link="how-to-use-the-table-"></span>
+          How to Use the Table?
+        </h2>
+      <p>The table functionality is implemented through two core components:</p>
+<ul>
+<li><code>ngx-gantt-table</code>: the table container component, wraps column definitions and configures table behavior</li>
+<li><code>ngx-gantt-column</code>: the column component, defines what to display in each column and its properties</li>
+</ul>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">#gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Task Name<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span> <span class="token attr-name">[showExpandIcon]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> {{ item.title }} <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Start Time<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>150px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> {{ item.start | date: 'yyyy-MM-dd' }} <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h2 id="custom-display-templates" class="docs-header-link">
+          <span header-link="custom-display-templates"></span>
+          Custom Display Templates
+        </h2>
+      
+        <h3 id="column-content-template" class="docs-header-link">
+          <span header-link="column-content-template"></span>
+          Column Content Template
+        </h3>
+      <p>Use the <code>#cell</code> template to customize the cell content of each column:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Task Name<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> {{ item.title }} <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="row-before/after-slots" class="docs-header-link">
+          <span header-link="row-before/after-slots"></span>
+          Row Before/After Slots
+        </h3>
+      <p>Use <code>#rowBeforeSlot</code> and <code>#rowAfterSlot</code> to add custom content before and after each row:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- Row before content --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#rowBeforeSlot</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>row-before<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Before content<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- Column definition --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Task<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- Row after content --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#rowAfterSlot</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>row-after<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>After content<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="table-empty-template" class="docs-header-link">
+          <span header-link="table-empty-template"></span>
+          Table Empty Template
+        </h3>
+      <p>Use <code>#tableEmpty</code> to customize what is displayed when the table is empty:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#tableEmpty</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>empty-state<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>No tasks<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h3 id="table-footer-template" class="docs-header-link">
+          <span header-link="table-footer-template"></span>
+          Table Footer Template
+        </h3>
+      <p>Use <code>#tableFooter</code> to customize the table footer:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#tableFooter</span> <span class="token attr-name">let-columns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>columns<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>table-footer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      @for (column of columns; track $index) {
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>gantt-table-column<span class="token punctuation">"</span></span> <span class="token attr-name">[style.width]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>column.columnWidth()<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{ column.name() }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      }
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h2 id="table-interactions" class="docs-header-link">
+          <span header-link="table-interactions"></span>
+          Table Interactions
+        </h2>
+      
+        <h3 id="row-drag-sorting" class="docs-header-link">
+          <span header-link="row-drag-sorting"></span>
+          Row Drag Sorting
+        </h3>
+      
+        <h4 id="enable-dragging" class="docs-header-link">
+          <span header-link="enable-dragging"></span>
+          Enable Dragging
+        </h4>
+      <p>Enable dragging via the <code>draggable</code> parameter of <code>ngx-gantt-table</code>:</p>
+<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items">
+      &lt;ngx-gantt-table
+        [draggable]="true"
+        (dragStarted)="onDragStarted($event)"
+        (dragDropped)="onDragDropped($event)"
+        (dragEnded)="onDragEnded($event)"
+      >
+        &lt;!-- ... -->
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">onDragStarted</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragStartedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Drag started'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">onDragDropped</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragDroppedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Handle drag drop placement</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">handleDragDrop</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragEndedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Drag ended'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h4 id="handle-drag-drop-events" class="docs-header-link">
+          <span header-link="handle-drag-drop-events"></span>
+          Handle Drag Drop Events
+        </h4>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onDragDropped</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragDroppedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> source<span class="token punctuation">,</span> target<span class="token punctuation">,</span> dropPosition<span class="token punctuation">,</span> sourceParent<span class="token punctuation">,</span> targetParent <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Remove from source position</span>
+  <span class="token keyword">const</span> sourceItems <span class="token operator">=</span> sourceParent<span class="token operator">?</span><span class="token punctuation">.</span>children <span class="token operator">||</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> sourceIndex <span class="token operator">=</span> sourceItems<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  sourceItems<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>sourceIndex<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Insert based on the drop position</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>dropPosition <span class="token operator">===</span> <span class="token string">'inside'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// As a child task</span>
+    target<span class="token punctuation">.</span>children <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">(</span>target<span class="token punctuation">.</span>children <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> source<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// As a sibling task</span>
+    <span class="token keyword">const</span> targetItems <span class="token operator">=</span> targetParent<span class="token operator">?</span><span class="token punctuation">.</span>children <span class="token operator">||</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> targetIndex <span class="token operator">=</span> targetItems<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>dropPosition <span class="token operator">===</span> <span class="token string">'before'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      targetItems<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>targetIndex<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      targetItems<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>targetIndex <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// Immutable update</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+<p>Table rows support dragging to adjust task hierarchy and order. When you drag a task row to the target position, there are three possible placement positions:</p>
+<ul>
+<li><code>before</code>: place before the target task (same level)</li>
+<li><code>inside</code>: place inside the target task (used together with Tree mode; supports displaying child tasks)</li>
+<li><code>after</code>: place after the target task (same level)</li>
+</ul>
+
+        <h4 id="intercept-%3Ccode%3Edropenterpredicate%3C/code%3E-actions" class="docs-header-link">
+          <span header-link="intercept-%3Ccode%3Edropenterpredicate%3C/code%3E-actions"></span>
+          Intercept <code>dropEnterPredicate</code> Actions
+        </h4>
+      <p>Use <code>dropEnterPredicate</code> to control which drag operations are allowed:</p>
+<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt-table [draggable]="true" [dropEnterPredicate]="canDrop">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt-table>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  canDrop <span class="token operator">=</span> <span class="token punctuation">(</span>context<span class="token punctuation">:</span> GanttTableDragEnterPredicateContext<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Prevent dropping a task into itself</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>context<span class="token punctuation">.</span>source<span class="token punctuation">.</span>id <span class="token operator">===</span> context<span class="token punctuation">.</span>target<span class="token punctuation">.</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// Prevent dropping a parent task into its descendants</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">isDescendant</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span>target<span class="token punctuation">,</span> context<span class="token punctuation">.</span>source<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// Only allow before and after, not inside</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>context<span class="token punctuation">.</span>dropPosition <span class="token operator">===</span> <span class="token string">'inside'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">private</span> <span class="token function">isDescendant</span><span class="token punctuation">(</span>ancestor<span class="token punctuation">:</span> GanttItem<span class="token punctuation">,</span> descendant<span class="token punctuation">:</span> GanttItem<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Check whether descendant is a descendant of ancestor</span>
+    <span class="token comment" spellcheck="true">// Implement logic...</span>
+    <span class="token keyword">return</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="column-drag-to-change-width" class="docs-header-link">
+          <span header-link="column-drag-to-change-width"></span>
+          Column Drag to Change Width
+        </h3>
+      <p>Each column and the table as a whole support dragging to change widths. Changing the table width triggers the <code>resizeChange</code> event:</p>
+<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt-table (resizeChange)="resizeChange($event)">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt-table>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  <span class="token function">resizeChange</span><span class="token punctuation">(</span>width<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Changed width'</span><span class="token punctuation">,</span> width<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="row-click-and-selection" class="docs-header-link">
+          <span header-link="row-click-and-selection"></span>
+          Row Click and Selection
+        </h3>
+      
+        <h4 id="row-click-event" class="docs-header-link">
+          <span header-link="row-click-event"></span>
+          Row Click Event
+        </h4>
+      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt-table (itemClick)="onItemClick($event)">
+      &lt;!-- ... -->
+    &lt;/ngx-gantt-table>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token punctuation">{</span>
+  <span class="token function">onItemClick</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableItemClickEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Clicked task'</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>current<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// Show task details</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">showTaskDetail</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>current<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h4 id="selection-feature" class="docs-header-link">
+          <span header-link="selection-feature"></span>
+          Selection Feature
+        </h4>
+      <p>After enabling selection, clicking a row triggers selection:</p>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[selectable]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span> <span class="token attr-name">[multiple]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token attr-name">(selectedChange)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onSelectedChange($event)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
+
+        <h2 id="minimal-example" class="docs-header-link">
+          <span header-link="minimal-example"></span>
+          Minimal Example
+        </h2>
+      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttTableDragDroppedEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-table'</span><span class="token punctuation">,</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+    &lt;ngx-gantt [items]="items" [viewType]="viewType">
+      &lt;ngx-gantt-table [draggable]="true" (dragDropped)="onDragDropped($event)">
+        &lt;ngx-gantt-column name="Task" width="200px">
+          &lt;ng-template #cell let-item="item">
+            {{ item.title }}
+          &lt;/ng-template>
+        &lt;/ngx-gantt-column>
+      &lt;/ngx-gantt-table>
+    &lt;/ngx-gantt>
+  `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">GanttTableComponent</span> <span class="token punctuation">{</span>
+  viewType <span class="token operator">=</span> GanttViewType<span class="token punctuation">.</span>day<span class="token punctuation">;</span>
+
+  items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 1'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task 2'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1628507597</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1633345997</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token function">onDragDropped</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragDroppedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Handle drag drop logic</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">reorganizeItems</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// Immutable update</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token function">reorganizeItems</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragDroppedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Implement drag-and-drop data reorganization logic</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="common-questions" class="docs-header-link">
+          <span header-link="common-questions"></span>
+          Common Questions
+        </h2>
+      
+        <h3 id="q:-how-do-i-disable-dragging-for-a-specific-task-" class="docs-header-link">
+          <span header-link="q:-how-do-i-disable-dragging-for-a-specific-task-"></span>
+          Q: How do I disable dragging for a specific task?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Set the task&#39;s <code>itemDraggable: false</code>:</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task'</span><span class="token punctuation">,</span> itemDraggable<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="q:-how-do-i-limit-the-drag-range-" class="docs-header-link">
+          <span header-link="q:-how-do-i-limit-the-drag-range-"></span>
+          Q: How do I limit the drag range?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Use the <code>dropEnterPredicate</code> function:</div>
+<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttTableDragEnterPredicateContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+
+canDrop <span class="token operator">=</span> <span class="token punctuation">(</span>context<span class="token punctuation">:</span> GanttTableDragEnterPredicateContext<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Decide based on other business properties</span>
+  <span class="token keyword">return</span> context<span class="token punctuation">.</span>target<span class="token punctuation">.</span>origin<span class="token operator">?</span><span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token string">'active'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h3 id="q:-the-data-doesn%E2%80%99t-update-after-dragging-" class="docs-header-link">
+          <span header-link="q:-the-data-doesn%E2%80%99t-update-after-dragging-"></span>
+          Q: The data doesn’t update after dragging?
+        </h3>
+      <div class="dg-paragraph"><strong>A:</strong> Make sure you use immutable data updates and create a new array.</div>
+
+        <h2 id="related-links" class="docs-header-link">
+          <span header-link="related-links"></span>
+          Related Links
+        </h2>
+      <ul>
+<li><a href="guides/core-concepts/data-model">Data Model</a> - Learn the data structure</li>
+<li><a href="guides/features/bar-interaction">Bar Display and Interaction</a> - Learn task bar interactions</li>
+<li><a href="guides/features/tree">Tree Mode</a> - Learn the hierarchy structure</li>
+</ul>

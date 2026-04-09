@@ -4,421 +4,1603 @@
       "id": "guides",
       "path": "guides",
       "channelPath": "guides",
-      "title": "指南",
+      "title": "文档",
       "items": [
         {
           "id": "guides/intro",
           "path": "guides/intro",
           "channelPath": "guides",
           "title": "介绍",
-          "subtitle": "Intro",
           "items": [
             {
               "id": "index",
               "path": "intro",
               "channelPath": "guides",
               "title": "介绍",
-              "subtitle": "Intro",
-              "order": 1,
+              "order": 100,
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E4%B8%80%E5%8F%A5%E8%AF%9D%E4%BB%8B%E7%BB%8D",
-                  "name": "一句话介绍",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
                   "id": "%E7%89%B9%E6%80%A7",
                   "name": "特性",
-                  "level": 1,
-                  "type": "h1"
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
-                  "id": "%E5%8A%A8%E6%9C%BA",
-                  "name": "动机",
-                  "level": 1,
-                  "type": "h1"
+                  "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
+                  "name": "适用场景",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%8A%80%E6%9C%AF%E6%A0%88%E4%BB%8B%E7%BB%8D",
+                  "name": "技术栈介绍",
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
                   "id": "%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC",
                   "name": "当前版本",
-                  "level": 2,
-                  "type": "h2"
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
-                  "id": "%E6%94%AF%E6%8C%81-angular-%E7%89%88%E6%9C%AC",
-                  "name": "支持 Angular 版本",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93",
-                  "name": "依赖第三方库",
-                  "level": 2,
-                  "type": "h2"
+                  "id": "%E5%BC%80%E6%BA%90%E5%8D%8F%E8%AE%AE",
+                  "name": "开源协议",
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
                   "id": "%E5%8F%82%E4%B8%8E%E8%B4%A1%E7%8C%AE",
                   "name": "参与贡献",
-                  "level": 1,
-                  "type": "h1"
+                  "level": 3,
+                  "type": "h3"
                 }
               ],
-              "contentPath": "docs/zh-cn/guides/intro/index.html",
-              "originPath": "docs/zh-cn/guides/intro/index.md"
+              "contentPath": "docs/zh-cn/guides/getting-started/index.html",
+              "originPath": "docs/zh-cn/guides/getting-started/index.md"
             },
             {
               "id": "getting-started",
               "path": "intro/getting-started",
               "channelPath": "guides",
               "title": "快速开始",
-              "subtitle": "Quick Start",
-              "order": 2,
+              "order": 110,
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E5%AE%89%E8%A3%85",
-                  "name": "安装",
-                  "level": 1,
-                  "type": "h1"
+                  "id": "%F0%9F%93%A6-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96",
+                  "name": "📦 安装依赖",
+                  "level": 2,
+                  "type": "h2"
                 },
                 {
-                  "id": "%E4%BD%BF%E7%94%A8",
-                  "name": "使用",
-                  "level": 1,
-                  "type": "h1"
+                  "id": "%F0%9F%8E%A8-%E6%A0%B7%E5%BC%8F%E5%BC%95%E5%85%A5",
+                  "name": "🎨 样式引入",
+                  "level": 2,
+                  "type": "h2"
                 },
                 {
-                  "id": "%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97",
-                  "name": "导入模块",
+                  "id": "%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E5%9C%A8-angular-json-%E4%B8%AD%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89",
+                  "name": "方式一：在 angular.json 中配置（推荐）",
                   "level": 3,
                   "type": "h3"
                 },
                 {
-                  "id": "%E5%BC%95%E5%85%A5%E6%A0%B7%E5%BC%8F",
-                  "name": "引入样式",
+                  "id": "%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E5%9C%A8-scss-%E6%96%87%E4%BB%B6%E4%B8%AD%E5%BC%95%E5%85%A5",
+                  "name": "方式二：在 SCSS 文件中引入",
                   "level": 3,
                   "type": "h3"
                 },
                 {
-                  "id": "%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8",
-                  "name": "组件中使用",
+                  "id": "%F0%9F%93%A5-%E5%AF%BC%E5%85%A5%E7%BB%84%E4%BB%B6",
+                  "name": "📥 导入组件",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "standalone-%E6%96%B9%E5%BC%8F%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89",
+                  "name": "Standalone 方式（推荐）",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "ngmodule-%E6%96%B9%E5%BC%8F",
+                  "name": "NgModule 方式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%F0%9F%9A%80-hello-world",
+                  "name": "🚀 Hello World",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
+                  "name": "完整示例",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5",
+                  "name": "关键概念",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F",
+                  "name": "时间格式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E2%9C%85-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85",
+                  "name": "✅ 验证安装",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%F0%9F%93%9A-%E4%B8%8B%E4%B8%80%E6%AD%A5",
+                  "name": "📚 下一步",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E2%9D%93-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "❓ 常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%A0%B7%E5%BC%8F%E6%9C%AA%E7%94%9F%E6%95%88%EF%BC%9F",
+                  "name": "样式未生效？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F",
+                  "name": "时间显示不正确？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%BB%84%E4%BB%B6%E6%9C%AA%E6%98%BE%E7%A4%BA%EF%BC%9F",
+                  "name": "组件未显示？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%AF%BC%E5%85%A5%E9%94%99%E8%AF%AF%EF%BC%9F",
+                  "name": "导入错误？",
                   "level": 3,
                   "type": "h3"
                 }
               ],
-              "contentPath": "docs/zh-cn/guides/intro/getting-started.html",
-              "originPath": "docs/zh-cn/guides/intro/getting-started.md"
-            }
-          ],
-          "order": 1
-        },
-        {
-          "id": "guides/basic",
-          "path": "guides/basic",
-          "channelPath": "guides",
-          "title": "基本用法",
-          "items": [
+              "contentPath": "docs/zh-cn/guides/getting-started/getting-started.html",
+              "originPath": "docs/zh-cn/guides/getting-started/getting-started.md"
+            },
             {
-              "id": "usage",
-              "path": "basic/usage",
+              "id": "upgrade-to-21",
+              "path": "intro/upgrade-to-21",
               "channelPath": "guides",
-              "title": "如何使用",
-              "subtitle": "Usage",
-              "order": 10,
+              "title": "v21 升级迁移指南（重要）",
+              "order": 120,
               "toc": "content",
               "headings": [
                 {
-                  "id": "%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8",
-                  "name": "基本使用",
+                  "id": "%E5%8D%87%E7%BA%A7%E5%89%8D%E5%87%86%E5%A4%87",
+                  "name": "升级前准备",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE",
-                  "name": "视图配置",
+                  "id": "1--%E8%A7%86%E5%9B%BE%EF%BC%88view%EF%BC%89%E9%85%8D%E7%BD%AE%E8%BF%81%E7%A7%BB",
+                  "name": "1. 视图（View）配置迁移",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%88%86%E7%BB%84",
-                  "name": "如何设置分组",
+                  "id": "1-1-%E5%AD%97%E6%AE%B5%E9%87%8D%E5%91%BD%E5%90%8D",
+                  "name": "1.1 字段重命名",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "1-2-%E8%BF%81%E7%A7%BB%E7%A4%BA%E4%BE%8B",
+                  "name": "1.2 迁移示例",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "2--%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%88custom-view%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%BF%81%E7%A7%BB",
+                  "name": "2. 自定义视图（Custom View）抽象类迁移",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E5%B1%95%E7%A4%BA",
-                  "name": "树形结构展示",
+                  "id": "3--%E5%9B%BD%E9%99%85%E5%8C%96%EF%BC%88i18n%EF%BC%89%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84%E8%BF%81%E7%A7%BB",
+                  "name": "3. 国际化（i18n）配置结构迁移",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E4%BE%9D%E8%B5%96",
-                  "name": "依赖",
+                  "id": "4--%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%B8%BB%E9%A2%98%E7%B3%BB%E7%BB%9F",
+                  "name": "4. 全局配置与主题系统",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD",
-                  "name": "滚动加载",
+                  "id": "4-1-%E6%A0%B7%E5%BC%8F%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4",
+                  "name": "4.1 样式字段变更",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "4-2-%E5%85%A8%E6%96%B0%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE",
+                  "name": "4.2 全新主题配置",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "5--%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%B8%85%E5%8D%95",
+                  "name": "5. 类型与常量替换清单",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E6%8B%96%E6%8B%BD",
-                  "name": "拖拽",
+                  "id": "5-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E6%9B%BF%E6%8D%A2",
+                  "name": "5.1 数据模型替换",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "5-2-%E5%B8%83%E5%B1%80%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2",
+                  "name": "5.2 布局常量替换",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "6--%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95%EF%BC%88checklist%EF%BC%89",
+                  "name": "6. 验证清单（Checklist）",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.html",
+              "originPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.md"
+            }
+          ],
+          "order": 100
+        },
+        {
+          "id": "guides/core-concepts",
+          "path": "guides/core-concepts",
+          "channelPath": "guides",
+          "title": "核心概念",
+          "items": [
+            {
+              "id": "index",
+              "path": "core-concepts",
+              "channelPath": "guides",
+              "title": "核心概念",
+              "order": 200,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%9F%BA%E7%A1%80",
+                  "name": "基础",
                   "level": 2,
                   "type": "h2"
                 },
                 {
-                  "id": "%E9%80%89%E6%8B%A9%E6%95%B4%E8%A1%8C",
-                  "name": "选择整行",
+                  "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
+                  "name": "章节列表",
                   "level": 2,
                   "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/core/index.html",
+              "originPath": "docs/zh-cn/guides/core/index.md"
+            },
+            {
+              "id": "data-model",
+              "path": "core-concepts/data-model",
+              "channelPath": "guides",
+              "title": "数据模型",
+              "order": 210,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "ganttitem",
+                  "name": "GanttItem",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%BF%85%E9%9C%80%E5%AD%97%E6%AE%B5",
+                  "name": "必需字段",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%97%B6%E9%97%B4%E5%AD%97%E6%AE%B5",
+                  "name": "时间字段",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8-origin-%E6%8C%82%E8%BD%BD%E4%B8%9A%E5%8A%A1%E6%95%B0%E6%8D%AE",
+                  "name": "使用 origin 挂载业务数据",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "ganttgroup",
+                  "name": "GanttGroup",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "group-%E4%B8%8E-tree-%E6%A8%A1%E5%BC%8F%E6%95%B0%E6%8D%AE%E7%BB%84%E7%BB%87",
+                  "name": "Group 与 Tree 模式数据组织",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%88%86%E7%BB%84%E6%A8%A1%E5%BC%8F%EF%BC%88group-+-items%EF%BC%89",
+                  "name": "分组模式（Group + items）",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A0%91%E5%BD%A2%E6%A8%A1%E5%BC%8F%EF%BC%88children%EF%BC%89",
+                  "name": "树形模式（Children）",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0",
+                  "name": "数据更新",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E2%9D%8C-%E9%94%99%E8%AF%AF%E7%A4%BA%E4%BE%8B%EF%BC%88%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0%EF%BC%89",
+                  "name": "❌ 错误示例（可变更新）",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E2%9C%85-%E6%AD%A3%E7%A1%AE%E7%A4%BA%E4%BE%8B%EF%BC%88%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0%EF%BC%89",
+                  "name": "✅ 正确示例（不可变更新）",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%9F%BA%E7%A1%80%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8",
+                  "name": "基础任务列表",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%88%86%E7%BB%84%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "分组模式示例",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A0%91%E5%BD%A2%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "树形模式示例",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BF%AE%E6%94%B9%E4%BA%86%E6%95%B0%E6%8D%AE%E4%BD%86%E8%A7%86%E5%9B%BE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F",
+                  "name": "Q: 为什么修改了数据但视图没有更新？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%BB%BB%E5%8A%A1%E6%98%AF%E5%90%A6%E6%9C%89%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%9F",
+                  "name": "Q: 如何判断任务是否有子节点？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%88%86%E7%BB%84%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%A0%91%E5%BD%A2%E6%A8%A1%E5%BC%8F%E5%8F%AF%E4%BB%A5%E6%B7%B7%E7%94%A8%E5%90%97%EF%BC%9F",
+                  "name": "Q: 分组模式和树形模式可以混用吗？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-origin-%E5%AD%97%E6%AE%B5%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F",
+                  "name": "Q: origin 字段是必需的吗？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/core/data-model.html",
+              "originPath": "docs/zh-cn/guides/core/data-model.md"
+            },
+            {
+              "id": "views",
+              "path": "core-concepts/views",
+              "channelPath": "guides",
+              "title": "视图",
+              "order": 220,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E8%A7%86%E5%9B%BE",
+                  "name": "使用视图",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B",
+                  "name": "视图类型",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%A7%86%E5%9B%BE%E5%B1%95%E7%A4%BA%E8%AF%B4%E6%98%8E",
+                  "name": "视图展示说明",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "viewoptions-%E9%85%8D%E7%BD%AE",
+                  "name": "ViewOptions 配置",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%97%B6%E9%97%B4%E5%88%BB%E5%BA%A6%E6%A0%BC%E5%BC%8F%E5%8C%96%EF%BC%88tickformats%EF%BC%89",
+                  "name": "时间刻度格式化（tickFormats）",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A0%BC%E5%BC%8F%EF%BC%88dragtooltipformat%EF%BC%89",
+                  "name": "拖拽提示框格式（dragTooltipFormat）",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%EF%BC%88loadduration%EF%BC%89",
+                  "name": "滚动加载配置（loadDuration）",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%8A%82%E5%81%87%E6%97%A5%E9%85%8D%E7%BD%AE%EF%BC%88holiday%EF%BC%89",
+                  "name": "节假日配置（holiday）",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
+                  "name": "Q: 如何实现自定义视图？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/core/views.html",
+              "originPath": "docs/zh-cn/guides/core/views.md"
+            },
+            {
+              "id": "date-timezone",
+              "path": "core-concepts/date-timezone",
+              "channelPath": "guides",
+              "title": "时间与时区",
+              "order": 230,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E6%97%B6%E9%97%B4%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F",
+                  "name": "时间输入格式",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ganttdate-%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C",
+                  "name": "GanttDate 时间操作",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%88%9B%E5%BB%BA-ganttdate",
+                  "name": "创建 GanttDate",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95",
+                  "name": "时间操作方法",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%97%B6%E5%8C%BA%E9%85%8D%E7%BD%AE",
+                  "name": "时区配置",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%97%B6%E5%8C%BA%E8%AF%B4%E6%98%8E",
+                  "name": "时区说明",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%91%A8%E8%B5%B7%E5%A7%8B%E6%97%A5",
+                  "name": "周起始日",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/core/date-timezone.html",
+              "originPath": "docs/zh-cn/guides/core/date-timezone.md"
+            },
+            {
+              "id": "api-methods",
+              "path": "core-concepts/api-methods",
+              "channelPath": "guides",
+              "title": "公共方法",
+              "order": 240,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8",
+                  "name": "方法列表",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B",
+                  "name": "使用示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/core/api-methods.html",
+              "originPath": "docs/zh-cn/guides/core/api-methods.md"
+            }
+          ],
+          "order": 200
+        },
+        {
+          "id": "guides/features",
+          "path": "guides/features",
+          "channelPath": "guides",
+          "title": "功能指南",
+          "items": [
+            {
+              "id": "index",
+              "path": "features",
+              "channelPath": "guides",
+              "title": "功能指南",
+              "order": 300,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E6%A6%82%E8%A7%88",
+                  "name": "概览",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
+                  "name": "章节列表",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/index.html",
+              "originPath": "docs/zh-cn/guides/features/index.md"
+            },
+            {
+              "id": "table",
+              "path": "features/table-interaction",
+              "channelPath": "guides",
+              "title": "表格显示与交互",
+              "order": 310,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E8%A1%A8%E6%A0%BC%EF%BC%9F",
+                  "name": "如何使用表格？",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%95%E7%A4%BA%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义展示模板",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%88%97%E5%86%85%E5%AE%B9%E6%A8%A1%E6%9D%BF",
+                  "name": "列内容模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A1%8C%E5%89%8D%E7%BD%AE/%E5%90%8E%E7%BD%AE%E6%8F%92%E6%A7%BD",
+                  "name": "行前置/后置插槽",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%A9%BA%E7%8A%B6%E6%80%81%E6%A8%A1%E6%9D%BF",
+                  "name": "空状态模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%BA%95%E9%83%A8%E6%A8%A1%E6%9D%BF",
+                  "name": "底部模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A1%A8%E6%A0%BC%E4%BA%A4%E4%BA%92",
+                  "name": "表格交互",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%A1%8C%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F",
+                  "name": "行拖拽排序",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+                  "name": "启用拖拽",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
+                  "name": "拖拽事件处理",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA",
+                  "name": "dropEnterPredicate 动作拦截",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E5%88%97%E6%8B%96%E6%8B%BD%E6%94%B9%E5%8F%98%E5%AE%BD%E5%BA%A6",
+                  "name": "列拖拽改变宽度",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%B8%8E%E9%80%89%E6%8B%A9",
+                  "name": "行点击与选择",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6",
+                  "name": "行点击事件",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD",
+                  "name": "选择功能",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E7%89%B9%E5%AE%9A%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8B%96%E6%8B%BD%EF%BC%9F",
+                  "name": "Q: 如何禁用特定任务的拖拽？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E6%8B%96%E6%8B%BD%E8%8C%83%E5%9B%B4%EF%BC%9F",
+                  "name": "Q: 如何限制拖拽范围？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E6%8B%96%E6%8B%BD%E5%90%8E%E6%95%B0%E6%8D%AE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F",
+                  "name": "Q: 拖拽后数据没有更新？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/table.html",
+              "originPath": "docs/zh-cn/guides/features/table.md"
+            },
+            {
+              "id": "groups",
+              "path": "features/groups",
+              "channelPath": "guides",
+              "title": "分组模式",
+              "order": 320,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%A6%82%E4%BD%95%E6%B8%B2%E6%9F%93%E5%88%86%E7%BB%84%E6%95%B0%E6%8D%AE%EF%BC%9F",
+                  "name": "如何渲染分组数据？",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义模板",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "#groupheader-%E6%A8%A1%E6%9D%BF",
+                  "name": "#groupHeader 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "#group-%E6%A8%A1%E6%9D%BF",
+                  "name": "#group 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E7%BB%84%E6%A0%B7%E5%BC%8F",
+                  "name": "自定义分组样式",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0",
+                  "name": "展开/折叠",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81",
+                  "name": "初始展开状态",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%87%BD%E6%95%B0%E6%8E%A7%E5%88%B6%E5%B1%95%E5%BC%80",
+                  "name": "函数控制展开",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/groups.html",
+              "originPath": "docs/zh-cn/guides/features/groups.md"
+            },
+            {
+              "id": "tree",
+              "path": "features/tree",
+              "channelPath": "guides",
+              "title": "Tree 模式",
+              "order": 330,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-tree-%E6%A8%A1%E5%BC%8F%EF%BC%9F",
+                  "name": "如何使用 Tree 模式？",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0%E6%8E%A7%E5%88%B6",
+                  "name": "展开/折叠控制",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81",
+                  "name": "初始展开状态",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%A8%8B%E5%BA%8F%E5%8C%96%E6%8E%A7%E5%88%B6",
+                  "name": "程序化控制",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%9C%80%E5%A4%A7%E5%B1%82%E7%BA%A7%E9%99%90%E5%88%B6",
+                  "name": "最大层级限制",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD",
+                  "name": "异步加载",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
+                  "name": "完整示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%9F%BA%E7%A1%80%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84",
+                  "name": "基础树形结构",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E7%A4%BA%E4%BE%8B",
+                  "name": "异步加载示例",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/tree.html",
+              "originPath": "docs/zh-cn/guides/features/tree.md"
+            },
+            {
+              "id": "bar",
+              "path": "features/bar-interaction",
+              "channelPath": "guides",
+              "title": "Bar 显示与交互",
+              "order": 340,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "bar-%E5%B1%95%E7%A4%BA",
+                  "name": "Bar 展示",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-bar-%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义 Bar 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+                  "name": "模板上下文",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-item-%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义 Item 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
+                  "name": "样式定制",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A2%9C%E8%89%B2",
+                  "name": "自定义颜色",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F",
+                  "name": "自定义样式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD%E4%BA%A4%E4%BA%92",
+                  "name": "拖拽交互",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+                  "name": "启用拖拽",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1",
+                  "name": "事件对象",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%A6%81%E7%94%A8%E6%8B%96%E6%8B%BD",
+                  "name": "禁用拖拽",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%A6%81%E7%94%A8%E6%89%80%E6%9C%89-bar-%E6%8B%96%E6%8B%BD",
+                  "name": "禁用所有 Bar 拖拽",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8B%96%E6%8B%BD",
+                  "name": "禁用指定任务拖拽",
+                  "level": 4,
+                  "type": "h4"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A0%BC%E5%BC%8F",
+                  "name": "拖拽提示框格式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E6%8B%96%E6%8B%BD%E5%90%8E%E8%A7%86%E5%9B%BE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F",
+                  "name": "Q: 拖拽后视图没有更新？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E7%89%B9%E5%AE%9A%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8B%96%E6%8B%BD%EF%BC%9F",
+                  "name": "Q: 如何禁用特定任务的拖拽？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%8B%96%E6%8B%BD%E5%90%8E%E7%9A%84%E6%96%B0%E6%97%B6%E9%97%B4%EF%BC%9F",
+                  "name": "Q: 如何获取拖拽后的新时间？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%96%E6%8B%BD%E6%97%B6%E7%9A%84%E6%8F%90%E7%A4%BA%E6%A1%86%E5%86%85%E5%AE%B9%EF%BC%9F",
+                  "name": "Q: 如何自定义拖拽时的提示框内容？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/bar.html",
+              "originPath": "docs/zh-cn/guides/features/bar.md"
+            },
+            {
+              "id": "range",
+              "path": "features/range",
+              "channelPath": "guides",
+              "title": "Range 任务显示",
+              "order": 350,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "range-%E7%B1%BB%E5%9E%8B%E4%BB%BB%E5%8A%A1%E9%A1%B9",
+                  "name": "Range 类型任务项",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "range-%E5%B1%95%E7%A4%BA",
+                  "name": "Range 展示",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-range-%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义 Range 模板",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+                  "name": "模板上下文",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "range-%E4%B8%8E-bar-%E7%9A%84%E5%8C%BA%E5%88%AB",
+                  "name": "Range 与 Bar 的区别",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF",
+                  "name": "使用场景",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/range.html",
+              "originPath": "docs/zh-cn/guides/features/range.md"
+            },
+            {
+              "id": "links",
+              "path": "features/task-links",
+              "channelPath": "guides",
+              "title": "任务依赖",
+              "order": 360,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%A6%82%E4%BD%95%E5%B1%95%E7%A4%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%EF%BC%9F",
+                  "name": "如何展示依赖数据？",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%9E%84%E5%BB%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE",
+                  "name": "构建依赖数据",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F",
+                  "name": "数据格式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B",
+                  "name": "依赖类型",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E4%BE%9D%E8%B5%96",
+                  "name": "拖拽创建依赖",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%8B%96%E6%8B%BD%E6%93%8D%E4%BD%9C",
+                  "name": "拖拽操作",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
+                  "name": "事件处理",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
+                  "name": "连线样式定制",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%9E%E7%BA%BF%E9%A2%9C%E8%89%B2",
+                  "name": "自定义连线颜色",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE",
+                  "name": "连线样式配置",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE",
+                  "name": "依赖配置",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
+                  "name": "完整示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E4%BE%9D%E8%B5%96%EF%BC%9F",
+                  "name": "Q: 如何删除依赖？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%8F%AA%E8%83%BD%E5%88%9B%E5%BB%BA%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BE%9D%E8%B5%96%EF%BC%9F",
+                  "name": "Q: 如何限制只能创建特定类型的依赖？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E4%BE%9D%E8%B5%96%E8%BF%9E%E7%BA%BF%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F",
+                  "name": "Q: 依赖连线不显示？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/links.html",
+              "originPath": "docs/zh-cn/guides/features/links.md"
+            },
+            {
+              "id": "baseline",
+              "path": "features/baseline",
+              "channelPath": "guides",
+              "title": "基线",
+              "order": 370,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8",
+                  "name": "基础使用",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84",
+                  "name": "数据结构",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/%E9%9A%90%E8%97%8F",
+                  "name": "动态显示/隐藏",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%BA%E5%87%86%E7%BA%BF%E6%A8%A1%E6%9D%BF",
+                  "name": "自定义基准线模板",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+                  "name": "模板上下文",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A4%BA%E4%BE%8B",
+                  "name": "自定义示例",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/baseline.html",
+              "originPath": "docs/zh-cn/guides/features/baseline.md"
+            },
+            {
+              "id": "performance",
+              "path": "features/performance",
+              "channelPath": "guides",
+              "title": "性能与加载状态",
+              "order": 380,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6",
+                  "name": "核心机制",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%88%97%E8%A1%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8",
+                  "name": "列表虚拟滚动",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%BB%9A%E5%8A%A8%E5%88%B0%E5%BA%95%E9%83%A8%E5%8A%A0%E8%BD%BD%E4%B8%8B%E4%B8%80%E9%A1%B5%E6%95%B0%E6%8D%AE",
+                  "name": "示例：滚动到底部加载下一页数据",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD",
+                  "name": "视图滚动加载",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6",
+                  "name": "滚动加载机制",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%A4%BA%E4%BE%8B%EF%BC%9A%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE",
+                  "name": "示例：视图滚动加载数据",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%8A%A0%E8%BD%BD%E7%8A%B6%E6%80%81%E5%A4%84%E7%90%86",
+                  "name": "加载状态处理",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/performance.html",
+              "originPath": "docs/zh-cn/guides/features/performance.md"
+            },
+            {
+              "id": "toolbar",
+              "path": "features/toolbar",
+              "channelPath": "guides",
+              "title": "工具栏",
+              "order": 390,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8",
+                  "name": "基础使用",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F",
+                  "name": "自定义工具栏",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
+                  "name": "样式定制",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E5%B7%A5%E5%85%B7%E6%A0%8F%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F",
+                  "name": "Q: 工具栏不显示？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E8%A7%86%E5%9B%BE%E5%88%87%E6%8D%A2%E5%90%8E%E6%B2%A1%E6%9C%89%E7%94%9F%E6%95%88%EF%BC%9F",
+                  "name": "Q: 视图切换后没有生效？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E9%9A%90%E8%97%8F%E6%9F%90%E4%BA%9B%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B%EF%BC%9F",
+                  "name": "Q: 如何隐藏某些视图类型？",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/features/toolbar.html",
+              "originPath": "docs/zh-cn/guides/features/toolbar.md"
+            },
+            {
+              "id": "print",
+              "path": "features/export-print",
+              "channelPath": "guides",
+              "title": "导出打印",
+              "order": 391,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%AF%BC%E5%87%BA%E6%89%93%E5%8D%B0",
+                  "name": "导出打印",
+                  "level": 1,
+                  "type": "h1"
+                },
+                {
+                  "id": "ganttprintservice",
+                  "name": "GanttPrintService",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%B3%A8%E5%85%A5%E6%9C%8D%E5%8A%A1",
+                  "name": "注入服务",
+                  "level": 3,
+                  "type": "h3"
                 },
                 {
                   "id": "%E5%AF%BC%E5%87%BA%E4%B8%BA%E5%9B%BE%E7%89%87",
                   "name": "导出为图片",
                   "level": 2,
                   "type": "h2"
+                },
+                {
+                  "id": "%E5%9F%BA%E7%A1%80%E5%AF%BC%E5%87%BA",
+                  "name": "基础导出",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%BF%BD%E7%95%A5%E7%89%B9%E5%AE%9A%E5%85%83%E7%B4%A0",
+                  "name": "忽略特定元素",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%8E%B7%E5%8F%96-canvas-%E5%AF%B9%E8%B1%A1",
+                  "name": "获取 Canvas 对象",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B",
+                  "name": "自定义处理示例",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A0%B7%E5%BC%8F%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98",
+                  "name": "样式丢失问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0",
+                  "name": "问题原因",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88",
+                  "name": "解决方案",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5",
+                  "name": "最佳实践",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "1--%E7%AD%89%E5%BE%85%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90",
+                  "name": "1. 等待渲染完成",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "2--%E5%A4%84%E7%90%86%E5%A4%A7%E5%9B%BE%E5%AF%BC%E5%87%BA",
+                  "name": "2. 处理大图导出",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "3--%E4%BC%98%E5%8C%96%E5%AF%BC%E5%87%BA%E8%B4%A8%E9%87%8F",
+                  "name": "3. 优化导出质量",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E5%AF%BC%E5%87%BA%E5%A4%B1%E8%B4%A5%E6%88%96%E5%9B%BE%E7%89%87%E7%A9%BA%E7%99%BD%EF%BC%9F",
+                  "name": "Q: 导出失败或图片空白？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%AF%BC%E5%87%BA%E7%9A%84%E5%9B%BE%E7%89%87%E6%A0%B7%E5%BC%8F%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F",
+                  "name": "Q: 导出的图片样式不正确？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E5%AF%BC%E5%87%BA%E7%89%B9%E5%AE%9A%E5%8C%BA%E5%9F%9F%EF%BC%9F",
+                  "name": "Q: 如何导出特定区域？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E5%AF%BC%E5%87%BA%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%EF%BC%9F",
+                  "name": "Q: 导出性能问题？",
+                  "level": 3,
+                  "type": "h3"
                 }
               ],
-              "contentPath": "docs/zh-cn/guides/basic/usage.html",
-              "originPath": "docs/zh-cn/guides/basic/usage.md"
-            },
-            {
-              "id": "components",
-              "path": "basic/components",
-              "channelPath": "guides",
-              "title": "组件说明",
-              "subtitle": "Components",
-              "order": 20,
-              "toc": "content",
-              "headings": [
-                {
-                  "id": "%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6",
-                  "name": "基础组件",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ngx-gantt",
-                  "name": "ngx-gantt",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "ngx-gantt-table",
-                  "name": "ngx-gantt-table",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "ngx-gantt-column",
-                  "name": "ngx-gantt-column",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "%E6%89%A9%E5%B1%95%E9%AB%98%E7%BA%A7%E7%BB%84%E4%BB%B6",
-                  "name": "扩展高级组件",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ngx-gantt-root",
-                  "name": "ngx-gantt-root",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "ngx-gantt-bar",
-                  "name": "ngx-gantt-bar",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ngx-gantt-range",
-                  "name": "ngx-gantt-range",
-                  "level": 1,
-                  "type": "h1"
-                }
-              ],
-              "contentPath": "docs/zh-cn/guides/basic/components.html",
-              "originPath": "docs/zh-cn/guides/basic/components.md"
-            },
-            {
-              "id": "date",
-              "path": "basic/date",
-              "channelPath": "guides",
-              "title": "时间说明",
-              "subtitle": "Date",
-              "order": 25,
-              "toc": "content",
-              "headings": [
-                {
-                  "id": "%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F",
-                  "name": "时间格式",
-                  "level": 2,
-                  "type": "h2"
-                },
-                {
-                  "id": "ganttdate",
-                  "name": "GanttDate",
-                  "level": 2,
-                  "type": "h2"
-                }
-              ],
-              "contentPath": "docs/zh-cn/guides/basic/date.html",
-              "originPath": "docs/zh-cn/guides/basic/date.md"
-            },
-            {
-              "id": "type",
-              "path": "basic/data-type",
-              "channelPath": "guides",
-              "title": "数据类型",
-              "subtitle": "Input Date",
-              "order": 30,
-              "toc": "content",
-              "headings": [
-                {
-                  "id": "ganttitem",
-                  "name": "GanttItem",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ganttgroup",
-                  "name": "GanttGroup",
-                  "level": 1,
-                  "type": "h1"
-                }
-              ],
-              "contentPath": "docs/zh-cn/guides/basic/type.html",
-              "originPath": "docs/zh-cn/guides/basic/type.md"
-            },
-            {
-              "id": "event",
-              "path": "basic/event",
-              "channelPath": "guides",
-              "title": "事件类型",
-              "subtitle": "Event Type",
-              "order": 40,
-              "toc": "content",
-              "headings": [
-                {
-                  "id": "ganttdragevent",
-                  "name": "GanttDragEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "gantttableevent",
-                  "name": "GanttTableEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ganttlinkdragevent",
-                  "name": "GanttLinkDragEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ganttloadonscrollevent",
-                  "name": "GanttLoadOnScrollEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ganttlineclickevent",
-                  "name": "GanttLineClickEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ganttbarclickevent",
-                  "name": "GanttBarClickEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ganttselectedevent",
-                  "name": "GanttSelectedEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "gantttabledragdroppedevent",
-                  "name": "GanttTableDragDroppedEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "gantttabledragstartedevent",
-                  "name": "GanttTableDragStartedEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "gantttabledragendedevent",
-                  "name": "GanttTableDragEndedEvent",
-                  "level": 1,
-                  "type": "h1"
-                },
-                {
-                  "id": "ganttvirtualscrolledindexchangeevent",
-                  "name": "GanttVirtualScrolledIndexChangeEvent",
-                  "level": 1,
-                  "type": "h1"
-                }
-              ],
-              "contentPath": "docs/zh-cn/guides/basic/event.html",
-              "originPath": "docs/zh-cn/guides/basic/event.md"
-            },
-            {
-              "id": "style",
-              "path": "basic/style",
-              "channelPath": "guides",
-              "title": "样式重写",
-              "subtitle": "Style Variables",
-              "order": 50,
-              "toc": "content",
-              "headings": [],
-              "contentPath": "docs/zh-cn/guides/basic/style.html",
-              "originPath": "docs/zh-cn/guides/basic/style.md"
+              "contentPath": "docs/zh-cn/guides/features/print.html",
+              "originPath": "docs/zh-cn/guides/features/print.md"
             }
           ],
-          "order": 20
+          "order": 300
         },
         {
           "id": "guides/configuration",
           "path": "guides/configuration",
           "channelPath": "guides",
-          "title": "配置",
+          "title": "全局配置",
           "items": [
             {
-              "id": "global",
-              "path": "configuration/global",
+              "id": "index",
+              "path": "configuration",
               "channelPath": "guides",
               "title": "全局配置",
-              "subtitle": "Global Config",
-              "order": 9007199254740991,
+              "order": 400,
               "toc": "content",
-              "headings": [],
-              "contentPath": "docs/zh-cn/guides/configuration/global.html",
-              "originPath": "docs/zh-cn/guides/configuration/global.md"
+              "headings": [
+                {
+                  "id": "%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84",
+                  "name": "配置结构",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE",
+                  "name": "默认配置",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%B3%A8%E5%86%8C%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
+                  "name": "注册全局配置",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "standalone-%E6%96%B9%E5%BC%8F",
+                  "name": "Standalone 方式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "ngmodule-%E6%96%B9%E5%BC%8F",
+                  "name": "NgModule 方式",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/configuration/index.html",
+              "originPath": "docs/zh-cn/guides/configuration/index.md"
             },
             {
               "id": "i18n",
               "path": "configuration/i18n",
               "channelPath": "guides",
               "title": "国际化",
-              "subtitle": "i18n",
-              "order": 9007199254740991,
+              "order": 420,
               "toc": "content",
               "headings": [
+                {
+                  "id": "%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85",
+                  "name": "内置语言包",
+                  "level": 2,
+                  "type": "h2"
+                },
                 {
                   "id": "%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80",
                   "name": "使用内置语言",
@@ -426,60 +1608,412 @@
                   "type": "h3"
                 },
                 {
-                  "id": "%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80",
-                  "name": "配置自定义语言",
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
+                  "name": "自定义语言包",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
+                  "name": "注册自定义语言包",
                   "level": 3,
                   "type": "h3"
                 },
                 {
-                  "id": "%E6%97%B6%E5%8C%BA",
-                  "name": "时区",
+                  "id": "%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85",
+                  "name": "覆盖内置语言包",
                   "level": 3,
                   "type": "h3"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E5%A6%82%E4%BD%95%E5%8F%AA%E8%A6%86%E7%9B%96%E9%83%A8%E5%88%86%E8%A7%86%E5%9B%BE%E7%9A%84%E6%96%87%E6%9C%AC%EF%BC%9F",
+                  "name": "Q: 如何只覆盖部分视图的文本？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-datelocale-%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F",
+                  "name": "Q: dateLocale 是必需的吗？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "q:-%E6%A0%BC%E5%BC%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8D%E7%94%9F%E6%95%88%E6%88%96%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8%EF%BC%9F",
+                  "name": "Q: 格式字符串不生效或显示异常？",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+                  "name": "相关链接",
+                  "level": 2,
+                  "type": "h2"
                 }
               ],
               "contentPath": "docs/zh-cn/guides/configuration/i18n.html",
               "originPath": "docs/zh-cn/guides/configuration/i18n.md"
+            },
+            {
+              "id": "theming",
+              "path": "configuration/theming",
+              "channelPath": "guides",
+              "title": "主题与样式",
+              "order": 430,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E5%9F%BA%E7%A1%80%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE",
+                  "name": "基础样式配置",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98",
+                  "name": "自定义主题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98",
+                  "name": "如何修改默认主题",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%AE%9A%E4%B9%89%E5%A4%9A%E4%B8%AA%E4%B8%BB%E9%A2%98",
+                  "name": "定义多个主题",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E",
+                  "name": "主题配置说明",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E6%88%91%E5%8F%AA%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-bar-%E9%A2%9C%E8%89%B2%EF%BC%8C%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9F",
+                  "name": "Q: 我只需要修改 Bar 颜色，最简单的方式？",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/configuration/theming.html",
+              "originPath": "docs/zh-cn/guides/configuration/theming.md"
             }
           ],
-          "order": 30
+          "order": 400
+        },
+        {
+          "id": "guides/advanced",
+          "path": "guides/advanced",
+          "channelPath": "guides",
+          "title": "进阶定制",
+          "items": [
+            {
+              "id": "index",
+              "path": "advanced",
+              "channelPath": "guides",
+              "title": "进阶定制",
+              "order": 500,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
+                  "name": "章节列表",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
+                  "name": "适用场景",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE",
+                  "name": "使用建议",
+                  "level": 2,
+                  "type": "h2"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/advanced/index.html",
+              "originPath": "docs/zh-cn/guides/advanced/index.md"
+            },
+            {
+              "id": "custom-views",
+              "path": "advanced/custom-views",
+              "channelPath": "guides",
+              "title": "自定义视图",
+              "order": 510,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
+                  "name": "什么时候需要自定义视图？",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+                  "name": "实现自定义视图",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%B3%A8%E5%86%8C%E5%92%8C%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+                  "name": "注册和使用自定义视图",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+                  "name": "注册自定义视图",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+                  "name": "使用自定义视图",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE",
+                  "name": "覆盖内置视图",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+                  "name": "常见问题",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "q:-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F",
+                  "name": "Q: 自定义视图不显示？",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/advanced/custom-views.html",
+              "originPath": "docs/zh-cn/guides/advanced/custom-views.md"
+            },
+            {
+              "id": "advanced-layout",
+              "path": "advanced/advanced-layout",
+              "channelPath": "guides",
+              "title": "高级布局",
+              "order": 520,
+              "toc": "content",
+              "headings": [
+                {
+                  "id": "%E2%9A%A0%EF%B8%8F-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA",
+                  "name": "⚠️ 重要提示",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80%EF%BC%9F",
+                  "name": "什么时候需要自定义布局？",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "ngx-gantt-root-%E7%BB%84%E4%BB%B6",
+                  "name": "ngx-gantt-root 组件",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7",
+                  "name": "组件属性",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%A8%A1%E6%9D%BF%E7%BB%93%E6%9E%84",
+                  "name": "模板结构",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+                  "name": "最小示例",
+                  "level": 3,
+                  "type": "h3"
+                },
+                {
+                  "id": "%E5%AE%9E%E7%8E%B0%E8%A6%81%E7%82%B9",
+                  "name": "实现要点",
+                  "level": 2,
+                  "type": "h2"
+                },
+                {
+                  "id": "%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81",
+                  "name": "示例代码",
+                  "level": 3,
+                  "type": "h3"
+                }
+              ],
+              "contentPath": "docs/zh-cn/guides/advanced/advanced-layout.html",
+              "originPath": "docs/zh-cn/guides/advanced/advanced-layout.md"
+            }
+          ],
+          "order": 500
         }
       ],
-      "order": 1
+      "order": 9007199254740991
     },
     {
-      "title": "组件",
-      "path": "components"
-    },
-    {
-      "title": "参数",
-      "path": "configuration",
+      "title": "组件 API",
+      "path": "component-apis",
       "lib": "ngx-gantt",
       "items": [
         {
-          "id": "config",
-          "title": "配置",
+          "id": "core",
+          "title": "核心组件",
           "items": [
             {
-              "id": "parameters",
-              "title": "参数",
-              "subtitle": "Parameters",
-              "path": "parameters",
-              "importSpecifier": "ngx-gantt/parameters",
+              "id": "ngx-gantt",
+              "title": "ngx-gantt",
+              "subtitle": "甘特图主组件",
+              "path": "ngx-gantt",
+              "importSpecifier": "ngx-gantt/ngx-gantt",
               "examples": [],
               "overview": false,
               "api": true,
               "order": 1,
-              "category": "config",
-              "originPath": "example/src/app/configuration/parameters/doc/zh-cn.md",
+              "category": "core",
+              "originPath": "example/src/app/apis/ngx-gantt/doc/zh-cn.md",
               "toc": "content",
               "headings": [],
-              "channelPath": "configuration"
+              "channelPath": "component-apis"
+            },
+            {
+              "id": "ngx-gantt-table",
+              "title": "ngx-gantt-table",
+              "subtitle": "甘特图表格",
+              "path": "ngx-gantt-table",
+              "importSpecifier": "ngx-gantt/ngx-gantt-table",
+              "examples": [],
+              "overview": false,
+              "api": true,
+              "order": 2,
+              "category": "core",
+              "originPath": "example/src/app/apis/ngx-gantt-table/doc/zh-cn.md",
+              "toc": "content",
+              "headings": [],
+              "channelPath": "component-apis"
+            }
+          ],
+          "order": 0
+        },
+        {
+          "id": "feature",
+          "title": "功能组件",
+          "items": [
+            {
+              "id": "ngx-gantt-bar",
+              "title": "ngx-gantt-bar",
+              "subtitle": "数据项条形图展示组件",
+              "path": "ngx-gantt-bar",
+              "importSpecifier": "ngx-gantt/ngx-gantt-bar",
+              "examples": [],
+              "overview": false,
+              "api": true,
+              "order": 3,
+              "category": "feature",
+              "originPath": "example/src/app/apis/ngx-gantt-bar/doc/zh-cn.md",
+              "toc": "content",
+              "headings": [],
+              "channelPath": "component-apis"
+            },
+            {
+              "id": "ngx-gantt-range",
+              "title": "ngx-gantt-range",
+              "subtitle": "数据项区间展示组件",
+              "path": "ngx-gantt-range",
+              "importSpecifier": "ngx-gantt/ngx-gantt-range",
+              "examples": [],
+              "overview": false,
+              "api": true,
+              "order": 4,
+              "category": "feature",
+              "originPath": "example/src/app/apis/ngx-gantt-range/doc/zh-cn.md",
+              "toc": "content",
+              "headings": [],
+              "channelPath": "component-apis"
+            },
+            {
+              "id": "ngx-gantt-toolbar",
+              "title": "ngx-gantt-toolbar",
+              "subtitle": "工具栏组件",
+              "path": "ngx-gantt-toolbar",
+              "importSpecifier": "ngx-gantt/ngx-gantt-toolbar",
+              "examples": [],
+              "overview": false,
+              "api": true,
+              "order": 5,
+              "category": "feature",
+              "originPath": "example/src/app/apis/ngx-gantt-toolbar/doc/zh-cn.md",
+              "toc": "content",
+              "headings": [],
+              "channelPath": "component-apis"
+            },
+            {
+              "id": "ngx-gantt-baseline",
+              "title": "ngx-gantt-baseline",
+              "subtitle": "基线展示组件",
+              "path": "ngx-gantt-baseline",
+              "importSpecifier": "ngx-gantt/ngx-gantt-baseline",
+              "examples": [],
+              "overview": false,
+              "api": true,
+              "order": 6,
+              "category": "feature",
+              "originPath": "example/src/app/apis/ngx-gantt-baseline/doc/zh-cn.md",
+              "toc": "content",
+              "headings": [],
+              "channelPath": "component-apis"
+            },
+            {
+              "id": "ngx-gantt-root",
+              "title": "ngx-gantt-root",
+              "subtitle": "甘特图根组件",
+              "path": "ngx-gantt-root",
+              "importSpecifier": "ngx-gantt/ngx-gantt-root",
+              "examples": [],
+              "overview": false,
+              "api": true,
+              "order": 7,
+              "category": "feature",
+              "originPath": "example/src/app/apis/ngx-gantt-root/doc/zh-cn.md",
+              "toc": "content",
+              "headings": [],
+              "channelPath": "component-apis"
             }
           ],
           "order": 0
         }
       ]
+    },
+    {
+      "title": "示例",
+      "path": "examples"
     },
     {
       "title": "GitHub",
@@ -494,295 +2028,169 @@
   ],
   "docs": [
     {
-      "id": "components",
-      "path": "basic/components",
+      "id": "advanced-layout",
+      "path": "advanced/advanced-layout",
       "channelPath": "guides",
-      "title": "组件说明",
-      "subtitle": "Components",
-      "order": 20,
+      "title": "高级布局",
+      "order": 520,
       "toc": "content",
       "headings": [
         {
-          "id": "%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6",
-          "name": "基础组件",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ngx-gantt",
-          "name": "ngx-gantt",
+          "id": "%E2%9A%A0%EF%B8%8F-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA",
+          "name": "⚠️ 重要提示",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "ngx-gantt-table",
-          "name": "ngx-gantt-table",
+          "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B8%83%E5%B1%80%EF%BC%9F",
+          "name": "什么时候需要自定义布局？",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "ngx-gantt-column",
-          "name": "ngx-gantt-column",
+          "id": "ngx-gantt-root-%E7%BB%84%E4%BB%B6",
+          "name": "ngx-gantt-root 组件",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E6%89%A9%E5%B1%95%E9%AB%98%E7%BA%A7%E7%BB%84%E4%BB%B6",
-          "name": "扩展高级组件",
-          "level": 1,
-          "type": "h1"
+          "id": "%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7",
+          "name": "组件属性",
+          "level": 3,
+          "type": "h3"
         },
         {
-          "id": "ngx-gantt-root",
-          "name": "ngx-gantt-root",
+          "id": "%E6%A8%A1%E6%9D%BF%E7%BB%93%E6%9E%84",
+          "name": "模板结构",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%AE%9E%E7%8E%B0%E8%A6%81%E7%82%B9",
+          "name": "实现要点",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "ngx-gantt-bar",
-          "name": "ngx-gantt-bar",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ngx-gantt-range",
-          "name": "ngx-gantt-range",
-          "level": 1,
-          "type": "h1"
+          "id": "%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81",
+          "name": "示例代码",
+          "level": 3,
+          "type": "h3"
         }
       ],
-      "contentPath": "docs/zh-cn/guides/basic/components.html",
-      "originPath": "docs/zh-cn/guides/basic/components.md"
+      "contentPath": "docs/zh-cn/guides/advanced/advanced-layout.html",
+      "originPath": "docs/zh-cn/guides/advanced/advanced-layout.md"
     },
     {
-      "id": "date",
-      "path": "basic/date",
+      "id": "custom-views",
+      "path": "advanced/custom-views",
       "channelPath": "guides",
-      "title": "时间说明",
-      "subtitle": "Date",
-      "order": 25,
+      "title": "自定义视图",
+      "order": 510,
       "toc": "content",
       "headings": [
         {
-          "id": "%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F",
-          "name": "时间格式",
+          "id": "%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
+          "name": "什么时候需要自定义视图？",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "ganttdate",
-          "name": "GanttDate",
+          "id": "%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+          "name": "实现自定义视图",
           "level": 2,
           "type": "h2"
+        },
+        {
+          "id": "%E6%B3%A8%E5%86%8C%E5%92%8C%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+          "name": "注册和使用自定义视图",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+          "name": "注册自定义视图",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE",
+          "name": "使用自定义视图",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%A7%86%E5%9B%BE",
+          "name": "覆盖内置视图",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F",
+          "name": "Q: 自定义视图不显示？",
+          "level": 3,
+          "type": "h3"
         }
       ],
-      "contentPath": "docs/zh-cn/guides/basic/date.html",
-      "originPath": "docs/zh-cn/guides/basic/date.md"
+      "contentPath": "docs/zh-cn/guides/advanced/custom-views.html",
+      "originPath": "docs/zh-cn/guides/advanced/custom-views.md"
     },
     {
-      "id": "event",
-      "path": "basic/event",
+      "id": "index",
+      "path": "advanced",
       "channelPath": "guides",
-      "title": "事件类型",
-      "subtitle": "Event Type",
-      "order": 40,
+      "title": "进阶定制",
+      "order": 500,
       "toc": "content",
       "headings": [
         {
-          "id": "ganttdragevent",
-          "name": "GanttDragEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "gantttableevent",
-          "name": "GanttTableEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ganttlinkdragevent",
-          "name": "GanttLinkDragEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ganttloadonscrollevent",
-          "name": "GanttLoadOnScrollEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ganttlineclickevent",
-          "name": "GanttLineClickEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ganttbarclickevent",
-          "name": "GanttBarClickEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ganttselectedevent",
-          "name": "GanttSelectedEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "gantttabledragdroppedevent",
-          "name": "GanttTableDragDroppedEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "gantttabledragstartedevent",
-          "name": "GanttTableDragStartedEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "gantttabledragendedevent",
-          "name": "GanttTableDragEndedEvent",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ganttvirtualscrolledindexchangeevent",
-          "name": "GanttVirtualScrolledIndexChangeEvent",
-          "level": 1,
-          "type": "h1"
-        }
-      ],
-      "contentPath": "docs/zh-cn/guides/basic/event.html",
-      "originPath": "docs/zh-cn/guides/basic/event.md"
-    },
-    {
-      "id": "style",
-      "path": "basic/style",
-      "channelPath": "guides",
-      "title": "样式重写",
-      "subtitle": "Style Variables",
-      "order": 50,
-      "toc": "content",
-      "headings": [],
-      "contentPath": "docs/zh-cn/guides/basic/style.html",
-      "originPath": "docs/zh-cn/guides/basic/style.md"
-    },
-    {
-      "id": "type",
-      "path": "basic/data-type",
-      "channelPath": "guides",
-      "title": "数据类型",
-      "subtitle": "Input Date",
-      "order": 30,
-      "toc": "content",
-      "headings": [
-        {
-          "id": "ganttitem",
-          "name": "GanttItem",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "ganttgroup",
-          "name": "GanttGroup",
-          "level": 1,
-          "type": "h1"
-        }
-      ],
-      "contentPath": "docs/zh-cn/guides/basic/type.html",
-      "originPath": "docs/zh-cn/guides/basic/type.md"
-    },
-    {
-      "id": "usage",
-      "path": "basic/usage",
-      "channelPath": "guides",
-      "title": "如何使用",
-      "subtitle": "Usage",
-      "order": 10,
-      "toc": "content",
-      "headings": [
-        {
-          "id": "%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8",
-          "name": "基本使用",
+          "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
+          "name": "章节列表",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E8%A7%86%E5%9B%BE%E9%85%8D%E7%BD%AE",
-          "name": "视图配置",
+          "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
+          "name": "适用场景",
           "level": 2,
           "type": "h2"
         },
         {
-          "id": "%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%88%86%E7%BB%84",
-          "name": "如何设置分组",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E5%B1%95%E7%A4%BA",
-          "name": "树形结构展示",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E4%BE%9D%E8%B5%96",
-          "name": "依赖",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD",
-          "name": "滚动加载",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E6%8B%96%E6%8B%BD",
-          "name": "拖拽",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E9%80%89%E6%8B%A9%E6%95%B4%E8%A1%8C",
-          "name": "选择整行",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E5%AF%BC%E5%87%BA%E4%B8%BA%E5%9B%BE%E7%89%87",
-          "name": "导出为图片",
+          "id": "%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE",
+          "name": "使用建议",
           "level": 2,
           "type": "h2"
         }
       ],
-      "contentPath": "docs/zh-cn/guides/basic/usage.html",
-      "originPath": "docs/zh-cn/guides/basic/usage.md"
-    },
-    {
-      "id": "global",
-      "path": "configuration/global",
-      "channelPath": "guides",
-      "title": "全局配置",
-      "subtitle": "Global Config",
-      "order": 9007199254740991,
-      "toc": "content",
-      "headings": [],
-      "contentPath": "docs/zh-cn/guides/configuration/global.html",
-      "originPath": "docs/zh-cn/guides/configuration/global.md"
+      "contentPath": "docs/zh-cn/guides/advanced/index.html",
+      "originPath": "docs/zh-cn/guides/advanced/index.md"
     },
     {
       "id": "i18n",
       "path": "configuration/i18n",
       "channelPath": "guides",
       "title": "国际化",
-      "subtitle": "i18n",
-      "order": 9007199254740991,
+      "order": 420,
       "toc": "content",
       "headings": [
+        {
+          "id": "%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85",
+          "name": "内置语言包",
+          "level": 2,
+          "type": "h2"
+        },
         {
           "id": "%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80",
           "name": "使用内置语言",
@@ -790,134 +2198,1770 @@
           "type": "h3"
         },
         {
-          "id": "%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80",
-          "name": "配置自定义语言",
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
+          "name": "自定义语言包",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%AD%E8%A8%80%E5%8C%85",
+          "name": "注册自定义语言包",
           "level": 3,
           "type": "h3"
         },
         {
-          "id": "%E6%97%B6%E5%8C%BA",
-          "name": "时区",
+          "id": "%E8%A6%86%E7%9B%96%E5%86%85%E7%BD%AE%E8%AF%AD%E8%A8%80%E5%8C%85",
+          "name": "覆盖内置语言包",
           "level": 3,
           "type": "h3"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E5%8F%AA%E8%A6%86%E7%9B%96%E9%83%A8%E5%88%86%E8%A7%86%E5%9B%BE%E7%9A%84%E6%96%87%E6%9C%AC%EF%BC%9F",
+          "name": "Q: 如何只覆盖部分视图的文本？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-datelocale-%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F",
+          "name": "Q: dateLocale 是必需的吗？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E6%A0%BC%E5%BC%8F%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8D%E7%94%9F%E6%95%88%E6%88%96%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8%EF%BC%9F",
+          "name": "Q: 格式字符串不生效或显示异常？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
         }
       ],
       "contentPath": "docs/zh-cn/guides/configuration/i18n.html",
       "originPath": "docs/zh-cn/guides/configuration/i18n.md"
     },
     {
-      "id": "getting-started",
-      "path": "intro/getting-started",
+      "id": "index",
+      "path": "configuration",
       "channelPath": "guides",
-      "title": "快速开始",
-      "subtitle": "Quick Start",
-      "order": 2,
+      "title": "全局配置",
+      "order": 400,
       "toc": "content",
       "headings": [
         {
-          "id": "%E5%AE%89%E8%A3%85",
-          "name": "安装",
-          "level": 1,
-          "type": "h1"
+          "id": "%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84",
+          "name": "配置结构",
+          "level": 2,
+          "type": "h2"
         },
         {
-          "id": "%E4%BD%BF%E7%94%A8",
-          "name": "使用",
-          "level": 1,
-          "type": "h1"
-        },
-        {
-          "id": "%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97",
-          "name": "导入模块",
+          "id": "%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE",
+          "name": "默认配置",
           "level": 3,
           "type": "h3"
         },
         {
-          "id": "%E5%BC%95%E5%85%A5%E6%A0%B7%E5%BC%8F",
-          "name": "引入样式",
+          "id": "%E6%B3%A8%E5%86%8C%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE",
+          "name": "注册全局配置",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "standalone-%E6%96%B9%E5%BC%8F",
+          "name": "Standalone 方式",
           "level": 3,
           "type": "h3"
         },
         {
-          "id": "%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8",
-          "name": "组件中使用",
+          "id": "ngmodule-%E6%96%B9%E5%BC%8F",
+          "name": "NgModule 方式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/configuration/index.html",
+      "originPath": "docs/zh-cn/guides/configuration/index.md"
+    },
+    {
+      "id": "theming",
+      "path": "configuration/theming",
+      "channelPath": "guides",
+      "title": "主题与样式",
+      "order": 430,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%9F%BA%E7%A1%80%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE",
+          "name": "基础样式配置",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98",
+          "name": "自定义主题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A2%98",
+          "name": "如何修改默认主题",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%AE%9A%E4%B9%89%E5%A4%9A%E4%B8%AA%E4%B8%BB%E9%A2%98",
+          "name": "定义多个主题",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E",
+          "name": "主题配置说明",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E6%88%91%E5%8F%AA%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-bar-%E9%A2%9C%E8%89%B2%EF%BC%8C%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9F",
+          "name": "Q: 我只需要修改 Bar 颜色，最简单的方式？",
           "level": 3,
           "type": "h3"
         }
       ],
-      "contentPath": "docs/zh-cn/guides/intro/getting-started.html",
-      "originPath": "docs/zh-cn/guides/intro/getting-started.md"
+      "contentPath": "docs/zh-cn/guides/configuration/theming.html",
+      "originPath": "docs/zh-cn/guides/configuration/theming.md"
+    },
+    {
+      "id": "api-methods",
+      "path": "core-concepts/api-methods",
+      "channelPath": "guides",
+      "title": "公共方法",
+      "order": 240,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8",
+          "name": "方法列表",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B",
+          "name": "使用示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/core/api-methods.html",
+      "originPath": "docs/zh-cn/guides/core/api-methods.md"
+    },
+    {
+      "id": "data-model",
+      "path": "core-concepts/data-model",
+      "channelPath": "guides",
+      "title": "数据模型",
+      "order": 210,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "ganttitem",
+          "name": "GanttItem",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%BF%85%E9%9C%80%E5%AD%97%E6%AE%B5",
+          "name": "必需字段",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%97%B6%E9%97%B4%E5%AD%97%E6%AE%B5",
+          "name": "时间字段",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%BD%BF%E7%94%A8-origin-%E6%8C%82%E8%BD%BD%E4%B8%9A%E5%8A%A1%E6%95%B0%E6%8D%AE",
+          "name": "使用 origin 挂载业务数据",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "ganttgroup",
+          "name": "GanttGroup",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "group-%E4%B8%8E-tree-%E6%A8%A1%E5%BC%8F%E6%95%B0%E6%8D%AE%E7%BB%84%E7%BB%87",
+          "name": "Group 与 Tree 模式数据组织",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%88%86%E7%BB%84%E6%A8%A1%E5%BC%8F%EF%BC%88group-+-items%EF%BC%89",
+          "name": "分组模式（Group + items）",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A0%91%E5%BD%A2%E6%A8%A1%E5%BC%8F%EF%BC%88children%EF%BC%89",
+          "name": "树形模式（Children）",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0",
+          "name": "数据更新",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E2%9D%8C-%E9%94%99%E8%AF%AF%E7%A4%BA%E4%BE%8B%EF%BC%88%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0%EF%BC%89",
+          "name": "❌ 错误示例（可变更新）",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E2%9C%85-%E6%AD%A3%E7%A1%AE%E7%A4%BA%E4%BE%8B%EF%BC%88%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%9B%B4%E6%96%B0%EF%BC%89",
+          "name": "✅ 正确示例（不可变更新）",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%9F%BA%E7%A1%80%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8",
+          "name": "基础任务列表",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%88%86%E7%BB%84%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B",
+          "name": "分组模式示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A0%91%E5%BD%A2%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B",
+          "name": "树形模式示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BF%AE%E6%94%B9%E4%BA%86%E6%95%B0%E6%8D%AE%E4%BD%86%E8%A7%86%E5%9B%BE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F",
+          "name": "Q: 为什么修改了数据但视图没有更新？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%BB%BB%E5%8A%A1%E6%98%AF%E5%90%A6%E6%9C%89%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%9F",
+          "name": "Q: 如何判断任务是否有子节点？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%88%86%E7%BB%84%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%A0%91%E5%BD%A2%E6%A8%A1%E5%BC%8F%E5%8F%AF%E4%BB%A5%E6%B7%B7%E7%94%A8%E5%90%97%EF%BC%9F",
+          "name": "Q: 分组模式和树形模式可以混用吗？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-origin-%E5%AD%97%E6%AE%B5%E6%98%AF%E5%BF%85%E9%9C%80%E7%9A%84%E5%90%97%EF%BC%9F",
+          "name": "Q: origin 字段是必需的吗？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/core/data-model.html",
+      "originPath": "docs/zh-cn/guides/core/data-model.md"
+    },
+    {
+      "id": "date-timezone",
+      "path": "core-concepts/date-timezone",
+      "channelPath": "guides",
+      "title": "时间与时区",
+      "order": 230,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E6%97%B6%E9%97%B4%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F",
+          "name": "时间输入格式",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "ganttdate-%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C",
+          "name": "GanttDate 时间操作",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%88%9B%E5%BB%BA-ganttdate",
+          "name": "创建 GanttDate",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%97%B6%E9%97%B4%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95",
+          "name": "时间操作方法",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%97%B6%E5%8C%BA%E9%85%8D%E7%BD%AE",
+          "name": "时区配置",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%97%B6%E5%8C%BA%E8%AF%B4%E6%98%8E",
+          "name": "时区说明",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%91%A8%E8%B5%B7%E5%A7%8B%E6%97%A5",
+          "name": "周起始日",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/core/date-timezone.html",
+      "originPath": "docs/zh-cn/guides/core/date-timezone.md"
+    },
+    {
+      "id": "index",
+      "path": "core-concepts",
+      "channelPath": "guides",
+      "title": "核心概念",
+      "order": 200,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%9F%BA%E7%A1%80",
+          "name": "基础",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
+          "name": "章节列表",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/core/index.html",
+      "originPath": "docs/zh-cn/guides/core/index.md"
+    },
+    {
+      "id": "views",
+      "path": "core-concepts/views",
+      "channelPath": "guides",
+      "title": "视图",
+      "order": 220,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E4%BD%BF%E7%94%A8%E8%A7%86%E5%9B%BE",
+          "name": "使用视图",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B",
+          "name": "视图类型",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%A7%86%E5%9B%BE%E5%B1%95%E7%A4%BA%E8%AF%B4%E6%98%8E",
+          "name": "视图展示说明",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "viewoptions-%E9%85%8D%E7%BD%AE",
+          "name": "ViewOptions 配置",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%97%B6%E9%97%B4%E5%88%BB%E5%BA%A6%E6%A0%BC%E5%BC%8F%E5%8C%96%EF%BC%88tickformats%EF%BC%89",
+          "name": "时间刻度格式化（tickFormats）",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A0%BC%E5%BC%8F%EF%BC%88dragtooltipformat%EF%BC%89",
+          "name": "拖拽提示框格式（dragTooltipFormat）",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%EF%BC%88loadduration%EF%BC%89",
+          "name": "滚动加载配置（loadDuration）",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%8A%82%E5%81%87%E6%97%A5%E9%85%8D%E7%BD%AE%EF%BC%88holiday%EF%BC%89",
+          "name": "节假日配置（holiday）",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%9F",
+          "name": "Q: 如何实现自定义视图？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/core/views.html",
+      "originPath": "docs/zh-cn/guides/core/views.md"
+    },
+    {
+      "id": "bar",
+      "path": "features/bar-interaction",
+      "channelPath": "guides",
+      "title": "Bar 显示与交互",
+      "order": 340,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "bar-%E5%B1%95%E7%A4%BA",
+          "name": "Bar 展示",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-bar-%E6%A8%A1%E6%9D%BF",
+          "name": "自定义 Bar 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+          "name": "模板上下文",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-item-%E6%A8%A1%E6%9D%BF",
+          "name": "自定义 Item 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
+          "name": "样式定制",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A2%9C%E8%89%B2",
+          "name": "自定义颜色",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F",
+          "name": "自定义样式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD%E4%BA%A4%E4%BA%92",
+          "name": "拖拽交互",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+          "name": "启用拖拽",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1",
+          "name": "事件对象",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%A6%81%E7%94%A8%E6%8B%96%E6%8B%BD",
+          "name": "禁用拖拽",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%A6%81%E7%94%A8%E6%89%80%E6%9C%89-bar-%E6%8B%96%E6%8B%BD",
+          "name": "禁用所有 Bar 拖拽",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8B%96%E6%8B%BD",
+          "name": "禁用指定任务拖拽",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A0%BC%E5%BC%8F",
+          "name": "拖拽提示框格式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E6%8B%96%E6%8B%BD%E5%90%8E%E8%A7%86%E5%9B%BE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F",
+          "name": "Q: 拖拽后视图没有更新？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E7%89%B9%E5%AE%9A%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8B%96%E6%8B%BD%EF%BC%9F",
+          "name": "Q: 如何禁用特定任务的拖拽？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%8B%96%E6%8B%BD%E5%90%8E%E7%9A%84%E6%96%B0%E6%97%B6%E9%97%B4%EF%BC%9F",
+          "name": "Q: 如何获取拖拽后的新时间？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%96%E6%8B%BD%E6%97%B6%E7%9A%84%E6%8F%90%E7%A4%BA%E6%A1%86%E5%86%85%E5%AE%B9%EF%BC%9F",
+          "name": "Q: 如何自定义拖拽时的提示框内容？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/bar.html",
+      "originPath": "docs/zh-cn/guides/features/bar.md"
+    },
+    {
+      "id": "baseline",
+      "path": "features/baseline",
+      "channelPath": "guides",
+      "title": "基线",
+      "order": 370,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8",
+          "name": "基础使用",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84",
+          "name": "数据结构",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%8A%A8%E6%80%81%E6%98%BE%E7%A4%BA/%E9%9A%90%E8%97%8F",
+          "name": "动态显示/隐藏",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%BA%E5%87%86%E7%BA%BF%E6%A8%A1%E6%9D%BF",
+          "name": "自定义基准线模板",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+          "name": "模板上下文",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E7%A4%BA%E4%BE%8B",
+          "name": "自定义示例",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/baseline.html",
+      "originPath": "docs/zh-cn/guides/features/baseline.md"
+    },
+    {
+      "id": "groups",
+      "path": "features/groups",
+      "channelPath": "guides",
+      "title": "分组模式",
+      "order": 320,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%A6%82%E4%BD%95%E6%B8%B2%E6%9F%93%E5%88%86%E7%BB%84%E6%95%B0%E6%8D%AE%EF%BC%9F",
+          "name": "如何渲染分组数据？",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF",
+          "name": "自定义模板",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "#groupheader-%E6%A8%A1%E6%9D%BF",
+          "name": "#groupHeader 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "#group-%E6%A8%A1%E6%9D%BF",
+          "name": "#group 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E7%BB%84%E6%A0%B7%E5%BC%8F",
+          "name": "自定义分组样式",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0",
+          "name": "展开/折叠",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81",
+          "name": "初始展开状态",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%87%BD%E6%95%B0%E6%8E%A7%E5%88%B6%E5%B1%95%E5%BC%80",
+          "name": "函数控制展开",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/groups.html",
+      "originPath": "docs/zh-cn/guides/features/groups.md"
+    },
+    {
+      "id": "index",
+      "path": "features",
+      "channelPath": "guides",
+      "title": "功能指南",
+      "order": 300,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E6%A6%82%E8%A7%88",
+          "name": "概览",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%AB%A0%E8%8A%82%E5%88%97%E8%A1%A8",
+          "name": "章节列表",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/index.html",
+      "originPath": "docs/zh-cn/guides/features/index.md"
+    },
+    {
+      "id": "links",
+      "path": "features/task-links",
+      "channelPath": "guides",
+      "title": "任务依赖",
+      "order": 360,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%A6%82%E4%BD%95%E5%B1%95%E7%A4%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE%EF%BC%9F",
+          "name": "如何展示依赖数据？",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%9E%84%E5%BB%BA%E4%BE%9D%E8%B5%96%E6%95%B0%E6%8D%AE",
+          "name": "构建依赖数据",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F",
+          "name": "数据格式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%BE%9D%E8%B5%96%E7%B1%BB%E5%9E%8B",
+          "name": "依赖类型",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD%E5%88%9B%E5%BB%BA%E4%BE%9D%E8%B5%96",
+          "name": "拖拽创建依赖",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD%E6%93%8D%E4%BD%9C",
+          "name": "拖拽操作",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
+          "name": "事件处理",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
+          "name": "连线样式定制",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%9E%E7%BA%BF%E9%A2%9C%E8%89%B2",
+          "name": "自定义连线颜色",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%BF%9E%E7%BA%BF%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE",
+          "name": "连线样式配置",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE",
+          "name": "依赖配置",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
+          "name": "完整示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E4%BE%9D%E8%B5%96%EF%BC%9F",
+          "name": "Q: 如何删除依赖？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%8F%AA%E8%83%BD%E5%88%9B%E5%BB%BA%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BE%9D%E8%B5%96%EF%BC%9F",
+          "name": "Q: 如何限制只能创建特定类型的依赖？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E4%BE%9D%E8%B5%96%E8%BF%9E%E7%BA%BF%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F",
+          "name": "Q: 依赖连线不显示？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/links.html",
+      "originPath": "docs/zh-cn/guides/features/links.md"
+    },
+    {
+      "id": "performance",
+      "path": "features/performance",
+      "channelPath": "guides",
+      "title": "性能与加载状态",
+      "order": 380,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6",
+          "name": "核心机制",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%88%97%E8%A1%A8%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8",
+          "name": "列表虚拟滚动",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%BB%9A%E5%8A%A8%E5%88%B0%E5%BA%95%E9%83%A8%E5%8A%A0%E8%BD%BD%E4%B8%8B%E4%B8%80%E9%A1%B5%E6%95%B0%E6%8D%AE",
+          "name": "示例：滚动到底部加载下一页数据",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD",
+          "name": "视图滚动加载",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6",
+          "name": "滚动加载机制",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%A4%BA%E4%BE%8B%EF%BC%9A%E8%A7%86%E5%9B%BE%E6%BB%9A%E5%8A%A8%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE",
+          "name": "示例：视图滚动加载数据",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%8A%A0%E8%BD%BD%E7%8A%B6%E6%80%81%E5%A4%84%E7%90%86",
+          "name": "加载状态处理",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/performance.html",
+      "originPath": "docs/zh-cn/guides/features/performance.md"
+    },
+    {
+      "id": "print",
+      "path": "features/export-print",
+      "channelPath": "guides",
+      "title": "导出打印",
+      "order": 391,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%AF%BC%E5%87%BA%E6%89%93%E5%8D%B0",
+          "name": "导出打印",
+          "level": 1,
+          "type": "h1"
+        },
+        {
+          "id": "ganttprintservice",
+          "name": "GanttPrintService",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%B3%A8%E5%85%A5%E6%9C%8D%E5%8A%A1",
+          "name": "注入服务",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%AF%BC%E5%87%BA%E4%B8%BA%E5%9B%BE%E7%89%87",
+          "name": "导出为图片",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%9F%BA%E7%A1%80%E5%AF%BC%E5%87%BA",
+          "name": "基础导出",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%BF%BD%E7%95%A5%E7%89%B9%E5%AE%9A%E5%85%83%E7%B4%A0",
+          "name": "忽略特定元素",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%8E%B7%E5%8F%96-canvas-%E5%AF%B9%E8%B1%A1",
+          "name": "获取 Canvas 对象",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B",
+          "name": "自定义处理示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A0%B7%E5%BC%8F%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98",
+          "name": "样式丢失问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0",
+          "name": "问题原因",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88",
+          "name": "解决方案",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5",
+          "name": "最佳实践",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1--%E7%AD%89%E5%BE%85%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90",
+          "name": "1. 等待渲染完成",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "2--%E5%A4%84%E7%90%86%E5%A4%A7%E5%9B%BE%E5%AF%BC%E5%87%BA",
+          "name": "2. 处理大图导出",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "3--%E4%BC%98%E5%8C%96%E5%AF%BC%E5%87%BA%E8%B4%A8%E9%87%8F",
+          "name": "3. 优化导出质量",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E5%AF%BC%E5%87%BA%E5%A4%B1%E8%B4%A5%E6%88%96%E5%9B%BE%E7%89%87%E7%A9%BA%E7%99%BD%EF%BC%9F",
+          "name": "Q: 导出失败或图片空白？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%AF%BC%E5%87%BA%E7%9A%84%E5%9B%BE%E7%89%87%E6%A0%B7%E5%BC%8F%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F",
+          "name": "Q: 导出的图片样式不正确？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E5%AF%BC%E5%87%BA%E7%89%B9%E5%AE%9A%E5%8C%BA%E5%9F%9F%EF%BC%9F",
+          "name": "Q: 如何导出特定区域？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%AF%BC%E5%87%BA%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%EF%BC%9F",
+          "name": "Q: 导出性能问题？",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/print.html",
+      "originPath": "docs/zh-cn/guides/features/print.md"
+    },
+    {
+      "id": "range",
+      "path": "features/range",
+      "channelPath": "guides",
+      "title": "Range 任务显示",
+      "order": 350,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "range-%E7%B1%BB%E5%9E%8B%E4%BB%BB%E5%8A%A1%E9%A1%B9",
+          "name": "Range 类型任务项",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "range-%E5%B1%95%E7%A4%BA",
+          "name": "Range 展示",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89-range-%E6%A8%A1%E6%9D%BF",
+          "name": "自定义 Range 模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%A8%A1%E6%9D%BF%E4%B8%8A%E4%B8%8B%E6%96%87",
+          "name": "模板上下文",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "range-%E4%B8%8E-bar-%E7%9A%84%E5%8C%BA%E5%88%AB",
+          "name": "Range 与 Bar 的区别",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF",
+          "name": "使用场景",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/range.html",
+      "originPath": "docs/zh-cn/guides/features/range.md"
+    },
+    {
+      "id": "table",
+      "path": "features/table-interaction",
+      "channelPath": "guides",
+      "title": "表格显示与交互",
+      "order": 310,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E8%A1%A8%E6%A0%BC%EF%BC%9F",
+          "name": "如何使用表格？",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%95%E7%A4%BA%E6%A8%A1%E6%9D%BF",
+          "name": "自定义展示模板",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%88%97%E5%86%85%E5%AE%B9%E6%A8%A1%E6%9D%BF",
+          "name": "列内容模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A1%8C%E5%89%8D%E7%BD%AE/%E5%90%8E%E7%BD%AE%E6%8F%92%E6%A7%BD",
+          "name": "行前置/后置插槽",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%A9%BA%E7%8A%B6%E6%80%81%E6%A8%A1%E6%9D%BF",
+          "name": "空状态模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%BA%95%E9%83%A8%E6%A8%A1%E6%9D%BF",
+          "name": "底部模板",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A1%A8%E6%A0%BC%E4%BA%A4%E4%BA%92",
+          "name": "表格交互",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%A1%8C%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F",
+          "name": "行拖拽排序",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD",
+          "name": "启用拖拽",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E6%8B%96%E6%8B%BD%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86",
+          "name": "拖拽事件处理",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "dropenterpredicate-%E5%8A%A8%E4%BD%9C%E6%8B%A6%E6%88%AA",
+          "name": "dropEnterPredicate 动作拦截",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E5%88%97%E6%8B%96%E6%8B%BD%E6%94%B9%E5%8F%98%E5%AE%BD%E5%BA%A6",
+          "name": "列拖拽改变宽度",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%B8%8E%E9%80%89%E6%8B%A9",
+          "name": "行点击与选择",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E8%A1%8C%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6",
+          "name": "行点击事件",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD",
+          "name": "选择功能",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E7%89%B9%E5%AE%9A%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8B%96%E6%8B%BD%EF%BC%9F",
+          "name": "Q: 如何禁用特定任务的拖拽？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E6%8B%96%E6%8B%BD%E8%8C%83%E5%9B%B4%EF%BC%9F",
+          "name": "Q: 如何限制拖拽范围？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E6%8B%96%E6%8B%BD%E5%90%8E%E6%95%B0%E6%8D%AE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%EF%BC%9F",
+          "name": "Q: 拖拽后数据没有更新？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5",
+          "name": "相关链接",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/table.html",
+      "originPath": "docs/zh-cn/guides/features/table.md"
+    },
+    {
+      "id": "toolbar",
+      "path": "features/toolbar",
+      "channelPath": "guides",
+      "title": "工具栏",
+      "order": 390,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8",
+          "name": "基础使用",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E6%A0%8F",
+          "name": "自定义工具栏",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%A0%B7%E5%BC%8F%E5%AE%9A%E5%88%B6",
+          "name": "样式定制",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B",
+          "name": "最小示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "q:-%E5%B7%A5%E5%85%B7%E6%A0%8F%E4%B8%8D%E6%98%BE%E7%A4%BA%EF%BC%9F",
+          "name": "Q: 工具栏不显示？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E8%A7%86%E5%9B%BE%E5%88%87%E6%8D%A2%E5%90%8E%E6%B2%A1%E6%9C%89%E7%94%9F%E6%95%88%EF%BC%9F",
+          "name": "Q: 视图切换后没有生效？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "q:-%E5%A6%82%E4%BD%95%E9%9A%90%E8%97%8F%E6%9F%90%E4%BA%9B%E8%A7%86%E5%9B%BE%E7%B1%BB%E5%9E%8B%EF%BC%9F",
+          "name": "Q: 如何隐藏某些视图类型？",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/toolbar.html",
+      "originPath": "docs/zh-cn/guides/features/toolbar.md"
+    },
+    {
+      "id": "tree",
+      "path": "features/tree",
+      "channelPath": "guides",
+      "title": "Tree 模式",
+      "order": 330,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-tree-%E6%A8%A1%E5%BC%8F%EF%BC%9F",
+          "name": "如何使用 Tree 模式？",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%B1%95%E5%BC%80/%E6%8A%98%E5%8F%A0%E6%8E%A7%E5%88%B6",
+          "name": "展开/折叠控制",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%88%9D%E5%A7%8B%E5%B1%95%E5%BC%80%E7%8A%B6%E6%80%81",
+          "name": "初始展开状态",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%A8%8B%E5%BA%8F%E5%8C%96%E6%8E%A7%E5%88%B6",
+          "name": "程序化控制",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%9C%80%E5%A4%A7%E5%B1%82%E7%BA%A7%E9%99%90%E5%88%B6",
+          "name": "最大层级限制",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD",
+          "name": "异步加载",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
+          "name": "完整示例",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%9F%BA%E7%A1%80%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84",
+          "name": "基础树形结构",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E7%A4%BA%E4%BE%8B",
+          "name": "异步加载示例",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/features/tree.html",
+      "originPath": "docs/zh-cn/guides/features/tree.md"
+    },
+    {
+      "id": "getting-started",
+      "path": "intro/getting-started",
+      "channelPath": "guides",
+      "title": "快速开始",
+      "order": 110,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%F0%9F%93%A6-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96",
+          "name": "📦 安装依赖",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%F0%9F%8E%A8-%E6%A0%B7%E5%BC%8F%E5%BC%95%E5%85%A5",
+          "name": "🎨 样式引入",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E5%9C%A8-angular-json-%E4%B8%AD%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89",
+          "name": "方式一：在 angular.json 中配置（推荐）",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E5%9C%A8-scss-%E6%96%87%E4%BB%B6%E4%B8%AD%E5%BC%95%E5%85%A5",
+          "name": "方式二：在 SCSS 文件中引入",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%F0%9F%93%A5-%E5%AF%BC%E5%85%A5%E7%BB%84%E4%BB%B6",
+          "name": "📥 导入组件",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "standalone-%E6%96%B9%E5%BC%8F%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89",
+          "name": "Standalone 方式（推荐）",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "ngmodule-%E6%96%B9%E5%BC%8F",
+          "name": "NgModule 方式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%F0%9F%9A%80-hello-world",
+          "name": "🚀 Hello World",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B",
+          "name": "完整示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5",
+          "name": "关键概念",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F",
+          "name": "时间格式",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E2%9C%85-%E9%AA%8C%E8%AF%81%E5%AE%89%E8%A3%85",
+          "name": "✅ 验证安装",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%F0%9F%93%9A-%E4%B8%8B%E4%B8%80%E6%AD%A5",
+          "name": "📚 下一步",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E2%9D%93-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98",
+          "name": "❓ 常见问题",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "%E6%A0%B7%E5%BC%8F%E6%9C%AA%E7%94%9F%E6%95%88%EF%BC%9F",
+          "name": "样式未生效？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%EF%BC%9F",
+          "name": "时间显示不正确？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E7%BB%84%E4%BB%B6%E6%9C%AA%E6%98%BE%E7%A4%BA%EF%BC%9F",
+          "name": "组件未显示？",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E5%AF%BC%E5%85%A5%E9%94%99%E8%AF%AF%EF%BC%9F",
+          "name": "导入错误？",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/getting-started/getting-started.html",
+      "originPath": "docs/zh-cn/guides/getting-started/getting-started.md"
     },
     {
       "id": "index",
       "path": "intro",
       "channelPath": "guides",
       "title": "介绍",
-      "subtitle": "Intro",
-      "order": 1,
+      "order": 100,
       "toc": "content",
       "headings": [
         {
-          "id": "%E4%B8%80%E5%8F%A5%E8%AF%9D%E4%BB%8B%E7%BB%8D",
-          "name": "一句话介绍",
-          "level": 1,
-          "type": "h1"
-        },
-        {
           "id": "%E7%89%B9%E6%80%A7",
           "name": "特性",
-          "level": 1,
-          "type": "h1"
+          "level": 3,
+          "type": "h3"
         },
         {
-          "id": "%E5%8A%A8%E6%9C%BA",
-          "name": "动机",
-          "level": 1,
-          "type": "h1"
+          "id": "%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF",
+          "name": "适用场景",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "%E6%8A%80%E6%9C%AF%E6%A0%88%E4%BB%8B%E7%BB%8D",
+          "name": "技术栈介绍",
+          "level": 3,
+          "type": "h3"
         },
         {
           "id": "%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC",
           "name": "当前版本",
-          "level": 2,
-          "type": "h2"
+          "level": 3,
+          "type": "h3"
         },
         {
-          "id": "%E6%94%AF%E6%8C%81-angular-%E7%89%88%E6%9C%AC",
-          "name": "支持 Angular 版本",
-          "level": 2,
-          "type": "h2"
-        },
-        {
-          "id": "%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93",
-          "name": "依赖第三方库",
-          "level": 2,
-          "type": "h2"
+          "id": "%E5%BC%80%E6%BA%90%E5%8D%8F%E8%AE%AE",
+          "name": "开源协议",
+          "level": 3,
+          "type": "h3"
         },
         {
           "id": "%E5%8F%82%E4%B8%8E%E8%B4%A1%E7%8C%AE",
           "name": "参与贡献",
-          "level": 1,
-          "type": "h1"
+          "level": 3,
+          "type": "h3"
         }
       ],
-      "contentPath": "docs/zh-cn/guides/intro/index.html",
-      "originPath": "docs/zh-cn/guides/intro/index.md"
+      "contentPath": "docs/zh-cn/guides/getting-started/index.html",
+      "originPath": "docs/zh-cn/guides/getting-started/index.md"
     },
     {
-      "id": "parameters",
-      "title": "参数",
-      "subtitle": "Parameters",
-      "path": "parameters",
-      "importSpecifier": "ngx-gantt/parameters",
+      "id": "upgrade-to-21",
+      "path": "intro/upgrade-to-21",
+      "channelPath": "guides",
+      "title": "v21 升级迁移指南（重要）",
+      "order": 120,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "%E5%8D%87%E7%BA%A7%E5%89%8D%E5%87%86%E5%A4%87",
+          "name": "升级前准备",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1--%E8%A7%86%E5%9B%BE%EF%BC%88view%EF%BC%89%E9%85%8D%E7%BD%AE%E8%BF%81%E7%A7%BB",
+          "name": "1. 视图（View）配置迁移",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "1-1-%E5%AD%97%E6%AE%B5%E9%87%8D%E5%91%BD%E5%90%8D",
+          "name": "1.1 字段重命名",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "1-2-%E8%BF%81%E7%A7%BB%E7%A4%BA%E4%BE%8B",
+          "name": "1.2 迁移示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "2--%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE%EF%BC%88custom-view%EF%BC%89%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%BF%81%E7%A7%BB",
+          "name": "2. 自定义视图（Custom View）抽象类迁移",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "3--%E5%9B%BD%E9%99%85%E5%8C%96%EF%BC%88i18n%EF%BC%89%E9%85%8D%E7%BD%AE%E7%BB%93%E6%9E%84%E8%BF%81%E7%A7%BB",
+          "name": "3. 国际化（i18n）配置结构迁移",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "4--%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%B8%BB%E9%A2%98%E7%B3%BB%E7%BB%9F",
+          "name": "4. 全局配置与主题系统",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "4-1-%E6%A0%B7%E5%BC%8F%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4",
+          "name": "4.1 样式字段变更",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "4-2-%E5%85%A8%E6%96%B0%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE",
+          "name": "4.2 全新主题配置",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "5--%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%B8%85%E5%8D%95",
+          "name": "5. 类型与常量替换清单",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "5-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E6%9B%BF%E6%8D%A2",
+          "name": "5.1 数据模型替换",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "5-2-%E5%B8%83%E5%B1%80%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2",
+          "name": "5.2 布局常量替换",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "6--%E9%AA%8C%E8%AF%81%E6%B8%85%E5%8D%95%EF%BC%88checklist%EF%BC%89",
+          "name": "6. 验证清单（Checklist）",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.html",
+      "originPath": "docs/zh-cn/guides/getting-started/upgrade-to-21.md"
+    },
+    {
+      "id": "ngx-gantt",
+      "title": "ngx-gantt",
+      "subtitle": "甘特图主组件",
+      "path": "ngx-gantt",
+      "importSpecifier": "ngx-gantt/ngx-gantt",
       "examples": [],
       "overview": false,
       "api": true,
       "order": 1,
-      "category": "config",
-      "originPath": "example/src/app/configuration/parameters/doc/zh-cn.md",
+      "category": "core",
+      "originPath": "example/src/app/apis/ngx-gantt/doc/zh-cn.md",
       "toc": "content",
       "headings": [],
-      "channelPath": "configuration"
+      "channelPath": "component-apis"
+    },
+    {
+      "id": "ngx-gantt-bar",
+      "title": "ngx-gantt-bar",
+      "subtitle": "数据项条形图展示组件",
+      "path": "ngx-gantt-bar",
+      "importSpecifier": "ngx-gantt/ngx-gantt-bar",
+      "examples": [],
+      "overview": false,
+      "api": true,
+      "order": 3,
+      "category": "feature",
+      "originPath": "example/src/app/apis/ngx-gantt-bar/doc/zh-cn.md",
+      "toc": "content",
+      "headings": [],
+      "channelPath": "component-apis"
+    },
+    {
+      "id": "ngx-gantt-baseline",
+      "title": "ngx-gantt-baseline",
+      "subtitle": "基线展示组件",
+      "path": "ngx-gantt-baseline",
+      "importSpecifier": "ngx-gantt/ngx-gantt-baseline",
+      "examples": [],
+      "overview": false,
+      "api": true,
+      "order": 6,
+      "category": "feature",
+      "originPath": "example/src/app/apis/ngx-gantt-baseline/doc/zh-cn.md",
+      "toc": "content",
+      "headings": [],
+      "channelPath": "component-apis"
+    },
+    {
+      "id": "ngx-gantt-range",
+      "title": "ngx-gantt-range",
+      "subtitle": "数据项区间展示组件",
+      "path": "ngx-gantt-range",
+      "importSpecifier": "ngx-gantt/ngx-gantt-range",
+      "examples": [],
+      "overview": false,
+      "api": true,
+      "order": 4,
+      "category": "feature",
+      "originPath": "example/src/app/apis/ngx-gantt-range/doc/zh-cn.md",
+      "toc": "content",
+      "headings": [],
+      "channelPath": "component-apis"
+    },
+    {
+      "id": "ngx-gantt-root",
+      "title": "ngx-gantt-root",
+      "subtitle": "甘特图根组件",
+      "path": "ngx-gantt-root",
+      "importSpecifier": "ngx-gantt/ngx-gantt-root",
+      "examples": [],
+      "overview": false,
+      "api": true,
+      "order": 7,
+      "category": "feature",
+      "originPath": "example/src/app/apis/ngx-gantt-root/doc/zh-cn.md",
+      "toc": "content",
+      "headings": [],
+      "channelPath": "component-apis"
+    },
+    {
+      "id": "ngx-gantt-table",
+      "title": "ngx-gantt-table",
+      "subtitle": "甘特图表格",
+      "path": "ngx-gantt-table",
+      "importSpecifier": "ngx-gantt/ngx-gantt-table",
+      "examples": [],
+      "overview": false,
+      "api": true,
+      "order": 2,
+      "category": "core",
+      "originPath": "example/src/app/apis/ngx-gantt-table/doc/zh-cn.md",
+      "toc": "content",
+      "headings": [],
+      "channelPath": "component-apis"
+    },
+    {
+      "id": "ngx-gantt-toolbar",
+      "title": "ngx-gantt-toolbar",
+      "subtitle": "工具栏组件",
+      "path": "ngx-gantt-toolbar",
+      "importSpecifier": "ngx-gantt/ngx-gantt-toolbar",
+      "examples": [],
+      "overview": false,
+      "api": true,
+      "order": 5,
+      "category": "feature",
+      "originPath": "example/src/app/apis/ngx-gantt-toolbar/doc/zh-cn.md",
+      "toc": "content",
+      "headings": [],
+      "channelPath": "component-apis"
     }
   ]
 }
