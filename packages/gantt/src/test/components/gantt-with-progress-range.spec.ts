@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, DeferBlockState, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttRangeComponent } from '../../components/range/range.component';
 import { NgxGanttModule } from '../../gantt.module';
@@ -69,6 +69,10 @@ describe('ngx-gantt-range', () => {
         await fixture.whenStable();
         await fixture.whenStable();
         fixture.detectChanges();
+        const blocks = await fixture.getDeferBlocks();
+        for (const block of blocks) {
+            await block.render(DeferBlockState.Complete);
+        }
     });
 
     it('should render range item', () => {

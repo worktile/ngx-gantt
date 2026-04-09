@@ -10,7 +10,7 @@ import { AppGanttVirtualScrollExampleComponent } from './gantt-virtual-scroll/ga
 
 const routes: Routes = [
     {
-        path: 'components',
+        path: 'examples',
         component: AppExampleComponentsComponent,
         children: [
             { path: '', redirectTo: 'basic', pathMatch: 'full' },

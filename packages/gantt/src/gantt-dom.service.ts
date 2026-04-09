@@ -1,8 +1,10 @@
 import { isPlatformServer } from '@angular/common';
 import { ElementRef, Injectable, NgZone, OnDestroy, PLATFORM_ID, WritableSignal, signal, inject } from '@angular/core';
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { EMPTY, Observable, Subject, fromEvent, merge } from 'rxjs';
 import { auditTime, filter, map, pairwise, takeUntil } from 'rxjs/operators';
 import { isNumber } from './utils/helpers';
+import { GanttStyleOptions } from './gantt.config';
 
 const scrollThreshold = 50;
 
@@ -170,6 +172,47 @@ export class GanttDomService implements OnDestroy {
             min: this.mainContainer.scrollLeft,
             max: this.mainContainer.scrollLeft + this.mainContainer.clientWidth
         });
+    }
+
+    applyCssVariables(element: HTMLElement, options?: GanttStyleOptions) {
+        if (!options) {
+            return;
+        }
+        if (options.headerHeight) {
+            element.style.setProperty('--gantt-header-height', coerceCssPixelValue(options.headerHeight));
+        }
+        if (options.rowHeight) {
+            element.style.setProperty('--gantt-row-height', coerceCssPixelValue(options.rowHeight));
+        }
+        if (options.barHeight) {
+            element.style.setProperty('--gantt-bar-height', coerceCssPixelValue(options.barHeight));
+        }
+
+        const theme = options.themes?.[options.defaultTheme];
+        if (theme) {
+            const themeStyles: Record<string, string> = {
+                '--gantt-color-primary': theme.primary,
+                '--gantt-color-danger': theme.danger,
+                '--gantt-color-highlight': theme.highlight,
+                '--gantt-color-background': theme.background,
+                '--gantt-color-text-main': theme.text?.main,
+                '--gantt-color-text-muted': theme.text?.muted,
+                '--gantt-color-text-light': theme.text?.light,
+                '--gantt-color-text-inverse': theme.text?.inverse,
+                '--gantt-color-gray-100': theme.gray?.[100],
+                '--gantt-color-gray-200': theme.gray?.[200],
+                '--gantt-color-gray-300': theme.gray?.[300],
+                '--gantt-color-gray-400': theme.gray?.[400],
+                '--gantt-color-gray-500': theme.gray?.[500],
+                '--gantt-color-gray-600': theme.gray?.[600]
+            };
+
+            Object.keys(themeStyles).forEach((key) => {
+                if (themeStyles[key]) {
+                    element.style.setProperty(key, themeStyles[key]);
+                }
+            });
+        }
     }
 
     ngOnDestroy() {

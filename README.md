@@ -1,5 +1,7 @@
 # ngx-gantt
 
+**Language:** **English** | [中文](README.zh-CN.md)
+
 [![CircleCI](https://circleci.com/gh/worktile/ngx-gantt.svg?style=shield)](https://circleci.com/gh/worktile/ngx-gantt)
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![npm (scoped)](https://img.shields.io/npm/v/@worktile/gantt?style=flat)](https://www.npmjs.com/package/@worktile/gantt)
@@ -10,99 +12,90 @@
 [coveralls-image]: https://coveralls.io/repos/github/worktile/ngx-gantt/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/worktile/ngx-gantt
 
-A modern and powerful gantt component for Angular
+A modern Gantt chart component for Angular, published as [`@worktile/gantt`](https://www.npmjs.com/package/@worktile/gantt).
+
+## Documentation
+
+**[Documentation (GitHub Pages)](https://worktile.github.io/ngx-gantt/)** — guides, API, and examples.
 
 ## Installation
 
 ```bash
-$ npm i @worktile/gantt html2canvas --save
+npm install @worktile/gantt
 # or
-$ yarn add @worktile/gantt html2canvas
+yarn add @worktile/gantt
 ```
 
-## Documentation
+**Optional:** install [`html2canvas`](https://www.npmjs.com/package/html2canvas) if you use export or print (`GanttPrintService`).
 
-📚 [View Documentation on GitHub Pages](https://worktile.github.io/ngx-gantt/)
-
-## Usage
-
-### 1. Import the NgxGanttModule to use into your app.module.ts
-
-```ts
-import { NgModule } from '@angular/core';
-import { NgxGanttModule } from '@worktile/gantt';
-
-@NgModule({
-  ...
-  imports: [ NgxGanttModule, ... ]
-  ...
-})
-export class AppModule {
-
-}
+```bash
+npm install html2canvas
 ```
 
-### 2. Import style file in angular.json or import style in your style.scss
+## Quick start
 
-```json
-{
-  "styles": ["node_modules/@worktile/gantt/styles/index.scss"]
-}
-```
+### Requirements
+
+- Angular **≥ 21**
+- Peer dependencies: `@angular/cdk`, `date-fns`, `@date-fns/tz`, `rxjs`
+
+See [Getting Started](https://worktile.github.io/ngx-gantt/guides/getting-started) for exact versions and install commands.
+
+### Styles
+
+Pick one:
+
+1. `angular.json` — add `node_modules/@worktile/gantt/styles/index.scss` to the `styles` array.
+2. Global SCSS
 
 ```scss
 @use '@worktile/gantt/styles/index.scss';
 ```
 
-### 3. Using component
+### Component
 
-component.html
+Use **standalone** imports (recommended), or import `NgxGanttModule` in your `NgModule`.
 
-```html
-<ngx-gantt #gantt [items]="items">
-  <ngx-gantt-table>
-    <ngx-gantt-column name="Title" width="300px">
-      <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
-    </ngx-gantt-column>
-  </ngx-gantt-table>
-</ngx-gantt>
-```
+```ts
+import { Component } from '@angular/core';
+import { NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent, GanttItem, GanttViewType } from '@worktile/gantt';
 
-component.ts
-
-```javascript
 @Component({
   selector: 'app-gantt-example',
-  templateUrl: './gantt.component.html'
+  standalone: true,
+  imports: [NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent],
+  template: `
+    <ngx-gantt [items]="items" [viewType]="viewType">
+      <ngx-gantt-table>
+        <ngx-gantt-column name="Title" width="200px">
+          <ng-template #cell let-item="item">{{ item.title }}</ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
+    </ngx-gantt>
+  `
 })
 export class AppGanttExampleComponent {
-  items: GanttItem[] = [
-    { id: '000000', title: 'Task 0', start: 1627729997, end: 1628421197 },
-    { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597 }
-  ];
+  viewType = GanttViewType.day;
 
-  constructor() {}
+  items: GanttItem[] = [
+    { id: '1', title: 'Task 0', start: 1627729997, end: 1628421197 },
+    { id: '2', title: 'Task 1', start: 1617361997, end: 1625483597 }
+  ];
 }
 ```
-
-See [Getting Started](https://worktile.github.io/ngx-gantt/guides/getting-started) for more details.
 
 ## Development
 
 ```bash
-$ git clone git@github.com:worktile/ngx-gantt.git
-$ cd ngx-gantt
-$ npm ci
-$ npm run start
+git clone git@github.com:worktile/ngx-gantt.git
+cd ngx-gantt
+npm ci
+npm run start
 ```
-
-## Roadmap
-
-- [ ] virtual scrolling
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -122,6 +115,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## LICENSE
+## License
 
-[MIT License](https://github.com/worktile/ngx-gantt/blob/master/LICENSE)
+[MIT](https://github.com/worktile/ngx-gantt/blob/master/LICENSE)

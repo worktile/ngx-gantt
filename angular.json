@@ -28,7 +28,8 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "packages/gantt/tsconfig.spec.json",
             "codeCoverage": true,
-            "karmaConfig": "packages/gantt/karma.conf.js"
+            "karmaConfig": "packages/gantt/karma.conf.js",
+            "styles": ["packages/gantt/src/styles/index.scss"]
           }
         },
         "lint": {

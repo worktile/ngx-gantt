@@ -1,47 +1,55 @@
 <div class="gantt-calendar-today-overlay" [style.width.px]="view.width">
-  <span class="today-rect" [hidden]="ganttUpper.viewType !== viewTypes.day"> </span>
+  <span class="today-rect" [hidden]="ganttUpper.viewType() !== viewTypes.day"> </span>
 </div>
-<svg [attr.width]="view.width" [attr.height]="ganttUpper.styles.headerHeight">
+<svg [attr.width]="view.width" [attr.height]="ganttUpper.styles().headerHeight">
   <g>
-    @for (point of view.secondaryDatePoints; track point.x) {
-      @if (point.fill) {
+    @for (tick of view.unitTicks; track tick.rect.x) {
+      @if (tick.rect.background) {
         <rect
-          [attr.x]="$index * view.cellWidth"
+          [attr.x]="tick.rect.x"
           y="0"
-          [attr.width]="view.cellWidth"
-          [attr.height]="ganttUpper.styles.headerHeight"
-          [attr.fill]="point.fill"
+          [attr.width]="tick.rect.width"
+          [attr.height]="ganttUpper.styles().headerHeight"
+          [attr.fill]="tick.rect.background"
         />
       }
       <text
         class="secondary-text"
-        [ngStyle]="point.style"
-        [class.today]="point.additions?.isToday"
-        [class.weekend]="point.additions?.isWeekend"
-        [attr.x]="point.x"
-        [attr.y]="point.y"
+        [ngStyle]="{
+          fill: tick.label.style?.color,
+          fontSize: tick.label.style?.fontSize,
+          fontWeight: tick.label.style?.fontWeight
+        }"
+        [class.today]="tick.metadata?.isToday"
+        [class.weekend]="tick.metadata?.isWeekend"
+        [attr.x]="tick.label.x"
+        [attr.y]="tick.label.y"
       >
-        {{ point.text }}
+        {{ tick.label.text }}
       </text>
     }
 
-    @for (point of view.primaryDatePoints; track point.x) {
+    @for (tick of view.periodTicks; track tick.rect.x) {
       <text
         class="primary-text"
-        [ngStyle]="point.style"
-        [class.today]="point.additions?.isToday"
-        [class.weekend]="point.additions?.isWeekend"
-        [attr.x]="point.x"
-        [attr.y]="point.y"
+        [ngStyle]="{
+          fill: tick.label.style?.color,
+          fontSize: tick.label.style?.fontSize,
+          fontWeight: tick.label.style?.fontWeight
+        }"
+        [class.today]="tick.metadata?.isToday"
+        [class.weekend]="tick.metadata?.isWeekend"
+        [attr.x]="tick.label.x"
+        [attr.y]="tick.label.y"
       >
-        {{ point.text }}
+        {{ tick.label.text }}
       </text>
     }
 
     <g>
-      @for (point of view.primaryDatePoints; track point?.x) {
-        @let rightX = point?.rightX ?? ($index + 1) * view.primaryWidth;
-        <line [attr.x1]="rightX" [attr.x2]="rightX" [attr.y1]="0" [attr.y2]="ganttUpper.styles.headerHeight" class="primary-line"></line>
+      @for (tick of view.periodTicks; track tick.rect.x) {
+        @let rightX = tick.rect.x + tick.rect.width;
+        <line [attr.x1]="rightX" [attr.x2]="rightX" [attr.y1]="0" [attr.y2]="ganttUpper.styles().headerHeight" class="primary-line"></line>
       }
     </g>
 
@@ -49,8 +57,8 @@
       <line
         [attr.x1]="0"
         [attr.x2]="view.width"
-        [attr.y1]="ganttUpper.styles.headerHeight"
-        [attr.y2]="ganttUpper.styles.headerHeight"
+        [attr.y1]="ganttUpper.styles().headerHeight"
+        [attr.y2]="ganttUpper.styles().headerHeight"
         class="header-line"
       ></line>
     </g>

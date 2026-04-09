@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, TemplateRef, inject } from '@angular/core';
+import { Component, HostBinding, TemplateRef, inject, input } from '@angular/core';
 import { GanttViewType } from '../../class';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
 import { NgTemplateOutlet } from '@angular/common';
@@ -12,20 +12,15 @@ import { GanttConfigService } from '../../gantt.config';
 export class NgxGanttToolbarComponent {
     protected ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
 
-    @Input() template: TemplateRef<any>;
+    readonly template = input<TemplateRef<any>>();
 
     @HostBinding('class.gantt-toolbar') ganttItemClass = true;
-
-    @HostBinding('style.top')
-    get top() {
-        return this.ganttUpper.styles.headerHeight + 16 + 'px';
-    }
 
     views = inject(GanttConfigService).getViewsLocale();
 
     constructor() {}
 
     selectView(view: GanttViewType) {
-        this.ganttUpper.changeView(view);
+        this.ganttUpper.viewType.set(view);
     }
 }

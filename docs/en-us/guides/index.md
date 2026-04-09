@@ -1,5 +1,4 @@
 ---
-title: Guides
+title: Documentation
 path: 'guides'
-order: 1
 ---

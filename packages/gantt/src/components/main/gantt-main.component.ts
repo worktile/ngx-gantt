@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, TemplateRef, Output, EventEmitter, OnInit, NgZone, inject } from '@angular/core';
+import { Component, HostBinding, TemplateRef, OnInit, NgZone, inject, input, output, afterNextRender } from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent, GanttItem } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttGroupPipe } from '../../gantt.pipe';
@@ -10,7 +10,8 @@ import { GanttLinksComponent } from '../links/links.component';
 import { NgxGanttRootComponent } from './../../root.component';
 import { GanttIconComponent } from '../icon/icon.component';
 import { GanttDomService } from '../../gantt-dom.service';
-import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
+import { combineLatest, Subject, takeUntil } from 'rxjs';
+import { NgxGanttPlaceholderComponent } from '../bar/placeholder.component';
 
 @Component({
     selector: 'gantt-main',
@@ -26,46 +27,46 @@ import { combineLatest, from, Subject, take, takeUntil } from 'rxjs';
         IsGanttBarItemPipe,
         IsGanttCustomItemPipe,
         IsGanttGroupPipe,
-        GanttIconComponent
+        GanttIconComponent,
+        NgxGanttPlaceholderComponent
     ]
 })
-export class GanttMainComponent implements OnInit {
+export class GanttMainComponent {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     dom = inject(GanttDomService);
+
     protected ngZone = inject(NgZone);
 
-    @Input() viewportItems: (GanttGroupInternal | GanttItemInternal)[];
+    readonly viewportItems = input<(GanttGroupInternal | GanttItemInternal)[]>(undefined);
 
-    @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[];
+    readonly flatItems = input<(GanttGroupInternal | GanttItemInternal)[]>(undefined);
 
-    @Input() groupHeaderTemplate: TemplateRef<any>;
+    readonly groupHeaderTemplate = input<TemplateRef<any>>(undefined);
 
-    @Input() itemTemplate: TemplateRef<any>;
+    readonly itemTemplate = input<TemplateRef<any>>(undefined);
 
-    @Input() barTemplate: TemplateRef<any>;
+    readonly barTemplate = input<TemplateRef<any>>(undefined);
 
-    @Input() rangeTemplate: TemplateRef<any>;
+    readonly rangeTemplate = input<TemplateRef<any>>(undefined);
 
-    @Input() baselineTemplate: TemplateRef<any>;
+    readonly baselineTemplate = input<TemplateRef<any>>(undefined);
 
-    @Input() ganttRoot: NgxGanttRootComponent;
+    readonly ganttRoot = input<NgxGanttRootComponent>(undefined);
 
-    @Input() quickTimeFocus: boolean;
+    readonly quickTimeFocus = input<boolean>(undefined);
 
-    @Output() barClick = new EventEmitter<GanttBarClickEvent>();
+    readonly barClick = output<GanttBarClickEvent>();
 
-    @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
+    readonly lineClick = output<GanttLineClickEvent>();
 
     @HostBinding('class.gantt-main-container') ganttMainClass = true;
 
     private unsubscribe$ = new Subject<void>();
 
-    constructor() {}
-
-    ngOnInit(): void {
-        const onStable$ = this.ngZone.isStable ? from(Promise.resolve()) : this.ngZone.onStable.pipe(take(1));
-        this.ngZone.runOutsideAngular(() => {
-            onStable$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+    constructor() {
+        afterNextRender(() => {
+            this.ngZone.runOutsideAngular(() => {
                 this.setupResize();
             });
         });
@@ -89,6 +90,6 @@ export class GanttMainComponent implements OnInit {
 
     quickTime(item: GanttItem, type: 'left' | 'right') {
         const date = type === 'left' ? item.start || item.end : item.end || item.start;
-        this.ganttRoot.scrollToDate(date);
+        this.ganttRoot().scrollToDate(date);
     }
 }

@@ -1,23 +1,20 @@
-import { Component, OnInit, HostBinding, OnDestroy, NgZone, ElementRef, inject } from '@angular/core';
+import { Component, HostBinding, OnDestroy, ElementRef, inject, afterNextRender } from '@angular/core';
 import { Subject, merge } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
+import { takeUntil } from 'rxjs/operators';
 import { isNumber } from '../../../utils/helpers';
-
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from './../../../class/view-type';
 import { todayBorderRadius } from '../../../gantt.styles';
-
+import { outputToObservable } from '@angular/core/rxjs-interop';
 const mainHeight = 5000;
 
 @Component({
     selector: 'gantt-calendar-grid',
-    templateUrl: './calendar-grid.component.html',
-    standalone: true
+    templateUrl: './calendar-grid.component.html'
 })
-export class GanttCalendarGridComponent implements OnInit, OnDestroy {
+export class GanttCalendarGridComponent implements OnDestroy {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
-    private ngZone = inject(NgZone);
+
     private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
     get view() {
@@ -33,13 +30,20 @@ export class GanttCalendarGridComponent implements OnInit, OnDestroy {
 
     @HostBinding('class') className = `gantt-calendar gantt-calendar-grid`;
 
-    constructor() {}
+    constructor() {
+        afterNextRender(() => {
+            merge(outputToObservable(this.ganttUpper.viewChange), this.ganttUpper.view.start$)
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe(() => {
+                    this.setTodayPoint();
+                });
+        });
+    }
 
     setTodayPoint() {
-        const x = this.view.getTodayXPoint();
+        const x = this.view.getNowX();
         const todayEle = this.elementRef.nativeElement.getElementsByClassName('gantt-calendar-today-overlay')[0] as HTMLElement;
         const line = this.elementRef.nativeElement.getElementsByClassName('today-line')[0] as HTMLElement;
-
         if (isNumber(x)) {
             if (line) {
                 line.style.left = `${x}px`;
@@ -49,16 +53,6 @@ export class GanttCalendarGridComponent implements OnInit, OnDestroy {
         } else {
             todayEle.style.display = 'none';
         }
-    }
-
-    ngOnInit() {
-        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-            merge(this.ganttUpper.viewChange, this.ganttUpper.view.start$)
-                .pipe(takeUntil(this.unsubscribe$))
-                .subscribe(() => {
-                    this.setTodayPoint();
-                });
-        });
     }
 
     ngOnDestroy() {

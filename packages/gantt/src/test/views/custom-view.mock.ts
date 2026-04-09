@@ -1,58 +1,60 @@
 import {
     GanttDate,
-    GanttDatePoint,
+    GanttViewTick,
     GanttView,
     GanttViewDate,
     GanttViewOptions,
     GanttViewType,
     eachDayOfInterval,
-    primaryDatePointTop,
-    secondaryDatePointTop
+    PERIOD_TICK_TOP,
+    UNIT_TICK_TOP
 } from 'ngx-gantt';
 
-const viewOptions: GanttViewOptions = {
-    cellWidth: 50,
+const defaultViewOptions: GanttViewOptions = {
+    unitWidth: 50,
     start: new GanttDate().startOfYear().startOfWeek(),
     end: new GanttDate().endOfYear().endOfWeek(),
-    addAmount: 1,
-    addUnit: 'month'
+    loadDuration: {
+        amount: 1,
+        unit: 'month'
+    }
 };
 
 export class GanttViewCustom extends GanttView {
-    override showTimeline = true;
+    override showNowIndicator = true;
 
     override viewType = GanttViewType.day;
 
     constructor(start: GanttViewDate, end: GanttViewDate, options?: GanttViewOptions) {
-        super(start, end, Object.assign({}, viewOptions, options));
+        super(start, end, Object.assign({}, defaultViewOptions, options));
     }
 
-    viewStartOf(date: GanttDate) {
+    rangeStartOf(date: GanttDate) {
         return date.startOfWeek();
     }
 
-    viewEndOf(date: GanttDate) {
+    rangeEndOf(date: GanttDate) {
         return date.endOfWeek();
     }
 
-    getPrimaryWidth() {
+    getPeriodWidth() {
         if (!this.options.showWeekend) {
-            return this.getCellWidth() * 5;
+            return this.getUnitWidth() * 5;
         } else {
-            return this.getCellWidth() * 7;
+            return this.getUnitWidth() * 7;
         }
     }
 
-    getDayOccupancyWidth(date: GanttDate): number {
+    getDayWidth(date: GanttDate): number {
         if (!this.options.showWeekend && date.isWeekend()) {
             return 0;
         }
-        return this.cellWidth;
+        return this.unitWidth;
     }
 
-    getPrimaryDatePoints(): GanttDatePoint[] {
+    getPeriodTicks(): GanttViewTick[] {
         const days = eachDayOfInterval({ start: this.start.value, end: this.end.value });
-        const points: GanttDatePoint[] = [];
+        const ticks: GanttViewTick[] = [];
         const dayInWeekMap = {
             '1': '周一',
             '2': '周二',
@@ -62,59 +64,102 @@ export class GanttViewCustom extends GanttView {
             '6': '周六',
             '0': '周日'
         };
+        const periodWidth = this.getPeriodWidth();
         for (let i = 0; i < days.length; i++) {
             const start = new GanttDate(days[i]);
             const isWeekend = start.isWeekend();
-            const point = new GanttDatePoint(
-                start,
-                `${dayInWeekMap[start.getDay()]}`,
-                i * this.getCellWidth() + this.getCellWidth() / 2,
-                primaryDatePointTop,
-                {
+            const rectX = i * periodWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: periodWidth
+                },
+                label: {
+                    text: `${dayInWeekMap[start.getDay()]}`,
+                    y: PERIOD_TICK_TOP,
+                    x: rectX + periodWidth / 2
+                },
+                metadata: {
                     isWeekend,
                     isToday: start.isToday()
                 }
-            );
-            points.push(point);
+            });
+            ticks.push(tick);
         }
         if (!this.options.showWeekend) {
-            return points
-                .filter((point) => !point.additions.isWeekend)
-                .map((point, i) => {
-                    return { ...point, x: i * this.getCellWidth() + this.getCellWidth() / 2 };
+            return ticks
+                .filter((tick) => !tick.metadata?.isWeekend)
+                .map((tick, i) => {
+                    const unitWidth = this.getUnitWidth();
+                    const rectX = i * unitWidth;
+                    return new GanttViewTick({
+                        date: tick.date,
+                        rect: {
+                            ...tick.rect,
+                            x: rectX,
+                            width: unitWidth
+                        },
+                        label: {
+                            ...tick.label,
+                            x: rectX + unitWidth / 2
+                        },
+                        metadata: tick.metadata
+                    });
                 });
         } else {
-            return points;
+            return ticks;
         }
     }
 
-    getSecondaryDatePoints(): GanttDatePoint[] {
+    getUnitTicks(): GanttViewTick[] {
         const days = eachDayOfInterval({ start: this.start.value, end: this.end.value });
-        const points: GanttDatePoint[] = [];
+        const ticks: GanttViewTick[] = [];
+        const unitWidth = this.getUnitWidth();
         for (let i = 0; i < days.length; i++) {
             const start = new GanttDate(days[i]);
             const isWeekend = start.isWeekend();
-            const point = new GanttDatePoint(
-                start,
-                `${start.format('MM/d')}`,
-                i * this.getCellWidth() + this.getCellWidth() / 2,
-                secondaryDatePointTop,
-                {
+            const rectX = i * unitWidth;
+            const tick = new GanttViewTick({
+                date: start,
+                rect: {
+                    x: rectX,
+                    width: unitWidth
+                },
+                label: {
+                    text: `${start.format('MM/d')}`,
+                    y: UNIT_TICK_TOP,
+                    x: rectX + unitWidth / 2
+                },
+                metadata: {
                     isWeekend,
                     isToday: start.isToday()
                 }
-            );
-            points.push(point);
+            });
+            ticks.push(tick);
         }
 
         if (!this.options.showWeekend) {
-            return points
-                .filter((point) => !point.additions.isWeekend)
-                .map((point, i) => {
-                    return { ...point, x: i * this.getCellWidth() + this.getCellWidth() / 2 };
+            return ticks
+                .filter((tick) => !tick.metadata?.isWeekend)
+                .map((tick, i) => {
+                    const rectX = i * unitWidth;
+                    return new GanttViewTick({
+                        date: tick.date,
+                        rect: {
+                            ...tick.rect,
+                            x: rectX,
+                            width: unitWidth
+                        },
+                        label: {
+                            ...tick.label,
+                            x: rectX + unitWidth / 2
+                        },
+                        metadata: tick.metadata
+                    });
                 });
         } else {
-            return points;
+            return ticks;
         }
     }
 }

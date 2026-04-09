@@ -1,21 +1,21 @@
-import { Component, DebugElement, ViewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { Component, DebugElement, provideZoneChangeDetection, viewChild } from '@angular/core';
+import { ComponentFixture, DeferBlockState, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocale } from 'ngx-gantt';
 import { GanttBarClickEvent, GanttToolbarOptions } from '../../class';
 import { GanttViewType } from '../../class/view-type';
+import { NgxGanttBarComponent } from '../../components/bar/bar.component';
+import { GanttLoaderComponent } from '../../components/loader/loader.component';
+import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
 import { GanttPrintService } from '../../gantt-print.service';
 import { NgxGanttComponent } from '../../gantt.component';
-import { NgxGanttModule } from '../../gantt.module';
-import { GanttDate } from '../../utils/date';
-import { getMockBaselineItems, getMockItems } from './mocks/data';
-import { CommonModule } from '@angular/common';
-import { NgxGanttBarComponent } from '../../components/bar/bar.component';
-import { NgxGanttRootComponent } from '../../root.component';
 import { GANTT_GLOBAL_CONFIG } from '../../gantt.config';
-import { GanttTableBodyComponent } from '../../components/table/body/gantt-table-body.component';
-import { GanttLoaderComponent } from '../../components/loader/loader.component';
-import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocale } from 'ngx-gantt';
+import { NgxGanttModule } from '../../gantt.module';
+import { NgxGanttRootComponent } from '../../root.component';
+import { GanttDate } from '../../utils/date';
 import { assertBaselineItems, assertConfigStyle, assertGanttView, assertItems } from './assert-helper';
+import { getMockBaselineItems, getMockItems } from './mocks/data';
 
 const mockItems = getMockItems();
 const mockBaselineItems = getMockBaselineItems();
@@ -25,43 +25,43 @@ const localeConfig = {
     views: {
         [GanttViewType.hour]: {
             label: '小时',
-            dateFormats: {
-                primary: 'M月d日',
-                secondary: 'HH:mm'
+            tickFormats: {
+                period: 'M月d日',
+                unit: 'HH:mm'
             }
         },
         [GanttViewType.day]: {
             label: '天',
-            dateFormats: {
-                primary: 'yyyy-MM',
-                secondary: 'd'
+            tickFormats: {
+                period: 'yyyy-MM',
+                unit: 'd'
             }
         },
         [GanttViewType.week]: {
             label: '周',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: 'w'
+            tickFormats: {
+                period: 'yyyy',
+                unit: 'w'
             }
         },
         [GanttViewType.month]: {
             label: '月',
-            dateFormats: {
-                primary: `yyyy/QQQ`,
-                secondary: 'MM'
+            tickFormats: {
+                period: `yyyy/QQQ`,
+                unit: 'MM'
             }
         },
         [GanttViewType.quarter]: {
             label: '季',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: `yyyy/QQQ`
+            tickFormats: {
+                period: 'yyyy',
+                unit: `yyyy/QQQ`
             }
         },
         [GanttViewType.year]: {
             label: '年',
-            dateFormats: {
-                secondary: 'yyyy'
+            tickFormats: {
+                unit: 'yyyy'
             }
         }
     }
@@ -107,7 +107,7 @@ const localeConfig = {
     standalone: false
 })
 export class TestGanttBasicComponent {
-    @ViewChild('gantt') ganttComponent: NgxGanttComponent;
+    readonly ganttComponent = viewChild<NgxGanttComponent>('gantt');
 
     constructor() {}
 
@@ -150,6 +150,7 @@ describe('gantt-basic-component', () => {
             imports: [CommonModule, NgxGanttModule],
             declarations: [TestGanttBasicComponent],
             providers: [
+                provideZoneChangeDetection(),
                 GanttPrintService,
                 {
                     provide: GANTT_GLOBAL_CONFIG,
@@ -158,7 +159,7 @@ describe('gantt-basic-component', () => {
                         dateOptions: {},
                         styleOptions: {
                             headerHeight: 60,
-                            lineHeight: 60,
+                            rowHeight: 60,
                             barHeight: 30
                         }
                     }
@@ -176,6 +177,11 @@ describe('gantt-basic-component', () => {
         ganttDebugElement = fixture.debugElement.query(By.directive(NgxGanttComponent));
         ganttComponentInstance = fixture.componentInstance;
         await fixture.whenStable();
+        fixture.detectChanges();
+        const blocks = await fixture.getDeferBlocks();
+        for (const block of blocks) {
+            await block.render(DeferBlockState.Complete);
+        }
         fixture.detectChanges();
     });
 
@@ -329,6 +335,7 @@ describe('gantt-basic-component', () => {
     });
 
     describe('#event', () => {
+        beforeEach;
         it('should bar click called', fakeAsync(() => {
             const barClickSpy = spyOn(ganttComponentInstance, 'barClick').and.callFake((event: GanttBarClickEvent) => {
                 expect(event.event.type).toEqual('click');
@@ -342,7 +349,7 @@ describe('gantt-basic-component', () => {
 
     describe('#global-config', () => {
         it('should apply global style configuration correctly to the gantt component', () => {
-            assertConfigStyle(ganttComponentInstance.ganttComponent, ganttDebugElement);
+            assertConfigStyle(ganttComponentInstance.ganttComponent(), ganttDebugElement);
         });
     });
 

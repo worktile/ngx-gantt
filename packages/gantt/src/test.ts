@@ -1,8 +1,6 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { setDefaultOptions } from 'date-fns';
-import { zhCN } from 'date-fns/locale';
 
 console.log('Default timezone：' + Intl.DateTimeFormat().resolvedOptions().timeZone);
 

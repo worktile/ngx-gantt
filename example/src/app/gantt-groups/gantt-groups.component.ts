@@ -1,14 +1,25 @@
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
-import { GanttViewType, GanttItem, GanttGroup, NgxGanttComponent } from 'ngx-gantt';
-// import { randomGroupsAndItems } from '../helper';
+import { GanttViewType, GanttItem, GanttGroup, NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { random, randomGroupsAndItems, randomItems } from '../helper';
-
+import { ThyContent, ThyHeader, ThyLayout } from 'ngx-tethys/layout';
+import { ThyButton, ThyButtonGroup } from 'ngx-tethys/button';
+import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-gantt-groups-example',
     templateUrl: './gantt-groups.component.html',
-    standalone: false
+    imports: [
+        ThyLayout,
+        ThyContent,
+        ThyHeader,
+        ThyButton,
+        ThyButtonGroup,
+        NgxGanttComponent,
+        NgxGanttTableComponent,
+        NgxGanttTableColumnComponent,
+        DatePipe
+    ]
 })
 export class AppGanttGroupsExampleComponent implements OnInit {
     views = [

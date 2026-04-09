@@ -4,6 +4,7 @@
 
 export * from './class';
 export * from './components/bar/bar.component';
+export * from './components/bar/placeholder.component';
 export * from './components/baseline/baseline.component';
 export * from './components/calendar/grid/calendar-grid.component';
 export * from './components/calendar/header/calendar-header.component';
@@ -38,3 +39,4 @@ export * from './table/gantt-table.component';
 export * from './utils/date';
 export { registerView } from './views/factory';
 export * from './views/view';
+export { PERIOD_TICK_TOP as PRIMARY_TICK_TOP, UNIT_TICK_TOP as SECONDARY_TICK_TOP } from './views/view';

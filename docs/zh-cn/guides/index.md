@@ -1,5 +1,4 @@
 ---
-title: 指南
+title: 文档
 path: 'guides'
-order: 1
 ---

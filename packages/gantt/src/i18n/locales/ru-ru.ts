@@ -9,43 +9,43 @@ export default {
     views: {
         [GanttViewType.hour]: {
             label: 'Ежечасно',
-            dateFormats: {
-                primary: 'd MMM',
-                secondary: 'HH:mm'
+            tickFormats: {
+                period: 'd MMM',
+                unit: 'HH:mm'
             }
         },
         [GanttViewType.day]: {
             label: 'Ежедневно',
-            dateFormats: {
-                primary: 'MMMM yyyy',
-                secondary: 'd'
+            tickFormats: {
+                period: 'MMMM yyyy',
+                unit: 'd'
             }
         },
         [GanttViewType.week]: {
             label: 'Еженедельно',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: 'Неделя w'
+            tickFormats: {
+                period: 'yyyy',
+                unit: 'Неделя w'
             }
         },
         [GanttViewType.month]: {
             label: 'Ежемесячно',
-            dateFormats: {
-                primary: 'MMMM yyyy',
-                secondary: 'MMM'
+            tickFormats: {
+                period: 'MMMM yyyy',
+                unit: 'MMM'
             }
         },
         [GanttViewType.quarter]: {
             label: 'Ежеквартально',
-            dateFormats: {
-                primary: 'yyyy',
-                secondary: 'Квартал Q yyyy'
+            tickFormats: {
+                period: 'yyyy',
+                unit: 'Квартал Q yyyy'
             }
         },
         [GanttViewType.year]: {
             label: 'Ежегодно',
-            dateFormats: {
-                secondary: 'yyyy'
+            tickFormats: {
+                unit: 'yyyy'
             }
         }
     }

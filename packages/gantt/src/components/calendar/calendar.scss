@@ -43,6 +43,7 @@
 .gantt-calendar-header {
   position: relative;
   z-index: 2;
+  height: variables.$gantt-header-height;
   .gantt-calendar-today-overlay {
     z-index: 2;
   }
@@ -86,7 +87,7 @@
 
   .secondary-line {
     stroke-dasharray: 2px 5px;
-    stroke: #cacaca;
+    stroke: variables.$color-gray-600;
   }
 
   .secondary-backdrop {

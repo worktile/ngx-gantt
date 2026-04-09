@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild, inject } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttBaselineItem,
@@ -18,12 +18,20 @@ import {
     GanttView,
     GanttViewOptions,
     GanttViewType,
-    NgxGanttComponent
+    NgxGanttComponent,
+    NgxGanttTableComponent,
+    NgxGanttTableColumnComponent,
+    GanttItemType
 } from 'ngx-gantt';
 import { ThyNotifyService } from 'ngx-tethys/notify';
 import { finalize, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { random, randomItems } from '../helper';
+import { ThyContent, ThyHeader, ThyLayout } from 'ngx-tethys/layout';
+import { ThyButton } from 'ngx-tethys/button';
+import { ThySwitch } from 'ngx-tethys/switch';
+import { FormsModule } from '@angular/forms';
+import { GanttDateFormatPipe } from '../pipes/date-format.pipe';
 
 const cacheKeys = 'GANTT_TABLE_KEYS';
 
@@ -32,11 +40,24 @@ const cacheKeys = 'GANTT_TABLE_KEYS';
     templateUrl: './gantt.component.html',
     styleUrls: ['./gantt.scss'],
     providers: [GanttPrintService],
-    standalone: false
+    imports: [
+        ThyLayout,
+        ThyContent,
+        ThyHeader,
+        ThyButton,
+        ThySwitch,
+        FormsModule,
+        GanttDateFormatPipe,
+        NgxGanttComponent,
+        NgxGanttTableComponent,
+        NgxGanttTableColumnComponent
+    ]
 })
 export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     private printService = inject(GanttPrintService);
     private thyNotify = inject(ThyNotifyService);
+
+    private cdr = inject(ChangeDetectorRef);
 
     toolbarOptions: GanttToolbarOptions = {
         viewTypes: [
@@ -67,7 +88,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         { id: '000001', title: 'Task 1', start: 1617361997, end: 1625483597, links: ['000003', '000004', '0000029'], draggable: false },
         { id: '000002', title: 'Task 2', start: 1617361997, end: 1625483597, progress: 0.5, linkable: false },
         { id: '000003', title: 'Task 3 (不可拖动)', start: 1628507597, end: 1633345997, itemDraggable: false },
-        { id: '000004', title: 'Task 4', start: 1624705997 },
+        { id: '000004', title: 'Task 4', start: 1624705997, end: 1624755997, type: GanttItemType.range },
         { id: '000005', title: 'Task 5', start: 1756543568, end: 1756629968, color: '#709dc1' },
         { id: '000006', title: 'Task 6', start: 1641121997, end: 1645528397 },
         { id: '000007', title: 'Task 7', start: 1639393997, end: 1640862797 },
@@ -102,7 +123,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     };
 
     viewOptions: GanttViewOptions = {
-        hoilday: {
+        holiday: {
             isHoliday: (date: GanttDate) => date.isWeekend(),
             hideHoliday: false
         }
@@ -188,14 +209,8 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
         }
     }
 
-    selectView(type: GanttViewType) {
-        this.viewType = type;
-        this.selectedViewType = type;
-    }
-
     viewChange(event: GanttView) {
-        console.log(event.viewType);
-        this.selectedViewType = event.viewType;
+        this.selectedViewType = event.viewType as GanttViewType;
     }
 
     refresh() {
@@ -205,6 +220,7 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
                 delay(2000),
                 finalize(() => {
                     this.loading = false;
+                    this.cdr.markForCheck();
                 })
             )
             .subscribe((res) => {
@@ -244,8 +260,8 @@ export class AppGanttExampleComponent implements OnInit, AfterViewInit {
     holidayChange() {
         this.viewOptions = {
             ...this.viewOptions,
-            hoilday: {
-                ...this.viewOptions.hoilday,
+            holiday: {
+                ...this.viewOptions.holiday,
                 hideHoliday: this.isHideHolidayChecked
             }
         };

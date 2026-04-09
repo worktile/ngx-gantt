@@ -3,11 +3,11 @@ import { GanttDate } from '../../utils/date';
 import { GanttItem, GanttItemInternal } from '../../class/item';
 
 class FakeView {
-    getDateByXPoint() {
+    getDateAtX() {
         return new GanttDate();
     }
 
-    getXPointByDate() {
+    getXAtDate() {
         return 0;
     }
 }
@@ -44,7 +44,7 @@ describe('GanttItemInternal', () => {
     it(`should fill date when start or end date is nil`, () => {
         const view = new FakeView();
         const date = new GanttDate('2020-06-01 00:00:00');
-        spyOn(view, 'getDateByXPoint').and.returnValue(date);
+        spyOn(view, 'getDateAtX').and.returnValue(date);
 
         let ganttItemInternal = new GanttItemInternal(
             {

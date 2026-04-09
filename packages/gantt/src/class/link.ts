@@ -13,12 +13,6 @@ export enum GanttLinkLineType {
     straight = 'straight'
 }
 
-export enum LinkColors {
-    default = '#cacaca',
-    blocked = '#FF7575',
-    active = '#6698ff'
-}
-
 export interface GanttLink {
     type: GanttLinkType;
     link: string;

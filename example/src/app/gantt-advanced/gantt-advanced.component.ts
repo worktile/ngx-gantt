@@ -1,11 +1,13 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { GanttViewType, GanttGroup, GanttItem } from 'ngx-gantt';
 import { randomGroupsAndItems } from '../helper';
+import { ThyContent, ThyLayout } from 'ngx-tethys/layout';
+import { AppGanttFlatComponent } from './component/flat.component';
 
 @Component({
     selector: 'app-gantt-advanced-example',
     templateUrl: './gantt-advanced.component.html',
-    standalone: false
+    imports: [ThyLayout, ThyContent, AppGanttFlatComponent]
 })
 export class AppGanttAdvancedExampleComponent implements OnInit {
     constructor() {}
@@ -19,7 +21,7 @@ export class AppGanttAdvancedExampleComponent implements OnInit {
         draggable: true,
         mergeIntervalDays: 3,
         styles: {
-            lineHeight: 50
+            rowHeight: 50
         }
     };
 
@@ -29,7 +31,5 @@ export class AppGanttAdvancedExampleComponent implements OnInit {
         const { groups, items } = randomGroupsAndItems(10);
         this.groups = groups;
         this.items = items;
-
-        console.log(this.groups, this.items);
     }
 }

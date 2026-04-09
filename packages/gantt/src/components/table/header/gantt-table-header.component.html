@@ -1,10 +1,10 @@
 <div class="gantt-table-header-container" syncScrollX="ganttTableXScroll" [style.width.px]="tableWidth" cdkScrollable>
-  @for (column of columns; track $index) {
-    <div class="gantt-table-column" [style.width]="column.columnWidth">
-      @if (column.headerTemplateRef) {
-        <ng-container [ngTemplateOutlet]="column.headerTemplateRef"> </ng-container>
+  @for (column of columns(); track $index) {
+    <div class="gantt-table-column" [style.width]="column.columnWidth()">
+      @if (column.headerTemplateRef()) {
+        <ng-container [ngTemplateOutlet]="column.headerTemplateRef()"> </ng-container>
       } @else {
-        {{ column.name }}
+        {{ column.name() }}
       }
       <div
         class="column-resize-handle"
@@ -20,8 +20,8 @@
   <div class="gantt-table-column gantt-table-column-placeholder"></div>
 </div>
 
-@if (gantt?.table?.settingsSlot) {
-  <ng-template [ngTemplateOutlet]="gantt?.table?.settingsSlot"></ng-template>
+@if (gantt?.table()?.settingsSlot()) {
+  <ng-template [ngTemplateOutlet]="gantt?.table()?.settingsSlot()"></ng-template>
 }
 
 <div

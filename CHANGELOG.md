@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [21.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/20.0.0...21.0.0-next.0) (2026-04-03)
+
+### Bug Fixes
+
+- fix dependencies conflict ([93b92f4](https://github.com/worktile/ngx-gantt/commit/93b92f4caeab1de0434b0a329be39c0d72eaa197))
+- fix package ([64c73c1](https://github.com/worktile/ngx-gantt/commit/64c73c109d0d3d543f19b1884c5fc240db9c2f19))
+- fix today line display error ([10a74b4](https://github.com/worktile/ngx-gantt/commit/10a74b4b606f00d62fa43155b4552e3f8166c2b3))
+- **gantt:** address various issues in Gantt components and improve signal handling ([#624](https://github.com/worktile/ngx-gantt/issues/624)) ([9f6e5c8](https://github.com/worktile/ngx-gantt/commit/9f6e5c84511dca3fa72d875f73667afca00793c0))
+- improve link drag cleanup logic [#512](https://github.com/worktile/ngx-gantt/issues/512) #TINFR-3333 ([#628](https://github.com/worktile/ngx-gantt/issues/628)) ([9d693e8](https://github.com/worktile/ngx-gantt/commit/9d693e865d8359a5e1560a882058a966f25bd48d)), closes [#TINFR-3333](https://github.com/worktile/ngx-gantt/issues/TINFR-3333)
+- improve the horizontal scrolling experience [#601](https://github.com/worktile/ngx-gantt/issues/601) #TINFR-3340 ([a4a3fc2](https://github.com/worktile/ngx-gantt/commit/a4a3fc264ee32d97505acc5806eac54b9e5c4f1e)), closes [#TINFR-3340](https://github.com/worktile/ngx-gantt/issues/TINFR-3340)
+
+### Features
+
+- demo suport standalone component #TINFR-3326 ([#634](https://github.com/worktile/ngx-gantt/issues/634)) ([469a124](https://github.com/worktile/ngx-gantt/commit/469a1247121a85db4a102a5d80cbf8ed87226384)), closes [#TINFR-3326](https://github.com/worktile/ngx-gantt/issues/TINFR-3326)
+- migrate signal ([361a874](https://github.com/worktile/ngx-gantt/commit/361a874a355d1fd11bcb21af8766518363da5587))
+- support gantt bar support defer load #TINFR-3337 ([#631](https://github.com/worktile/ngx-gantt/issues/631)) ([250dd13](https://github.com/worktile/ngx-gantt/commit/250dd13b075f41a9542600d0e8e3c12795f5dd70)), closes [#TINFR-3337](https://github.com/worktile/ngx-gantt/issues/TINFR-3337) [#TINFR-3337](https://github.com/worktile/ngx-gantt/issues/TINFR-3337)
+- support zoneless #TINFR-3296 ([#627](https://github.com/worktile/ngx-gantt/issues/627)) ([dc881ba](https://github.com/worktile/ngx-gantt/commit/dc881ba323b36b69d5cfa42ed517dd5cb2cafcee)), closes [#TINFR-3296](https://github.com/worktile/ngx-gantt/issues/TINFR-3296) [#TINFR-3296](https://github.com/worktile/ngx-gantt/issues/TINFR-3296)
+
 ## [20.0.2](https://github.com/worktile/ngx-gantt/compare/20.0.0...20.0.2) (2026-01-09)
 
 ### Bug Fixes

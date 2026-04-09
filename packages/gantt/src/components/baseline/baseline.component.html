@@ -1,8 +1,8 @@
-@if (baselineItem) {
+@if (baselineItem()) {
   <div #content class="baseline-content">
     <ng-template
-      [ngTemplateOutlet]="template"
-      [ngTemplateOutletContext]="{ item: baselineItem.origin, refs: baselineItem.refs }"
+      [ngTemplateOutlet]="template()"
+      [ngTemplateOutletContext]="{ item: baselineItem().origin, refs: baselineItem().refs }"
     ></ng-template>
   </div>
 }

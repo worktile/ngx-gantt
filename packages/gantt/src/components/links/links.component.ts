@@ -1,47 +1,33 @@
-import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    HostBinding,
-    ChangeDetectorRef,
-    ElementRef,
-    OnDestroy,
-    OnChanges,
-    NgZone,
-    inject
-} from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectorRef, ElementRef, OnDestroy, inject, input, output, effect } from '@angular/core';
 import { EMPTY, merge, Subject } from 'rxjs';
-import { takeUntil, skip, debounceTime, switchMap, take } from 'rxjs/operators';
+import { takeUntil, skip, debounceTime } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
 import { GanttItemInternal } from './../../class/item';
 import { GanttLineClickEvent } from '../../class/event';
 import { GanttDragContainer } from '../../gantt-drag-container';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
-import { GanttLinkItem, LinkInternal, LinkColors, GanttLinkType } from '../../class/link';
+import { GanttLinkItem, LinkInternal, GanttLinkType } from '../../class/link';
 import { GanttLinkLine } from './lines/line';
 import { createLineGenerator } from './lines/factory';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'gantt-links-overlay',
     templateUrl: './links.component.html',
     imports: []
 })
-export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
+export class GanttLinksComponent implements OnInit, OnDestroy {
     ganttUpper = inject<GanttUpper>(GANTT_UPPER_TOKEN);
+
     private cdr = inject(ChangeDetectorRef);
+
     private elementRef = inject(ElementRef);
+
     private ganttDragContainer = inject(GanttDragContainer);
-    private ngZone = inject(NgZone);
 
-    // @Input() groups: GanttGroupInternal[] = [];
+    readonly flatItems = input<(GanttGroupInternal | GanttItemInternal)[]>([]);
 
-    // @Input() items: GanttItemInternal[] = [];
-
-    @Input() flatItems: (GanttGroupInternal | GanttItemInternal)[] = [];
-
-    @Output() lineClick = new EventEmitter<GanttLineClickEvent>();
+    readonly lineClick = output<GanttLineClickEvent>();
 
     public links: LinkInternal[] = [];
 
@@ -51,36 +37,35 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
 
     private linkItems: GanttLinkItem[] = [];
 
-    private firstChange = true;
-
     private linkLine: GanttLinkLine;
 
     private unsubscribe$ = new Subject<void>();
 
     @HostBinding('class.gantt-links-overlay') ganttLinksOverlay = true;
 
-    constructor() {}
+    constructor() {
+        effect(() => {
+            this.buildLinks();
+        });
+    }
 
     ngOnInit() {
-        this.linkLine = createLineGenerator(this.ganttUpper.linkOptions.lineType, this.ganttUpper);
+        const linkOptions = this.ganttUpper.linkOptions();
+        this.linkLine = createLineGenerator(linkOptions.lineType, this.ganttUpper);
 
-        this.showArrow = this.ganttUpper.linkOptions.showArrow;
-        // this.buildLinks();
-        this.firstChange = false;
-
-        this.buildLinks();
+        this.showArrow = linkOptions.showArrow;
 
         this.ganttDragContainer.dragStarted.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
             this.elementRef.nativeElement.style.visibility = 'hidden';
         });
 
         merge(
-            this.ganttUpper.viewChange,
-            this.ganttUpper.expandChange,
+            outputToObservable(this.ganttUpper.viewChange),
+            outputToObservable(this.ganttUpper.expandChange),
             this.ganttUpper.view.start$,
-            this.ganttUpper.dragEnded,
-            this.ganttUpper.linkDragEnded,
-            this.ngZone.onStable.pipe(take(1)).pipe(switchMap(() => this.ganttUpper.table?.dragDropped || EMPTY))
+            outputToObservable(this.ganttUpper.dragEnded),
+            this.ganttUpper.linkDragEnded ? outputToObservable(this.ganttUpper.linkDragEnded) : EMPTY,
+            outputToObservable(this.ganttUpper.table()?.dragDropped) || EMPTY
         )
             .pipe(skip(1), debounceTime(0), takeUntil(this.unsubscribe$))
             .subscribe(() => {
@@ -90,63 +75,16 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
             });
     }
 
-    ngOnChanges() {
-        if (!this.firstChange) {
-            this.buildLinks();
-        }
-    }
-
     private computeItemPosition() {
-        const lineHeight = this.ganttUpper.styles.lineHeight;
-        const barHeight = this.ganttUpper.styles.barHeight;
+        const rowHeight = this.ganttUpper.styles().rowHeight;
+        const barHeight = this.ganttUpper.styles().barHeight;
         this.linkItems = [];
-        // if (this.groups.length > 0) {
-        //     let itemNum = 0;
-        //     let groupNum = 0;
-        //     this.groups.forEach((group) => {
-        //         groupNum++;
-        //         if (group.expanded) {
-        //             const items = recursiveItems(group.items);
-        //             items.forEach((item, itemIndex) => {
-        //                 const y = (groupNum + itemNum + itemIndex) * lineHeight + item.refs.y + barHeight / 2;
-        //                 this.linkItems.push({
-        //                     ...item,
-        //                     before: {
-        //                         x: item.refs.x,
-        //                         y
-        //                     },
-        //                     after: {
-        //                         x: item.refs.x + item.refs.width,
-        //                         y
-        //                     }
-        //                 });
-        //             });
-        //             itemNum += items.length;
-        //         }
-        //     });
-        // } else {
-        //     const items = recursiveItems(this.items);
-        //     items.forEach((item, itemIndex) => {
-        //         const y = itemIndex * lineHeight + item.refs.y + barHeight / 2;
-        //         this.linkItems.push({
-        //             ...item,
-        //             before: {
-        //                 x: item.refs.x,
-        //                 y
-        //             },
-        //             after: {
-        //                 x: item.refs.x + item.refs.width,
-        //                 y
-        //             }
-        //         });
-        //     });
-        // }
 
-        this.flatItems.forEach((item, itemIndex) => {
+        this.flatItems().forEach((item, itemIndex) => {
             if (!item.hasOwnProperty('items')) {
                 const ganttItem = item as GanttItemInternal;
                 if (ganttItem.refs && ganttItem.refs.width > 0) {
-                    const y = itemIndex * lineHeight + ganttItem.refs.y + barHeight / 2;
+                    const y = itemIndex * rowHeight + ganttItem.refs.y + barHeight / 2;
                     this.linkItems.push({
                         ...ganttItem,
                         before: {
@@ -171,21 +109,27 @@ export class GanttLinksComponent implements OnInit, OnChanges, OnDestroy {
                 source.links.forEach((link) => {
                     const target = this.linkItems.find((item) => item.id === link.link);
                     if (target && (target.origin.start || target.origin.end)) {
-                        let defaultColor: string = LinkColors.default;
-                        let activeColor: string = LinkColors.active;
+                        const linkColors = {
+                            default: this.ganttUpper.colors().gray[600],
+                            active: this.ganttUpper.colors().primary,
+                            blocked: this.ganttUpper.colors().danger
+                        };
+
+                        let defaultColor: string = linkColors.default;
+                        let activeColor: string = linkColors.active;
 
                         if (link.type === GanttLinkType.ff && source.end.getTime() > target.end.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         } else if (link.type === GanttLinkType.fs && source.end.getTime() > target.start.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         } else if (link.type === GanttLinkType.sf && source.start.getTime() > target.end.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         } else if (link.type === GanttLinkType.ss && source.start.getTime() > target.start.getTime()) {
-                            defaultColor = LinkColors.blocked;
-                            activeColor = LinkColors.blocked;
+                            defaultColor = linkColors.blocked;
+                            activeColor = linkColors.blocked;
                         }
 
                         if (link.color) {

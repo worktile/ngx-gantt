@@ -1,0 +1,47 @@
+---
+title: 介绍
+path: 'intro'
+order: 100
+---
+
+**ngx-gantt** 是一个专为 Angular 设计的现代化甘特图组件库，提供完整的任务管理、时间规划和进度跟踪能力。
+
+### 特性
+
+- 📋 **任务管理**：支持任务创建、编辑、拖拽调整时间
+- ⛓️ **依赖关系**：支持任务间依赖链接（FS/FF/SS/SF），拖拽创建关联
+- 📊 **分组与层级**：支持分组展示和无限层级嵌套，异步加载子任务
+- 🎯 **多种视图**：支持小时/天/周/月/季度/年视图，可自定义视图类型
+- 🚀 **高性能**：内置虚拟滚动，支持数千条任务流畅渲染
+- ✨ **交互丰富**：任务条拖拽、表格行拖拽、选择、展开折叠
+- 🛠️ **扩展性强**：支持自定义模板、主题系统、自定义视图
+- 🌍 **多语言支持**：内置简体中文、繁体中文、英文、日文、德文、俄文，支持自定义语言包扩展
+- 📏 **基线对比**：支持计划与实际时间对比
+- 📤 **打印导出**：支持导出当前视图为图片
+
+### 适用场景
+
+- 📋 **项目管理**：任务计划、进度跟踪、里程碑管理
+- 🏭 **生产排程**：生产计划、工序管理、资源调度
+- 👥 **团队协作**：任务分配、依赖管理、进度可视化
+
+### 技术栈介绍
+
+ngx-gantt 基于 Angular 框架构建，使用 `@angular/cdk` 提供基础能力，依赖 `date-fns` 和 `@date-fns/tz` 处理时间和时区。
+
+- Angular >= 21.0.0
+- @angular/cdk >= 21.0.0
+- date-fns >= 4.0.0
+- @date-fns/tz >= 1.0.0
+
+### 当前版本
+
+[![npm (scoped)](https://img.shields.io/npm/v/@worktile/gantt?style=flat-square)](https://www.npmjs.com/package/@worktile/gantt)
+
+### 开源协议
+
+ngx-gantt 采用 [MIT 许可证](https://github.com/worktile/ngx-gantt/blob/master/LICENSE) 开源。
+
+### 参与贡献
+
+**@worktile/ngx-gantt** 目前还处于开发中，欢迎一起参与贡献 [https://github.com/worktile/ngx-gantt](https://github.com/worktile/ngx-gantt)。

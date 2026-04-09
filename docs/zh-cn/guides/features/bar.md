@@ -1,0 +1,288 @@
+---
+title: Bar 显示与交互
+path: 'bar-interaction'
+order: 340
+---
+
+任务条（Bar）是甘特图的核心交互元素，支持拖拽移动、缩放调整时间，以及丰富的自定义能力。
+
+## Bar 展示
+
+### 自定义 Bar 模板
+
+使用 `#bar` 模板自定义任务条的内容：
+
+```html
+<ngx-gantt [items]="items">
+  <ng-template #bar let-item="item" let-refs="refs">
+    <div class="custom-bar">
+      <span>{{ item.title }}</span>
+      <span class="progress" *ngIf="item.progress"> {{ (item.progress * 100).toFixed(0) }}% </span>
+    </div>
+  </ng-template>
+
+  <!-- ... -->
+</ngx-gantt>
+```
+
+### 模板上下文
+
+`#bar` 模板提供以下上下文：
+
+- `item`：任务项数据（`GanttItem`）
+- `refs`：任务条的位置和尺寸信息
+  - `refs.x`：X 坐标
+  - `refs.y`：Y 坐标
+  - `refs.width`：宽度
+  - `refs.height`：高度
+
+### 自定义 Item 模板
+
+使用 `#item` 模板自定义整个任务行的内容（包括任务条和行背景）：
+
+```html
+<ng-template #item let-item="item">
+  <div class="custom-item">
+    <!-- 自定义内容 -->
+  </div>
+</ng-template>
+```
+
+## 样式定制
+
+### 自定义颜色
+
+通过 `color` 属性设置任务条的颜色：
+
+```typescript
+const items: GanttItem[] = [
+  {
+    id: '1',
+    title: '高优先级任务',
+    start: 1627729997,
+    end: 1628421197,
+    color: '#ff6b6b' // 自定义颜色
+  }
+];
+```
+
+### 自定义样式
+
+通过 `barStyle` 和 `laneStyle` 属性自定义样式：
+
+```typescript
+const items: GanttItem[] = [
+  {
+    id: '1',
+    title: '任务',
+    start: 1627729997,
+    end: 1628421197,
+    barStyle: {
+      borderRadius: '4px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    },
+    laneStyle: {
+      backgroundColor: '#f5f5f5'
+    }
+  }
+];
+```
+
+- `barStyle`：任务条的样式对象
+- `laneStyle`：任务行背景的样式对象
+
+## 拖拽交互
+
+Bar 支持两种拖拽方式：
+
+- **整体拖拽**：拖拽任务条中间区域，整体移动任务的时间
+- **缩放拖拽**：拖拽任务条左右两侧的手柄，调整开始或结束时间
+  - **左侧手柄**：调整开始时间
+  - **右侧手柄**：调整结束时间
+
+### 启用拖拽
+
+```typescript
+import { Component } from '@angular/core';
+import { GanttItem, GanttViewType, GanttDragEvent, GanttBarClickEvent } from '@worktile/gantt';
+
+@Component({
+  template: `
+    <ngx-gantt
+      [items]="items"
+      [viewType]="viewType"
+      [draggable]="true"
+      (dragStarted)="onDragStarted($event)"
+      (dragMoved)="onDragMoved($event)"
+      (dragEnded)="onDragEnded($event)"
+      (barClick)="onBarClick($event)"
+    >
+      <ngx-gantt-table>
+        <ngx-gantt-column name="任务" width="200px">
+          <ng-template #cell let-item="item">
+            {{ item.title }}
+          </ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
+    </ngx-gantt>
+  `
+})
+export class MyComponent {
+  viewType = GanttViewType.day;
+
+  items: GanttItem[] = [{ id: '1', title: '任务 1', start: 1627729997, end: 1628421197 }];
+
+  onBarClick(event: GanttBarClickEvent) {
+    console.log('点击任务条', event.item);
+  }
+
+  onDragStarted(event: GanttDragEvent) {
+    console.log('拖拽开始', event.item);
+  }
+
+  onDragMoved(event: GanttDragEvent) {
+    console.log('拖拽中', event.item);
+  }
+
+  onDragEnded(event: GanttDragEvent) {
+    this.items = [...this.items];
+  }
+}
+```
+
+### 事件对象
+
+```typescript
+interface GanttDragEvent {
+  item: GanttItem; // 被拖拽的任务（包含更新后的时间）
+}
+
+interface GanttBarClickEvent {
+  item: GanttItem; // 被点击的任务
+  event: MouseEvent; // 原始鼠标事件
+}
+```
+
+### 禁用拖拽
+
+#### 禁用所有 Bar 拖拽
+
+```typescript
+// 禁用所有任务的拖拽
+<ngx-gantt [draggable]="false" [items]="items">
+```
+
+#### 禁用指定任务拖拽
+
+```typescript
+const items: GanttItem[] = [
+  {
+    id: '2',
+    title: '不可拖拽任务',
+    start: 1628507597,
+    end: 1633345997,
+    draggable: false // 禁用拖拽
+  }
+];
+```
+
+**优先级：** 任务级别的 `draggable` 属性会覆盖全局配置。
+
+### 拖拽提示框格式
+
+拖拽时会显示日期预览，格式由 `viewOptions.dragTooltipFormat` 控制：
+
+```typescript
+const viewOptions: GanttViewOptions = {
+  dragTooltipFormat: 'MM-dd HH:mm' // 使用 date-fns 格式字符串
+};
+```
+
+## 最小示例
+
+```typescript
+import { Component } from '@angular/core';
+import { GanttItem, GanttViewType } from '@worktile/gantt';
+
+@Component({
+  selector: 'app-gantt-bar',
+  template: `
+    <ngx-gantt [items]="items" [viewType]="viewType">
+      <ngx-gantt-table>
+        <ngx-gantt-column name="任务" width="200px">
+          <ng-template #cell let-item="item">
+            {{ item.title }}
+          </ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
+    </ngx-gantt>
+  `
+})
+export class GanttBarComponent {
+  viewType = GanttViewType.day;
+
+  items: GanttItem[] = [
+    { id: '1', title: '任务 1', start: 1627729997, end: 1628421197 },
+    { id: '2', title: '任务 2', start: 1628507597, end: 1633345997 }
+  ];
+}
+```
+
+## 常见问题
+
+### Q: 拖拽后视图没有更新？
+
+**A:** 确保使用不可变数据更新，创建新数组引用：
+
+```typescript
+// ✅ 正确：event.item 已经是更新后的数据，只需更新数组引用
+onDragEnded(event: GanttDragEvent) {
+  this.items = [...this.items];
+}
+
+// ❌ 错误：直接修改原数组不会触发视图更新
+onDragEnded(event: GanttDragEvent) {
+  // 这样不会触发视图更新
+}
+```
+
+### Q: 如何禁用特定任务的拖拽？
+
+**A:** 设置任务的 `draggable: false`：
+
+```typescript
+{ id: '1', title: '任务', draggable: false }
+```
+
+### Q: 如何获取拖拽后的新时间？
+
+**A:** 在 `dragEnded` 事件中，`event.item.start` 和 `event.item.end` 已经是更新后的值（`number | Date | undefined`）：
+
+```typescript
+onDragEnded(event: GanttDragEvent) {
+  // event.item.start 和 event.item.end 已经是更新后的时间
+  const startTimestamp = typeof event.item.start === 'number'
+    ? event.item.start
+    : event.item.start instanceof Date
+      ? Math.floor(event.item.start.getTime() / 1000)
+      : undefined;
+  const endTimestamp = typeof event.item.end === 'number'
+    ? event.item.end
+    : event.item.end instanceof Date
+      ? Math.floor(event.item.end.getTime() / 1000)
+      : undefined;
+
+  // 更新数组引用以触发视图刷新
+  this.items = [...this.items];
+}
+```
+
+### Q: 如何自定义拖拽时的提示框内容？
+
+**A:** 通过 `viewOptions.dragTooltipFormat` 设置日期格式，使用 date-fns 格式字符串。
+
+## 相关链接
+
+- [数据模型](guides/core-concepts/data-model) - 了解 GanttItem 的结构
+- [时间与时区](guides/core-concepts/date-timezone) - 理解时间字段的处理
+- [任务依赖](guides/features/task-links) - 学习任务依赖关系的创建

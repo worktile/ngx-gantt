@@ -1,8 +1,7 @@
 import { Directive, ElementRef, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { GanttSyncScrollService } from '../gantt-sync-scroll.service';
 @Directive({
-    selector: '[syncScrollX]',
-    standalone: true
+    selector: '[syncScrollX]'
 })
 export class GanttSyncScrollXDirective implements OnInit, OnDestroy {
     readonly syncScrollX = input<string>();
@@ -23,8 +22,7 @@ export class GanttSyncScrollXDirective implements OnInit, OnDestroy {
 }
 
 @Directive({
-    selector: '[syncScrollY]',
-    standalone: true
+    selector: '[syncScrollY]'
 })
 export class GanttSyncScrollYDirective implements OnInit, OnDestroy {
     readonly syncScrollY = input<string>();
