@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, effect } from '@angular/core';
+import { Component, OnInit, HostBinding, effect, ChangeDetectionStrategy } from '@angular/core';
 import {
     GANTT_UPPER_TOKEN,
     GanttUpper,
@@ -20,6 +20,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
             useExisting: AppGanttFlatComponent
         }
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgxGanttRootComponent, NgxGanttBarComponent]
 })
 export class AppGanttFlatComponent extends GanttUpper implements OnInit {

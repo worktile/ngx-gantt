@@ -16,7 +16,8 @@ import {
     output,
     computed,
     effect,
-    signal
+    signal,
+    ChangeDetectionStrategy
 } from '@angular/core';
 import { auditTime, filter, startWith, Subject, takeUntil } from 'rxjs';
 import {
@@ -45,6 +46,7 @@ import { defaultColumnWidth } from '../header/gantt-table-header.component';
         '[class.gantt-table-dragging]': 'ganttTableDragging',
         '[class.gantt-table-draggable]': 'draggable()'
     },
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CdkDropList, GanttIconComponent, NgTemplateOutlet, NgClass, CdkDrag, CdkDragHandle, IsGanttRangeItemPipe, IsGanttGroupPipe]
 })
 export class GanttTableBodyComponent implements OnDestroy, AfterViewInit {

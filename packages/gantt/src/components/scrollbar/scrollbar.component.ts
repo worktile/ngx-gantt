@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, input, inject } from '@angular/core';
+import { Component, input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { NgxGanttRootComponent } from '../../root.component';
 import { GanttSyncScrollXDirective } from '../../directives/sync-scroll.directive';
@@ -7,6 +7,7 @@ import { GanttSyncScrollXDirective } from '../../directives/sync-scroll.directiv
 @Component({
     selector: 'gantt-scrollbar',
     templateUrl: `./scrollbar.component.html`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgClass, GanttSyncScrollXDirective]
 })
 export class GanttScrollbarComponent {

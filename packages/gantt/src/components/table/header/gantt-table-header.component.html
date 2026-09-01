@@ -21,7 +21,7 @@
 </div>
 
 @if (gantt?.table()?.settingsSlot()) {
-  <ng-template [ngTemplateOutlet]="gantt?.table()?.settingsSlot()"></ng-template>
+  <ng-template [ngTemplateOutlet]="$safeNavigationMigration(gantt?.table()?.settingsSlot())"></ng-template>
 }
 
 <div

@@ -1,4 +1,13 @@
-import { Component, OnInit, HostBinding, ViewChild, AfterViewInit, ChangeDetectorRef, inject } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    HostBinding,
+    ViewChild,
+    AfterViewInit,
+    ChangeDetectorRef,
+    inject,
+    ChangeDetectionStrategy
+} from '@angular/core';
 import {
     GanttItem,
     GanttPrintService,
@@ -20,6 +29,7 @@ import { DatePipe } from '@angular/common';
     selector: 'app-gantt-virtual-scroll-example',
     templateUrl: './gantt.component.html',
     providers: [GanttPrintService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ThyLayout, ThyContent, ThyHeader, NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent, DatePipe]
 })
 export class AppGanttVirtualScrollExampleComponent implements OnInit, AfterViewInit {

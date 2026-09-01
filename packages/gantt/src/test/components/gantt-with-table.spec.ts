@@ -1,4 +1,4 @@
-import { Component, DebugElement, provideZoneChangeDetection, viewChild } from '@angular/core';
+import { Component, DebugElement, provideZoneChangeDetection, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttModule } from 'ngx-gantt';
@@ -26,6 +26,7 @@ import { getMockGroupItems, getMockGroups } from './mocks/data';
         </ngx-gantt>
     `,
     providers: [],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestGanttTableBodyComponent {

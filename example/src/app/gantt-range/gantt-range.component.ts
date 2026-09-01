@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, inject } from '@angular/core';
+import { Component, OnInit, HostBinding, inject, ChangeDetectionStrategy } from '@angular/core';
 import { mockItems } from './mocks';
 import {
     GanttBarClickEvent,
@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     selector: 'app-gantt-range-example',
     templateUrl: './gantt-range.component.html',
     providers: [GanttPrintService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent, FormsModule, DatePipe]
 })
 export class AppGanttRangeExampleComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { outputToObservable } from '@angular/core/rxjs-interop';
-import { Component, OnInit, HostBinding, NgZone, ElementRef, inject } from '@angular/core';
+import { Component, OnInit, HostBinding, NgZone, ElementRef, inject, ChangeDetectionStrategy } from '@angular/core';
 import { todayHeight, todayWidth } from '../../../gantt.styles';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../../gantt-upper';
 import { GanttViewType } from '../../../class';
@@ -12,6 +12,7 @@ import { NgStyle } from '@angular/common';
 @Component({
     selector: 'gantt-calendar-header',
     templateUrl: './calendar-header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgStyle]
 })
 export class GanttCalendarHeaderComponent implements OnInit {

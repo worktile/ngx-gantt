@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement, provideZoneChangeDetection, viewChild } from '@angular/core';
+import { Component, DebugElement, provideZoneChangeDetection, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, DeferBlockState, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GANTT_I18N_LOCALE_TOKEN, GanttI18nLocale } from 'ngx-gantt';
@@ -104,6 +104,7 @@ const localeConfig = {
             </ngx-gantt-column>
         </ngx-gantt-table>
     </ngx-gantt>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestGanttBasicComponent {

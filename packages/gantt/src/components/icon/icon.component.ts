@@ -1,8 +1,9 @@
-import { Component, Input, ElementRef, HostBinding, inject, input, effect } from '@angular/core';
+import { Component, Input, ElementRef, HostBinding, inject, input, effect, ChangeDetectionStrategy } from '@angular/core';
 import { icons } from './icons';
 
 @Component({
     selector: 'gantt-icon',
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: ''
 })
 export class GanttIconComponent {

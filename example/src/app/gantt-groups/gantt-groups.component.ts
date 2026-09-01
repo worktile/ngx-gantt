@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { GanttViewType, GanttItem, GanttGroup, NgxGanttComponent, NgxGanttTableComponent, NgxGanttTableColumnComponent } from 'ngx-gantt';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-gantt-groups-example',
     templateUrl: './gantt-groups.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ThyLayout,
         ThyContent,

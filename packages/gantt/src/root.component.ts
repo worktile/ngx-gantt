@@ -12,7 +12,8 @@ import {
     NgZone,
     OnDestroy,
     TemplateRef,
-    viewChild
+    viewChild,
+    ChangeDetectionStrategy
 } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
@@ -34,6 +35,7 @@ import { passiveListenerOptions } from './utils/passive-listeners';
     selector: 'ngx-gantt-root',
     templateUrl: './root.component.html',
     providers: [GanttDomService, GanttDragContainer, GanttSyncScrollService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CdkScrollable,
         NgTemplateOutlet,

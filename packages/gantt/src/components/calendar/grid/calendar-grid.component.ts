@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, ElementRef, inject, afterNextRender } from '@angular/core';
+import { Component, HostBinding, OnDestroy, ElementRef, inject, afterNextRender, ChangeDetectionStrategy } from '@angular/core';
 import { Subject, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { isNumber } from '../../../utils/helpers';
@@ -10,6 +10,7 @@ const mainHeight = 5000;
 
 @Component({
     selector: 'gantt-calendar-grid',
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './calendar-grid.component.html'
 })
 export class GanttCalendarGridComponent implements OnDestroy {

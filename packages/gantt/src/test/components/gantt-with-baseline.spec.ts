@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttBaselineComponent } from '../../components/baseline/baseline.component';
@@ -35,6 +35,7 @@ const mockBaselineItems = [
             </ngx-gantt-column>
         </ngx-gantt-table>
     </ngx-gantt>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestGanttBaselineComponent {
@@ -81,6 +82,7 @@ describe('ngx-gantt-baseline', () => {
             <div class="baseline-container"></div>
         </ng-template>
     </ngx-gantt>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestGanttBaselineTemplateComponent {

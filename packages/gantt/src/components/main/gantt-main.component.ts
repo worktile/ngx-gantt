@@ -1,4 +1,15 @@
-import { Component, HostBinding, TemplateRef, OnInit, NgZone, inject, input, output, afterNextRender } from '@angular/core';
+import {
+    Component,
+    HostBinding,
+    TemplateRef,
+    OnInit,
+    NgZone,
+    inject,
+    input,
+    output,
+    afterNextRender,
+    ChangeDetectionStrategy
+} from '@angular/core';
 import { GanttGroupInternal, GanttItemInternal, GanttBarClickEvent, GanttLineClickEvent, GanttItem } from '../../class';
 import { GANTT_UPPER_TOKEN, GanttUpper } from '../../gantt-upper';
 import { IsGanttRangeItemPipe, IsGanttBarItemPipe, IsGanttCustomItemPipe, IsGanttGroupPipe } from '../../gantt.pipe';
@@ -16,6 +27,7 @@ import { NgxGanttPlaceholderComponent } from '../bar/placeholder.component';
 @Component({
     selector: 'gantt-main',
     templateUrl: './gantt-main.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         GanttLinksComponent,
         NgClass,

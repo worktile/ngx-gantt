@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GanttItemUpper } from '../../gantt-item-upper';
 
 @Component({
     selector: 'ngx-gantt-bar-placeholder,gantt-bar-placeholder',
     template: '',
+    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         class: 'gantt-bar-placeholder'
     }

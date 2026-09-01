@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, OnInit, TemplateRef, inject, input } from '@angular/core';
+import { Component, ElementRef, HostBinding, OnInit, TemplateRef, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GanttBaselineItemInternal } from '../../class/baseline';
@@ -8,6 +8,7 @@ import { NgTemplateOutlet } from '@angular/common';
 @Component({
     selector: 'ngx-gantt-baseline,gantt-baseline',
     templateUrl: './baseline.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttBaselineComponent implements OnInit {
