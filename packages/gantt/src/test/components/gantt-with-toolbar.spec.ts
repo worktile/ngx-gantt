@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement, viewChild } from '@angular/core';
+import { Component, DebugElement, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttComponent } from '../../gantt.component';
@@ -23,6 +23,7 @@ const mockItems = getMockItems();
             <span class="custom-toolbar"></span>
         </ng-template>
     </ngx-gantt>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestGanttCustomToolbarComponent {

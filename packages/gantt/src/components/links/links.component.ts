@@ -1,4 +1,16 @@
-import { Component, OnInit, HostBinding, ChangeDetectorRef, ElementRef, OnDestroy, inject, input, output, effect } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    HostBinding,
+    ChangeDetectorRef,
+    ElementRef,
+    OnDestroy,
+    inject,
+    input,
+    output,
+    effect,
+    ChangeDetectionStrategy
+} from '@angular/core';
 import { EMPTY, merge, Subject } from 'rxjs';
 import { takeUntil, skip, debounceTime } from 'rxjs/operators';
 import { GanttGroupInternal } from '../../class/group';
@@ -14,6 +26,7 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 @Component({
     selector: 'gantt-links-overlay',
     templateUrl: './links.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: []
 })
 export class GanttLinksComponent implements OnInit, OnDestroy {

@@ -16,9 +16,9 @@
       <text
         class="secondary-text"
         [ngStyle]="{
-          fill: tick.label.style?.color,
-          fontSize: tick.label.style?.fontSize,
-          fontWeight: tick.label.style?.fontWeight
+          fill: $safeNavigationMigration(tick.label.style?.color),
+          fontSize: $safeNavigationMigration(tick.label.style?.fontSize),
+          fontWeight: $safeNavigationMigration(tick.label.style?.fontWeight)
         }"
         [class.today]="tick.metadata?.isToday"
         [class.weekend]="tick.metadata?.isWeekend"
@@ -33,9 +33,9 @@
       <text
         class="primary-text"
         [ngStyle]="{
-          fill: tick.label.style?.color,
-          fontSize: tick.label.style?.fontSize,
-          fontWeight: tick.label.style?.fontWeight
+          fill: $safeNavigationMigration(tick.label.style?.color),
+          fontSize: $safeNavigationMigration(tick.label.style?.fontSize),
+          fontWeight: $safeNavigationMigration(tick.label.style?.fontWeight)
         }"
         [class.today]="tick.metadata?.isToday"
         [class.weekend]="tick.metadata?.isWeekend"

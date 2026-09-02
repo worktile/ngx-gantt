@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'gantt-loader',
@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
             </div>
         </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         class: 'gantt-loader gantt-loader-overlay'
     }

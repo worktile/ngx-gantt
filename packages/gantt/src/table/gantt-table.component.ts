@@ -1,4 +1,4 @@
-import { Component, ContentChild, TemplateRef, contentChild, input, output } from '@angular/core';
+import { Component, ContentChild, TemplateRef, contentChild, input, output, ChangeDetectionStrategy } from '@angular/core';
 import {
     GanttTableDragDroppedEvent,
     GanttTableDragEndedEvent,
@@ -10,6 +10,7 @@ import {
 
 @Component({
     selector: 'ngx-gantt-table',
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: ''
 })
 export class NgxGanttTableComponent {

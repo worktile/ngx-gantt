@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { GanttViewType, GanttGroup, GanttItem } from 'ngx-gantt';
 import { randomGroupsAndItems } from '../helper';
 import { ThyContent, ThyLayout } from 'ngx-tethys/layout';
@@ -7,6 +7,7 @@ import { AppGanttFlatComponent } from './component/flat.component';
 @Component({
     selector: 'app-gantt-advanced-example',
     templateUrl: './gantt-advanced.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ThyLayout, ThyContent, AppGanttFlatComponent]
 })
 export class AppGanttAdvancedExampleComponent implements OnInit {

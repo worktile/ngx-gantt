@@ -35,8 +35,8 @@
             [columns]="columns()"
             [groupTemplate]="groupTemplate()"
             [emptyTemplate]="table().tableEmptyTemplate()"
-            [rowBeforeTemplate]="table()?.rowBeforeTemplate()"
-            [rowAfterTemplate]="table()?.rowAfterTemplate()"
+            [rowBeforeTemplate]="$safeNavigationMigration(table()?.rowBeforeTemplate())"
+            [rowAfterTemplate]="$safeNavigationMigration(table()?.rowAfterTemplate())"
             [draggable]="table().draggable()"
             [dropEnterPredicate]="table().dropEnterPredicate()"
             (dragDropped)="table().dragDropped.emit($event)"
@@ -86,7 +86,10 @@
     >
       @if (table()?.tableFooterTemplate()) {
         <div class="gantt-table-footer" syncScrollX="ganttTableXScroll" [style.width.px]="tableHeader.tableWidth + 1">
-          <ng-template [ngTemplateOutlet]="table()?.tableFooterTemplate()" [ngTemplateOutletContext]="{ columns: columns() }">
+          <ng-template
+            [ngTemplateOutlet]="$safeNavigationMigration(table()?.tableFooterTemplate())"
+            [ngTemplateOutletContext]="{ columns: columns() }"
+          >
           </ng-template>
         </div>
       }

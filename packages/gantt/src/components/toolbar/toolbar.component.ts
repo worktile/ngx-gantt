@@ -1,4 +1,4 @@
-import { Component, HostBinding, TemplateRef, inject, input } from '@angular/core';
+import { Component, HostBinding, TemplateRef, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { GanttViewType } from '../../class';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../../gantt-upper';
 import { NgTemplateOutlet } from '@angular/common';
@@ -7,6 +7,7 @@ import { GanttConfigService } from '../../gantt.config';
 @Component({
     selector: 'ngx-gantt-toolbar,gantt-toolbar',
     templateUrl: './toolbar.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttToolbarComponent {

@@ -15,7 +15,8 @@ import {
     Signal,
     HostBinding,
     OnInit,
-    afterNextRender
+    afterNextRender,
+    ChangeDetectionStrategy
 } from '@angular/core';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { startWith, switchMap, takeUntil } from 'rxjs/operators';
@@ -34,6 +35,7 @@ function linearGradient(sideOrCorner: string, color: string, stop: string) {
     selector: 'ngx-gantt-bar,gantt-bar',
     templateUrl: './bar.component.html',
     providers: [GanttBarDrag],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgTemplateOutlet]
 })
 export class NgxGanttBarComponent extends GanttItemUpper implements OnInit, AfterViewInit, OnDestroy {

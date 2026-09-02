@@ -1,7 +1,7 @@
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { CdkDrag, CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ElementRef, HostBinding, effect, inject, input, untracked, viewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, effect, inject, input, untracked, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { GANTT_ABSTRACT_TOKEN, GanttAbstractComponent } from '../../../gantt-abstract';
 import { NgxGanttTableColumnComponent } from '../../../table/gantt-column.component';
 import { setStyleWithVendorPrefix } from '../../../utils/set-style-with-vendor-prefix';
@@ -17,6 +17,7 @@ interface DragFixedConfig {
 @Component({
     selector: 'gantt-table-header',
     templateUrl: './gantt-table-header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgTemplateOutlet, CdkDrag, GanttSyncScrollXDirective]
 })
 export class GanttTableHeaderComponent {

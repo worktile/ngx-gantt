@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttDragEvent,
@@ -27,6 +27,7 @@ registerView(customViewType, GanttViewCustom);
 @Component({
     selector: 'app-gantt-custom-view-example',
     templateUrl: './gantt.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ThyLayout,
         ThyContent,

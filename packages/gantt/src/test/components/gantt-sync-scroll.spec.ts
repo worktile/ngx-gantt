@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GanttSyncScrollXDirective, GanttSyncScrollYDirective } from '../../directives/sync-scroll.directive';
 import { GanttSyncScrollService } from '../../gantt-sync-scroll.service';
@@ -8,6 +8,7 @@ import { GanttSyncScrollService } from '../../gantt-sync-scroll.service';
         <div [syncScrollX]="'groupX'"></div>
         <div [syncScrollY]="'groupY'"></div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 class TestComponent {}

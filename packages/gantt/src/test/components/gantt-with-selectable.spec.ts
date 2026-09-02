@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, provideZoneChangeDetection, viewChild } from '@angular/core';
+import { Component, provideZoneChangeDetection, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GanttSelectedEvent } from '../../class';
@@ -21,6 +21,7 @@ const mockItems = getMockItems();
             </ngx-gantt-column>
         </ngx-gantt-table>
     </ngx-gantt>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestGanttSelectableComponent {

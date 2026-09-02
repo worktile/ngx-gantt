@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, DeferBlockState, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgxGanttRangeComponent } from '../../components/range/range.component';
@@ -47,6 +47,7 @@ const mockRangeItems = [
             </ngx-gantt-column>
         </ngx-gantt-table>
     </ngx-gantt>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestGanttRangeComponent {

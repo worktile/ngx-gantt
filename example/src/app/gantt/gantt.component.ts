@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, OnInit, ViewChild, inject } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    HostBinding,
+    OnInit,
+    ViewChild,
+    inject,
+    ChangeDetectionStrategy
+} from '@angular/core';
 import {
     GanttBarClickEvent,
     GanttBaselineItem,
@@ -40,6 +49,7 @@ const cacheKeys = 'GANTT_TABLE_KEYS';
     templateUrl: './gantt.component.html',
     styleUrls: ['./gantt.scss'],
     providers: [GanttPrintService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ThyLayout,
         ThyContent,

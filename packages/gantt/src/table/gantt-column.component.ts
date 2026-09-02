@@ -10,13 +10,15 @@ import {
     WritableSignal,
     Signal,
     effect,
-    signal
+    signal,
+    ChangeDetectionStrategy
 } from '@angular/core';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { GanttUpper, GANTT_UPPER_TOKEN } from '../gantt-upper';
 @Component({
     selector: 'ngx-gantt-column',
     template: '',
+    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         class: 'gantt-table-column'
     }
