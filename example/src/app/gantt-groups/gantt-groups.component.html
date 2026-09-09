@@ -3,7 +3,7 @@
     <ng-template #headerContent>
       <thy-button-group thySize="sm" thyType="outline-default">
         @for (view of views; track $index) {
-          <button thyButton [class.active]="view.value === viewType" (click)="viewType = view.value">
+          <button thyButton [class.active]="view.value === viewType" (click)="viewType = view.value" thySize="lg">
             {{ view.name }}
           </button>
         }
