@@ -15,7 +15,7 @@
           <span header-link="%E6%B3%A8%E5%85%A5%E6%9C%8D%E5%8A%A1"></span>
           注入服务
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttPrintService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttPrintService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   selector<span class="token punctuation">:</span> <span class="token string">'app-gantt-print'</span><span class="token punctuation">,</span>
@@ -34,7 +34,7 @@
           <span header-link="%E5%9F%BA%E7%A1%80%E5%AF%BC%E5%87%BA"></span>
           基础导出
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt #gantt [items]="items">
       &lt;!-- ... -->
@@ -57,7 +57,7 @@
           忽略特定元素
         </h3>
       <p>在导出时可以忽略某些元素（如工具栏、操作按钮等）：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// 忽略 class 为 'toolbar' 的元素</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">,</span> <span class="token string">'toolbar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
@@ -67,7 +67,7 @@
           获取 Canvas 对象
         </h2>
       <p>如果需要自定义处理导出的图片，可以使用 <code>html2canvas</code> 方法获取 Canvas 对象：</p>
-<pre class="language-typescript"><code class="language-typescript"><div>async <span class="token function">exportToCanvas</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>async <span class="token function">exportToCanvas</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> canvas <span class="token operator">=</span> await <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">html2canvas</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   <span class="token comment" spellcheck="true">// 自定义处理</span>
@@ -84,7 +84,7 @@
           <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B"></span>
           自定义处理示例
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttPrintService<span class="token punctuation">]</span>
@@ -151,7 +151,7 @@
           <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
           最小示例
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild<span class="token punctuation">,</span> afterNextRender <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> viewChild<span class="token punctuation">,</span> afterNextRender <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> NgxGanttComponent<span class="token punctuation">,</span> GanttPrintService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -208,7 +208,7 @@
           <span header-link="1--%E7%AD%89%E5%BE%85%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90"></span>
           1. 等待渲染完成
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">// 更新视图</span>
@@ -226,7 +226,7 @@
           2. 处理大图导出
         </h3>
       <p>对于大型甘特图，导出可能需要较长时间：</p>
-<pre class="language-typescript"><code class="language-typescript"><div>async <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>async <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
   <span class="token keyword">try</span> <span class="token punctuation">{</span>
     await <span class="token keyword">this</span><span class="token punctuation">.</span>printService<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'gantt-chart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -242,7 +242,7 @@
           <span header-link="3--%E4%BC%98%E5%8C%96%E5%AF%BC%E5%87%BA%E8%B4%A8%E9%87%8F"></span>
           3. 优化导出质量
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// html2canvas 会自动处理，但可以调整视图以确保最佳效果</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// html2canvas 会自动处理，但可以调整视图以确保最佳效果</span>
 <span class="token function">exportImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> gantt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">gantt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span>gantt<span class="token punctuation">)</span> <span class="token punctuation">{</span>

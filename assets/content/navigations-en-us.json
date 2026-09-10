@@ -14,7 +14,7 @@
           "items": [
             {
               "id": "index",
-              "path": "intro",
+              "path": "guides/intro",
               "channelPath": "guides",
               "title": "Introduction",
               "order": 100,
@@ -62,7 +62,7 @@
             },
             {
               "id": "getting-started",
-              "path": "intro/getting-started",
+              "path": "guides/intro/getting-started",
               "channelPath": "guides",
               "title": "Getting Started",
               "order": 110,
@@ -182,7 +182,7 @@
             },
             {
               "id": "upgrade-to-21",
-              "path": "intro/upgrade-to-21",
+              "path": "guides/intro/upgrade-to-21",
               "channelPath": "guides",
               "title": "v21 Upgrade Migration Guide (Important)",
               "order": 120,
@@ -281,7 +281,7 @@
           "items": [
             {
               "id": "index",
-              "path": "core-concepts",
+              "path": "guides/core-concepts",
               "channelPath": "guides",
               "title": "Core Concepts",
               "order": 200,
@@ -305,7 +305,7 @@
             },
             {
               "id": "data-model",
-              "path": "core-concepts/data-model",
+              "path": "guides/core-concepts/data-model",
               "channelPath": "guides",
               "title": "Data Model",
               "order": 210,
@@ -443,7 +443,7 @@
             },
             {
               "id": "views",
-              "path": "core-concepts/views",
+              "path": "guides/core-concepts/views",
               "channelPath": "guides",
               "title": "Views",
               "order": 220,
@@ -527,7 +527,7 @@
             },
             {
               "id": "date-timezone",
-              "path": "core-concepts/date-timezone",
+              "path": "guides/core-concepts/date-timezone",
               "channelPath": "guides",
               "title": "Date and Timezone",
               "order": 230,
@@ -581,7 +581,7 @@
             },
             {
               "id": "api-methods",
-              "path": "core-concepts/api-methods",
+              "path": "guides/core-concepts/api-methods",
               "channelPath": "guides",
               "title": "Public Methods",
               "order": 240,
@@ -620,7 +620,7 @@
           "items": [
             {
               "id": "index",
-              "path": "features",
+              "path": "guides/features",
               "channelPath": "guides",
               "title": "Feature Guide",
               "order": 300,
@@ -644,7 +644,7 @@
             },
             {
               "id": "table",
-              "path": "features/table-interaction",
+              "path": "guides/features/table-interaction",
               "channelPath": "guides",
               "title": "Table Display and Interaction",
               "order": 310,
@@ -782,7 +782,7 @@
             },
             {
               "id": "groups",
-              "path": "features/groups",
+              "path": "guides/features/groups",
               "channelPath": "guides",
               "title": "Group Mode",
               "order": 320,
@@ -848,7 +848,7 @@
             },
             {
               "id": "tree",
-              "path": "features/tree",
+              "path": "guides/features/tree",
               "channelPath": "guides",
               "title": "Tree Mode",
               "order": 330,
@@ -914,7 +914,7 @@
             },
             {
               "id": "bar",
-              "path": "features/bar-interaction",
+              "path": "guides/features/bar-interaction",
               "channelPath": "guides",
               "title": "Bar Display and Interaction",
               "order": 340,
@@ -1046,7 +1046,7 @@
             },
             {
               "id": "range",
-              "path": "features/range",
+              "path": "guides/features/range",
               "channelPath": "guides",
               "title": "Range Task Display",
               "order": 350,
@@ -1106,7 +1106,7 @@
             },
             {
               "id": "links",
-              "path": "features/task-links",
+              "path": "guides/features/task-links",
               "channelPath": "guides",
               "title": "Task Dependencies",
               "order": 360,
@@ -1220,7 +1220,7 @@
             },
             {
               "id": "baseline",
-              "path": "features/baseline",
+              "path": "guides/features/baseline",
               "channelPath": "guides",
               "title": "Baseline",
               "order": 370,
@@ -1268,7 +1268,7 @@
             },
             {
               "id": "performance",
-              "path": "features/performance",
+              "path": "guides/features/performance",
               "channelPath": "guides",
               "title": "Performance & Loading Status",
               "order": 380,
@@ -1328,7 +1328,7 @@
             },
             {
               "id": "toolbar",
-              "path": "features/toolbar",
+              "path": "guides/features/toolbar",
               "channelPath": "guides",
               "title": "Toolbar",
               "order": 390,
@@ -1388,7 +1388,7 @@
             },
             {
               "id": "print",
-              "path": "features/export-print",
+              "path": "guides/features/export-print",
               "channelPath": "guides",
               "title": "Export & Print",
               "order": 391,
@@ -1535,7 +1535,7 @@
           "items": [
             {
               "id": "index",
-              "path": "configuration",
+              "path": "guides/configuration",
               "channelPath": "guides",
               "title": "Global Configuration",
               "order": 400,
@@ -1583,7 +1583,7 @@
             },
             {
               "id": "i18n",
-              "path": "configuration/i18n",
+              "path": "guides/configuration/i18n",
               "channelPath": "guides",
               "title": "Internationalization",
               "order": 420,
@@ -1655,7 +1655,7 @@
             },
             {
               "id": "theming",
-              "path": "configuration/theming",
+              "path": "guides/configuration/theming",
               "channelPath": "guides",
               "title": "Theme & Style",
               "order": 430,
@@ -1718,7 +1718,7 @@
           "items": [
             {
               "id": "index",
-              "path": "advanced",
+              "path": "guides/advanced",
               "channelPath": "guides",
               "title": "Advanced Customization",
               "order": 500,
@@ -1748,7 +1748,7 @@
             },
             {
               "id": "custom-views",
-              "path": "advanced/custom-views",
+              "path": "guides/advanced/custom-views",
               "channelPath": "guides",
               "title": "Custom Views",
               "order": 510,
@@ -1808,7 +1808,7 @@
             },
             {
               "id": "advanced-layout",
-              "path": "advanced/advanced-layout",
+              "path": "guides/advanced/advanced-layout",
               "channelPath": "guides",
               "title": "Advanced Layout",
               "order": 520,
@@ -1885,7 +1885,7 @@
               "id": "ngx-gantt",
               "title": "ngx-gantt",
               "subtitle": "Gantt chart main component",
-              "path": "ngx-gantt",
+              "path": "component-apis/ngx-gantt",
               "importSpecifier": "ngx-gantt/ngx-gantt",
               "examples": [],
               "overview": false,
@@ -1901,7 +1901,7 @@
               "id": "ngx-gantt-table",
               "title": "ngx-gantt-table",
               "subtitle": "Gantt chart table",
-              "path": "ngx-gantt-table",
+              "path": "component-apis/ngx-gantt-table",
               "importSpecifier": "ngx-gantt/ngx-gantt-table",
               "examples": [],
               "overview": false,
@@ -1924,7 +1924,7 @@
               "id": "ngx-gantt-bar",
               "title": "ngx-gantt-bar",
               "subtitle": "Data item bar chart display component",
-              "path": "ngx-gantt-bar",
+              "path": "component-apis/ngx-gantt-bar",
               "importSpecifier": "ngx-gantt/ngx-gantt-bar",
               "examples": [],
               "overview": false,
@@ -1940,7 +1940,7 @@
               "id": "ngx-gantt-range",
               "title": "ngx-gantt-range",
               "subtitle": "Data item range display component",
-              "path": "ngx-gantt-range",
+              "path": "component-apis/ngx-gantt-range",
               "importSpecifier": "ngx-gantt/ngx-gantt-range",
               "examples": [],
               "overview": false,
@@ -1956,7 +1956,7 @@
               "id": "ngx-gantt-toolbar",
               "title": "ngx-gantt-toolbar",
               "subtitle": "Toolbar component",
-              "path": "ngx-gantt-toolbar",
+              "path": "component-apis/ngx-gantt-toolbar",
               "importSpecifier": "ngx-gantt/ngx-gantt-toolbar",
               "examples": [],
               "overview": false,
@@ -1972,7 +1972,7 @@
               "id": "ngx-gantt-baseline",
               "title": "ngx-gantt-baseline",
               "subtitle": "Baseline display component",
-              "path": "ngx-gantt-baseline",
+              "path": "component-apis/ngx-gantt-baseline",
               "importSpecifier": "ngx-gantt/ngx-gantt-baseline",
               "examples": [],
               "overview": false,
@@ -1988,7 +1988,7 @@
               "id": "ngx-gantt-root",
               "title": "ngx-gantt-root",
               "subtitle": "Gantt chart root component",
-              "path": "ngx-gantt-root",
+              "path": "component-apis/ngx-gantt-root",
               "importSpecifier": "ngx-gantt/ngx-gantt-root",
               "examples": [],
               "overview": false,
@@ -2023,7 +2023,7 @@
   "docs": [
     {
       "id": "advanced-layout",
-      "path": "advanced/advanced-layout",
+      "path": "guides/advanced/advanced-layout",
       "channelPath": "guides",
       "title": "Advanced Layout",
       "order": 520,
@@ -2083,7 +2083,7 @@
     },
     {
       "id": "custom-views",
-      "path": "advanced/custom-views",
+      "path": "guides/advanced/custom-views",
       "channelPath": "guides",
       "title": "Custom Views",
       "order": 510,
@@ -2143,7 +2143,7 @@
     },
     {
       "id": "index",
-      "path": "advanced",
+      "path": "guides/advanced",
       "channelPath": "guides",
       "title": "Advanced Customization",
       "order": 500,
@@ -2173,7 +2173,7 @@
     },
     {
       "id": "i18n",
-      "path": "configuration/i18n",
+      "path": "guides/configuration/i18n",
       "channelPath": "guides",
       "title": "Internationalization",
       "order": 420,
@@ -2245,7 +2245,7 @@
     },
     {
       "id": "index",
-      "path": "configuration",
+      "path": "guides/configuration",
       "channelPath": "guides",
       "title": "Global Configuration",
       "order": 400,
@@ -2293,7 +2293,7 @@
     },
     {
       "id": "theming",
-      "path": "configuration/theming",
+      "path": "guides/configuration/theming",
       "channelPath": "guides",
       "title": "Theme & Style",
       "order": 430,
@@ -2347,7 +2347,7 @@
     },
     {
       "id": "api-methods",
-      "path": "core-concepts/api-methods",
+      "path": "guides/core-concepts/api-methods",
       "channelPath": "guides",
       "title": "Public Methods",
       "order": 240,
@@ -2377,7 +2377,7 @@
     },
     {
       "id": "data-model",
-      "path": "core-concepts/data-model",
+      "path": "guides/core-concepts/data-model",
       "channelPath": "guides",
       "title": "Data Model",
       "order": 210,
@@ -2515,7 +2515,7 @@
     },
     {
       "id": "date-timezone",
-      "path": "core-concepts/date-timezone",
+      "path": "guides/core-concepts/date-timezone",
       "channelPath": "guides",
       "title": "Date and Timezone",
       "order": 230,
@@ -2569,7 +2569,7 @@
     },
     {
       "id": "index",
-      "path": "core-concepts",
+      "path": "guides/core-concepts",
       "channelPath": "guides",
       "title": "Core Concepts",
       "order": 200,
@@ -2593,7 +2593,7 @@
     },
     {
       "id": "views",
-      "path": "core-concepts/views",
+      "path": "guides/core-concepts/views",
       "channelPath": "guides",
       "title": "Views",
       "order": 220,
@@ -2677,7 +2677,7 @@
     },
     {
       "id": "bar",
-      "path": "features/bar-interaction",
+      "path": "guides/features/bar-interaction",
       "channelPath": "guides",
       "title": "Bar Display and Interaction",
       "order": 340,
@@ -2809,7 +2809,7 @@
     },
     {
       "id": "baseline",
-      "path": "features/baseline",
+      "path": "guides/features/baseline",
       "channelPath": "guides",
       "title": "Baseline",
       "order": 370,
@@ -2857,7 +2857,7 @@
     },
     {
       "id": "groups",
-      "path": "features/groups",
+      "path": "guides/features/groups",
       "channelPath": "guides",
       "title": "Group Mode",
       "order": 320,
@@ -2923,7 +2923,7 @@
     },
     {
       "id": "index",
-      "path": "features",
+      "path": "guides/features",
       "channelPath": "guides",
       "title": "Feature Guide",
       "order": 300,
@@ -2947,7 +2947,7 @@
     },
     {
       "id": "links",
-      "path": "features/task-links",
+      "path": "guides/features/task-links",
       "channelPath": "guides",
       "title": "Task Dependencies",
       "order": 360,
@@ -3061,7 +3061,7 @@
     },
     {
       "id": "performance",
-      "path": "features/performance",
+      "path": "guides/features/performance",
       "channelPath": "guides",
       "title": "Performance & Loading Status",
       "order": 380,
@@ -3121,7 +3121,7 @@
     },
     {
       "id": "print",
-      "path": "features/export-print",
+      "path": "guides/features/export-print",
       "channelPath": "guides",
       "title": "Export & Print",
       "order": 391,
@@ -3259,7 +3259,7 @@
     },
     {
       "id": "range",
-      "path": "features/range",
+      "path": "guides/features/range",
       "channelPath": "guides",
       "title": "Range Task Display",
       "order": 350,
@@ -3319,7 +3319,7 @@
     },
     {
       "id": "table",
-      "path": "features/table-interaction",
+      "path": "guides/features/table-interaction",
       "channelPath": "guides",
       "title": "Table Display and Interaction",
       "order": 310,
@@ -3457,7 +3457,7 @@
     },
     {
       "id": "toolbar",
-      "path": "features/toolbar",
+      "path": "guides/features/toolbar",
       "channelPath": "guides",
       "title": "Toolbar",
       "order": 390,
@@ -3517,7 +3517,7 @@
     },
     {
       "id": "tree",
-      "path": "features/tree",
+      "path": "guides/features/tree",
       "channelPath": "guides",
       "title": "Tree Mode",
       "order": 330,
@@ -3583,7 +3583,7 @@
     },
     {
       "id": "getting-started",
-      "path": "intro/getting-started",
+      "path": "guides/intro/getting-started",
       "channelPath": "guides",
       "title": "Getting Started",
       "order": 110,
@@ -3703,7 +3703,7 @@
     },
     {
       "id": "index",
-      "path": "intro",
+      "path": "guides/intro",
       "channelPath": "guides",
       "title": "Introduction",
       "order": 100,
@@ -3751,7 +3751,7 @@
     },
     {
       "id": "upgrade-to-21",
-      "path": "intro/upgrade-to-21",
+      "path": "guides/intro/upgrade-to-21",
       "channelPath": "guides",
       "title": "v21 Upgrade Migration Guide (Important)",
       "order": 120,
@@ -3843,7 +3843,7 @@
       "id": "ngx-gantt",
       "title": "ngx-gantt",
       "subtitle": "Gantt chart main component",
-      "path": "ngx-gantt",
+      "path": "component-apis/ngx-gantt",
       "importSpecifier": "ngx-gantt/ngx-gantt",
       "examples": [],
       "overview": false,
@@ -3859,7 +3859,7 @@
       "id": "ngx-gantt-bar",
       "title": "ngx-gantt-bar",
       "subtitle": "Data item bar chart display component",
-      "path": "ngx-gantt-bar",
+      "path": "component-apis/ngx-gantt-bar",
       "importSpecifier": "ngx-gantt/ngx-gantt-bar",
       "examples": [],
       "overview": false,
@@ -3875,7 +3875,7 @@
       "id": "ngx-gantt-baseline",
       "title": "ngx-gantt-baseline",
       "subtitle": "Baseline display component",
-      "path": "ngx-gantt-baseline",
+      "path": "component-apis/ngx-gantt-baseline",
       "importSpecifier": "ngx-gantt/ngx-gantt-baseline",
       "examples": [],
       "overview": false,
@@ -3891,7 +3891,7 @@
       "id": "ngx-gantt-range",
       "title": "ngx-gantt-range",
       "subtitle": "Data item range display component",
-      "path": "ngx-gantt-range",
+      "path": "component-apis/ngx-gantt-range",
       "importSpecifier": "ngx-gantt/ngx-gantt-range",
       "examples": [],
       "overview": false,
@@ -3907,7 +3907,7 @@
       "id": "ngx-gantt-root",
       "title": "ngx-gantt-root",
       "subtitle": "Gantt chart root component",
-      "path": "ngx-gantt-root",
+      "path": "component-apis/ngx-gantt-root",
       "importSpecifier": "ngx-gantt/ngx-gantt-root",
       "examples": [],
       "overview": false,
@@ -3923,7 +3923,7 @@
       "id": "ngx-gantt-table",
       "title": "ngx-gantt-table",
       "subtitle": "Gantt chart table",
-      "path": "ngx-gantt-table",
+      "path": "component-apis/ngx-gantt-table",
       "importSpecifier": "ngx-gantt/ngx-gantt-table",
       "examples": [],
       "overview": false,
@@ -3939,7 +3939,7 @@
       "id": "ngx-gantt-toolbar",
       "title": "ngx-gantt-toolbar",
       "subtitle": "Toolbar component",
-      "path": "ngx-gantt-toolbar",
+      "path": "component-apis/ngx-gantt-toolbar",
       "importSpecifier": "ngx-gantt/ngx-gantt-toolbar",
       "examples": [],
       "overview": false,

@@ -9,7 +9,7 @@
 <li><code>ngx-gantt-table</code>：表格容器组件，用于包裹表格列定义和配置表格行为</li>
 <li><code>ngx-gantt-column</code>：表格列组件，用于定义每一列的显示内容和属性</li>
 </ul>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">#gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">#gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>任务名称<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span> <span class="token attr-name">[showExpandIcon]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> {{ item.title }} <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
@@ -31,7 +31,7 @@
           列内容模板
         </h3>
       <p>使用 <code>#cell</code> 模板自定义每列的单元格内容：</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>任务名称<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-column</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>任务名称<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>200px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#cell</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> {{ item.title }} <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-column</span><span class="token punctuation">></span></span></div></code></pre>
 
@@ -40,7 +40,7 @@
           行前置/后置插槽
         </h3>
       <p>使用 <code>#rowBeforeSlot</code> 和 <code>#rowAfterSlot</code> 在每行的前后添加自定义内容：</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
   <span class="token comment" spellcheck="true">&lt;!-- 行前置内容 --></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#rowBeforeSlot</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>row-before<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>前置内容<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
@@ -62,7 +62,7 @@
           空状态模板
         </h3>
       <p>使用 <code>#tableEmpty</code> 自定义表格为空时的显示内容：</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#tableEmpty</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>empty-state<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>暂无任务<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
@@ -75,7 +75,7 @@
           底部模板
         </h3>
       <p>使用 <code>#tableFooter</code> 自定义表格底部内容：</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#tableFooter</span> <span class="token attr-name">let-columns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>columns<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>table-footer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       @for (column of columns; track $index) {
@@ -102,7 +102,7 @@
           启用拖拽
         </h4>
       <p>通过 <code>ngx-gantt-table</code> 的 <code>draggable</code> 参数启用拖拽</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items">
       &lt;ngx-gantt-table
@@ -140,7 +140,7 @@
           <span header-link="%E6%8B%96%E6%8B%BD%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86"></span>
           拖拽事件处理
         </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onDragDropped</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragDroppedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token function">onDragDropped</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttTableDragDroppedEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> <span class="token punctuation">{</span> source<span class="token punctuation">,</span> target<span class="token punctuation">,</span> dropPosition<span class="token punctuation">,</span> sourceParent<span class="token punctuation">,</span> targetParent <span class="token punctuation">}</span> <span class="token operator">=</span> event<span class="token punctuation">;</span>
 
   <span class="token comment" spellcheck="true">// 从源位置移除</span>
@@ -178,7 +178,7 @@
           dropEnterPredicate 动作拦截
         </h4>
       <p>使用 <code>dropEnterPredicate</code> 可以控制哪些拖拽操作被允许：</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt-table [draggable]="true" [dropEnterPredicate]="canDrop">
       &lt;!-- ... -->
@@ -217,7 +217,7 @@
           列拖拽改变宽度
         </h3>
       <p>表格的每列和表格整体都可以拖拽改变宽度，表格整体宽度改变会触发 <code>resizeChange</code> 事件。</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt-table (resizeChange)="resizeChange($event)">
       &lt;!-- ... -->
@@ -239,7 +239,7 @@
           <span header-link="%E8%A1%8C%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"></span>
           行点击事件
         </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt-table (itemClick)="onItemClick($event)">
       &lt;!-- ... -->
@@ -259,7 +259,7 @@
           选择功能
         </h4>
       <p>启用选择功能后，点击行会触发选择：</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[selectable]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span> <span class="token attr-name">[multiple]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token attr-name">(selectedChange)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onSelectedChange($event)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[selectable]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span> <span class="token attr-name">[multiple]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token attr-name">(selectedChange)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onSelectedChange($event)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
 
@@ -267,7 +267,7 @@
           <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
           最小示例
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttTableDragDroppedEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -314,14 +314,14 @@
           Q: 如何禁用特定任务的拖拽？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 设置任务的 <code>itemDraggable: false</code>：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务'</span><span class="token punctuation">,</span> itemDraggable<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span></div></code></pre>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务'</span><span class="token punctuation">,</span> itemDraggable<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span></div></code></pre>
 
         <h3 id="q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E6%8B%96%E6%8B%BD%E8%8C%83%E5%9B%B4%EF%BC%9F" class="docs-header-link">
           <span header-link="q:-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E6%8B%96%E6%8B%BD%E8%8C%83%E5%9B%B4%EF%BC%9F"></span>
           Q: 如何限制拖拽范围？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 使用 <code>dropEnterPredicate</code> 函数：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttTableDragEnterPredicateContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttTableDragEnterPredicateContext <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 canDrop <span class="token operator">=</span> <span class="token punctuation">(</span>context<span class="token punctuation">:</span> GanttTableDragEnterPredicateContext<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// 基于其他业务属性判断</span>

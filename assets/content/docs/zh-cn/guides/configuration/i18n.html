@@ -50,7 +50,7 @@
           使用内置语言
         </h3>
       <p>通过全局配置设置语言：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
 
@@ -76,7 +76,7 @@
         </h3>
       <p>以法语（fr-fr）为例，创建自定义语言包：</p>
 <div class="dg-paragraph"><strong>注意：</strong> <code>tickFormats</code> 中的格式字符串完全依赖 <code>date-fns</code> 的 <code>format</code> 函数，格式规则需遵循 <a target="_blank" href="https://date-fns.org/docs/format">date-fns format 规范</a>。</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> fr <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'date-fns/locale'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> frenchLocale<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -127,7 +127,7 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 <p>使用 <code>GANTT_I18N_LOCALE_TOKEN</code> 注册：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocaleConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
 
@@ -152,7 +152,7 @@
           覆盖内置语言包
         </h3>
       <p>使用相同的 ID 可以覆盖内置语言包</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> customZhHans<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>zhHans<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 使用内置 ID</span>
@@ -192,7 +192,7 @@
           Q: 如何只覆盖部分视图的文本？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 使用展开运算符先展开原有的所有视图，然后只覆盖需要的部分：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> partialLocale<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>zhHans<span class="token punctuation">,</span>

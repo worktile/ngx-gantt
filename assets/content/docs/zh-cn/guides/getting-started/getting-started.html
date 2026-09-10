@@ -5,7 +5,7 @@
           📦 安装依赖
         </h2>
       <p>使用 npm 或 yarn 安装核心包：</p>
-<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @worktile/gantt --save
+<pre class="language-bash"><span class="code-block-actions"><span class="lang">bash</span><code-copy></code-copy></span><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @worktile/gantt --save
 <span class="token comment" spellcheck="true"># 或</span>
 yarn add @worktile/gantt</div></code></pre>
 <p>ngx-gantt 需要以下 <strong>peerDependencies</strong>，请确保已安装：</p>
@@ -18,7 +18,7 @@ yarn add @worktile/gantt</div></code></pre>
 <li><code>@date-fns/tz</code> &gt;= 1.0.0</li>
 </ul>
 <p>如果尚未安装，请运行：</p>
-<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @angular/cdk date-fns @date-fns/tz --save</div></code></pre>
+<pre class="language-bash"><span class="code-block-actions"><span class="lang">bash</span><code-copy></code-copy></span><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @angular/cdk date-fns @date-fns/tz --save</div></code></pre>
 
         <h2 id="%F0%9F%8E%A8-%E6%A0%B7%E5%BC%8F%E5%BC%95%E5%85%A5" class="docs-header-link">
           <span header-link="%F0%9F%8E%A8-%E6%A0%B7%E5%BC%8F%E5%BC%95%E5%85%A5"></span>
@@ -31,7 +31,7 @@ yarn add @worktile/gantt</div></code></pre>
           方式一：在 angular.json 中配置（推荐）
         </h3>
       <p>在 <code>angular.json</code> 的 <code>styles</code> 数组中添加：</p>
-<pre class="language-json"><code class="language-json"><div><span class="token punctuation">{</span>
+<pre class="language-json"><span class="code-block-actions"><span class="lang">json</span><code-copy></code-copy></span><code class="language-json"><div><span class="token punctuation">{</span>
   <span class="token property">"styles"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"node_modules/@worktile/gantt/styles/index.scss"</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span></div></code></pre>
 
@@ -40,7 +40,7 @@ yarn add @worktile/gantt</div></code></pre>
           方式二：在 SCSS 文件中引入
         </h3>
       <p>在您的全局样式文件（如 <code>styles.scss</code>）中：</p>
-<pre class="language-scss"><code class="language-scss"><div>@use <span class="token string">'@worktile/gantt/styles/index.scss'</span><span class="token punctuation">;</span></div></code></pre>
+<pre class="language-scss"><span class="code-block-actions"><span class="lang">scss</span><code-copy></code-copy></span><code class="language-scss"><div>@use <span class="token string">'@worktile/gantt/styles/index.scss'</span><span class="token punctuation">;</span></div></code></pre>
 <blockquote>
 <div class="dg-paragraph"><strong>💡 提示</strong>：如果使用 <code>@use</code> 语法，确保您的项目支持 Sass（Dart Sass）。</div>
 </blockquote>
@@ -56,7 +56,7 @@ yarn add @worktile/gantt</div></code></pre>
           Standalone 方式（推荐）
         </h3>
       <p>Standalone 是 Angular 目前推荐的现代导入方式</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -105,7 +105,7 @@ yarn add @worktile/gantt</div></code></pre>
           NgModule 方式
         </h3>
       <p>如果您仍在使用传统的 NgModule 架构：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -127,7 +127,7 @@ yarn add @worktile/gantt</div></code></pre>
           <span header-link="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"></span>
           完整示例
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>

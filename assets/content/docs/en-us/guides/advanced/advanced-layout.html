@@ -34,7 +34,7 @@
           <span header-link="component-properties"></span>
           Component Properties
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">NgxGanttRootComponent</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">NgxGanttRootComponent</span> <span class="token punctuation">{</span>
   sideWidth<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Optional left-side area width (px)</span>
   sideTemplate<span class="token operator">?</span><span class="token punctuation">:</span> TemplateRef<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Template reference for the left-side area</span>
   mainTemplate<span class="token operator">?</span><span class="token punctuation">:</span> TemplateRef<span class="token operator">&lt;</span><span class="token keyword">any</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Template reference for the right-side area</span>
@@ -55,7 +55,7 @@
           Minimal Example
         </h3>
       <p>The following example shows the basic usage structure of <code>ngx-gantt-root</code>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> OnInit <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> OnInit <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_UPPER_TOKEN<span class="token punctuation">,</span> GanttUpper<span class="token punctuation">,</span> NgxGanttRootComponent<span class="token punctuation">,</span> NgxGanttBarComponent<span class="token punctuation">,</span> GanttItemInternal <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>

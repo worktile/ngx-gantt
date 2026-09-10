@@ -50,7 +50,7 @@
           Use Built-in Languages
         </h3>
       <p>Set the language through global configuration:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
 
@@ -76,7 +76,7 @@
         </h3>
       <p>As an example, using French (fr-fr):</p>
 <div class="dg-paragraph"><strong>Note</strong>: The format strings in <code>tickFormats</code> depend entirely on the <code>format</code> function of <code>date-fns</code>. The format rules must follow the <a target="_blank" href="https://date-fns.org/docs/format">date-fns format specification</a>.</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> fr <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'date-fns/locale'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> frenchLocale<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -127,7 +127,7 @@
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 <p>Register it using <code>GANTT_I18N_LOCALE_TOKEN</code>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_I18N_LOCALE_TOKEN<span class="token punctuation">,</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttI18nLocaleConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
 
@@ -152,7 +152,7 @@
           Override Built-in Language Packs
         </h3>
       <p>Using the same ID will override a built-in language pack:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> customZhHans<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>zhHans<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Use the built-in ID</span>
@@ -192,7 +192,7 @@
           Q: How do I override text for only specific views?
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> Use the spread operator to expand all existing views first, and then override only the parts you need:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttI18nLocaleConfig<span class="token punctuation">,</span> GanttI18nLocale<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> zhHansLocale <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> partialLocale<span class="token punctuation">:</span> GanttI18nLocaleConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> GanttI18nLocale<span class="token punctuation">.</span>zhHans<span class="token punctuation">,</span>

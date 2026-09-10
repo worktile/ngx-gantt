@@ -5,7 +5,7 @@
           Time Input Formats
         </h2>
       <div class="dg-paragraph"><code>GanttItem</code>&#39;s <code>start</code> and <code>end</code> fields support the following formats:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 1. Unix timestamp (10-digit seconds or 13-digit milliseconds)</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 1. Unix timestamp (10-digit seconds or 13-digit milliseconds)</span>
 <span class="token keyword">const</span> items1<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
@@ -35,7 +35,7 @@
           <span header-link="create-a-ganttdate"></span>
           Create a GanttDate
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">// Current time</span>
 <span class="token keyword">const</span> now <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -56,7 +56,7 @@
           <span header-link="time-operation-methods"></span>
           Time Operation Methods
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GanttDate</span><span class="token punctuation">(</span><span class="token number">1627729997</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">// Add/subtract time</span>
 date<span class="token punctuation">.</span><span class="token function">addDays</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Add 7 days</span>
@@ -92,7 +92,7 @@ date<span class="token punctuation">.</span><span class="token function">isWeeke
           Timezone Configuration
         </h2>
       <p>Configure the global timezone and the week start day through <code>GANTT_GLOBAL_CONFIG</code>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> bootstrapApplication <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app/app.component'</span><span class="token punctuation">;</span>
 

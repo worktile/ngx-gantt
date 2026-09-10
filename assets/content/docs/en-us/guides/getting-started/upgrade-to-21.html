@@ -65,7 +65,7 @@
           <span header-link="1-2-migration-example"></span>
           1.2 Migration Example
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ❌ Old v20 configuration</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ❌ Old v20 configuration</span>
 <span class="token keyword">const</span> viewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   cellWidth<span class="token punctuation">:</span> <span class="token number">40</span><span class="token punctuation">,</span>
   addAmount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
@@ -142,7 +142,7 @@
 <li><strong>Old structure</strong>: <code>views[viewType].dateFormats: { primary, secondary }</code></li>
 <li><strong>New structure</strong>: <code>views[viewType].tickFormats: { period, unit }</code></li>
 </ul>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// v21 i18n example</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// v21 i18n example</span>
 <span class="token keyword">const</span> localeConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> <span class="token string">'zh-cn'</span><span class="token punctuation">,</span>
   views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -176,7 +176,7 @@
           4.2 New Theme Configuration
         </h3>
       <p>v21 introduces a more systematic theme configuration and supports defining multiple color schemes through the <code>themes</code> field.</p>
-<pre class="language-typescript"><code class="language-typescript"><div>styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
   rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
   defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span>
   primaryColor<span class="token punctuation">:</span> <span class="token string">'#1890ff'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Quickly override the primary tone</span>

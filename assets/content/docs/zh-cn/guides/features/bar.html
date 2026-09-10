@@ -10,7 +10,7 @@
           自定义 Bar 模板
         </h3>
       <p>使用 <code>#bar</code> 模板自定义任务条的内容：</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#bar</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span> <span class="token attr-name">let-refs</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-bar<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{ item.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
@@ -42,7 +42,7 @@
           自定义 Item 模板
         </h3>
       <p>使用 <code>#item</code> 模板自定义整个任务行的内容（包括任务条和行背景）：</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#item</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#item</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token comment" spellcheck="true">&lt;!-- 自定义内容 --></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
@@ -58,7 +58,7 @@
           自定义颜色
         </h3>
       <p>通过 <code>color</code> 属性设置任务条的颜色：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'高优先级任务'</span><span class="token punctuation">,</span>
@@ -73,7 +73,7 @@
           自定义样式
         </h3>
       <p>通过 <code>barStyle</code> 和 <code>laneStyle</code> 属性自定义样式：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'任务'</span><span class="token punctuation">,</span>
@@ -111,7 +111,7 @@
           <span header-link="%E5%90%AF%E7%94%A8%E6%8B%96%E6%8B%BD"></span>
           启用拖拽
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttDragEvent<span class="token punctuation">,</span> GanttBarClickEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -161,7 +161,7 @@
           <span header-link="%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1"></span>
           事件对象
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttDragEvent</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttDragEvent</span> <span class="token punctuation">{</span>
   item<span class="token punctuation">:</span> GanttItem<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 被拖拽的任务（包含更新后的时间）</span>
 <span class="token punctuation">}</span>
 
@@ -179,14 +179,14 @@
           <span header-link="%E7%A6%81%E7%94%A8%E6%89%80%E6%9C%89-bar-%E6%8B%96%E6%8B%BD"></span>
           禁用所有 Bar 拖拽
         </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 禁用所有任务的拖拽</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 禁用所有任务的拖拽</span>
 <span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt <span class="token punctuation">[</span>draggable<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"false"</span> <span class="token punctuation">[</span>items<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"items"</span><span class="token operator">></span></div></code></pre>
 
         <h4 id="%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8B%96%E6%8B%BD" class="docs-header-link">
           <span header-link="%E7%A6%81%E7%94%A8%E6%8C%87%E5%AE%9A%E4%BB%BB%E5%8A%A1%E6%8B%96%E6%8B%BD"></span>
           禁用指定任务拖拽
         </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'不可拖拽任务'</span><span class="token punctuation">,</span>
@@ -202,7 +202,7 @@
           拖拽提示框格式
         </h3>
       <p>拖拽时会显示日期预览，格式由 <code>viewOptions.dragTooltipFormat</code> 控制：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   dragTooltipFormat<span class="token punctuation">:</span> <span class="token string">'MM-dd HH:mm'</span> <span class="token comment" spellcheck="true">// 使用 date-fns 格式字符串</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 
@@ -210,7 +210,7 @@
           <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
           最小示例
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -246,7 +246,7 @@
           Q: 拖拽后视图没有更新？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 确保使用不可变数据更新，创建新数组引用：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ 正确：event.item 已经是更新后的数据，只需更新数组引用</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ 正确：event.item 已经是更新后的数据，只需更新数组引用</span>
 <span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -261,14 +261,14 @@
           Q: 如何禁用特定任务的拖拽？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 设置任务的 <code>draggable: false</code>：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务'</span><span class="token punctuation">,</span> draggable<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span></div></code></pre>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'任务'</span><span class="token punctuation">,</span> draggable<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span></div></code></pre>
 
         <h3 id="q:-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%8B%96%E6%8B%BD%E5%90%8E%E7%9A%84%E6%96%B0%E6%97%B6%E9%97%B4%EF%BC%9F" class="docs-header-link">
           <span header-link="q:-%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E6%8B%96%E6%8B%BD%E5%90%8E%E7%9A%84%E6%96%B0%E6%97%B6%E9%97%B4%EF%BC%9F"></span>
           Q: 如何获取拖拽后的新时间？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 在 <code>dragEnded</code> 事件中，<code>event.item.start</code> 和 <code>event.item.end</code> 已经是更新后的值（<code>number | Date | undefined</code>）：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment" spellcheck="true">// event.item.start 和 event.item.end 已经是更新后的时间</span>
   <span class="token keyword">const</span> startTimestamp <span class="token operator">=</span> <span class="token keyword">typeof</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start <span class="token operator">===</span> <span class="token string">'number'</span>
     <span class="token operator">?</span> event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start

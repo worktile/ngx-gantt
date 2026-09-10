@@ -5,7 +5,7 @@
           GanttItem
         </h2>
       <div class="dg-paragraph"><code>GanttItem</code> is the data interface for task items. It defines all properties of a task:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttItem</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttItem</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Unique identifier (required)</span>
   title<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Task title (required)</span>
   start<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span> <span class="token operator">|</span> Date<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Start time (Unix timestamp or Date)</span>
@@ -50,7 +50,7 @@
           Using <code>origin</code> to attach business data
         </h3>
       <p>We recommend using the <code>origin</code> field to store complete business data, so you can access the original data in event callbacks:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">MyBusinessData</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">MyBusinessData</span> <span class="token punctuation">{</span>
   taskId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
   assignee<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
   priority<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>
@@ -82,7 +82,7 @@
           GanttGroup
         </h2>
       <div class="dg-paragraph"><code>GanttGroup</code> is the data interface used in group mode, organizing tasks by groups:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttGroup</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttGroup</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Group unique identifier (required)</span>
   title<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Group title (required)</span>
   expanded<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Whether it is expanded by default (default true)</span>
@@ -101,7 +101,7 @@
           Group Mode (Group + items)
         </h3>
       <p>Use <code>groups</code> and <code>items</code> to define groups and tasks respectively, and associate them via <code>group_id</code>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'group1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Development Team'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'group2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'QA Team'</span> <span class="token punctuation">}</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -117,7 +117,7 @@
           Tree Mode (Children)
         </h3>
       <p>Use the <code>children</code> property to build a hierarchical structure:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'Project Kickoff'</span><span class="token punctuation">,</span>
@@ -151,7 +151,7 @@
           <span header-link="%E2%9D%8C-wrong-example-(mutable-update)"></span>
           ❌ Wrong Example (mutable update)
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// Wrong: directly modifying the original object</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// Wrong: directly modifying the original object</span>
 <span class="token function">dragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>start <span class="token operator">=</span> newDate<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Does not trigger view updates</span>
   event<span class="token punctuation">.</span>item<span class="token punctuation">.</span>end <span class="token operator">=</span> newDate<span class="token punctuation">;</span>
@@ -161,7 +161,7 @@
           <span header-link="%E2%9C%85-correct-example-(immutable-update)"></span>
           ✅ Correct Example (immutable update)
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token function">dragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token function">dragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></div></code></pre>
 
@@ -174,7 +174,7 @@
           <span header-link="basic-task-list"></span>
           Basic Task List
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -204,7 +204,7 @@
           <span header-link="group-mode-example"></span>
           Group Mode Example
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> groups<span class="token punctuation">:</span> GanttGroup<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'g1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Development Team'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'g2'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'QA Team'</span> <span class="token punctuation">}</span>
 <span class="token punctuation">]</span><span class="token punctuation">;</span>
@@ -219,7 +219,7 @@
           <span header-link="tree-mode-example"></span>
           Tree Mode Example
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'Project Stage'</span><span class="token punctuation">,</span>
@@ -242,7 +242,7 @@
           Q: Why doesn’t the view update after modifying the data?
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> Make sure you update with immutable data, and create a new array instead of modifying the original array:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ Correct</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ Correct</span>
 <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">,</span> newItem<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">// ❌ Wrong</span>
@@ -253,7 +253,7 @@
           Q: How to tell whether a task has child nodes?
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> Check the <code>children</code> array and the <code>expandable</code> property:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// Method 1: Check directly on GanttItem</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// Method 1: Check directly on GanttItem</span>
 <span class="token keyword">function</span> <span class="token function">hasChildren</span><span class="token punctuation">(</span>item<span class="token punctuation">:</span> GanttItem<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">boolean</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>children <span class="token operator">&amp;&amp;</span> item<span class="token punctuation">.</span>children<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">||</span> item<span class="token punctuation">.</span>expandable <span class="token operator">===</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>

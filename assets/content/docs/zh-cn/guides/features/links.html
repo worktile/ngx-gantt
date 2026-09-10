@@ -5,7 +5,7 @@
           如何展示依赖数据？
         </h2>
       <p>在 <code>ngx-gantt</code> 组件中设置 <code>[linkable]=&quot;true&quot;</code> 启用依赖功能，然后在任务的 <code>links</code> 字段中定义依赖关系：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttLinkType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -38,7 +38,7 @@
           数据格式
         </h3>
       <p>依赖数据支持两种格式：字符串格式（简化）和对象格式（完整）。</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'任务 1'</span><span class="token punctuation">,</span>
@@ -90,7 +90,7 @@
 <td>前一个任务开始后，后一个任务才能完成（较少使用）</td>
 </tr>
 </tbody></table>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'A'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'设计'</span><span class="token punctuation">,</span> start<span class="token punctuation">:</span> <span class="token number">1627729997</span><span class="token punctuation">,</span> end<span class="token punctuation">:</span> <span class="token number">1628421197</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'B'</span><span class="token punctuation">,</span>
@@ -131,7 +131,7 @@
           <span header-link="%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86"></span>
           事件处理
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt
       [items]="items"
@@ -181,7 +181,7 @@
           <span header-link="%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%9E%E7%BA%BF%E9%A2%9C%E8%89%B2"></span>
           自定义连线颜色
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div>links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>links<span class="token punctuation">:</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     type<span class="token punctuation">:</span> GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">,</span>
     link<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
@@ -197,7 +197,7 @@
           连线样式配置
         </h3>
       <p>通过 <code>linkOptions</code> 配置连线类型和箭头显示：</p>
-<pre class="language-typescript"><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
   lineType<span class="token punctuation">:</span> <span class="token string">'straight'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 'curve'（默认，曲线）| 'straight'（直线）</span>
   showArrow<span class="token punctuation">:</span> <span class="token keyword">true</span>       <span class="token comment" spellcheck="true">// 是否在连线末端显示箭头</span>
 <span class="token punctuation">}</span></div></code></pre>
@@ -207,7 +207,7 @@
           依赖配置
         </h2>
       <p>依赖配置支持全局配置和组件级别配置：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 全局配置</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// 全局配置</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -246,7 +246,7 @@
           <span header-link="%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"></span>
           完整示例
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttLinkDragEvent<span class="token punctuation">,</span> GanttLinkType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -290,7 +290,7 @@
           Q: 如何删除依赖？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 从任务的 <code>links</code> 数组中移除对应的依赖：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token function">removeLink</span><span class="token punctuation">(</span>itemId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> targetId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token function">removeLink</span><span class="token punctuation">(</span>itemId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">,</span> targetId<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>id <span class="token operator">===</span> itemId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
       <span class="token keyword">return</span> <span class="token punctuation">{</span>
@@ -310,7 +310,7 @@
           Q: 如何限制只能创建特定类型的依赖？
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> 在 <code>linkOptions.dependencyTypes</code> 中指定允许的类型：</div>
-<pre class="language-typescript"><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
   dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 只允许 fs 类型</span>
 <span class="token punctuation">}</span></div></code></pre>
 

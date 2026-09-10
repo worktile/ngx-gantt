@@ -5,7 +5,7 @@
           Basic Usage
         </h2>
       <p>Baseline data is passed in via the <code>baselineItems</code> property. For each baseline item, its <code>id</code> must match the <code>id</code> of the corresponding task:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttBaselineItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -37,7 +37,7 @@
           <span header-link="data-structure"></span>
           Data Structure
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttBaselineItem</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttBaselineItem</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Must correspond to the task item's id</span>
   start<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Baseline start time (Unix timestamp, seconds)</span>
   end<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Baseline end time (Unix timestamp, seconds)</span>
@@ -49,7 +49,7 @@
           Dynamic Show/Hide
         </h3>
       <p>You can dynamically show or hide baselines by controlling the <code>baselineItems</code> array:</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items" [baselineItems]="showBaseline ? baselineItems : []">
       &lt;!-- ... -->
@@ -91,7 +91,7 @@
           <span header-link="custom-example"></span>
           Custom Example
         </h3>
-      <pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[baselineItems]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>baselineItems<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span> <span class="token attr-name">[baselineItems]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>baselineItems<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#baseline</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span> <span class="token attr-name">let-refs</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-baseline<span class="token punctuation">"</span></span> <span class="token attr-name">[style.width.px]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs.width<span class="token punctuation">"</span></span> <span class="token attr-name">[style.left.px]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs.x<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-template</span><span class="token punctuation">></span></span>
@@ -100,7 +100,7 @@
     <span class="token comment" spellcheck="true">&lt;!-- ... --></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt-table</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ngx-gantt</span><span class="token punctuation">></span></span></div></code></pre>
-<pre class="language-scss"><code class="language-scss"><div><span class="token selector">.custom-baseline </span><span class="token punctuation">{</span>
+<pre class="language-scss"><span class="code-block-actions"><span class="lang">scss</span><code-copy></code-copy></span><code class="language-scss"><div><span class="token selector">.custom-baseline </span><span class="token punctuation">{</span>
   <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
   <span class="token property">bottom</span><span class="token punctuation">:</span> <span class="token number">2</span>px<span class="token punctuation">;</span>
   <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">4</span>px<span class="token punctuation">;</span>

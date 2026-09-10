@@ -5,7 +5,7 @@
           📦 Install Dependencies
         </h2>
       <p>Install the core package with npm or yarn:</p>
-<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @worktile/gantt --save
+<pre class="language-bash"><span class="code-block-actions"><span class="lang">bash</span><code-copy></code-copy></span><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @worktile/gantt --save
 <span class="token comment" spellcheck="true"># or</span>
 yarn add @worktile/gantt</div></code></pre>
 <p>ngx-gantt requires the following <strong>peerDependencies</strong>. Please make sure they are installed:</p>
@@ -18,7 +18,7 @@ yarn add @worktile/gantt</div></code></pre>
 <li><code>@date-fns/tz</code> &gt;= 1.0.0</li>
 </ul>
 <p>If you have not installed them yet, run:</p>
-<pre class="language-bash"><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @angular/cdk date-fns @date-fns/tz --save</div></code></pre>
+<pre class="language-bash"><span class="code-block-actions"><span class="lang">bash</span><code-copy></code-copy></span><code class="language-bash"><div><span class="token function">npm</span> <span class="token function">install</span> @angular/cdk date-fns @date-fns/tz --save</div></code></pre>
 
         <h2 id="%F0%9F%8E%A8-import-styles" class="docs-header-link">
           <span header-link="%F0%9F%8E%A8-import-styles"></span>
@@ -31,7 +31,7 @@ yarn add @worktile/gantt</div></code></pre>
           Option 1: Configure in <code>angular.json</code> (recommended)
         </h3>
       <p>Add it to the <code>styles</code> array in your <code>angular.json</code>:</p>
-<pre class="language-json"><code class="language-json"><div><span class="token punctuation">{</span>
+<pre class="language-json"><span class="code-block-actions"><span class="lang">json</span><code-copy></code-copy></span><code class="language-json"><div><span class="token punctuation">{</span>
   <span class="token property">"styles"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"node_modules/@worktile/gantt/styles/index.scss"</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span></div></code></pre>
 
@@ -40,7 +40,7 @@ yarn add @worktile/gantt</div></code></pre>
           Option 2: Import in your SCSS file
         </h3>
       <p>In your global styles file (e.g. <code>styles.scss</code>):</p>
-<pre class="language-scss"><code class="language-scss"><div>@use <span class="token string">'@worktile/gantt/styles/index.scss'</span><span class="token punctuation">;</span></div></code></pre>
+<pre class="language-scss"><span class="code-block-actions"><span class="lang">scss</span><code-copy></code-copy></span><code class="language-scss"><div>@use <span class="token string">'@worktile/gantt/styles/index.scss'</span><span class="token punctuation">;</span></div></code></pre>
 <blockquote>
 <div class="dg-paragraph"><strong>💡 Tip</strong>: If you use <code>@use</code>, make sure your project supports Sass (Dart Sass).</div>
 </blockquote>
@@ -56,7 +56,7 @@ yarn add @worktile/gantt</div></code></pre>
           Standalone (recommended)
         </h3>
       <p>Standalone is the modern import approach recommended by Angular:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -105,7 +105,7 @@ yarn add @worktile/gantt</div></code></pre>
           NgModule
         </h3>
       <p>If you are still using the traditional NgModule architecture:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -127,7 +127,7 @@ yarn add @worktile/gantt</div></code></pre>
           <span header-link="full-example"></span>
           Full Example
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NgxGanttComponent<span class="token punctuation">,</span> NgxGanttTableComponent<span class="token punctuation">,</span> NgxGanttTableColumnComponent<span class="token punctuation">,</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>

@@ -5,7 +5,7 @@
           使用视图
         </h2>
       <p>ngx-gantt 组件支持通过 <code>viewType</code> 和 <code>viewOptions</code> 自定义视图配置：</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items" [viewType]="viewType" [viewOptions]="viewOptions">
       &lt;!-- ... -->
@@ -24,7 +24,7 @@
           视图类型
         </h2>
       <p>ngx-gantt 提供 6 种内置视图类型，适用于不同的时间粒度需求：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">enum</span> GanttViewType <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">enum</span> GanttViewType <span class="token punctuation">{</span>
   hour <span class="token operator">=</span> <span class="token string">'hour'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 小时视图</span>
   day <span class="token operator">=</span> <span class="token string">'day'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 日视图</span>
   week <span class="token operator">=</span> <span class="token string">'week'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 周视图</span>
@@ -94,7 +94,7 @@
           ViewOptions 配置
         </h2>
       <div class="dg-paragraph"><code>GanttViewOptions</code> 提供了丰富的视图配置选项：</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttViewOptions</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttViewOptions</span> <span class="token punctuation">{</span>
   start<span class="token operator">?</span><span class="token punctuation">:</span> GanttDate<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 自定义开始时间</span>
   end<span class="token operator">?</span><span class="token punctuation">:</span> GanttDate<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 自定义结束时间</span>
   minBoundary<span class="token operator">?</span><span class="token punctuation">:</span> GanttDate<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 最小边界（默认：当前年份-1）</span>
@@ -124,7 +124,7 @@
           时间刻度格式化（tickFormats）
         </h2>
       <p>通过 <code>tickFormats</code> 自定义时间刻度的显示格式，使用 <code>date-fns</code> 的格式字符串进行设置，支持 <code>period</code>（周期刻度）和 <code>unit</code>（单位刻度）：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     period<span class="token punctuation">:</span> <span class="token string">'yyyy年MM月'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 周期刻度（如：2021年07月）</span>
     unit<span class="token punctuation">:</span> <span class="token string">'dd日'</span> <span class="token comment" spellcheck="true">// 单位刻度（如：31日）</span>
@@ -136,7 +136,7 @@
           拖拽提示框格式（dragTooltipFormat）
         </h2>
       <p>通过 <code>dragTooltipFormat</code> 自定义拖拽时显示的日期格式：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   dragTooltipFormat<span class="token punctuation">:</span> <span class="token string">'MM-dd HH:mm'</span> <span class="token comment" spellcheck="true">// 默认 'MM-dd'</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 
@@ -145,7 +145,7 @@
           滚动加载配置（loadDuration）
         </h2>
       <p>组件开启横向滚动加载时，不同的视图每次滚动增加的时间不同，可通过 loadDuration 进行配置</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
     unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token comment" spellcheck="true">// 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year'</span>
@@ -162,7 +162,7 @@
           节假日配置（holiday）
         </h2>
       <p>配置节假日显示和隐藏，<strong>目前仅日视图支持</strong>：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   holiday<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     isHoliday<span class="token punctuation">:</span> <span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
       <span class="token comment" spellcheck="true">// 判断是否为节假日</span>
@@ -180,7 +180,7 @@
           <span header-link="%E6%9C%80%E5%B0%8F%E7%A4%BA%E4%BE%8B"></span>
           最小示例
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttViewOptions<span class="token punctuation">,</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>

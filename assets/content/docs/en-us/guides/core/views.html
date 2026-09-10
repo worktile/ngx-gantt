@@ -5,7 +5,7 @@
           Using Views
         </h2>
       <p>ngx-gantt supports configuring views through <code>viewType</code> and <code>viewOptions</code>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
     &lt;ngx-gantt [items]="items" [viewType]="viewType" [viewOptions]="viewOptions">
       &lt;!-- ... -->
@@ -24,7 +24,7 @@
           View Types
         </h2>
       <p>ngx-gantt provides 6 built-in view types for different time-granularity needs:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">enum</span> GanttViewType <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">enum</span> GanttViewType <span class="token punctuation">{</span>
   hour <span class="token operator">=</span> <span class="token string">'hour'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Hour view</span>
   day <span class="token operator">=</span> <span class="token string">'day'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Day view</span>
   week <span class="token operator">=</span> <span class="token string">'week'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Week view</span>
@@ -94,7 +94,7 @@
           ViewOptions Configuration
         </h2>
       <div class="dg-paragraph"><code>GanttViewOptions</code> provides many view configuration options:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttViewOptions</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttViewOptions</span> <span class="token punctuation">{</span>
   start<span class="token operator">?</span><span class="token punctuation">:</span> GanttDate<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Custom start time</span>
   end<span class="token operator">?</span><span class="token punctuation">:</span> GanttDate<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Custom end time</span>
   minBoundary<span class="token operator">?</span><span class="token punctuation">:</span> GanttDate<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Minimum boundary (default: current year - 1)</span>
@@ -124,7 +124,7 @@
           Tick Formatting (tickFormats)
         </h2>
       <p>Use <code>tickFormats</code> to customize the format of time ticks. You can configure <code>period</code> (period ticks) and <code>unit</code> (unit ticks) with <code>date-fns</code> format strings:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   tickFormats<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     period<span class="token punctuation">:</span> <span class="token string">'yyyy-MM'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// Period ticks (e.g., 2021-07)</span>
     unit<span class="token punctuation">:</span> <span class="token string">'dd'</span> <span class="token comment" spellcheck="true">// Unit ticks (e.g., 31)</span>
@@ -136,7 +136,7 @@
           Drag Tooltip Format (dragTooltipFormat)
         </h2>
       <p>Use <code>dragTooltipFormat</code> to customize the date format shown in the drag tooltip:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   dragTooltipFormat<span class="token punctuation">:</span> <span class="token string">'MM-dd HH:mm'</span> <span class="token comment" spellcheck="true">// Default 'MM-dd'</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 
@@ -145,7 +145,7 @@
           Scroll Loading Configuration (loadDuration)
         </h2>
       <p>When horizontal scroll loading is enabled, the time span added on each scroll differs by view. You can configure it via <code>loadDuration</code>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   loadDuration<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     amount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
     unit<span class="token punctuation">:</span> <span class="token string">'month'</span> <span class="token comment" spellcheck="true">// 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year'</span>
@@ -162,7 +162,7 @@
           Holiday Configuration (holiday)
         </h2>
       <p>Configure whether to show/hide holidays. <strong>Currently only the day view supports it</strong>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   holiday<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     isHoliday<span class="token punctuation">:</span> <span class="token punctuation">(</span>date<span class="token punctuation">:</span> GanttDate<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
       <span class="token comment" spellcheck="true">// Determine whether it is a holiday</span>
@@ -180,7 +180,7 @@
           <span header-link="minimal-example"></span>
           Minimal Example
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttViewOptions<span class="token punctuation">,</span> GanttDate <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>

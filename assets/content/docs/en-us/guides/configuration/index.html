@@ -5,7 +5,7 @@
           Configuration Structure
         </h2>
       <div class="dg-paragraph"><code>GanttGlobalConfig</code> configuration description:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttGlobalConfig</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttGlobalConfig</span> <span class="token punctuation">{</span>
   locale<span class="token operator">?</span><span class="token punctuation">:</span> GanttI18nLocale <span class="token operator">|</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Default language ID (see internationalization documentation)</span>
   dateOptions<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
     timeZone<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Timezone, e.g. 'Asia/Shanghai' or 'UTC'</span>
@@ -30,7 +30,7 @@
           <span header-link="default-configuration"></span>
           Default Configuration
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> defaultConfig<span class="token punctuation">:</span> GanttGlobalConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> defaultConfig<span class="token punctuation">:</span> GanttGlobalConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   locale<span class="token punctuation">:</span> <span class="token string">'zh-hans'</span><span class="token punctuation">,</span>
   linkOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     dependencyTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span>GanttLinkType<span class="token punctuation">.</span>fs<span class="token punctuation">]</span><span class="token punctuation">,</span>
@@ -80,7 +80,7 @@
           <span header-link="standalone"></span>
           Standalone
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 <span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
@@ -112,7 +112,7 @@
           <span header-link="ngmodule"></span>
           NgModule
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GANTT_GLOBAL_CONFIG<span class="token punctuation">,</span> GanttGlobalConfig <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>

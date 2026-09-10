@@ -20,7 +20,7 @@
           Implement a Custom View
         </h2>
       <p>The following example implements a biweekly view (2 weeks per period, 1 week per unit):</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
   GanttView<span class="token punctuation">,</span>
   GanttViewOptions<span class="token punctuation">,</span>
   PERIOD_TICK_TOP<span class="token punctuation">,</span>
@@ -184,7 +184,7 @@
           Register a Custom View
         </h3>
       <p>Use the <code>registerView</code> function to register a custom view. It is recommended to register it when the app starts:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewCustom <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./custom-day-view'</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">// Register at app startup (e.g., main.ts or app.component.ts)</span>
@@ -195,7 +195,7 @@
           Use the Custom View
         </h3>
       <p>After registering, use the custom view via the <code>viewType</code> attribute in your component:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -220,7 +220,7 @@
           Override Built-in Views
         </h3>
       <p>To override a built-in view, use the same <code>GanttViewType</code> value:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewBiweekly <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./biweekly-view'</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">// Override the built-in week view</span>

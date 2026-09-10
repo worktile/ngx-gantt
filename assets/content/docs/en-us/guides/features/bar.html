@@ -10,7 +10,7 @@
           Custom Bar Template
         </h3>
       <p>Use the <code>#bar</code> template to customize the content of a task bar:</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ngx-gantt</span> <span class="token attr-name">[items]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>items<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#bar</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span> <span class="token attr-name">let-refs</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>refs<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-bar<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{ item.title }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
@@ -42,7 +42,7 @@
           Custom Item Template
         </h3>
       <p>Use the <code>#item</code> template to customize the whole task row content (including the bar and row background):</p>
-<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#item</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="language-html"><span class="code-block-actions"><span class="lang">html</span><code-copy></code-copy></span><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-template</span> <span class="token attr-name">#item</span> <span class="token attr-name">let-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>custom-item<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token comment" spellcheck="true">&lt;!-- Custom content --></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
@@ -58,7 +58,7 @@
           Custom Color
         </h3>
       <p>Set the bar color via the <code>color</code> property:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'High Priority Task'</span><span class="token punctuation">,</span>
@@ -73,7 +73,7 @@
           Custom Style
         </h3>
       <p>Customize styles via the <code>barStyle</code> and <code>laneStyle</code> properties:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'Task'</span><span class="token punctuation">,</span>
@@ -111,7 +111,7 @@
           <span header-link="enable-dragging"></span>
           Enable Dragging
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType<span class="token punctuation">,</span> GanttDragEvent<span class="token punctuation">,</span> GanttBarClickEvent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -161,7 +161,7 @@
           <span header-link="event-object"></span>
           Event Object
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttDragEvent</span> <span class="token punctuation">{</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">interface</span> <span class="token class-name">GanttDragEvent</span> <span class="token punctuation">{</span>
   item<span class="token punctuation">:</span> GanttItem<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// The task being dragged (includes updated time)</span>
 <span class="token punctuation">}</span>
 
@@ -179,14 +179,14 @@
           <span header-link="disable-all-bar-dragging"></span>
           Disable All Bar Dragging
         </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// Disable dragging for all tasks</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// Disable dragging for all tasks</span>
 <span class="token operator">&lt;</span>ngx<span class="token operator">-</span>gantt <span class="token punctuation">[</span>draggable<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"false"</span> <span class="token punctuation">[</span>items<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"items"</span><span class="token operator">></span></div></code></pre>
 
         <h4 id="disable-dragging-for-a-specific-task" class="docs-header-link">
           <span header-link="disable-dragging-for-a-specific-task"></span>
           Disable Dragging for a Specific Task
         </h4>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> items<span class="token punctuation">:</span> GanttItem<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     id<span class="token punctuation">:</span> <span class="token string">'2'</span><span class="token punctuation">,</span>
     title<span class="token punctuation">:</span> <span class="token string">'Non-draggable Task'</span><span class="token punctuation">,</span>
@@ -202,7 +202,7 @@
           Drag Tooltip Format
         </h3>
       <p>During dragging, a date preview is shown. The format is controlled by <code>viewOptions.dragTooltipFormat</code>:</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">const</span> viewOptions<span class="token punctuation">:</span> GanttViewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   dragTooltipFormat<span class="token punctuation">:</span> <span class="token string">'MM-dd HH:mm'</span> <span class="token comment" spellcheck="true">// Use date-fns format string</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></div></code></pre>
 
@@ -210,7 +210,7 @@
           <span header-link="minimal-example"></span>
           Minimal Example
         </h2>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -246,7 +246,7 @@
           Q: The view doesn’t update after dragging?
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> Make sure you update using immutable data and create a new array reference:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ Correct: event.item already contains the updated data; just update the array reference</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ✅ Correct: event.item already contains the updated data; just update the array reference</span>
 <span class="token function">onDragEnded</span><span class="token punctuation">(</span>event<span class="token punctuation">:</span> GanttDragEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -261,7 +261,7 @@
           Q: How do I disable dragging for a specific task?
         </h3>
       <div class="dg-paragraph"><strong>A:</strong> Set the task&#39;s <code>draggable: false</code>:</div>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task'</span><span class="token punctuation">,</span> draggable<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span></div></code></pre>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'1'</span><span class="token punctuation">,</span> title<span class="token punctuation">:</span> <span class="token string">'Task'</span><span class="token punctuation">,</span> draggable<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span></div></code></pre>
 
         <h3 id="q:-how-do-i-customize-the-dragged-tooltip-content-" class="docs-header-link">
           <span header-link="q:-how-do-i-customize-the-dragged-tooltip-content-"></span>

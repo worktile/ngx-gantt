@@ -20,7 +20,7 @@
           实现自定义视图
         </h2>
       <p>以下示例实现了一个双周视图（以2周为一个周期，每周为一个单位）：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span>
   GanttView<span class="token punctuation">,</span>
   GanttViewOptions<span class="token punctuation">,</span>
   PERIOD_TICK_TOP<span class="token punctuation">,</span>
@@ -184,7 +184,7 @@
           注册自定义视图
         </h3>
       <p>使用 <code>registerView</code> 函数注册自定义视图，建议在应用启动时注册：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewCustom <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./custom-day-view'</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">// 在应用启动时注册（如 main.ts 或 app.component.ts）</span>
@@ -195,7 +195,7 @@
           使用自定义视图
         </h3>
       <p>注册后，在组件中通过 <code>viewType</code> 属性使用自定义视图：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttItem <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 
 @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -220,7 +220,7 @@
           覆盖内置视图
         </h3>
       <p>如果需要覆盖内置视图，使用相同的 <code>GanttViewType</code> 值：</p>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> registerView<span class="token punctuation">,</span> GanttViewType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/gantt'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token punctuation">{</span> GanttViewBiweekly <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./biweekly-view'</span><span class="token punctuation">;</span>
 
 <span class="token comment" spellcheck="true">// 覆盖内置的周视图</span>

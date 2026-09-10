@@ -65,7 +65,7 @@
           <span header-link="1-2-%E8%BF%81%E7%A7%BB%E7%A4%BA%E4%BE%8B"></span>
           1.2 迁移示例
         </h3>
-      <pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ❌ 旧版 v20 配置</span>
+      <pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// ❌ 旧版 v20 配置</span>
 <span class="token keyword">const</span> viewOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
   cellWidth<span class="token punctuation">:</span> <span class="token number">40</span><span class="token punctuation">,</span>
   addAmount<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
@@ -142,7 +142,7 @@
 <li><strong>旧结构</strong>：<code>views[viewType].dateFormats: { primary, secondary }</code></li>
 <li><strong>新结构</strong>：<code>views[viewType].tickFormats: { period, unit }</code></li>
 </ul>
-<pre class="language-typescript"><code class="language-typescript"><div><span class="token comment" spellcheck="true">// v21 i18n 示例</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div><span class="token comment" spellcheck="true">// v21 i18n 示例</span>
 <span class="token keyword">const</span> localeConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   id<span class="token punctuation">:</span> <span class="token string">'zh-cn'</span><span class="token punctuation">,</span>
   views<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -176,7 +176,7 @@
           4.2 全新主题配置
         </h3>
       <p>v21 引入了更加系统的主题配置，支持通过 <code>themes</code> 字段定义多套配色方案。</p>
-<pre class="language-typescript"><code class="language-typescript"><div>styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+<pre class="language-typescript"><span class="code-block-actions"><span class="lang">typescript</span><code-copy></code-copy></span><code class="language-typescript"><div>styleOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
   rowHeight<span class="token punctuation">:</span> <span class="token number">44</span><span class="token punctuation">,</span>
   defaultTheme<span class="token punctuation">:</span> <span class="token string">'default'</span><span class="token punctuation">,</span>
   primaryColor<span class="token punctuation">:</span> <span class="token string">'#1890ff'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 快速覆盖主色调</span>
@@ -202,12 +202,12 @@
           5.1 数据模型替换
         </h3>
       <ul>
-<li>**<code>GanttDatePoint</code> (已删除)**：统一使用 **<code>GanttViewTick</code>**。<ul>
+<li><strong><code>GanttDatePoint</code> (已删除)</strong>：统一使用 <strong><code>GanttViewTick</code></strong>。<ul>
 <li><code>point.leftX</code> -&gt; <code>point.rect.x</code></li>
 <li><code>point.start</code> -&gt; <code>point.date</code></li>
 </ul>
 </li>
-<li>**<code>LinkColors</code> (已删除)**：现通过 <code>GanttLink</code> 对象直接配置颜色。</li>
+<li><strong><code>LinkColors</code> (已删除)</strong>：现通过 <code>GanttLink</code> 对象直接配置颜色。</li>
 </ul>
 
         <h3 id="5-2-%E5%B8%83%E5%B1%80%E5%B8%B8%E9%87%8F%E6%9B%BF%E6%8D%A2" class="docs-header-link">
