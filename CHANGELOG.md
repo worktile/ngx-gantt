@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [22.0.0](https://github.com/worktile/ngx-gantt/compare/22.0.0-next.0...22.0.0) (2026-09-10)
+
 # [22.0.0-next.0](https://github.com/worktile/ngx-gantt/compare/21.0.0...22.0.0-next.0) (2026-09-02)
 
 # [21.0.0](https://github.com/worktile/ngx-gantt/compare/20.0.2...21.0.0) (2026-04-09)
