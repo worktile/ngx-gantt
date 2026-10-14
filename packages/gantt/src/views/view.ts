@@ -70,6 +70,10 @@ export abstract class GanttView {
 
     options: GanttViewOptions;
 
+    private dayWidthPrefixSums: number[] = [0];
+
+    private dayWidthPrefixSumsStart: number;
+
     constructor(start: GanttViewDate, end: GanttViewDate, options: GanttViewOptions) {
         this.options = Object.assign({}, defaultViewOptions, options);
 
@@ -138,11 +142,35 @@ export abstract class GanttView {
     calculateIntervalWidth(start: GanttDate, end: GanttDate) {
         let result = 0;
         const days = differenceInDays(end.value, start.value);
-        for (let i = 0; i < Math.abs(days); i++) {
-            result += this.getDayWidth(start.addDays(i));
+        const offset = differenceInCalendarDays(start.value, this.start.value);
+        if (offset >= 0) {
+            const prefixSums = this.getDayWidthPrefixSums(offset + Math.abs(days));
+            result = prefixSums[offset + Math.abs(days)] - prefixSums[offset];
+        } else {
+            for (let i = 0; i < Math.abs(days); i++) {
+                result += this.getDayWidth(start.addDays(i));
+            }
         }
         result = days >= 0 ? result : -result;
         return Number(result.toFixed(3));
+    }
+
+    /**
+     * Prefix sums of getDayWidth() by calendar day from the view start: sums[i] is the width of the first i days.
+     * Built lazily and rebuilt when the view start moves (extendStart / updateDate). Assumes getDayWidth() depends only
+     * on the calendar day.
+     */
+    private getDayWidthPrefixSums(days: number): number[] {
+        const startTime = this.start.getTime();
+        if (this.dayWidthPrefixSumsStart !== startTime) {
+            this.dayWidthPrefixSums = [0];
+            this.dayWidthPrefixSumsStart = startTime;
+        }
+        const sums = this.dayWidthPrefixSums;
+        for (let i = sums.length - 1; i < days; i++) {
+            sums.push(sums[i] + this.getDayWidth(this.start.addDays(i)));
+        }
+        return sums;
     }
 
     extendStart(): { start: GanttDate; end: GanttDate } | null {
